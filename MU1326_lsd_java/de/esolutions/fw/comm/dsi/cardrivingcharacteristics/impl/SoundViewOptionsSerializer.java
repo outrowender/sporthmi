@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SoundConfigurati
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SoundConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.SoundViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SoundViewOptionsSerializer {
-    public static void putOptionalSoundViewOptions(ISerializer iSerializer, SoundViewOptions soundViewOptions) {
+    public static void putOptionalSoundViewOptions(ISerializer iSerializer, SoundViewOptions soundViewOptions) throws SerializerException {
         boolean bl = soundViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SoundViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSoundViewOptionsVarArray(ISerializer iSerializer, SoundViewOptions[] soundViewOptionsArray) {
+    public static void putOptionalSoundViewOptionsVarArray(ISerializer iSerializer, SoundViewOptions[] soundViewOptionsArray) throws SerializerException {
         boolean bl = soundViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SoundViewOptionsSerializer {
         }
     }
 
-    public static SoundViewOptions getOptionalSoundViewOptions(IDeserializer iDeserializer) {
+    public static SoundViewOptions getOptionalSoundViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SoundViewOptions soundViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class SoundViewOptionsSerializer {
         return soundViewOptions;
     }
 
-    public static SoundViewOptions[] getOptionalSoundViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SoundViewOptions[] getOptionalSoundViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SoundViewOptions[] soundViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

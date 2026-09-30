@@ -14,81 +14,68 @@ import de.vw.mib.bap.stream.BitStream;
 public final class POI_List_StatusArray
 implements BAPStatusArray {
     public int asg_Id;
-    private static final int ASG_ID_BITSIZE;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER;
-    public static final int ASG_ID_OPERATING_UNIT_REAR_DF4_2;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_OPERATING_UNIT_REAR_TO_BE_EVALUATED_BY_ALL_ASGS;
+    private static final int ASG_ID_BITSIZE = 4;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE = 0;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER = 1;
+    public static final int ASG_ID_OPERATING_UNIT_REAR_DF4_2 = 3;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER_TO_BE_EVALUATED_BY_ALL_ASGS = 9;
+    public static final int ASG_ID_OPERATING_UNIT_REAR_TO_BE_EVALUATED_BY_ALL_ASGS = 11;
     public int taid;
-    private static final int TAID_BITSIZE;
+    private static final int TAID_BITSIZE = 4;
     public int totalNumListElements;
-    private static final int TOTAL_NUM_LIST_ELEMENTS_BITSIZE;
+    private static final int TOTAL_NUM_LIST_ELEMENTS_BITSIZE = 8;
     private ArrayHeader arrayHeader = new ArrayHeader();
     private BAPArrayData data = new BAPArrayData(254);
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 254;
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }
 
-    @Override
     public boolean isBroadcast() {
         return this.asg_Id >>> 3 == 1;
     }
 
-    @Override
     public void setBroadcast(boolean bl) {
         this.asg_Id = bl ? this.asg_Id | 8 : this.asg_Id & 7;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.totalNumListElements;
     }
 
-    @Override
     public void setNumberOfElements(int n) {
         this.totalNumListElements = n;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new POI_List_Data(this.getArrayHeader());
     }
@@ -109,14 +96,12 @@ implements BAPStatusArray {
         this.totalNumListElements = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         POI_List_StatusArray pOI_List_StatusArray = (POI_List_StatusArray)bAPEntity;
         return this.asg_Id == pOI_List_StatusArray.asg_Id && this.taid == pOI_List_StatusArray.taid && this.totalNumListElements == pOI_List_StatusArray.totalNumListElements && this.arrayHeader.equalTo(pOI_List_StatusArray.arrayHeader) && this.data.equalTo(pOI_List_StatusArray.data);
@@ -125,7 +110,6 @@ implements BAPStatusArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("POI_List_StatusArray:");
@@ -166,7 +150,6 @@ implements BAPStatusArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 4;
@@ -176,7 +159,6 @@ implements BAPStatusArray {
         return n += this.data.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
@@ -185,7 +167,6 @@ implements BAPStatusArray {
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -204,7 +185,6 @@ implements BAPStatusArray {
         return 52;
     }
 
-    @Override
     public int getFunctionId() {
         return POI_List_StatusArray.functionId();
     }

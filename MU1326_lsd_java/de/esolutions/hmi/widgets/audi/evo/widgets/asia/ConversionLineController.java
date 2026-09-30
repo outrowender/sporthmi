@@ -3,18 +3,15 @@
  */
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 
+import de.audi.atip.hmi.HMIImageConstantsSystem;
 import de.audi.atip.hmi.event.WheelButtonEvent;
+import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractScreenWidget;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.InstructionTextContoller;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IViewSizeAnimatable;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$AbstractCandidateItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$ICandidateItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$MultiCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionLineController$ButtonItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionLineController$ConversionLineButtonType;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionCandidateSelectionHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionDataFetcherListener;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionWidgetRenderer;
@@ -30,15 +27,15 @@ public class ConversionLineController
 extends AbstractConversionWidgetController
 implements IConversionDataFetcherListener,
 IViewSizeAnimatable {
-    public static final int MAX_CAPACITY_CONVERSION_CANDIDATES;
-    public static final int MODE_DEFAULT;
-    public static final int MODE_HINT;
+    public static final int MAX_CAPACITY_CONVERSION_CANDIDATES = 36;
+    public static final int MODE_DEFAULT = 0;
+    public static final int MODE_HINT = 1;
     private int currentMode = 0;
-    public static final float WIDTH_PER_CHARACTER;
-    public static int offsetCell;
-    public static float characterCellWidth;
-    public static final AbstractConversionWidgetController$ICandidateItem OPEN_MATRIX_POPUP_BUTTON_ITEM;
-    public static final AbstractConversionWidgetController$ICandidateItem TRUFFLE_BUTTON_ITEM;
+    public static final float WIDTH_PER_CHARACTER = 24.0f;
+    public static int offsetCell = -1;
+    public static float characterCellWidth = 24.0f + (float)offsetCell;
+    public static final AbstractConversionWidgetController.ICandidateItem OPEN_MATRIX_POPUP_BUTTON_ITEM = new ButtonItem(ConversionLineButtonType.MATRIX_BUTTON);
+    public static final AbstractConversionWidgetController.ICandidateItem TRUFFLE_BUTTON_ITEM = new ButtonItem(ConversionLineButtonType.TRUFFLE_BUTTON);
     private IConversionCandidateSelectionHandler selectionHandler = null;
     private TouchControllerAsia touchController = null;
     private String unconvertedCharacters = "";
@@ -59,37 +56,35 @@ IViewSizeAnimatable {
         this.renderer = iConversionWidgetRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         this.parentInstructionWidget = this.getParentInstructionTextWidget();
         if (offsetCell < 0) {
             offsetCell = this.terminal.getLayout().getDistance(227);
-            characterCellWidth = 49217 + (float)offsetCell;
+            characterCellWidth = 24.0f + (float)offsetCell;
         }
     }
 
-    @Override
-    protected void handleCandidateSelect(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem) {
-        if (abstractConversionWidgetController$ICandidateItem == null || !abstractConversionWidgetController$ICandidateItem.isEnabled()) {
+    protected void handleCandidateSelect(AbstractConversionWidgetController.ICandidateItem iCandidateItem) {
+        if (iCandidateItem == null || !iCandidateItem.isEnabled()) {
             ITouchInputDataAsia iTouchInputDataAsia = (ITouchInputDataAsia)this.touchController.getInputData();
             iTouchInputDataAsia.convertUnconvertedCharactersToRegularCharacters();
             return;
         }
-        if (abstractConversionWidgetController$ICandidateItem == OPEN_MATRIX_POPUP_BUTTON_ITEM) {
+        if (iCandidateItem == OPEN_MATRIX_POPUP_BUTTON_ITEM) {
             this.showMatrixPopup();
-        } else if (abstractConversionWidgetController$ICandidateItem instanceof AbstractConversionWidgetController$MultiCharItem) {
-            String string = ((AbstractConversionWidgetController$MultiCharItem)abstractConversionWidgetController$ICandidateItem).getChars();
-            int n = abstractConversionWidgetController$ICandidateItem.getSourceIndex();
+        } else if (iCandidateItem instanceof AbstractConversionWidgetController.MultiCharItem) {
+            String string = ((AbstractConversionWidgetController.MultiCharItem)iCandidateItem).getChars();
+            int n = iCandidateItem.getSourceIndex();
             this.selectionHandler.acceptConversionCandidateSelection(string, n);
             this.setMode(1);
         } else {
-            tpLogChannelInternal.log(10000, "ConversionLineController.handleCandidateSelect: unknown candidate item type %1", (Object)abstractConversionWidgetController$ICandidateItem);
+            tpLogChannelInternal.log(10000, "ConversionLineController.handleCandidateSelect: unknown candidate item type %1", (Object)iCandidateItem);
         }
     }
 
     protected void acceptFocusedItemAsSelection() {
-        AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem = this.getCurrentFocus();
-        this.handleCandidateSelect(abstractConversionWidgetController$ICandidateItem);
+        AbstractConversionWidgetController.ICandidateItem iCandidateItem = this.getCurrentFocus();
+        this.handleCandidateSelect(iCandidateItem);
     }
 
     private void showMatrixPopup() {
@@ -98,28 +93,27 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     protected void createMultiCharItems(String string, List list) {
         if (this.isTruffleButtonUsed(string)) {
             this.candidates.add(TRUFFLE_BUTTON_ITEM);
             TRUFFLE_BUTTON_ITEM.setEnabled(false);
         }
         if (list != null) {
-            AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem;
+            AbstractConversionWidgetController.ICandidateItem iCandidateItem;
             int n;
             int n2 = this.getColumnAmount() - 2;
             for (n = 0; n < list.size() && n <= n2; ++n) {
-                abstractConversionWidgetController$ICandidateItem = ConversionLineController.createMultiCharItem((String)list.get(n), n);
-                this.candidates.add(abstractConversionWidgetController$ICandidateItem);
+                iCandidateItem = ConversionLineController.createMultiCharItem((String)list.get(n), n);
+                this.candidates.add(iCandidateItem);
             }
             this.renderer.fillInLayoutData(this.candidates);
             for (n = this.candidates.size() - 1; n >= 0; --n) {
-                abstractConversionWidgetController$ICandidateItem = (AbstractConversionWidgetController$ICandidateItem)this.candidates.get(n);
-                if (abstractConversionWidgetController$ICandidateItem.getRowIndex() > 0) {
+                iCandidateItem = (AbstractConversionWidgetController.ICandidateItem)this.candidates.get(n);
+                if (iCandidateItem.getRowIndex() > 0) {
                     this.candidates.remove(n);
                     continue;
                 }
-                int n3 = abstractConversionWidgetController$ICandidateItem.getColumnIndex() + abstractConversionWidgetController$ICandidateItem.getColumnSpan() - 1;
+                int n3 = iCandidateItem.getColumnIndex() + iCandidateItem.getColumnSpan() - 1;
                 if (n3 != n2) continue;
                 OPEN_MATRIX_POPUP_BUTTON_ITEM.setColumnIndex(n3 + 1);
                 this.candidates.add(OPEN_MATRIX_POPUP_BUTTON_ITEM);
@@ -133,12 +127,10 @@ IViewSizeAnimatable {
         return bl;
     }
 
-    @Override
     public String getUnconvertedCharacters() {
         return this.unconvertedCharacters;
     }
 
-    @Override
     public void onConversionAvailableChange(String string, List list) {
         this.logOnConversionAvailableChange(string, list);
         if (list.isEmpty()) {
@@ -173,13 +165,12 @@ IViewSizeAnimatable {
         return this.touchController.getCurrentFocusState() != TouchControllerFocusState.TOUCH_PREDICTION_LINE_FOCUS;
     }
 
-    @Override
     public void onNextValidCharactersChange(String string, String string2, String string3) {
     }
 
     private void logOnConversionAvailableChange(String string, List list) {
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "ConversionLineController#onConversionAvailableChange: this.unconvertedCharacters = [%4] unconvertedCharacters = [%3] hasTouchControllerFocus = %1, conversions.size = [%2]", (Object)String.valueOf(this.touchControllerFocus), (Object)String.valueOf(list.size()), (Object)string, (Object)this.unconvertedCharacters);
+            tpLogChannelInternal.log(10000000, "ConversionLineController#onConversionAvailableChange: this.unconvertedCharacters = [%4] unconvertedCharacters = [%3] hasTouchControllerFocus = %1, conversions.size = [%2]", (Object)String.valueOf(this.touchControllerFocus), (Object)String.valueOf(list.size()), (Object)string, (Object)this.unconvertedCharacters);
         }
     }
 
@@ -192,7 +183,7 @@ IViewSizeAnimatable {
             this.setVisible(bl);
             this.setIsTitleVisible(!bl);
         } else {
-            tpLogChannelInternal.log(14808325, "ConversionLineController#setConversionLineVisible predecesor is invisible but want to set the visibility %1 of the conversion line.", bl2);
+            tpLogChannelInternal.log(100000000, "ConversionLineController#setConversionLineVisible predecesor is invisible but want to set the visibility %1 of the conversion line.", bl2);
         }
     }
 
@@ -213,7 +204,7 @@ IViewSizeAnimatable {
                 }
             }
         } else {
-            tpLogChannelInternal.log(-2137614336, "ConversionLineController#setIsTitleVisible: Initial context is 1%", this.initContext == null);
+            tpLogChannelInternal.log(10000000, "ConversionLineController#setIsTitleVisible: Initial context is 1%", this.initContext == null);
         }
     }
 
@@ -304,19 +295,18 @@ IViewSizeAnimatable {
         return this.touchControllerFocus;
     }
 
-    @Override
-    protected AbstractConversionWidgetController$ICandidateItem getFirstFocusableItem() {
+    protected AbstractConversionWidgetController.ICandidateItem getFirstFocusableItem() {
         if (this.enabledCandidates.isEmpty()) {
-            spellerLogChannel.log(-1601830656, "[AbstractConversionWidgetController#resetInitialItem] Could not find a enabled item for the initial focus.");
+            spellerLogChannel.log(100000, "[AbstractConversionWidgetController#resetInitialItem] Could not find a enabled item for the initial focus.");
             return null;
         }
         Iterator iterator = this.enabledCandidates.iterator();
         while (iterator.hasNext()) {
-            AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem = (AbstractConversionWidgetController$ICandidateItem)iterator.next();
-            if (!abstractConversionWidgetController$ICandidateItem.isEnabled()) continue;
-            return abstractConversionWidgetController$ICandidateItem;
+            AbstractConversionWidgetController.ICandidateItem iCandidateItem = (AbstractConversionWidgetController.ICandidateItem)iterator.next();
+            if (!iCandidateItem.isEnabled()) continue;
+            return iCandidateItem;
         }
-        return (AbstractConversionWidgetController$ICandidateItem)this.enabledCandidates.get(0);
+        return (AbstractConversionWidgetController.ICandidateItem)this.enabledCandidates.get(0);
     }
 
     private void clearCandidates() {
@@ -338,7 +328,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.resetCachedUnconvertedCharacter();
@@ -349,9 +338,8 @@ IViewSizeAnimatable {
         this.cacheUnconvertedCharacterWhenFocusLost = "";
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-        AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem;
+        AbstractConversionWidgetController.ICandidateItem iCandidateItem;
         super.keyTurned(wheelButtonEvent);
         if (this.enabledCandidates.size() < 1) {
             return;
@@ -364,9 +352,9 @@ IViewSizeAnimatable {
         if (wheelButtonEvent.getDirection() == 1) {
             n = -n;
         }
-        if ((abstractConversionWidgetController$ICandidateItem = this.getTargetItem(n)).isEnabled()) {
-            this.targetCursorItem = abstractConversionWidgetController$ICandidateItem;
-            this.moveCursor(abstractConversionWidgetController$ICandidateItem, false);
+        if ((iCandidateItem = this.getTargetItem(n)).isEnabled()) {
+            this.targetCursorItem = iCandidateItem;
+            this.moveCursor(iCandidateItem, false);
         }
         wheelButtonEvent.consume();
     }
@@ -374,13 +362,13 @@ IViewSizeAnimatable {
     protected void refreshEnabledCandidates() {
         this.enabledCandidates.clear();
         for (int i2 = 0; i2 <= this.candidates.size() - 1; ++i2) {
-            AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem = (AbstractConversionWidgetController$ICandidateItem)this.candidates.get(i2);
-            if (!abstractConversionWidgetController$ICandidateItem.isEnabled() && abstractConversionWidgetController$ICandidateItem != TRUFFLE_BUTTON_ITEM || abstractConversionWidgetController$ICandidateItem.getRowIndex() != 0) continue;
-            this.enabledCandidates.add(abstractConversionWidgetController$ICandidateItem);
+            AbstractConversionWidgetController.ICandidateItem iCandidateItem = (AbstractConversionWidgetController.ICandidateItem)this.candidates.get(i2);
+            if (!iCandidateItem.isEnabled() && iCandidateItem != TRUFFLE_BUTTON_ITEM || iCandidateItem.getRowIndex() != 0) continue;
+            this.enabledCandidates.add(iCandidateItem);
         }
     }
 
-    private AbstractConversionWidgetController$ICandidateItem getTargetItem(int n) {
+    private AbstractConversionWidgetController.ICandidateItem getTargetItem(int n) {
         int n2 = this.enabledCandidates.indexOf(this.currentFocusedItem);
         int n3 = n2 + n;
         if (n3 >= this.enabledCandidates.size()) {
@@ -392,7 +380,7 @@ IViewSizeAnimatable {
         if (n3 > this.getColumnAmount()) {
             n3 = this.getColumnAmount();
         }
-        return (AbstractConversionWidgetController$ICandidateItem)this.enabledCandidates.get(n3);
+        return (AbstractConversionWidgetController.ICandidateItem)this.enabledCandidates.get(n3);
     }
 
     private int getColumnAmount() {
@@ -405,36 +393,32 @@ IViewSizeAnimatable {
         }
         Iterator iterator = this.candidates.iterator();
         while (iterator.hasNext()) {
-            if ((AbstractConversionWidgetController$AbstractCandidateItem)iterator.next() != OPEN_MATRIX_POPUP_BUTTON_ITEM) continue;
+            if ((AbstractConversionWidgetController.AbstractCandidateItem)iterator.next() != OPEN_MATRIX_POPUP_BUTTON_ITEM) continue;
             return true;
         }
         return false;
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (fArray2[0] == 0.0f && this.getMode() == 1) {
             this.setSizeChanged(true);
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (fArray[0] == 0.0f && this.getMode() == 1) {
             this.setSizeChanged(true);
         }
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
     private boolean isCandidateOnlyTruffleButton() {
-        return this.candidates.isEmpty() || this.candidates.size() == 1 && (AbstractConversionWidgetController$ICandidateItem)this.candidates.get(0) == TRUFFLE_BUTTON_ITEM;
+        return this.candidates.isEmpty() || this.candidates.size() == 1 && (AbstractConversionWidgetController.ICandidateItem)this.candidates.get(0) == TRUFFLE_BUTTON_ITEM;
     }
 
     public void onSuggestionChange(boolean bl) {
@@ -442,9 +426,9 @@ IViewSizeAnimatable {
             this.showSingleTruffleButton();
             TRUFFLE_BUTTON_ITEM.setEnabled(bl);
         } else {
-            AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem = (AbstractConversionWidgetController$ICandidateItem)this.getCandidateIterator().next();
-            if (null != abstractConversionWidgetController$ICandidateItem && abstractConversionWidgetController$ICandidateItem == TRUFFLE_BUTTON_ITEM) {
-                abstractConversionWidgetController$ICandidateItem.setEnabled(bl);
+            AbstractConversionWidgetController.ICandidateItem iCandidateItem = (AbstractConversionWidgetController.ICandidateItem)this.getCandidateIterator().next();
+            if (null != iCandidateItem && iCandidateItem == TRUFFLE_BUTTON_ITEM) {
+                iCandidateItem.setEnabled(bl);
                 this.setCompositesDirty(true);
             }
         }
@@ -466,16 +450,126 @@ IViewSizeAnimatable {
         if (this.candidates.size() > 1) {
             bl = true;
         } else if (this.candidates.size() == 1) {
-            bl = ((AbstractConversionWidgetController$ICandidateItem)this.candidates.get(0)).isEnabled();
+            bl = ((AbstractConversionWidgetController.ICandidateItem)this.candidates.get(0)).isEnabled();
         }
         return bl;
     }
 
-    static {
-        offsetCell = -1;
-        characterCellWidth = 49217 + (float)offsetCell;
-        OPEN_MATRIX_POPUP_BUTTON_ITEM = new ConversionLineController$ButtonItem(ConversionLineController$ConversionLineButtonType.MATRIX_BUTTON);
-        TRUFFLE_BUTTON_ITEM = new ConversionLineController$ButtonItem(ConversionLineController$ConversionLineButtonType.TRUFFLE_BUTTON);
+    public static class ButtonItem
+    extends AbstractConversionWidgetController.AbstractCandidateItem
+    implements IButtonItem {
+        private static final String TYPE_KEY = "ConversionLineController.ButtonItem";
+        private final ConversionLineButtonType type;
+
+        public ButtonItem(ConversionLineButtonType conversionLineButtonType) {
+            this.type = conversionLineButtonType;
+        }
+
+        public ConversionLineButtonType getButtonType() {
+            return this.type;
+        }
+
+        public String getTypeKey() {
+            return TYPE_KEY;
+        }
+
+        public String toString() {
+            return new Buffer("ButtonItem[").append(this.type.getName()).append(']').toString();
+        }
+
+        public int hashCode() {
+            int n = super.hashCode();
+            n = 31 * n + (this.type == null ? 0 : this.type.hashCode());
+            return n;
+        }
+
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            }
+            if (!super.equals(object)) {
+                return false;
+            }
+            if (!(object instanceof ButtonItem)) {
+                return false;
+            }
+            ButtonItem buttonItem = (ButtonItem)object;
+            return !(this.type == null ? buttonItem.type != null : !this.type.equals(buttonItem.type));
+        }
+    }
+
+    public static interface IButtonItem
+    extends AbstractConversionWidgetController.ICandidateItem {
+        public ConversionLineButtonType getButtonType();
+    }
+
+    public static class ConversionLineButtonType {
+        public static final ConversionLineButtonType MATRIX_BUTTON = new ConversionLineButtonType("MATRIX BUTTON", "matrixButtonImageNode", HMIImageConstantsSystem.mib2_conversionline_matrix_button, HMIImageConstantsSystem.mib2_conversionline_matrix_button_big);
+        public static final ConversionLineButtonType TRUFFLE_BUTTON = new ConversionLineButtonType("TRUFFLE BUTTON", "truffleButtonImageNode", HMIImageConstantsSystem.mib2_speller_button_truffles_enabled, HMIImageConstantsSystem.mib2_speller_button_truffles_enabled_big);
+        public static final ConversionLineButtonType NULL = new ConversionLineButtonType("NULL", "NULL", -1, -1);
+        private final String name;
+        private final String imageNodeName;
+        private final int bitmapId;
+        private final int bitmapIdHighlighted;
+
+        private ConversionLineButtonType(String string, String string2, int n, int n2) {
+            this.name = string;
+            this.imageNodeName = string2;
+            this.bitmapId = n;
+            this.bitmapIdHighlighted = n2;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getImageNodeName() {
+            return this.imageNodeName;
+        }
+
+        public int getBitmapId() {
+            return this.bitmapId;
+        }
+
+        public int getBitmapIdHighlighted() {
+            return this.bitmapIdHighlighted;
+        }
+
+        public String toString() {
+            return new Buffer("ConversionLineButtonType[").append(this.name).append("]").toString();
+        }
+
+        public int hashCode() {
+            int n = 1;
+            n = 31 * n + this.bitmapId;
+            n = 31 * n + this.bitmapIdHighlighted;
+            n = 31 * n + (this.imageNodeName == null ? 0 : this.imageNodeName.hashCode());
+            n = 31 * n + (this.name == null ? 0 : this.name.hashCode());
+            return n;
+        }
+
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            }
+            if (object == null) {
+                return false;
+            }
+            if (!(object instanceof ConversionLineButtonType)) {
+                return false;
+            }
+            ConversionLineButtonType conversionLineButtonType = (ConversionLineButtonType)object;
+            if (this.bitmapId != conversionLineButtonType.bitmapId) {
+                return false;
+            }
+            if (this.bitmapIdHighlighted != conversionLineButtonType.bitmapIdHighlighted) {
+                return false;
+            }
+            if (this.imageNodeName == null ? conversionLineButtonType.imageNodeName != null : !this.imageNodeName.equals(conversionLineButtonType.imageNodeName)) {
+                return false;
+            }
+            return !(this.name == null ? conversionLineButtonType.name != null : !this.name.equals(conversionLineButtonType.name));
+        }
     }
 }
 

@@ -11,7 +11,6 @@ import java.util.List;
 
 public class HWREnginePatchesRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (AbstractWidget.isArabia() && TouchControllerArabia.isArabicCharSetActivated()) {
             return;
@@ -25,7 +24,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "HWR-Engine-Patches";
     }

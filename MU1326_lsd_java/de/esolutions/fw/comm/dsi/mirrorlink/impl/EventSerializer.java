@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.Event;
 
 public class EventSerializer {
-    public static void putOptionalEvent(ISerializer iSerializer, Event event) {
+    public static void putOptionalEvent(ISerializer iSerializer, Event event) throws SerializerException {
         boolean bl = event == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class EventSerializer {
         }
     }
 
-    public static void putOptionalEventVarArray(ISerializer iSerializer, Event[] eventArray) {
+    public static void putOptionalEventVarArray(ISerializer iSerializer, Event[] eventArray) throws SerializerException {
         boolean bl = eventArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class EventSerializer {
         }
     }
 
-    public static Event getOptionalEvent(IDeserializer iDeserializer) {
+    public static Event getOptionalEvent(IDeserializer iDeserializer) throws SerializerException {
         Event event = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class EventSerializer {
         return event;
     }
 
-    public static Event[] getOptionalEventVarArray(IDeserializer iDeserializer) {
+    public static Event[] getOptionalEventVarArray(IDeserializer iDeserializer) throws SerializerException {
         Event[] eventArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

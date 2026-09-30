@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class FSG_OperationState_Status
 implements StatusProperty {
     public int op_State;
-    private static final int OP_STATE_BITSIZE;
-    public static final int OP_STATE_NORMAL_OPERATION;
-    public static final int OP_STATE_OFF_STAND_BY;
-    public static final int OP_STATE_INITIALIZING;
-    public static final int OP_STATE_DEFECTIVE;
+    private static final int OP_STATE_BITSIZE = 8;
+    public static final int OP_STATE_NORMAL_OPERATION = 0;
+    public static final int OP_STATE_OFF_STAND_BY = 1;
+    public static final int OP_STATE_INITIALIZING = 3;
+    public static final int OP_STATE_DEFECTIVE = 15;
 
     public FSG_OperationState_Status() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StatusProperty {
         this.op_State = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)bAPEntity;
         return this.op_State == fSG_OperationState_Status.op_State;
@@ -44,7 +42,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_OperationState_Status:");
@@ -73,18 +70,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.op_State);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.op_State = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements StatusProperty {
         return 15;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_OperationState_Status.functionId();
     }

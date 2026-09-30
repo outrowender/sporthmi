@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class AtomicReferenceArray
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -6209656149925076980L;
     private final Object[] array;
 
     public AtomicReferenceArray(int n) {

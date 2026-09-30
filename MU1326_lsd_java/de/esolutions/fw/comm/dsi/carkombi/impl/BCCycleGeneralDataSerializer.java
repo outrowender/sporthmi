@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.global.impl.CarBCSpeedSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCCycleGeneralData;
 import org.dsi.ifc.global.CarBCDistance;
 import org.dsi.ifc.global.CarBCSpeed;
 import org.dsi.ifc.global.CarBCTime;
 
 public class BCCycleGeneralDataSerializer {
-    public static void putOptionalBCCycleGeneralData(ISerializer iSerializer, BCCycleGeneralData bCCycleGeneralData) {
+    public static void putOptionalBCCycleGeneralData(ISerializer iSerializer, BCCycleGeneralData bCCycleGeneralData) throws SerializerException {
         boolean bl = bCCycleGeneralData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BCCycleGeneralDataSerializer {
         }
     }
 
-    public static void putOptionalBCCycleGeneralDataVarArray(ISerializer iSerializer, BCCycleGeneralData[] bCCycleGeneralDataArray) {
+    public static void putOptionalBCCycleGeneralDataVarArray(ISerializer iSerializer, BCCycleGeneralData[] bCCycleGeneralDataArray) throws SerializerException {
         boolean bl = bCCycleGeneralDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BCCycleGeneralDataSerializer {
         }
     }
 
-    public static BCCycleGeneralData getOptionalBCCycleGeneralData(IDeserializer iDeserializer) {
+    public static BCCycleGeneralData getOptionalBCCycleGeneralData(IDeserializer iDeserializer) throws SerializerException {
         BCCycleGeneralData bCCycleGeneralData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class BCCycleGeneralDataSerializer {
         return bCCycleGeneralData;
     }
 
-    public static BCCycleGeneralData[] getOptionalBCCycleGeneralDataVarArray(IDeserializer iDeserializer) {
+    public static BCCycleGeneralData[] getOptionalBCCycleGeneralDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCCycleGeneralData[] bCCycleGeneralDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

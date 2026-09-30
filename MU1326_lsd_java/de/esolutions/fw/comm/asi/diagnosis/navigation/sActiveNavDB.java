@@ -32,7 +32,7 @@ public class sActiveNavDB {
     }
 
     public String toString() {
-        return new StringBuffer("sActiveNavDB{").append("msg_id=").append(this.msg_id).append(", db=").append(this.db).append("}").toString();
+        return "sActiveNavDB{" + "msg_id=" + this.msg_id + ", db=" + this.db + "}";
     }
 }
 

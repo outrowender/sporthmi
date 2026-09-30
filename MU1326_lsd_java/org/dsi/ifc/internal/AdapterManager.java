@@ -20,7 +20,6 @@ implements IAdapterManager {
     private AdapterManager() {
     }
 
-    @Override
     public synchronized void registerFactories(IFactory iFactory) {
         Class[] classArray = iFactory.getFactoryList();
         int n = classArray.length;
@@ -34,7 +33,6 @@ implements IAdapterManager {
         }
     }
 
-    @Override
     public synchronized void unregisterFactories(IFactory iFactory) {
         Class[] classArray = iFactory.getFactoryList();
         int n = classArray.length;
@@ -50,7 +48,6 @@ implements IAdapterManager {
         this.factories.clear();
     }
 
-    @Override
     public synchronized Object getFactory(Class clazz) {
         IFactory iFactory = (IFactory)this.factories.get(clazz.getName());
         Object object = null;
@@ -68,7 +65,7 @@ implements IAdapterManager {
             Field field = object.getClass().getDeclaredField("VERSION");
             field.setAccessible(true);
             Object object2 = field.get(object);
-            return new StringBuffer().append(object.getClass().getName()).append("@@").append(String.valueOf(object2)).toString();
+            return object.getClass().getName() + "@@" + String.valueOf(object2);
         }
         catch (Throwable throwable) {
             return null;

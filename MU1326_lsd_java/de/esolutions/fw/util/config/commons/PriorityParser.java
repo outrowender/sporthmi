@@ -6,7 +6,7 @@ package de.esolutions.fw.util.config.commons;
 import de.esolutions.fw.util.config.query.ConfigPathQuery;
 
 public class PriorityParser {
-    public static final int DISABLED;
+    public static final int DISABLED = -1;
 
     public static int parse(ConfigPathQuery configPathQuery, String string, int n, boolean bl) {
         int n2 = n;

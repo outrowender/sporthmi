@@ -4,54 +4,39 @@
 package de.vw.mib.bap.stream;
 
 public interface BitStream {
-    public static final int INT_BITS_SIZE;
-    public static final int SHORT_BITS_SIZE;
-    public static final int BYTE_BITS_SIZE;
-    public static final int BOOLEAN_BITS_SIZE;
+    public static final int INT_BITS_SIZE = 32;
+    public static final int SHORT_BITS_SIZE = 16;
+    public static final int BYTE_BITS_SIZE = 8;
+    public static final int BOOLEAN_BITS_SIZE = 1;
 
-    default public void pushBoolean(boolean bl) {
-    }
+    public void pushBoolean(boolean var1);
 
-    default public void pushByte(byte by) {
-    }
+    public void pushByte(byte var1);
 
-    default public void pushShort(short s) {
-    }
+    public void pushShort(short var1);
 
-    default public void pushInt(int n) {
-    }
+    public void pushInt(int var1);
 
-    default public void pushBits(int n, int n2) {
-    }
+    public void pushBits(int var1, int var2);
 
-    default public void pushBytes(byte[] byArray) {
-    }
+    public void pushBytes(byte[] var1);
 
-    default public void resetBits(int n) {
-    }
+    public void resetBits(int var1);
 
-    default public boolean popFrontBoolean() {
-    }
+    public boolean popFrontBoolean();
 
-    default public int popFrontByte() {
-    }
+    public int popFrontByte();
 
-    default public int popFrontShort() {
-    }
+    public int popFrontShort();
 
-    default public int popFrontInt() {
-    }
+    public int popFrontInt();
 
-    default public byte[] popFrontBytes(int n) {
-    }
+    public byte[] popFrontBytes(int var1);
 
-    default public int popFrontBits(int n) {
-    }
+    public int popFrontBits(int var1);
 
-    default public void discardBits(int n) {
-    }
+    public void discardBits(int var1);
 
-    default public int bitSize() {
-    }
+    public int bitSize();
 }
 

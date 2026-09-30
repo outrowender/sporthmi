@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.map.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.MapFlag;
 
 public class MapFlagSerializer {
-    public static void putOptionalMapFlag(ISerializer iSerializer, MapFlag mapFlag) {
+    public static void putOptionalMapFlag(ISerializer iSerializer, MapFlag mapFlag) throws SerializerException {
         boolean bl = mapFlag == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class MapFlagSerializer {
         }
     }
 
-    public static void putOptionalMapFlagVarArray(ISerializer iSerializer, MapFlag[] mapFlagArray) {
+    public static void putOptionalMapFlagVarArray(ISerializer iSerializer, MapFlag[] mapFlagArray) throws SerializerException {
         boolean bl = mapFlagArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class MapFlagSerializer {
         }
     }
 
-    public static MapFlag getOptionalMapFlag(IDeserializer iDeserializer) {
+    public static MapFlag getOptionalMapFlag(IDeserializer iDeserializer) throws SerializerException {
         MapFlag mapFlag = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class MapFlagSerializer {
         return mapFlag;
     }
 
-    public static MapFlag[] getOptionalMapFlagVarArray(IDeserializer iDeserializer) {
+    public static MapFlag[] getOptionalMapFlagVarArray(IDeserializer iDeserializer) throws SerializerException {
         MapFlag[] mapFlagArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -3,61 +3,46 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.media.DeviceInfo;
 import org.dsi.ifc.media.MediaInfo;
 
 public interface DSIMediaBaseReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "b113ffff-bd42-5cac-8697-cfd388045c9c";
+    public static final String IPL_COMM_INTERFACE_KEY = "cb67bc81-5b36-5b17-867c-324a01f573a3";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.52";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.52";
 
-    default public void updateParentalML(int n, int n2) {
-    }
+    public void updateParentalML(int var1, int var2) throws MethodException;
 
-    default public void updatePreferredLanguage(String string, int n) {
-    }
+    public void updatePreferredLanguage(String var1, int var2) throws MethodException;
 
-    default public void updateMediaList(MediaInfo[] mediaInfoArray, int n) {
-    }
+    public void updateMediaList(MediaInfo[] var1, int var2) throws MethodException;
 
-    default public void updateDeviceList(DeviceInfo[] deviceInfoArray, int n) {
-    }
+    public void updateDeviceList(DeviceInfo[] var1, int var2) throws MethodException;
 
-    default public void updateCustomerUpdate(int n, int n2) {
-    }
+    public void updateCustomerUpdate(int var1, int var2) throws MethodException;
 
-    default public void updateApplicationVersion(String string, int n) {
-    }
+    public void updateApplicationVersion(String var1, int var2) throws MethodException;
 
-    default public void updateMetadataDBVersion(String string, int n) {
-    }
+    public void updateMetadataDBVersion(String var1, int var2) throws MethodException;
 
-    default public void responseResetFactorySettings(int n, boolean bl) {
-    }
+    public void responseResetFactorySettings(int var1, boolean var2) throws MethodException;
 
-    default public void launchAppResult(long l, long l2, String string, boolean bl) {
-    }
+    public void launchAppResult(long var1, long var3, String var5, boolean var6) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -4,22 +4,20 @@
 package de.esolutions.fw.comm.asi.connectivity.bluetooth.impl;
 
 import de.esolutions.fw.comm.asi.connectivity.bluetooth.BluetoothSmartphoneIntegrationReply;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothSmartphoneIntegrationReplyProxy$1;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothSmartphoneIntegrationReplyProxy$2;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothSmartphoneIntegrationReplyProxy$3;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothSmartphoneIntegrationReplyProxy$4;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothSmartphoneIntegrationReplyProxy$5;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothSmartphoneIntegrationReplyProxy$6;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BluetoothSmartphoneIntegrationReplyProxy
 implements BluetoothSmartphoneIntegrationReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.connectivity.bluetooth.BluetoothSmartphoneIntegration");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public BluetoothSmartphoneIntegrationReplyProxy() {
@@ -27,45 +25,73 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void responseLocalBluetoothAddress(String string) {
-        BluetoothSmartphoneIntegrationReplyProxy$1 bluetoothSmartphoneIntegrationReplyProxy$1 = new BluetoothSmartphoneIntegrationReplyProxy$1(this, string);
-        this.proxy.remoteCallMethod((short)5, bluetoothSmartphoneIntegrationReplyProxy$1);
+    public void responseLocalBluetoothAddress(final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void updateSpiBtState(int n) {
-        BluetoothSmartphoneIntegrationReplyProxy$2 bluetoothSmartphoneIntegrationReplyProxy$2 = new BluetoothSmartphoneIntegrationReplyProxy$2(this, n);
-        this.proxy.remoteCallMethod((short)10, bluetoothSmartphoneIntegrationReplyProxy$2);
+    public void updateSpiBtState(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void responsePrepareConnect(String string, boolean bl, boolean bl2) {
-        BluetoothSmartphoneIntegrationReplyProxy$3 bluetoothSmartphoneIntegrationReplyProxy$3 = new BluetoothSmartphoneIntegrationReplyProxy$3(this, string, bl, bl2);
-        this.proxy.remoteCallMethod((short)6, bluetoothSmartphoneIntegrationReplyProxy$3);
+    public void responsePrepareConnect(final String string, final boolean bl, final boolean bl2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+                iSerializer.putBool(bl2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void reportSharedSecret(String string, String string2) {
-        BluetoothSmartphoneIntegrationReplyProxy$4 bluetoothSmartphoneIntegrationReplyProxy$4 = new BluetoothSmartphoneIntegrationReplyProxy$4(this, string, string2);
-        this.proxy.remoteCallMethod((short)2, bluetoothSmartphoneIntegrationReplyProxy$4);
+    public void reportSharedSecret(final String string, final String string2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void reportParingSuccess(String string, boolean bl) {
-        BluetoothSmartphoneIntegrationReplyProxy$5 bluetoothSmartphoneIntegrationReplyProxy$5 = new BluetoothSmartphoneIntegrationReplyProxy$5(this, string, bl);
-        this.proxy.remoteCallMethod((short)1, bluetoothSmartphoneIntegrationReplyProxy$5);
+    public void reportParingSuccess(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void reportConnectionEstablished(String string, boolean bl) {
-        BluetoothSmartphoneIntegrationReplyProxy$6 bluetoothSmartphoneIntegrationReplyProxy$6 = new BluetoothSmartphoneIntegrationReplyProxy$6(this, string, bl);
-        this.proxy.remoteCallMethod((short)0, bluetoothSmartphoneIntegrationReplyProxy$6);
+    public void reportConnectionEstablished(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 }
 

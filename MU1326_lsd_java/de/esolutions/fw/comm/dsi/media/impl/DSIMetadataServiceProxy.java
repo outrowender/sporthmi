@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMetadataService;
 import de.esolutions.fw.comm.dsi.media.DSIMetadataServiceC;
 import de.esolutions.fw.comm.dsi.media.DSIMetadataServiceReply;
-import de.esolutions.fw.comm.dsi.media.impl.DSIMetadataServiceProxy$1;
+import de.esolutions.fw.comm.dsi.media.impl.CoverartInfoSerializer;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMetadataServiceReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.CoverartInfo;
@@ -32,24 +34,26 @@ DSIMetadataServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void requestCoverArt(int n, CoverartInfo coverartInfo) {
-        DSIMetadataServiceProxy$1 dSIMetadataServiceProxy$1 = new DSIMetadataServiceProxy$1(this, n, coverartInfo);
-        this.proxy.remoteCallMethod((short)6, dSIMetadataServiceProxy$1);
+    public void requestCoverArt(final int n, final CoverartInfo coverartInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                CoverartInfoSerializer.putOptionalCoverartInfo(iSerializer, coverartInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void disableOnlineLookup() {
+    public void disableOnlineLookup() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void enableOnlineLookup() {
+    public void enableOnlineLookup() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -60,8 +64,7 @@ DSIMetadataServiceC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -72,13 +75,11 @@ DSIMetadataServiceC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)8, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -89,8 +90,7 @@ DSIMetadataServiceC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -101,13 +101,11 @@ DSIMetadataServiceC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

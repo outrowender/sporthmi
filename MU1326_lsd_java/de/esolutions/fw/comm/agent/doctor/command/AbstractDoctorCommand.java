@@ -8,7 +8,6 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractDoctorCommand
 implements IDoctorCommand {
-    @Override
     public Boolean matchCommandName(String string) {
         string = string.toLowerCase();
         String[] stringArray = this.getNames();
@@ -26,7 +25,6 @@ implements IDoctorCommand {
         return null;
     }
 
-    @Override
     public String getSignature() {
         Buffer buffer = new Buffer();
         this.allNamesToBuffer(buffer);
@@ -38,7 +36,6 @@ implements IDoctorCommand {
         return buffer.toString();
     }
 
-    @Override
     public String getAllNames() {
         Buffer buffer = new Buffer();
         this.allNamesToBuffer(buffer);
@@ -61,12 +58,10 @@ implements IDoctorCommand {
         }
     }
 
-    @Override
     public String getUsage() {
         return null;
     }
 
-    @Override
     public boolean checkArgs(String[] stringArray) {
         return true;
     }

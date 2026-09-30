@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sGPSNoSatellite;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sGPSNoSatelliteSerializer {
-    public static void putOptionalsGPSNoSatellite(ISerializer iSerializer, sGPSNoSatellite sGPSNoSatellite2) {
+    public static void putOptionalsGPSNoSatellite(ISerializer iSerializer, sGPSNoSatellite sGPSNoSatellite2) throws SerializerException {
         boolean bl = sGPSNoSatellite2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class sGPSNoSatelliteSerializer {
         }
     }
 
-    public static void putOptionalsGPSNoSatelliteVarArray(ISerializer iSerializer, sGPSNoSatellite[] sGPSNoSatelliteArray) {
+    public static void putOptionalsGPSNoSatelliteVarArray(ISerializer iSerializer, sGPSNoSatellite[] sGPSNoSatelliteArray) throws SerializerException {
         boolean bl = sGPSNoSatelliteArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class sGPSNoSatelliteSerializer {
         }
     }
 
-    public static sGPSNoSatellite getOptionalsGPSNoSatellite(IDeserializer iDeserializer) {
+    public static sGPSNoSatellite getOptionalsGPSNoSatellite(IDeserializer iDeserializer) throws SerializerException {
         sGPSNoSatellite sGPSNoSatellite2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class sGPSNoSatelliteSerializer {
         return sGPSNoSatellite2;
     }
 
-    public static sGPSNoSatellite[] getOptionalsGPSNoSatelliteVarArray(IDeserializer iDeserializer) {
+    public static sGPSNoSatellite[] getOptionalsGPSNoSatelliteVarArray(IDeserializer iDeserializer) throws SerializerException {
         sGPSNoSatellite[] sGPSNoSatelliteArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

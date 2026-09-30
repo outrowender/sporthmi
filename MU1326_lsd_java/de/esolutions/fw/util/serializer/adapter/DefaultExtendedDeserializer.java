@@ -26,20 +26,18 @@ implements IDeserializer {
         this.deserializer = iStreamDeserializer;
     }
 
-    @Override
     public Object clone() {
         return new DefaultExtendedDeserializer((IStreamDeserializer)this.deserializer.clone());
     }
 
-    @Override
-    public String getString() {
+    public String getString() throws SerializerException {
         byte by = this.deserializer.getInt8();
         if (by < 0 || by >= 3) {
             throw new SerializerException("Invalid String Encoding");
         }
         int n = this.deserializer.getUInt16();
         if (n < 0 || n > Short.MAX_VALUE) {
-            throw new SerializerException(new StringBuffer().append("String has invalid length: ").append(n).toString());
+            throw new SerializerException("String has invalid length: " + n);
         }
         int n2 = n * StringEncodings.byteWidth[by];
         byte[] byArray = new byte[n2];
@@ -56,8 +54,7 @@ implements IDeserializer {
         }
     }
 
-    @Override
-    public String getOptionalString() {
+    public String getOptionalString() throws SerializerException {
         boolean bl = this.getOptionalFlag();
         if (bl) {
             return this.getString();
@@ -65,7 +62,7 @@ implements IDeserializer {
         return null;
     }
 
-    public String[] getStringVarArray() {
+    public String[] getStringVarArray() throws SerializerException {
         int n = this.deserializer.getInt32();
         String[] stringArray = new String[n];
         for (int i2 = 0; i2 < n; ++i2) {
@@ -76,8 +73,7 @@ implements IDeserializer {
         return stringArray;
     }
 
-    @Override
-    public String[] getOptionalStringVarArray() {
+    public String[] getOptionalStringVarArray() throws SerializerException {
         boolean bl = this.getOptionalFlag();
         if (bl) {
             return this.getStringVarArray();
@@ -85,23 +81,20 @@ implements IDeserializer {
         return null;
     }
 
-    @Override
-    public int getEnum() {
+    public int getEnum() throws SerializerException {
         return this.deserializer.getInt32();
     }
 
-    public boolean getOptionalFlag() {
+    public boolean getOptionalFlag() throws SerializerException {
         return this.deserializer.getInt8() == 0;
     }
 
-    @Override
-    public IDeserializable getObject(IDeserializableFactory iDeserializableFactory) {
+    public IDeserializable getObject(IDeserializableFactory iDeserializableFactory) throws SerializerException {
         IDeserializable iDeserializable = iDeserializableFactory.createDeserializable(this);
         return iDeserializable;
     }
 
-    @Override
-    public IDeserializable getOptionalObject(IDeserializableFactory iDeserializableFactory) {
+    public IDeserializable getOptionalObject(IDeserializableFactory iDeserializableFactory) throws SerializerException {
         boolean bl = this.getOptionalFlag();
         if (bl) {
             IDeserializable iDeserializable = iDeserializableFactory.createDeserializable(this);
@@ -110,8 +103,7 @@ implements IDeserializer {
         return null;
     }
 
-    @Override
-    public void getObjectArray(IDeserializableFactory iDeserializableFactory, IDeserializable[] iDeserializableArray) {
+    public void getObjectArray(IDeserializableFactory iDeserializableFactory, IDeserializable[] iDeserializableArray) throws SerializerException {
         for (int i2 = 0; i2 < iDeserializableArray.length; ++i2) {
             IDeserializable iDeserializable;
             boolean bl = this.getOptionalFlag();
@@ -120,8 +112,7 @@ implements IDeserializer {
         }
     }
 
-    @Override
-    public IDeserializable[] getOptionalObjectArray(IDeserializableArrayFactory iDeserializableArrayFactory, int n) {
+    public IDeserializable[] getOptionalObjectArray(IDeserializableArrayFactory iDeserializableArrayFactory, int n) throws SerializerException {
         boolean bl = this.getOptionalFlag();
         if (bl) {
             IDeserializable[] iDeserializableArray = iDeserializableArrayFactory.createDeserializableArray(n);
@@ -136,8 +127,7 @@ implements IDeserializer {
         return null;
     }
 
-    @Override
-    public IDeserializable[] getObjectVarArray(IDeserializableArrayFactory iDeserializableArrayFactory) {
+    public IDeserializable[] getObjectVarArray(IDeserializableArrayFactory iDeserializableArrayFactory) throws SerializerException {
         int n = this.deserializer.getInt32();
         IDeserializable[] iDeserializableArray = iDeserializableArrayFactory.createDeserializableArray(n);
         for (int i2 = 0; i2 < n; ++i2) {
@@ -149,8 +139,7 @@ implements IDeserializer {
         return iDeserializableArray;
     }
 
-    @Override
-    public IDeserializable[] getOptionalObjectVarArray(IDeserializableArrayFactory iDeserializableArrayFactory) {
+    public IDeserializable[] getOptionalObjectVarArray(IDeserializableArrayFactory iDeserializableArrayFactory) throws SerializerException {
         boolean bl = this.getOptionalFlag();
         if (bl) {
             int n = this.deserializer.getInt32();
@@ -166,8 +155,7 @@ implements IDeserializer {
         return null;
     }
 
-    @Override
-    public List getObjectVarList(IDeserializableFactory iDeserializableFactory) {
+    public List getObjectVarList(IDeserializableFactory iDeserializableFactory) throws SerializerException {
         int n = this.deserializer.getInt32();
         Vector vector = new Vector(n);
         for (int i2 = 0; i2 < n; ++i2) {
@@ -179,8 +167,7 @@ implements IDeserializer {
         return vector;
     }
 
-    @Override
-    public List getOptionalObjectVarList(IDeserializableFactory iDeserializableFactory) {
+    public List getOptionalObjectVarList(IDeserializableFactory iDeserializableFactory) throws SerializerException {
         boolean bl = this.getOptionalFlag();
         if (bl) {
             int n = this.deserializer.getInt32();
@@ -196,104 +183,91 @@ implements IDeserializer {
         return null;
     }
 
-    @Override
-    public boolean[] getBoolVarArray() {
+    public boolean[] getBoolVarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         boolean[] blArray = new boolean[(int)l];
         this.getBoolArray(blArray);
         return blArray;
     }
 
-    @Override
-    public short[] getUInt8VarArray() {
+    public short[] getUInt8VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         short[] sArray = new short[(int)l];
         this.getUInt8Array(sArray);
         return sArray;
     }
 
-    @Override
-    public byte[] getInt8VarArray() {
+    public byte[] getInt8VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         byte[] byArray = new byte[(int)l];
         this.getInt8Array(byArray);
         return byArray;
     }
 
-    @Override
-    public int[] getUInt16VarArray() {
+    public int[] getUInt16VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         int[] nArray = new int[(int)l];
         this.getUInt16Array(nArray);
         return nArray;
     }
 
-    @Override
-    public short[] getInt16VarArray() {
+    public short[] getInt16VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         short[] sArray = new short[(int)l];
         this.getInt16Array(sArray);
         return sArray;
     }
 
-    @Override
-    public char[] getUChar16VarArray() {
+    public char[] getUChar16VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         char[] cArray = new char[(int)l];
         this.getUChar16Array(cArray);
         return cArray;
     }
 
-    @Override
-    public long[] getUInt32VarArray() {
+    public long[] getUInt32VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         long[] lArray = new long[(int)l];
         this.getUInt32Array(lArray);
         return lArray;
     }
 
-    @Override
-    public int[] getInt32VarArray() {
+    public int[] getInt32VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         int[] nArray = new int[(int)l];
         this.getInt32Array(nArray);
         return nArray;
     }
 
-    @Override
-    public long[] getUInt64VarArray() {
+    public long[] getUInt64VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         long[] lArray = new long[(int)l];
         this.getUInt64Array(lArray);
         return lArray;
     }
 
-    @Override
-    public long[] getInt64VarArray() {
+    public long[] getInt64VarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         long[] lArray = new long[(int)l];
         this.getInt64Array(lArray);
         return lArray;
     }
 
-    @Override
-    public float[] getFloatVarArray() {
+    public float[] getFloatVarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         float[] fArray = new float[(int)l];
         this.getFloatArray(fArray);
         return fArray;
     }
 
-    @Override
-    public double[] getDoubleVarArray() {
+    public double[] getDoubleVarArray() throws SerializerException {
         long l = this.deserializer.getUInt32();
         double[] dArray = new double[(int)l];
         this.getDoubleArray(dArray);
         return dArray;
     }
 
-    @Override
-    public boolean[] getOptionalBoolVarArray() {
+    public boolean[] getOptionalBoolVarArray() throws SerializerException {
         boolean[] blArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -302,8 +276,7 @@ implements IDeserializer {
         return blArray;
     }
 
-    @Override
-    public double[] getOptionalDoubleVarArray() {
+    public double[] getOptionalDoubleVarArray() throws SerializerException {
         double[] dArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -312,8 +285,7 @@ implements IDeserializer {
         return dArray;
     }
 
-    @Override
-    public float[] getOptionalFloatVarArray() {
+    public float[] getOptionalFloatVarArray() throws SerializerException {
         float[] fArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -322,8 +294,7 @@ implements IDeserializer {
         return fArray;
     }
 
-    @Override
-    public short[] getOptionalInt16VarArray() {
+    public short[] getOptionalInt16VarArray() throws SerializerException {
         short[] sArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -332,8 +303,7 @@ implements IDeserializer {
         return sArray;
     }
 
-    @Override
-    public char[] getOptionalUChar16VarArray() {
+    public char[] getOptionalUChar16VarArray() throws SerializerException {
         char[] cArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -342,8 +312,7 @@ implements IDeserializer {
         return cArray;
     }
 
-    @Override
-    public int[] getOptionalInt32VarArray() {
+    public int[] getOptionalInt32VarArray() throws SerializerException {
         int[] nArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -352,8 +321,7 @@ implements IDeserializer {
         return nArray;
     }
 
-    @Override
-    public long[] getOptionalInt64VarArray() {
+    public long[] getOptionalInt64VarArray() throws SerializerException {
         long[] lArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -362,8 +330,7 @@ implements IDeserializer {
         return lArray;
     }
 
-    @Override
-    public byte[] getOptionalInt8VarArray() {
+    public byte[] getOptionalInt8VarArray() throws SerializerException {
         byte[] byArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -372,8 +339,7 @@ implements IDeserializer {
         return byArray;
     }
 
-    @Override
-    public int[] getOptionalUInt16VarArray() {
+    public int[] getOptionalUInt16VarArray() throws SerializerException {
         int[] nArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -382,8 +348,7 @@ implements IDeserializer {
         return nArray;
     }
 
-    @Override
-    public long[] getOptionalUInt32VarArray() {
+    public long[] getOptionalUInt32VarArray() throws SerializerException {
         long[] lArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -392,8 +357,7 @@ implements IDeserializer {
         return lArray;
     }
 
-    @Override
-    public long[] getOptionalUInt64VarArray() {
+    public long[] getOptionalUInt64VarArray() throws SerializerException {
         long[] lArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -402,8 +366,7 @@ implements IDeserializer {
         return lArray;
     }
 
-    @Override
-    public short[] getOptionalUInt8VarArray() {
+    public short[] getOptionalUInt8VarArray() throws SerializerException {
         short[] sArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -412,8 +375,7 @@ implements IDeserializer {
         return sArray;
     }
 
-    @Override
-    public int[] getOptionalEnumVarArray() {
+    public int[] getOptionalEnumVarArray() throws SerializerException {
         int[] nArray = null;
         boolean bl = this.deserializer.getBool();
         if (!bl) {
@@ -422,12 +384,10 @@ implements IDeserializer {
         return nArray;
     }
 
-    @Override
     public ISerializer createCompatibleSerializer() {
         return new DefaultExtendedSerializer(this.deserializer.createCompatibleStreamSerializer());
     }
 
-    @Override
     public IDeserializer createCompatibleDeserializer() {
         return new DefaultExtendedDeserializer(this.deserializer.createCompatibleStreamDeserializer());
     }

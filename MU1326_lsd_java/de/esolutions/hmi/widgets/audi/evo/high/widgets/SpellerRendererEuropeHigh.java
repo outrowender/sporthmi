@@ -17,18 +17,9 @@ import de.esolutions.hmi.widgets.audi.base.eal.TextureDescription;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractKanziTemplateRenderer;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.SpellerRendererEuropeHigh$SpellerLayoutContainer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ISpellerRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ITouchInputDataArabia;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem$Char;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem$CharSet;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ButtonItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ICharacterSpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SingleCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerIterator;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerArabia;
 import java.util.HashMap;
@@ -39,34 +30,34 @@ import java.util.Map;
 public class SpellerRendererEuropeHigh
 extends AbstractKanziTemplateRenderer
 implements ISpellerRenderer {
-    private static final int CURSOR_NODE_INDEX_HIGHLIGHT;
-    private static final int CURSOR_NODE_INDEX_NO_HIGHLIGHT;
+    private static final int CURSOR_NODE_INDEX_HIGHLIGHT = 10;
+    private static final int CURSOR_NODE_INDEX_NO_HIGHLIGHT = -10;
     private Map separatorNodes;
-    public static final String NODE_NAME_SPELLER_CLIP;
-    public static final float OPACITY_DISABLED_NONTEXT_ITEMS;
-    private static final String PROPERTY_COLOR;
-    private static final String PROPERTY_CURSOR_WIDTH;
-    private static final String PROPERTY_COMPLETION_ARROW;
-    private static final int FONT_RIBBON;
-    private static final int FONT_PREVIEW;
-    private static final int FONT_AUTO_COMPLETION;
-    private static final int BITMAP_CLOSE_PREVIEW_BACKGROUND;
-    private static final int OFFSET_CHARSET_IMAGES;
-    private static final int OFFSET_BUTTON_IMAGES;
-    private static final int GAP_BEFORE_CHAR;
-    private static final int GAP_BEFORE_BUTTON;
-    private static final int Y_OFFSET_RIBBON;
-    public static final int Y_OFFSET_TOP;
-    private static final int Y_OFFSET_BIG_BUTTON_NODES;
-    private static final int SCROLL_BOUNDARY;
-    private static final int AUTO_COMPLETION_TEXT_BASELINE;
-    private static final int AUTO_COMPLETION_Y_OFFSET;
-    public static final int X_OFFSET_LEFT;
-    private static final int X_OFFSET_RIGHT_GENERAL;
-    private static final int X_OFFSET_RIGHT_MULTILINE;
-    public static final int EXTRA_Y_OFFSET;
-    private static final float BUTTON_CENTER_LINE;
-    private static final int G22_BOX_EXTRA_HEIGHT;
+    public static final String NODE_NAME_SPELLER_CLIP = "spellerClip";
+    public static final float OPACITY_DISABLED_NONTEXT_ITEMS = 0.3f;
+    private static final String PROPERTY_COLOR = "Color";
+    private static final String PROPERTY_CURSOR_WIDTH = "spl_width";
+    private static final String PROPERTY_COMPLETION_ARROW = "spl_completionArrowVisible";
+    private static final int FONT_RIBBON = 0;
+    private static final int FONT_PREVIEW = 1;
+    private static final int FONT_AUTO_COMPLETION = 2;
+    private static final int BITMAP_CLOSE_PREVIEW_BACKGROUND = 0;
+    private static final int OFFSET_CHARSET_IMAGES = 1;
+    private static final int OFFSET_BUTTON_IMAGES = 9;
+    private static final int GAP_BEFORE_CHAR = 15;
+    private static final int GAP_BEFORE_BUTTON = 12;
+    private static final int Y_OFFSET_RIBBON = 16;
+    public static final int Y_OFFSET_TOP = 12;
+    private static final int Y_OFFSET_BIG_BUTTON_NODES = 1;
+    private static final int SCROLL_BOUNDARY = 40;
+    private static final int AUTO_COMPLETION_TEXT_BASELINE = 27;
+    private static final int AUTO_COMPLETION_Y_OFFSET = -49;
+    public static final int X_OFFSET_LEFT = 0;
+    private static final int X_OFFSET_RIGHT_GENERAL = 0;
+    private static final int X_OFFSET_RIGHT_MULTILINE = -18;
+    public static final int EXTRA_Y_OFFSET = 28;
+    private static final float BUTTON_CENTER_LINE = 10.0f;
+    private static final int G22_BOX_EXTRA_HEIGHT = 4;
     private final SpellerController controller;
     private IWrappedNode3D nodeForClipping;
     private IWrappedNode3D nodeRibbon;
@@ -74,15 +65,15 @@ implements ISpellerRenderer {
     private IWrappedNode3D backgroundWordAlternatives;
     private float backgroundWordAlternativesWidth = 0.0f;
     private IWrappedNode3DText highlightNode;
-    private static final float ALTERNATIVES_HEIGHT;
-    private static final float ARROW_UP;
-    private static final float ARROW_DOWN;
-    private static final int AUTOCOMPLETION_HIGHT;
+    private static final float ALTERNATIVES_HEIGHT = 40.0f;
+    private static final float ARROW_UP = 1.0f;
+    private static final float ARROW_DOWN = 2.0f;
+    private static final int AUTOCOMPLETION_HIGHT = 40;
     private IWrappedNode3DText nodeAutoCompletionText;
     private IWrappedNode3D nodeAutoCompletion;
-    private static final String SUGGESTION_NAME;
-    private static final String SMS_ALTERNATIVES_BACKGROUND;
-    private static final String SMS_ALTERNATIVES_PREFAB;
+    private static final String SUGGESTION_NAME = "Suggestion-Background-speller";
+    private static final String SMS_ALTERNATIVES_BACKGROUND = "sms_alternatives_background_texture";
+    private static final String SMS_ALTERNATIVES_PREFAB = "Prefabs/if_wordCompletion";
     private IWrappedNode3DImage suggestionBackground;
     private float suggestionX;
     private float suggestionY;
@@ -100,7 +91,7 @@ implements ISpellerRenderer {
     private float startCursorPos;
     private int baseline;
     private int endPosLastItem = -1;
-    private SpellerController$ISpellerItem targetItem;
+    private SpellerController.ISpellerItem targetItem;
     private int startXOpeningItem = -1;
     private int endXOpeningItem = -1;
     private IWrappedNode3D boxNode;
@@ -110,9 +101,9 @@ implements ISpellerRenderer {
     private IWrappedNode3D closePreviewNode;
     private int[] colorCache;
     private boolean isDeleteIconFlipped = false;
-    private static final int COLOR_MULTILINE_SELECTED;
-    private static final int COLOR_MULTILINE_NOT_SELECTED;
-    private static final int COLOR_BLACK;
+    private static final int COLOR_MULTILINE_SELECTED = 4;
+    private static final int COLOR_MULTILINE_NOT_SELECTED = 5;
+    private static final int COLOR_BLACK = 6;
     private Object lastFocusedItem = null;
 
     public SpellerRendererEuropeHigh(SpellerController spellerController) {
@@ -120,7 +111,6 @@ implements ISpellerRenderer {
         this.layoutData = new HashMap();
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.layoutData.clear();
@@ -135,7 +125,6 @@ implements ISpellerRenderer {
         this.isDeleteIconFlipped = false;
     }
 
-    @Override
     public final void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -174,8 +163,8 @@ implements ISpellerRenderer {
         this.colorCache[1] = EALManager.createColorCode(redrawContext.getColor(1));
         this.colorCache[2] = EALManager.createColorCode(redrawContext.getColor(2));
         this.colorCache[3] = EALManager.createColorCode(redrawContext.getColor(3));
-        this.colorCache[4] = EALManager.createColorCode(11166975);
-        this.colorCache[5] = EALManager.setBrightness(0x6666E63E, this.colorCache[4]);
+        this.colorCache[4] = EALManager.createColorCode(-10180096);
+        this.colorCache[5] = EALManager.setBrightness(0.45f, this.colorCache[4]);
         this.colorCache[6] = 255;
     }
 
@@ -194,53 +183,53 @@ implements ISpellerRenderer {
         while (spellerIterator.hasNext()) {
             Object object;
             Object object2;
-            SpellerController$ISpellerItem spellerController$ISpellerItem = (SpellerController$ISpellerItem)spellerIterator.next();
-            if (spellerController$ISpellerItem instanceof SpellerController$SingleCharItem) {
-                object2 = ((SpellerController$SingleCharItem)spellerController$ISpellerItem).getChar(bl);
-                this.setCharacter(spellerController$ISpellerItem, (String)object2, iWrappedFont);
+            SpellerController.ISpellerItem iSpellerItem = (SpellerController.ISpellerItem)spellerIterator.next();
+            if (iSpellerItem instanceof SpellerController.SingleCharItem) {
+                object2 = ((SpellerController.SingleCharItem)iSpellerItem).getChar(bl);
+                this.setCharacter(iSpellerItem, (String)object2, iWrappedFont);
                 continue;
             }
-            if (!(spellerController$ISpellerItem instanceof SpellerController$AbstractExpandableItem)) continue;
-            object2 = (SpellerController$AbstractExpandableItem)spellerController$ISpellerItem;
-            if (object2 instanceof SpellerController$AbstractExpandableItem$Char) {
-                object = new StringBuffer().append("").append(((SpellerController$AbstractExpandableItem$Char)object2).getChar(bl)).toString();
-                this.setCharacter(spellerController$ISpellerItem, (String)object, iWrappedFont);
+            if (!(iSpellerItem instanceof SpellerController.AbstractExpandableItem)) continue;
+            object2 = (SpellerController.AbstractExpandableItem)iSpellerItem;
+            if (object2 instanceof SpellerController.AbstractExpandableItem.Char) {
+                object = "" + ((SpellerController.AbstractExpandableItem.Char)object2).getChar(bl);
+                this.setCharacter(iSpellerItem, (String)object, iWrappedFont);
             }
-            object = ((SpellerController$AbstractExpandableItem)object2).getSubBand().iterator();
+            object = ((SpellerController.AbstractExpandableItem)object2).getSubBand().iterator();
             while (object.hasNext()) {
-                SpellerController$SingleCharItem spellerController$SingleCharItem = (SpellerController$SingleCharItem)object.next();
-                String string = spellerController$SingleCharItem.getChar(bl);
-                this.setCharacter(spellerController$SingleCharItem, string, iWrappedFont);
+                SpellerController.SingleCharItem singleCharItem = (SpellerController.SingleCharItem)object.next();
+                String string = singleCharItem.getChar(bl);
+                this.setCharacter(singleCharItem, string, iWrappedFont);
             }
         }
     }
 
-    private void setCharacter(SpellerController$ISpellerItem spellerController$ISpellerItem, String string, IWrappedFont iWrappedFont) {
+    private void setCharacter(SpellerController.ISpellerItem iSpellerItem, String string, IWrappedFont iWrappedFont) {
         Object object;
-        if (this.layoutData != null && (object = this.layoutData.get(spellerController$ISpellerItem)) != null && SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000((SpellerRendererEuropeHigh$SpellerLayoutContainer)object) instanceof IWrappedNode3DText) {
-            ((IWrappedNode3DText)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000((SpellerRendererEuropeHigh$SpellerLayoutContainer)object)).setText(string, iWrappedFont);
+        if (this.layoutData != null && (object = this.layoutData.get(iSpellerItem)) != null && ((SpellerLayoutContainer)object).nodeNormal instanceof IWrappedNode3DText) {
+            ((IWrappedNode3DText)((SpellerLayoutContainer)object).nodeNormal).setText(string, iWrappedFont);
         }
     }
 
     private void initializeNodes(RedrawContextHigh redrawContextHigh) {
         this.baseline = EALManager.getFontHeightUppercase(redrawContextHigh.getFont(0));
         this.xOffsetRight = this.controller.getSpellerMode() == 4 ? -18 : 0;
-        this.nodeForClipping = this.getEALManager().createNode3D(null, EALManager.createNodeName("spellerClip", this), this.controller.getWidth() + 0 + this.xOffsetRight, this.controller.getHeight() + 12, 100);
+        this.nodeForClipping = this.getEALManager().createNode3D(null, EALManager.createNodeName(NODE_NAME_SPELLER_CLIP, this), this.controller.getWidth() + 0 + this.xOffsetRight, this.controller.getHeight() + 12, 100);
         this.nodeForClipping.setClippingInheritance(17);
         this.nodeForClipping.setClipping(true);
         this.nodeForClipping.setPosition(this.controller.getX() - 0, this.controller.getY() - 12 - 28, 0.0f);
         SpellerRendererEuropeHigh.getPaintNode(redrawContextHigh).add(this.nodeForClipping);
         this.initAutoCompletionNodes(redrawContextHigh);
         this.nodeRibbon = this.getEALManager().createNode3D(this.nodeForClipping, EALManager.createNodeName("spellerBand", this), this.controller.getWidth(), this.controller.getHeight(), 2);
-        this.nodeRibbon.setPosition(0.0f, 12354, 41024);
+        this.nodeRibbon.setPosition(0.0f, 44.0f, 5.0f);
         this.highlightNode = this.getEALManager().createText3D(null, EALManager.createNodeName("highlightChar", this), "A", redrawContextHigh.getFont(1), 1);
         this.highlightNode.setColor(this.colorCache[3]);
         this.highlightNode.setVisible(false);
         this.node = this.cursorNode = this.createNode(this.nodeRibbon, 0);
         SpellerIterator spellerIterator = this.controller.getSpellerIterator(null, false);
         while (spellerIterator.hasNext()) {
-            SpellerController$ISpellerItem spellerController$ISpellerItem = (SpellerController$ISpellerItem)spellerIterator.next();
-            this.createItemNode(spellerController$ISpellerItem, redrawContextHigh, this.nodeRibbon);
+            SpellerController.ISpellerItem iSpellerItem = (SpellerController.ISpellerItem)spellerIterator.next();
+            this.createItemNode(iSpellerItem, redrawContextHigh, this.nodeRibbon);
         }
         this.nodeRibbon.add(this.highlightNode);
         this.initializeSpellerBox(redrawContextHigh);
@@ -250,7 +239,7 @@ implements ISpellerRenderer {
     }
 
     private void initializeSpellerBox(RedrawContextHigh redrawContextHigh) {
-        this.boxNodeClipp = this.getEALManager().createNode3D(null, EALManager.createNodeName("box_node_clip", this), 44868, this.controller.getHeight() * 3 + 100, 100);
+        this.boxNodeClipp = this.getEALManager().createNode3D(null, EALManager.createNodeName("box_node_clip", this), 1400.0f, this.controller.getHeight() * 3 + 100, 100);
         this.boxNodeClipp.setClipping(true);
         SpellerRendererEuropeHigh.getPaintNode(redrawContextHigh).add(this.boxNodeClipp);
         int n = 6;
@@ -259,20 +248,20 @@ implements ISpellerRenderer {
         this.propertyCache.setProperty(this.boxNode, "c1_borderTop", 1.0f);
         this.propertyCache.setProperty(this.boxNode, "c1_borderBottom", 1.0f);
         this.propertyCache.setProperty(this.boxNode, "c1_spellerMode", 1.0f);
-        this.propertyCache.setColorProperty(this.boxNode, "Color", this.colorCache[0]);
+        this.propertyCache.setColorProperty(this.boxNode, PROPERTY_COLOR, this.colorCache[0]);
         this.boxNode.setVisible(this.controller.showBox());
-        this.boxNode.setPosition(8257, 8257, 0.0f);
+        this.boxNode.setPosition(10.0f, 10.0f, 0.0f);
     }
 
     private void initialisePreviewCloseIcon() {
-        this.closePreviewNode = this.getEALManager().createNode3D(null, EALManager.createNodeName("closePreview_node", this), 18499, 18499, -100);
+        this.closePreviewNode = this.getEALManager().createNode3D(null, EALManager.createNodeName("closePreview_node", this), 200.0f, 200.0f, -100);
         TextureDescription textureDescription = this.getTextureDescription(0, true);
         if (textureDescription != null) {
             this.closePreviewBackgroundNode = this.getEALManager().createImage3D(this.closePreviewNode, EALManager.createNodeName("closePreview_background", this), textureDescription, 0, true, (Object)this);
         }
-        this.closePreviewButton = this.getEALManager().createImage3D(this.closePreviewNode, EALManager.createNodeName("closePreview_icon", this), this.getBitmapForButton(SpellerController$SpellerButtonType.CLOSE, false), 0, true, (Object)this);
-        this.closePreviewButton.setPosition(8257, 28737, 0.0f);
-        this.closePreviewNode.setPosition(8257, 65, 0.0f);
+        this.closePreviewButton = this.getEALManager().createImage3D(this.closePreviewNode, EALManager.createNodeName("closePreview_icon", this), this.getBitmapForButton(SpellerController.SpellerButtonType.CLOSE, false), 0, true, (Object)this);
+        this.closePreviewButton.setPosition(10.0f, 15.0f, 0.0f);
+        this.closePreviewNode.setPosition(10.0f, 8.0f, 0.0f);
         this.boxNodeClipp.add(this.closePreviewNode);
         this.closePreviewNode.setVisible(false);
     }
@@ -282,78 +271,78 @@ implements ISpellerRenderer {
             logChannel.log(10000, "Initialisation of AutoCompletion nodes does not make sense as the top level node does not exist");
             return;
         }
-        this.nodeAutoCompletion = this.getEALManager().createNode3D(this.nodeForClipping, EALManager.createNodeName("spellerAutocompletion", this), this.controller.getWidth(), 8258);
+        this.nodeAutoCompletion = this.getEALManager().createNode3D(this.nodeForClipping, EALManager.createNodeName("spellerAutocompletion", this), this.controller.getWidth(), 40.0f);
         this.nodeAutoCompletion.setClipping(true);
         if (this.suggestionBackground == null) {
-            this.suggestionBackground = this.createSuggestionBackground(this.nodeAutoCompletion, "Suggestion-Background-speller");
+            this.suggestionBackground = this.createSuggestionBackground(this.nodeAutoCompletion, SUGGESTION_NAME);
         }
         this.nodeAutoCompletionText = this.getEALManager().createText3D(this.nodeAutoCompletion, EALManager.createNodeName("autocompletionText", this), "Autocompletion", redrawContextHigh.getFont(2));
         float f2 = this.getTerminal() != null ? (float)this.getTerminal().getLayout().getIntegerConstant(117) : 0.0f;
-        this.nodeAutoCompletionText.setPosition(0.0f, 55361 - f2, 0.0f);
+        this.nodeAutoCompletionText.setPosition(0.0f, 27.0f - f2, 0.0f);
         this.nodeAutoCompletionText.setColor(this.colorCache[3]);
         this.nodeAutoCompletion.setVisible(false);
     }
 
-    private void createItemNode(SpellerController$ISpellerItem spellerController$ISpellerItem, RedrawContextHigh redrawContextHigh, IWrappedNode3D iWrappedNode3D) {
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = new SpellerRendererEuropeHigh$SpellerLayoutContainer(this);
-        SpellerRendererEuropeHigh$SpellerLayoutContainer.access$102(spellerRendererEuropeHigh$SpellerLayoutContainer, spellerController$ISpellerItem);
-        if (spellerController$ISpellerItem instanceof SpellerController$ButtonItem) {
-            SpellerController$SpellerButtonType spellerController$SpellerButtonType = ((SpellerController$ButtonItem)spellerController$ISpellerItem).getButtonType();
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$002(spellerRendererEuropeHigh$SpellerLayoutContainer, this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_button", spellerController$SpellerButtonType.getName(), (AbstractRenderer)this), this.getBitmapForButton(spellerController$SpellerButtonType, false), 0, true, (Object)this));
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$202(spellerRendererEuropeHigh$SpellerLayoutContainer, this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_buttonBig", spellerController$SpellerButtonType.getName(), (AbstractRenderer)this), this.getBitmapForButton(spellerController$SpellerButtonType, true), 0, true, (Object)this));
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$302(spellerRendererEuropeHigh$SpellerLayoutContainer, (int)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth());
-        } else if (spellerController$ISpellerItem instanceof SpellerController$AbstractExpandableItem) {
+    private void createItemNode(SpellerController.ISpellerItem iSpellerItem, RedrawContextHigh redrawContextHigh, IWrappedNode3D iWrappedNode3D) {
+        SpellerLayoutContainer spellerLayoutContainer = new SpellerLayoutContainer();
+        spellerLayoutContainer.item = iSpellerItem;
+        if (iSpellerItem instanceof SpellerController.ButtonItem) {
+            SpellerController.SpellerButtonType spellerButtonType = ((SpellerController.ButtonItem)iSpellerItem).getButtonType();
+            spellerLayoutContainer.nodeNormal = this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_button", spellerButtonType.getName(), (AbstractRenderer)this), this.getBitmapForButton(spellerButtonType, false), 0, true, (Object)this);
+            spellerLayoutContainer.nodeBig = this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_buttonBig", spellerButtonType.getName(), (AbstractRenderer)this), this.getBitmapForButton(spellerButtonType, true), 0, true, (Object)this);
+            spellerLayoutContainer.size = (int)spellerLayoutContainer.nodeNormal.getWidth();
+        } else if (iSpellerItem instanceof SpellerController.AbstractExpandableItem) {
             Object object;
             String string;
-            SpellerController$AbstractExpandableItem spellerController$AbstractExpandableItem = (SpellerController$AbstractExpandableItem)spellerController$ISpellerItem;
-            if (spellerController$AbstractExpandableItem.type == 1) {
-                int n = ((SpellerController$AbstractExpandableItem$CharSet)spellerController$AbstractExpandableItem).getCharsetType();
+            SpellerController.AbstractExpandableItem abstractExpandableItem = (SpellerController.AbstractExpandableItem)iSpellerItem;
+            if (abstractExpandableItem.type == 1) {
+                int n = ((SpellerController.AbstractExpandableItem.CharSet)abstractExpandableItem).getCharsetType();
                 string = EALManager.createNodeName("charSet_clippingParent", n, (AbstractRenderer)this);
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$002(spellerRendererEuropeHigh$SpellerLayoutContainer, this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_charset", n, (AbstractRenderer)this), this.getTextureDescription(SpellerRendererEuropeHigh.getBitmapForCharset(n, false), true), 0, true, (Object)this));
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$202(spellerRendererEuropeHigh$SpellerLayoutContainer, this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_charsetBig", n, (AbstractRenderer)this), this.getTextureDescription(SpellerRendererEuropeHigh.getBitmapForCharset(n, true), false), 0, true, (Object)this));
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$302(spellerRendererEuropeHigh$SpellerLayoutContainer, (int)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth());
-            } else if (spellerController$AbstractExpandableItem.type == 0) {
-                String string2 = ((SpellerController$AbstractExpandableItem$Char)spellerController$AbstractExpandableItem).getChar(this.controller.isUpperCase());
+                spellerLayoutContainer.nodeNormal = this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_charset", n, (AbstractRenderer)this), this.getTextureDescription(SpellerRendererEuropeHigh.getBitmapForCharset(n, false), true), 0, true, (Object)this);
+                spellerLayoutContainer.nodeBig = this.getEALManager().createImage3D(iWrappedNode3D, EALManager.createNodeName("item_charsetBig", n, (AbstractRenderer)this), this.getTextureDescription(SpellerRendererEuropeHigh.getBitmapForCharset(n, true), false), 0, true, (Object)this);
+                spellerLayoutContainer.size = (int)spellerLayoutContainer.nodeNormal.getWidth();
+            } else if (abstractExpandableItem.type == 0) {
+                String string2 = ((SpellerController.AbstractExpandableItem.Char)abstractExpandableItem).getChar(this.controller.isUpperCase());
                 string = EALManager.createNodeName("char_clippingParent", string2, (AbstractRenderer)this);
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$002(spellerRendererEuropeHigh$SpellerLayoutContainer, this.createCharacterNode(redrawContextHigh, string2, iWrappedNode3D, "item_char", string2));
+                spellerLayoutContainer.nodeNormal = this.createCharacterNode(redrawContextHigh, string2, iWrappedNode3D, "item_char", string2);
                 object = this.createCharacterNodeBig(string2, iWrappedNode3D, "item_charBig", string2);
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$202(spellerRendererEuropeHigh$SpellerLayoutContainer, (IWrappedNode3D)(object != null ? object : this.highlightNode));
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$302(spellerRendererEuropeHigh$SpellerLayoutContainer, (int)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth());
+                spellerLayoutContainer.nodeBig = (IWrappedNode3D)(object != null ? object : this.highlightNode);
+                spellerLayoutContainer.size = (int)spellerLayoutContainer.nodeNormal.getWidth();
             } else {
-                logChannel.log(-1601830656, "SpellerRendererEuropeHigh#createItemNode: unknown type for Expandable item (type=%1). Will not create a node", (long)spellerController$AbstractExpandableItem.type);
+                logChannel.log(100000, "SpellerRendererEuropeHigh#createItemNode: unknown type for Expandable item (type=%1). Will not create a node", (long)abstractExpandableItem.type);
                 return;
             }
-            IWrappedNode3D iWrappedNode3D2 = this.getEALManager().createNode3D(iWrappedNode3D, string, 4201542, this.controller.getHeight() + 28);
+            IWrappedNode3D iWrappedNode3D2 = this.getEALManager().createNode3D(iWrappedNode3D, string, 10000.0f, this.controller.getHeight() + 28);
             object = this.controller.getCurrentSpellerBand();
-            List list = spellerController$AbstractExpandableItem.getSubBand();
+            List list = abstractExpandableItem.getSubBand();
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
-                SpellerController$ISpellerItem spellerController$ISpellerItem2 = (SpellerController$ISpellerItem)iterator.next();
-                if (object.hasMovingDeleteButton() && spellerController$ISpellerItem2.equals(object.getDeleteButtonNeighbor())) {
+                SpellerController.ISpellerItem iSpellerItem2 = (SpellerController.ISpellerItem)iterator.next();
+                if (object.hasMovingDeleteButton() && iSpellerItem2.equals(object.getDeleteButtonNeighbor())) {
                     this.createItemNode(object.getDeleteButton(), redrawContextHigh, iWrappedNode3D);
                 }
-                this.createItemNode(spellerController$ISpellerItem2, redrawContextHigh, iWrappedNode3D2);
+                this.createItemNode(iSpellerItem2, redrawContextHigh, iWrappedNode3D2);
             }
             iWrappedNode3D2.setClipping(true);
             iWrappedNode3D2.setClippingInheritance(1);
             iWrappedNode3D2.setVisible(false);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$402(spellerRendererEuropeHigh$SpellerLayoutContainer, iWrappedNode3D2);
-        } else if (spellerController$ISpellerItem instanceof SpellerController$SingleCharItem) {
-            String string = ((SpellerController$SingleCharItem)spellerController$ISpellerItem).getChar(this.controller.isUpperCase());
+            spellerLayoutContainer.subItemNode = iWrappedNode3D2;
+        } else if (iSpellerItem instanceof SpellerController.SingleCharItem) {
+            String string = ((SpellerController.SingleCharItem)iSpellerItem).getChar(this.controller.isUpperCase());
             IWrappedNode3D iWrappedNode3D3 = this.createCharacterNode(redrawContextHigh, string, iWrappedNode3D, "item_singleChar", string);
             iWrappedNode3D3.setVisible(false);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$002(spellerRendererEuropeHigh$SpellerLayoutContainer, iWrappedNode3D3);
+            spellerLayoutContainer.nodeNormal = iWrappedNode3D3;
             IWrappedNode3D iWrappedNode3D4 = this.createCharacterNodeBig(string, iWrappedNode3D, "item_singleCharBig", string);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$202(spellerRendererEuropeHigh$SpellerLayoutContainer, iWrappedNode3D4 != null ? iWrappedNode3D4 : this.highlightNode);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$302(spellerRendererEuropeHigh$SpellerLayoutContainer, (int)iWrappedNode3D3.getWidth());
+            spellerLayoutContainer.nodeBig = iWrappedNode3D4 != null ? iWrappedNode3D4 : this.highlightNode;
+            spellerLayoutContainer.size = (int)iWrappedNode3D3.getWidth();
         }
-        SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).setVisible(false);
-        this.layoutData.put(spellerController$ISpellerItem, spellerRendererEuropeHigh$SpellerLayoutContainer);
+        spellerLayoutContainer.nodeBig.setVisible(false);
+        this.layoutData.put(iSpellerItem, spellerLayoutContainer);
     }
 
     private IWrappedNode3D createCharacterNodeBig(String string, IWrappedNode3D iWrappedNode3D, String string2, String string3) {
         if (string.equals(" ")) {
-            TextureDescription textureDescription = this.getBitmapForButton(SpellerController$SpellerButtonType.SPACE, false);
+            TextureDescription textureDescription = this.getBitmapForButton(SpellerController.SpellerButtonType.SPACE, false);
             if (textureDescription == null) {
                 return null;
             }
@@ -364,7 +353,7 @@ implements ISpellerRenderer {
 
     private IWrappedNode3D createCharacterNode(RedrawContextHigh redrawContextHigh, String string, IWrappedNode3D iWrappedNode3D, String string2, String string3) {
         if (string.equals(" ")) {
-            TextureDescription textureDescription = this.getBitmapForButton(SpellerController$SpellerButtonType.SPACE, false);
+            TextureDescription textureDescription = this.getBitmapForButton(SpellerController.SpellerButtonType.SPACE, false);
             if (textureDescription == null) {
                 return null;
             }
@@ -375,17 +364,17 @@ implements ISpellerRenderer {
         return iWrappedNode3DText;
     }
 
-    private TextureDescription getBitmapForButton(SpellerController$SpellerButtonType spellerController$SpellerButtonType, boolean bl) {
-        if (bl && spellerController$SpellerButtonType.getHighlightedBitmapIndex() != -1) {
-            return this.getEALManager().createTextureDescription(spellerController$SpellerButtonType.getHighlightedBitmapIndex(), true, this.getInitContext().getScreenID());
+    private TextureDescription getBitmapForButton(SpellerController.SpellerButtonType spellerButtonType, boolean bl) {
+        if (bl && spellerButtonType.getHighlightedBitmapIndex() != -1) {
+            return this.getEALManager().createTextureDescription(spellerButtonType.getHighlightedBitmapIndex(), true, this.getInitContext().getScreenID());
         }
-        if (!bl && spellerController$SpellerButtonType.getBitmapIndex() != -1) {
-            return this.getEALManager().createTextureDescription(spellerController$SpellerButtonType.getBitmapIndex(), true, this.getInitContext().getScreenID());
+        if (!bl && spellerButtonType.getBitmapIndex() != -1) {
+            return this.getEALManager().createTextureDescription(spellerButtonType.getBitmapIndex(), true, this.getInitContext().getScreenID());
         }
-        if (this.controller.isMultilineAlternative() && spellerController$SpellerButtonType == SpellerController$SpellerButtonType.CLOSE) {
+        if (this.controller.isMultilineAlternative() && spellerButtonType == SpellerController.SpellerButtonType.CLOSE) {
             return this.getEALManager().createTextureDescription(HMIImageConstantsSystem.mib2_speller_button_WordAlternatives_close, true, this.getInitContext().getScreenID());
         }
-        int n = 9 + spellerController$SpellerButtonType.getEnumValue() * 2 + (bl ? 1 : 0);
+        int n = 9 + spellerButtonType.getEnumValue() * 2 + (bl ? 1 : 0);
         return this.getTextureDescription(n, true);
     }
 
@@ -428,24 +417,24 @@ implements ISpellerRenderer {
     }
 
     private void clearSpellerBandNodes() {
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer;
+        SpellerLayoutContainer spellerLayoutContainer;
         if (this.layoutData == null || this.layoutData.values() == null) {
             return;
         }
         Iterator iterator = this.layoutData.values().iterator();
         while (iterator.hasNext()) {
-            spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)iterator.next();
-            if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer) != null && SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer) != this.highlightNode) {
-                this.getEALManager().destroy(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer));
+            spellerLayoutContainer = (SpellerLayoutContainer)iterator.next();
+            if (spellerLayoutContainer.nodeBig != null && spellerLayoutContainer.nodeBig != this.highlightNode) {
+                this.getEALManager().destroy(spellerLayoutContainer.nodeBig);
             }
-            if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer) == null) continue;
-            this.getEALManager().destroy(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer));
+            if (spellerLayoutContainer.nodeNormal == null) continue;
+            this.getEALManager().destroy(spellerLayoutContainer.nodeNormal);
         }
         iterator = this.layoutData.values().iterator();
         while (iterator.hasNext()) {
-            spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)iterator.next();
-            if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer) == null) continue;
-            this.getEALManager().destroy(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer));
+            spellerLayoutContainer = (SpellerLayoutContainer)iterator.next();
+            if (spellerLayoutContainer.subItemNode == null) continue;
+            this.getEALManager().destroy(spellerLayoutContainer.subItemNode);
         }
         this.getEALManager().destroy(this.highlightNode);
         this.highlightNode = null;
@@ -479,44 +468,44 @@ implements ISpellerRenderer {
         int n = 0;
         while (iterator.hasNext()) {
             boolean bl;
-            SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer;
+            SpellerLayoutContainer spellerLayoutContainer;
             Object object = iterator.next();
             if (object == null) {
                 spellerLogChannel.log(1000, "SpellerRendererEuropeHigh#layout: null item in speller!");
             }
-            if ((spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(object)) == null) {
+            if ((spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(object)) == null) {
                 spellerLogChannel.log(10000, "SpellerRendererEuropeHigh#layout: cannot find layoutItem for entry in the speller (spellerItem = %1)", object);
                 continue;
             }
-            int n2 = SpellerController.isButtonItem(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer)) ? 12 : 15;
+            int n2 = SpellerController.isButtonItem(spellerLayoutContainer.item) ? 12 : 15;
             n += n2;
-            if (this.controller.hasMovingDeleteButton() && SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getParent() != iWrappedNode3D) {
-                this.setPosition(spellerRendererEuropeHigh$SpellerLayoutContainer, (int)((float)n + iWrappedNode3D.getX()));
+            if (this.controller.hasMovingDeleteButton() && spellerLayoutContainer.nodeNormal.getParent() != iWrappedNode3D) {
+                this.setPosition(spellerLayoutContainer, (int)((float)n + iWrappedNode3D.getX()));
             } else {
-                this.setPosition(spellerRendererEuropeHigh$SpellerLayoutContainer, n);
+                this.setPosition(spellerLayoutContainer, n);
             }
-            n += SpellerRendererEuropeHigh$SpellerLayoutContainer.access$300(spellerRendererEuropeHigh$SpellerLayoutContainer);
-            boolean bl2 = bl = SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer) == this.controller.getItemToClose();
-            if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer) == null || ((SpellerController$AbstractExpandableItem)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer)).isClosed() && !bl) continue;
-            IWrappedNode3D iWrappedNode3D2 = SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer);
+            n += spellerLayoutContainer.size;
+            boolean bl2 = bl = spellerLayoutContainer.item == this.controller.getItemToClose();
+            if (spellerLayoutContainer.subItemNode == null || ((SpellerController.AbstractExpandableItem)spellerLayoutContainer.item).isClosed() && !bl) continue;
+            IWrappedNode3D iWrappedNode3D2 = spellerLayoutContainer.subItemNode;
             iWrappedNode3D2.setPosition(n, 0.0f, 0.0f);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$502(spellerRendererEuropeHigh$SpellerLayoutContainer, this.layout(this.controller.getSubBandIterator((SpellerController$AbstractExpandableItem)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer)), SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer)));
+            spellerLayoutContainer.subBandSize = this.layout(this.controller.getSubBandIterator((SpellerController.AbstractExpandableItem)spellerLayoutContainer.item), spellerLayoutContainer.subItemNode);
             iWrappedNode3D2.setVisible(true);
             float f2 = this.controller.getOpenProgress();
-            if (f2 != 32959) {
+            if (f2 != -1.0f) {
                 if (bl) {
                     f2 = 1.0f - f2;
                 }
-                float f3 = f2 / -842249153;
+                float f3 = f2 / 0.8f;
                 f3 = Math.min(1.0f, f3);
-                int n3 = (int)((this.currentCursorWidth - (float)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$300(spellerRendererEuropeHigh$SpellerLayoutContainer)) / 2.0f + 63);
-                float f4 = (1.0f - f3) * (float)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$500(spellerRendererEuropeHigh$SpellerLayoutContainer);
-                float f5 = f3 * (float)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$500(spellerRendererEuropeHigh$SpellerLayoutContainer);
-                iWrappedNode3D2.setClippingRectangle(f4 + (float)n3, 8385, f5, iWrappedNode3D2.getHeight());
+                int n3 = (int)((this.currentCursorWidth - (float)spellerLayoutContainer.size) / 2.0f + 0.5f);
+                float f4 = (1.0f - f3) * (float)spellerLayoutContainer.subBandSize;
+                float f5 = f3 * (float)spellerLayoutContainer.subBandSize;
+                iWrappedNode3D2.setClippingRectangle(f4 + (float)n3, -10.0f, f5, iWrappedNode3D2.getHeight());
                 iWrappedNode3D2.useClippingRectangle(true);
                 iWrappedNode3D2.setPosition((float)n - f4, 0.0f, 0.0f);
-                float f6 = (f2 - -842249153) * 41024;
-                f6 = Math.max((float)-842249154, f6);
+                float f6 = (f2 - 0.8f) * 5.0f;
+                f6 = Math.max(0.2f, f6);
                 iWrappedNode3D2.setOpacity(f6);
                 if (!bl) {
                     this.startXOpeningItem = n;
@@ -525,32 +514,31 @@ implements ISpellerRenderer {
                 n = (int)((float)n + f5);
                 continue;
             }
-            iWrappedNode3D2.setClippingRectangle(0.0f, 8385, SpellerRendererEuropeHigh$SpellerLayoutContainer.access$500(spellerRendererEuropeHigh$SpellerLayoutContainer), iWrappedNode3D2.getHeight());
-            n += SpellerRendererEuropeHigh$SpellerLayoutContainer.access$500(spellerRendererEuropeHigh$SpellerLayoutContainer);
+            iWrappedNode3D2.setClippingRectangle(0.0f, -10.0f, spellerLayoutContainer.subBandSize, iWrappedNode3D2.getHeight());
+            n += spellerLayoutContainer.subBandSize;
             this.startXOpeningItem = -1;
             this.endXOpeningItem = -1;
         }
         return n;
     }
 
-    private void setPosition(SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer, int n) {
-        int n2;
-        n = (int)((float)n + ((float)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$300(spellerRendererEuropeHigh$SpellerLayoutContainer) - SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth()) / 2.0f);
-        int n22 = this.baseline;
-        if (!(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer) instanceof IWrappedNode3DText)) {
-            n2 = 8257 - SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getHeight() / 2.0f + 63;
+    private void setPosition(SpellerLayoutContainer spellerLayoutContainer, int n) {
+        n = (int)((float)n + ((float)spellerLayoutContainer.size - spellerLayoutContainer.nodeNormal.getWidth()) / 2.0f);
+        int n2 = this.baseline;
+        if (!(spellerLayoutContainer.nodeNormal instanceof IWrappedNode3DText)) {
+            n2 = (int)(10.0f - spellerLayoutContainer.nodeNormal.getHeight() / 2.0f + 0.5f);
         }
-        if (SpellerRendererEuropeHigh.isDeleteButton(spellerRendererEuropeHigh$SpellerLayoutContainer) && this.isTouchControllerArabia()) {
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).setHorizontalFlip(this.isDeleteIconFlipped);
+        if (SpellerRendererEuropeHigh.isDeleteButton(spellerLayoutContainer) && this.isTouchControllerArabia()) {
+            spellerLayoutContainer.nodeNormal.setHorizontalFlip(this.isDeleteIconFlipped);
         }
-        SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).setPosition(n, n2, 0.0f);
-        SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).setVisible(true);
-        if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer) != null) {
-            n = (int)((float)n + (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth() - SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth()) / 2.0f);
-            if (SpellerRendererEuropeHigh.isDeleteButton(spellerRendererEuropeHigh$SpellerLayoutContainer) && this.isTouchControllerArabia()) {
-                SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).setHorizontalFlip(this.isDeleteIconFlipped);
+        spellerLayoutContainer.nodeNormal.setPosition(n, n2, 0.0f);
+        spellerLayoutContainer.nodeNormal.setVisible(true);
+        if (spellerLayoutContainer.nodeBig != null) {
+            n = (int)((float)n + (spellerLayoutContainer.nodeNormal.getWidth() - spellerLayoutContainer.nodeBig.getWidth()) / 2.0f);
+            if (SpellerRendererEuropeHigh.isDeleteButton(spellerLayoutContainer) && this.isTouchControllerArabia()) {
+                spellerLayoutContainer.nodeBig.setHorizontalFlip(this.isDeleteIconFlipped);
             }
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).setPosition(n, n2 - 1, 0.0f);
+            spellerLayoutContainer.nodeBig.setPosition(n, n2 - 1, 0.0f);
         }
     }
 
@@ -558,27 +546,23 @@ implements ISpellerRenderer {
         return this.controller.getParent() != null && this.controller.getParent() instanceof TouchControllerArabia;
     }
 
-    protected static boolean isDeleteButton(SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer) {
-        return spellerRendererEuropeHigh$SpellerLayoutContainer != null && SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer) instanceof SpellerController$ButtonItem && ((SpellerController$ButtonItem)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer)).getButtonType() == SpellerController$SpellerButtonType.DELETE;
+    protected static boolean isDeleteButton(SpellerLayoutContainer spellerLayoutContainer) {
+        return spellerLayoutContainer != null && spellerLayoutContainer.item instanceof SpellerController.ButtonItem && ((SpellerController.ButtonItem)spellerLayoutContainer.item).getButtonType() == SpellerController.SpellerButtonType.DELETE;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         float f2 = this.controller.getWidth() + 0 + this.xOffsetRight;
         float f3 = this.controller.getHeight() + 12 + 28;
-        this.setNodeForClippingProperties(f2 += this.controller.isMultilineAlternative() ? 41025 : (int)0.0f, f3 += this.controller.isMultilineAlternative() ? 8257 : (int)0.0f);
+        this.setNodeForClippingProperties(f2 += this.controller.isMultilineAlternative() ? 20.0f : 0.0f, f3 += this.controller.isMultilineAlternative() ? 10.0f : 0.0f);
         this.setDeleteDirection();
         this.setBoxNodeClippProperties();
         this.updateLayoutAndColors();
-        SpellerController$ISpellerItem spellerController$ISpellerItem = this.controller.getCurrentFocus();
-        float f4 = this.handleCursorPositioning(spellerController$ISpellerItem);
+        SpellerController.ISpellerItem iSpellerItem = this.controller.getCurrentFocus();
+        float f4 = this.handleCursorPositioning(iSpellerItem);
         this.setNodeRibbonPosition();
         this.handleRibbonScrolling(f4);
         this.relPosCursor = this.cursorNode.getX() + this.nodeRibbon.getX();
-        this.setIfCursorAnimating(spellerController$ISpellerItem, redrawContextHigh);
+        this.setIfCursorAnimating(iSpellerItem, redrawContextHigh);
         this.setIfMultilineAlternative(f2, f3);
         this.nodeForClipping.setOpacity(this.controller.getRenderOpacity());
         if (this.boxNode != null) {
@@ -598,9 +582,9 @@ implements ISpellerRenderer {
         }
     }
 
-    private void setIfCursorAnimating(SpellerController$ISpellerItem spellerController$ISpellerItem, RedrawContextHigh redrawContextHigh) {
+    private void setIfCursorAnimating(SpellerController.ISpellerItem iSpellerItem, RedrawContextHigh redrawContextHigh) {
         if (!this.controller.isCursorAnimating()) {
-            this.setPropertiesOfLayoutItem(spellerController$ISpellerItem, redrawContextHigh);
+            this.setPropertiesOfLayoutItem(iSpellerItem, redrawContextHigh);
             if (this.controller.isMultilineAlternative() && !this.controller.isFocused()) {
                 this.cursorNode.setVisible(false);
             } else {
@@ -609,7 +593,7 @@ implements ISpellerRenderer {
             this.setAutoCompletionProperties(redrawContextHigh);
         } else {
             this.nodeAutoCompletion.setVisible(false);
-            this.setProperty("spl_completionArrowVisible", 0.0f);
+            this.setProperty(PROPERTY_COMPLETION_ARROW, 0.0f);
         }
     }
 
@@ -625,7 +609,7 @@ implements ISpellerRenderer {
     private void setAutoCompletionProperties(RedrawContextHigh redrawContextHigh) {
         String string = this.controller.getAutoCompletion();
         if (this.controller.shallShowAutoCompletion()) {
-            this.setProperty("spl_completionArrowVisible", 1.0f);
+            this.setProperty(PROPERTY_COMPLETION_ARROW, 1.0f);
             this.nodeAutoCompletion.setVisible(true);
             int n = (int)this.nodeForClipping.getWidth();
             if (SpellerController.isArabia() && this.controller.getParent() != null) {
@@ -641,29 +625,29 @@ implements ISpellerRenderer {
             this.showSuggestionBackground(true);
         } else {
             this.nodeAutoCompletion.setVisible(false);
-            this.setProperty("spl_completionArrowVisible", 0.0f);
+            this.setProperty(PROPERTY_COMPLETION_ARROW, 0.0f);
             this.showSuggestionBackground(false);
         }
     }
 
-    private void setPropertiesOfLayoutItem(SpellerController$ISpellerItem spellerController$ISpellerItem, RedrawContextHigh redrawContextHigh) {
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(spellerController$ISpellerItem);
-        SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).setVisible(true);
-        SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).setVisible(false);
-        if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).getParent() == this.nodeRibbon) {
+    private void setPropertiesOfLayoutItem(SpellerController.ISpellerItem iSpellerItem, RedrawContextHigh redrawContextHigh) {
+        SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(iSpellerItem);
+        spellerLayoutContainer.nodeBig.setVisible(true);
+        spellerLayoutContainer.nodeNormal.setVisible(false);
+        if (spellerLayoutContainer.nodeBig.getParent() == this.nodeRibbon) {
             this.cursorNode.setNodeIndex(10);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).setNodeIndex(11);
+            spellerLayoutContainer.nodeBig.setNodeIndex(11);
         }
-        this.setNodeColoring(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer), SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer).isEnabled());
-        if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer) == this.highlightNode && SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer) instanceof IWrappedNode3DText) {
-            String string = ((IWrappedNode3DText)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer)).getText();
+        this.setNodeColoring(spellerLayoutContainer.nodeBig, spellerLayoutContainer.item.isEnabled());
+        if (spellerLayoutContainer.nodeBig == this.highlightNode && spellerLayoutContainer.nodeNormal instanceof IWrappedNode3DText) {
+            String string = ((IWrappedNode3DText)spellerLayoutContainer.nodeNormal).getText();
             if (this.controller.isMultilineAlternative()) {
                 this.highlightNode.setText(string, redrawContextHigh.getFont(0));
             } else {
                 this.highlightNode.setText(string, redrawContextHigh.getFont(1));
             }
-            int n = (int)(spellerRendererEuropeHigh$SpellerLayoutContainer.getAbsoluteX() + ((float)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$300(spellerRendererEuropeHigh$SpellerLayoutContainer) - SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth()) / 2.0f);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).setPosition(n, this.baseline, 0.0f);
+            int n = (int)(spellerLayoutContainer.getAbsoluteX() + ((float)spellerLayoutContainer.size - spellerLayoutContainer.nodeBig.getWidth()) / 2.0f);
+            spellerLayoutContainer.nodeBig.setPosition(n, this.baseline, 0.0f);
         }
     }
 
@@ -679,7 +663,7 @@ implements ISpellerRenderer {
     private void setNodeRibbonPosition() {
         if (this.bandStructureChanged) {
             float f2 = this.relPosCursor - this.cursorNode.getX();
-            this.nodeRibbon.setPosition(f2, 12354, 0.0f);
+            this.nodeRibbon.setPosition(f2, 44.0f, 0.0f);
             this.bandStructureChanged = false;
         }
     }
@@ -690,7 +674,7 @@ implements ISpellerRenderer {
             this.boxNodeClipp.setPosition(this.controller.getX() - 9, this.controller.getY() - 19, 0.0f);
             int n = this.controller.getWidth() - 2;
             int n2 = this.controller.getHeight() + SpellerRendererEuropeHigh.getVariantYOffset();
-            this.propertyCache.setProperty(this.boxNode, "c1_options_icon_offset", this.controller.getSpellerMode() != 4 ? (float)((int)Math.floor((float)n2 / 32832)) : 0.0f);
+            this.propertyCache.setProperty(this.boxNode, "c1_options_icon_offset", this.controller.getSpellerMode() != 4 ? (float)((int)Math.floor((float)n2 / 4.0f)) : 0.0f);
             this.propertyCache.setProperty(this.boxNode, "c1_width", (float)n);
             this.propertyCache.setProperty(this.boxNode, "c1_height", (float)n2);
             this.propertyCache.setColorProperty(this.boxNode, "c1_options_icon_color", this.colorCache[this.controller.isLockingActive() ? 2 : 0]);
@@ -760,18 +744,18 @@ implements ISpellerRenderer {
         float f2;
         this.separatorNodes = new HashMap();
         TextureDescription textureDescription = this.getEALManager().createTextureDescription(HMIImageConstantsSystem.white_pixel, false, this.getInitContext().getScreenID());
-        float f3 = f2 = this.nodeRibbon.getX() + 41024;
+        float f3 = f2 = this.nodeRibbon.getX() + 5.0f;
         SpellerIterator spellerIterator = this.controller.getSpellerIterator(false);
         while (spellerIterator.hasNext()) {
             Object object = spellerIterator.next();
-            SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(object);
+            SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(object);
             IWrappedNode3DImage iWrappedNode3DImage = this.getEALManager().createImage3D(iWrappedNode3D, "MULTILINE_SEPARATOR", textureDescription, 0, true, (Object)this);
             iWrappedNode3DImage.setModulateColor(this.colorCache[5]);
             float f4 = this.baseline + 18;
-            iWrappedNode3DImage.setScale(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth() + 20545, f4, 1.0f);
+            iWrappedNode3DImage.setScale(spellerLayoutContainer.nodeNormal.getWidth() + 13.0f, f4, 1.0f);
             float f5 = f4 - 1.0f;
             iWrappedNode3DImage.setPosition(f2, f5, 0.0f);
-            f2 += SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth() + 28737;
+            f2 += spellerLayoutContainer.nodeNormal.getWidth() + 15.0f;
             iWrappedNode3DImage.setVisible(true);
             this.separatorNodes.put(object, iWrappedNode3DImage);
         }
@@ -785,7 +769,7 @@ implements ISpellerRenderer {
         if (this.backgroundWordAlternatives == null) {
             this.backgroundWordAlternatives = this.createAlternativesNode(this.nodeForClipping.getParent());
             this.propertyCache.setProperty(this.backgroundWordAlternatives, "if_cursorWidth", 0.0f);
-            this.propertyCache.setProperty(this.backgroundWordAlternatives, "if_height", (float)8258);
+            this.propertyCache.setProperty(this.backgroundWordAlternatives, "if_height", 40.0f);
             this.propertyCache.setColorProperty(this.backgroundWordAlternatives, "if_fieldColor", this.colorCache[6]);
         }
         if (this.controller.isAlternativeArrowDown()) {
@@ -793,14 +777,14 @@ implements ISpellerRenderer {
         } else {
             this.propertyCache.setProperty(this.backgroundWordAlternatives, "if_ddsArrowState", 1.0f);
         }
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(this.controller.getFirstItem());
+        SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(this.controller.getFirstItem());
         this.propertyCache.setProperty(this.backgroundWordAlternatives, "if_spellerWidth", this.backgroundWordAlternativesWidth);
-        this.backgroundWordAlternatives.setPosition(this.nodeRibbon.getX() + 32833, (float)this.controller.getY() + spellerRendererEuropeHigh$SpellerLayoutContainer.getNodeNormal().getHeight() + (float)this.baseline - 49216, 0.0f);
+        this.backgroundWordAlternatives.setPosition(this.nodeRibbon.getX() + 16.0f, (float)this.controller.getY() + spellerLayoutContainer.getNodeNormal().getHeight() + (float)this.baseline - 6.0f, 0.0f);
         this.backgroundWordAlternatives.setVisible(true);
     }
 
     private IWrappedNode3D createAlternativesNode(IWrappedNode3D iWrappedNode3D) {
-        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName("sms_alternatives_background_texture", this), 0.0f, 0.0f, this.getKzbConstant(), "Prefabs/if_wordCompletion", this.getInitContext().getScreenID());
+        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName(SMS_ALTERNATIVES_BACKGROUND, this), 0.0f, 0.0f, this.getKzbConstant(), SMS_ALTERNATIVES_PREFAB, this.getInitContext().getScreenID());
     }
 
     private static int getResolutionBasedOffset() {
@@ -818,18 +802,18 @@ implements ISpellerRenderer {
     private void showSuggestionBackground(boolean bl) {
         if (bl) {
             float f2 = 0.0f;
-            this.suggestionX = 32960 + this.nodeAutoCompletionText.getX();
-            this.suggestionY = this.nodeAutoCompletion.getY() + 28737 - (float)SpellerRendererEuropeHigh.getResolutionBasedOffset();
-            this.suggestionW = this.nodeAutoCompletionText.getWidth() + 65;
+            this.suggestionX = -4.0f + this.nodeAutoCompletionText.getX();
+            this.suggestionY = this.nodeAutoCompletion.getY() + 15.0f - (float)SpellerRendererEuropeHigh.getResolutionBasedOffset();
+            this.suggestionW = this.nodeAutoCompletionText.getWidth() + 8.0f;
             String string = this.nodeAutoCompletionText.getText();
             if (string.charAt(string.length() - 1) == ' ') {
-                this.suggestionW -= 49216;
+                this.suggestionW -= 6.0f;
             }
-            this.suggestionH = this.nodeAutoCompletionText.getHeight() + 8257;
+            this.suggestionH = this.nodeAutoCompletionText.getHeight() + 10.0f;
             this.suggestionBackground.setPosition(this.suggestionX, this.suggestionY, f2);
             this.suggestionBackground.setScale(this.suggestionW, this.suggestionH, f2);
             this.nodeAutoCompletion.useClippingRectangle(true);
-            this.nodeAutoCompletion.setClippingRectangle(this.suggestionX, this.suggestionY + 32832, this.suggestionW, this.suggestionH);
+            this.nodeAutoCompletion.setClippingRectangle(this.suggestionX, this.suggestionY + 4.0f, this.suggestionW, this.suggestionH);
         }
         this.suggestionBackground.setVisible(bl);
     }
@@ -842,17 +826,14 @@ implements ISpellerRenderer {
         SpellerIterator spellerIterator = this.controller.getSpellerIterator(null, true);
         while (spellerIterator.hasNext()) {
             Object object = spellerIterator.next();
-            SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(object);
-            boolean bl = SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer).isEnabled();
-            this.setNodeColoring(SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000(spellerRendererEuropeHigh$SpellerLayoutContainer), bl);
+            SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(object);
+            boolean bl = spellerLayoutContainer.item.isEnabled();
+            this.setNodeColoring(spellerLayoutContainer.nodeNormal, bl);
         }
-        this.setColorProperty("Color", this.colorCache[this.controller.isEnabled() ? 0 : 2]);
+        this.setColorProperty(PROPERTY_COLOR, this.colorCache[this.controller.isEnabled() ? 0 : 2]);
         this.isColorRefreshNeeded = false;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void setNodeColoring(IWrappedNode3D iWrappedNode3D, boolean bl) {
         if (iWrappedNode3D instanceof IWrappedNode3DText) {
             int n = this.colorCache[1];
@@ -861,7 +842,7 @@ implements ISpellerRenderer {
             }
             ((IWrappedNode3DText)iWrappedNode3D).setColor(n);
         } else {
-            iWrappedNode3D.setOpacity(bl ? 1.0f : (float)-1701209794);
+            iWrappedNode3D.setOpacity(bl ? 1.0f : 0.3f);
         }
     }
 
@@ -869,7 +850,7 @@ implements ISpellerRenderer {
         return this.needsRelayout;
     }
 
-    private float handleCursorPositioning(SpellerController$ISpellerItem spellerController$ISpellerItem) {
+    private float handleCursorPositioning(SpellerController.ISpellerItem iSpellerItem) {
         if (this.cursorNode != null) {
             float f2 = 0.0f;
             float f3 = 0.0f;
@@ -880,26 +861,26 @@ implements ISpellerRenderer {
                 f3 = this.startCursorPos + (f5 - this.startCursorPos) * f6;
                 f2 = this.startCursorWidth + (f4 - this.startCursorWidth) * f6;
             } else {
-                f2 = this.calculateCursorWidth(spellerController$ISpellerItem);
-                f3 = this.calculateCursorPos(spellerController$ISpellerItem);
+                f2 = this.calculateCursorWidth(iSpellerItem);
+                f3 = this.calculateCursorPos(iSpellerItem);
             }
             this.cursorNode.setVisible(true);
-            this.cursorNode.setPosition(f3, 28865, 0.0f);
-            this.setProperty("spl_width", f2);
+            this.cursorNode.setPosition(f3, -15.0f, 0.0f);
+            this.setProperty(PROPERTY_CURSOR_WIDTH, f2);
             this.currentCursorWidth = f2;
             return f2;
         }
         return 0.0f;
     }
 
-    private float calculateCursorPos(SpellerController$ISpellerItem spellerController$ISpellerItem) {
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(spellerController$ISpellerItem);
+    private float calculateCursorPos(SpellerController.ISpellerItem iSpellerItem) {
+        SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(iSpellerItem);
         float f2 = 0.0f;
-        if (spellerRendererEuropeHigh$SpellerLayoutContainer != null) {
-            f2 = spellerRendererEuropeHigh$SpellerLayoutContainer.getAbsoluteX();
-            f2 += (float)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$300(spellerRendererEuropeHigh$SpellerLayoutContainer) / 2.0f - 1.0f;
+        if (spellerLayoutContainer != null) {
+            f2 = spellerLayoutContainer.getAbsoluteX();
+            f2 += (float)spellerLayoutContainer.size / 2.0f - 1.0f;
         } else {
-            spellerLogChannel.log(10000, "SpellerRenderer#calculateCursorPos: cannot find layoutInformation for spellerItem: %1!", (Object)spellerController$ISpellerItem);
+            spellerLogChannel.log(10000, "SpellerRenderer#calculateCursorPos: cannot find layoutInformation for spellerItem: %1!", (Object)iSpellerItem);
         }
         return f2;
     }
@@ -924,8 +905,8 @@ implements ISpellerRenderer {
                 if (!this.controller.isMultilineAlternative()) {
                     n = Math.max(this.endPosLastItem, n4 + 3);
                 }
-                if (this.nodeForClipping.getWidth() - (float)n4 - this.nodeRibbon.getX() < 8258) {
-                    f3 = this.nodeForClipping.getWidth() - (float)n4 - 8258;
+                if (this.nodeForClipping.getWidth() - (float)n4 - this.nodeRibbon.getX() < 40.0f) {
+                    f3 = this.nodeForClipping.getWidth() - (float)n4 - 40.0f;
                 }
                 int n5 = n2 = this.closePreviewNode.isVisible() ? 20 : 0;
                 if (n3 < -((int)f3) + 40 + n2) {
@@ -933,42 +914,41 @@ implements ISpellerRenderer {
                 }
             }
             f3 = this.nodeForClipping.getWidth() > (float)n ? (this.controller.isSmallBandCentered() ? (this.nodeForClipping.getWidth() - (float)n) / 2.0f : 0.0f) : (f3 > 0.0f ? 0.0f : Math.max(f3, this.nodeForClipping.getWidth() - (float)n));
-            if (f3 < 8385) {
+            if (f3 < -10.0f) {
                 this.closePreviewNode.setVisible(this.controller.isCloseButtonAvailable());
             } else {
                 this.closePreviewNode.setVisible(false);
             }
-            this.nodeRibbon.setPosition((int)f3, 12354, 0.0f);
+            this.nodeRibbon.setPosition((int)f3, 44.0f, 0.0f);
         }
     }
 
-    private float calculateCursorWidth(SpellerController$ISpellerItem spellerController$ISpellerItem) {
+    private float calculateCursorWidth(SpellerController.ISpellerItem iSpellerItem) {
         int n = 10;
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(spellerController$ISpellerItem);
-        if (spellerRendererEuropeHigh$SpellerLayoutContainer != null) {
-            n = this.calculateHighlightedItemSize(spellerRendererEuropeHigh$SpellerLayoutContainer);
+        SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(iSpellerItem);
+        if (spellerLayoutContainer != null) {
+            n = this.calculateHighlightedItemSize(spellerLayoutContainer);
         } else {
-            spellerLogChannel.log(10000, "SpellerRenderer#calculateCursorWidth: cannot find layoutInformation for spellerItem: %1!", (Object)spellerController$ISpellerItem);
+            spellerLogChannel.log(10000, "SpellerRenderer#calculateCursorWidth: cannot find layoutInformation for spellerItem: %1!", (Object)iSpellerItem);
         }
-        n += SpellerController.isButtonItem(spellerController$ISpellerItem) ? 10 : 18;
+        n += SpellerController.isButtonItem(iSpellerItem) ? 10 : 18;
         n = Math.max(n, 32);
         return n;
     }
 
-    private int calculateHighlightedItemSize(SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer) {
+    private int calculateHighlightedItemSize(SpellerLayoutContainer spellerLayoutContainer) {
         int n = 0;
-        if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer) != this.highlightNode) {
-            n = (int)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200(spellerRendererEuropeHigh$SpellerLayoutContainer).getWidth();
-        } else if (SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer) instanceof SpellerController$ICharacterSpellerItem) {
-            String string = ((SpellerController$ICharacterSpellerItem)SpellerRendererEuropeHigh$SpellerLayoutContainer.access$100(spellerRendererEuropeHigh$SpellerLayoutContainer)).getChar(this.controller.isUpperCase());
+        if (spellerLayoutContainer.nodeBig != this.highlightNode) {
+            n = (int)spellerLayoutContainer.nodeBig.getWidth();
+        } else if (spellerLayoutContainer.item instanceof SpellerController.ICharacterSpellerItem) {
+            String string = ((SpellerController.ICharacterSpellerItem)spellerLayoutContainer.item).getChar(this.controller.isUpperCase());
             n = this.getEALManager().getTextWidth(string, this.highlightNode.getFont());
         } else {
-            n = SpellerRendererEuropeHigh$SpellerLayoutContainer.access$300(spellerRendererEuropeHigh$SpellerLayoutContainer);
+            n = spellerLayoutContainer.size;
         }
         return n;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNode();
         this.destroyColors();
@@ -979,7 +959,6 @@ implements ISpellerRenderer {
         this.colorCache = null;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -992,36 +971,32 @@ implements ISpellerRenderer {
         return 100;
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/speller_bracket";
     }
 
-    @Override
     protected String getEALNodeName() {
         return "speller_cursor_";
     }
 
-    @Override
-    public void startCursorAnimation(SpellerController$ISpellerItem spellerController$ISpellerItem, SpellerController$ISpellerItem spellerController$ISpellerItem2) {
+    public void startCursorAnimation(SpellerController.ISpellerItem iSpellerItem, SpellerController.ISpellerItem iSpellerItem2) {
         if (this.nodeForClipping == null) {
             return;
         }
-        this.targetItem = spellerController$ISpellerItem2;
-        if (spellerController$ISpellerItem != null) {
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$200((SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(spellerController$ISpellerItem)).setVisible(false);
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$000((SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(spellerController$ISpellerItem)).setVisible(true);
+        this.targetItem = iSpellerItem2;
+        if (iSpellerItem != null) {
+            ((SpellerLayoutContainer)this.layoutData.get(iSpellerItem)).nodeBig.setVisible(false);
+            ((SpellerLayoutContainer)this.layoutData.get(iSpellerItem)).nodeNormal.setVisible(true);
             this.cursorNode.setNodeIndex(-10);
-            this.startCursorWidth = this.calculateCursorWidth(spellerController$ISpellerItem);
-            this.startCursorPos = this.calculateCursorPos(spellerController$ISpellerItem);
+            this.startCursorWidth = this.calculateCursorWidth(iSpellerItem);
+            this.startCursorPos = this.calculateCursorPos(iSpellerItem);
         } else {
             this.startCursorWidth = this.currentCursorWidth;
             this.startCursorPos = this.cursorNode.getX();
         }
     }
 
-    @Override
-    public void closeItem(SpellerController$AbstractExpandableItem spellerController$AbstractExpandableItem) {
+    public void closeItem(SpellerController.AbstractExpandableItem abstractExpandableItem) {
         if (this.layoutData == null) {
             return;
         }
@@ -1029,36 +1004,31 @@ implements ISpellerRenderer {
         this.needsRelayout = true;
         this.startXOpeningItem = -1;
         this.endXOpeningItem = -1;
-        SpellerRendererEuropeHigh$SpellerLayoutContainer spellerRendererEuropeHigh$SpellerLayoutContainer = (SpellerRendererEuropeHigh$SpellerLayoutContainer)this.layoutData.get(spellerController$AbstractExpandableItem);
-        if (spellerRendererEuropeHigh$SpellerLayoutContainer != null && SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer) != null) {
-            SpellerRendererEuropeHigh$SpellerLayoutContainer.access$400(spellerRendererEuropeHigh$SpellerLayoutContainer).setVisible(false);
+        SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)this.layoutData.get(abstractExpandableItem);
+        if (spellerLayoutContainer != null && spellerLayoutContainer.subItemNode != null) {
+            spellerLayoutContainer.subItemNode.setVisible(false);
         }
     }
 
-    @Override
     public void openItem() {
         this.bandStructureChanged = true;
         this.needsRelayout = true;
         this.isColorRefreshNeeded = true;
     }
 
-    @Override
     public void switchCase() {
         this.caseSwitchHappened = true;
     }
 
-    @Override
     public void deleteMoved() {
         this.bandStructureChanged = true;
         this.needsRelayout = true;
     }
 
-    @Override
     public void refreshItemColors() {
         this.isColorRefreshNeeded = true;
     }
 
-    @Override
     public void switchCharSet() {
         this.destroyNode();
     }
@@ -1083,9 +1053,47 @@ implements ISpellerRenderer {
         return iWrappedNode3DImage;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 7;
+    }
+
+    public final class SpellerLayoutContainer {
+        private SpellerController.ISpellerItem item;
+        private int size = -1;
+        private int subBandSize = -1;
+        private IWrappedNode3D nodeBig;
+        private IWrappedNode3D nodeNormal;
+        private IWrappedNode3D subItemNode;
+
+        public IWrappedNode3D getNodeBig() {
+            return this.nodeBig;
+        }
+
+        public IWrappedNode3D getNodeNormal() {
+            return this.nodeNormal;
+        }
+
+        public SpellerController.ISpellerItem getSpellerItem() {
+            return this.item;
+        }
+
+        float getAbsoluteX() {
+            float f2 = this.nodeNormal.getX();
+            if (this.item instanceof SpellerController.SingleCharItem && ((SpellerController.SingleCharItem)this.item).getParent() != null) {
+                SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)SpellerRendererEuropeHigh.this.layoutData.get(((SpellerController.SingleCharItem)this.item).getParent());
+                f2 += spellerLayoutContainer.subItemNode.getX();
+            }
+            return f2;
+        }
+
+        float getAbsoluteY() {
+            float f2 = this.nodeNormal.getY();
+            if (this.item instanceof SpellerController.SingleCharItem && ((SpellerController.SingleCharItem)this.item).getParent() != null) {
+                SpellerLayoutContainer spellerLayoutContainer = (SpellerLayoutContainer)SpellerRendererEuropeHigh.this.layoutData.get(((SpellerController.SingleCharItem)this.item).getParent());
+                f2 += spellerLayoutContainer.subItemNode.getY();
+            }
+            return f2;
+        }
     }
 }
 

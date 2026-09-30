@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.hmisync.car.zeroemission;
 
 import de.esolutions.fw.comm.asi.hmisync.car.zeroemission.ASIHMISyncCarZeroEmissionReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarZeroEmissionS {
-    default public void setNotification(ASIHMISyncCarZeroEmissionReply aSIHMISyncCarZeroEmissionReply) {
-    }
+    public void setNotification(ASIHMISyncCarZeroEmissionReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncCarZeroEmissionReply aSIHMISyncCarZeroEmissionReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncCarZeroEmissionReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncCarZeroEmissionReply aSIHMISyncCarZeroEmissionReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncCarZeroEmissionReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncCarZeroEmissionReply aSIHMISyncCarZeroEmissionReply) {
-    }
+    public void clearNotification(ASIHMISyncCarZeroEmissionReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncCarZeroEmissionReply aSIHMISyncCarZeroEmissionReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncCarZeroEmissionReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncCarZeroEmissionReply aSIHMISyncCarZeroEmissionReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncCarZeroEmissionReply var2) throws MethodException;
 }
 

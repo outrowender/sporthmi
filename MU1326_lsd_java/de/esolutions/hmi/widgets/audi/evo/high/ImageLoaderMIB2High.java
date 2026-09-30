@@ -16,13 +16,13 @@ import java.io.InputStream;
 
 public class ImageLoaderMIB2High
 extends AbstractImageLoader {
-    public static final int CACHE_SIZE_GUIDE_IMAGES;
-    public static final int CACHE_SIZE_RESOURCE_LOCATOR_PATH;
-    public static final int CACHE_SIZE_RESOURCE_LOCATOR_ID;
+    public static final int CACHE_SIZE_GUIDE_IMAGES = 4000000;
+    public static final int CACHE_SIZE_RESOURCE_LOCATOR_PATH = 3500000;
+    public static final int CACHE_SIZE_RESOURCE_LOCATOR_ID = 500000;
     protected EALManager ealManager;
 
     public ImageLoaderMIB2High() {
-        super(605440, -530107136, 547424000);
+        super(4000000, 3500000, 500000);
     }
 
     public ImageLoaderMIB2High(EALManager eALManager) {
@@ -30,7 +30,6 @@ extends AbstractImageLoader {
         this.ealManager = eALManager;
     }
 
-    @Override
     public Object getErrorImage() {
         if (this.ealManager == null) {
             return null;
@@ -41,69 +40,55 @@ extends AbstractImageLoader {
         return this.ealManager.getHMIImage(HMIImageConstantsSystem.empty_image, -1);
     }
 
-    @Override
     public Object getEmptyImage() {
         return this.ealManager == null ? null : this.ealManager.getHMIImage(HMIImageConstantsSystem.empty_image, -1);
     }
 
-    @Override
     public int getRealImageSize(int n, int n2, int n3) {
         return 1;
     }
 
-    @Override
     protected void destroyEmptyImage() {
     }
 
-    @Override
     protected void destroyErrorImage() {
     }
 
-    @Override
     protected int getDefaultFormat() {
         return 6;
     }
 
-    @Override
     protected int getWidth(Object object) {
         return 1;
     }
 
-    @Override
     protected int getHeight(Object object) {
         return 1;
     }
 
-    @Override
     protected Object loadViaPath(String string, int n, int n2) {
         return new HMIImage(new File(string).getAbsolutePath(), n, n2);
     }
 
-    @Override
     protected Object loadViaStream(InputStream inputStream, int n, int n2) {
         throw new RuntimeException("Loading via stream is not yet supported");
     }
 
-    @Override
     protected Object loadViaID(int n, int n2, int n3) {
         return "c:\\temp\\testhighway.png";
     }
 
-    @Override
     public void destroyImage(Object object) {
     }
 
-    @Override
     protected LRUCache createLRUCache(int n) {
         return new LRUCacheEAL(n, this);
     }
 
-    @Override
     protected int getAutoFormat(int n) {
         return TargetImageInfo.getImageType(n);
     }
 
-    @Override
     protected int getImageFlags(int n) {
         return TargetImageInfo.getImageFlags(n);
     }

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.mirrorlink.impl.DisplayCapabilitiesSerializer;
 import de.esolutions.fw.comm.dsi.mirrorlink.impl.IconCapabilitiesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.ClientCapabilities;
 import org.dsi.ifc.mirrorlink.DisplayCapabilities;
 import org.dsi.ifc.mirrorlink.IconCapabilities;
 
 public class ClientCapabilitiesSerializer {
-    public static void putOptionalClientCapabilities(ISerializer iSerializer, ClientCapabilities clientCapabilities) {
+    public static void putOptionalClientCapabilities(ISerializer iSerializer, ClientCapabilities clientCapabilities) throws SerializerException {
         boolean bl = clientCapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ClientCapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalClientCapabilitiesVarArray(ISerializer iSerializer, ClientCapabilities[] clientCapabilitiesArray) {
+    public static void putOptionalClientCapabilitiesVarArray(ISerializer iSerializer, ClientCapabilities[] clientCapabilitiesArray) throws SerializerException {
         boolean bl = clientCapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ClientCapabilitiesSerializer {
         }
     }
 
-    public static ClientCapabilities getOptionalClientCapabilities(IDeserializer iDeserializer) {
+    public static ClientCapabilities getOptionalClientCapabilities(IDeserializer iDeserializer) throws SerializerException {
         ClientCapabilities clientCapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ClientCapabilitiesSerializer {
         return clientCapabilities;
     }
 
-    public static ClientCapabilities[] getOptionalClientCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static ClientCapabilities[] getOptionalClientCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClientCapabilities[] clientCapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

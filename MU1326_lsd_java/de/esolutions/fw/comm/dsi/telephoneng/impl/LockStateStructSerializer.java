@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.LockStateStruct;
 
 public class LockStateStructSerializer {
-    public static void putOptionalLockStateStruct(ISerializer iSerializer, LockStateStruct lockStateStruct) {
+    public static void putOptionalLockStateStruct(ISerializer iSerializer, LockStateStruct lockStateStruct) throws SerializerException {
         boolean bl = lockStateStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class LockStateStructSerializer {
         }
     }
 
-    public static void putOptionalLockStateStructVarArray(ISerializer iSerializer, LockStateStruct[] lockStateStructArray) {
+    public static void putOptionalLockStateStructVarArray(ISerializer iSerializer, LockStateStruct[] lockStateStructArray) throws SerializerException {
         boolean bl = lockStateStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class LockStateStructSerializer {
         }
     }
 
-    public static LockStateStruct getOptionalLockStateStruct(IDeserializer iDeserializer) {
+    public static LockStateStruct getOptionalLockStateStruct(IDeserializer iDeserializer) throws SerializerException {
         LockStateStruct lockStateStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class LockStateStructSerializer {
         return lockStateStruct;
     }
 
-    public static LockStateStruct[] getOptionalLockStateStructVarArray(IDeserializer iDeserializer) {
+    public static LockStateStruct[] getOptionalLockStateStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         LockStateStruct[] lockStateStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

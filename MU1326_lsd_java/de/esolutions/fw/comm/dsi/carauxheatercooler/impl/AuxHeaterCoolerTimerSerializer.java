@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carauxheatercooler.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerTimer;
 
 public class AuxHeaterCoolerTimerSerializer {
-    public static void putOptionalAuxHeaterCoolerTimer(ISerializer iSerializer, AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
+    public static void putOptionalAuxHeaterCoolerTimer(ISerializer iSerializer, AuxHeaterCoolerTimer auxHeaterCoolerTimer) throws SerializerException {
         boolean bl = auxHeaterCoolerTimer == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class AuxHeaterCoolerTimerSerializer {
         }
     }
 
-    public static void putOptionalAuxHeaterCoolerTimerVarArray(ISerializer iSerializer, AuxHeaterCoolerTimer[] auxHeaterCoolerTimerArray) {
+    public static void putOptionalAuxHeaterCoolerTimerVarArray(ISerializer iSerializer, AuxHeaterCoolerTimer[] auxHeaterCoolerTimerArray) throws SerializerException {
         boolean bl = auxHeaterCoolerTimerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class AuxHeaterCoolerTimerSerializer {
         }
     }
 
-    public static AuxHeaterCoolerTimer getOptionalAuxHeaterCoolerTimer(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerTimer getOptionalAuxHeaterCoolerTimer(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerTimer auxHeaterCoolerTimer = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class AuxHeaterCoolerTimerSerializer {
         return auxHeaterCoolerTimer;
     }
 
-    public static AuxHeaterCoolerTimer[] getOptionalAuxHeaterCoolerTimerVarArray(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerTimer[] getOptionalAuxHeaterCoolerTimerVarArray(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerTimer[] auxHeaterCoolerTimerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

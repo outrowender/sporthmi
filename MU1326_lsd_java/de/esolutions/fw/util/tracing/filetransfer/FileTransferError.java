@@ -4,12 +4,12 @@
 package de.esolutions.fw.util.tracing.filetransfer;
 
 public class FileTransferError {
-    public static final byte ERROR_IN_OPERATION;
-    public static final byte ERROR_SENDING_OPERATION_DOWNLOAD;
-    public static final byte ERROR_SENDING_OPERATION_STATUS;
-    public static final byte ERROR_SEND_REQUEST_FAILED;
-    public static final byte ERROR_RECEIVED_INVALID_DATA;
-    public static final byte ERROR_SESSION_END_DETECTED;
+    public static final byte ERROR_IN_OPERATION = 10;
+    public static final byte ERROR_SENDING_OPERATION_DOWNLOAD = 20;
+    public static final byte ERROR_SENDING_OPERATION_STATUS = 21;
+    public static final byte ERROR_SEND_REQUEST_FAILED = 30;
+    public static final byte ERROR_RECEIVED_INVALID_DATA = 40;
+    public static final byte ERROR_SESSION_END_DETECTED = 60;
     private Exception exception = null;
     private byte errorCode = (byte)-1;
     private String errorMessage = null;
@@ -35,7 +35,7 @@ public class FileTransferError {
                 return "Exit or Init Message received, Transfer canceled ";
             }
         }
-        return new StringBuffer().append("no error message found for errorcode : ").append(by).toString();
+        return "no error message found for errorcode : " + by;
     }
 
     public FileTransferError(byte by) {
@@ -74,13 +74,13 @@ public class FileTransferError {
     public String toString() {
         String string = "FileTransferError: ";
         if (this.exception != null) {
-            string = new StringBuffer().append(string).append("Exception: ").append(super.getClass()).append(", ").append(this.exception.getMessage()).toString();
+            string = string + "Exception: " + this.exception.getClass() + ", " + this.exception.getMessage();
         }
         if (this.errorCode != -1) {
-            string = new StringBuffer().append(string).append("ErrorCode: ").append(this.errorCode).append(" ").toString();
+            string = string + "ErrorCode: " + this.errorCode + " ";
         }
         if (this.errorMessage != null) {
-            string = new StringBuffer().append(string).append("ErrorMessage: ").append(this.errorMessage).toString();
+            string = string + "ErrorMessage: " + this.errorMessage;
         }
         return string;
     }

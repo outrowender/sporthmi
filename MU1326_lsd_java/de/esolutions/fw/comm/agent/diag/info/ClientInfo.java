@@ -26,11 +26,11 @@ extends AbstractInfoBase {
     public final int durationCallMin;
     public final int durationCallMax;
     public final int durationCallAvg;
-    private static final int DEFAULT_ERROR_CODE;
-    private static final int DEFAULT_NUM_USER;
-    private static final int DEFAULT_PEER_EPOCH;
-    private static final String DEFAULT_CLASS_NAME;
-    private static final Boolean DEFAULT_IS_INCOMING;
+    private static final int DEFAULT_ERROR_CODE = 0;
+    private static final int DEFAULT_NUM_USER = 1;
+    private static final int DEFAULT_PEER_EPOCH = 1;
+    private static final String DEFAULT_CLASS_NAME = (class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler == null ? (class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler = ClientInfo.class$("de.esolutions.fw.comm.agent.client.ConnectionClientHandler")) : class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler).getName();
+    private static final Boolean DEFAULT_IS_INCOMING = new Boolean(false);
     static /* synthetic */ Class class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler;
 
     public ClientInfo(short s, short s2, int n, String string, String string2, Boolean bl, int n2, int n3, int n4, String string3, long l, long l2, int[] nArray, int[] nArray2) {
@@ -51,7 +51,7 @@ extends AbstractInfoBase {
             this.durationInternalMax = nArray[1];
             this.durationInternalAvg = nArray[2];
         } else {
-            this.durationInternalMin = -129;
+            this.durationInternalMin = Integer.MAX_VALUE;
             this.durationInternalMax = 0;
             this.durationInternalAvg = 0;
         }
@@ -60,19 +60,17 @@ extends AbstractInfoBase {
             this.durationCallMax = nArray2[1];
             this.durationCallAvg = nArray2[2];
         } else {
-            this.durationCallMin = -129;
+            this.durationCallMin = Integer.MAX_VALUE;
             this.durationCallMax = 0;
             this.durationCallAvg = 0;
         }
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return null;
     }
 
-    @Override
-    protected Object fieldValueToObject(Field field) {
+    protected Object fieldValueToObject(Field field) throws IllegalArgumentException, IllegalAccessException {
         if (field == null) {
             return null;
         }
@@ -83,7 +81,7 @@ extends AbstractInfoBase {
         if (string.equals("lastDisconnectTimeStamp")) {
             return this.convertTimeStampField(super.fieldValueToObject(field));
         }
-        if (string.equals("errorCode") && this.errorCode == 0 || string.equals("errorString") && this.errorCode == 0 || string.equals("proxies") && this.proxies == 1 || string.equals("stubs") && this.stubs == 1 || string.equals("isIncoming") && this.isIncoming == null || string.equals("isIncoming") && this.isIncoming.equals(DEFAULT_IS_INCOMING) || string.equals("peerEpoch") && this.peerEpoch == 1 || string.equals("className") && this.className.equals(DEFAULT_CLASS_NAME) || string.equals("durationInternalMin") && this.durationInternalMin == -129 || string.equals("durationInternalMax") && this.durationInternalMin == -129 || string.equals("durationInternalAvg") && this.durationInternalMin == -129 || string.equals("durationCallMin") && this.durationCallMin == -129 || string.equals("durationCallMax") && this.durationCallMin == -129 || string.equals("durationCallAvg") && this.durationCallMin == -129) {
+        if (string.equals("errorCode") && this.errorCode == 0 || string.equals("errorString") && this.errorCode == 0 || string.equals("proxies") && this.proxies == 1 || string.equals("stubs") && this.stubs == 1 || string.equals("isIncoming") && this.isIncoming == null || string.equals("isIncoming") && this.isIncoming.equals(DEFAULT_IS_INCOMING) || string.equals("peerEpoch") && this.peerEpoch == 1 || string.equals("className") && this.className.equals(DEFAULT_CLASS_NAME) || string.equals("durationInternalMin") && this.durationInternalMin == Integer.MAX_VALUE || string.equals("durationInternalMax") && this.durationInternalMin == Integer.MAX_VALUE || string.equals("durationInternalAvg") && this.durationInternalMin == Integer.MAX_VALUE || string.equals("durationCallMin") && this.durationCallMin == Integer.MAX_VALUE || string.equals("durationCallMax") && this.durationCallMin == Integer.MAX_VALUE || string.equals("durationCallAvg") && this.durationCallMin == Integer.MAX_VALUE) {
             return null;
         }
         return super.fieldValueToObject(field);
@@ -96,11 +94,6 @@ extends AbstractInfoBase {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        DEFAULT_CLASS_NAME = (class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler == null ? (class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler = ClientInfo.class$("de.esolutions.fw.comm.agent.client.ConnectionClientHandler")) : class$de$esolutions$fw$comm$agent$client$ConnectionClientHandler).getName();
-        DEFAULT_IS_INCOMING = new Boolean(false);
     }
 }
 

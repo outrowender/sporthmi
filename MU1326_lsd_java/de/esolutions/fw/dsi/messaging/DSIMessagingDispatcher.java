@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.messaging;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.messaging.DSIMessagingReply;
 import de.esolutions.fw.comm.dsi.messaging.impl.DSIMessagingReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -33,13 +34,11 @@ implements DSIMessagingReply {
         super(n, (class$org$dsi$ifc$messaging$DSIMessagingListener == null ? (class$org$dsi$ifc$messaging$DSIMessagingListener = DSIMessagingDispatcher.class$("org.dsi.ifc.messaging.DSIMessagingListener")) : class$org$dsi$ifc$messaging$DSIMessagingListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicateMessageStatus(StatusInformation statusInformation) {
+    public void indicateMessageStatus(StatusInformation statusInformation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -55,8 +54,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void indicateFolderInformation(FolderEntry folderEntry) {
+    public void indicateFolderInformation(FolderEntry folderEntry) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -72,8 +70,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void indicateListChanged(ListChangedInformation listChangedInformation) {
+    public void indicateListChanged(ListChangedInformation listChangedInformation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -89,8 +86,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void updateSynchInProgress(boolean bl, int n) {
+    public void updateSynchInProgress(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -118,8 +114,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
+    public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -147,8 +142,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void indicateNewMessage(boolean bl, String string, int n, int n2) {
+    public void indicateNewMessage(boolean bl, String string, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -164,8 +158,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void listEntriesResponse(int n, int n2, ListEntry[] listEntryArray, int n3, int n4, int n5) {
+    public void listEntriesResponse(int n, int n2, ListEntry[] listEntryArray, int n3, int n4, int n5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -181,8 +174,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void getPositionOfMessageResponse(int n, int n2) {
+    public void getPositionOfMessageResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -198,8 +190,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void getPositionOfFolderResponse(int n, int n2) {
+    public void getPositionOfFolderResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -215,8 +206,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void changeFolderResponse(FolderEntry folderEntry, int n) {
+    public void changeFolderResponse(FolderEntry folderEntry, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -232,8 +222,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void deleteMessageResponse(int n, int n2, int n3) {
+    public void deleteMessageResponse(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -249,8 +238,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void sendMessageResponse(int n, int n2) {
+    public void sendMessageResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -266,8 +254,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void getMessageContentsResponse(int n, MessageDetails messageDetails) {
+    public void getMessageContentsResponse(int n, MessageDetails messageDetails) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -283,8 +270,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void setMessageReadStatusResponse(int n) {
+    public void setMessageReadStatusResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -300,8 +286,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void parseVCardResponse(int n, String string) {
+    public void parseVCardResponse(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -317,8 +302,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void saveAsDraftResponse(int n, String string) {
+    public void saveAsDraftResponse(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -334,8 +318,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void extractInformationResponse(int n, ExtractedItem[] extractedItemArray) {
+    public void extractInformationResponse(int n, ExtractedItem[] extractedItemArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -351,8 +334,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void changeTemplateResponse(int n, int n2) {
+    public void changeTemplateResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -368,8 +350,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void getTemplateResponse(int n, Template template) {
+    public void getTemplateResponse(int n, Template template) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -385,8 +366,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void getTemplatesResponse(int n, Template[] templateArray) {
+    public void getTemplatesResponse(int n, Template[] templateArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -402,8 +382,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void deleteTemplateResponse(int n) {
+    public void deleteTemplateResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -419,8 +398,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void indicatePushMessageFailed(int n, int n2, int n3, String string) {
+    public void indicatePushMessageFailed(int n, int n2, int n3, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -436,8 +414,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void indicateSendMessage(int[] nArray, int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) {
+    public void indicateSendMessage(int[] nArray, int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -453,8 +430,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void deleteSimCardMessagesResponse(int n) {
+    public void deleteSimCardMessagesResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -470,8 +446,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void decodeAttachmentResponse(int n, ResourceLocator resourceLocator) {
+    public void decodeAttachmentResponse(int n, ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -487,8 +462,7 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -504,14 +478,13 @@ implements DSIMessagingReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMessagingListener dSIMessagingListener = (DSIMessagingListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMessagingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMessagingDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMessagingListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMessagingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMessagingDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMessagingListener, new Object[]{string, string2});
                     continue;
                 }

@@ -6,15 +6,17 @@ package de.esolutions.fw.comm.asi.calendar.db.provider.impl;
 import de.esolutions.fw.comm.asi.calendar.db.provider.VCalendarDbProvider;
 import de.esolutions.fw.comm.asi.calendar.db.provider.VCalendarDbProviderC;
 import de.esolutions.fw.comm.asi.calendar.db.provider.VCalendarDbProviderReply;
-import de.esolutions.fw.comm.asi.calendar.db.provider.impl.VCalendarDbProviderProxy$1;
-import de.esolutions.fw.comm.asi.calendar.db.provider.impl.VCalendarDbProviderProxy$2;
-import de.esolutions.fw.comm.asi.calendar.db.provider.impl.VCalendarDbProviderProxy$3;
-import de.esolutions.fw.comm.asi.calendar.db.provider.impl.VCalendarDbProviderProxy$4;
 import de.esolutions.fw.comm.asi.calendar.db.provider.impl.VCalendarDbProviderReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.calendar.impl.CalendarConfigSerializer;
+import de.esolutions.fw.comm.dsi.calendar.impl.ProfileInfoSerializer;
+import de.esolutions.fw.comm.dsi.calendar.impl.VCalendarSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.CalendarConfig;
@@ -38,24 +40,27 @@ VCalendarDbProviderC {
         return this.proxy;
     }
 
-    @Override
-    public void beginTransaction() {
+    public void beginTransaction() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void commitTransaction() {
+    public void commitTransaction() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void addEntries(int n, int n2, VCalendar[] vCalendarArray) {
-        VCalendarDbProviderProxy$1 vCalendarDbProviderProxy$1 = new VCalendarDbProviderProxy$1(this, n, n2, vCalendarArray);
-        this.proxy.remoteCallMethod((short)18, vCalendarDbProviderProxy$1);
+    public void addEntries(final int n, final int n2, final VCalendar[] vCalendarArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                VCalendarSerializer.putOptionalVCalendarVarArray(iSerializer, vCalendarArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void removeEntries(int n, int n2, long[] lArray) {
+    public void removeEntries(int n, int n2, long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -68,8 +73,7 @@ VCalendarDbProviderC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void removeProfile(int n) {
+    public void removeProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -80,18 +84,15 @@ VCalendarDbProviderC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void removeAll() {
+    public void removeAll() throws MethodException {
         this.proxy.remoteCallMethod((short)10, null);
     }
 
-    @Override
-    public void getVersion() {
+    public void getVersion() throws MethodException {
         this.proxy.remoteCallMethod((short)8, null);
     }
 
-    @Override
-    public void setActiveProfiles(int[] nArray) {
+    public void setActiveProfiles(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -102,8 +103,7 @@ VCalendarDbProviderC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void forceGetDataResult(int n) {
+    public void forceGetDataResult(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -114,14 +114,17 @@ VCalendarDbProviderC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setCalendarConfig(CalendarConfig calendarConfig) {
-        VCalendarDbProviderProxy$2 vCalendarDbProviderProxy$2 = new VCalendarDbProviderProxy$2(this, calendarConfig);
-        this.proxy.remoteCallMethod((short)29, vCalendarDbProviderProxy$2);
+    public void setCalendarConfig(final CalendarConfig calendarConfig) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CalendarConfigSerializer.putOptionalCalendarConfig(iSerializer, calendarConfig);
+            }
+        };
+        this.proxy.remoteCallMethod((short)29, iSerializable);
     }
 
-    @Override
-    public void getCalendarConfig(long l) {
+    public void getCalendarConfig(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -132,14 +135,17 @@ VCalendarDbProviderC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void insertProfile(ProfileInfo profileInfo) {
-        VCalendarDbProviderProxy$3 vCalendarDbProviderProxy$3 = new VCalendarDbProviderProxy$3(this, profileInfo);
-        this.proxy.remoteCallMethod((short)31, vCalendarDbProviderProxy$3);
+    public void insertProfile(final ProfileInfo profileInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ProfileInfoSerializer.putOptionalProfileInfo(iSerializer, profileInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)31, iSerializable);
     }
 
-    @Override
-    public void getCalendarEntry(long l) {
+    public void getCalendarEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt64(l);
@@ -150,14 +156,18 @@ VCalendarDbProviderC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void getCalendarSummaries(DateTime dateTime, DateTime dateTime2) {
-        VCalendarDbProviderProxy$4 vCalendarDbProviderProxy$4 = new VCalendarDbProviderProxy$4(this, dateTime, dateTime2);
-        this.proxy.remoteCallMethod((short)25, vCalendarDbProviderProxy$4);
+    public void getCalendarSummaries(final DateTime dateTime, final DateTime dateTime2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DateTimeSerializer.putOptionalDateTime(iSerializer, dateTime);
+                DateTimeSerializer.putOptionalDateTime(iSerializer, dateTime2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void deleteProfile(long l) {
+    public void deleteProfile(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);

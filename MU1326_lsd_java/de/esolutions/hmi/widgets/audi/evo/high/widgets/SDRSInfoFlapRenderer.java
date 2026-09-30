@@ -25,22 +25,22 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.SDRSInfoFlap;
 
 public class SDRSInfoFlapRenderer
 extends AbstractRendererHigh {
-    private static final int MAX_CENTER_WIDTH_G22;
-    private static final int MAX_CENTER_WIDTH_G21;
-    private static final int GAP_CENTER_RIGHT;
-    private static final int GAP_OPTION_ICON;
-    private static final int ICON_REQUIRED_SPACE;
-    private static final int X_OFFSET_ICON;
-    private static final int Y_OFFSET_TEXT;
-    private static final int Y_OFFSET_ICON;
-    public static final String PREFAB_NAME;
-    public static final String PROPERTY_WIDTH;
-    public static final String PROPERTY_CONTENT_OFFSET;
-    public static final String PROPERTY_HARD_EDGE;
-    private static final String CONTENT;
-    private static final String CONTENT_CENTER;
-    private static final String CONTENT_RIGHT;
-    private static final int BITMAP_DYNAMIC_ROUTE_ICON;
+    private static final int MAX_CENTER_WIDTH_G22 = 520;
+    private static final int MAX_CENTER_WIDTH_G21 = 290;
+    private static final int GAP_CENTER_RIGHT = 15;
+    private static final int GAP_OPTION_ICON = 41;
+    private static final int ICON_REQUIRED_SPACE = 50;
+    private static final int X_OFFSET_ICON = 9;
+    private static final int Y_OFFSET_TEXT = 33;
+    private static final int Y_OFFSET_ICON = 11;
+    public static final String PREFAB_NAME = "Prefabs/dynRouteBox";
+    public static final String PROPERTY_WIDTH = "gp_width";
+    public static final String PROPERTY_CONTENT_OFFSET = "dynRoute_contentOffset";
+    public static final String PROPERTY_HARD_EDGE = "dynRoute_hardEdge";
+    private static final String CONTENT = "dynRouteBox";
+    private static final String CONTENT_CENTER = "dynRouteBox_contentCenter";
+    private static final String CONTENT_RIGHT = "dynRouteBox_contentRight";
+    private static final int BITMAP_DYNAMIC_ROUTE_ICON = 0;
     private SDRSInfoFlap controller;
     private static IWrappedNode3D contentNode;
     private static IWrappedNode3D contentCenterNode;
@@ -78,22 +78,22 @@ extends AbstractRendererHigh {
         this.value1 = SDRSInfoFlapRenderer.adjustValue(this.value1, this.targetValue1, f4);
         this.value2 = SDRSInfoFlapRenderer.adjustValue(this.value2, this.targetValue2, f4);
         if (mapOverlayLogCh.isDebug()) {
-            mapOverlayLogCh.log(-2137614336, "SDRSInfoFlapRenderer#applyProperties value1 = %1, targetValue1 = %2", (double)this.value1, (double)this.targetValue1, 0.0);
-            mapOverlayLogCh.log(-2137614336, "SDRSInfoFlapRenderer#applyProperties value2 = %1, targetValue2 = %2", (double)this.value2, (double)this.targetValue2, 0.0);
+            mapOverlayLogCh.log(10000000, "SDRSInfoFlapRenderer#applyProperties value1 = %1, targetValue1 = %2", (double)this.value1, (double)this.targetValue1, 0.0);
+            mapOverlayLogCh.log(10000000, "SDRSInfoFlapRenderer#applyProperties value2 = %1, targetValue2 = %2", (double)this.value2, (double)this.targetValue2, 0.0);
         }
         if (this.value1 == (float)this.targetValue1 && this.value2 == (float)this.targetValue2) {
             this.controller.stopAnimation();
         }
         float f5 = this.value1 + this.value2;
-        this.setProperty("gp_width", f3 + this.value2);
-        this.setProperty("dynRoute_contentOffset", f2);
-        this.setProperty("dynRoute_hardEdge", 0.0f);
+        this.setProperty(PROPERTY_WIDTH, f3 + this.value2);
+        this.setProperty(PROPERTY_CONTENT_OFFSET, f2);
+        this.setProperty(PROPERTY_HARD_EDGE, 0.0f);
         contentNode.setVisible(this.controller.shouldRender());
         contentNode.setPosition((float)this.controller.getX() - f5, this.controller.getY(), 0.0f);
         contentNode.setOpacity(this.controller.getRenderOpacity());
-        iconNode.setPosition(4161, 12353, 0.0f);
-        textNode.setPosition(18498, 1090, 0.0f);
-        textNodeSavedTime.setPosition(0.0f, 1090, 0.0f);
+        iconNode.setPosition(9.0f, 11.0f, 0.0f);
+        textNode.setPosition(50.0f, 33.0f, 0.0f);
+        textNodeSavedTime.setPosition(0.0f, 33.0f, 0.0f);
     }
 
     private int calculateCenterPartWidth() {
@@ -116,18 +116,15 @@ extends AbstractRendererHigh {
         return n += n2;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         isFirstRenderAfterConnect = true;
     }
 
-    @Override
     public void disconnect() {
         contentNode.setVisible(false);
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -151,13 +148,12 @@ extends AbstractRendererHigh {
                     return;
                 }
                 iNode2D.dispose();
-                mixedListLogChannel.log(-2137614336, "SDRSInfoFlapRenderer#mergeKZB Merging KZB success.");
+                mixedListLogChannel.log(10000000, "SDRSInfoFlapRenderer#mergeKZB Merging KZB success.");
                 MixedListKZBMerger.kzbMerged = true;
             }
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!AbstractWidget.framework.isTarget() && !MixedListRenderer.isKZBMerged()) {
             this.mergeKZB();
@@ -179,7 +175,7 @@ extends AbstractRendererHigh {
             if (iWrappedNode3D != null) {
                 iWrappedNode3D.remove(contentNode);
             } else {
-                INode3D iNode3D = this.getNode3D("dynRouteBox");
+                INode3D iNode3D = this.getNode3D(CONTENT);
                 if (iNode3D != null) {
                     INode3D iNode3D2 = iNode3D.getParent();
                     if (iNode3D2 != null) {
@@ -222,20 +218,20 @@ extends AbstractRendererHigh {
 
     private void setUpNodes(RedrawContextHigh redrawContextHigh) {
         Object object;
-        if (contentNode == null && (object = this.getNode3D("dynRouteBox")) != null) {
-            contentNode = new WrappedNode3D((INode3D)object, 31300, 51266, false, 0, this.isLTR());
+        if (contentNode == null && (object = this.getNode3D(CONTENT)) != null) {
+            contentNode = new WrappedNode3D((INode3D)object, 1000.0f, 100.0f, false, 0, this.isLTR());
         }
         contentNode.setVisible(false);
-        if (contentCenterNode == null && (object = this.getNode3D("dynRouteBox_contentCenter")) != null) {
-            contentCenterNode = new WrappedNode3D((INode3D)object, 64067, 51266, false, 0, this.isLTR());
+        if (contentCenterNode == null && (object = this.getNode3D(CONTENT_CENTER)) != null) {
+            contentCenterNode = new WrappedNode3D((INode3D)object, 500.0f, 100.0f, false, 0, this.isLTR());
         }
-        if (contentRightNode == null && (object = this.getNode3D("dynRouteBox_contentRight")) != null) {
-            contentRightNode = new WrappedNode3D((INode3D)object, 64067, 51266, false, 0, this.isLTR());
+        if (contentRightNode == null && (object = this.getNode3D(CONTENT_RIGHT)) != null) {
+            contentRightNode = new WrappedNode3D((INode3D)object, 500.0f, 100.0f, false, 0, this.isLTR());
         }
         if (iconNode == null) {
             object = this.getTextureDescription(0, true);
             if (object == null) {
-                mapOverlayLogCh.log(1078071040, "SDRSInfoFlapRenderer#setUpNodes textureDescription is null for BITMAP_DYNAMIC_ROUTE_ICON ");
+                mapOverlayLogCh.log(1000000, "SDRSInfoFlapRenderer#setUpNodes textureDescription is null for BITMAP_DYNAMIC_ROUTE_ICON ");
             }
             iconNode = this.getEALManager().createImage3D(contentNode, "iconNode", (TextureDescription)object, 0, true, (Object)this);
         }
@@ -271,7 +267,7 @@ extends AbstractRendererHigh {
                 string = stringUtilityEAL.abbreviateTextEllipsis(string, n, false);
             }
             this.currentText = string;
-            mapOverlayLogCh.log(-2137614336, "SDRSInfoFlapRenderer#updateTextNodes Update node's text: %1.", (Object)string);
+            mapOverlayLogCh.log(10000000, "SDRSInfoFlapRenderer#updateTextNodes Update node's text: %1.", (Object)string);
             textNode.setText(string, redrawContextHigh.getCurrentFont());
         }
         if (textNodeSavedTime != null) {

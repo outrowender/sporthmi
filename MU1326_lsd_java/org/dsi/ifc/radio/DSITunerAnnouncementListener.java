@@ -7,16 +7,12 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSITunerAnnouncementListener
 extends DSIListener {
-    default public void updateFilter(int n, int n2) {
-    }
+    public void updateFilter(int var1, int var2);
 
-    default public void updateAvailability(int n, int n2) {
-    }
+    public void updateAvailability(int var1, int var2);
 
-    default public void updateStatus(int n, int n2) {
-    }
+    public void updateStatus(int var1, int var2);
 
-    default public void updateStationName(String string, int n, long l, int n2) {
-    }
+    public void updateStationName(String var1, int var2, long var3, int var5);
 }
 

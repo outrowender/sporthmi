@@ -25,28 +25,23 @@ implements DSIKOMONavInfo {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$komonavinfo$DSIKOMONavInfo == null ? (class$org$dsi$ifc$komonavinfo$DSIKOMONavInfo = DSIKOMONavInfoProvider.class$("org.dsi.ifc.komonavinfo.DSIKOMONavInfo")) : class$org$dsi$ifc$komonavinfo$DSIKOMONavInfo).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIKOMONavInfoProxy(this.instance, (DSIKOMONavInfoReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setDistanceToNextManeuver(long l, int n, boolean bl) {
         try {
             this.proxy.setDistanceToNextManeuver(l, n, bl);
@@ -56,7 +51,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setETA(int n, short s, short s2, short s3, boolean bl, boolean bl2) {
         try {
             this.proxy.setETA(n, s, s2, s3, bl, bl2);
@@ -66,7 +60,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setCurrentStreet(String string) {
         try {
             this.proxy.setCurrentStreet(string);
@@ -76,7 +69,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setTurnToStreet(String string, String string2) {
         try {
             this.proxy.setTurnToStreet(string, string2);
@@ -86,7 +78,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setCityName(String string) {
         try {
             this.proxy.setCityName(string);
@@ -96,7 +87,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setDistanceToDestination(long l, int n, boolean bl) {
         try {
             this.proxy.setDistanceToDestination(l, n, bl);
@@ -106,7 +96,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setSemiDynRoute(boolean bl) {
         try {
             this.proxy.setSemiDynRoute(bl);
@@ -116,7 +105,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setTrafficOffset(int n, short s, short s2, short s3, boolean bl) {
         try {
             this.proxy.setTrafficOffset(n, s, s2, s3, bl);
@@ -126,7 +114,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setRTT(short s, short s2, boolean bl) {
         try {
             this.proxy.setRTT(s, s2, bl);
@@ -136,7 +123,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setRgSelect(int n) {
         try {
             this.proxy.setRgSelect(n);
@@ -146,7 +132,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setCapabilities(boolean[] blArray) {
         try {
             this.proxy.setCapabilities(blArray);
@@ -156,7 +141,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
         try {
             this.proxy.setMapScale(n, n2, blArray, n3, n4, n5);
@@ -166,7 +150,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
         try {
             this.proxy.setMapScaleResult(n, n2, blArray, n3, n4, blArray2, bl);
@@ -176,7 +159,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -186,7 +168,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -196,7 +177,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -206,7 +186,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -216,7 +195,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -226,7 +204,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -236,7 +213,6 @@ implements DSIKOMONavInfo {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

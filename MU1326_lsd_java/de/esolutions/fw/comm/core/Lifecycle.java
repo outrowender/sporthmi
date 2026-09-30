@@ -6,11 +6,11 @@ package de.esolutions.fw.comm.core;
 import de.esolutions.fw.comm.core.ILifecycleListener;
 
 public final class Lifecycle {
-    public static final int STATE_UNBORN;
-    public static final int STATE_ALIVE;
-    public static final int STATE_DEAD;
-    public static final int STATE_ERROR;
-    public static final String[] lifecycleNames;
+    public static final int STATE_UNBORN = 0;
+    public static final int STATE_ALIVE = 1;
+    public static final int STATE_DEAD = 2;
+    public static final int STATE_ERROR = 3;
+    public static final String[] lifecycleNames = new String[]{"unborn", "alive", "dead", "ERROR"};
     private int state = 0;
     private ILifecycleListener listener;
     private final Object owner;
@@ -42,7 +42,7 @@ public final class Lifecycle {
             if (this.state != 1) {
                 this.state = 1;
                 bl2 = true;
-                super.notifyAll();
+                this.notifyAll();
             }
         }
         if (bl && this.listener != null && bl2) {
@@ -64,7 +64,7 @@ public final class Lifecycle {
             if (this.state != 2) {
                 this.state = 2;
                 bl2 = true;
-                super.notifyAll();
+                this.notifyAll();
             }
         }
         if (bl && this.listener != null && bl2) {
@@ -87,7 +87,7 @@ public final class Lifecycle {
                 this.state = 3;
                 bl2 = true;
                 this.errorCode = n;
-                super.notifyAll();
+                this.notifyAll();
             }
         }
         if (bl && this.listener != null && bl2) {
@@ -105,7 +105,7 @@ public final class Lifecycle {
             if (this.state != 0) {
                 this.state = 0;
                 bl = true;
-                super.notifyAll();
+                this.notifyAll();
             }
         }
         if (this.listener != null && bl) {
@@ -133,7 +133,7 @@ public final class Lifecycle {
         return this.errorCode;
     }
 
-    public synchronized boolean waitUntilAlive() {
+    public synchronized boolean waitUntilAlive() throws InterruptedException {
         if (this.state == 1) {
             return true;
         }
@@ -144,12 +144,12 @@ public final class Lifecycle {
             if (this.state == 3) {
                 return false;
             }
-            super.wait();
+            this.wait();
         }
         return true;
     }
 
-    public synchronized boolean waitUntilDead() {
+    public synchronized boolean waitUntilDead() throws InterruptedException {
         if (this.state == 2) {
             return true;
         }
@@ -160,30 +160,30 @@ public final class Lifecycle {
             if (this.state == 3) {
                 return false;
             }
-            super.wait();
+            this.wait();
         }
         return true;
     }
 
-    public synchronized boolean waitUntilAlive(long l) {
+    public synchronized boolean waitUntilAlive(long l) throws InterruptedException {
         if (this.state == 1) {
             return true;
         }
         if (this.state != 0) {
             return false;
         }
-        super.wait(l);
+        this.wait(l);
         return this.state == 1;
     }
 
-    public synchronized boolean waitUntilDead(long l) {
+    public synchronized boolean waitUntilDead(long l) throws InterruptedException {
         if (this.state == 2) {
             return true;
         }
         if (this.state != 1) {
             return false;
         }
-        super.wait(l);
+        this.wait(l);
         return this.state == 2;
     }
 
@@ -193,10 +193,6 @@ public final class Lifecycle {
 
     public synchronized String getStateString() {
         return lifecycleNames[this.state];
-    }
-
-    static {
-        lifecycleNames = new String[]{"unborn", "alive", "dead", "ERROR"};
     }
 }
 

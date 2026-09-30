@@ -4,75 +4,51 @@
 package edu.emory.mathcs.backport.java.util;
 
 import edu.emory.mathcs.backport.java.util.NavigableSet;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.SortedMap;
 
 public interface NavigableMap
 extends SortedMap {
-    default public Map$Entry lowerEntry(Object object) {
-    }
+    public Map.Entry lowerEntry(Object var1);
 
-    default public Object lowerKey(Object object) {
-    }
+    public Object lowerKey(Object var1);
 
-    default public Map$Entry floorEntry(Object object) {
-    }
+    public Map.Entry floorEntry(Object var1);
 
-    default public Object floorKey(Object object) {
-    }
+    public Object floorKey(Object var1);
 
-    default public Map$Entry ceilingEntry(Object object) {
-    }
+    public Map.Entry ceilingEntry(Object var1);
 
-    default public Object ceilingKey(Object object) {
-    }
+    public Object ceilingKey(Object var1);
 
-    default public Map$Entry higherEntry(Object object) {
-    }
+    public Map.Entry higherEntry(Object var1);
 
-    default public Object higherKey(Object object) {
-    }
+    public Object higherKey(Object var1);
 
-    default public Map$Entry firstEntry() {
-    }
+    public Map.Entry firstEntry();
 
-    default public Map$Entry lastEntry() {
-    }
+    public Map.Entry lastEntry();
 
-    default public Map$Entry pollFirstEntry() {
-    }
+    public Map.Entry pollFirstEntry();
 
-    default public Map$Entry pollLastEntry() {
-    }
+    public Map.Entry pollLastEntry();
 
-    default public NavigableMap descendingMap() {
-    }
+    public NavigableMap descendingMap();
 
-    default public NavigableSet navigableKeySet() {
-    }
+    public NavigableSet navigableKeySet();
 
-    default public NavigableSet descendingKeySet() {
-    }
+    public NavigableSet descendingKeySet();
 
-    default public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
-    }
+    public NavigableMap subMap(Object var1, boolean var2, Object var3, boolean var4);
 
-    default public NavigableMap headMap(Object object, boolean bl) {
-    }
+    public NavigableMap headMap(Object var1, boolean var2);
 
-    default public NavigableMap tailMap(Object object, boolean bl) {
-    }
+    public NavigableMap tailMap(Object var1, boolean var2);
 
-    @Override
-    default public SortedMap subMap(Object object, Object object2) {
-    }
+    public SortedMap subMap(Object var1, Object var2);
 
-    @Override
-    default public SortedMap headMap(Object object) {
-    }
+    public SortedMap headMap(Object var1);
 
-    @Override
-    default public SortedMap tailMap(Object object) {
-    }
+    public SortedMap tailMap(Object var1);
 }
 

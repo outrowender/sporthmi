@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCResetTimeStamp;
 
 public class BCResetTimeStampSerializer {
-    public static void putOptionalBCResetTimeStamp(ISerializer iSerializer, BCResetTimeStamp bCResetTimeStamp) {
+    public static void putOptionalBCResetTimeStamp(ISerializer iSerializer, BCResetTimeStamp bCResetTimeStamp) throws SerializerException {
         boolean bl = bCResetTimeStamp == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BCResetTimeStampSerializer {
         }
     }
 
-    public static void putOptionalBCResetTimeStampVarArray(ISerializer iSerializer, BCResetTimeStamp[] bCResetTimeStampArray) {
+    public static void putOptionalBCResetTimeStampVarArray(ISerializer iSerializer, BCResetTimeStamp[] bCResetTimeStampArray) throws SerializerException {
         boolean bl = bCResetTimeStampArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BCResetTimeStampSerializer {
         }
     }
 
-    public static BCResetTimeStamp getOptionalBCResetTimeStamp(IDeserializer iDeserializer) {
+    public static BCResetTimeStamp getOptionalBCResetTimeStamp(IDeserializer iDeserializer) throws SerializerException {
         BCResetTimeStamp bCResetTimeStamp = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class BCResetTimeStampSerializer {
         return bCResetTimeStamp;
     }
 
-    public static BCResetTimeStamp[] getOptionalBCResetTimeStampVarArray(IDeserializer iDeserializer) {
+    public static BCResetTimeStamp[] getOptionalBCResetTimeStampVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCResetTimeStamp[] bCResetTimeStampArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

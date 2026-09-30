@@ -8,73 +8,50 @@ import org.dsi.ifc.swdlselection.LameClient;
 
 public interface DSISwdlSelectionListener
 extends DSIListener {
-    default public void updateLameClients(LameClient[] lameClientArray, int n) {
-    }
+    public void updateLameClients(LameClient[] var1, int var2);
 
-    default public void updateEngineering(boolean bl, int n) {
-    }
+    public void updateEngineering(boolean var1, int var2);
 
-    default public void updateUserSwdl(boolean bl, int n) {
-    }
+    public void updateUserSwdl(boolean var1, int var2);
 
-    default public void updateRingNotOK(boolean bl, int n) {
-    }
+    public void updateRingNotOK(boolean var1, int var2);
 
-    default public void updateEndDownload(boolean bl, int n) {
-    }
+    public void updateEndDownload(boolean var1, int var2);
 
-    default public void updateAvailableMedia(byte by, int n) {
-    }
+    public void updateAvailableMedia(byte var1, int var2);
 
-    default public void updateUnitType(int n, int n2) {
-    }
+    public void updateUnitType(int var1, int var2);
 
-    default public void getMedia(int[] nArray) {
-    }
+    public void getMedia(int[] var1);
 
-    default public void storeNfsIpAddress(String string) {
-    }
+    public void storeNfsIpAddress(String var1);
 
-    default public void storeNfsPath(String string) {
-    }
+    public void storeNfsPath(String var1);
 
-    default public void storeFsPath(String string) {
-    }
+    public void storeFsPath(String var1);
 
-    default public void setMedium(int n, String string, String[] stringArray) {
-    }
+    public void setMedium(int var1, String var2, String[] var3);
 
-    default public void setRelease(int n, String string) {
-    }
+    public void setRelease(int var1, String var2);
 
-    default public void getUserDefinedAllowed(boolean bl) {
-    }
+    public void getUserDefinedAllowed(boolean var1);
 
-    default public void setTargetLanguage(short s) {
-    }
+    public void setTargetLanguage(short var1);
 
-    default public void getIncompatibleDevices(String[] stringArray, String[] stringArray2) {
-    }
+    public void getIncompatibleDevices(String[] var1, String[] var2);
 
-    default public void startVersionUpload(boolean bl) {
-    }
+    public void startVersionUpload(boolean var1);
 
-    default public void checkConsistency(int n, boolean bl, String string, int n2) {
-    }
+    public void checkConsistency(int var1, boolean var2, String var3, int var4);
 
-    default public void abortSetMedium() {
-    }
+    public void abortSetMedium();
 
-    default public void abortSetRelease() {
-    }
+    public void abortSetRelease();
 
-    default public void getFinalizeTargets(int[] nArray) {
-    }
+    public void getFinalizeTargets(int[] var1);
 
-    default public void setFinalizeTarget(int n, long l, long l2, long l3) {
-    }
+    public void setFinalizeTarget(int var1, long var2, long var4, long var6);
 
-    default public void enterComponentUpdateConfirmation() {
-    }
+    public void enterComponentUpdateConfirmation();
 }
 

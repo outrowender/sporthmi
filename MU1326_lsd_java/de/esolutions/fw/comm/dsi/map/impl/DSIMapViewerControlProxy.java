@@ -7,34 +7,21 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavRectangleSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavSegmentIDSerializer;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerControl;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerControlC;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerControlReply;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$1;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$10;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$11;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$12;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$13;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$14;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$15;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$16;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$17;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$18;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$19;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$2;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$20;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$21;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$22;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$23;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$24;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$3;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$4;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$5;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$6;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$7;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$8;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlProxy$9;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlReplyService;
+import de.esolutions.fw.comm.dsi.map.impl.MapFlagSerializer;
+import de.esolutions.fw.comm.dsi.map.impl.MapOverlaySerializer;
+import de.esolutions.fw.comm.dsi.map.impl.PoiListElementSerializer;
+import de.esolutions.fw.comm.dsi.map.impl.PointSerializer;
+import de.esolutions.fw.comm.dsi.map.impl.RectSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
@@ -63,14 +50,18 @@ DSIMapViewerControlC {
         return this.proxy;
     }
 
-    @Override
-    public void configureFlags(int n, MapFlag[] mapFlagArray) {
-        DSIMapViewerControlProxy$1 dSIMapViewerControlProxy$1 = new DSIMapViewerControlProxy$1(this, n, mapFlagArray);
-        this.proxy.remoteCallMethod((short)6, dSIMapViewerControlProxy$1);
+    public void configureFlags(final int n, final MapFlag[] mapFlagArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                MapFlagSerializer.putOptionalMapFlagVarArray(iSerializer, mapFlagArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void dragMap(short s, short s2) {
+    public void dragMap(short s, short s2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -82,8 +73,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void ensureTMCVisibility(long l) {
+    public void ensureTMCVisibility(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -94,24 +84,25 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void getInfoForPosition() {
+    public void getInfoForPosition() throws MethodException {
         this.proxy.remoteCallMethod((short)15, null);
     }
 
-    @Override
-    public void getInfoForScreenPosition(Point point) {
-        DSIMapViewerControlProxy$2 dSIMapViewerControlProxy$2 = new DSIMapViewerControlProxy$2(this, point);
-        this.proxy.remoteCallMethod((short)17, dSIMapViewerControlProxy$2);
+    public void getInfoForScreenPosition(final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void getNumberOfPOIs() {
+    public void getNumberOfPOIs() throws MethodException {
         this.proxy.remoteCallMethod((short)18, null);
     }
 
-    @Override
-    public void goToTMCMessage(long l) {
+    public void goToTMCMessage(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -122,13 +113,11 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void packPOIContainer() {
+    public void packPOIContainer() throws MethodException {
         this.proxy.remoteCallMethod((short)21, null);
     }
 
-    @Override
-    public void rbSelectAlternativeRoute(int n) {
+    public void rbSelectAlternativeRoute(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -139,18 +128,15 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void rbSelectNextSegment() {
+    public void rbSelectNextSegment() throws MethodException {
         this.proxy.remoteCallMethod((short)27, null);
     }
 
-    @Override
-    public void rbSelectPreviousSegment() {
+    public void rbSelectPreviousSegment() throws MethodException {
         this.proxy.remoteCallMethod((short)28, null);
     }
 
-    @Override
-    public void rbSetPosition(int n) {
+    public void rbSetPosition(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -161,8 +147,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void scrollToDirection(short s, int n, short s2) {
+    public void scrollToDirection(short s, int n, short s2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -175,18 +160,15 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void selectNextPOI() {
+    public void selectNextPOI() throws MethodException {
         this.proxy.remoteCallMethod((short)31, null);
     }
 
-    @Override
-    public void selectPrevPOI() {
+    public void selectPrevPOI() throws MethodException {
         this.proxy.remoteCallMethod((short)32, null);
     }
 
-    @Override
-    public void set3DLandmarksVisible(boolean bl) {
+    public void set3DLandmarksVisible(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -197,19 +179,21 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setCarPosition(Point point) {
-        DSIMapViewerControlProxy$3 dSIMapViewerControlProxy$3 = new DSIMapViewerControlProxy$3(this, point);
-        this.proxy.remoteCallMethod((short)36, dSIMapViewerControlProxy$3);
+    public void setCarPosition(final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void setDayView() {
+    public void setDayView() throws MethodException {
         this.proxy.remoteCallMethod((short)40, null);
     }
 
-    @Override
-    public void setEnableRouteCalcMode(boolean bl) {
+    public void setEnableRouteCalcMode(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -220,8 +204,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)41, genericSerializable);
     }
 
-    @Override
-    public void setEnableSoftJump(boolean bl) {
+    public void setEnableSoftJump(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -232,8 +215,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void setEnableSoftRotation(boolean bl) {
+    public void setEnableSoftRotation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -244,8 +226,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void setEnableSoftTilt(boolean bl) {
+    public void setEnableSoftTilt(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -256,8 +237,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void setEnableSoftZoom(boolean bl) {
+    public void setEnableSoftZoom(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -268,14 +248,17 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void setHotPoint(Point point) {
-        DSIMapViewerControlProxy$4 dSIMapViewerControlProxy$4 = new DSIMapViewerControlProxy$4(this, point);
-        this.proxy.remoteCallMethod((short)52, dSIMapViewerControlProxy$4);
+    public void setHotPoint(final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)52, iSerializable);
     }
 
-    @Override
-    public void setLocation(int n, short s) {
+    public void setLocation(int n, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -287,38 +270,63 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)53, genericSerializable);
     }
 
-    @Override
-    public void setLocationByLocation(NavLocation navLocation) {
-        DSIMapViewerControlProxy$5 dSIMapViewerControlProxy$5 = new DSIMapViewerControlProxy$5(this, navLocation);
-        this.proxy.remoteCallMethod((short)54, dSIMapViewerControlProxy$5);
+    public void setLocationByLocation(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)54, iSerializable);
     }
 
-    @Override
-    public void setLocationByLocationAndView(NavLocation navLocation, short s, int n) {
-        DSIMapViewerControlProxy$6 dSIMapViewerControlProxy$6 = new DSIMapViewerControlProxy$6(this, navLocation, s, n);
-        this.proxy.remoteCallMethod((short)55, dSIMapViewerControlProxy$6);
+    public void setLocationByLocationAndView(final NavLocation navLocation, final short s, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putInt16(s);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)55, iSerializable);
     }
 
-    @Override
-    public void setMapPosition(NavLocationWgs84 navLocationWgs84) {
-        DSIMapViewerControlProxy$7 dSIMapViewerControlProxy$7 = new DSIMapViewerControlProxy$7(this, navLocationWgs84);
-        this.proxy.remoteCallMethod((short)56, dSIMapViewerControlProxy$7);
+    public void setMapPosition(final NavLocationWgs84 navLocationWgs84) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+            }
+        };
+        this.proxy.remoteCallMethod((short)56, iSerializable);
     }
 
-    @Override
-    public void setMapViewPort(NavLocationWgs84 navLocationWgs84, short s, int n) {
-        DSIMapViewerControlProxy$8 dSIMapViewerControlProxy$8 = new DSIMapViewerControlProxy$8(this, navLocationWgs84, s, n);
-        this.proxy.remoteCallMethod((short)57, dSIMapViewerControlProxy$8);
+    public void setMapViewPort(final NavLocationWgs84 navLocationWgs84, final short s, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+                iSerializer.putInt16(s);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)57, iSerializable);
     }
 
-    @Override
-    public void setMapViewPortByLD(NavLocation navLocation, NavLocation navLocation2, int n) {
-        DSIMapViewerControlProxy$9 dSIMapViewerControlProxy$9 = new DSIMapViewerControlProxy$9(this, navLocation, navLocation2, n);
-        this.proxy.remoteCallMethod((short)58, dSIMapViewerControlProxy$9);
+    public void setMapViewPortByLD(final NavLocation navLocation, final NavLocation navLocation2, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation2);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)58, iSerializable);
     }
 
-    @Override
-    public void setMode(int n) {
+    public void setMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -329,19 +337,22 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)62, genericSerializable);
     }
 
-    @Override
-    public void setNightView() {
+    public void setNightView() throws MethodException {
         this.proxy.remoteCallMethod((short)65, null);
     }
 
-    @Override
-    public void setOrientation(int n, Point point) {
-        DSIMapViewerControlProxy$10 dSIMapViewerControlProxy$10 = new DSIMapViewerControlProxy$10(this, n, point);
-        this.proxy.remoteCallMethod((short)71, dSIMapViewerControlProxy$10);
+    public void setOrientation(final int n, final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)71, iSerializable);
     }
 
-    @Override
-    public void setRotation(short s) {
+    public void setRotation(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -352,8 +363,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)73, genericSerializable);
     }
 
-    @Override
-    public void setViewType(int n) {
+    public void setViewType(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -364,14 +374,17 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)89, genericSerializable);
     }
 
-    @Override
-    public void setZoomArea(Rect rect) {
-        DSIMapViewerControlProxy$11 dSIMapViewerControlProxy$11 = new DSIMapViewerControlProxy$11(this, rect);
-        this.proxy.remoteCallMethod((short)91, dSIMapViewerControlProxy$11);
+    public void setZoomArea(final Rect rect) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RectSerializer.putOptionalRect(iSerializer, rect);
+            }
+        };
+        this.proxy.remoteCallMethod((short)91, iSerializable);
     }
 
-    @Override
-    public void setZoomLevel(float f2, int n) {
+    public void setZoomLevel(float f2, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putFloat(f2);
@@ -383,8 +396,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)92, genericSerializable);
     }
 
-    @Override
-    public void setCountryOverviewCountry(String string) {
+    public void setCountryOverviewCountry(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -395,8 +407,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void showTMCMessages(boolean bl) {
+    public void showTMCMessages(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -407,8 +418,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)97, genericSerializable);
     }
 
-    @Override
-    public void startScrollToDirection(int n) {
+    public void startScrollToDirection(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -419,13 +429,11 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)99, genericSerializable);
     }
 
-    @Override
-    public void stopScrollToDirection() {
+    public void stopScrollToDirection() throws MethodException {
         this.proxy.remoteCallMethod((short)102, null);
     }
 
-    @Override
-    public void unpackPOIContainer(long l) {
+    public void unpackPOIContainer(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -436,8 +444,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)107, genericSerializable);
     }
 
-    @Override
-    public void viewFreeze(boolean bl) {
+    public void viewFreeze(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -448,20 +455,27 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)146, genericSerializable);
     }
 
-    @Override
-    public void viewSetScreenViewport(Rect rect) {
-        DSIMapViewerControlProxy$12 dSIMapViewerControlProxy$12 = new DSIMapViewerControlProxy$12(this, rect);
-        this.proxy.remoteCallMethod((short)147, dSIMapViewerControlProxy$12);
+    public void viewSetScreenViewport(final Rect rect) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RectSerializer.putOptionalRect(iSerializer, rect);
+            }
+        };
+        this.proxy.remoteCallMethod((short)147, iSerializable);
     }
 
-    @Override
-    public void viewSetScreenViewportMaximum(Rect rect) {
-        DSIMapViewerControlProxy$13 dSIMapViewerControlProxy$13 = new DSIMapViewerControlProxy$13(this, rect);
-        this.proxy.remoteCallMethod((short)160, dSIMapViewerControlProxy$13);
+    public void viewSetScreenViewportMaximum(final Rect rect) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RectSerializer.putOptionalRect(iSerializer, rect);
+            }
+        };
+        this.proxy.remoteCallMethod((short)160, iSerializable);
     }
 
-    @Override
-    public void viewSetVisible(boolean bl) {
+    public void viewSetVisible(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -472,8 +486,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)148, genericSerializable);
     }
 
-    @Override
-    public void setMetricSystem(int n) {
+    public void setMetricSystem(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -484,8 +497,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)59, genericSerializable);
     }
 
-    @Override
-    public void setViewFocusOnBlock(long[] lArray) {
+    public void setViewFocusOnBlock(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -496,19 +508,21 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)83, genericSerializable);
     }
 
-    @Override
-    public void setViewFocusOnPoi(PoiListElement[] poiListElementArray) {
-        DSIMapViewerControlProxy$14 dSIMapViewerControlProxy$14 = new DSIMapViewerControlProxy$14(this, poiListElementArray);
-        this.proxy.remoteCallMethod((short)87, dSIMapViewerControlProxy$14);
+    public void setViewFocusOnPoi(final PoiListElement[] poiListElementArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PoiListElementSerializer.putOptionalPoiListElementVarArray(iSerializer, poiListElementArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)87, iSerializable);
     }
 
-    @Override
-    public void startToDrawNewRectangleInMap() {
+    public void startToDrawNewRectangleInMap() throws MethodException {
         this.proxy.remoteCallMethod((short)100, null);
     }
 
-    @Override
-    public void editRectangleInMap(long l) {
+    public void editRectangleInMap(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -519,25 +533,31 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setSouthWestCornerOfRectangleInMap(Point point) {
-        DSIMapViewerControlProxy$15 dSIMapViewerControlProxy$15 = new DSIMapViewerControlProxy$15(this, point);
-        this.proxy.remoteCallMethod((short)77, dSIMapViewerControlProxy$15);
+    public void setSouthWestCornerOfRectangleInMap(final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)77, iSerializable);
     }
 
-    @Override
-    public void setNorthEastCornerOfRectangleInMap(Point point) {
-        DSIMapViewerControlProxy$16 dSIMapViewerControlProxy$16 = new DSIMapViewerControlProxy$16(this, point);
-        this.proxy.remoteCallMethod((short)66, dSIMapViewerControlProxy$16);
+    public void setNorthEastCornerOfRectangleInMap(final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)66, iSerializable);
     }
 
-    @Override
-    public void finishDrawRectangleInMap() {
+    public void finishDrawRectangleInMap() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void setCityModelMode(int n) {
+    public void setCityModelMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -548,8 +568,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void displayRemainingRangeOfVehicle(boolean bl) {
+    public void displayRemainingRangeOfVehicle(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -560,8 +579,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void touchApproach(boolean bl) {
+    public void touchApproach(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -572,8 +590,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)105, genericSerializable);
     }
 
-    @Override
-    public void setBrandIconStyle(int[] nArray, int n) {
+    public void setBrandIconStyle(int[] nArray, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -585,8 +602,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void startScrollByVector(int n, int n2) {
+    public void startScrollByVector(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -598,8 +614,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)98, genericSerializable);
     }
 
-    @Override
-    public void setGuidanceSymbol(int n) {
+    public void setGuidanceSymbol(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -610,8 +625,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void setHOVLaneVisibility(boolean bl) {
+    public void setHOVLaneVisibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -622,13 +636,11 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)50, genericSerializable);
     }
 
-    @Override
-    public void rbGetIDOfSelectedSegment() {
+    public void rbGetIDOfSelectedSegment() throws MethodException {
         this.proxy.remoteCallMethod((short)22, null);
     }
 
-    @Override
-    public void rbGetRRDToSelectedSegment(long l) {
+    public void rbGetRRDToSelectedSegment(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -639,8 +651,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setTollRoadHighLighting(boolean bl) {
+    public void setTollRoadHighLighting(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -651,8 +662,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)80, genericSerializable);
     }
 
-    @Override
-    public void setMountainPeakMarker(boolean bl) {
+    public void setMountainPeakMarker(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -663,8 +673,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void setViewFocusOnCombinedRouteListElements(long[] lArray) {
+    public void setViewFocusOnCombinedRouteListElements(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -675,8 +684,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)85, genericSerializable);
     }
 
-    @Override
-    public void setFrameRateMode(int n) {
+    public void setFrameRateMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -687,8 +695,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void setScrollByCrossHairs(boolean bl) {
+    public void setScrollByCrossHairs(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -699,14 +706,17 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)75, genericSerializable);
     }
 
-    @Override
-    public void setScrollByCrossHairsBoundingBox(Rect rect) {
-        DSIMapViewerControlProxy$17 dSIMapViewerControlProxy$17 = new DSIMapViewerControlProxy$17(this, rect);
-        this.proxy.remoteCallMethod((short)76, dSIMapViewerControlProxy$17);
+    public void setScrollByCrossHairsBoundingBox(final Rect rect) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RectSerializer.putOptionalRect(iSerializer, rect);
+            }
+        };
+        this.proxy.remoteCallMethod((short)76, iSerializable);
     }
 
-    @Override
-    public void setRouteColoringPolicy(int n) {
+    public void setRouteColoringPolicy(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -717,8 +727,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)74, genericSerializable);
     }
 
-    @Override
-    public void setWeatherVisualization(boolean bl) {
+    public void setWeatherVisualization(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -729,8 +738,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)90, genericSerializable);
     }
 
-    @Override
-    public void setPictureNavigationIconVisibility(boolean bl, int n) {
+    public void setPictureNavigationIconVisibility(boolean bl, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -742,8 +750,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)72, genericSerializable);
     }
 
-    @Override
-    public void setMobilityHorizonVisibility(boolean bl) {
+    public void setMobilityHorizonVisibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -754,8 +761,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)60, genericSerializable);
     }
 
-    @Override
-    public void setTrafficMapStyle(boolean bl) {
+    public void setTrafficMapStyle(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -766,8 +772,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)82, genericSerializable);
     }
 
-    @Override
-    public void showSpeedAndFlowFreeFlow(boolean bl) {
+    public void showSpeedAndFlowFreeFlow(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -778,8 +783,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)96, genericSerializable);
     }
 
-    @Override
-    public void showSpeedAndFlowCongestions(boolean bl) {
+    public void showSpeedAndFlowCongestions(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -790,8 +794,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)95, genericSerializable);
     }
 
-    @Override
-    public void showRichContent(boolean bl) {
+    public void showRichContent(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -802,8 +805,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)93, genericSerializable);
     }
 
-    @Override
-    public void setGeneralPoiVisibility(boolean bl) {
+    public void setGeneralPoiVisibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -814,8 +816,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)47, genericSerializable);
     }
 
-    @Override
-    public void setCrossHairsColor(int n) {
+    public void setCrossHairsColor(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -826,8 +827,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void setViewPortBorder(int n) {
+    public void setViewPortBorder(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -838,8 +838,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)88, genericSerializable);
     }
 
-    @Override
-    public void setTerrainElevation(boolean bl) {
+    public void setTerrainElevation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -850,24 +849,25 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)79, genericSerializable);
     }
 
-    @Override
-    public void ensurePoiVisibility(NavLocation[] navLocationArray) {
-        DSIMapViewerControlProxy$18 dSIMapViewerControlProxy$18 = new DSIMapViewerControlProxy$18(this, navLocationArray);
-        this.proxy.remoteCallMethod((short)11, dSIMapViewerControlProxy$18);
+    public void ensurePoiVisibility(final NavLocation[] navLocationArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocationVarArray(iSerializer, navLocationArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void suspendMapViewer() {
+    public void suspendMapViewer() throws MethodException {
         this.proxy.remoteCallMethod((short)103, null);
     }
 
-    @Override
-    public void wakeupMapViewer() {
+    public void wakeupMapViewer() throws MethodException {
         this.proxy.remoteCallMethod((short)149, null);
     }
 
-    @Override
-    public void setMobilityHorizonZoomMode(int n) {
+    public void setMobilityHorizonZoomMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -878,14 +878,17 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84) {
-        DSIMapViewerControlProxy$19 dSIMapViewerControlProxy$19 = new DSIMapViewerControlProxy$19(this, navLocationWgs84);
-        this.proxy.remoteCallMethod((short)155, dSIMapViewerControlProxy$19);
+    public void isDetailedMapMaterialAvailable(final NavLocationWgs84 navLocationWgs84) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+            }
+        };
+        this.proxy.remoteCallMethod((short)155, iSerializable);
     }
 
-    @Override
-    public void setHorizonMarkerVisibility(boolean bl) {
+    public void setHorizonMarkerVisibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -896,8 +899,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)157, genericSerializable);
     }
 
-    @Override
-    public void ensureTrafficEventIconsVisibility(long[] lArray) {
+    public void ensureTrafficEventIconsVisibility(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -908,20 +910,28 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)162, genericSerializable);
     }
 
-    @Override
-    public void setMapViewPortByWGS84Rectangle(NavRectangle navRectangle, int n) {
-        DSIMapViewerControlProxy$20 dSIMapViewerControlProxy$20 = new DSIMapViewerControlProxy$20(this, navRectangle, n);
-        this.proxy.remoteCallMethod((short)185, dSIMapViewerControlProxy$20);
+    public void setMapViewPortByWGS84Rectangle(final NavRectangle navRectangle, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavRectangleSerializer.putOptionalNavRectangle(iSerializer, navRectangle);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)185, iSerializable);
     }
 
-    @Override
-    public void startRouteDragging(NavLocationWgs84 navLocationWgs84) {
-        DSIMapViewerControlProxy$21 dSIMapViewerControlProxy$21 = new DSIMapViewerControlProxy$21(this, navLocationWgs84);
-        this.proxy.remoteCallMethod((short)165, dSIMapViewerControlProxy$21);
+    public void startRouteDragging(final NavLocationWgs84 navLocationWgs84) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+            }
+        };
+        this.proxy.remoteCallMethod((short)165, iSerializable);
     }
 
-    @Override
-    public void dragRoute(short s, short s2) {
+    public void dragRoute(short s, short s2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -933,8 +943,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)161, genericSerializable);
     }
 
-    @Override
-    public void setDragRouteMarker(int n) {
+    public void setDragRouteMarker(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -945,8 +954,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)163, genericSerializable);
     }
 
-    @Override
-    public void highlightRouteBasedOnLength(long l, long l2, int n) {
+    public void highlightRouteBasedOnLength(long l, long l2, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -959,8 +967,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)167, genericSerializable);
     }
 
-    @Override
-    public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
+    public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -973,8 +980,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)168, genericSerializable);
     }
 
-    @Override
-    public void ehSetCategoryVisibilityToDefault(int n) {
+    public void ehSetCategoryVisibilityToDefault(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -985,14 +991,20 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)169, genericSerializable);
     }
 
-    @Override
-    public void setMapOverlays(int n, MapOverlay[] mapOverlayArray, int n2, int n3) {
-        DSIMapViewerControlProxy$22 dSIMapViewerControlProxy$22 = new DSIMapViewerControlProxy$22(this, n, mapOverlayArray, n2, n3);
-        this.proxy.remoteCallMethod((short)184, dSIMapViewerControlProxy$22);
+    public void setMapOverlays(final int n, final MapOverlay[] mapOverlayArray, final int n2, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                MapOverlaySerializer.putOptionalMapOverlayVarArray(iSerializer, mapOverlayArray);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)184, iSerializable);
     }
 
-    @Override
-    public void setMapLayerVisible(int[] nArray) {
+    public void setMapLayerVisible(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1003,8 +1015,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)171, genericSerializable);
     }
 
-    @Override
-    public void setTemperatureScale(int n) {
+    public void setTemperatureScale(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1015,8 +1026,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)176, genericSerializable);
     }
 
-    @Override
-    public void setSoftAnimationSpeed(int n) {
+    public void setSoftAnimationSpeed(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1027,8 +1037,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)178, genericSerializable);
     }
 
-    @Override
-    public void setSpeedAndFlowRoadClass(int n) {
+    public void setSpeedAndFlowRoadClass(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1039,8 +1048,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)179, genericSerializable);
     }
 
-    @Override
-    public void setRouteVisibility(boolean bl) {
+    public void setRouteVisibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1051,14 +1059,17 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)182, genericSerializable);
     }
 
-    @Override
-    public void setVisibleRoutes(NavSegmentID[] navSegmentIDArray) {
-        DSIMapViewerControlProxy$23 dSIMapViewerControlProxy$23 = new DSIMapViewerControlProxy$23(this, navSegmentIDArray);
-        this.proxy.remoteCallMethod((short)187, dSIMapViewerControlProxy$23);
+    public void setVisibleRoutes(final NavSegmentID[] navSegmentIDArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavSegmentIDSerializer.putOptionalNavSegmentIDVarArray(iSerializer, navSegmentIDArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)187, iSerializable);
     }
 
-    @Override
-    public void showTrafficEventListView(long[] lArray, boolean bl, boolean bl2) {
+    public void showTrafficEventListView(long[] lArray, boolean bl, boolean bl2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -1071,8 +1082,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)188, genericSerializable);
     }
 
-    @Override
-    public void setMapStyle(int n) {
+    public void setMapStyle(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1083,14 +1093,19 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)190, genericSerializable);
     }
 
-    @Override
-    public void setCopyrightPosition(NavRectangle navRectangle, int n, int n2) {
-        DSIMapViewerControlProxy$24 dSIMapViewerControlProxy$24 = new DSIMapViewerControlProxy$24(this, navRectangle, n, n2);
-        this.proxy.remoteCallMethod((short)189, dSIMapViewerControlProxy$24);
+    public void setCopyrightPosition(final NavRectangle navRectangle, final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavRectangleSerializer.putOptionalNavRectangle(iSerializer, navRectangle);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)189, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1101,8 +1116,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)69, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1113,13 +1127,11 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)70, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)68, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1130,8 +1142,7 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1142,13 +1153,11 @@ DSIMapViewerControlC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

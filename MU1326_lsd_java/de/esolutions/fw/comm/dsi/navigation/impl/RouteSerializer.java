@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.RouteDestinationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.Route;
 import org.dsi.ifc.navigation.RouteDestination;
 
 public class RouteSerializer {
-    public static void putOptionalRoute(ISerializer iSerializer, Route route) {
+    public static void putOptionalRoute(ISerializer iSerializer, Route route) throws SerializerException {
         boolean bl = route == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RouteSerializer {
         }
     }
 
-    public static void putOptionalRouteVarArray(ISerializer iSerializer, Route[] routeArray) {
+    public static void putOptionalRouteVarArray(ISerializer iSerializer, Route[] routeArray) throws SerializerException {
         boolean bl = routeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RouteSerializer {
         }
     }
 
-    public static Route getOptionalRoute(IDeserializer iDeserializer) {
+    public static Route getOptionalRoute(IDeserializer iDeserializer) throws SerializerException {
         Route route = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class RouteSerializer {
         return route;
     }
 
-    public static Route[] getOptionalRouteVarArray(IDeserializer iDeserializer) {
+    public static Route[] getOptionalRouteVarArray(IDeserializer iDeserializer) throws SerializerException {
         Route[] routeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

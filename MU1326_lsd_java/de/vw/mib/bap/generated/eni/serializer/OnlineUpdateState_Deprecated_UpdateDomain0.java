@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class OnlineUpdateState_Deprecated_UpdateDomain0
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean ccuNad;
 
     public OnlineUpdateState_Deprecated_UpdateDomain0() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.ccuNad = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OnlineUpdateState_Deprecated_UpdateDomain0 onlineUpdateState_Deprecated_UpdateDomain0 = (OnlineUpdateState_Deprecated_UpdateDomain0)bAPEntity;
         return this.ccuNad == onlineUpdateState_Deprecated_UpdateDomain0.ccuNad;
@@ -39,26 +37,22 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OnlineUpdateState_Deprecated_UpdateDomain0");
-        stringBuffer.append(new StringBuffer().append("\n - ccuNad:").append(this.ccuNad).toString());
+        stringBuffer.append("\n - ccuNad:" + this.ccuNad);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.ccuNad);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.ccuNad = bitStream.popFrontBoolean();

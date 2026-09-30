@@ -8,71 +8,52 @@ import de.esolutions.fw.comm.asi.hmisync.media.MediaEntry;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaPlayTime;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaPlaylistState;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncMediaReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "d4078ff5-09f8-41d6-bc52-9680f105aea0";
+    public static final String IPL_COMM_INTERFACE_KEY = "bfc935bd-08a4-581a-85b9-c997454d068b";
+    public static final String IPL_COMM_INTERFACE_VERSION = "4.8.2";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void indicationCmdBlocked(int n) {
-    }
+    public void indicationCmdBlocked(int var1) throws MethodException;
 
-    default public void responsePlayList(boolean bl, int n, MediaEntry[] mediaEntryArray) {
-    }
+    public void responsePlayList(boolean var1, int var2, MediaEntry[] var3) throws MethodException;
 
-    default public void responseSetPlaySelection(boolean bl) {
-    }
+    public void responseSetPlaySelection(boolean var1) throws MethodException;
 
-    default public void responsePlayMoreFrom(long l, int n, int n2) {
-    }
+    public void responsePlayMoreFrom(long var1, int var3, int var4) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateSourceList(MediaSourceSlot[] mediaSourceSlotArray, boolean bl) {
-    }
+    public void updateSourceList(MediaSourceSlot[] var1, boolean var2) throws MethodException;
 
-    default public void updateActiveSlotState(MediaActiveSourceState mediaActiveSourceState, boolean bl) {
-    }
+    public void updateActiveSlotState(MediaActiveSourceState var1, boolean var2) throws MethodException;
 
-    default public void updatePlaybackState(int n, boolean bl) {
-    }
+    public void updatePlaybackState(int var1, boolean var2) throws MethodException;
 
-    default public void updateListState(MediaPlaylistState mediaPlaylistState, boolean bl) {
-    }
+    public void updateListState(MediaPlaylistState var1, boolean var2) throws MethodException;
 
-    default public void updatePlayerCapabilities(int n, boolean bl) {
-    }
+    public void updatePlayerCapabilities(int var1, boolean var2) throws MethodException;
 
-    default public void updateMix(boolean bl, boolean bl2) {
-    }
+    public void updateMix(boolean var1, boolean var2) throws MethodException;
 
-    default public void updateRepeatTitle(boolean bl, boolean bl2) {
-    }
+    public void updateRepeatTitle(boolean var1, boolean var2) throws MethodException;
 
-    default public void updateRepeatState(int n, boolean bl) {
-    }
+    public void updateRepeatState(int var1, boolean var2) throws MethodException;
 
-    default public void updateShuffleState(int n, boolean bl) {
-    }
+    public void updateShuffleState(int var1, boolean var2) throws MethodException;
 
-    default public void updatePlayingTrack(MediaEntry mediaEntry, boolean bl) {
-    }
+    public void updatePlayingTrack(MediaEntry var1, boolean var2) throws MethodException;
 
-    default public void updatePlayPosition(MediaPlayTime mediaPlayTime, boolean bl) {
-    }
+    public void updatePlayPosition(MediaPlayTime var1, boolean var2) throws MethodException;
 
-    default public void updatePlaybackFolder(MediaEntry[] mediaEntryArray, boolean bl) {
-    }
+    public void updatePlaybackFolder(MediaEntry[] var1, boolean var2) throws MethodException;
 
-    default public void updatePlaybackPossible(int n, boolean bl) {
-    }
+    public void updatePlaybackPossible(int var1, boolean var2) throws MethodException;
 }
 

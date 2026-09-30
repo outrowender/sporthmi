@@ -10,10 +10,8 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 public interface ScreenArea
 extends ScreenChangeAnimationItem,
 DrawerAnimationListener {
-    default public AbstractWidgetController getScreenAreaWidget() {
-    }
+    public AbstractWidgetController getScreenAreaWidget();
 
-    default public void setMainAreaState(int n, int n2, int n3) {
-    }
+    public void setMainAreaState(int var1, int var2, int var3);
 }
 

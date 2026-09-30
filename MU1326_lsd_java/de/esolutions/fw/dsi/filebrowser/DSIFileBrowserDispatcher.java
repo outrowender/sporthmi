@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.filebrowser;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.filebrowser.DSIFileBrowserReply;
 import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIFileBrowserReply {
         super(n, (class$org$dsi$ifc$filebrowser$DSIFileBrowserListener == null ? (class$org$dsi$ifc$filebrowser$DSIFileBrowserListener = DSIFileBrowserDispatcher.class$("org.dsi.ifc.filebrowser.DSIFileBrowserListener")) : class$org$dsi$ifc$filebrowser$DSIFileBrowserListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void startResult(int n, int n2, Path path) {
+    public void startResult(int n, int n2, Path path) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -47,8 +46,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void setFileExtensionFilterResult(int n, int n2) {
+    public void setFileExtensionFilterResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -64,8 +62,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void setFileTypeFilterResult(int n, int n2) {
+    public void setFileTypeFilterResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -81,8 +78,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getViewWindowResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, int n4) {
+    public void getViewWindowResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -98,8 +94,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getViewWindowWithPreviewsResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, PreviewInfo[] previewInfoArray, int n4) {
+    public void getViewWindowWithPreviewsResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, PreviewInfo[] previewInfoArray, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -115,8 +110,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getResourceLocatorWindowResult(int n, int n2, int n3, ResourceLocator[] resourceLocatorArray, int n4) {
+    public void getResourceLocatorWindowResult(int n, int n2, int n3, ResourceLocator[] resourceLocatorArray, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -132,8 +126,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void indicateSelectionResult(int n, int n2, int n3) {
+    public void indicateSelectionResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -149,8 +142,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void changeFolderResult(int n, int n2, Path path) {
+    public void changeFolderResult(int n, int n2, Path path) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -166,8 +158,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getSelectedFilesResult(int n, int n2, int n3) {
+    public void getSelectedFilesResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -183,8 +174,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getResourceLocatorsResult(int n, int n2, ResourceLocator[] resourceLocatorArray) {
+    public void getResourceLocatorsResult(int n, int n2, ResourceLocator[] resourceLocatorArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -200,8 +190,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getFileCountResult(int n, int n2, int n3) {
+    public void getFileCountResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -217,8 +206,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void getFileCountWithFileTypeFilterResult(int n, int n2, int n3, int n4) {
+    public void getFileCountWithFileTypeFilterResult(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -234,8 +222,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void spellerResult(int n, int n2, String string, String string2) {
+    public void spellerResult(int n, int n2, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -251,8 +238,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void setLanguageResult(int n, String string) {
+    public void setLanguageResult(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -268,8 +254,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void setFileTypeActiveResult(int n) {
+    public void setFileTypeActiveResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -285,8 +270,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
+    public void validateSpellerCharsResult(int n, int n2, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -302,8 +286,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void createPreviewImageResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) {
+    public void createPreviewImageResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -319,8 +302,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void cancelPreviewCreationResult(int n) {
+    public void cancelPreviewCreationResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -336,8 +318,7 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -353,14 +334,13 @@ implements DSIFileBrowserReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIFileBrowserListener dSIFileBrowserListener = (DSIFileBrowserListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFileBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFileBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIFileBrowserListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFileBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFileBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIFileBrowserListener, new Object[]{string, string2});
                     continue;
                 }

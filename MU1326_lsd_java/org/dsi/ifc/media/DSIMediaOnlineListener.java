@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIMediaOnlineListener
 extends DSIListener {
-    default public void updateBufferState(int n, int n2) {
-    }
+    public void updateBufferState(int var1, int var2);
 
-    default public void updateBufferFillInfo(int n, int n2, int n3) {
-    }
+    public void updateBufferFillInfo(int var1, int var2, int var3);
 
-    default public void updateAudioSettings(int n, int n2, int n3) {
-    }
+    public void updateAudioSettings(int var1, int var2, int var3);
 }
 

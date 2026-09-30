@@ -10,21 +10,20 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.PHEVLoadingController;
 
 public class PHEVLoadingRedererHigh
 extends AbstractKanziTemplateRenderer {
-    private static final String PROPERTY_CHARGING_PROGRESS;
-    private static final String PROPERTY_CHARGING_STATE;
-    private static final String PROPERTY_CABLE_PLUGSTATE;
-    private static final String PROPERTY_CABLE_PLUGCOLOR;
-    private static final String PROPERTY_CLIMATE_STATE;
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String TEMPLATE_NODE_GB_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String PROPERTY_CHARGING_PROGRESS = "phev_charging_progress";
+    private static final String PROPERTY_CHARGING_STATE = "phev_charging_state";
+    private static final String PROPERTY_CABLE_PLUGSTATE = "phev_charging_plugState";
+    private static final String PROPERTY_CABLE_PLUGCOLOR = "phev_charging_plugColor";
+    private static final String PROPERTY_CLIMATE_STATE = "phev_climate_state";
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/phev_loading_car";
+    private static final String TEMPLATE_NODE_GB_PATH = "Prefabs/phev_gb_loading_car";
+    private static final String EAL_NODE_NAME = "PHEV_loading_car";
     private PHEVLoadingController controller;
 
     public PHEVLoadingRedererHigh(PHEVLoadingController pHEVLoadingController) {
         this.controller = pHEVLoadingController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         this.node.setOpacity(this.controller.getRenderOpacity());
         boolean bl = this.getEALManager().isLTR();
@@ -33,36 +32,32 @@ extends AbstractKanziTemplateRenderer {
             f2 = this.controller.getX() - this.controller.getWidth() + this.controller.getArabicXOffset();
         }
         this.node.setPosition(f2, this.controller.getY(), 0.0f);
-        this.setProperty("phev_charging_progress", this.controller.getPhevBatteryLevel());
-        this.setProperty("phev_charging_state", this.controller.getPhevBatteryState());
-        this.setProperty("phev_charging_plugState", this.controller.getPhevCablePlugState());
-        this.setProperty("phev_charging_plugColor", this.controller.getPhevCableColor());
-        this.setProperty("phev_climate_state", this.controller.getClimateState());
+        this.setProperty(PROPERTY_CHARGING_PROGRESS, this.controller.getPhevBatteryLevel());
+        this.setProperty(PROPERTY_CHARGING_STATE, this.controller.getPhevBatteryState());
+        this.setProperty(PROPERTY_CABLE_PLUGSTATE, this.controller.getPhevCablePlugState());
+        this.setProperty(PROPERTY_CABLE_PLUGCOLOR, this.controller.getPhevCableColor());
+        this.setProperty(PROPERTY_CLIMATE_STATE, this.controller.getClimateState());
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected String getTemplateNodePath() {
         if (this.controller.getMode() == 0) {
-            return "Prefabs/phev_loading_car";
+            return TEMPLATE_NODE_PATH;
         }
-        return "Prefabs/phev_gb_loading_car";
+        return TEMPLATE_NODE_GB_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "PHEV_loading_car";
+        return EAL_NODE_NAME;
     }
 
     protected int getKzbId(int n) {
         return 0;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 3;
     }

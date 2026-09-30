@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlExpiredTimer;
 
 public class BatteryControlExpiredTimerSerializer {
-    public static void putOptionalBatteryControlExpiredTimer(ISerializer iSerializer, BatteryControlExpiredTimer batteryControlExpiredTimer) {
+    public static void putOptionalBatteryControlExpiredTimer(ISerializer iSerializer, BatteryControlExpiredTimer batteryControlExpiredTimer) throws SerializerException {
         boolean bl = batteryControlExpiredTimer == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BatteryControlExpiredTimerSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlExpiredTimerVarArray(ISerializer iSerializer, BatteryControlExpiredTimer[] batteryControlExpiredTimerArray) {
+    public static void putOptionalBatteryControlExpiredTimerVarArray(ISerializer iSerializer, BatteryControlExpiredTimer[] batteryControlExpiredTimerArray) throws SerializerException {
         boolean bl = batteryControlExpiredTimerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BatteryControlExpiredTimerSerializer {
         }
     }
 
-    public static BatteryControlExpiredTimer getOptionalBatteryControlExpiredTimer(IDeserializer iDeserializer) {
+    public static BatteryControlExpiredTimer getOptionalBatteryControlExpiredTimer(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlExpiredTimer batteryControlExpiredTimer = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BatteryControlExpiredTimerSerializer {
         return batteryControlExpiredTimer;
     }
 
-    public static BatteryControlExpiredTimer[] getOptionalBatteryControlExpiredTimerVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlExpiredTimer[] getOptionalBatteryControlExpiredTimerVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlExpiredTimer[] batteryControlExpiredTimerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

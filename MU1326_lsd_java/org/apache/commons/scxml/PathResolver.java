@@ -4,10 +4,8 @@
 package org.apache.commons.scxml;
 
 public interface PathResolver {
-    default public String resolvePath(String string) {
-    }
+    public String resolvePath(String var1);
 
-    default public PathResolver getResolver(String string) {
-    }
+    public PathResolver getResolver(String var1);
 }
 

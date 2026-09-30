@@ -4,27 +4,21 @@
 package de.esolutions.fw.comm.asi.hmisync.instance;
 
 import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstanceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncInstanceS {
-    default public void requestInstanceId(String string, String string2, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void requestInstanceId(String var1, String var2, ASIHMISyncInstanceReply var3) throws MethodException;
 
-    default public void setNotification(ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void setNotification(ASIHMISyncInstanceReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncInstanceReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncInstanceReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void clearNotification(ASIHMISyncInstanceReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncInstanceReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncInstanceReply var2) throws MethodException;
 }
 

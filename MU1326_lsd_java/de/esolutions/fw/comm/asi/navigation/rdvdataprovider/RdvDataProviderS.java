@@ -5,18 +5,15 @@ package de.esolutions.fw.comm.asi.navigation.rdvdataprovider;
 
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RdvDataProviderReply;
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RouteProviderSetting;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface RdvDataProviderS {
-    default public void registerForDataUpdate(RdvDataProviderReply rdvDataProviderReply) {
-    }
+    public void registerForDataUpdate(RdvDataProviderReply var1) throws MethodException;
 
-    default public void unregisterForDataUpdate(RdvDataProviderReply rdvDataProviderReply) {
-    }
+    public void unregisterForDataUpdate(RdvDataProviderReply var1) throws MethodException;
 
-    default public void setRouteProviderSetting(RouteProviderSetting routeProviderSetting, RdvDataProviderReply rdvDataProviderReply) {
-    }
+    public void setRouteProviderSetting(RouteProviderSetting var1, RdvDataProviderReply var2) throws MethodException;
 
-    default public void getCurrentPosition(RdvDataProviderReply rdvDataProviderReply) {
-    }
+    public void getCurrentPosition(RdvDataProviderReply var1) throws MethodException;
 }
 

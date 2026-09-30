@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.tracing.util;
 
 public interface IThreadEntityCreator {
-    default public int createThreadEntity(String string) {
-    }
+    public int createThreadEntity(String var1);
 }
 

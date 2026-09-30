@@ -76,7 +76,7 @@ public class ServiceListEntry {
     }
 
     public String toString() {
-        return new StringBuffer("ServiceListEntry{").append("serviceId=").append(this.serviceId).append(", version=").append(this.version).append(", url=").append(this.url).append(", scope=").append(this.scope).append(", licenses=").append("[").append(this.licenses == null ? "null" : Arrays.asList(this.licenses).toString()).append("]").append(", isEnabled=").append(this.isEnabled).append("}").toString();
+        return "ServiceListEntry{" + "serviceId=" + this.serviceId + ", version=" + this.version + ", url=" + this.url + ", scope=" + this.scope + ", licenses=" + "[" + (this.licenses == null ? "null" : Arrays.asList(this.licenses).toString()) + "]" + ", isEnabled=" + this.isEnabled + "}";
     }
 }
 

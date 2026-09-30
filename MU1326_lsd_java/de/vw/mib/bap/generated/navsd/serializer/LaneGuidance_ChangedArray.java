@@ -14,35 +14,30 @@ import de.vw.mib.bap.stream.BitStream;
 public final class LaneGuidance_ChangedArray
 implements BAPChangedArray {
     public int laneGuidanceOnOff;
-    private static final int LANE_GUIDANCE_ON_OFF_BITSIZE;
-    public static final int LANE_GUIDANCE_ON_OFF_LANE_GUIDANCE_SHALL_NOT_BE_DISPLAYED;
-    public static final int LANE_GUIDANCE_ON_OFF_DISPLAY_LANE_GUIDANCE;
-    public static final int LANE_GUIDANCE_ON_OFF_NOT_SUPPORTED;
+    private static final int LANE_GUIDANCE_ON_OFF_BITSIZE = 8;
+    public static final int LANE_GUIDANCE_ON_OFF_LANE_GUIDANCE_SHALL_NOT_BE_DISPLAYED = 0;
+    public static final int LANE_GUIDANCE_ON_OFF_DISPLAY_LANE_GUIDANCE = 1;
+    public static final int LANE_GUIDANCE_ON_OFF_NOT_SUPPORTED = 255;
     private ArrayHeader arrayHeader = new ArrayHeader();
     private BAPArrayData laneGuidance = new BAPArrayData(8);
-    private static final int MAX_LANE_GUIDANCE_ELEMENTS;
+    private static final int MAX_LANE_GUIDANCE_ELEMENTS = 8;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.laneGuidance = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.laneGuidance;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new LaneGuidance_LaneGuidance(this.getArrayHeader());
     }
@@ -61,14 +56,12 @@ implements BAPChangedArray {
         this.laneGuidanceOnOff = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.laneGuidance.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         LaneGuidance_ChangedArray laneGuidance_ChangedArray = (LaneGuidance_ChangedArray)bAPEntity;
         return this.laneGuidanceOnOff == laneGuidance_ChangedArray.laneGuidanceOnOff && this.arrayHeader.equalTo(laneGuidance_ChangedArray.arrayHeader) && this.laneGuidance.equalTo(laneGuidance_ChangedArray.laneGuidance);
@@ -77,7 +70,6 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("LaneGuidance_ChangedArray:");
@@ -106,7 +98,6 @@ implements BAPChangedArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -114,14 +105,12 @@ implements BAPChangedArray {
         return n += this.laneGuidance.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.laneGuidanceOnOff);
         this.arrayHeader.serialize(bitStream);
         this.laneGuidance.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.laneGuidanceOnOff = bitStream.popFrontByte();
         this.arrayHeader.deserialize(bitStream);
@@ -139,7 +128,6 @@ implements BAPChangedArray {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return LaneGuidance_ChangedArray.functionId();
     }

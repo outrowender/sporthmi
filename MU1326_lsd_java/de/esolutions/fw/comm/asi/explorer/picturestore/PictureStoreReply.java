@@ -3,83 +3,61 @@
  */
 package de.esolutions.fw.comm.asi.explorer.picturestore;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.picturestore.GeoPicture;
 import org.dsi.ifc.picturestore.PictureAttribute;
 
 public interface PictureStoreReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "a4508c38-8b16-4130-967f-f23cb2238fda";
+    public static final String IPL_COMM_INTERFACE_KEY = "ca2869dd-3831-51b0-8093-231b81bca2c1";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.0";
+    public static final String IPL_COMM_MODULE_VERSION = "1.6.0";
 
-    default public void beginImportResult(int n) {
-    }
+    public void beginImportResult(int var1) throws MethodException;
 
-    default public void endImportResult(int n) {
-    }
+    public void endImportResult(int var1) throws MethodException;
 
-    default public void importPictureFromSourceResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) {
-    }
+    public void importPictureFromSourceResult(int var1, ResourceLocator var2, ResourceLocator var3, int var4) throws MethodException;
 
-    default public void importPictureWithSynchronizationIDResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2, long l) {
-    }
+    public void importPictureWithSynchronizationIDResult(int var1, ResourceLocator var2, ResourceLocator var3, int var4, long var5) throws MethodException;
 
-    default public void getMaxSynchronizationIDResult(int n, long l) {
-    }
+    public void getMaxSynchronizationIDResult(int var1, long var2) throws MethodException;
 
-    default public void setSynchronizationIDResult(int n, long l) {
-    }
+    public void setSynchronizationIDResult(int var1, long var2) throws MethodException;
 
-    default public void renameFolderResult(int n, String string, String string2, long l, int n2) {
-    }
+    public void renameFolderResult(int var1, String var2, String var3, long var4, int var6) throws MethodException;
 
-    default public void countPicturesInContextResult(int n, int n2, int n3) {
-    }
+    public void countPicturesInContextResult(int var1, int var2, int var3) throws MethodException;
 
-    default public void increaseRefCounterResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) {
-    }
+    public void increaseRefCounterResult(ResourceLocator var1, ResourceLocator var2, int var3) throws MethodException;
 
-    default public void deletedPictures(ResourceLocator[] resourceLocatorArray) {
-    }
+    public void deletedPictures(ResourceLocator[] var1) throws MethodException;
 
-    default public void deleteSynchronizedPictureResult(int n, long l, long l2, int n2) {
-    }
+    public void deleteSynchronizedPictureResult(int var1, long var2, long var4, int var6) throws MethodException;
 
-    default public void getPictureAttributesResult(ResourceLocator resourceLocator, PictureAttribute[] pictureAttributeArray, int n) {
-    }
+    public void getPictureAttributesResult(ResourceLocator var1, PictureAttribute[] var2, int var3) throws MethodException;
 
-    default public void listWithFilterResult(ResourceLocator[] resourceLocatorArray, int n) {
-    }
+    public void listWithFilterResult(ResourceLocator[] var1, int var2) throws MethodException;
 
-    default public void listForContextResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-    }
+    public void listForContextResult(int var1, ResourceLocator[] var2, int var3) throws MethodException;
 
-    default public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-    }
+    public void listForContextWithFilterResult(int var1, ResourceLocator[] var2, int var3) throws MethodException;
 
-    default public void listForContextWithFilterSortDistResult(int n, ResourceLocator[] resourceLocatorArray, int n2, float f2, float f3) {
-    }
+    public void listForContextWithFilterSortDistResult(int var1, ResourceLocator[] var2, int var3, float var4, float var5) throws MethodException;
 
-    default public void getRectanglePicturesGridResult(GeoPicture[] geoPictureArray) {
-    }
+    public void getRectanglePicturesGridResult(GeoPicture[] var1) throws MethodException;
 
-    default public void getAvailableYearsResult(int[] nArray) {
-    }
+    public void getAvailableYearsResult(int[] var1) throws MethodException;
 
-    default public void getAvailableMonthsResult(int[] nArray) {
-    }
+    public void getAvailableMonthsResult(int[] var1) throws MethodException;
 
-    default public void createFilterSetResult(int n) {
-    }
+    public void createFilterSetResult(int var1) throws MethodException;
 
-    default public void cloneFilterSetResult(int n, int n2) {
-    }
+    public void cloneFilterSetResult(int var1, int var2) throws MethodException;
 
-    default public void invalidData(int[] nArray, int n) {
-    }
+    public void invalidData(int[] var1, int var2) throws MethodException;
 
-    default public void getAvailableFoldersResult(int n, String[] stringArray) {
-    }
+    public void getAvailableFoldersResult(int var1, String[] var2) throws MethodException;
 }
 

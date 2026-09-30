@@ -8,31 +8,22 @@ import de.esolutions.fw.comm.agent.directory.DirectoryEntry;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IServiceDirectory {
-    default public void registerService(DirectoryEntry directoryEntry) {
-    }
+    public void registerService(DirectoryEntry var1);
 
-    default public void unregisterService(DirectoryEntry directoryEntry) {
-    }
+    public void unregisterService(DirectoryEntry var1);
 
-    default public DirectoryEntry[] locateService(ServiceInstanceID serviceInstanceID) {
-    }
+    public DirectoryEntry[] locateService(ServiceInstanceID var1);
 
-    default public void addEmptyService(ServiceInstanceID serviceInstanceID) {
-    }
+    public void addEmptyService(ServiceInstanceID var1);
 
-    default public DirectoryEntry[] getAllEntries() {
-    }
+    public DirectoryEntry[] getAllEntries();
 
-    default public ServiceInstanceID[] getAllEmptyEntries() {
-    }
+    public ServiceInstanceID[] getAllEmptyEntries();
 
-    default public DirectoryEntry[] removeAllEntriesOfPeer(short s) {
-    }
+    public DirectoryEntry[] removeAllEntriesOfPeer(short var1);
 
-    default public void dumpDirectory(short s) {
-    }
+    public void dumpDirectory(short var1);
 
-    default public ServiceLocatorInfo[] createServiceLocatorInfos() {
-    }
+    public ServiceLocatorInfo[] createServiceLocatorInfos();
 }
 

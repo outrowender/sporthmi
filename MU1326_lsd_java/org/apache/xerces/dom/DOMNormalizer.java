@@ -12,7 +12,6 @@ import org.apache.xerces.dom.DOMConfigurationImpl;
 import org.apache.xerces.dom.DOMErrorImpl;
 import org.apache.xerces.dom.DOMLocatorImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
-import org.apache.xerces.dom.DOMNormalizer$XMLAttributesProxy;
 import org.apache.xerces.dom.ElementImpl;
 import org.apache.xerces.dom.EntityReferenceImpl;
 import org.apache.xerces.dom.NodeImpl;
@@ -24,6 +23,7 @@ import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.RevalidationHandler;
 import org.apache.xerces.impl.dv.XSSimpleType;
 import org.apache.xerces.impl.xs.util.SimpleLocator;
+import org.apache.xerces.util.AugmentationsImpl;
 import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.util.XML11Char;
@@ -37,6 +37,7 @@ import org.apache.xerces.xni.XMLDocumentHandler;
 import org.apache.xerces.xni.XMLLocator;
 import org.apache.xerces.xni.XMLResourceIdentifier;
 import org.apache.xerces.xni.XMLString;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLComponent;
 import org.apache.xerces.xni.parser.XMLDocumentSource;
 import org.apache.xerces.xs.AttributePSVI;
@@ -58,13 +59,13 @@ import org.w3c.dom.Text;
 
 public class DOMNormalizer
 implements XMLDocumentHandler {
-    protected static final boolean DEBUG_ND;
-    protected static final boolean DEBUG;
-    protected static final boolean DEBUG_EVENTS;
-    protected static final String PREFIX;
+    protected static final boolean DEBUG_ND = false;
+    protected static final boolean DEBUG = false;
+    protected static final boolean DEBUG_EVENTS = false;
+    protected static final String PREFIX = "NS";
     protected DOMConfigurationImpl fConfiguration = null;
     protected CoreDocumentImpl fDocument = null;
-    protected final DOMNormalizer$XMLAttributesProxy fAttrProxy = new DOMNormalizer$XMLAttributesProxy(this);
+    protected final XMLAttributesProxy fAttrProxy = new XMLAttributesProxy();
     protected final QName fQName = new QName();
     protected RevalidationHandler fValidationHandler;
     protected SymbolTable fSymbolTable;
@@ -79,8 +80,8 @@ implements XMLDocumentHandler {
     protected Node fCurrentNode = null;
     private QName fAttrQName = new QName();
     final XMLString fNormalizedValue = new XMLString(new char[16], 0, 0);
-    public static final RuntimeException abort;
-    public static final XMLString EMPTY_STRING;
+    public static final RuntimeException abort = new RuntimeException();
+    public static final XMLString EMPTY_STRING = new XMLString();
     private boolean allWhitespace = false;
 
     protected void normalizeDocument(CoreDocumentImpl coreDocumentImpl, DOMConfigurationImpl dOMConfigurationImpl) {
@@ -483,9 +484,9 @@ implements XMLDocumentHandler {
                     } else {
                         if (string == XMLSymbols.EMPTY_STRING || this.fLocalNSBinder.getURI(string) != null) {
                             int n2 = 1;
-                            string = this.fSymbolTable.addSymbol(new StringBuffer().append("NS").append(n2++).toString());
+                            string = this.fSymbolTable.addSymbol(PREFIX + n2++);
                             while (this.fLocalNSBinder.getURI(string) != null) {
-                                string = this.fSymbolTable.addSymbol(new StringBuffer().append("NS").append(n2++).toString());
+                                string = this.fSymbolTable.addSymbol(PREFIX + n2++);
                             }
                         }
                         this.addNamespaceDecl(string, string4, elementImpl);
@@ -513,7 +514,7 @@ implements XMLDocumentHandler {
         if (string == XMLSymbols.EMPTY_STRING) {
             elementImpl.setAttributeNS(NamespaceContext.XMLNS_URI, XMLSymbols.PREFIX_XMLNS, string2);
         } else {
-            elementImpl.setAttributeNS(NamespaceContext.XMLNS_URI, new StringBuffer().append("xmlns:").append(string).toString(), string2);
+            elementImpl.setAttributeNS(NamespaceContext.XMLNS_URI, "xmlns:" + string, string2);
         }
     }
 
@@ -715,28 +716,22 @@ implements XMLDocumentHandler {
         return string;
     }
 
-    @Override
-    public void startDocument(XMLLocator xMLLocator, String string, NamespaceContext namespaceContext, Augmentations augmentations) {
+    public void startDocument(XMLLocator xMLLocator, String string, NamespaceContext namespaceContext, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void xmlDecl(String string, String string2, String string3, Augmentations augmentations) {
+    public void xmlDecl(String string, String string2, String string3, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void doctypeDecl(String string, String string2, String string3, Augmentations augmentations) {
+    public void doctypeDecl(String string, String string2, String string3, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void comment(XMLString xMLString, Augmentations augmentations) {
+    public void comment(XMLString xMLString, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void processingInstruction(String string, XMLString xMLString, Augmentations augmentations) {
+    public void processingInstruction(String string, XMLString xMLString, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void startElement(QName qName, XMLAttributes xMLAttributes, Augmentations augmentations) {
+    public void startElement(QName qName, XMLAttributes xMLAttributes, Augmentations augmentations) throws XNIException {
         Element element = (Element)this.fCurrentNode;
         int n = xMLAttributes.getLength();
         for (int i2 = 0; i2 < n; ++i2) {
@@ -769,35 +764,28 @@ implements XMLDocumentHandler {
         }
     }
 
-    @Override
-    public void emptyElement(QName qName, XMLAttributes xMLAttributes, Augmentations augmentations) {
+    public void emptyElement(QName qName, XMLAttributes xMLAttributes, Augmentations augmentations) throws XNIException {
         this.startElement(qName, xMLAttributes, augmentations);
         this.endElement(qName, augmentations);
     }
 
-    @Override
-    public void startGeneralEntity(String string, XMLResourceIdentifier xMLResourceIdentifier, String string2, Augmentations augmentations) {
+    public void startGeneralEntity(String string, XMLResourceIdentifier xMLResourceIdentifier, String string2, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void textDecl(String string, String string2, Augmentations augmentations) {
+    public void textDecl(String string, String string2, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void endGeneralEntity(String string, Augmentations augmentations) {
+    public void endGeneralEntity(String string, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void characters(XMLString xMLString, Augmentations augmentations) {
+    public void characters(XMLString xMLString, Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void ignorableWhitespace(XMLString xMLString, Augmentations augmentations) {
+    public void ignorableWhitespace(XMLString xMLString, Augmentations augmentations) throws XNIException {
         this.allWhitespace = true;
     }
 
-    @Override
-    public void endElement(QName qName, Augmentations augmentations) {
+    public void endElement(QName qName, Augmentations augmentations) throws XNIException {
         ElementPSVI elementPSVI;
         if (augmentations != null && (elementPSVI = (ElementPSVI)augmentations.getItem("ELEMENT_PSVI")) != null) {
             ElementImpl elementImpl = (ElementImpl)this.fCurrentNode;
@@ -818,30 +806,196 @@ implements XMLDocumentHandler {
         }
     }
 
-    @Override
-    public void startCDATA(Augmentations augmentations) {
+    public void startCDATA(Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void endCDATA(Augmentations augmentations) {
+    public void endCDATA(Augmentations augmentations) throws XNIException {
     }
 
-    @Override
-    public void endDocument(Augmentations augmentations) {
+    public void endDocument(Augmentations augmentations) throws XNIException {
     }
 
-    @Override
     public void setDocumentSource(XMLDocumentSource xMLDocumentSource) {
     }
 
-    @Override
     public XMLDocumentSource getDocumentSource() {
         return null;
     }
 
-    static {
-        abort = new RuntimeException();
-        EMPTY_STRING = new XMLString();
+    protected final class XMLAttributesProxy
+    implements XMLAttributes {
+        protected AttributeMap fAttributes;
+        protected CoreDocumentImpl fDocument;
+        protected ElementImpl fElement;
+        protected final Vector fAugmentations = new Vector(5);
+
+        protected XMLAttributesProxy() {
+        }
+
+        public void setAttributes(AttributeMap attributeMap, CoreDocumentImpl coreDocumentImpl, ElementImpl elementImpl) {
+            this.fDocument = coreDocumentImpl;
+            this.fAttributes = attributeMap;
+            this.fElement = elementImpl;
+            if (attributeMap != null) {
+                int n = attributeMap.getLength();
+                this.fAugmentations.setSize(n);
+                for (int i2 = 0; i2 < n; ++i2) {
+                    this.fAugmentations.setElementAt(new AugmentationsImpl(), i2);
+                }
+            } else {
+                this.fAugmentations.setSize(0);
+            }
+        }
+
+        public int addAttribute(QName qName, String string, String string2) {
+            int n = this.fElement.getXercesAttribute(qName.uri, qName.localpart);
+            if (n < 0) {
+                AttrImpl attrImpl = (AttrImpl)((CoreDocumentImpl)this.fElement.getOwnerDocument()).createAttributeNS(qName.uri, qName.rawname, qName.localpart);
+                attrImpl.setNodeValue(string2);
+                n = this.fElement.setXercesAttributeNode(attrImpl);
+                this.fAugmentations.insertElementAt(new AugmentationsImpl(), n);
+                attrImpl.setSpecified(false);
+            }
+            return n;
+        }
+
+        public void removeAllAttributes() {
+        }
+
+        public void removeAttributeAt(int n) {
+        }
+
+        public int getLength() {
+            return this.fAttributes != null ? this.fAttributes.getLength() : 0;
+        }
+
+        public int getIndex(String string) {
+            return -1;
+        }
+
+        public int getIndex(String string, String string2) {
+            return -1;
+        }
+
+        public void setName(int n, QName qName) {
+        }
+
+        public void getName(int n, QName qName) {
+            if (this.fAttributes != null) {
+                DOMNormalizer.this.updateQName((Node)this.fAttributes.getItem(n), qName);
+            }
+        }
+
+        public String getPrefix(int n) {
+            if (this.fAttributes != null) {
+                Node node = (Node)this.fAttributes.getItem(n);
+                String string = node.getPrefix();
+                string = string != null && string.length() != 0 ? DOMNormalizer.this.fSymbolTable.addSymbol(string) : null;
+                return string;
+            }
+            return null;
+        }
+
+        public String getURI(int n) {
+            if (this.fAttributes != null) {
+                Node node = (Node)this.fAttributes.getItem(n);
+                String string = node.getNamespaceURI();
+                string = string != null ? DOMNormalizer.this.fSymbolTable.addSymbol(string) : null;
+                return string;
+            }
+            return null;
+        }
+
+        public String getLocalName(int n) {
+            if (this.fAttributes != null) {
+                Node node = (Node)this.fAttributes.getItem(n);
+                String string = node.getLocalName();
+                string = string != null ? DOMNormalizer.this.fSymbolTable.addSymbol(string) : null;
+                return string;
+            }
+            return null;
+        }
+
+        public String getQName(int n) {
+            if (this.fAttributes != null) {
+                Node node = (Node)this.fAttributes.getItem(n);
+                String string = DOMNormalizer.this.fSymbolTable.addSymbol(node.getNodeName());
+                return string;
+            }
+            return null;
+        }
+
+        public void setType(int n, String string) {
+        }
+
+        public String getType(int n) {
+            return "CDATA";
+        }
+
+        public String getType(String string) {
+            return "CDATA";
+        }
+
+        public String getType(String string, String string2) {
+            return "CDATA";
+        }
+
+        public void setValue(int n, String string) {
+            if (this.fAttributes != null) {
+                AttrImpl attrImpl = (AttrImpl)this.fAttributes.getItem(n);
+                boolean bl = attrImpl.getSpecified();
+                attrImpl.setValue(string);
+                attrImpl.setSpecified(bl);
+            }
+        }
+
+        public String getValue(int n) {
+            return this.fAttributes != null ? this.fAttributes.item(n).getNodeValue() : "";
+        }
+
+        public String getValue(String string) {
+            return null;
+        }
+
+        public String getValue(String string, String string2) {
+            if (this.fAttributes != null) {
+                Node node = this.fAttributes.getNamedItemNS(string, string2);
+                return node != null ? node.getNodeValue() : null;
+            }
+            return null;
+        }
+
+        public void setNonNormalizedValue(int n, String string) {
+        }
+
+        public String getNonNormalizedValue(int n) {
+            return null;
+        }
+
+        public void setSpecified(int n, boolean bl) {
+            AttrImpl attrImpl = (AttrImpl)this.fAttributes.getItem(n);
+            attrImpl.setSpecified(bl);
+        }
+
+        public boolean isSpecified(int n) {
+            return ((Attr)this.fAttributes.getItem(n)).getSpecified();
+        }
+
+        public Augmentations getAugmentations(int n) {
+            return (Augmentations)this.fAugmentations.elementAt(n);
+        }
+
+        public Augmentations getAugmentations(String string, String string2) {
+            return null;
+        }
+
+        public Augmentations getAugmentations(String string) {
+            return null;
+        }
+
+        public void setAugmentations(int n, Augmentations augmentations) {
+            this.fAugmentations.setElementAt(augmentations, n);
+        }
     }
 }
 

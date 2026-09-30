@@ -8,53 +8,34 @@ import java.util.SortedSet;
 
 public interface NavigableSet
 extends SortedSet {
-    default public Object lower(Object object) {
-    }
+    public Object lower(Object var1);
 
-    default public Object floor(Object object) {
-    }
+    public Object floor(Object var1);
 
-    default public Object ceiling(Object object) {
-    }
+    public Object ceiling(Object var1);
 
-    default public Object higher(Object object) {
-    }
+    public Object higher(Object var1);
 
-    default public Object pollFirst() {
-    }
+    public Object pollFirst();
 
-    default public Object pollLast() {
-    }
+    public Object pollLast();
 
-    @Override
-    default public Iterator iterator() {
-    }
+    public Iterator iterator();
 
-    default public NavigableSet descendingSet() {
-    }
+    public NavigableSet descendingSet();
 
-    default public Iterator descendingIterator() {
-    }
+    public Iterator descendingIterator();
 
-    default public NavigableSet subSet(Object object, boolean bl, Object object2, boolean bl2) {
-    }
+    public NavigableSet subSet(Object var1, boolean var2, Object var3, boolean var4);
 
-    default public NavigableSet headSet(Object object, boolean bl) {
-    }
+    public NavigableSet headSet(Object var1, boolean var2);
 
-    default public NavigableSet tailSet(Object object, boolean bl) {
-    }
+    public NavigableSet tailSet(Object var1, boolean var2);
 
-    @Override
-    default public SortedSet subSet(Object object, Object object2) {
-    }
+    public SortedSet subSet(Object var1, Object var2);
 
-    @Override
-    default public SortedSet headSet(Object object) {
-    }
+    public SortedSet headSet(Object var1);
 
-    @Override
-    default public SortedSet tailSet(Object object) {
-    }
+    public SortedSet tailSet(Object var1);
 }
 

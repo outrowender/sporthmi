@@ -14,7 +14,7 @@ implements StatusProperty {
     public boolean fctBap_ConfigAvailable;
     public boolean fctFunctionListAvailable;
     public boolean fctHeartBeatAvailable;
-    private static final int RESERVED_BIT_5__14_BITSIZE;
+    private static final int RESERVED_BIT_5__14_BITSIZE = 10;
     public boolean fctFsg_OperationStateAvailable;
     public boolean fctCompassInfoAvailable;
     public boolean fctRg_StatusAvailable;
@@ -57,8 +57,8 @@ implements StatusProperty {
     public boolean fctMap_PresentationAvailable;
     public boolean fctManeuverStateAvailable;
     public boolean fctEtc_StatusAvailable;
-    private static final int RESERVED_BIT_57__63_BITSIZE;
-    private static final int FUNCTION_LIST_STATUS_BITSIZE;
+    private static final int RESERVED_BIT_57__63_BITSIZE = 7;
+    private static final int FUNCTION_LIST_STATUS_BITSIZE = 64;
 
     public FunctionList_Status() {
         this.internalReset();
@@ -120,12 +120,10 @@ implements StatusProperty {
         this.fctEtc_StatusAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_Status functionList_Status = (FunctionList_Status)bAPEntity;
         return this.reserved_bit_0 == functionList_Status.reserved_bit_0 && this.fctGetAllAvailable == functionList_Status.fctGetAllAvailable && this.fctBap_ConfigAvailable == functionList_Status.fctBap_ConfigAvailable && this.fctFunctionListAvailable == functionList_Status.fctFunctionListAvailable && this.fctHeartBeatAvailable == functionList_Status.fctHeartBeatAvailable && this.fctFsg_OperationStateAvailable == functionList_Status.fctFsg_OperationStateAvailable && this.fctCompassInfoAvailable == functionList_Status.fctCompassInfoAvailable && this.fctRg_StatusAvailable == functionList_Status.fctRg_StatusAvailable && this.fctDistanceToNextManeuverAvailable == functionList_Status.fctDistanceToNextManeuverAvailable && this.fctCurrentPositionInfoAvailable == functionList_Status.fctCurrentPositionInfoAvailable && this.fctTurnToInfoAvailable == functionList_Status.fctTurnToInfoAvailable && this.fctDistanceToDestinationAvailable == functionList_Status.fctDistanceToDestinationAvailable && this.fctTimeToDestinationAvailable == functionList_Status.fctTimeToDestinationAvailable && this.fctManeuverDescriptorAvailable == functionList_Status.fctManeuverDescriptorAvailable && this.fctLaneGuidanceAvailable == functionList_Status.fctLaneGuidanceAvailable && this.fctTmcinfoAvailable == functionList_Status.fctTmcinfoAvailable && this.fctMagnetFieldZoneAvailable == functionList_Status.fctMagnetFieldZoneAvailable && this.fctCalibrationAvailable == functionList_Status.fctCalibrationAvailable && this.fctAsg_CapabilitiesAvailable == functionList_Status.fctAsg_CapabilitiesAvailable && this.fctLastDest_ListAvailable == functionList_Status.fctLastDest_ListAvailable && this.fctFavoriteDest_ListAvailable == functionList_Status.fctFavoriteDest_ListAvailable && this.fctPreferredDest_ListAvailable == functionList_Status.fctPreferredDest_ListAvailable && this.fctNavBookAvailable == functionList_Status.fctNavBookAvailable && this.fctAddress_ListAvailable == functionList_Status.fctAddress_ListAvailable && this.fctRg_ActDeactAvailable == functionList_Status.fctRg_ActDeactAvailable && this.fctRepeatLastNavAnnouncementAvailable == functionList_Status.fctRepeatLastNavAnnouncementAvailable && this.fctVoiceGuidanceAvailable == functionList_Status.fctVoiceGuidanceAvailable && this.fctFunctionSynchronisationAvailable == functionList_Status.fctFunctionSynchronisationAvailable && this.fctInfoStatesAvailable == functionList_Status.fctInfoStatesAvailable && this.fctActiveRgTypeAvailable == functionList_Status.fctActiveRgTypeAvailable && this.fctTrafficBlock_IndicationAvailable == functionList_Status.fctTrafficBlock_IndicationAvailable && this.fctGetNextListPosAvailable == functionList_Status.fctGetNextListPosAvailable && this.fctNbSpellerAvailable == functionList_Status.fctNbSpellerAvailable && this.fctMapColorAndTypeAvailable == functionList_Status.fctMapColorAndTypeAvailable && this.fctMapViewAndOrientationAvailable == functionList_Status.fctMapViewAndOrientationAvailable && this.fctMapScaleAvailable == functionList_Status.fctMapScaleAvailable && this.fctDestinationInfoAvailable == functionList_Status.fctDestinationInfoAvailable && this.fctAltitudeAvailable == functionList_Status.fctAltitudeAvailable && this.fctOnlineNavigationStateAvailable == functionList_Status.fctOnlineNavigationStateAvailable && this.fctExitviewAvailable == functionList_Status.fctExitviewAvailable && this.fctSemidynamicRouteGuidanceAvailable == functionList_Status.fctSemidynamicRouteGuidanceAvailable && this.fctPoi_SearchAvailable == functionList_Status.fctPoi_SearchAvailable && this.fctPoi_ListAvailable == functionList_Status.fctPoi_ListAvailable && this.fctFsg_SetupAvailable == functionList_Status.fctFsg_SetupAvailable && this.fctMap_PresentationAvailable == functionList_Status.fctMap_PresentationAvailable && this.fctManeuverStateAvailable == functionList_Status.fctManeuverStateAvailable && this.fctEtc_StatusAvailable == functionList_Status.fctEtc_StatusAvailable;
@@ -134,7 +132,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_Status:");
@@ -423,13 +420,11 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 64;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllAvailable);
@@ -482,7 +477,6 @@ implements StatusProperty {
         bitStream.resetBits(7);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllAvailable = bitStream.popFrontBoolean();
@@ -539,7 +533,6 @@ implements StatusProperty {
         return 3;
     }
 
-    @Override
     public int getFunctionId() {
         return FunctionList_Status.functionId();
     }

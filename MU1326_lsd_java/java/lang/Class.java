@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.lang;
 
@@ -20,10 +17,10 @@ import java.util.Vector;
 
 public final class Class
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 3206093459760846163L;
     private static ProtectionDomain AllPermissionsPD;
-    private static final int j9Version;
-    private static final long j9Config;
+    private static final int j9Version = 252183089;
+    private static final long j9Config = 7381247430415679488L;
     private static final Class[] EmptyParameters;
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
@@ -56,12 +53,12 @@ implements Serializable {
         }
     }
 
-    public static Class forName(String string) {
+    public static Class forName(String string) throws ClassNotFoundException {
         ClassLoader classLoader = ClassLoader.callerClassLoader();
         return Class.forNameImpl(string, true, classLoader);
     }
 
-    public static Class forName(String string, boolean bl, ClassLoader classLoader) {
+    public static Class forName(String string, boolean bl, ClassLoader classLoader) throws ClassNotFoundException {
         SecurityManager securityManager;
         ClassLoader classLoader2;
         if (classLoader == null && (classLoader2 = ClassLoader.callerClassLoader()) != null && (securityManager = System.getSecurityManager()) != null) {
@@ -70,8 +67,7 @@ implements Serializable {
         return Class.forNameImpl(string, bl, classLoader);
     }
 
-    private static native Class forNameImpl(String string, boolean bl, ClassLoader classLoader) {
-    }
+    private static native Class forNameImpl(String var0, boolean var1, ClassLoader var2);
 
     public Class[] getClasses() {
         Object[] objectArray;
@@ -112,13 +108,11 @@ implements Serializable {
         return classLoader;
     }
 
-    native ClassLoader getClassLoaderImpl() {
-    }
+    native ClassLoader getClassLoaderImpl();
 
-    public native Class getComponentType() {
-    }
+    public native Class getComponentType();
 
-    private void throwNoSuchMethodException(String string, Class[] classArray) {
+    private void throwNoSuchMethodException(String string, Class[] classArray) throws NoSuchMethodException {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(this.getName()).append('.').append(string).append('(');
         if (classArray.length > 0) {
@@ -133,7 +127,7 @@ implements Serializable {
         throw new NoSuchMethodException(stringBuffer.toString());
     }
 
-    public Constructor getConstructor(Class[] classArray) {
+    public Constructor getConstructor(Class[] classArray) throws NoSuchMethodException, SecurityException {
         this.checkMemberAccess(0);
         if (classArray == null || classArray.length == 0) {
             Constructor constructor = this.getConstructorImpl(EmptyParameters, "()V");
@@ -169,26 +163,23 @@ implements Serializable {
         return constructor;
     }
 
-    private native Constructor getConstructorImpl(Class[] classArray, String string) {
-    }
+    private native Constructor getConstructorImpl(Class[] var1, String var2);
 
-    public Constructor[] getConstructors() {
+    public Constructor[] getConstructors() throws SecurityException {
         this.checkMemberAccess(0);
         return this.getConstructorsImpl();
     }
 
-    private native Constructor[] getConstructorsImpl() {
-    }
+    private native Constructor[] getConstructorsImpl();
 
-    public Class[] getDeclaredClasses() {
+    public Class[] getDeclaredClasses() throws SecurityException {
         this.checkMemberAccess(1);
         return this.getDeclaredClassesImpl();
     }
 
-    private native Class[] getDeclaredClassesImpl() {
-    }
+    private native Class[] getDeclaredClassesImpl();
 
-    public Constructor getDeclaredConstructor(Class[] classArray) {
+    public Constructor getDeclaredConstructor(Class[] classArray) throws NoSuchMethodException, SecurityException {
         this.checkMemberAccess(1);
         if (classArray == null || classArray.length == 0) {
             Constructor constructor = this.getDeclaredConstructorImpl(EmptyParameters, "()V");
@@ -224,34 +215,30 @@ implements Serializable {
         return constructor;
     }
 
-    private native Constructor getDeclaredConstructorImpl(Class[] classArray, String string) {
-    }
+    private native Constructor getDeclaredConstructorImpl(Class[] var1, String var2);
 
-    public Constructor[] getDeclaredConstructors() {
+    public Constructor[] getDeclaredConstructors() throws SecurityException {
         this.checkMemberAccess(1);
         return this.getDeclaredConstructorsImpl();
     }
 
-    private native Constructor[] getDeclaredConstructorsImpl() {
-    }
+    private native Constructor[] getDeclaredConstructorsImpl();
 
-    public Field getDeclaredField(String string) {
+    public Field getDeclaredField(String string) throws NoSuchFieldException, SecurityException {
         this.checkMemberAccess(1);
         return this.getDeclaredFieldImpl(string);
     }
 
-    private native Field getDeclaredFieldImpl(String string) {
-    }
+    private native Field getDeclaredFieldImpl(String var1);
 
-    public Field[] getDeclaredFields() {
+    public Field[] getDeclaredFields() throws SecurityException {
         this.checkMemberAccess(1);
         return this.getDeclaredFieldsImpl();
     }
 
-    private native Field[] getDeclaredFieldsImpl() {
-    }
+    private native Field[] getDeclaredFieldsImpl();
 
-    public Method getDeclaredMethod(String string, Class[] classArray) {
+    public Method getDeclaredMethod(String string, Class[] classArray) throws NoSuchMethodException, SecurityException {
         Class[] classArray2;
         String string2;
         this.checkMemberAccess(1);
@@ -277,44 +264,38 @@ implements Serializable {
         return method2;
     }
 
-    private native Method getDeclaredMethodImpl(String string, Class[] classArray, String string2, Method method) {
-    }
+    private native Method getDeclaredMethodImpl(String var1, Class[] var2, String var3, Method var4);
 
-    public Method[] getDeclaredMethods() {
+    public Method[] getDeclaredMethods() throws SecurityException {
         this.checkMemberAccess(1);
         return this.getDeclaredMethodsImpl();
     }
 
-    private native Method[] getDeclaredMethodsImpl() {
-    }
+    private native Method[] getDeclaredMethodsImpl();
 
     public Class getDeclaringClass() {
         return this.getDeclaringClassImpl();
     }
 
-    private native Class getDeclaringClassImpl() {
-    }
+    private native Class getDeclaringClassImpl();
 
-    public Field getField(String string) {
+    public Field getField(String string) throws NoSuchFieldException, SecurityException {
         this.checkMemberAccess(0);
         return this.getFieldImpl(string);
     }
 
-    private native Field getFieldImpl(String string) {
-    }
+    private native Field getFieldImpl(String var1);
 
-    public Field[] getFields() {
+    public Field[] getFields() throws SecurityException {
         this.checkMemberAccess(0);
         return this.getFieldsImpl();
     }
 
-    private native Field[] getFieldsImpl() {
-    }
+    private native Field[] getFieldsImpl();
 
-    public native Class[] getInterfaces() {
-    }
+    public native Class[] getInterfaces();
 
-    public Method getMethod(String string, Class[] classArray) {
+    public Method getMethod(String string, Class[] classArray) throws NoSuchMethodException, SecurityException {
         Class[] classArray2;
         String string2;
         this.checkMemberAccess(0);
@@ -341,10 +322,9 @@ implements Serializable {
         return method2;
     }
 
-    private native Method getMethodImpl(String string, Class[] classArray, String string2) {
-    }
+    private native Method getMethodImpl(String var1, Class[] var2, String var3);
 
-    public Method[] getMethods() {
+    public Method[] getMethods() throws SecurityException {
         this.checkMemberAccess(0);
         if (this.isPrimitive()) {
             return new Method[0];
@@ -473,29 +453,21 @@ implements Serializable {
         return methodArray4;
     }
 
-    private native int getVirtualMethodCountImpl() {
-    }
+    private native int getVirtualMethodCountImpl();
 
-    private native void getVirtualMethodsImpl(Method[] methodArray, int n) {
-    }
+    private native void getVirtualMethodsImpl(Method[] var1, int var2);
 
-    private native int getStaticMethodCountImpl() {
-    }
+    private native int getStaticMethodCountImpl();
 
-    private native void getStaticMethodsImpl(Method[] methodArray, int n) {
-    }
+    private native void getStaticMethodsImpl(Method[] var1, int var2);
 
-    private native Object[] allocateAndFillArray(int n) {
-    }
+    private native Object[] allocateAndFillArray(int var1);
 
-    public native int getModifiers() {
-    }
+    public native int getModifiers();
 
-    private native String getClassNameStringImpl() {
-    }
+    private native String getClassNameStringImpl();
 
-    private native void setClassNameStringImpl(String string) {
-    }
+    private native void setClassNameStringImpl(String var1);
 
     public String getName() {
         String string = this.getClassNameStringImpl();
@@ -507,8 +479,7 @@ implements Serializable {
         return string;
     }
 
-    native String getNameImpl() {
-    }
+    native String getNameImpl();
 
     public ProtectionDomain getProtectionDomain() {
         ProtectionDomain protectionDomain;
@@ -527,8 +498,7 @@ implements Serializable {
         return AllPermissionsPD;
     }
 
-    native ProtectionDomain getPDImpl() {
-    }
+    native ProtectionDomain getPDImpl();
 
     String getPackageName() {
         String string = this.getName();
@@ -596,36 +566,30 @@ implements Serializable {
         return this.getClassLoaderImpl().getSigners(this);
     }
 
-    public native Class getSuperclass() {
-    }
+    public native Class getSuperclass();
 
-    public native boolean isArray() {
-    }
+    public native boolean isArray();
 
-    public native boolean isAssignableFrom(Class clazz) {
-    }
+    public native boolean isAssignableFrom(Class var1);
 
-    public native boolean isInstance(Object object) {
-    }
+    public native boolean isInstance(Object var1);
 
     public boolean isInterface() {
         return (this.getModifiers() & 0x200) != 0;
     }
 
-    public native boolean isPrimitive() {
-    }
+    public native boolean isPrimitive();
 
-    public Object newInstance() {
+    public Object newInstance() throws IllegalAccessException, InstantiationException {
         this.checkMemberAccess(0);
         return this.newInstanceImpl();
     }
 
-    private Object newInstancePrototype(Class clazz) {
+    private Object newInstancePrototype(Class clazz) throws InstantiationException {
         throw new InstantiationException(this);
     }
 
-    private native Object newInstanceImpl() {
-    }
+    private native Object newInstanceImpl();
 
     private String toResourceName(String string) {
         if (string.length() > 0 && string.charAt(0) == '/') {
@@ -658,13 +622,11 @@ implements Serializable {
         return false;
     }
 
-    static final native Class[] getStackClasses(int n, boolean bl) {
-    }
+    static final native Class[] getStackClasses(int var0, boolean var1);
 
-    private native int getClassDepth() {
-    }
+    private native int getClassDepth();
 
-    private String getParameterTypesSignature(String string, Class[] classArray) {
+    private String getParameterTypesSignature(String string, Class[] classArray) throws NoSuchMethodException {
         int n = 2;
         String[] stringArray = new String[classArray.length];
         int n2 = 0;

@@ -8,10 +8,8 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface PlaceholderMenuRenderer
 extends IRenderer {
-    default public void inOutPositionChanged() {
-    }
+    public void inOutPositionChanged();
 
-    default public StringUtility getStringUtility() {
-    }
+    public StringUtility getStringUtility();
 }
 

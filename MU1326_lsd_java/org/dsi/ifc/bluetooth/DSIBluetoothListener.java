@@ -14,103 +14,70 @@ import org.dsi.ifc.bluetooth.TrustedDevice;
 
 public interface DSIBluetoothListener
 extends DSIListener {
-    default public void responseAbortConnectService(int n) {
-    }
+    public void responseAbortConnectService(int var1);
 
-    default public void responseAbortInquiry(int n) {
-    }
+    public void responseAbortInquiry(int var1);
 
-    default public void responseAcceptIncomingServiceRequest(int n) {
-    }
+    public void responseAcceptIncomingServiceRequest(int var1);
 
-    default public void responseConnectService(String string, String string2, int n, int n2, int n3) {
-    }
+    public void responseConnectService(String var1, String var2, int var3, int var4, int var5);
 
-    default public void responseConnectServiceToInstance(String string, String string2, int n, int n2, int n3) {
-    }
+    public void responseConnectServiceToInstance(String var1, String var2, int var3, int var4, int var5);
 
-    default public void responseDisconnectService(String string, int n, int n2) {
-    }
+    public void responseDisconnectService(String var1, int var2, int var3);
 
-    default public void responseGetServices(String string, String string2, int n, int n2) {
-    }
+    public void responseGetServices(String var1, String var2, int var3, int var4);
 
-    default public void responseInquiry(int n, int n2) {
-    }
+    public void responseInquiry(int var1, int var2);
 
-    default public void responsePasskeyResponse(String string, String string2, int n) {
-    }
+    public void responsePasskeyResponse(String var1, String var2, int var3);
 
-    default public void responseRemoveAuthentication(String string, String string2, int n) {
-    }
+    public void responseRemoveAuthentication(String var1, String var2, int var3);
 
-    default public void responseRestoreFactorySettings(int n) {
-    }
+    public void responseRestoreFactorySettings(int var1);
 
-    default public void responseSetA2DPUserSetting(int n) {
-    }
+    public void responseSetA2DPUserSetting(int var1);
 
-    default public void responseSetAccessibleMode(int n) {
-    }
+    public void responseSetAccessibleMode(int var1);
 
-    default public void responseSwitchBTState(int n) {
-    }
+    public void responseSwitchBTState(int var1);
 
-    default public void removeAuthenticationNoSupport(String string, String string2) {
-    }
+    public void removeAuthenticationNoSupport(String var1, String var2);
 
-    default public void updateAccessibleMode(int n, boolean bl, int n2) {
-    }
+    public void updateAccessibleMode(int var1, boolean var2, int var3);
 
-    default public void updateBTState(int n, int n2) {
-    }
+    public void updateBTState(int var1, int var2);
 
-    default public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) {
-    }
+    public void updateDiscoveredDevices(DiscoveredDevice var1, int var2);
 
-    default public void updateHUCandBTHSState(int n, int n2) {
-    }
+    public void updateHUCandBTHSState(int var1, int var2);
 
-    default public void updateIncomingServiceRequest(RequestIncomingService requestIncomingService, int n) {
-    }
+    public void updateIncomingServiceRequest(RequestIncomingService var1, int var2);
 
-    default public void updateMasterRoleRequestError(MasterRoleRequestStruct masterRoleRequestStruct, int n) {
-    }
+    public void updateMasterRoleRequestError(MasterRoleRequestStruct var1, int var2);
 
-    default public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) {
-    }
+    public void updatePasskeyState(PasskeyStateStruct var1, int var2);
 
-    default public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
-    }
+    public void updateReconnectIndicator(ReconnectInfo var1, int var2);
 
-    default public void updateServiceRequestState(ServiceRequestStateStruct serviceRequestStateStruct, int n) {
-    }
+    public void updateServiceRequestState(ServiceRequestStateStruct var1, int var2);
 
-    default public void updateSupportedBTProfiles(int n, int n2) {
-    }
+    public void updateSupportedBTProfiles(int var1, int var2);
 
-    default public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
-    }
+    public void updateTrustedDevices(TrustedDevice[] var1, int var2);
 
-    default public void updateUserFriendlyName(String string, int n) {
-    }
+    public void updateUserFriendlyName(String var1, int var2);
 
-    default public void updateA2DPUserSetting(boolean bl, int n) {
-    }
+    public void updateA2DPUserSetting(boolean var1, int var2);
 
-    default public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
-    }
+    public void updatePriorizedDeviceReconnect(boolean var1, String var2, int var3);
 
-    default public void deviceDisonnectionInfo(String string, String string2, int n) {
-    }
+    public void deviceDisonnectionInfo(String var1, String var2, int var3);
 
-    default public void serviceRejectNoSupport(String string, String string2) {
-    }
+    public void serviceRejectNoSupport(String var1, String var2);
 
-    default public void responseReconnectSuspend(int n) {
-    }
+    public void responseReconnectSuspend(int var1);
 
-    default public void responseSetPriorizedDeviceReconnect(int n) {
-    }
+    public void responseSetPriorizedDeviceReconnect(int var1);
 }
 

@@ -4,11 +4,10 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface IAbstractCursorBarWidget {
-    public static final int WAIT_TYPE_PRESS;
-    public static final int WAIT_TYPE_SCROLL_UP;
-    public static final int WAIT_TYPE_SCROLL_DOWN;
+    public static final int WAIT_TYPE_PRESS = 0;
+    public static final int WAIT_TYPE_SCROLL_UP = 1;
+    public static final int WAIT_TYPE_SCROLL_DOWN = 2;
 
-    default public void startWaitAnimation(int n) {
-    }
+    public void startWaitAnimation(int var1);
 }
 

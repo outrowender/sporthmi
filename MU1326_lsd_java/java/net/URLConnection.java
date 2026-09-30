@@ -7,18 +7,18 @@ import com.ibm.oti.net.www.MimeTable;
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PriviAction;
 import com.ibm.oti.util.Util;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
 import java.net.FileNameMap;
 import java.net.URL;
-import java.net.URLConnection$1;
-import java.net.URLConnection$DefaultContentHandler;
 import java.net.UnknownServiceException;
 import java.security.AccessController;
 import java.security.AllPermission;
 import java.security.Permission;
+import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
@@ -30,7 +30,7 @@ public abstract class URLConnection {
     private static String defaultRequestProperty = "";
     private static boolean defaultAllowUserInteraction = false;
     private static boolean defaultUseCaches = true;
-    ContentHandler defaultHandler = new URLConnection$DefaultContentHandler(this);
+    ContentHandler defaultHandler = new DefaultContentHandler();
     private long lastModified = -1L;
     protected long ifModifiedSince;
     private String requestProperty = defaultRequestProperty;
@@ -51,14 +51,13 @@ public abstract class URLConnection {
         this.url = uRL;
     }
 
-    public abstract void connect() {
-    }
+    public abstract void connect() throws IOException;
 
     public boolean getAllowUserInteraction() {
         return this.allowUserInteraction;
     }
 
-    public Object getContent() {
+    public Object getContent() throws IOException {
         if (!this.connected) {
             this.connect();
         }
@@ -71,7 +70,7 @@ public abstract class URLConnection {
         return null;
     }
 
-    public Object getContent(Class[] classArray) {
+    public Object getContent(Class[] classArray) throws IOException {
         if (!this.connected) {
             this.connect();
         }
@@ -88,8 +87,8 @@ public abstract class URLConnection {
         return this.getHeaderField("Content-Encoding");
     }
 
-    private ContentHandler getContentHandler(String string) {
-        String string2 = this.parseTypeString(string.replace('/', '.'));
+    private ContentHandler getContentHandler(String string) throws IOException {
+        final String string2 = this.parseTypeString(string.replace('/', '.'));
         Object object = contentHandlers.get(string);
         if (object != null) {
             return (ContentHandler)object;
@@ -107,14 +106,28 @@ public abstract class URLConnection {
             StringTokenizer stringTokenizer = new StringTokenizer(string3, "|");
             while (stringTokenizer.countTokens() > 0) {
                 try {
-                    Class clazz = Class.forName(new StringBuffer(String.valueOf(stringTokenizer.nextToken())).append(".").append(string2).toString(), true, ClassLoader.getSystemClassLoader());
+                    Class clazz = Class.forName(String.valueOf(stringTokenizer.nextToken()) + "." + string2, true, ClassLoader.getSystemClassLoader());
                     object = (ContentHandler)clazz.newInstance();
                 }
                 catch (Exception exception) {}
             }
         }
         if (object == null) {
-            object = AccessController.doPrivileged(new URLConnection$1(this, string2));
+            object = AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    try {
+                        String string = new StringBuffer("com.ibm.oti.www.content.").append(string2).toString();
+                        return Class.forName(string).newInstance();
+                    }
+                    catch (ClassNotFoundException classNotFoundException) {
+                    }
+                    catch (IllegalAccessException illegalAccessException) {
+                    }
+                    catch (InstantiationException instantiationException) {}
+                    return null;
+                }
+            });
         }
         if (object != null) {
             if (!(object instanceof ContentHandler)) {
@@ -209,7 +222,7 @@ public abstract class URLConnection {
         return this.ifModifiedSince;
     }
 
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         throw new UnknownServiceException(Msg.getString("K004d"));
     }
 
@@ -221,11 +234,11 @@ public abstract class URLConnection {
         return this.lastModified;
     }
 
-    public OutputStream getOutputStream() {
+    public OutputStream getOutputStream() throws IOException {
         throw new UnknownServiceException(Msg.getString("K005f"));
     }
 
-    public Permission getPermission() {
+    public Permission getPermission() throws IOException {
         return new AllPermission();
     }
 
@@ -245,7 +258,7 @@ public abstract class URLConnection {
         return URLConnection.getFileNameMap().getContentTypeFor(string);
     }
 
-    public static String guessContentTypeFromStream(InputStream inputStream) {
+    public static String guessContentTypeFromStream(InputStream inputStream) throws IOException {
         if (!inputStream.markSupported()) {
             return null;
         }
@@ -351,7 +364,17 @@ public abstract class URLConnection {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append(":").append(this.url.toString()).toString();
+        return String.valueOf(this.getClass().getName()) + ":" + this.url.toString();
+    }
+
+    class DefaultContentHandler
+    extends ContentHandler {
+        DefaultContentHandler() {
+        }
+
+        public Object getContent(URLConnection uRLConnection) throws IOException {
+            return uRLConnection.getInputStream();
+        }
     }
 }
 

@@ -3,77 +3,55 @@
  */
 package de.esolutions.fw.comm.dsi.iconhandling;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIIconExtractorC {
-    default public void resourceIdForTMCEventIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForTMCEventIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void resourceIdForPOIIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForPOIIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void renderingInformationForRoadIcon(int n, int n2, int n3) {
-    }
+    public void renderingInformationForRoadIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void resourceIdForTargetIcon(int n, int n2) {
-    }
+    public void resourceIdForTargetIcon(int var1, int var2) throws MethodException;
 
-    default public void resourceIdForRoadClassIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForRoadClassIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void resourceIdForTrafficRegulationIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForTrafficRegulationIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void renderingInformationForExitIcon(int n, int n2, int n3) {
-    }
+    public void renderingInformationForExitIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void resourceIdForAdditionalIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForAdditionalIcon(int var1, int var2, int var3) throws MethodException;
 
-    default public void resourceIdForCountryIcon(int n, int n2) {
-    }
+    public void resourceIdForCountryIcon(int var1, int var2) throws MethodException;
 
-    default public void resourceIdForTrafficRegulationIconWithSubindex(int n, int n2, int n3, int n4) {
-    }
+    public void resourceIdForTrafficRegulationIconWithSubindex(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void renderingInformationForExitIconWithVariant(int n, int n2, int n3, int n4) {
-    }
+    public void renderingInformationForExitIconWithVariant(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void setBrandIconStyle(int[] nArray, int n) {
-    }
+    public void setBrandIconStyle(int[] var1, int var2) throws MethodException;
 
-    default public void resourceIdForAdditionalTurnListIcon(int n, int n2, int n3, int n4) {
-    }
+    public void resourceIdForAdditionalTurnListIcon(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void resourceIdForTrafficSourceIcon(int n, int n2) {
-    }
+    public void resourceIdForTrafficSourceIcon(int var1, int var2) throws MethodException;
 
-    default public void resourceIdForAreaWarningIcon(int n, int n2) {
-    }
+    public void resourceIdForAreaWarningIcon(int var1, int var2) throws MethodException;
 
-    default public void resourceIdForComposedPOIIcon(int n, int n2, int n3, int[] nArray) {
-    }
+    public void resourceIdForComposedPOIIcon(int var1, int var2, int var3, int[] var4) throws MethodException;
 
-    default public void resourceIdForPOIIconFromRawData(int n, int n2, int n3) {
-    }
+    public void resourceIdForPOIIconFromRawData(int var1, int var2, int var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

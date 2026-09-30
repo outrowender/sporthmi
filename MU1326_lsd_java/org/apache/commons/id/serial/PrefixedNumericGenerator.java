@@ -21,17 +21,14 @@ extends NumericGenerator {
         return this.prefix;
     }
 
-    @Override
     public long maxLength() {
         return super.maxLength() + (long)this.prefix.length();
     }
 
-    @Override
     public long minLength() {
         return super.minLength() + (long)this.prefix.length();
     }
 
-    @Override
     public String nextStringIdentifier() {
         StringBuffer stringBuffer = new StringBuffer(this.prefix);
         stringBuffer.append(super.nextStringIdentifier());

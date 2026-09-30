@@ -9,58 +9,53 @@ import org.dsi.ifc.mobilityhorizon.MobilityHorizonLocation;
 
 public interface DSIMobilityHorizon
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_SETCONSUMPTIONINFO;
-    public static final int RT_SETLOCATIONS;
-    public static final int RT_SETCONSIDEREDLOCATIONTYPES;
-    public static final int RT_SETDRIVETRAINMODE;
-    public static final int RT_REQUESTLOCATIONRANGELEVEL;
-    public static final int RP_REQUESTLOCATIONRANGELEVELRESULT;
-    public static final int IN_LOCATIONRANGELEVELCHANGED;
-    public static final int ATTR_LOCATIONS;
-    public static final int ATTR_CONSIDEREDLOCATIONTYPES;
-    public static final int ATTR_DRIVETRAINMODE;
-    public static final int ATTR_MOBILITYHORIZONSTATUS;
-    public static final int UNIT_UNKNOWN;
-    public static final int UNIT_LITER;
-    public static final int UNIT_KILOGRAM;
-    public static final int UNIT_KILOWATT_HOUR;
-    public static final int LOCATIONTYPE_NONE;
-    public static final int LOCATIONTYPE_ONEWAY;
-    public static final int LOCATIONTYPE_HOME;
-    public static final int LOCATIONTYPE_USERDEFINED;
-    public static final int DRIVETRAINMODE_PRIMARY;
-    public static final int DRIVETRAINMODE_SECONDARY;
-    public static final int DRIVETRAINMODE_COMBINED;
-    public static final int MOBILITYHORIZONSTATUS_SYSTEMNOTREADY;
-    public static final int MOBILITYHORIZONSTATUS_SYSTEMREADY;
-    public static final int MOBILITYHORIZONSTATUS_NODATABASEFOUND;
-    public static final int MOBILITYHORIZONSTATUS_DATABASEDEFECT;
-    public static final int MOBILITYHORIZONSTATUS_CRITICALENERGYLEVEL_1;
-    public static final int MOBILITYHORIZONSTATUS_CRITICALENERGYLEVEL_2;
-    public static final int MOBILITYHORIZONSTATUS_NOTENOUGHENERGY;
-    public static final int MOBILITYHORIZONSTATUS_OTHERFAILURE;
-    public static final int LOCATIONRANGETYPE_TARGET;
-    public static final int LOCATIONRANGETYPE_HOME;
-    public static final int LOCATIONRANGETYPE_USERDEFINED;
-    public static final int LOCATIONRANGELEVEL_UNDEFINED;
-    public static final int LOCATIONRANGELEVEL_INRANGE;
-    public static final int LOCATIONRANGELEVEL_CRITICAL;
-    public static final int LOCATIONRANGELEVEL_OUTOFRANGE;
+    public static final String VERSION = "2.11.8";
+    public static final int RT_SETCONSUMPTIONINFO = 1000;
+    public static final int RT_SETLOCATIONS = 1001;
+    public static final int RT_SETCONSIDEREDLOCATIONTYPES = 1002;
+    public static final int RT_SETDRIVETRAINMODE = 1003;
+    public static final int RT_REQUESTLOCATIONRANGELEVEL = 1004;
+    public static final int RP_REQUESTLOCATIONRANGELEVELRESULT = 2000;
+    public static final int IN_LOCATIONRANGELEVELCHANGED = 3000;
+    public static final int ATTR_LOCATIONS = 1;
+    public static final int ATTR_CONSIDEREDLOCATIONTYPES = 2;
+    public static final int ATTR_DRIVETRAINMODE = 3;
+    public static final int ATTR_MOBILITYHORIZONSTATUS = 4;
+    public static final int UNIT_UNKNOWN = 0;
+    public static final int UNIT_LITER = 1;
+    public static final int UNIT_KILOGRAM = 2;
+    public static final int UNIT_KILOWATT_HOUR = 3;
+    public static final int LOCATIONTYPE_NONE = 0;
+    public static final int LOCATIONTYPE_ONEWAY = 1;
+    public static final int LOCATIONTYPE_HOME = 2;
+    public static final int LOCATIONTYPE_USERDEFINED = 3;
+    public static final int DRIVETRAINMODE_PRIMARY = 0;
+    public static final int DRIVETRAINMODE_SECONDARY = 1;
+    public static final int DRIVETRAINMODE_COMBINED = 2;
+    public static final int MOBILITYHORIZONSTATUS_SYSTEMNOTREADY = 0;
+    public static final int MOBILITYHORIZONSTATUS_SYSTEMREADY = 1;
+    public static final int MOBILITYHORIZONSTATUS_NODATABASEFOUND = 2;
+    public static final int MOBILITYHORIZONSTATUS_DATABASEDEFECT = 3;
+    public static final int MOBILITYHORIZONSTATUS_CRITICALENERGYLEVEL_1 = 4;
+    public static final int MOBILITYHORIZONSTATUS_CRITICALENERGYLEVEL_2 = 5;
+    public static final int MOBILITYHORIZONSTATUS_NOTENOUGHENERGY = 6;
+    public static final int MOBILITYHORIZONSTATUS_OTHERFAILURE = 99;
+    public static final int LOCATIONRANGETYPE_TARGET = 0;
+    public static final int LOCATIONRANGETYPE_HOME = 1;
+    public static final int LOCATIONRANGETYPE_USERDEFINED = 2;
+    public static final int LOCATIONRANGELEVEL_UNDEFINED = 0;
+    public static final int LOCATIONRANGELEVEL_INRANGE = 1;
+    public static final int LOCATIONRANGELEVEL_CRITICAL = 2;
+    public static final int LOCATIONRANGELEVEL_OUTOFRANGE = 3;
 
-    default public void setConsumptionInfo(ConsumptionInfo[] consumptionInfoArray) {
-    }
+    public void setConsumptionInfo(ConsumptionInfo[] var1);
 
-    default public void setLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray) {
-    }
+    public void setLocations(MobilityHorizonLocation[] var1);
 
-    default public void setConsideredLocationTypes(int[] nArray) {
-    }
+    public void setConsideredLocationTypes(int[] var1);
 
-    default public void setDriveTrainMode(int n) {
-    }
+    public void setDriveTrainMode(int var1);
 
-    default public void requestLocationRangeLevel(int n) {
-    }
+    public void requestLocationRangeLevel(int var1);
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.displaycontroller;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.displaycontroller.DSIDisplayControllerReply;
 import de.esolutions.fw.comm.dsi.displaycontroller.impl.DSIDisplayControllerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIDisplayControllerReply {
         super(n, (class$org$dsi$ifc$displaycontroller$DSIDisplayControllerListener == null ? (class$org$dsi$ifc$displaycontroller$DSIDisplayControllerListener = DSIDisplayControllerDispatcher.class$("org.dsi.ifc.displaycontroller.DSIDisplayControllerListener")) : class$org$dsi$ifc$displaycontroller$DSIDisplayControllerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getDisplayBrightness(int n, int n2) {
+    public void getDisplayBrightness(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIDisplayControllerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,14 +58,13 @@ implements DSIDisplayControllerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDisplayControllerListener dSIDisplayControllerListener = (DSIDisplayControllerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDisplayControllerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDisplayControllerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDisplayControllerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDisplayControllerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDisplayControllerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDisplayControllerListener, new Object[]{string, string2});
                     continue;
                 }

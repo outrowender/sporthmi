@@ -6,28 +6,22 @@ package de.esolutions.fw.comm.asi.hmisync.media.impl;
 import de.esolutions.fw.comm.asi.hmisync.media.ASIHMISyncMediaBrowserReply;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaEntry;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$10;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$11;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$12;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$2;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$3;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$4;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$5;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$6;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$7;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$8;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserReplyProxy$9;
+import de.esolutions.fw.comm.asi.hmisync.media.impl.MediaEntrySerializer;
+import de.esolutions.fw.comm.asi.hmisync.media.impl.MediaSourceSlotSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ASIHMISyncMediaBrowserReplyProxy
 implements ASIHMISyncMediaBrowserReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.hmisync.media.ASIHMISyncMediaBrowser");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ASIHMISyncMediaBrowserReplyProxy() {
@@ -35,81 +29,139 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void responseChangeFolder(boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$1 aSIHMISyncMediaBrowserReplyProxy$1 = new ASIHMISyncMediaBrowserReplyProxy$1(this, bl);
-        this.proxy.remoteCallMethod((short)9, aSIHMISyncMediaBrowserReplyProxy$1);
+    public void responseChangeFolder(final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void responseAddSelection(boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$2 aSIHMISyncMediaBrowserReplyProxy$2 = new ASIHMISyncMediaBrowserReplyProxy$2(this, bl);
-        this.proxy.remoteCallMethod((short)8, aSIHMISyncMediaBrowserReplyProxy$2);
+    public void responseAddSelection(final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void responseList(boolean bl, int n, MediaEntry[] mediaEntryArray) {
-        ASIHMISyncMediaBrowserReplyProxy$3 aSIHMISyncMediaBrowserReplyProxy$3 = new ASIHMISyncMediaBrowserReplyProxy$3(this, bl, n, mediaEntryArray);
-        this.proxy.remoteCallMethod((short)10, aSIHMISyncMediaBrowserReplyProxy$3);
+    public void responseList(final boolean bl, final int n, final MediaEntry[] mediaEntryArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                iSerializer.putInt32(n);
+                MediaEntrySerializer.putOptionalMediaEntryVarArray(iSerializer, mediaEntryArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$4 aSIHMISyncMediaBrowserReplyProxy$4 = new ASIHMISyncMediaBrowserReplyProxy$4(this, string, bl);
-        this.proxy.remoteCallMethod((short)15, aSIHMISyncMediaBrowserReplyProxy$4);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$5 aSIHMISyncMediaBrowserReplyProxy$5 = new ASIHMISyncMediaBrowserReplyProxy$5(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)23, aSIHMISyncMediaBrowserReplyProxy$5);
+    public void updateRequestIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)23, iSerializable);
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$6 aSIHMISyncMediaBrowserReplyProxy$6 = new ASIHMISyncMediaBrowserReplyProxy$6(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)22, aSIHMISyncMediaBrowserReplyProxy$6);
+    public void updateReplyIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 
-    @Override
-    public void updateActiveSlot(MediaSourceSlot mediaSourceSlot, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$7 aSIHMISyncMediaBrowserReplyProxy$7 = new ASIHMISyncMediaBrowserReplyProxy$7(this, mediaSourceSlot, bl);
-        this.proxy.remoteCallMethod((short)16, aSIHMISyncMediaBrowserReplyProxy$7);
+    public void updateActiveSlot(final MediaSourceSlot mediaSourceSlot, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MediaSourceSlotSerializer.putOptionalMediaSourceSlot(iSerializer, mediaSourceSlot);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void updateBrowseMode(int n, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$8 aSIHMISyncMediaBrowserReplyProxy$8 = new ASIHMISyncMediaBrowserReplyProxy$8(this, n, bl);
-        this.proxy.remoteCallMethod((short)18, aSIHMISyncMediaBrowserReplyProxy$8);
+    public void updateBrowseMode(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void updateDatabaseMode(boolean bl, boolean bl2) {
-        ASIHMISyncMediaBrowserReplyProxy$9 aSIHMISyncMediaBrowserReplyProxy$9 = new ASIHMISyncMediaBrowserReplyProxy$9(this, bl, bl2);
-        this.proxy.remoteCallMethod((short)19, aSIHMISyncMediaBrowserReplyProxy$9);
+    public void updateDatabaseMode(final boolean bl, final boolean bl2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                iSerializer.putBool(bl2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void updateRawMode(boolean bl, boolean bl2) {
-        ASIHMISyncMediaBrowserReplyProxy$10 aSIHMISyncMediaBrowserReplyProxy$10 = new ASIHMISyncMediaBrowserReplyProxy$10(this, bl, bl2);
-        this.proxy.remoteCallMethod((short)21, aSIHMISyncMediaBrowserReplyProxy$10);
+    public void updateRawMode(final boolean bl, final boolean bl2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                iSerializer.putBool(bl2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void updateBrowseFolder(MediaEntry[] mediaEntryArray, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$11 aSIHMISyncMediaBrowserReplyProxy$11 = new ASIHMISyncMediaBrowserReplyProxy$11(this, mediaEntryArray, bl);
-        this.proxy.remoteCallMethod((short)17, aSIHMISyncMediaBrowserReplyProxy$11);
+    public void updateBrowseFolder(final MediaEntry[] mediaEntryArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MediaEntrySerializer.putOptionalMediaEntryVarArray(iSerializer, mediaEntryArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void updateListSize(int n, boolean bl) {
-        ASIHMISyncMediaBrowserReplyProxy$12 aSIHMISyncMediaBrowserReplyProxy$12 = new ASIHMISyncMediaBrowserReplyProxy$12(this, n, bl);
-        this.proxy.remoteCallMethod((short)20, aSIHMISyncMediaBrowserReplyProxy$12);
+    public void updateListSize(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 }
 

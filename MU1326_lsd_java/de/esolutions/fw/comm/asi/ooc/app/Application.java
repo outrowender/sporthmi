@@ -7,12 +7,12 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface Application
 extends IEnum {
-    public static final int ONOFF_APPLCIATION_NONE;
-    public static final int ONOFF_APPLCIATION_PHONE;
-    public static final int ONOFF_APPLCIATION_UOTA;
-    public static final int ONOFF_APPLCIATION_ONLINE;
-    public static final int ONOFF_APPLCIATION_ONLINEJOBS;
-    public static final int ONOFF_APPLCIATION_SYSTEMSERVICES;
-    public static final int ONOFF_APPLCIATION_CONNECTIVITY;
+    public static final int ONOFF_APPLCIATION_NONE = 0;
+    public static final int ONOFF_APPLCIATION_PHONE = 1;
+    public static final int ONOFF_APPLCIATION_UOTA = 2;
+    public static final int ONOFF_APPLCIATION_ONLINE = 3;
+    public static final int ONOFF_APPLCIATION_ONLINEJOBS = 4;
+    public static final int ONOFF_APPLCIATION_SYSTEMSERVICES = 5;
+    public static final int ONOFF_APPLCIATION_CONNECTIVITY = 6;
 }
 

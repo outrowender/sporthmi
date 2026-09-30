@@ -7,19 +7,14 @@ import de.audi.atip.hmi.event.ATIPEvent;
 import de.esolutions.hmi.widgets.audi.evo.widgets.balancefader.ValuePair;
 
 public interface IWrappedRangeModel2DGUI {
-    default public ValuePair getPosition() {
-    }
+    public ValuePair getPosition();
 
-    default public void setPosition(ValuePair valuePair) {
-    }
+    public void setPosition(ValuePair var1);
 
-    default public ValuePair getSteps() {
-    }
+    public ValuePair getSteps();
 
-    default public void updateModelSizeAndSteps() {
-    }
+    public void updateModelSizeAndSteps();
 
-    default public ValuePair processEvent(ATIPEvent aTIPEvent) {
-    }
+    public ValuePair processEvent(ATIPEvent var1);
 }
 

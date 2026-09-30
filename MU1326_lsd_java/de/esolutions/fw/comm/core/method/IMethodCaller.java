@@ -3,10 +3,10 @@
  */
 package de.esolutions.fw.comm.core.method;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.util.serializer.ISerializable;
 
 public interface IMethodCaller {
-    default public void remoteCallMethod(short s, ISerializable iSerializable) {
-    }
+    public void remoteCallMethod(short var1, ISerializable var2) throws MethodException;
 }
 

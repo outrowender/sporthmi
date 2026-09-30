@@ -9,16 +9,13 @@ import java.io.IOException;
 
 public abstract class AbstractSpawnedConnectionListener
 implements ISpawnedConnectionListener {
-    @Override
     public boolean spawningRetry(ISpawnConnectionFactory iSpawnConnectionFactory, IOException iOException, int n) {
         return true;
     }
 
-    @Override
     public void spawningEnabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
     }
 
-    @Override
     public void spawningDisabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
     }
 }

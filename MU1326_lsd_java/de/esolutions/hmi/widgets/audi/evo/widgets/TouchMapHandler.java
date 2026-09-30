@@ -32,22 +32,22 @@ public class TouchMapHandler
 extends AbstractWidgetController
 implements ATIPEventListener,
 IViewSizeAnimatable {
-    private static final int MINIMUM_DISTANCE_FOR_MOVEMENT_TW;
-    private static final int MINIMUM_DISTANCE_FOR_MOVEMENT_AIT;
-    private static final int ZOOM_CONSTANT_TW;
-    private static final int ZOOM_CONSTANT_AIT;
+    private static final int MINIMUM_DISTANCE_FOR_MOVEMENT_TW = 3844;
+    private static final int MINIMUM_DISTANCE_FOR_MOVEMENT_AIT = 961;
+    private static final int ZOOM_CONSTANT_TW = 20;
+    private static final int ZOOM_CONSTANT_AIT = 12;
     public static TouchMapHandler singleton;
-    private static final float CONST1;
-    private static final int KEYPANEL_TW_2014;
-    private static final int KEYPANEL_AIT_2014;
-    private static final int AUTOZOOM_ACTIVE;
-    private static final long PHYSICS_TIME;
-    private static final long ACCUMULATION_TIME;
+    private static final float CONST1 = 1.4285715f;
+    private static final int KEYPANEL_TW_2014 = 1;
+    private static final int KEYPANEL_AIT_2014 = 2;
+    private static final int AUTOZOOM_ACTIVE = 1;
+    private static final long PHYSICS_TIME = 50L;
+    private static final long ACCUMULATION_TIME = 50L;
     public static int vectorLengthMinimumTw;
     public static int vectorLengthMinimumAit;
-    private static final float DELTA_COORDINATES_FACTOR_TW;
-    private static final float DELTA_COORDINATES_FACTOR_AIT;
-    private static final float SPEED_THRESHOLD_AIT;
+    private static final float DELTA_COORDINATES_FACTOR_TW = 0.55f;
+    private static final float DELTA_COORDINATES_FACTOR_AIT = 1.5f;
+    private static final float SPEED_THRESHOLD_AIT = 120.0f;
     public static float maxDecelerationSpeedThresholdAit;
     public static float maxDecelerationSpeedThreshold2Ait;
     public static float maxDecelerationSpeedThresholdTw;
@@ -57,31 +57,31 @@ IViewSizeAnimatable {
     public static float speedDecelerationFactorTw;
     public static float speedDecelerationFactor2Tw;
     public static float pixelPerLevelCurrentLevelDependence;
-    public static final float PIXEL_PER_LEVEL_CURRENT_LEVEL_DEPENDENCE_AIT;
+    public static final float PIXEL_PER_LEVEL_CURRENT_LEVEL_DEPENDENCE_AIT = 10.0f;
     public static float pixelPerLevelFactor;
-    public static final float PIXEL_PER_LEVEL_FACTOR_AIT;
+    public static final float PIXEL_PER_LEVEL_FACTOR_AIT = 6.0f;
     public static boolean pixelPerLevelZoomLevelDependenceActive;
     public static int pixelPerLevelAit;
     public static int pixelPerLevelTw;
     public static float maximumPinchMoveSpeedDifferenceTw;
-    private static final int PINCH_ZOOM_GESTURE_RELEASED_TIMEOUT;
+    private static final int PINCH_ZOOM_GESTURE_RELEASED_TIMEOUT = 100;
     public static int f2f1ChangeTimeout;
     public static int ddsPressedTimeout;
-    private static final short PINCH_MOVE_UNDECIDED;
-    private static final short PINCH_MOVE_MOVE;
-    private static final short PINCH_MOVE_PINCH;
-    private static final short PINCH_MOVE_MOVE_AND_PINCH;
-    private static final short PINCH_MOVE_PINCH_1F;
+    private static final short PINCH_MOVE_UNDECIDED = 0;
+    private static final short PINCH_MOVE_MOVE = 1;
+    private static final short PINCH_MOVE_PINCH = 2;
+    private static final short PINCH_MOVE_MOVE_AND_PINCH = 3;
+    private static final short PINCH_MOVE_PINCH_1F = 4;
     public static int lowerMoveThresholdTw;
     public static int upperMoveThresholdTw;
-    private static final int LOWER_PINCH_THRESHOLD_TW;
-    private static final int UPPER_PINCH_THRESHOLD_TW;
-    private static final int LOWER_MOVE_THRESHOLD_AIT;
-    private static final int UPPER_MOVE_THRESHOLD_AIT;
+    private static final int LOWER_PINCH_THRESHOLD_TW = 3;
+    private static final int UPPER_PINCH_THRESHOLD_TW = 8;
+    private static final int LOWER_MOVE_THRESHOLD_AIT = 15;
+    private static final int UPPER_MOVE_THRESHOLD_AIT = 25;
     public static float lowerPinchThresholdAit;
     public static float upperPinchThresholdAit;
-    public static final float MAP_PANNING_DECELERATION_FACTOR_FOR_STREET_VIEW_X;
-    public static final float MAP_PANNING_DECELERATION_FACTOR_FOR_STREET_VIEW_Y;
+    public static final float MAP_PANNING_DECELERATION_FACTOR_FOR_STREET_VIEW_X = 0.6f;
+    public static final float MAP_PANNING_DECELERATION_FACTOR_FOR_STREET_VIEW_Y = 0.8f;
     public static float decelerationFactor;
     public static float decelerationFactorTw;
     private Job physicsTimer = null;
@@ -89,7 +89,7 @@ IViewSizeAnimatable {
     private int lastMoveActionTime = 0;
     private Job dataUpdateDelayTimer = null;
     private TimerEvent dataUpdateDelayEvent = null;
-    private static final long DATA_UPDATE_TIMEOUT;
+    private static final long DATA_UPDATE_TIMEOUT = 300L;
     private int deltaX = 0;
     private int deltaY = 0;
     private int previousXCoordinate = 0;
@@ -102,7 +102,7 @@ IViewSizeAnimatable {
     public static float scalarSumThreshold;
     private float[] prevDirection = new float[2];
     private boolean prevDirectionValid;
-    public static final int BUFFER_SIZE;
+    public static final int BUFFER_SIZE = 10;
     private List innerProductBuffer = new ArrayList(10);
     private int fingersOnTP = 0;
     private boolean physicStarted = false;
@@ -117,7 +117,7 @@ IViewSizeAnimatable {
     private int zoomLevelAfterTPReleased = -1;
     private int zoomLevelIndexAfterTPReleased = -1;
     private boolean softZoomEnabled = true;
-    private static final long LAST_TURN_EVENT_TIMEOUT;
+    private static final long LAST_TURN_EVENT_TIMEOUT = 400L;
     private Job turnEventTimer = null;
     private TimerEvent turnTimeoutEvent = null;
     private int zoomLevelIndex = 0;
@@ -129,11 +129,11 @@ IViewSizeAnimatable {
     private ChoiceModelGUI routeGuidanceActiveModel = null;
     private ChoiceModelGUI mapScreenChoiceModel = null;
     private ChoiceModelGUI routeCalculatingPrepare = null;
-    private static final int KEY_TURNED_DELTA_TIME;
+    private static final int KEY_TURNED_DELTA_TIME = 5000;
     private long zoomLevelReadTimestamp = 0L;
-    public static final int MODEL_ZOOM_LIST;
-    public static final int MODEL_MAGNIFICATION_RANGE;
-    public static final int MODEL_STREET_VIEW_VISIBLE;
+    public static final int MODEL_ZOOM_LIST = 0;
+    public static final int MODEL_MAGNIFICATION_RANGE = 1;
+    public static final int MODEL_STREET_VIEW_VISIBLE = 2;
     private int[] modelStubIDs = new int[]{-1, -1, -1};
     private int[] zoomLevels = null;
     private int storedZoomLevelIndex;
@@ -142,18 +142,16 @@ IViewSizeAnimatable {
     private long timeStampDDSPressed;
     private long timeStamp2FingerChangeTo1Finger;
     private boolean ignoreInitialFingerDistance = true;
-    private static final int MOVE_DISTANCE_HISTORY_LENGTH;
+    private static final int MOVE_DISTANCE_HISTORY_LENGTH = 5;
     private float[] distanceHistory = new float[5];
     private boolean[] fingerLiftDetected = new boolean[4];
     private boolean fingerLiftDetectionActive = true;
     private boolean fingerLiftDetectionResetDeltasOnly = false;
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void initializeWidget() {
         super.initializeWidget();
         this.initializeModelReferences();
@@ -176,7 +174,7 @@ IViewSizeAnimatable {
                     this.keypanelType = 1;
                 }
             }
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#initializeWidget keypanel type = %1", (long)this.keypanelType);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#initializeWidget keypanel type = %1", (long)this.keypanelType);
         } else {
             this.keypanelType = 1;
         }
@@ -196,7 +194,6 @@ IViewSizeAnimatable {
         return this.routeGuidanceActiveModel != null && this.routeGuidanceActiveModel.getValue() == 2;
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.cancelPhysicsTimer();
@@ -207,7 +204,6 @@ IViewSizeAnimatable {
         this.resetDeltas();
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         this.scrollMode = this.fingersOnTP = touchEvent.getFingerCount();
         this.updateZoomLevel();
@@ -223,16 +219,15 @@ IViewSizeAnimatable {
         this.scalarSumFeature = 0.0f;
         this.innerProductBuffer.clear();
         this.prevDirectionValid = false;
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadPressed x: %1 y: %2 fingerCount: %3", (long)this.previousXCoordinate, (long)this.previousYCoordinate, (long)this.fingersOnTP);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadPressed x: %1 y: %2 fingerCount: %3", (long)this.previousXCoordinate, (long)this.previousYCoordinate, (long)this.fingersOnTP);
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         this.touchPadReleased(touchEvent.getDeltaTime());
     }
 
     private void touchPadReleased(int n) {
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadReleased");
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadReleased");
         this.touchPadReleasedInternal(n);
         this.resetFingerLift();
         this.resetDistanceHistory();
@@ -244,37 +239,35 @@ IViewSizeAnimatable {
         this.fingerDistance = 0;
         this.refreshInitialLevel();
         int n2 = this.lastMoveActionTime + n;
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadReleasedInternal lastMoveActionTime: %1 fingerSteadyTime: %2", (long)this.lastMoveActionTime, (long)n2);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadReleasedInternal lastMoveActionTime: %1 fingerSteadyTime: %2", (long)this.lastMoveActionTime, (long)n2);
         int n3 = this.getSquaredVectorLength(this.deltaX, this.deltaY);
         if (n3 > this.getMinimumVectorLength() && n2 < 60) {
             if (this.isFingerLiftDetected()) {
                 this.resetDeltas();
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadReleasedInternal Do not start physics timer because finger lift was detected.");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadReleasedInternal Do not start physics timer because finger lift was detected.");
                 return;
             }
             if (this.isStreetViewVisible()) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadReleasedInternal Do not start physics timer because street view is visible.");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadReleasedInternal Do not start physics timer because street view is visible.");
                 return;
             }
             this.restartPhysicsTimer();
             this.physicStarted = true;
         } else {
             if (framework.getMonotonicTime() - this.timeStampDDSPressed < (long)ddsPressedTimeout) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadReleasedInternal Do not start data update timer. Ignore tp movements after DDS pressed.");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadReleasedInternal Do not start data update timer. Ignore tp movements after DDS pressed.");
                 return;
             }
             this.restartDataUpdateDelayTimer();
         }
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadApproached code = %1", (long)touchEvent.getCode());
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadApproached code = %1", (long)touchEvent.getCode());
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadAbandoned code = %1", (long)touchEvent.getCode());
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadAbandoned code = %1", (long)touchEvent.getCode());
     }
 
     private void addToRingBuffer(int n, int n2) {
@@ -304,13 +297,13 @@ IViewSizeAnimatable {
                 buffer.append(this.ringEventBuffer[i3]);
                 buffer.append(';');
             }
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#getAverageVector ringBufferContent: %1", (Object)buffer);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#getAverageVector ringBufferContent: %1", (Object)buffer);
         }
         if (n2 == 0) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#getAverageVector return 0");
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#getAverageVector return 0");
             return 0;
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#getAverageVector sum/divisor: %1", (long)(n3 / n2));
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#getAverageVector sum/divisor: %1", (long)(n3 / n2));
         return n3 / n2;
     }
 
@@ -325,7 +318,6 @@ IViewSizeAnimatable {
         return (float)Math.sqrt(f2 * f2 + f3 * f3);
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         int n = touchEvent.getX() - this.previousXCoordinate;
         int n2 = touchEvent.getY() - this.previousYCoordinate;
@@ -337,13 +329,13 @@ IViewSizeAnimatable {
         int n3 = this.getSquaredVectorLength(this.xSumAbs, this.ySumAbs);
         if (this.fingersOnTP > 1 || !this.ignoreInitialFingerDistance || n3 >= this.getMinimumDistanceForMovement()) {
             if (framework.getMonotonicTime() - this.timeStampDDSPressed < (long)ddsPressedTimeout) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadPositionMoved Ignore tp movements after DDS pressed.");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadPositionMoved Ignore tp movements after DDS pressed.");
                 return;
             }
             if (this.isCrosshairMapActive() || this.isSemidynRGActive()) {
                 int n4 = this.fingersOnTP;
                 this.fingersOnTP = touchEvent.getFingerCount();
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadPositionMoved fingerCount: %1", (long)this.fingersOnTP);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadPositionMoved fingerCount: %1", (long)this.fingersOnTP);
                 if (this.fingersOnTP == 0) {
                     this.touchPadReleasedInternal(touchEvent.getDeltaTime());
                 } else {
@@ -351,12 +343,12 @@ IViewSizeAnimatable {
                     this.processMapPanning(touchEvent, n4);
                 }
             } else {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadPositionMoved cross hair mode is not active, ignore map panning events");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadPositionMoved cross hair mode is not active, ignore map panning events");
             }
         } else {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadPositionMoved Ignore tp moved events below 3mm (distance = %1)", (long)n3);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadPositionMoved Ignore tp moved events below 3mm (distance = %1)", (long)n3);
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#touchPadPositionMoved Finger distance = %1.", (long)touchEvent.getDistance());
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#touchPadPositionMoved Finger distance = %1.", (long)touchEvent.getDistance());
         this.previousXCoordinate = touchEvent.getX();
         this.previousYCoordinate = touchEvent.getY();
         this.previousDistance = (int)this.getFingerDistance(touchEvent.getDistance());
@@ -384,17 +376,17 @@ IViewSizeAnimatable {
     private void processMapPanning(TouchEvent touchEvent, int n) {
         float f2 = 0.0f;
         float f3 = 0.0f;
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanning X = %1, Y = %2", (long)touchEvent.getX(), (long)touchEvent.getY());
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanning X = %1, Y = %2", (long)touchEvent.getX(), (long)touchEvent.getY());
         if (n == this.fingersOnTP) {
             f2 = this.calculateCenterPointSpeed(touchEvent);
             f3 = this.calculatePinchSpeed(touchEvent);
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanning centerPointSpeed: %1, pinchSpeed: %2", (double)f2, (double)f3, 0.0);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanning centerPointSpeed: %1, pinchSpeed: %2", (double)f2, (double)f3, 0.0);
         } else if (n > this.fingersOnTP) {
             if (this.pinchMoveMode == 2 || this.pinchMoveMode == 4) {
                 this.timeStamp2fPinchZoomGestureReleased = framework.getMonotonicTime();
             }
             this.timeStamp2FingerChangeTo1Finger = framework.getMonotonicTime();
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processMapPanning Number of fingers changed from %1 to %2.", (long)n, (long)this.fingersOnTP);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#processMapPanning Number of fingers changed from %1 to %2.", (long)n, (long)this.fingersOnTP);
             this.refreshInitialLevel();
             this.fingerDistance = 0;
         }
@@ -411,52 +403,52 @@ IViewSizeAnimatable {
                 this.processMapPanningAiT(touchEvent, n);
             }
         }
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processMapPanning pinchMoveMode = %1", (long)this.pinchMoveMode);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#processMapPanning pinchMoveMode = %1", (long)this.pinchMoveMode);
     }
 
     private void mapPanningAit(TouchEvent touchEvent, int n, float f2, float f3) {
         float f4 = this.getScalarSumFeature();
         if (this.pinchMoveMode == 0) {
             if (f3 > upperPinchThresholdAit) {
-                if (f2 < 28737) {
+                if (f2 < 15.0f) {
                     this.pinchMoveMode = (short)2;
-                } else if (f2 > 51265) {
+                } else if (f2 > 25.0f) {
                     this.pinchMoveMode = (short)3;
                 }
-            } else if (f2 > 51265) {
+            } else if (f2 > 25.0f) {
                 this.pinchMoveMode = 1;
             }
             if (this.pinchMoveMode == 0) {
-                if (Math.abs(f2 - f3) < Math.min((float)(-842249154 * f2), maximumPinchMoveSpeedDifferenceTw)) {
+                if (Math.abs(f2 - f3) < Math.min(0.2f * f2, maximumPinchMoveSpeedDifferenceTw)) {
                     this.pinchMoveMode = (short)4;
                 } else if (f4 >= scalarSumThreshold) {
                     this.pinchMoveMode = 1;
                 }
             }
         } else if (this.pinchMoveMode == 1) {
-            if (f2 < 28737 && f3 > upperPinchThresholdAit) {
+            if (f2 < 15.0f && f3 > upperPinchThresholdAit) {
                 this.pinchMoveMode = (short)2;
             } else if (this.undecidedAITCondition(touchEvent, f2, f3) && !(f4 >= scalarSumThreshold)) {
                 this.pinchMoveMode = 0;
-            } else if (f2 > 51265 && f3 > upperPinchThresholdAit) {
+            } else if (f2 > 25.0f && f3 > upperPinchThresholdAit) {
                 this.pinchMoveMode = (short)3;
             }
             this.fingerDistanceSum = 0;
         } else if (this.pinchMoveMode == 2) {
-            if (f2 > 51265 && f3 < lowerPinchThresholdAit) {
+            if (f2 > 25.0f && f3 < lowerPinchThresholdAit) {
                 this.pinchMoveMode = 1;
             } else if (this.undecidedAITCondition(touchEvent, f2, f3)) {
                 this.pinchMoveMode = 0;
-            } else if (f2 > 51265 && f3 > upperPinchThresholdAit) {
+            } else if (f2 > 25.0f && f3 > upperPinchThresholdAit) {
                 this.pinchMoveMode = (short)3;
             }
         } else if (this.pinchMoveMode == 4) {
             if (f3 < 1.0f && f2 < 1.0f) {
                 this.pinchMoveMode = 0;
             }
-        } else if (f2 > 51265 && f3 < lowerPinchThresholdAit) {
+        } else if (f2 > 25.0f && f3 < lowerPinchThresholdAit) {
             this.pinchMoveMode = 1;
-        } else if (f2 < 28737 && f3 > upperPinchThresholdAit) {
+        } else if (f2 < 15.0f && f3 > upperPinchThresholdAit) {
             this.pinchMoveMode = (short)2;
         } else if (this.undecidedAITCondition(touchEvent, f2, f3)) {
             this.pinchMoveMode = 0;
@@ -471,18 +463,18 @@ IViewSizeAnimatable {
 
     private void mapPanningTw(TouchEvent touchEvent, int n, float f2, float f3) {
         if (this.pinchMoveMode == 0) {
-            if (f3 > 65) {
+            if (f3 > 8.0f) {
                 if (f2 < (float)lowerMoveThresholdTw) {
                     this.pinchMoveMode = (short)2;
                 }
             } else if (f2 > (float)upperMoveThresholdTw) {
                 this.pinchMoveMode = 1;
             }
-            if (this.pinchMoveMode == 0 && Math.abs(f2 - f3) < Math.min((float)(-842249154 * f2), maximumPinchMoveSpeedDifferenceTw)) {
+            if (this.pinchMoveMode == 0 && Math.abs(f2 - f3) < Math.min(0.2f * f2, maximumPinchMoveSpeedDifferenceTw)) {
                 this.pinchMoveMode = (short)4;
             }
         } else if (this.pinchMoveMode == 1) {
-            if (f2 < (float)lowerMoveThresholdTw && f3 > 65) {
+            if (f2 < (float)lowerMoveThresholdTw && f3 > 8.0f) {
                 this.pinchMoveMode = (short)2;
             } else if (this.undecidedTWCondition(touchEvent, f2, f3)) {
                 this.pinchMoveMode = 0;
@@ -491,10 +483,10 @@ IViewSizeAnimatable {
         } else if (this.pinchMoveMode == 4) {
             if (f3 < 1.0f && f2 < 1.0f) {
                 this.pinchMoveMode = 0;
-            } else if (f2 > (float)upperMoveThresholdTw && f3 < 16448) {
+            } else if (f2 > (float)upperMoveThresholdTw && f3 < 3.0f) {
                 this.pinchMoveMode = 1;
             }
-        } else if (f2 > (float)upperMoveThresholdTw && f3 < 16448) {
+        } else if (f2 > (float)upperMoveThresholdTw && f3 < 3.0f) {
             this.pinchMoveMode = 1;
         } else if (this.undecidedTWCondition(touchEvent, f2, f3)) {
             this.pinchMoveMode = 0;
@@ -508,17 +500,17 @@ IViewSizeAnimatable {
     }
 
     private boolean undecidedTWCondition(TouchEvent touchEvent, float f2, float f3) {
-        return (long)touchEvent.getDeltaTime() > 0 || f2 < 41024 && f3 < 16448;
+        return (long)touchEvent.getDeltaTime() > 150L || f2 < 5.0f && f3 < 3.0f;
     }
 
     private boolean undecidedAITCondition(TouchEvent touchEvent, float f2, float f3) {
-        return (long)touchEvent.getDeltaTime() > 0 || f2 < 41024 && f3 < lowerPinchThresholdAit;
+        return (long)touchEvent.getDeltaTime() > 150L || f2 < 5.0f && f3 < lowerPinchThresholdAit;
     }
 
     private float calculateCenterPointSpeed(TouchEvent touchEvent) {
         int n = touchEvent.getX();
         int n2 = touchEvent.getY();
-        if (this.previousXCoordinate != 128) {
+        if (this.previousXCoordinate != Integer.MIN_VALUE) {
             int n3 = this.previousXCoordinate - n;
             int n4 = this.previousYCoordinate - n2;
             return this.calculateSpeed(n3, n4, touchEvent.getDeltaTime());
@@ -527,7 +519,7 @@ IViewSizeAnimatable {
     }
 
     private float calculatePinchSpeed(TouchEvent touchEvent) {
-        if (this.previousXCoordinate != 128) {
+        if (this.previousXCoordinate != Integer.MIN_VALUE) {
             int n = (int)((float)this.previousDistance - this.getFingerDistance(touchEvent.getDistance()));
             return this.calculateSpeed(n, 0, touchEvent.getDeltaTime());
         }
@@ -540,24 +532,24 @@ IViewSizeAnimatable {
             if (this.scrollMode == 1 || l > (long)f2f1ChangeTimeout) {
                 this.scrollMode = this.fingersOnTP;
             }
-            if (this.fingersOnTP == 1 && framework.getMonotonicTime() - this.timeStamp2fPinchZoomGestureReleased < 0) {
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processMapPanningAiT No map panning after 2F released allowed.");
+            if (this.fingersOnTP == 1 && framework.getMonotonicTime() - this.timeStamp2fPinchZoomGestureReleased < 100L) {
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#processMapPanningAiT No map panning after 2F released allowed.");
                 return;
             }
             int n2 = touchEvent.getX();
             int n3 = touchEvent.getY();
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningAiT calling touchPadPositionMoved at virtual button model evtX: %1 evtY: %2", (long)n2, (long)n3);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningAiT calling touchPadPositionMoved at virtual button model evtX: %1 evtY: %2", (long)n2, (long)n3);
             if (n == this.fingersOnTP) {
-                if (this.previousXCoordinate != 128) {
+                if (this.previousXCoordinate != Integer.MIN_VALUE) {
                     this.deltaX = this.previousXCoordinate - n2;
                     this.deltaY = this.previousYCoordinate - n3;
                     VirtualButtonModelGUI virtualButtonModelGUI = (VirtualButtonModelGUI)this.model;
-                    tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningAiT calling touchPadPositionMoved at virtual buton model deltaEvtX: %1 deltaEvtY: %2", (long)this.deltaX, (long)this.deltaY);
+                    tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningAiT calling touchPadPositionMoved at virtual buton model deltaEvtX: %1 deltaEvtY: %2", (long)this.deltaX, (long)this.deltaY);
                     float f2 = this.calculateSpeed(this.deltaX, this.deltaY, touchEvent.getDeltaTime());
-                    tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningAiT deltaX: %1, deltaY: %2, currentSpeed: %3", (double)this.deltaX, (double)this.deltaY, (double)f2);
-                    if (f2 > 61506 && !this.isStreetViewVisible()) {
-                        this.deltaX = (int)((float)this.deltaX * 49215);
-                        this.deltaY = (int)((float)this.deltaY * 49215);
+                    tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningAiT deltaX: %1, deltaY: %2, currentSpeed: %3", (double)this.deltaX, (double)this.deltaY, (double)f2);
+                    if (f2 > 120.0f && !this.isStreetViewVisible()) {
+                        this.deltaX = (int)((float)this.deltaX * 1.5f);
+                        this.deltaY = (int)((float)this.deltaY * 1.5f);
                     } else if (f2 < maxDecelerationSpeedThreshold2Ait) {
                         this.deltaX = (int)((float)this.deltaX * speedDecelerationFactor2Ait);
                         this.deltaY = (int)((float)this.deltaY * speedDecelerationFactor2Ait);
@@ -566,15 +558,15 @@ IViewSizeAnimatable {
                         this.deltaY = (int)((float)this.deltaY * speedDecelerationFactorAit);
                     }
                     if (this.isStreetViewVisible()) {
-                        this.deltaX = (int)((float)this.deltaX * -1701242561);
-                        this.deltaY = (int)((float)this.deltaY * -842249153);
+                        this.deltaX = (int)((float)this.deltaX * 0.6f);
+                        this.deltaY = (int)((float)this.deltaY * 0.8f);
                     }
                     virtualButtonModelGUI.touchPadPositionMoved(this.scrollMode, 0, this.deltaX, this.deltaY, this.terminal.getTerminalID());
                     this.lastMoveActionTime = 0;
                     this.addToRingBuffer(this.deltaX, this.deltaY);
                 }
             } else {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningAiT do not move map, number of fingers has changed");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningAiT do not move map, number of fingers has changed");
             }
             touchEvent.consume(false);
         }
@@ -585,23 +577,23 @@ IViewSizeAnimatable {
             long l = framework.getMonotonicTime() - this.timeStamp2FingerChangeTo1Finger;
             if (this.scrollMode == 1 || l > (long)f2f1ChangeTimeout) {
                 this.scrollMode = this.fingersOnTP;
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningTT3 switch scroll mode %1, time since finger change = %2", (long)this.scrollMode, l);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningTT3 switch scroll mode %1, time since finger change = %2", (long)this.scrollMode, l);
             }
-            if (this.fingersOnTP == 1 && framework.getMonotonicTime() - this.timeStamp2fPinchZoomGestureReleased < 0) {
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processMapPanningAiT No map panning after 2F released allowed.");
+            if (this.fingersOnTP == 1 && framework.getMonotonicTime() - this.timeStamp2fPinchZoomGestureReleased < 100L) {
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#processMapPanningAiT No map panning after 2F released allowed.");
                 return;
             }
             int n2 = touchEvent.getX();
             int n3 = touchEvent.getY();
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningTT3 calling touchPadPositionMoved at virtual buton model evtX: %1 evtY: %2", (long)n2, (long)n3);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningTT3 calling touchPadPositionMoved at virtual buton model evtX: %1 evtY: %2", (long)n2, (long)n3);
             if (n == this.fingersOnTP) {
-                if (this.previousXCoordinate != 128) {
+                if (this.previousXCoordinate != Integer.MIN_VALUE) {
                     this.deltaX = this.previousXCoordinate - n2;
                     this.deltaY = this.previousYCoordinate - n3;
                     VirtualButtonModelGUI virtualButtonModelGUI = (VirtualButtonModelGUI)this.model;
-                    tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningTT3 calling touchPadPositionMoved at virtual buton model deltaEvtX: %1 deltaEvtY: %2", (long)this.deltaX, (long)this.deltaY);
+                    tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningTT3 calling touchPadPositionMoved at virtual buton model deltaEvtX: %1 deltaEvtY: %2", (long)this.deltaX, (long)this.deltaY);
                     float f2 = this.calculateSpeed(this.deltaX, this.deltaY, touchEvent.getDeltaTime());
-                    tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningTT3 deltaX: %1, deltaY: %2, currentSpeed: %3", (double)this.deltaX, (double)this.deltaY, (double)f2);
+                    tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningTT3 deltaX: %1, deltaY: %2, currentSpeed: %3", (double)this.deltaX, (double)this.deltaY, (double)f2);
                     if (f2 < maxDecelerationSpeedThreshold2Tw) {
                         this.deltaX = (int)((float)this.deltaX * speedDecelerationFactor2Tw);
                         this.deltaY = (int)((float)this.deltaY * speedDecelerationFactor2Tw);
@@ -609,15 +601,15 @@ IViewSizeAnimatable {
                         this.deltaX = (int)((float)this.deltaX * speedDecelerationFactorTw);
                         this.deltaY = (int)((float)this.deltaY * speedDecelerationFactorTw);
                     } else {
-                        this.deltaX = (int)((float)this.deltaX * -842265537);
-                        this.deltaY = (int)((float)this.deltaY * -842265537);
+                        this.deltaX = (int)((float)this.deltaX * 0.55f);
+                        this.deltaY = (int)((float)this.deltaY * 0.55f);
                     }
                     if (this.isStreetViewVisible()) {
-                        this.deltaX = (int)((float)this.deltaX * -1701242561);
-                        this.deltaY = (int)((float)this.deltaY * -842249153);
+                        this.deltaX = (int)((float)this.deltaX * 0.6f);
+                        this.deltaY = (int)((float)this.deltaY * 0.8f);
                     }
                     if (this.fingerLiftDetectionActive && this.detectFingerLifting(touchEvent.getDeltaTime()) && !this.fingerLiftDetectionResetDeltasOnly) {
-                        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processMapPanningTT3 Discard event.");
+                        tpLogChannelInternal.log(10000000, "TouchMapHandler#processMapPanningTT3 Discard event.");
                         return;
                     }
                     virtualButtonModelGUI.touchPadPositionMoved(this.scrollMode, 0, this.deltaX, this.deltaY, this.terminal.getTerminalID());
@@ -625,7 +617,7 @@ IViewSizeAnimatable {
                     this.addToRingBuffer(this.deltaX, this.deltaY);
                 }
             } else {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processMapPanningTT3 do not move map, number of fingers has changed");
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processMapPanningTT3 do not move map, number of fingers has changed");
             }
             touchEvent.consume(false);
         }
@@ -650,33 +642,33 @@ IViewSizeAnimatable {
         int n2 = 0;
         if (this.zoomLevelAfterTPReleased != -1) {
             n2 = this.zoomLevelAfterTPReleased - this.zoomLevels[this.initialZoomLevelIndex];
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom zoomLevelAfterTPReleased = %1, differenceToDiscreteZoomLevel = %1", (long)this.zoomLevelAfterTPReleased, (long)n2);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom zoomLevelAfterTPReleased = %1, differenceToDiscreteZoomLevel = %1", (long)this.zoomLevelAfterTPReleased, (long)n2);
         }
         int n3 = n - this.initialFingerDistance;
         int n4 = Math.abs(n3);
         float f3 = (float)n4 / f2;
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom deltaDistance: %1", (long)n3);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom deltaDistance: %1", (long)n3);
         if (n3 < 0) {
             float f4;
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom zooming out, initialZoomLevelIndex: %1 myZoomLevelIndex: %2 maxZoomLevels: %3", (double)this.initialZoomLevelIndex, (double)f3, (double)(this.zoomLevels.length - 1));
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom zooming out, initialZoomLevelIndex: %1 myZoomLevelIndex: %2 maxZoomLevels: %3", (double)this.initialZoomLevelIndex, (double)f3, (double)(this.zoomLevels.length - 1));
             this.pinchZoomTargetLevelIndex = f4 = (float)this.initialZoomLevelIndex + f3;
             if (f4 < (float)(this.zoomLevels.length - 1)) {
                 int n5 = (int)f4;
                 float f5 = f4 - (float)n5;
                 int n6 = (int)((float)(this.zoomLevels[n5 + 1] - this.zoomLevels[n5]) * f5);
                 this.currentZoomLevel = this.zoomLevels[n5] + n6;
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1 targetLevelFloat: %2 interpolatedDelta: %3 ", (double)this.currentZoomLevel, (double)f4, (double)n6);
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1 targetLevelFloat: %2 interpolatedDelta: %3 ", (double)this.currentZoomLevel, (double)f4, (double)n6);
             } else {
                 this.currentZoomLevel = this.zoomLevels[this.zoomLevels.length - 1];
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1 - maximum reached", (long)this.currentZoomLevel);
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1 - maximum reached", (long)this.currentZoomLevel);
             }
         } else {
             float f6;
             if (this.isLowestZoomLevel()) {
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom Already on lowest zoom level (current zoom level: %1).", (long)this.currentZoomLevel);
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom Already on lowest zoom level (current zoom level: %1).", (long)this.currentZoomLevel);
                 return;
             }
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom zooming in, initialZoomLevelIndex: %1 myZoomLevelIndex: %2 maxZoomLevels: %3", (double)this.initialZoomLevelIndex, (double)f3, (double)(this.zoomLevels.length - 1));
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom zooming in, initialZoomLevelIndex: %1 myZoomLevelIndex: %2 maxZoomLevels: %3", (double)this.initialZoomLevelIndex, (double)f3, (double)(this.zoomLevels.length - 1));
             this.pinchZoomTargetLevelIndex = f6 = (float)this.initialZoomLevelIndex - f3;
             if (f6 > 0.0f) {
                 if (f6 < (float)(this.zoomLevels.length - 1)) {
@@ -684,7 +676,7 @@ IViewSizeAnimatable {
                     float f7 = f6 - (float)n7;
                     int n8 = (int)((float)(this.zoomLevels[n7 + 1] - this.zoomLevels[n7]) * f7);
                     this.currentZoomLevel = this.zoomLevels[n7] + n8;
-                    tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1 targetLevelFloat: %2 interpolatedDelta: %3 ", (double)this.currentZoomLevel, (double)f6, (double)n8);
+                    tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1 targetLevelFloat: %2 interpolatedDelta: %3 ", (double)this.currentZoomLevel, (double)f6, (double)n8);
                 }
             } else {
                 this.currentZoomLevel = this.zoomLevels[0];
@@ -693,12 +685,12 @@ IViewSizeAnimatable {
             }
         }
         this.currentZoomLevel += n2;
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1", (long)this.currentZoomLevel);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#handlePinchZoom currentZoomLevel: %1", (long)this.currentZoomLevel);
         this.pinchZoomRangeModel.increment(this.currentZoomLevel, this.terminal.getTerminalID());
     }
 
     private void refreshInitialLevel() {
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#refreshInitialLevel before currentZoomLevel: %1, initialZoomLevelIndex: %2 zoomLevelIndex: %3", (long)this.currentZoomLevel, (long)this.initialZoomLevelIndex, (long)this.zoomLevelIndex);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#refreshInitialLevel before currentZoomLevel: %1, initialZoomLevelIndex: %2 zoomLevelIndex: %3", (long)this.currentZoomLevel, (long)this.initialZoomLevelIndex, (long)this.zoomLevelIndex);
         if (this.currentZoomLevel != this.zoomLevels[this.zoomLevelIndex]) {
             for (int i2 = 0; i2 < this.zoomLevels.length; ++i2) {
                 if (this.currentZoomLevel > this.zoomLevels[i2]) continue;
@@ -710,13 +702,13 @@ IViewSizeAnimatable {
                 break;
             }
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#refreshInitialLevel currentZoomLevel: %1", (long)this.currentZoomLevel);
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#refreshInitialLevel after currentZoomLevel: %1, initialZoomLevelIndex: %2 zoomLevelIndex: %3", (long)this.currentZoomLevel, (long)this.initialZoomLevelIndex, (long)this.zoomLevelIndex);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#refreshInitialLevel currentZoomLevel: %1", (long)this.currentZoomLevel);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#refreshInitialLevel after currentZoomLevel: %1, initialZoomLevelIndex: %2 zoomLevelIndex: %3", (long)this.currentZoomLevel, (long)this.initialZoomLevelIndex, (long)this.zoomLevelIndex);
     }
 
     private void updateZoomLevel() {
         this.currentZoomLevel = this.pinchZoomRangeModel.getValue();
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#updateZoomLevel read value from model currentZoomLevel: %1 ", (long)this.currentZoomLevel);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#updateZoomLevel read value from model currentZoomLevel: %1 ", (long)this.currentZoomLevel);
     }
 
     private void enableSoftZoom() {
@@ -736,7 +728,7 @@ IViewSizeAnimatable {
     }
 
     private void processZoomGesture(TouchEvent touchEvent) {
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processZoomGesture fingerCount: %1, fingerDistance: %2 evt.getDistance(): %3", (long)touchEvent.getFingerCount(), (long)this.fingerDistance, (long)touchEvent.getDistance());
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processZoomGesture fingerCount: %1, fingerDistance: %2 evt.getDistance(): %3", (long)touchEvent.getFingerCount(), (long)this.fingerDistance, (long)touchEvent.getDistance());
         if (touchEvent.getFingerCount() < 2) {
             this.fingerDistanceSum = 0;
             this.fingerDistance = 0;
@@ -748,7 +740,7 @@ IViewSizeAnimatable {
         int n = this.fingerDistance;
         this.fingerDistance = (int)this.getFingerDistance(touchEvent.getDistance());
         if (n == 0) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processZoomGesture previousDistance is 0 - do not zoom");
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processZoomGesture previousDistance is 0 - do not zoom");
             this.initialFingerDistance = this.fingerDistance;
             this.initialZoomLevelIndex = this.zoomLevelIndex;
             return;
@@ -760,13 +752,13 @@ IViewSizeAnimatable {
             this.fingerDistanceSum += n3;
             int n5 = Math.abs(this.fingerDistanceSum);
             if (n5 < n2) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processZoomGesture absoluteDistance is too small, do not zoom fingerDistanceSumAbs: %1", (long)n5);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processZoomGesture absoluteDistance is too small, do not zoom fingerDistanceSumAbs: %1", (long)n5);
                 return;
             }
             n4 = n5;
             this.fingerDistanceSum = 0;
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processZoomGesture zoomFactor: %1", (long)n4);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processZoomGesture zoomFactor: %1", (long)n4);
         this.handlePinchZoom(this.fingerDistance, this.getPixelPerLevel());
     }
 
@@ -799,20 +791,20 @@ IViewSizeAnimatable {
         float f4 = 0.0f;
         float f5 = 0.0f;
         f3 = pixelPerLevelAit;
-        f4 = 49216;
-        f5 = 8257;
+        f4 = 6.0f;
+        f5 = 10.0f;
         if (this.keypanelType == 1) {
             f3 = pixelPerLevelTw;
             f4 = pixelPerLevelFactor;
             f5 = pixelPerLevelCurrentLevelDependence;
         }
         if (pixelPerLevelZoomLevelDependenceActive) {
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handlePinchZoom targetZoomLevelIndex = %1", (double)this.pinchZoomTargetLevelIndex);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#handlePinchZoom targetZoomLevelIndex = %1", (double)this.pinchZoomTargetLevelIndex);
             float f6 = f2 + 1.0f;
             float f7 = 1.0f + f4 * 1.0f / (f6 * f6);
             float f8 = (float)Math.pow(1.0f - f2 / (f5 * (float)this.zoomLevels.length), 2.0);
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#getPixelPerLevel factor1 = %1, factor2 = %2", (double)f7, (double)f8, 0.0);
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#getPixelPerLevel ppL = %1", (double)(f3 *= f7 * f8));
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#getPixelPerLevel factor1 = %1, factor2 = %2", (double)f7, (double)f8, 0.0);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#getPixelPerLevel ppL = %1", (double)(f3 *= f7 * f8));
         }
         return f3;
     }
@@ -825,21 +817,20 @@ IViewSizeAnimatable {
         return framework.getSysConst(4581) == 0 && framework.getSysConst(522) == 1;
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         if (this.isSemidynRGActive()) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyMoved Do not handle key event because semidyn. RG is active.");
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyMoved Do not handle key event because semidyn. RG is active.");
             return;
         }
         if (!this.isCrosshairMapActive() && !this.isStreetViewVisible()) {
             if (this.event != 0 && joystickEvent.getDirection() == 2) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyMoved isCrosshairMapActive: %1, event: %2 is thrown on Joystick N", this.isCrosshairMapActive(), (long)this.event);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyMoved isCrosshairMapActive: %1, event: %2 is thrown on Joystick N", this.isCrosshairMapActive(), (long)this.event);
                 hmiService.fireSMEvent(this.terminal.getTerminalID(), this.event);
             } else {
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyMoved evt.getKeyCode(): %1, event: %2 - ignore event, only Joystick_N is processed and only if an event is configured", (long)joystickEvent.getKeyCode(), (long)this.event);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyMoved evt.getKeyCode(): %1, event: %2 - ignore event, only Joystick_N is processed and only if an event is configured", (long)joystickEvent.getKeyCode(), (long)this.event);
             }
         } else {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyMoved isCrosshairMapActive: %1, isStreetViewVisible: %2 - ignore Joystick up event", this.isCrosshairMapActive(), this.isStreetViewVisible());
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyMoved isCrosshairMapActive: %1, isStreetViewVisible: %2 - ignore Joystick up event", this.isCrosshairMapActive(), this.isStreetViewVisible());
         }
         if (this.isEvoScale() && this.isCrosshairMapActive()) {
             VirtualButtonModelGUI virtualButtonModelGUI = (VirtualButtonModelGUI)this.model;
@@ -870,11 +861,10 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyPressed evt: %1, model: %2", (Object)keyEvent, this.model);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyPressed evt: %1, model: %2", (Object)keyEvent, this.model);
         if (this.isSemidynRGActive()) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyPressed Do not handle key event because semidyn. RG is active.");
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyPressed Do not handle key event because semidyn. RG is active.");
             return;
         }
         int n = keyEvent.getKeyCode();
@@ -897,22 +887,21 @@ IViewSizeAnimatable {
         super.keyPressed(keyEvent);
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.isSemidynRGActive()) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned Do not handle key event because semidyn. RG is active.");
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned Do not handle key event because semidyn. RG is active.");
             return;
         }
         this.enableSoftZoom();
         int n = wheelButtonEvent.getClickCount();
         int n2 = wheelButtonEvent.getSubClickCount();
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned clickCount: %1 subClickCount: %2", (long)n, (long)n2);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned clickCount: %1 subClickCount: %2", (long)n, (long)n2);
         WheelButtonEvent wheelButtonEvent2 = wheelButtonEvent;
         if (n == 0 && (this.isStreetViewVisible() || n2 > 0 && this.isLowestZoomLevel())) {
             return;
         }
         long l = framework.getMonotonicTime();
-        if (l - this.zoomLevelReadTimestamp > 0 || this.zoomLevelReadTimestamp == 0L || this.isStreetViewVisible()) {
+        if (l - this.zoomLevelReadTimestamp > 5000L || this.zoomLevelReadTimestamp == 0L || this.isStreetViewVisible()) {
             this.updateMagnificationRange();
         }
         this.zoomLevelReadTimestamp = l;
@@ -943,7 +932,7 @@ IViewSizeAnimatable {
         if (this.zoomLevelIndex != this.zoomLevelIndexAfterTPReleased && this.zoomLevelAfterTPReleased != -1) {
             this.zoomLevelAfterTPReleased = -1;
             this.zoomLevelIndexAfterTPReleased = -1;
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#keyTurned revert zoom level index after TP released");
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#keyTurned revert zoom level index after TP released");
         }
         int n3 = 0;
         if (0 <= this.zoomLevelIndex && this.zoomLevelIndex < this.zoomLevels.length) {
@@ -953,25 +942,25 @@ IViewSizeAnimatable {
             }
         }
         this.pinchZoomTargetLevelIndex = this.zoomLevelIndex;
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#keyTurned - actual zoom level = %1", (long)n3);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#keyTurned - actual zoom level = %1", (long)n3);
         int n4 = n3;
         if (!bl) {
             if (n2 < 0) {
                 if (this.zoomLevelIndex < this.zoomLevels.length - 1) {
                     int n5 = this.zoomLevels[this.zoomLevelIndex + 1] - n3;
-                    n4 = (int)((float)n4 + (float)n5 * ((float)(-n2) / 51266));
-                    tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned - zoomLevelIndex: %1 deltaZoomLevel: %2  deltaZoomLevel*(subClickCount/100.f): %3", (double)this.zoomLevelIndex, (double)n5, (double)((float)n5 * ((float)(-n2) / 51266)));
+                    n4 = (int)((float)n4 + (float)n5 * ((float)(-n2) / 100.0f));
+                    tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned - zoomLevelIndex: %1 deltaZoomLevel: %2  deltaZoomLevel*(subClickCount/100.f): %3", (double)this.zoomLevelIndex, (double)n5, (double)((float)n5 * ((float)(-n2) / 100.0f)));
                 }
             } else if (n2 > 0 && this.zoomLevelIndex > 0) {
                 int n6 = n3 - this.zoomLevels[this.zoomLevelIndex - 1];
-                n4 = (int)((float)n4 - (float)n6 * ((float)n2 / 51266));
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned - setting zoomLevel to %1", (long)this.zoomLevels[this.zoomLevelIndex]);
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned - zoomLevelIndex: %1 deltaZoomLevel: %2  deltaZoomLevel*(subClickCount/100.f): %3", (double)this.zoomLevelIndex, (double)n6, (double)((float)n6 * ((float)n2 / 51266)));
+                n4 = (int)((float)n4 - (float)n6 * ((float)n2 / 100.0f));
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned - setting zoomLevel to %1", (long)this.zoomLevels[this.zoomLevelIndex]);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned - zoomLevelIndex: %1 deltaZoomLevel: %2  deltaZoomLevel*(subClickCount/100.f): %3", (double)this.zoomLevelIndex, (double)n6, (double)((float)n6 * ((float)n2 / 100.0f)));
             }
         } else {
-            tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned - zoom range exceeded: %1 - ignoring subclicks", bl);
+            tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned - zoom range exceeded: %1 - ignoring subclicks", bl);
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#keyTurned subClickCount: %1 zoomLevel: %2  ", (long)n2, (long)n4);
+        tpLogChannelKeypanel.log(10000000, "TouchMapHandler#keyTurned subClickCount: %1 zoomLevel: %2  ", (long)n2, (long)n4);
         this.pinchZoomRangeModel.increment(n4, this.terminal.getTerminalID());
         this.currentZoomLevel = n4;
         if (n2 != 0) {
@@ -987,7 +976,7 @@ IViewSizeAnimatable {
             this.turnTimeoutEvent = new TimerEvent(this);
         }
         this.cancelKeyTurnTimeout();
-        this.turnEventTimer = hmiService.getEventDispatcher().postEvent(this.turnTimeoutEvent, 0);
+        this.turnEventTimer = hmiService.getEventDispatcher().postEvent(this.turnTimeoutEvent, 400L);
     }
 
     private void cancelKeyTurnTimeout() {
@@ -1009,7 +998,7 @@ IViewSizeAnimatable {
             this.timerEvent = new TimerEvent(this);
         }
         this.cancelPhysicsTimer();
-        this.physicsTimer = hmiService.getEventDispatcher().postEvent(this.timerEvent, 0);
+        this.physicsTimer = hmiService.getEventDispatcher().postEvent(this.timerEvent, 50L);
     }
 
     public void cancelPhysicsTimer() {
@@ -1023,7 +1012,7 @@ IViewSizeAnimatable {
             this.dataUpdateDelayEvent = new TimerEvent(this);
         }
         this.cancelDataUpdateDelayTimer();
-        this.dataUpdateDelayTimer = hmiService.getEventDispatcher().postEvent(this.dataUpdateDelayEvent, 0);
+        this.dataUpdateDelayTimer = hmiService.getEventDispatcher().postEvent(this.dataUpdateDelayEvent, 300L);
     }
 
     public void cancelDataUpdateDelayTimer() {
@@ -1032,12 +1021,11 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.timerEvent) && this.fingersOnTP == 0) {
             if (this.model instanceof VirtualButtonModelGUI) {
                 VirtualButtonModelGUI virtualButtonModelGUI = (VirtualButtonModelGUI)this.model;
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processEvent calling touchPadPositionMoved at virtual button model deltaEvtX: %1 deltaEvtY: %2", (long)this.deltaX, (long)this.deltaY);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processEvent calling touchPadPositionMoved at virtual button model deltaEvtX: %1 deltaEvtY: %2", (long)this.deltaX, (long)this.deltaY);
                 virtualButtonModelGUI.touchPadPositionMoved(this.scrollMode, 0, this.deltaX, this.deltaY, this.terminal.getTerminalID());
             }
             if (this.physicStarted) {
@@ -1045,7 +1033,7 @@ IViewSizeAnimatable {
                 this.deltaX = this.getAverageVector(true);
                 this.deltaY = this.getAverageVector(false);
                 this.clearRingBuffer();
-                tpLogChannelKeypanel.log(-2137614336, "TouchMapHandler#processEvent calling touchPadPositionMoved at virtual button model deltaX: %1 deltaY: %2", (long)this.deltaX, (long)this.deltaY);
+                tpLogChannelKeypanel.log(10000000, "TouchMapHandler#processEvent calling touchPadPositionMoved at virtual button model deltaX: %1 deltaY: %2", (long)this.deltaX, (long)this.deltaY);
             }
             float f2 = this.keypanelType == 1 ? decelerationFactorTw : decelerationFactor;
             this.deltaX = Math.round((float)this.deltaX / f2);
@@ -1058,31 +1046,30 @@ IViewSizeAnimatable {
             }
         } else if (aTIPEvent.equals(this.dataUpdateDelayEvent)) {
             if (framework.getMonotonicTime() - this.timeStampDDSPressed < (long)ddsPressedTimeout) {
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processEvent trigger no data update since DDS was pressed");
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#processEvent trigger no data update since DDS was pressed");
             } else {
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processEvent calling joystick idle at virtual button model - to trigger data update");
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#processEvent calling joystick idle at virtual button model - to trigger data update");
                 this.triggerDataUpdate();
             }
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelId();
         if (n == this.modelStubIDs[0]) {
             this.updateZoomLevels();
         } else if (n == this.modelStubIDs[1]) {
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processModelUpdateEvent Model update on magnification range model");
-            ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)((Object)hmiService.getModel(253625856));
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#processModelUpdateEvent Model update on magnification range model");
+            ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)((Object)hmiService.getModel(400911));
             if (choiceModelGUI.getValue() == 1) {
                 this.updateMagnificationRange();
                 this.pinchZoomTargetLevelIndex = this.zoomLevelIndex;
                 this.zoomLevelAfterTPReleased = -1;
             } else {
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processModelUpdateEvent ignore magnification range update.");
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#processModelUpdateEvent ignore magnification range update.");
             }
         } else if (n == this.modelStubIDs[2]) {
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#processModelUpdateEvent street view visible = %1", this.isStreetViewVisible());
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#processModelUpdateEvent street view visible = %1", this.isStreetViewVisible());
             if (this.isStreetViewVisible()) {
                 RangeModel rangeModel = this.getMapMagnificationRangeModel();
                 int n2 = rangeModel.getValue();
@@ -1128,19 +1115,19 @@ IViewSizeAnimatable {
     private void initializeModelReferences() {
         List list;
         if (this.pinchZoomRangeModel == null) {
-            this.pinchZoomRangeModel = (RangeModelGUI)((Object)hmiService.getModel(35522048));
+            this.pinchZoomRangeModel = (RangeModelGUI)((Object)hmiService.getModel(400898));
         }
         if (this.topBarVisibleModel == null) {
-            this.topBarVisibleModel = (ChoiceModelGUI)((Object)hmiService.getModel(1193018880));
+            this.topBarVisibleModel = (ChoiceModelGUI)((Object)hmiService.getModel(400455));
         }
         if (this.mapScreenChoiceModel == null) {
-            this.mapScreenChoiceModel = (ChoiceModelGUI)((Object)hmiService.getModel(-467794432));
+            this.mapScreenChoiceModel = (ChoiceModelGUI)((Object)hmiService.getModel(401124));
         }
         if (this.routeGuidanceActiveModel == null) {
-            this.routeGuidanceActiveModel = (ChoiceModelGUI)((Object)hmiService.getModel(-417528320));
+            this.routeGuidanceActiveModel = (ChoiceModelGUI)((Object)hmiService.getModel(400871));
         }
         if (this.routeCalculatingPrepare == null) {
-            this.routeCalculatingPrepare = (ChoiceModelGUI)((Object)hmiService.getModel(706545152));
+            this.routeCalculatingPrepare = (ChoiceModelGUI)((Object)hmiService.getModel(400682));
         }
         if (!(list = this.getChildren()).isEmpty()) {
             Iterator iterator = list.iterator();
@@ -1149,11 +1136,11 @@ IViewSizeAnimatable {
                 Object object = iterator.next();
                 if (!(object instanceof ModelStubController)) continue;
                 this.modelStubIDs[n++] = ((ModelStubController)object).getModelID();
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#initializeModelReferences Connect model stub with model-id = %1", (long)((ModelStubController)object).getModelID());
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#initializeModelReferences Connect model stub with model-id = %1", (long)((ModelStubController)object).getModelID());
             }
         }
         if (this.modelStubIDs[2] == -1) {
-            this.modelStubIDs[2] = -1206057472;
+            this.modelStubIDs[2] = 400824;
         }
         this.streetViewVisibleModel = (ChoiceModelGUI)((Object)hmiService.getModel(this.modelStubIDs[2]));
     }
@@ -1169,8 +1156,8 @@ IViewSizeAnimatable {
                 nArray[n] = ((Long)guiListRow.getCell(0)).intValue();
             }
         } else {
-            tpLogChannelInternal.log(-1601830656, "TouchMapHandler#updateZoomLevels failed - no model available - taking default EU zoom levels");
-            nArray = new int[]{3000, 5000, 7500, 10000, 15000, 20000, 30000, 1083965440, 1354956800, -131858176, -1601830656, -263650816, 1074594560, -527236096, -2145778176, 547424000, -1071183616, 3476480, 1078071040, 1625495040, -2138825216, -1060754176, 605440, 1078676480, -2138219776, -1060148736, 1210880, 1079281920, -2137614336, 549240320, -1058937856, 1611074305, 2961665, 1081638145, -2134652671, -2131691006, 8884995, 14808325, 12774155, -2135759346};
+            tpLogChannelInternal.log(100000, "TouchMapHandler#updateZoomLevels failed - no model available - taking default EU zoom levels");
+            nArray = new int[]{3000, 5000, 7500, 10000, 15000, 20000, 30000, 40000, 50000, 75000, 100000, 150000, 200000, 300000, 400000, 500000, 600000, 800000, 1000000, 1500000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000, 10000000, 12500000, 15000000, 17500000, 20000000, 25000000, 30000000, 50000000, 60000000, 100000000, 200000000, 250000000};
         }
         if (tpLogChannelInternal.isDebug()) {
             Buffer buffer = new Buffer(256);
@@ -1180,7 +1167,7 @@ IViewSizeAnimatable {
                 buffer.append(',');
             }
             String string = buffer.toString();
-            tpLogChannelInternal.log(-2137614336, string);
+            tpLogChannelInternal.log(10000000, string);
         }
         return nArray;
     }
@@ -1188,8 +1175,8 @@ IViewSizeAnimatable {
     private void updateZoomLevels() {
         TiledListModelGUI tiledListModelGUI = (TiledListModelGUI)((Object)hmiService.getModel(this.modelStubIDs[0]));
         if (tiledListModelGUI == null) {
-            tiledListModelGUI = (TiledListModelGUI)((Object)hmiService.getModel(-316799488));
-            this.modelStubIDs[0] = -316799488;
+            tiledListModelGUI = (TiledListModelGUI)((Object)hmiService.getModel(401133));
+            this.modelStubIDs[0] = 401133;
         }
         this.zoomLevels = TouchMapHandler.updateZoomLevels(tiledListModelGUI);
         this.updateMagnificationRange();
@@ -1199,32 +1186,29 @@ IViewSizeAnimatable {
         RangeModel rangeModel = this.getMapMagnificationRangeModel();
         if (rangeModel != null) {
             int n = rangeModel.getValue();
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#updateMagnificationRange magnification range update (oldValue = %1, newValue = %2)", (long)this.zoomLevelIndex, (long)n);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#updateMagnificationRange magnification range update (oldValue = %1, newValue = %2)", (long)this.zoomLevelIndex, (long)n);
             if (0 <= n && n < this.zoomLevels.length) {
                 this.zoomLevelIndex = n;
                 this.currentZoomLevel = this.zoomLevels[n];
             }
         }
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#updateMagnificationRange zoomLevelIndex: %1, currentZoomLevel: %2", (long)this.zoomLevelIndex, (long)this.currentZoomLevel);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#updateMagnificationRange zoomLevelIndex: %1, currentZoomLevel: %2", (long)this.zoomLevelIndex, (long)this.currentZoomLevel);
     }
 
     private RangeModel getMapMagnificationRangeModel() {
         RangeModel rangeModel = (RangeModel)hmiService.getModel(this.modelStubIDs[1]);
         if (rangeModel == null) {
-            rangeModel = (RangeModel)hmiService.getModel(1545340416);
+            rangeModel = (RangeModel)hmiService.getModel(400476);
         }
         return rangeModel;
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
         if (fArray2[0] == 1.0f) {
             this.terminal.getUserHintHandler().removeCurrentUserHint();
@@ -1232,22 +1216,21 @@ IViewSizeAnimatable {
     }
 
     private float getFingerDistance(int n) {
-        return 1859892799 * (float)n;
+        return 1.4285715f * (float)n;
     }
 
     public void setIgnoreInitialFingerDistance(boolean bl) {
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#setIgnoreInitialFingerDistance %1", bl);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#setIgnoreInitialFingerDistance %1", bl);
         this.ignoreInitialFingerDistance = bl;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
     public void dumpPixelPerLevel() {
         for (int i2 = 0; i2 < this.zoomLevels.length; ++i2) {
             float f2 = this.getPixelPerLevel(i2);
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#dumpPixelPerLevel i = %1, zoomLevel = %2, pixelPerLevel = %3", (double)i2, (double)this.zoomLevels[i2], (double)f2);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#dumpPixelPerLevel i = %1, zoomLevel = %2, pixelPerLevel = %3", (double)i2, (double)this.zoomLevels[i2], (double)f2);
         }
     }
 
@@ -1272,9 +1255,9 @@ IViewSizeAnimatable {
         for (n2 = 0; n2 < fArray.length; ++n2) {
             f4 += fArray[n2];
         }
-        if (f2 > 38467) {
+        if (f2 > 300.0f) {
             this.resetFingerLift();
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#detectFingerLifting Target approached.");
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#detectFingerLifting Target approached.");
         }
         this.fingerLiftDetected[0] = this.fingerLiftDetected[1];
         this.fingerLiftDetected[1] = this.fingerLiftDetected[2];
@@ -1299,7 +1282,7 @@ IViewSizeAnimatable {
                 if ((double)this.distanceHistory[i4] < 0.005) {
                     ++n3;
                 }
-                if (!(this.distanceHistory[i4] > 16448)) continue;
+                if (!(this.distanceHistory[i4] > 3.0f)) continue;
                 n2 = 0;
             }
             if (n3 > 1) {
@@ -1308,18 +1291,18 @@ IViewSizeAnimatable {
             if (n2 == 0) {
                 if (f4 < 0.0f && f2 < 1.0f) {
                     this.fingerLiftDetected[3] = true;
-                    tpLogChannelInternal.log(-2137614336, "TouchMapHandler#detectFingerLifting Target approached.");
+                    tpLogChannelInternal.log(10000000, "TouchMapHandler#detectFingerLifting Target approached.");
                 }
             } else if (f4 < 0.0f && this.distanceHistory[4] == 0.0f && this.distanceHistory[3] == 0.0f) {
                 this.fingerLiftDetected[3] = true;
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#detectFingerLifting Slow motion.");
-            } else if (f2 > 41025 && f2 < 38467) {
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#detectFingerLifting Slow motion.");
+            } else if (f2 > 20.0f && f2 < 300.0f) {
                 this.resetDeltas();
                 this.fingerLiftDetected[0] = false;
                 this.fingerLiftDetected[1] = false;
                 this.fingerLiftDetected[2] = true;
                 this.fingerLiftDetected[3] = false;
-                tpLogChannelInternal.log(-2137614336, "TouchMapHandler#detectFingerLifting Heavy increase during slow motion.");
+                tpLogChannelInternal.log(10000000, "TouchMapHandler#detectFingerLifting Heavy increase during slow motion.");
                 return true;
             }
         }
@@ -1367,7 +1350,7 @@ IViewSizeAnimatable {
             float f5 = (float)n2 / f4;
             if (this.prevDirectionValid) {
                 object = this.prevDirection;
-                f3 = this.pinchMoveMode == 2 || this.pinchMoveMode == 4 ? (float)181871420 : f2 * object[0] + f5 * object[1];
+                f3 = this.pinchMoveMode == 2 || this.pinchMoveMode == 4 ? 0.01f : f2 * object[0] + f5 * object[1];
                 this.scalarSumFeature += f3;
                 this.innerProductBuffer.add(new Float(f3));
             }
@@ -1382,7 +1365,7 @@ IViewSizeAnimatable {
         n3 = this.innerProductBuffer.size();
         if (tpLogChannelInternal.isDebug() && n3 > 1) {
             f2 = this.scalarSumFeature / (float)n3;
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#calculateScalarSumFeature scalarSumFeature = %1, currentValue = %2, bufferSize = %3", (double)f2, (double)f3, (double)n3);
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#calculateScalarSumFeature scalarSumFeature = %1, currentValue = %2, bufferSize = %3", (double)f2, (double)f3, (double)n3);
         }
     }
 
@@ -1395,25 +1378,24 @@ IViewSizeAnimatable {
             }
             return f2;
         }
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#getScalarSumFeature Scalar sum feature not supported for keypanel type: %1", (long)this.keypanelType);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#getScalarSumFeature Scalar sum feature not supported for keypanel type: %1", (long)this.keypanelType);
         return 0.0f;
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
-        tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handleFocusChanged: evt:%1   state:%2", (long)n, (long)n2);
+        tpLogChannelInternal.log(10000000, "TouchMapHandler#handleFocusChanged: evt:%1   state:%2", (long)n, (long)n2);
         if (DrawerFocusUtil.isFocusLost(n)) {
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handleFocusChanged Focus lost. Sending touchPadReleased.");
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#handleFocusChanged Focus lost. Sending touchPadReleased.");
             this.touchPadReleased(0);
         } else if (n == 2 && n2 == 16) {
-            tpLogChannelInternal.log(-2137614336, "TouchMapHandler#handleFocusChanged Focus gained. Trying to show Userhint");
+            tpLogChannelInternal.log(10000000, "TouchMapHandler#handleFocusChanged Focus gained. Trying to show Userhint");
             this.doShowInitialHint();
         }
     }
 
     private void doShowInitialHint() {
         if (this.isStreetViewVisible()) {
-            tpLogChannelInternal.log(1078071040, "TouchMapHandler#doShowHintInitial: Not requesting Userhint because StreetView is active!");
+            tpLogChannelInternal.log(1000000, "TouchMapHandler#doShowHintInitial: Not requesting Userhint because StreetView is active!");
             return;
         }
         if (this.isCrosshairMapActive()) {
@@ -1426,29 +1408,29 @@ IViewSizeAnimatable {
     static {
         vectorLengthMinimumTw = 200;
         vectorLengthMinimumAit = 90;
-        maxDecelerationSpeedThresholdAit = 8257;
+        maxDecelerationSpeedThresholdAit = 10.0f;
         maxDecelerationSpeedThreshold2Ait = 1.0f;
-        maxDecelerationSpeedThresholdTw = 51266;
-        maxDecelerationSpeedThreshold2Tw = 8257;
-        speedDecelerationFactorAit = 63;
-        speedDecelerationFactor2Ait = 32830;
-        speedDecelerationFactorTw = 32830;
-        speedDecelerationFactor2Tw = -1701242562;
-        pixelPerLevelCurrentLevelDependence = 32832;
-        pixelPerLevelFactor = 16448;
+        maxDecelerationSpeedThresholdTw = 100.0f;
+        maxDecelerationSpeedThreshold2Tw = 10.0f;
+        speedDecelerationFactorAit = 0.5f;
+        speedDecelerationFactor2Ait = 0.25f;
+        speedDecelerationFactorTw = 0.25f;
+        speedDecelerationFactor2Tw = 0.15f;
+        pixelPerLevelCurrentLevelDependence = 4.0f;
+        pixelPerLevelFactor = 3.0f;
         pixelPerLevelZoomLevelDependenceActive = true;
         pixelPerLevelAit = 80;
         pixelPerLevelTw = 120;
-        maximumPinchMoveSpeedDifferenceTw = 8257;
+        maximumPinchMoveSpeedDifferenceTw = 10.0f;
         f2f1ChangeTimeout = 100;
         ddsPressedTimeout = 1000;
         lowerMoveThresholdTw = 15;
         upperMoveThresholdTw = 25;
-        lowerPinchThresholdAit = 16448;
-        upperPinchThresholdAit = 41024;
-        decelerationFactor = -1701209793;
-        decelerationFactorTw = -2048159425;
-        scalarSumThreshold = 0x3333333F;
+        lowerPinchThresholdAit = 3.0f;
+        upperPinchThresholdAit = 5.0f;
+        decelerationFactor = 1.2f;
+        decelerationFactorTw = 1.14f;
+        scalarSumThreshold = 0.7f;
     }
 }
 

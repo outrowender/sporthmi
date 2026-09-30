@@ -15,7 +15,6 @@ public class WeakRefAgentInfoProvider
 implements IAgentInfoProvider {
     private List list = new ArrayList();
 
-    @Override
     public AgentInfoMap getAgentInfoMap() {
         AgentInfoMap agentInfoMap = new AgentInfoMap();
         Iterator iterator = this.list.iterator();

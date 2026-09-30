@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataInitials;
 
 public class DataInitialsSerializer {
-    public static void putOptionalDataInitials(ISerializer iSerializer, DataInitials dataInitials) {
+    public static void putOptionalDataInitials(ISerializer iSerializer, DataInitials dataInitials) throws SerializerException {
         boolean bl = dataInitials == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DataInitialsSerializer {
         }
     }
 
-    public static void putOptionalDataInitialsVarArray(ISerializer iSerializer, DataInitials[] dataInitialsArray) {
+    public static void putOptionalDataInitialsVarArray(ISerializer iSerializer, DataInitials[] dataInitialsArray) throws SerializerException {
         boolean bl = dataInitialsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DataInitialsSerializer {
         }
     }
 
-    public static DataInitials getOptionalDataInitials(IDeserializer iDeserializer) {
+    public static DataInitials getOptionalDataInitials(IDeserializer iDeserializer) throws SerializerException {
         DataInitials dataInitials = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DataInitialsSerializer {
         return dataInitials;
     }
 
-    public static DataInitials[] getOptionalDataInitialsVarArray(IDeserializer iDeserializer) {
+    public static DataInitials[] getOptionalDataInitialsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataInitials[] dataInitialsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

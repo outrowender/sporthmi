@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.speech.impl;
 import de.esolutions.fw.comm.asi.diagnosis.speech.sCommandSDS;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sCommandSDSSerializer {
-    public static void putOptionalsCommandSDS(ISerializer iSerializer, sCommandSDS sCommandSDS2) {
+    public static void putOptionalsCommandSDS(ISerializer iSerializer, sCommandSDS sCommandSDS2) throws SerializerException {
         boolean bl = sCommandSDS2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sCommandSDSSerializer {
         }
     }
 
-    public static void putOptionalsCommandSDSVarArray(ISerializer iSerializer, sCommandSDS[] sCommandSDSArray) {
+    public static void putOptionalsCommandSDSVarArray(ISerializer iSerializer, sCommandSDS[] sCommandSDSArray) throws SerializerException {
         boolean bl = sCommandSDSArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sCommandSDSSerializer {
         }
     }
 
-    public static sCommandSDS getOptionalsCommandSDS(IDeserializer iDeserializer) {
+    public static sCommandSDS getOptionalsCommandSDS(IDeserializer iDeserializer) throws SerializerException {
         sCommandSDS sCommandSDS2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sCommandSDSSerializer {
         return sCommandSDS2;
     }
 
-    public static sCommandSDS[] getOptionalsCommandSDSVarArray(IDeserializer iDeserializer) {
+    public static sCommandSDS[] getOptionalsCommandSDSVarArray(IDeserializer iDeserializer) throws SerializerException {
         sCommandSDS[] sCommandSDSArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

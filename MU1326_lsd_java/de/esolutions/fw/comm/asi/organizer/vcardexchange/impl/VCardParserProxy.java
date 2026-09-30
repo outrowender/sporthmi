@@ -6,13 +6,14 @@ package de.esolutions.fw.comm.asi.organizer.vcardexchange.impl;
 import de.esolutions.fw.comm.asi.organizer.vcardexchange.VCardParser;
 import de.esolutions.fw.comm.asi.organizer.vcardexchange.VCardParserC;
 import de.esolutions.fw.comm.asi.organizer.vcardexchange.VCardParserReply;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserProxy$1;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserProxy$2;
 import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.organizer.impl.AdbEntrySerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.AdbEntry;
@@ -33,8 +34,7 @@ VCardParserC {
         return this.proxy;
     }
 
-    @Override
-    public void parseVCard(String string, int n, int n2) {
+    public void parseVCard(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -47,8 +47,7 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void parseVCardDirectory(String string, int n, int n2) {
+    public void parseVCardDirectory(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -61,20 +60,31 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void exportVCard(AdbEntry adbEntry, String string, int n) {
-        VCardParserProxy$1 vCardParserProxy$1 = new VCardParserProxy$1(this, adbEntry, string, n);
-        this.proxy.remoteCallMethod((short)25, vCardParserProxy$1);
+    public void exportVCard(final AdbEntry adbEntry, final String string, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AdbEntrySerializer.putOptionalAdbEntry(iSerializer, adbEntry);
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void exportSmallVCard(AdbEntry adbEntry, String string, int n) {
-        VCardParserProxy$2 vCardParserProxy$2 = new VCardParserProxy$2(this, adbEntry, string, n);
-        this.proxy.remoteCallMethod((short)24, vCardParserProxy$2);
+    public void exportSmallVCard(final AdbEntry adbEntry, final String string, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AdbEntrySerializer.putOptionalAdbEntry(iSerializer, adbEntry);
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)24, iSerializable);
     }
 
-    @Override
-    public void finishParsing(int n) {
+    public void finishParsing(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -85,8 +95,7 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void finishExport(int n, int n2) {
+    public void finishExport(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -98,8 +107,7 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void finishSmallExport(String string, int n) {
+    public void finishSmallExport(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -111,8 +119,7 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setBinaryContentTempPath(String string) {
+    public void setBinaryContentTempPath(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -123,8 +130,7 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setBinaryContentQuotaPerFile(long l) {
+    public void setBinaryContentQuotaPerFile(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -135,8 +141,7 @@ VCardParserC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setExtendedAddressHandling(boolean bl) {
+    public void setExtendedAddressHandling(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);

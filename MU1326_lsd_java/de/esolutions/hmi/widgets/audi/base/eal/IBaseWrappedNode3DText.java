@@ -9,13 +9,10 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D;
 
 public interface IBaseWrappedNode3DText
 extends IWrappedNode3D {
-    default public IINodeText getInterfaceText() {
-    }
+    public IINodeText getInterfaceText();
 
-    default public INode3DText getTextNode() {
-    }
+    public INode3DText getTextNode();
 
-    default public String getText() {
-    }
+    public String getText();
 }
 

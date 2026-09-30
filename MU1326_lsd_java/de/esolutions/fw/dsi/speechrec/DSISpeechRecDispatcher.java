@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.speechrec;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.speechrec.DSISpeechRecReply;
 import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSISpeechRecReply {
         super(n, (class$org$dsi$ifc$speechrec$DSISpeechRecListener == null ? (class$org$dsi$ifc$speechrec$DSISpeechRecListener = DSISpeechRecDispatcher.class$("org.dsi.ifc.speechrec.DSISpeechRecListener")) : class$org$dsi$ifc$speechrec$DSISpeechRecListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseAbort(int n) {
+    public void responseAbort(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -48,8 +47,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseDeleteProfile(int n) {
+    public void responseDeleteProfile(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -65,8 +63,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseDeleteVoiceTag(int n) {
+    public void responseDeleteVoiceTag(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -82,8 +79,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseEnableContinuousUpdate(int n) {
+    public void responseEnableContinuousUpdate(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -99,8 +95,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseGetVersion(String string) {
+    public void responseGetVersion(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -116,8 +111,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseInit(int n) {
+    public void responseInit(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -133,8 +127,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseInitVoiceTag(int n) {
+    public void responseInitVoiceTag(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -150,8 +143,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseLoadGrammar(int n, GrammarInfo[] grammarInfoArray) {
+    public void responseLoadGrammar(int n, GrammarInfo[] grammarInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -167,8 +159,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseLoadProfile(int n) {
+    public void responseLoadProfile(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -184,8 +175,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responsePreloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
+    public void responsePreloadGrammar(int n, GrammarInfo[] grammarInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -201,8 +191,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseRecordVoiceTag(int n) {
+    public void responseRecordVoiceTag(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -218,8 +207,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetLanguage(int n) {
+    public void responseSetLanguage(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -235,8 +223,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseShutdown(int n) {
+    public void responseShutdown(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -252,8 +239,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseStartRecognition(int n) {
+    public void responseStartRecognition(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -269,8 +255,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseUnloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
+    public void responseUnloadGrammar(int n, GrammarInfo[] grammarInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -286,8 +271,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseUnloadProfile(int n) {
+    public void responseUnloadProfile(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -303,8 +287,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseUnpreloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
+    public void responseUnpreloadGrammar(int n, GrammarInfo[] grammarInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -320,8 +303,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseWaitForResults(int n, NBestList nBestList) {
+    public void responseWaitForResults(int n, NBestList nBestList) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -337,8 +319,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateAborted(boolean bl, int n) {
+    public void updateAborted(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -366,8 +347,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateAvailableLanguages(String[] stringArray, int n) {
+    public void updateAvailableLanguages(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -395,8 +375,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateAvailableProfiles(int[] nArray, int n) {
+    public void updateAvailableProfiles(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -424,8 +403,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateFailure(boolean bl, int n) {
+    public void updateFailure(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -453,8 +431,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateLanguage(String string, int n, int n2) {
+    public void updateLanguage(String string, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -482,8 +459,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateRecognizerState(int n, int n2) {
+    public void updateRecognizerState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -511,8 +487,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateAbsoluteConfidenceThreshold(int n, int n2) {
+    public void updateAbsoluteConfidenceThreshold(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -540,8 +515,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetMaxCommandNBestListSize(int n) {
+    public void responseSetMaxCommandNBestListSize(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -557,8 +531,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateMaxCommandNBestListSize(int n, int n2) {
+    public void updateMaxCommandNBestListSize(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -586,8 +559,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetMaxSlotNBestListSize(int n) {
+    public void responseSetMaxSlotNBestListSize(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -603,8 +575,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateMaxSlotNBestListSize(int n, int n2) {
+    public void updateMaxSlotNBestListSize(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -632,8 +603,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetConfidenceRejectThreshold(int n) {
+    public void responseSetConfidenceRejectThreshold(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -649,8 +619,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateConfidenceRejectThreshold(int n, int n2) {
+    public void updateConfidenceRejectThreshold(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -678,8 +647,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetUtteranceStartTimeout(int n) {
+    public void responseSetUtteranceStartTimeout(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -695,8 +663,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateUtteranceStartTimeout(int n, int n2) {
+    public void updateUtteranceStartTimeout(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -724,8 +691,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetRecognitionTimeout(int n) {
+    public void responseSetRecognitionTimeout(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -741,8 +707,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateRecognitionTimeout(int n, int n2) {
+    public void updateRecognitionTimeout(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -770,8 +735,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetUnambiguousResultThreshold(int n) {
+    public void responseSetUnambiguousResultThreshold(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -787,8 +751,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateUnambiguousResultThreshold(int n, int n2) {
+    public void updateUnambiguousResultThreshold(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -816,8 +779,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetUnambiguousResultRange(int n) {
+    public void responseSetUnambiguousResultRange(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -833,8 +795,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateUnambiguousResultRange(int n, int n2) {
+    public void updateUnambiguousResultRange(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -862,8 +823,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetFirstLevelSize(int n) {
+    public void responseSetFirstLevelSize(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -879,8 +839,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateFirstLevelSize(int n, int n2) {
+    public void updateFirstLevelSize(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -908,8 +867,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseStartPostTraining(int n) {
+    public void responseStartPostTraining(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -925,8 +883,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseStopPostTraining(int n) {
+    public void responseStopPostTraining(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -942,8 +899,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseRequestSDSAvailability(int n, int n2) {
+    public void responseRequestSDSAvailability(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -959,8 +915,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateSDSAvailability(int n, int n2) {
+    public void updateSDSAvailability(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -988,8 +943,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetSpellingMode(int n) {
+    public void responseSetSpellingMode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1005,8 +959,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseDeleteLastSpellingBlock(int n, NBestList nBestList) {
+    public void responseDeleteLastSpellingBlock(int n, NBestList nBestList) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1022,8 +975,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseStartDialogue(int n) {
+    public void responseStartDialogue(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1039,8 +991,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseStopDialogue(int n) {
+    public void responseStopDialogue(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1056,8 +1007,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateGrammarStatus(int n, boolean bl, int n2) {
+    public void updateGrammarStatus(int n, boolean bl, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -1085,8 +1035,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateGrammarState(GrammarStateInfo grammarStateInfo, int n) {
+    public void updateGrammarState(GrammarStateInfo grammarStateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1114,8 +1063,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateTemporaryG2PLanguageChangeActive(boolean bl, int n) {
+    public void updateTemporaryG2PLanguageChangeActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -1143,8 +1091,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseCheckDbPartition(int n) {
+    public void responseCheckDbPartition(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1160,8 +1107,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseRequestGraphemicGroupAsNBestList(int n, NBestList nBestList) {
+    public void responseRequestGraphemicGroupAsNBestList(int n, NBestList nBestList) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1177,8 +1123,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseRequestVDECapabilities(int n, VDECapabilities vDECapabilities) {
+    public void responseRequestVDECapabilities(int n, VDECapabilities vDECapabilities) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1194,8 +1139,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n) {
+    public void responseRestoreFactorySettings(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1211,8 +1155,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetDictionary(int n) {
+    public void responseSetDictionary(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1228,8 +1171,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateNBestList(NBestList nBestList, int n) {
+    public void updateNBestList(NBestList nBestList, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1257,8 +1199,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseSetASRParameterConfiguration(int n) {
+    public void responseSetASRParameterConfiguration(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1274,8 +1215,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3, int n) {
+    public void updateASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1303,8 +1243,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseDeleteLastFlexVDEPart(int n, NBestList nBestList) {
+    public void responseDeleteLastFlexVDEPart(int n, NBestList nBestList) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1320,8 +1259,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void responseClearFlexVDEHistory(int n) {
+    public void responseClearFlexVDEHistory(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1337,8 +1275,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateVDEMediumState(int n, int n2) {
+    public void updateVDEMediumState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1366,8 +1303,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateAvailableSLMLanguages(String[] stringArray, int n) {
+    public void updateAvailableSLMLanguages(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1395,8 +1331,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void updateOnlineCapabilities(String[] stringArray, int n) {
+    public void updateOnlineCapabilities(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1424,8 +1359,7 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1441,14 +1375,13 @@ implements DSISpeechRecReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISpeechRecListener dSISpeechRecListener = (DSISpeechRecListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISpeechRecDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISpeechRecDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISpeechRecListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISpeechRecDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISpeechRecDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISpeechRecListener, new Object[]{string, string2});
                     continue;
                 }

@@ -35,7 +35,7 @@ implements ITraceCoreErrorHandler {
     private static TraceConfig theConfig;
     private static TraceFrontend theFrontend;
     private static Object lock;
-    private static final String chn;
+    private static final String chn = "TraceFrontend";
 
     public static TraceConfig getDefaultConfig(String string, String string2, boolean bl) {
         TraceConfig traceConfig = new TraceConfig(string, string2);
@@ -176,10 +176,10 @@ implements ITraceCoreErrorHandler {
                 this.emergencyWriter.close();
             }
             catch (IOException iOException) {
-                TraceMe.msg(TraceMe.ERROR, "TraceFrontend", "Closing emergency Log File failed: %1", iOException);
+                TraceMe.msg(TraceMe.ERROR, chn, "Closing emergency Log File failed: %1", iOException);
             }
             this.emergencyWriter = null;
-            TraceMe.msg(TraceMe.INFO, "TraceFrontend", "Emergency Log File closed");
+            TraceMe.msg(TraceMe.INFO, chn, "Emergency Log File closed");
         }
     }
 
@@ -414,11 +414,11 @@ implements ITraceCoreErrorHandler {
     public synchronized void emergencyLog(String string) {
         if (this.emergencyWriter != null) {
             try {
-                this.emergencyWriter.write(new StringBuffer().append(string).append("\n").toString());
+                this.emergencyWriter.write(string + "\n");
                 this.emergencyWriter.flush();
             }
             catch (IOException iOException) {
-                TraceMe.msg(TraceMe.ERROR, "TraceFrontend", "emergencyWriter failed with: %1", iOException);
+                TraceMe.msg(TraceMe.ERROR, chn, "emergencyWriter failed with: %1", iOException);
                 this.emergencyWriter = null;
                 System.err.println(string);
                 System.err.flush();
@@ -464,7 +464,7 @@ implements ITraceCoreErrorHandler {
         this.core.setComponent(string, object);
     }
 
-    public void writeSemFile(String string, String string2) {
+    public void writeSemFile(String string, String string2) throws IOException {
         this.core.writeSemFile(string, string2);
     }
 
@@ -480,7 +480,6 @@ implements ITraceCoreErrorHandler {
         return true;
     }
 
-    @Override
     public void errorShutdown(TraceCore traceCore, Throwable throwable) {
         this.isEnabled = false;
         if (this.errorHandler != null) {

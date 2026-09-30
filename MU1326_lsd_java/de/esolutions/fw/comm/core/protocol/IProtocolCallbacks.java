@@ -4,7 +4,6 @@
 package de.esolutions.fw.comm.core.protocol;
 
 public interface IProtocolCallbacks {
-    default public Short getAgentIdProposal() {
-    }
+    public Short getAgentIdProposal();
 }
 

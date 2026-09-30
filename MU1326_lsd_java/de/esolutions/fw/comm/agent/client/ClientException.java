@@ -5,7 +5,7 @@ package de.esolutions.fw.comm.agent.client;
 
 public class ClientException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public ClientException() {
     }

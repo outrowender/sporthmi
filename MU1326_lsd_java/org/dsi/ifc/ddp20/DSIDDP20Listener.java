@@ -9,16 +9,12 @@ import org.dsi.ifc.ddp20.VersionInfo;
 
 public interface DSIDDP20Listener
 extends DSIListener {
-    default public void updateVersionInfo(VersionInfo versionInfo, int n) {
-    }
+    public void updateVersionInfo(VersionInfo var1, int var2);
 
-    default public void updatePowerStatus(int n, int n2) {
-    }
+    public void updatePowerStatus(int var1, int var2);
 
-    default public void updateDisplayStatus(DisplayStatus displayStatus, int n) {
-    }
+    public void updateDisplayStatus(DisplayStatus var1, int var2);
 
-    default public void updateBufferStatus(int n, int n2) {
-    }
+    public void updateBufferStatus(int var1, int var2);
 }
 

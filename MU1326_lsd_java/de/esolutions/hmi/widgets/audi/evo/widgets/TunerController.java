@@ -24,10 +24,10 @@ extends AbstractWidgetController {
     private int rangeMin;
     private int rangeMax;
     private int stepSize;
-    private static final int MAX_TIME_SPAN;
-    private static final int TIME_SPAN_EVT;
-    private static final int MAX_CLICK_COUNT;
-    private static final int FAST_TUNE_FACTOR;
+    private static final int MAX_TIME_SPAN = 500;
+    private static final int TIME_SPAN_EVT = 100;
+    private static final int MAX_CLICK_COUNT = 10;
+    private static final int FAST_TUNE_FACTOR = 5;
     private long timeSpanStart = 0L;
     private long lastEvtTime = 0L;
     private int currentClickCount = 0;
@@ -37,7 +37,6 @@ extends AbstractWidgetController {
     public TunerController() {
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.scaleIcon == null) {
             this.createScaleIcon();
@@ -50,7 +49,6 @@ extends AbstractWidgetController {
         this.stepSize = ((RangeModelGUI)this.model).getStep();
     }
 
-    @Override
     protected void afterConnected() {
         this.updateNeedleToCurrentPosition();
         super.afterConnected();
@@ -64,7 +62,6 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -73,7 +70,7 @@ extends AbstractWidgetController {
         if (this.model instanceof RangeModelGUI) {
             int n = this.getCurrentModelPosition();
             if (this.rangeMin >= this.rangeMax) {
-                logChannel.log(-1601830656, "TunerController#updateNeedleToCurrentPosition: invalid range. min: %1, max: %2", (long)this.rangeMin, (long)this.rangeMax);
+                logChannel.log(100000, "TunerController#updateNeedleToCurrentPosition: invalid range. min: %1, max: %2", (long)this.rangeMin, (long)this.rangeMax);
                 this.needleIcon.setX(0);
             } else {
                 boolean bl;
@@ -107,7 +104,7 @@ extends AbstractWidgetController {
         if (n2 != this.lastDirection && this.lastDirection != -1) {
             this.fastTune = false;
             this.currentClickCount = 0;
-        } else if (l2 < 0 || this.fastTune && l - this.lastEvtTime < 0) {
+        } else if (l2 < 500L || this.fastTune && l - this.lastEvtTime < 100L) {
             this.currentClickCount += n;
             if (this.currentClickCount > 10) {
                 this.fastTune = true;
@@ -122,7 +119,6 @@ extends AbstractWidgetController {
         return (this.fastTune ? 5 : 1) * (n * this.stepSize);
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         super.keyTurned(wheelButtonEvent);
         if (this.automaticTuneMode || wheelButtonEvent.getClickCount() == 0) {
@@ -165,7 +161,6 @@ extends AbstractWidgetController {
         this.needleIcon.setBounds(0, 0, this.needleIcon.getPreferredWidth(), this.needleIcon.getPreferredHeight());
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1) {
@@ -174,7 +169,6 @@ extends AbstractWidgetController {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public IPresetPopupData getPresetPopupData() {
         if (!this.isVisible()) {
             return null;

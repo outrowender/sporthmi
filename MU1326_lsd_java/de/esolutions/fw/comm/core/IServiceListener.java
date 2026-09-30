@@ -7,13 +7,10 @@ import de.esolutions.fw.comm.core.IService;
 import de.esolutions.fw.comm.core.IStub;
 
 public interface IServiceListener {
-    default public void serviceStubCountChanged(IService iService, int n) {
-    }
+    public void serviceStubCountChanged(IService var1, int var2);
 
-    default public void serviceStubAttached(IStub iStub) {
-    }
+    public void serviceStubAttached(IStub var1);
 
-    default public void serviceStubDetached(IStub iStub) {
-    }
+    public void serviceStubDetached(IStub var1);
 }
 

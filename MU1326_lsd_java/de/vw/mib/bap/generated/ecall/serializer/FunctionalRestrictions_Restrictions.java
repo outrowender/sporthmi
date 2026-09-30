@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class FunctionalRestrictions_Restrictions
 implements BAPEntity {
-    private static final int RESERVED_BIT_3__7_BITSIZE;
+    private static final int RESERVED_BIT_3__7_BITSIZE = 5;
     public boolean audioDownlinkNotFullyFunctional;
     public boolean audioUplinkNotFullyFunctional;
     public boolean audioNotFullyFunctional;
@@ -29,12 +29,10 @@ implements BAPEntity {
         this.audioNotFullyFunctional = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionalRestrictions_Restrictions functionalRestrictions_Restrictions = (FunctionalRestrictions_Restrictions)bAPEntity;
         return this.audioDownlinkNotFullyFunctional == functionalRestrictions_Restrictions.audioDownlinkNotFullyFunctional && this.audioUplinkNotFullyFunctional == functionalRestrictions_Restrictions.audioUplinkNotFullyFunctional && this.audioNotFullyFunctional == functionalRestrictions_Restrictions.audioNotFullyFunctional;
@@ -43,7 +41,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionalRestrictions_Restrictions");
@@ -53,12 +50,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(5);
         bitStream.pushBoolean(this.audioDownlinkNotFullyFunctional);
@@ -66,7 +61,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.audioNotFullyFunctional);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(5);
         this.audioDownlinkNotFullyFunctional = bitStream.popFrontBoolean();

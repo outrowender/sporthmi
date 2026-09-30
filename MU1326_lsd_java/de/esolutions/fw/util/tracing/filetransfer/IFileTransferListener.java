@@ -6,22 +6,16 @@ package de.esolutions.fw.util.tracing.filetransfer;
 import de.esolutions.fw.util.tracing.filetransfer.file.IFile;
 
 public interface IFileTransferListener {
-    default public boolean confirmFileTransfer(IFile iFile) {
-    }
+    public boolean confirmFileTransfer(IFile var1);
 
-    default public void fileTransferBegin(IFile iFile) {
-    }
+    public void fileTransferBegin(IFile var1);
 
-    default public void fileTransferProgress(IFile iFile) {
-    }
+    public void fileTransferProgress(IFile var1);
 
-    default public void fileTransferComplete(IFile iFile) {
-    }
+    public void fileTransferComplete(IFile var1);
 
-    default public void fileTransferStatus(IFile iFile) {
-    }
+    public void fileTransferStatus(IFile var1);
 
-    default public void fileTransferError(IFile iFile) {
-    }
+    public void fileTransferError(IFile var1);
 }
 

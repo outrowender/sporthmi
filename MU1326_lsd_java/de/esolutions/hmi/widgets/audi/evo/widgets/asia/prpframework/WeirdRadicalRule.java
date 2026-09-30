@@ -12,7 +12,6 @@ extends SimplifiedTraditionalMappingRule {
         super(iCharacterMap);
     }
 
-    @Override
     public String getRuleName() {
         return "weird-radical-mapping-rule";
     }

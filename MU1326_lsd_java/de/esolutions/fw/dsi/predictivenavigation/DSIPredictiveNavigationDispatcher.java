@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.predictivenavigation;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.predictivenavigation.DSIPredictiveNavigationReply;
 import de.esolutions.fw.comm.dsi.predictivenavigation.impl.DSIPredictiveNavigationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIPredictiveNavigationReply {
         super(n, (class$org$dsi$ifc$predictivenavigation$DSIPredictiveNavigationListener == null ? (class$org$dsi$ifc$predictivenavigation$DSIPredictiveNavigationListener = DSIPredictiveNavigationDispatcher.class$("org.dsi.ifc.predictivenavigation.DSIPredictiveNavigationListener")) : class$org$dsi$ifc$predictivenavigation$DSIPredictiveNavigationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateOperationMode(int n, int n2) {
+    public void updateOperationMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -57,8 +56,7 @@ implements DSIPredictiveNavigationReply {
         }
     }
 
-    @Override
-    public void updateLikelyDestinations(LikelyDestination[] likelyDestinationArray, int n) {
+    public void updateLikelyDestinations(LikelyDestination[] likelyDestinationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -86,8 +84,7 @@ implements DSIPredictiveNavigationReply {
         }
     }
 
-    @Override
-    public void updateMaxPredictions(int n, int n2) {
+    public void updateMaxPredictions(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -115,8 +112,7 @@ implements DSIPredictiveNavigationReply {
         }
     }
 
-    @Override
-    public void clearCacheResult() {
+    public void clearCacheResult() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -132,8 +128,7 @@ implements DSIPredictiveNavigationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -149,14 +144,13 @@ implements DSIPredictiveNavigationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPredictiveNavigationListener dSIPredictiveNavigationListener = (DSIPredictiveNavigationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPredictiveNavigationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPredictiveNavigationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPredictiveNavigationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPredictiveNavigationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPredictiveNavigationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPredictiveNavigationListener, new Object[]{string, string2});
                     continue;
                 }

@@ -4,30 +4,23 @@
 package de.esolutions.fw.comm.asi.ooc.app;
 
 import de.esolutions.fw.comm.asi.ooc.app.IOocApplicationReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface IOocApplicationS {
-    default public void setCarWakeup(boolean bl, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void setCarWakeup(boolean var1, IOocApplicationReply var2) throws MethodException;
 
-    default public void setCallActive(boolean bl, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void setCallActive(boolean var1, IOocApplicationReply var2) throws MethodException;
 
-    default public void setPhonePowerDelay(boolean bl, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void setPhonePowerDelay(boolean var1, IOocApplicationReply var2) throws MethodException;
 
-    default public void setNavigationPowerDelay(boolean bl, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void setNavigationPowerDelay(boolean var1, IOocApplicationReply var2) throws MethodException;
 
-    default public void setApplicationState(int n, int n2, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void setApplicationState(int var1, int var2, IOocApplicationReply var3) throws MethodException;
 
-    default public void setZrActive(boolean bl, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void setZrActive(boolean var1, IOocApplicationReply var2) throws MethodException;
 
-    default public void registerPowerEventListener(IOocApplicationReply iOocApplicationReply) {
-    }
+    public void registerPowerEventListener(IOocApplicationReply var1) throws MethodException;
 
-    default public void shutdownResponseFinal(int n, IOocApplicationReply iOocApplicationReply) {
-    }
+    public void shutdownResponseFinal(int var1, IOocApplicationReply var2) throws MethodException;
 }
 

@@ -10,25 +10,25 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carhybrid.DSICarHybrid;
 import de.esolutions.fw.comm.dsi.carhybrid.DSICarHybridC;
 import de.esolutions.fw.comm.dsi.carhybrid.DSICarHybridReply;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$1;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$10;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$11;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$12;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$13;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$14;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$15;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$16;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$17;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$18;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$2;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$3;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$4;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$5;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$6;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$7;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$8;
-import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridProxy$9;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlPowerProviderAHSerializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlPowerProviderRA0Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlPowerProviderRA1Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlPowerProviderRA2Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlPowerProviderRAESerializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA0Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA1Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA2Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA3Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA4Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA5Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA6Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfileRA7Serializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProfilesAHSerializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlProgrammedTimerSerializer;
+import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlWeekdaysSerializer;
 import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlPowerProviderAH;
@@ -64,8 +64,7 @@ DSICarHybridC {
         return this.proxy;
     }
 
-    @Override
-    public void setBatteryControlImmediately(int n, int n2) {
+    public void setBatteryControlImmediately(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -77,25 +76,38 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)68, genericSerializable);
     }
 
-    @Override
-    public void setBatteryControlTimerState(BatteryControlProgrammedTimer batteryControlProgrammedTimer) {
-        DSICarHybridProxy$1 dSICarHybridProxy$1 = new DSICarHybridProxy$1(this, batteryControlProgrammedTimer);
-        this.proxy.remoteCallMethod((short)28, dSICarHybridProxy$1);
+    public void setBatteryControlTimerState(final BatteryControlProgrammedTimer batteryControlProgrammedTimer) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProgrammedTimerSerializer.putOptionalBatteryControlProgrammedTimer(iSerializer, batteryControlProgrammedTimer);
+            }
+        };
+        this.proxy.remoteCallMethod((short)28, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlTimer(int n, int n2, int n3, int n4, int n5, int n6, BatteryControlWeekdays batteryControlWeekdays, int n7) {
-        DSICarHybridProxy$2 dSICarHybridProxy$2 = new DSICarHybridProxy$2(this, n, n2, n3, n4, n5, n6, batteryControlWeekdays, n7);
-        this.proxy.remoteCallMethod((short)83, dSICarHybridProxy$2);
+    public void setBatteryControlTimer(final int n, final int n2, final int n3, final int n4, final int n5, final int n6, final BatteryControlWeekdays batteryControlWeekdays, final int n7) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+                iSerializer.putInt32(n4);
+                iSerializer.putInt32(n5);
+                iSerializer.putInt32(n6);
+                BatteryControlWeekdaysSerializer.putOptionalBatteryControlWeekdays(iSerializer, batteryControlWeekdays);
+                iSerializer.putInt32(n7);
+            }
+        };
+        this.proxy.remoteCallMethod((short)83, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlSetFactoryDefault() {
+    public void setBatteryControlSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)26, null);
     }
 
-    @Override
-    public void setHybridTargetRange(short s, int n) {
+    public void setHybridTargetRange(short s, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -107,8 +119,7 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)104, genericSerializable);
     }
 
-    @Override
-    public void setHybridEnergyAssistControl(boolean bl) {
+    public void setHybridEnergyAssistControl(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -119,104 +130,181 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)119, genericSerializable);
     }
 
-    @Override
-    public void requestBatteryControlProfileList(BatteryControlProfilesAH batteryControlProfilesAH) {
-        DSICarHybridProxy$3 dSICarHybridProxy$3 = new DSICarHybridProxy$3(this, batteryControlProfilesAH);
-        this.proxy.remoteCallMethod((short)131, dSICarHybridProxy$3);
+    public void requestBatteryControlProfileList(final BatteryControlProfilesAH batteryControlProfilesAH) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+            }
+        };
+        this.proxy.remoteCallMethod((short)131, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA0(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA0[] batteryControlProfileRA0Array) {
-        DSICarHybridProxy$4 dSICarHybridProxy$4 = new DSICarHybridProxy$4(this, batteryControlProfilesAH, batteryControlProfileRA0Array);
-        this.proxy.remoteCallMethod((short)151, dSICarHybridProxy$4);
+    public void setBatteryControlProfileListRA0(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA0[] batteryControlProfileRA0Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA0Serializer.putOptionalBatteryControlProfileRA0VarArray(iSerializer, batteryControlProfileRA0Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)151, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA1(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA1[] batteryControlProfileRA1Array) {
-        DSICarHybridProxy$5 dSICarHybridProxy$5 = new DSICarHybridProxy$5(this, batteryControlProfilesAH, batteryControlProfileRA1Array);
-        this.proxy.remoteCallMethod((short)152, dSICarHybridProxy$5);
+    public void setBatteryControlProfileListRA1(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA1[] batteryControlProfileRA1Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA1Serializer.putOptionalBatteryControlProfileRA1VarArray(iSerializer, batteryControlProfileRA1Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)152, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA2(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA2[] batteryControlProfileRA2Array) {
-        DSICarHybridProxy$6 dSICarHybridProxy$6 = new DSICarHybridProxy$6(this, batteryControlProfilesAH, batteryControlProfileRA2Array);
-        this.proxy.remoteCallMethod((short)153, dSICarHybridProxy$6);
+    public void setBatteryControlProfileListRA2(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA2[] batteryControlProfileRA2Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA2Serializer.putOptionalBatteryControlProfileRA2VarArray(iSerializer, batteryControlProfileRA2Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)153, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA3(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA3[] batteryControlProfileRA3Array) {
-        DSICarHybridProxy$7 dSICarHybridProxy$7 = new DSICarHybridProxy$7(this, batteryControlProfilesAH, batteryControlProfileRA3Array);
-        this.proxy.remoteCallMethod((short)154, dSICarHybridProxy$7);
+    public void setBatteryControlProfileListRA3(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA3[] batteryControlProfileRA3Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA3Serializer.putOptionalBatteryControlProfileRA3VarArray(iSerializer, batteryControlProfileRA3Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)154, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA4(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA4[] batteryControlProfileRA4Array) {
-        DSICarHybridProxy$8 dSICarHybridProxy$8 = new DSICarHybridProxy$8(this, batteryControlProfilesAH, batteryControlProfileRA4Array);
-        this.proxy.remoteCallMethod((short)155, dSICarHybridProxy$8);
+    public void setBatteryControlProfileListRA4(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA4[] batteryControlProfileRA4Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA4Serializer.putOptionalBatteryControlProfileRA4VarArray(iSerializer, batteryControlProfileRA4Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)155, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA5(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA5[] batteryControlProfileRA5Array) {
-        DSICarHybridProxy$9 dSICarHybridProxy$9 = new DSICarHybridProxy$9(this, batteryControlProfilesAH, batteryControlProfileRA5Array);
-        this.proxy.remoteCallMethod((short)156, dSICarHybridProxy$9);
+    public void setBatteryControlProfileListRA5(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA5[] batteryControlProfileRA5Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA5Serializer.putOptionalBatteryControlProfileRA5VarArray(iSerializer, batteryControlProfileRA5Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)156, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA6(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA6[] batteryControlProfileRA6Array) {
-        DSICarHybridProxy$10 dSICarHybridProxy$10 = new DSICarHybridProxy$10(this, batteryControlProfilesAH, batteryControlProfileRA6Array);
-        this.proxy.remoteCallMethod((short)157, dSICarHybridProxy$10);
+    public void setBatteryControlProfileListRA6(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA6[] batteryControlProfileRA6Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA6Serializer.putOptionalBatteryControlProfileRA6VarArray(iSerializer, batteryControlProfileRA6Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)157, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRA7(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA7[] batteryControlProfileRA7Array) {
-        DSICarHybridProxy$11 dSICarHybridProxy$11 = new DSICarHybridProxy$11(this, batteryControlProfilesAH, batteryControlProfileRA7Array);
-        this.proxy.remoteCallMethod((short)158, dSICarHybridProxy$11);
+    public void setBatteryControlProfileListRA7(final BatteryControlProfilesAH batteryControlProfilesAH, final BatteryControlProfileRA7[] batteryControlProfileRA7Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                BatteryControlProfileRA7Serializer.putOptionalBatteryControlProfileRA7VarArray(iSerializer, batteryControlProfileRA7Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)158, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlProfileListRAF(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray) {
-        DSICarHybridProxy$12 dSICarHybridProxy$12 = new DSICarHybridProxy$12(this, batteryControlProfilesAH, nArray);
-        this.proxy.remoteCallMethod((short)159, dSICarHybridProxy$12);
+    public void setBatteryControlProfileListRAF(final BatteryControlProfilesAH batteryControlProfilesAH, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlProfilesAHSerializer.putOptionalBatteryControlProfilesAH(iSerializer, batteryControlProfilesAH);
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)159, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlPowerProviderRA0(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) {
-        DSICarHybridProxy$13 dSICarHybridProxy$13 = new DSICarHybridProxy$13(this, batteryControlPowerProviderAH, batteryControlPowerProviderRA0Array);
-        this.proxy.remoteCallMethod((short)146, dSICarHybridProxy$13);
+    public void setBatteryControlPowerProviderRA0(final BatteryControlPowerProviderAH batteryControlPowerProviderAH, final BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlPowerProviderAHSerializer.putOptionalBatteryControlPowerProviderAH(iSerializer, batteryControlPowerProviderAH);
+                BatteryControlPowerProviderRA0Serializer.putOptionalBatteryControlPowerProviderRA0VarArray(iSerializer, batteryControlPowerProviderRA0Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)146, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlPowerProviderRA1(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA1[] batteryControlPowerProviderRA1Array) {
-        DSICarHybridProxy$14 dSICarHybridProxy$14 = new DSICarHybridProxy$14(this, batteryControlPowerProviderAH, batteryControlPowerProviderRA1Array);
-        this.proxy.remoteCallMethod((short)147, dSICarHybridProxy$14);
+    public void setBatteryControlPowerProviderRA1(final BatteryControlPowerProviderAH batteryControlPowerProviderAH, final BatteryControlPowerProviderRA1[] batteryControlPowerProviderRA1Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlPowerProviderAHSerializer.putOptionalBatteryControlPowerProviderAH(iSerializer, batteryControlPowerProviderAH);
+                BatteryControlPowerProviderRA1Serializer.putOptionalBatteryControlPowerProviderRA1VarArray(iSerializer, batteryControlPowerProviderRA1Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)147, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlPowerProviderRA2(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) {
-        DSICarHybridProxy$15 dSICarHybridProxy$15 = new DSICarHybridProxy$15(this, batteryControlPowerProviderAH, batteryControlPowerProviderRA2Array);
-        this.proxy.remoteCallMethod((short)148, dSICarHybridProxy$15);
+    public void setBatteryControlPowerProviderRA2(final BatteryControlPowerProviderAH batteryControlPowerProviderAH, final BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlPowerProviderAHSerializer.putOptionalBatteryControlPowerProviderAH(iSerializer, batteryControlPowerProviderAH);
+                BatteryControlPowerProviderRA2Serializer.putOptionalBatteryControlPowerProviderRA2VarArray(iSerializer, batteryControlPowerProviderRA2Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)148, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlPowerProviderRAE(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRAE[] batteryControlPowerProviderRAEArray) {
-        DSICarHybridProxy$16 dSICarHybridProxy$16 = new DSICarHybridProxy$16(this, batteryControlPowerProviderAH, batteryControlPowerProviderRAEArray);
-        this.proxy.remoteCallMethod((short)149, dSICarHybridProxy$16);
+    public void setBatteryControlPowerProviderRAE(final BatteryControlPowerProviderAH batteryControlPowerProviderAH, final BatteryControlPowerProviderRAE[] batteryControlPowerProviderRAEArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlPowerProviderAHSerializer.putOptionalBatteryControlPowerProviderAH(iSerializer, batteryControlPowerProviderAH);
+                BatteryControlPowerProviderRAESerializer.putOptionalBatteryControlPowerProviderRAEVarArray(iSerializer, batteryControlPowerProviderRAEArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)149, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlPowerProviderRAF(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray) {
-        DSICarHybridProxy$17 dSICarHybridProxy$17 = new DSICarHybridProxy$17(this, batteryControlPowerProviderAH, nArray);
-        this.proxy.remoteCallMethod((short)150, dSICarHybridProxy$17);
+    public void setBatteryControlPowerProviderRAF(final BatteryControlPowerProviderAH batteryControlPowerProviderAH, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlPowerProviderAHSerializer.putOptionalBatteryControlPowerProviderAH(iSerializer, batteryControlPowerProviderAH);
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)150, iSerializable);
     }
 
-    @Override
-    public void requestBatteryControlPowerProviderList(BatteryControlPowerProviderAH batteryControlPowerProviderAH) {
-        DSICarHybridProxy$18 dSICarHybridProxy$18 = new DSICarHybridProxy$18(this, batteryControlPowerProviderAH);
-        this.proxy.remoteCallMethod((short)130, dSICarHybridProxy$18);
+    public void requestBatteryControlPowerProviderList(final BatteryControlPowerProviderAH batteryControlPowerProviderAH) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BatteryControlPowerProviderAHSerializer.putOptionalBatteryControlPowerProviderAH(iSerializer, batteryControlPowerProviderAH);
+            }
+        };
+        this.proxy.remoteCallMethod((short)130, iSerializable);
     }
 
-    @Override
-    public void setBatteryControlPastErrorReason(int n) {
+    public void setBatteryControlPastErrorReason(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -227,8 +315,7 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)113, genericSerializable);
     }
 
-    @Override
-    public void setBatteryControlRemainingChargeTime(int n, short s, int n2, short s2) {
+    public void setBatteryControlRemainingChargeTime(int n, short s, int n2, short s2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -242,8 +329,7 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)118, genericSerializable);
     }
 
-    @Override
-    public void setHybridActivePedal(boolean bl) {
+    public void setHybridActivePedal(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -254,8 +340,7 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)160, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -266,8 +351,7 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -278,13 +362,11 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)29, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -295,8 +377,7 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -307,13 +388,11 @@ DSICarHybridC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

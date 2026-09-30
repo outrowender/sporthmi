@@ -12,15 +12,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CheckboxRenderer;
 public class CheckboxRendererHigh
 extends AbstractKanziTemplateRenderer
 implements CheckboxRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/checkbox";
+    private static final String EAL_NODE_NAME = "checkbox";
     private final CheckboxController controller;
 
     public CheckboxRendererHigh(CheckboxController checkboxController) {
         this.controller = checkboxController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -31,32 +30,26 @@ implements CheckboxRenderer {
         this.node.setOpacity(this.controller.getRenderOpacity());
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/checkbox";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "checkbox";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public int getPreferredWidth() {
         return this.getTerminal().getLayout().getIntegerConstant(52);
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.getTerminal().getLayout().getIntegerConstant(53);
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

@@ -14,7 +14,6 @@ extends AbstractDoctorCommand {
     private Agent agent;
     private IAgentDiagnosis diagnosis;
 
-    @Override
     public boolean handle(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         this.agent = Agent.getAgent();
         if (this.agent != null) {
@@ -40,7 +39,6 @@ extends AbstractDoctorCommand {
         return this.diagnosis;
     }
 
-    protected abstract void handleWithAgentDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    protected abstract void handleWithAgentDiagnosis(DoctorShell var1, String[] var2, PrintStream var3);
 }
 

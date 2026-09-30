@@ -1,45 +1,31 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.query;
 
 import de.esolutions.fw.util.config.ConfigValue;
 
 public interface IConfigQuery {
-    default public String getStringValue(String string) {
-    }
+    public String getStringValue(String var1);
 
-    default public String getStringValue(String string, String string2) {
-    }
+    public String getStringValue(String var1, String var2);
 
-    default public Integer getIntegerValue(String string) {
-    }
+    public Integer getIntegerValue(String var1);
 
-    default public int getIntegerValue(String string, int n) {
-    }
+    public int getIntegerValue(String var1, int var2);
 
-    default public Boolean getBooleanValue(String string) {
-    }
+    public Boolean getBooleanValue(String var1);
 
-    default public boolean getBooleanValue(String string, boolean bl) {
-    }
+    public boolean getBooleanValue(String var1, boolean var2);
 
-    default public Double getDoubleValue(String string) {
-    }
+    public Double getDoubleValue(String var1);
 
-    default public double getDoubleValue(String string, double d2) {
-    }
+    public double getDoubleValue(String var1, double var2);
 
-    default public ConfigValue getArray(String string) {
-    }
+    public ConfigValue getArray(String var1);
 
-    default public ConfigValue getDictionary(String string) {
-    }
+    public ConfigValue getDictionary(String var1);
 
-    default public ConfigValue getValue(String string) {
-    }
+    public ConfigValue getValue(String var1);
 }
 

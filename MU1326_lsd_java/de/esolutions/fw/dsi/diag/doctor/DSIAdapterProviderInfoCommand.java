@@ -18,22 +18,18 @@ extends AbstractDSIAdapterSnapshotCommand {
         super(dSIAdmin);
     }
 
-    @Override
     public String[] getNames() {
         return new String[]{"dsi_providers", "dsipi"};
     }
 
-    @Override
     public String getDescription() {
         return "shows info of dsi provider(s)";
     }
 
-    @Override
     public String getUsage() {
         return "[provider_id|uuid][,provider_id|uuid...]";
     }
 
-    @Override
     protected void handleWithDSIAdapterSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAdapterSnapshot iAdapterSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAdapterSnapshot.getAllProviders();

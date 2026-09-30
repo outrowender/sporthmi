@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPPlayer;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPPlayerC;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPPlayerReply;
-import de.esolutions.fw.comm.dsi.upnp.impl.DSIUPNPPlayerProxy$1;
 import de.esolutions.fw.comm.dsi.upnp.impl.DSIUPNPPlayerReplyService;
+import de.esolutions.fw.comm.dsi.upnp.impl.ListEntrySerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.upnp.ListEntry;
@@ -32,8 +34,7 @@ DSIUPNPPlayerC {
         return this.proxy;
     }
 
-    @Override
-    public void setPlaybackMode(String string, int n) {
+    public void setPlaybackMode(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -45,14 +46,20 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setEntry(String[] stringArray, String string, ListEntry[] listEntryArray, int n) {
-        DSIUPNPPlayerProxy$1 dSIUPNPPlayerProxy$1 = new DSIUPNPPlayerProxy$1(this, stringArray, string, listEntryArray, n);
-        this.proxy.remoteCallMethod((short)9, dSIUPNPPlayerProxy$1);
+    public void setEntry(final String[] stringArray, final String string, final ListEntry[] listEntryArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalStringVarArray(stringArray);
+                iSerializer.putOptionalString(string);
+                ListEntrySerializer.putOptionalListEntryVarArray(iSerializer, listEntryArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void resume(String string) {
+    public void resume(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -63,8 +70,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void pause(String string) {
+    public void pause(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -75,8 +81,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void skip(String string, int n, int n2) {
+    public void skip(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -89,8 +94,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void seek(String string, int n, int n2) {
+    public void seek(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -103,8 +107,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void increaseVolume(String string) {
+    public void increaseVolume(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -115,8 +118,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void decreaseVolume(String string) {
+    public void decreaseVolume(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -127,8 +129,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setVolume(String string, int n) {
+    public void setVolume(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -140,8 +141,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -152,8 +152,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -164,13 +163,11 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)10, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -181,8 +178,7 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -193,13 +189,11 @@ DSIUPNPPlayerC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

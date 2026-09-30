@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.SearchHit;
 
 public class SearchHitSerializer {
-    public static void putOptionalSearchHit(ISerializer iSerializer, SearchHit searchHit) {
+    public static void putOptionalSearchHit(ISerializer iSerializer, SearchHit searchHit) throws SerializerException {
         boolean bl = searchHit == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SearchHitSerializer {
         }
     }
 
-    public static void putOptionalSearchHitVarArray(ISerializer iSerializer, SearchHit[] searchHitArray) {
+    public static void putOptionalSearchHitVarArray(ISerializer iSerializer, SearchHit[] searchHitArray) throws SerializerException {
         boolean bl = searchHitArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SearchHitSerializer {
         }
     }
 
-    public static SearchHit getOptionalSearchHit(IDeserializer iDeserializer) {
+    public static SearchHit getOptionalSearchHit(IDeserializer iDeserializer) throws SerializerException {
         SearchHit searchHit = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SearchHitSerializer {
         return searchHit;
     }
 
-    public static SearchHit[] getOptionalSearchHitVarArray(IDeserializer iDeserializer) {
+    public static SearchHit[] getOptionalSearchHitVarArray(IDeserializer iDeserializer) throws SerializerException {
         SearchHit[] searchHitArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,7 +10,7 @@ implements FsgArrayListIdGenerator {
     private final int maxID;
     private final int minID;
     private int nextID;
-    private static final int TRANSMIT_LONG_ID_THRESHOLD;
+    private static final int TRANSMIT_LONG_ID_THRESHOLD = 255;
 
     FsgArrayListGenericIdGenerator(int n, int n2) {
         this.maxID = n;
@@ -18,23 +18,19 @@ implements FsgArrayListIdGenerator {
         this.nextID = 0;
     }
 
-    @Override
     public boolean isLongID() {
         return this.nextID > 255;
     }
 
-    @Override
     public int createBAPPosID(long l) {
         this.nextID %= this.maxID;
         return this.nextID++ + this.minID;
     }
 
-    @Override
     public void reset() {
         this.nextID = 0;
     }
 
-    @Override
     public boolean isBAPPosIDValid(int n, long l) {
         return n <= 255 || this.nextID >= 255;
     }

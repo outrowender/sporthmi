@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.sdars;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.sdars.LeagueEntry;
 import org.dsi.ifc.sdars.SeekAlert;
 import org.dsi.ifc.sdars.SeekEntry;
@@ -11,60 +12,43 @@ import org.dsi.ifc.sdars.TeamEntry;
 import org.dsi.ifc.sdars.TrafficWxEntry;
 
 public interface DSISDARSSeekReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "aad0da89-00fe-53a6-9ddd-4c4d8882a364";
+    public static final String IPL_COMM_INTERFACE_KEY = "22be2a53-fa6a-58fd-a5af-f425ae6fb99c";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.20";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.20";
 
-    default public void updateSeekPossibility(SeekPossibility seekPossibility, int n) {
-    }
+    public void updateSeekPossibility(SeekPossibility var1, int var2) throws MethodException;
 
-    default public void updateSeekList(SeekEntry[] seekEntryArray, int n) {
-    }
+    public void updateSeekList(SeekEntry[] var1, int var2) throws MethodException;
 
-    default public void updateLeagueList(LeagueEntry[] leagueEntryArray, int n) {
-    }
+    public void updateLeagueList(LeagueEntry[] var1, int var2) throws MethodException;
 
-    default public void updateTrafficWeatherList(TrafficWxEntry[] trafficWxEntryArray, int n) {
-    }
+    public void updateTrafficWeatherList(TrafficWxEntry[] var1, int var2) throws MethodException;
 
-    default public void updateSeekAlert(SeekAlert seekAlert, int n) {
-    }
+    public void updateSeekAlert(SeekAlert var1, int var2) throws MethodException;
 
-    default public void setSeekCommandResult(int n) {
-    }
+    public void setSeekCommandResult(int var1) throws MethodException;
 
-    default public void manageSeekResult(int n) {
-    }
+    public void manageSeekResult(int var1) throws MethodException;
 
-    default public void teamsOfLeague(TeamEntry[] teamEntryArray) {
-    }
+    public void teamsOfLeague(TeamEntry[] var1) throws MethodException;
 
-    default public void leagues(LeagueEntry[] leagueEntryArray) {
-    }
+    public void leagues(LeagueEntry[] var1) throws MethodException;
 
-    default public void updateRegisteredTeams(TeamEntry[] teamEntryArray, int n) {
-    }
+    public void updateRegisteredTeams(TeamEntry[] var1, int var2) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

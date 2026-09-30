@@ -9,22 +9,16 @@ import org.dsi.ifc.telephone.MissedCallIndicator;
 
 public interface DSICallStacksListener
 extends DSIListener {
-    default public void updateIsReverted(boolean bl, int n) {
-    }
+    public void updateIsReverted(boolean var1, int var2);
 
-    default public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) {
-    }
+    public void updateLastAnsweredNumbers(CallStackEntry[] var1, int var2);
 
-    default public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) {
-    }
+    public void updateLastDialedNumbers(CallStackEntry[] var1, int var2);
 
-    default public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) {
-    }
+    public void updateMissedNumbers(CallStackEntry[] var1, int var2);
 
-    default public void updateMEDataValidity(int n, int n2) {
-    }
+    public void updateMEDataValidity(int var1, int var2);
 
-    default public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) {
-    }
+    public void updateMissedCallIndicator(MissedCallIndicator var1, int var2);
 }
 

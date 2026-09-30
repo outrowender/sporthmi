@@ -42,7 +42,7 @@ public class DoubleBaseType {
     }
 
     public String toString() {
-        return new StringBuffer("DoubleBaseType{").append("value=").append(this.value).append(", unit=").append(this.unit).append(", status=").append(this.status).append("}").toString();
+        return "DoubleBaseType{" + "value=" + this.value + ", unit=" + this.unit + ", status=" + this.status + "}";
     }
 }
 

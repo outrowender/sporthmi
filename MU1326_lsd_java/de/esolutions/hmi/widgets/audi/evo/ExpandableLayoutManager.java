@@ -8,10 +8,8 @@ import de.esolutions.hmi.widgets.audi.base.LayoutManager;
 
 public interface ExpandableLayoutManager
 extends LayoutManager {
-    default public int[] calculateSize(AbstractWidget abstractWidget, boolean bl, int n) {
-    }
+    public int[] calculateSize(AbstractWidget var1, boolean var2, int var3);
 
-    default public void setExpanded(boolean bl) {
-    }
+    public void setExpanded(boolean var1);
 }
 

@@ -8,12 +8,15 @@ import de.esolutions.fw.comm.asi.online.coreservice.ExtOnlineCoreServiceC;
 import de.esolutions.fw.comm.asi.online.coreservice.ExtOnlineCoreServiceReply;
 import de.esolutions.fw.comm.asi.online.coreservice.KeyValPair;
 import de.esolutions.fw.comm.asi.online.coreservice.RequestDescriptor;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceProxy$1;
 import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyService;
+import de.esolutions.fw.comm.asi.online.coreservice.impl.KeyValPairSerializer;
+import de.esolutions.fw.comm.asi.online.coreservice.impl.RequestDescriptorSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -33,8 +36,7 @@ ExtOnlineCoreServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void init(String string) {
+    public void init(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -45,8 +47,7 @@ ExtOnlineCoreServiceC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void init(String string, String string2) {
+    public void init(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -58,8 +59,7 @@ ExtOnlineCoreServiceC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void registerService(String string, String string2, boolean bl) {
+    public void registerService(String string, String string2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -72,8 +72,7 @@ ExtOnlineCoreServiceC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void getServiceListEntry(String string) {
+    public void getServiceListEntry(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -84,8 +83,7 @@ ExtOnlineCoreServiceC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void precheckOnlineServiceServiceID(String string) {
+    public void precheckOnlineServiceServiceID(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -96,18 +94,15 @@ ExtOnlineCoreServiceC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void precheckOnlineService() {
+    public void precheckOnlineService() throws MethodException {
         this.proxy.remoteCallMethod((short)26, null);
     }
 
-    @Override
-    public void requestUpdateKeyStore() {
+    public void requestUpdateKeyStore() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void getToken(String string, boolean bl) {
+    public void getToken(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -119,14 +114,21 @@ ExtOnlineCoreServiceC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void onlineRequest(RequestDescriptor requestDescriptor, int n, KeyValPair[] keyValPairArray, KeyValPair[] keyValPairArray2, byte[] byArray) {
-        ExtOnlineCoreServiceProxy$1 extOnlineCoreServiceProxy$1 = new ExtOnlineCoreServiceProxy$1(this, requestDescriptor, n, keyValPairArray, keyValPairArray2, byArray);
-        this.proxy.remoteCallMethod((short)10, extOnlineCoreServiceProxy$1);
+    public void onlineRequest(final RequestDescriptor requestDescriptor, final int n, final KeyValPair[] keyValPairArray, final KeyValPair[] keyValPairArray2, final byte[] byArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RequestDescriptorSerializer.putOptionalRequestDescriptor(iSerializer, requestDescriptor);
+                iSerializer.putInt32(n);
+                KeyValPairSerializer.putOptionalKeyValPairVarArray(iSerializer, keyValPairArray);
+                KeyValPairSerializer.putOptionalKeyValPairVarArray(iSerializer, keyValPairArray2);
+                iSerializer.putOptionalInt8VarArray(byArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void registerForCredentialUpdates(int[] nArray) {
+    public void registerForCredentialUpdates(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalEnumVarArray(nArray);

@@ -7,13 +7,10 @@ import org.apache.xerces.xs.AttributePSVI;
 import org.apache.xerces.xs.ElementPSVI;
 
 public interface PSVIProvider {
-    default public ElementPSVI getElementPSVI() {
-    }
+    public ElementPSVI getElementPSVI();
 
-    default public AttributePSVI getAttributePSVI(int n) {
-    }
+    public AttributePSVI getAttributePSVI(int var1);
 
-    default public AttributePSVI getAttributePSVIByName(String string, String string2) {
-    }
+    public AttributePSVI getAttributePSVIByName(String var1, String var2);
 }
 

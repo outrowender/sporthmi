@@ -32,7 +32,7 @@ public class sTelephoneNetworkState {
     }
 
     public String toString() {
-        return new StringBuffer("sTelephoneNetworkState{").append("msg_id=").append(this.msg_id).append(", lockstate=").append(this.lockstate).append("}").toString();
+        return "sTelephoneNetworkState{" + "msg_id=" + this.msg_id + ", lockstate=" + this.lockstate + "}";
     }
 }
 

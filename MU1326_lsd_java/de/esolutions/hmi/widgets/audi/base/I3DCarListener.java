@@ -4,7 +4,6 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface I3DCarListener {
-    default public void contentChanged() {
-    }
+    public void contentChanged();
 }
 

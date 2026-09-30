@@ -19,8 +19,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.PartialPopupGlassplateControll
 public class PartialPopupGlassplateRendererHigh
 extends AbstractKanziTemplateRenderer
 implements GlassplateRenderer {
-    private static final String EAL_NODE_NAME;
-    private static final String EAL_NODE_NAME_SEPARATOR;
+    private static final String EAL_NODE_NAME = "pp_plate";
+    private static final String EAL_NODE_NAME_SEPARATOR = "pp_plate_separator";
     private final PartialPopupGlassplateController controller;
     private IWrappedNode3D separatorNode;
     private IWrappedLayer offscreenLayer;
@@ -30,7 +30,6 @@ implements GlassplateRenderer {
         this.controller = partialPopupGlassplateController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getWidth();
         int n2 = this.controller.getHeight();
@@ -39,7 +38,7 @@ implements GlassplateRenderer {
         float f2 = (float)n3 + (float)n / 2.0f;
         this.propertyCache.setProperty(this.node, "gp_contentFBOwidth", (float)PartialPopupGlassplateRendererHigh.getOffscreenWidth());
         this.propertyCache.setProperty(this.node, "gp_contentFBOheight", (float)PartialPopupGlassplateRendererHigh.getOffscreenHeight());
-        logChannel.log(-2137614336, "PartialPopupGlassplateRendererHigh#applyProperties set offscreenFBOSize width: %1, height: %2", (long)PartialPopupGlassplateRendererHigh.getOffscreenWidth(), (long)PartialPopupGlassplateRendererHigh.getOffscreenHeight());
+        logChannel.log(10000000, "PartialPopupGlassplateRendererHigh#applyProperties set offscreenFBOSize width: %1, height: %2", (long)PartialPopupGlassplateRendererHigh.getOffscreenWidth(), (long)PartialPopupGlassplateRendererHigh.getOffscreenHeight());
         this.node.setPosition(f2, n4, 0.0f);
         this.node.setOpacity(this.controller.getRenderOpacity());
         this.propertyCache.setProperty(this.node, "gp_width", (float)n);
@@ -87,7 +86,6 @@ implements GlassplateRenderer {
         }
     }
 
-    @Override
     protected void applyVisibility(boolean bl) {
         super.applyVisibility(bl);
         if (this.separatorNode != null) {
@@ -95,33 +93,28 @@ implements GlassplateRenderer {
         }
     }
 
-    @Override
     public RedrawContext createRedrawContext(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)((RedrawContextHigh)redrawContext).clone();
         this.storeOwnRedrawContextFields(redrawContextHigh);
         return redrawContextHigh;
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/generic_glassPlate_partialPopup";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "pp_plate";
+        return EAL_NODE_NAME;
     }
 
     private IWrappedNode3D createSeparatorNode(IWrappedNode3D iWrappedNode3D) {
-        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName("pp_plate_separator", this), 0.0f, 0.0f, this.getKzbConstant(), "Prefabs/generic_glassPlate_partialPopup_separator", this.getInitContext().getScreenID());
+        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName(EAL_NODE_NAME_SEPARATOR, this), 0.0f, 0.0f, this.getKzbConstant(), "Prefabs/generic_glassPlate_partialPopup_separator", this.getInitContext().getScreenID());
     }
 
-    @Override
     public void disconnect() {
         if (this.separatorNode != null) {
             this.getEALManager().destroy(this.separatorNode);
@@ -135,12 +128,10 @@ implements GlassplateRenderer {
     public void setSDSCommandLineValue(float f2) {
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         redrawContextHigh.parentNode = this.node;

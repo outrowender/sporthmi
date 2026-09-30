@@ -17,7 +17,6 @@ implements IWidgetKeyHandler,
 IWidgetLogChannel {
     public static final OpenSelectionDrawerKeyHandler OPEN_SELECTION_DRAWER_KEY_HANDLER_INSTANCE = new OpenSelectionDrawerKeyHandler();
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -25,23 +24,20 @@ IWidgetLogChannel {
         }
         HMITerminalEvo hMITerminalEvo = (HMITerminalEvo)abstractWidgetController.getTerminal();
         IDrawerFocusManagerEvo iDrawerFocusManagerEvo = hMITerminalEvo.getDrawerFocusManager();
-        menuItemLogCh.log(-2137614336, "OpenSelectionDrawerKeyHandler#keyPressed: key pressed, open selection drawer");
+        menuItemLogCh.log(10000000, "OpenSelectionDrawerKeyHandler#keyPressed: key pressed, open selection drawer");
         boolean bl = iDrawerFocusManagerEvo.requestDrawerState(4);
         if (!bl) {
-            menuItemLogCh.log(-1601830656, "OpenSelectionDrawerKeyHandler#keyPressed: open selection drawer failed");
+            menuItemLogCh.log(100000, "OpenSelectionDrawerKeyHandler#keyPressed: open selection drawer failed");
         }
         keyEvent.consume();
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
     }
 }

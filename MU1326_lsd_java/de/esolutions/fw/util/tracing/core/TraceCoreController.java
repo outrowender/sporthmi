@@ -46,7 +46,7 @@ implements ITraceCommandExecutor {
     private int lastSeqNum;
     private boolean doResizeBufferOnConnected;
     private int newBufferSize;
-    private static final String chn;
+    private static final String chn = "Controller";
 
     public TraceCoreController(TraceCore traceCore, int n) {
         this.core = traceCore;
@@ -78,33 +78,30 @@ implements ITraceCommandExecutor {
         this.stats.registerKey("tl", 2);
     }
 
-    @Override
     public void registerBackend(ITraceBackend iTraceBackend, TraceConfigBackend traceConfigBackend, String string) {
         short s = this.stateMgr.createBackend(iTraceBackend, string);
         if (s == -1) {
-            TraceMe.msg(TraceMe.ERROR, "Controller", "worker:%1: registerBackend: %2 -> FAILED!", new Integer(this.cmdEpoch), iTraceBackend.getName());
+            TraceMe.msg(TraceMe.ERROR, chn, "worker:%1: registerBackend: %2 -> FAILED!", new Integer(this.cmdEpoch), iTraceBackend.getName());
             return;
         }
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: registerBackend: %2 -> bid=%3", new Integer(this.cmdEpoch), iTraceBackend.getName(), new Integer(s));
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: registerBackend: %2 -> bid=%3", new Integer(this.cmdEpoch), iTraceBackend.getName(), new Integer(s));
         iTraceBackend.init(s, this.backendListener, traceConfigBackend);
         this.setupAllBackendLevels(s);
         this.limitAllFilterLevelsForBackends();
         this.worker.addActivateBackendCommand(iTraceBackend);
     }
 
-    @Override
     public void activateBackend(ITraceBackend iTraceBackend) {
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: activateBackend: %2", new Integer(this.cmdEpoch), iTraceBackend.getName());
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: activateBackend: %2", new Integer(this.cmdEpoch), iTraceBackend.getName());
         if (!iTraceBackend.connect()) {
-            TraceMe.msg(TraceMe.DEBUG, "Controller", "  - failed connect. unregistering backend!");
+            TraceMe.msg(TraceMe.DEBUG, chn, "  - failed connect. unregistering backend!");
             this.unregisterBackend(iTraceBackend);
         }
     }
 
-    @Override
     public void unregisterBackend(ITraceBackend iTraceBackend) {
         short s = this.stateMgr.findBackend(iTraceBackend);
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: unregisterBackend: %2 bid=%3", new Integer(this.cmdEpoch), iTraceBackend.getName(), new Integer(s));
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: unregisterBackend: %2 bid=%3", new Integer(this.cmdEpoch), iTraceBackend.getName(), new Integer(s));
         if (s == -1) {
             return;
         }
@@ -119,11 +116,10 @@ implements ITraceCommandExecutor {
         }
     }
 
-    @Override
     public void connectBackend(short s, boolean bl) {
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1:connectBackend: bid=%2", new Integer(this.cmdEpoch), new Integer(s));
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1:connectBackend: bid=%2", new Integer(this.cmdEpoch), new Integer(s));
         if (!bl) {
-            TraceMe.msg(TraceMe.DEBUG, "Controller", "  - failed! removing backend!");
+            TraceMe.msg(TraceMe.DEBUG, chn, "  - failed! removing backend!");
             this.stateMgr.removeBackend(s);
             return;
         }
@@ -132,7 +128,7 @@ implements ITraceCommandExecutor {
             return;
         }
         if (traceBackendState.isConnected()) {
-            TraceMe.msg(TraceMe.DEBUG, "Controller", "  - already connected. ignoring");
+            TraceMe.msg(TraceMe.DEBUG, chn, "  - already connected. ignoring");
             return;
         }
         this.stateMgr.setConnected(s);
@@ -144,28 +140,25 @@ implements ITraceCommandExecutor {
         }
     }
 
-    @Override
     public void disconnectBackend(short s) {
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: disconnectBackend: bid=%2", new Integer(this.cmdEpoch), new Integer(s));
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: disconnectBackend: bid=%2", new Integer(this.cmdEpoch), new Integer(s));
         if (!this.stateMgr.setDisconnected(s)) {
-            TraceMe.msg(TraceMe.DEBUG, "Controller", "  - ignored. already disconnected!");
+            TraceMe.msg(TraceMe.DEBUG, chn, "  - ignored. already disconnected!");
         }
     }
 
-    @Override
     public void createEntity(int n, TraceEntity traceEntity, short s) {
         this.incCmdEpoch(n);
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: createEntity: %2 level=%3", new Integer(n), traceEntity, TraceLevels.levelNames[s]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: createEntity: %2 level=%3", new Integer(n), traceEntity, TraceLevels.levelNames[s]);
         traceEntity.setCoreFilterLevel(s);
         this.setupAllBackendLevelsForEntity(traceEntity);
         this.limitFilterLevelForBackends(traceEntity);
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "  -> created entity=%1", traceEntity);
+        TraceMe.msg(TraceMe.DEBUG, chn, "  -> created entity=%1", traceEntity);
     }
 
-    @Override
     public void changeFilterLevel(int n, TraceEntity traceEntity, short s) {
         this.incCmdEpoch(n);
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: changeFilterLevel: level=%2 entity=%3", new Integer(this.cmdEpoch), TraceLevels.levelNames[s], traceEntity);
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: changeFilterLevel: level=%2 entity=%3", new Integer(this.cmdEpoch), TraceLevels.levelNames[s], traceEntity);
         traceEntity.setCoreFilterLevel(s);
         short[] sArray = this.stateMgr.getAllBackendIds();
         if (sArray != null) {
@@ -173,61 +166,57 @@ implements ITraceCommandExecutor {
                 ITraceBackend iTraceBackend = this.stateMgr.getBackend(s2);
                 if (iTraceBackend != null) {
                     if (!iTraceBackend.adjustToChangeLevel(traceEntity)) continue;
-                    TraceMe.msg(TraceMe.DEBUG, "Controller", "  adjust backend bid=%1 to level=%2", new Integer(s2), TraceLevels.levelNames[s]);
+                    TraceMe.msg(TraceMe.DEBUG, chn, "  adjust backend bid=%1 to level=%2", new Integer(s2), TraceLevels.levelNames[s]);
                     traceEntity.setBackendLevel(s2, s);
                     continue;
                 }
-                TraceMe.msg(TraceMe.ERROR, "Controller", " backend was null");
+                TraceMe.msg(TraceMe.ERROR, chn, " backend was null");
             }
         }
     }
 
-    @Override
     public void executeCallback(int n, byte[] byArray) {
-        TraceMe.msg(TraceMe.INFO, "Controller", "+FRONTEND executeCallback: %1", new Integer(n));
+        TraceMe.msg(TraceMe.INFO, chn, "+FRONTEND executeCallback: %1", new Integer(n));
         List list = this.core.getFrontendListeners();
         ListIterator listIterator = list.listIterator();
         while (listIterator.hasNext()) {
             ITraceFrontendListener iTraceFrontendListener = (ITraceFrontendListener)listIterator.next();
             iTraceFrontendListener.executeCallback(n, byArray);
         }
-        TraceMe.msg(TraceMe.INFO, "Controller", "-FRONTEND executeCallback: %1", new Integer(n));
+        TraceMe.msg(TraceMe.INFO, chn, "-FRONTEND executeCallback: %1", new Integer(n));
     }
 
-    @Override
     public void requestFilterLevel(TraceEntityURI traceEntityURI, short s) {
-        TraceMe.msg(TraceMe.INFO, "Controller", "+FRONTEND requestFilterLevel: uri=%1 level=%2", traceEntityURI, TraceLevels.levelNames[s]);
+        TraceMe.msg(TraceMe.INFO, chn, "+FRONTEND requestFilterLevel: uri=%1 level=%2", traceEntityURI, TraceLevels.levelNames[s]);
         List list = this.core.getFrontendListeners();
         ListIterator listIterator = list.listIterator();
         while (listIterator.hasNext()) {
             ITraceFrontendListener iTraceFrontendListener = (ITraceFrontendListener)listIterator.next();
             iTraceFrontendListener.requestFilterLevel(traceEntityURI, s);
         }
-        TraceMe.msg(TraceMe.INFO, "Controller", "-FRONTEND requestFilterLevel: uri=%1 level=%2", traceEntityURI, TraceLevels.levelNames[s]);
+        TraceMe.msg(TraceMe.INFO, chn, "-FRONTEND requestFilterLevel: uri=%1 level=%2", traceEntityURI, TraceLevels.levelNames[s]);
     }
 
-    @Override
     public void registerTimeZone(int n, TraceTimeZone traceTimeZone) {
         this.incCmdEpoch(n);
         int n2 = traceTimeZone.getId();
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: registerTimeZone: id=%2 %3", new Integer(n), new Integer(n2), traceTimeZone);
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: registerTimeZone: id=%2 %3", new Integer(n), new Integer(n2), traceTimeZone);
     }
 
-    @Override
     public void updateTimeZone(TraceTimeZone traceTimeZone) {
         TraceTimeTuple traceTimeTuple = traceTimeZone.getLastUpdate();
         if (traceTimeTuple == null) {
             return;
         }
         int n = traceTimeZone.getId();
-        TraceMe.msg(TraceMe.DEBUG, "Controller", "worker:%1: updateTimeZone: id=%2 -> %3", new Integer(this.cmdEpoch), new Integer(n), traceTimeTuple);
+        TraceMe.msg(TraceMe.DEBUG, chn, "worker:%1: updateTimeZone: id=%2 -> %3", new Integer(this.cmdEpoch), new Integer(n), traceTimeTuple);
         short[] sArray = this.stateMgr.getAllConnectedBackendIds();
         if (!this.updateConnectedBackendState(sArray)) {
             sArray = this.stateMgr.getAllConnectedBackendIds();
         }
         if (sArray != null) {
             for (int i2 = 0; i2 < sArray.length; ++i2) {
-                TraceMe.msg(TraceMe.DEBUG, "Controller", "  report to bid %1", new Integer(sArray[i2]));
+                TraceMe.msg(TraceMe.DEBUG, chn, "  report to bid %1", new Integer(sArray[i2]));
                 ITraceBackend iTraceBackend = this.stateMgr.getBackend(sArray[i2]);
                 if (iTraceBackend == null) continue;
                 iTraceBackend.updateTimeZone(n, traceTimeTuple.getTraceZoneTime(), traceTimeTuple.getCoreTime());
@@ -247,30 +236,28 @@ implements ITraceCommandExecutor {
                     this.unregisterBackend(iTraceBackend);
                     continue;
                 }
-                TraceMe.msg(TraceMe.ERROR, "Controller", " backend was null");
+                TraceMe.msg(TraceMe.ERROR, chn, " backend was null");
             }
         }
     }
 
-    @Override
     public void flushEntities() {
         short[] sArray = this.stateMgr.getAllConnectedBackendIds();
         this.updateConnectedBackendState(sArray);
     }
 
-    @Override
     public boolean flushMessages() {
         int n;
         int n2;
         int n3;
         boolean bl;
-        TraceMe.msg(TraceMe.TRACE, "Controller", "process messages");
+        TraceMe.msg(TraceMe.TRACE, chn, "process messages");
         if (!this.stateMgr.hasConnectedBackends()) {
             return false;
         }
         short[] sArray = this.stateMgr.getAllConnectedBackendIds();
         TraceBackendState[] traceBackendStateArray = new TraceBackendState[sArray.length];
-        int n4 = -129;
+        int n4 = Integer.MAX_VALUE;
         int[] nArray = new int[sArray.length];
         for (int i2 = 0; i2 < sArray.length; ++i2) {
             TraceBackendState traceBackendState;
@@ -279,7 +266,7 @@ implements ITraceCommandExecutor {
             if (nArray[i2] >= n4) continue;
             n4 = nArray[i2];
         }
-        TraceMe.msg(TraceMe.TRACE, "Controller", "  - lowest backend msg seq num is %1", new Integer(n4));
+        TraceMe.msg(TraceMe.TRACE, chn, "  - lowest backend msg seq num is %1", new Integer(n4));
         if (this.buffer.isEmpty()) {
             return false;
         }
@@ -297,7 +284,7 @@ implements ITraceCommandExecutor {
         }
         n3 = iTraceMessageArray[0].getSeqNum();
         int n5 = iTraceMessageArray[iTraceMessageArray.length - 1].getSeqNum();
-        TraceMe.msg(TraceMe.TRACE, "Controller", "  - got %1 messages in seq num range [%2;%3]", new Integer(iTraceMessageArray.length), new Integer(n3), new Integer(n5));
+        TraceMe.msg(TraceMe.TRACE, chn, "  - got %1 messages in seq num range [%2;%3]", new Integer(iTraceMessageArray.length), new Integer(n3), new Integer(n5));
         if (this.lastSeqNum + 1 < n3) {
             int n6 = n3 - this.lastSeqNum - 1;
             this.stats.updateKey("dc", n6);
@@ -336,7 +323,7 @@ implements ITraceCommandExecutor {
         }
         if (this.stateMgr.areAllConnected()) {
             n = this.buffer.dropUpToSeqNum(n2);
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - dropped %1 messages up to but excluding seqnum %2", new Integer(n), new Integer(n2));
+            TraceMe.msg(TraceMe.TRACE, chn, "  - dropped %1 messages up to but excluding seqnum %2", new Integer(n), new Integer(n2));
             int[] nArray2 = this.buffer.getNumEntriesAndBytes();
             this.stats.updateKey("bc", nArray2[0]);
             this.stats.updateKey("bb", nArray2[1]);
@@ -350,9 +337,9 @@ implements ITraceCommandExecutor {
             if (nArray[i2] >= n) continue;
             int n2 = n - nArray[i2];
             boolean bl = iTraceBackendArray[i2].droppedMessages(n2);
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - bid=%1: DROPPED %2 MESSAGES", new Integer(sArray[i2]), new Integer(n2));
+            TraceMe.msg(TraceMe.TRACE, chn, "  - bid=%1: DROPPED %2 MESSAGES", new Integer(sArray[i2]), new Integer(n2));
             if (!bl) {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                 this.stateMgr.setDisconnected(sArray[i2]);
                 iTraceBackendArray[i2] = null;
             }
@@ -361,12 +348,12 @@ implements ITraceCommandExecutor {
     }
 
     private void decodeMessage(ITraceMessage iTraceMessage) {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "  - decode msg %1", new Integer(iTraceMessage.getSeqNum()));
+        TraceMe.msg(TraceMe.TRACE, chn, "  - decode msg %1", new Integer(iTraceMessage.getSeqNum()));
         ITraceMessageDecoder iTraceMessageDecoder = this.decoderRegistry.getDecoder(iTraceMessage.getMessageType());
         if (iTraceMessageDecoder != null) {
             iTraceMessageDecoder.decodeMessage(iTraceMessage, this.backendListener.getEntityResolver());
         } else {
-            iTraceMessage.setDecodedMessage(new String[]{new StringBuffer().append("UNDECODED MESSAGE OF TYPE ").append(iTraceMessage.getMessageType()).toString()});
+            iTraceMessage.setDecodedMessage(new String[]{"UNDECODED MESSAGE OF TYPE " + iTraceMessage.getMessageType()});
         }
     }
 
@@ -386,7 +373,7 @@ implements ITraceCommandExecutor {
                 nArray2[n4] = i3;
                 ++n4;
             }
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - bid=%1 %2 bulkLog: numValid=%3", new Integer(sArray[i2]), iTraceBackendArray[i2].getName(), new Integer(n4));
+            TraceMe.msg(TraceMe.TRACE, chn, "  - bid=%1 %2 bulkLog: numValid=%3", new Integer(sArray[i2]), iTraceBackendArray[i2].getName(), new Integer(n4));
             if (n4 <= 0) continue;
             if (n4 == n2) {
                 iTraceMessageArray2 = iTraceMessageArray;
@@ -398,7 +385,7 @@ implements ITraceCommandExecutor {
             }
             iTraceMessage = iTraceBackendArray[i2].logBulk(iTraceMessageArray2);
             if (iTraceMessage != null) {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                 n3 = iTraceMessage.getSeqNum();
                 if (n3 < n) {
                     n = n3;
@@ -425,9 +412,9 @@ implements ITraceCommandExecutor {
                 if (iTraceBackendArray[n5] == null || blArray[n5] || n4 < nArray[n5]) continue;
                 if (this.checkBackendForMessage(iTraceMessage, sArray[n5])) {
                     boolean bl = iTraceBackendArray[n5].log(iTraceMessage);
-                    TraceMe.msg(TraceMe.TRACE, "Controller", "  - bid=%1 %2 seq=%4 level=%5 delta=%6", new Integer(sArray[n5]), iTraceBackendArray[n5].getName(), new Integer(n4), TraceLevels.levelNames[iTraceMessage.getLevel()], new Long(System.currentTimeMillis() - iTraceMessage.getTimeStamp()));
+                    TraceMe.msg(TraceMe.TRACE, chn, "  - bid=%1 %2 seq=%4 level=%5 delta=%6", new Integer(sArray[n5]), iTraceBackendArray[n5].getName(), new Integer(n4), TraceLevels.levelNames[iTraceMessage.getLevel()], new Long(System.currentTimeMillis() - iTraceMessage.getTimeStamp()));
                     if (!bl) {
-                        TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                        TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                         if (n4 < n) {
                             n = n4;
                         }
@@ -439,7 +426,7 @@ implements ITraceCommandExecutor {
                     nArray2[n6] = nArray2[n6] + 1;
                     continue;
                 }
-                TraceMe.msg(TraceMe.TRACE, "Controller", "  - bid=%1 %2: ignored: seq=%3 level=%4 delta=%5", new Integer(sArray[n5]), iTraceBackendArray[n5].getName(), new Integer(n4), TraceLevels.levelNames[iTraceMessage.getLevel()], new Long(System.currentTimeMillis() - iTraceMessage.getTimeStamp()));
+                TraceMe.msg(TraceMe.TRACE, chn, "  - bid=%1 %2: ignored: seq=%3 level=%4 delta=%5", new Integer(sArray[n5]), iTraceBackendArray[n5].getName(), new Integer(n4), TraceLevels.levelNames[iTraceMessage.getLevel()], new Long(System.currentTimeMillis() - iTraceMessage.getTimeStamp()));
             }
         }
         n2 = 0;
@@ -454,30 +441,27 @@ implements ITraceCommandExecutor {
         return n;
     }
 
-    @Override
     public void init() {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "init worker");
+        TraceMe.msg(TraceMe.TRACE, chn, "init worker");
     }
 
-    @Override
     public void quit() {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "quit worker");
+        TraceMe.msg(TraceMe.TRACE, chn, "quit worker");
         this.aboutToQuit = true;
         this.worker.addFlushMessagesCommand();
         this.worker.addFlushEntitiesCommand();
         short[] sArray = this.stateMgr.getAllBackendIds();
         if (sArray != null) {
             for (int i2 = 0; i2 < sArray.length; ++i2) {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "  about to unregister bid=%1", new Integer(sArray[i2]));
+                TraceMe.msg(TraceMe.TRACE, chn, "  about to unregister bid=%1", new Integer(sArray[i2]));
                 this.worker.addUnregisterBackendCommand(this.stateMgr.getBackend(sArray[i2]));
             }
         }
         this.worker.addTerminateCommand();
     }
 
-    @Override
     public void requestQuit() {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "request Quit!");
+        TraceMe.msg(TraceMe.TRACE, chn, "request Quit!");
         List list = this.core.getFrontendListeners();
         ListIterator listIterator = list.listIterator();
         while (listIterator.hasNext()) {
@@ -497,11 +481,10 @@ implements ITraceCommandExecutor {
         }
     }
 
-    @Override
     public void resizeBuffer(int n) {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "message buffer resized: newCapacity=%1", new Integer(n));
+        TraceMe.msg(TraceMe.TRACE, chn, "message buffer resized: newCapacity=%1", new Integer(n));
         if (!this.buffer.resize(n)) {
-            TraceMe.msg(TraceMe.ERROR, "Controller", "Failed resizing buffer: newCapacity=%1", new Integer(n));
+            TraceMe.msg(TraceMe.ERROR, chn, "Failed resizing buffer: newCapacity=%1", new Integer(n));
         } else {
             this.stats.updateKey("bs", n);
         }
@@ -518,7 +501,7 @@ implements ITraceCommandExecutor {
     private void incCmdEpoch(int n) {
         ++this.cmdEpoch;
         if (this.cmdEpoch != n) {
-            TraceMe.msg(TraceMe.WARN, "Controller", "EPOCH MISMATCH: cmdEpoch=%1 newEpoch=%2", new Integer(this.cmdEpoch), new Integer(n));
+            TraceMe.msg(TraceMe.WARN, chn, "EPOCH MISMATCH: cmdEpoch=%1 newEpoch=%2", new Integer(this.cmdEpoch), new Integer(n));
         }
     }
 
@@ -532,12 +515,12 @@ implements ITraceCommandExecutor {
             TraceBackendState traceBackendState = this.stateMgr.getBackendState(s);
             int n = traceBackendState.getEpoch();
             if (n >= this.cmdEpoch) continue;
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  update bid %1: from epoch %2 to epoch %3", new Integer(sArray[i2]), new Integer(n + 1), new Integer(this.cmdEpoch));
+            TraceMe.msg(TraceMe.TRACE, chn, "  update bid %1: from epoch %2 to epoch %3", new Integer(sArray[i2]), new Integer(n + 1), new Integer(this.cmdEpoch));
             boolean bl2 = this.realizeBackendState(s, n + 1, this.cmdEpoch);
             if (bl2) {
                 traceBackendState.setEpoch(this.cmdEpoch);
             } else {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                 this.stateMgr.setDisconnected(s);
                 bl = false;
             }
@@ -567,20 +550,20 @@ implements ITraceCommandExecutor {
         if (iTraceEntityArray != null) {
             n4 = iTraceEntityArray.length;
             if ((n5 & 0x10) != 0) {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "%1:  - reporting %2 entities bulk creations", new Integer(s), new Integer(iTraceEntityArray.length));
+                TraceMe.msg(TraceMe.TRACE, chn, "%1:  - reporting %2 entities bulk creations", new Integer(s), new Integer(iTraceEntityArray.length));
                 n3 = iTraceBackend.createEntityBulk(iTraceEntityArray);
                 if (n3 == 0) {
-                    TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                    TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                     return false;
                 }
                 this.stats.updateKey("ecb", n4);
             } else {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "%1:  - reporting %2 entities creations", new Integer(s), new Integer(iTraceEntityArray.length));
+                TraceMe.msg(TraceMe.TRACE, chn, "%1:  - reporting %2 entities creations", new Integer(s), new Integer(iTraceEntityArray.length));
                 for (n3 = 0; n3 < n4; ++n3) {
                     iTraceEntity = iTraceEntityArray[n3];
                     bl = iTraceBackend.createEntity(iTraceEntity);
                     if (bl) continue;
-                    TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                    TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                     return false;
                 }
                 this.stats.updateKey("ecs", n4);
@@ -589,20 +572,20 @@ implements ITraceCommandExecutor {
         if ((iTraceEntityArray = this.model.getAllChangedOnlyEntitiesInRange(n, n2)) != null) {
             n4 = iTraceEntityArray.length;
             if ((n5 & 0x20) != 0) {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "%1:  - reporting %2 entity bulk filter changes", new Integer(s), new Integer(iTraceEntityArray.length));
+                TraceMe.msg(TraceMe.TRACE, chn, "%1:  - reporting %2 entity bulk filter changes", new Integer(s), new Integer(iTraceEntityArray.length));
                 n3 = iTraceBackend.changeFilterLevelBulk(iTraceEntityArray) ? 1 : 0;
                 if (n3 == 0) {
-                    TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                    TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                     return false;
                 }
                 this.stats.updateKey("efb", n4);
             } else {
-                TraceMe.msg(TraceMe.TRACE, "Controller", "%1:  - reporting %2 entity filter changes", new Integer(s), new Integer(iTraceEntityArray.length));
+                TraceMe.msg(TraceMe.TRACE, chn, "%1:  - reporting %2 entity filter changes", new Integer(s), new Integer(iTraceEntityArray.length));
                 for (n3 = 0; n3 < n4; ++n3) {
                     iTraceEntity = iTraceEntityArray[n3];
                     bl = iTraceBackend.changeFilterLevel(iTraceEntity.getURI(), iTraceEntity.getCoreFilterLevel());
                     if (bl) continue;
-                    TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                    TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                     return false;
                 }
                 this.stats.updateKey("efs", n4);
@@ -618,12 +601,12 @@ implements ITraceCommandExecutor {
         }
         TraceTimeZone[] traceTimeZoneArray = this.timeZonePool.getAllTimeZonesCreatedInRange(n, n2);
         if (traceTimeZoneArray != null) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - reporting %1 time zones", new Integer(traceTimeZoneArray.length));
+            TraceMe.msg(TraceMe.TRACE, chn, "  - reporting %1 time zones", new Integer(traceTimeZoneArray.length));
             for (int i2 = 0; i2 < traceTimeZoneArray.length; ++i2) {
                 TraceTimeZone traceTimeZone = traceTimeZoneArray[i2];
                 boolean bl = iTraceBackend.registerTimeZone(traceTimeZone.getId(), traceTimeZone.getResolution(), traceTimeZone.getName());
                 if (bl) continue;
-                TraceMe.msg(TraceMe.TRACE, "Controller", "  - failed! automatically disconnecting backend.");
+                TraceMe.msg(TraceMe.TRACE, chn, "  - failed! automatically disconnecting backend.");
                 return false;
             }
         }
@@ -631,7 +614,7 @@ implements ITraceCommandExecutor {
     }
 
     private void setupAllBackendLevels(short s) {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "setup all backend flags for bid=%1", new Integer(s));
+        TraceMe.msg(TraceMe.TRACE, chn, "setup all backend flags for bid=%1", new Integer(s));
         TraceEntity[] traceEntityArray = this.model.getAllCreatedEntitiesInRange(0, this.cmdEpoch);
         if (traceEntityArray != null) {
             for (int i2 = 0; i2 < traceEntityArray.length; ++i2) {
@@ -652,13 +635,13 @@ implements ITraceCommandExecutor {
     }
 
     private void setupBackendLevelForEntity(short s, TraceEntity traceEntity) {
-        TraceMe.msg(TraceMe.TRACE, "Controller", "- setup backend flags for bid=%1 of entity=%2", new Integer(s), traceEntity);
+        TraceMe.msg(TraceMe.TRACE, chn, "- setup backend flags for bid=%1 of entity=%2", new Integer(s), traceEntity);
         if (traceEntity == null) {
             return;
         }
         ITraceBackend iTraceBackend = this.stateMgr.getBackend(s);
         if (iTraceBackend == null) {
-            TraceMe.msg(TraceMe.ERROR, "Controller", "FATAL no backend?");
+            TraceMe.msg(TraceMe.ERROR, chn, "FATAL no backend?");
             return;
         }
         short s2 = 7;
@@ -669,16 +652,16 @@ implements ITraceCommandExecutor {
         }
         if (s2 == 7) {
             s2 = iTraceBackend.backendDefaultFilterLevel(traceEntity.getURI().getType());
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - ask backend default: %1", TraceLevels.levelNames[s2]);
+            TraceMe.msg(TraceMe.TRACE, chn, "  - ask backend default: %1", TraceLevels.levelNames[s2]);
         }
         short s3 = traceEntity.getCoreFilterLevel();
         if (s2 == 7) {
             s2 = s3;
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - use entity config: %1", TraceLevels.levelNames[s2]);
+            TraceMe.msg(TraceMe.TRACE, chn, "  - use entity config: %1", TraceLevels.levelNames[s2]);
         }
         if (s2 < s3) {
             s2 = s3;
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - limit backend to entity config: %1", TraceLevels.levelNames[s2]);
+            TraceMe.msg(TraceMe.TRACE, chn, "  - limit backend to entity config: %1", TraceLevels.levelNames[s2]);
         }
         traceEntity.setBackendLevel(s, s2);
     }
@@ -687,26 +670,26 @@ implements ITraceCommandExecutor {
         TraceEntity traceEntity = this.model.getEntity(new TraceEntityURI(3, iTraceMessage.getChannelID()));
         TraceEntity traceEntity2 = this.model.getEntity(new TraceEntityURI(2, iTraceMessage.getThreadID()));
         if (traceEntity == null || traceEntity2 == null) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "    - keep message: no entity?!");
+            TraceMe.msg(TraceMe.TRACE, chn, "    - keep message: no entity?!");
             return true;
         }
         short s2 = traceEntity.getBackendLevel(s);
         short s3 = traceEntity2.getBackendLevel(s);
         if (s2 == 6 || s3 == 6) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "    - drop message: backend off");
+            TraceMe.msg(TraceMe.TRACE, chn, "    - drop message: backend off");
             return false;
         }
         if (s2 == 7 && s3 == 7) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "    - keep message: backend ignore");
+            TraceMe.msg(TraceMe.TRACE, chn, "    - keep message: backend ignore");
             return true;
         }
         short s4 = iTraceMessage.getLevel();
         if (s2 != 7 && s4 < s2) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "    - drop message: below channel level %1", new Integer(s2));
+            TraceMe.msg(TraceMe.TRACE, chn, "    - drop message: below channel level %1", new Integer(s2));
             return false;
         }
         if (s3 != 7 && s4 < s3) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "    - drop message: below thread level %1", new Integer(s2));
+            TraceMe.msg(TraceMe.TRACE, chn, "    - drop message: below thread level %1", new Integer(s2));
             return false;
         }
         return true;
@@ -731,7 +714,7 @@ implements ITraceCommandExecutor {
         short s = traceEntity.getCoreFilterLevel();
         short s2 = this.getMinimalBackendFiltering(traceEntity);
         if (s2 != s) {
-            TraceMe.msg(TraceMe.TRACE, "Controller", "  - limitFilterLevelForBackends: cur level=%1 -> backends=%2 entity=%3", TraceLevels.levelNames[s], TraceLevels.levelNames[s2], traceEntity);
+            TraceMe.msg(TraceMe.TRACE, chn, "  - limitFilterLevelForBackends: cur level=%1 -> backends=%2 entity=%3", TraceLevels.levelNames[s], TraceLevels.levelNames[s2], traceEntity);
         }
     }
 

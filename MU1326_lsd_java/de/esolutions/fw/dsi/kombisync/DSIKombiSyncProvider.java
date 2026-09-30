@@ -29,28 +29,23 @@ implements DSIKombiSync {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$kombisync$DSIKombiSync == null ? (class$org$dsi$ifc$kombisync$DSIKombiSync = DSIKombiSyncProvider.class$("org.dsi.ifc.kombisync.DSIKombiSync")) : class$org$dsi$ifc$kombisync$DSIKombiSync).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIKombiSyncProxy(this.instance, (DSIKombiSyncReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setMMIDisplayStatus(MMIDisplayStatus mMIDisplayStatus) {
         try {
             this.proxy.setMMIDisplayStatus(mMIDisplayStatus);
@@ -60,7 +55,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setMMIDisplayRequest(MMIDisplayRequest mMIDisplayRequest) {
         try {
             this.proxy.setMMIDisplayRequest(mMIDisplayRequest);
@@ -70,7 +64,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setMenuState(MenuState menuState) {
         try {
             this.proxy.setMenuState(menuState);
@@ -80,7 +73,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setMMIPopupRequest(MMIPopupRequest mMIPopupRequest) {
         try {
             this.proxy.setMMIPopupRequest(mMIPopupRequest);
@@ -90,7 +82,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setHMIIsReady(boolean bl) {
         try {
             this.proxy.setHMIIsReady(bl);
@@ -100,7 +91,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -110,7 +100,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -120,7 +109,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -130,7 +118,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -140,7 +127,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -150,7 +136,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -160,7 +145,6 @@ implements DSIKombiSync {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

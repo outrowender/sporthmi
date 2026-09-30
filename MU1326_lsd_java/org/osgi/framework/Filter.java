@@ -7,19 +7,14 @@ import java.util.Dictionary;
 import org.osgi.framework.ServiceReference;
 
 public interface Filter {
-    default public boolean match(ServiceReference serviceReference) {
-    }
+    public boolean match(ServiceReference var1);
 
-    default public boolean match(Dictionary dictionary) {
-    }
+    public boolean match(Dictionary var1);
 
-    default public String toString() {
-    }
+    public String toString();
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public int hashCode() {
-    }
+    public int hashCode();
 }
 

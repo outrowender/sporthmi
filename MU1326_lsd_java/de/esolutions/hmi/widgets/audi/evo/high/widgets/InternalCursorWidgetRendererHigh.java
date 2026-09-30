@@ -11,9 +11,9 @@ import de.esolutions.hmi.widgets.audi.base.eal.EALPropertyCache;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3DText;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
+import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 import de.esolutions.hmi.widgets.audi.evo.LineElement;
 import de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.InternalCursorWidgetRendererHigh$1;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.TextDescriptorLabelRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractInternalCursorWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IKanziTemplateRenderer;
@@ -36,7 +36,6 @@ IKanziTemplateRenderer {
     private int backgroundHeight;
     private boolean autoConfig = true;
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         vertInset = initializationContext.getTerminal().getLayout().getIntegerConstant(27);
         this.left = 10;
@@ -44,7 +43,6 @@ IKanziTemplateRenderer {
         this.spacing = 0;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.formfield = this.destroyNode(this.formfield);
@@ -57,15 +55,18 @@ IKanziTemplateRenderer {
         return (AbstractInternalCursorWidgetController)this.controller;
     }
 
-    @Override
     public int getBaseline() {
         return 0;
     }
 
-    @Override
     public AbstractWidgetController getFormfieldStub() {
         if (this.formfieldController == null) {
-            this.formfieldController = new InternalCursorWidgetRendererHigh$1(this);
+            this.formfieldController = new AbstractWidgetController(){
+
+                public IRenderer getRenderer() {
+                    return null;
+                }
+            };
         }
         return this.formfieldController;
     }
@@ -86,7 +87,6 @@ IKanziTemplateRenderer {
         return this.getAbstractController().getInitContext().getScreenFactory().getText(n);
     }
 
-    @Override
     public int getTextWidth(String string) {
         return this.getEALManager().getTextWidth(string, this.getInheritedFont());
     }
@@ -99,7 +99,6 @@ IKanziTemplateRenderer {
         super(abstractInternalCursorWidgetController);
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         IWrappedNode3D iWrappedNode3D;
         int n;
@@ -171,26 +170,21 @@ IKanziTemplateRenderer {
         }
     }
 
-    @Override
     public void setAutoConfig(boolean bl) {
         this.autoConfig = bl;
     }
 
-    @Override
     public void setBackgroundHeight(int n) {
         this.backgroundHeight = n;
     }
 
-    @Override
     public void setBackgroundVerticalOffset(int n) {
         this.backgroundVerticalOffset = n;
     }
 
-    @Override
     public void setClipping(boolean bl) {
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 

@@ -4,10 +4,8 @@
 package java.security.acl;
 
 public interface Permission {
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public String toString() {
-    }
+    public String toString();
 }
 

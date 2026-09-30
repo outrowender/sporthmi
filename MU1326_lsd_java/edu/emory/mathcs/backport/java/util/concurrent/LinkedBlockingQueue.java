@@ -5,29 +5,28 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.BlockingQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingQueue$Itr;
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingQueue$Node;
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingQueue$SerializableLock;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedBlockingQueue
 extends AbstractQueue
 implements BlockingQueue,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -6903933977591709194L;
     private final int capacity;
     private volatile int count = 0;
-    private transient LinkedBlockingQueue$Node head;
-    private transient LinkedBlockingQueue$Node last;
-    private final Object takeLock = new LinkedBlockingQueue$SerializableLock(null);
-    private final Object putLock = new LinkedBlockingQueue$SerializableLock(null);
+    private transient Node head;
+    private transient Node last;
+    private final Object takeLock = new SerializableLock();
+    private final Object putLock = new SerializableLock();
     static final /* synthetic */ boolean $assertionsDisabled;
     static /* synthetic */ Class class$edu$emory$mathcs$backport$java$util$concurrent$LinkedBlockingQueue;
 
@@ -52,19 +51,19 @@ Serializable {
     }
 
     private void insert(Object object) {
-        this.last = this.last.next = new LinkedBlockingQueue$Node(object);
+        this.last = this.last.next = new Node(object);
     }
 
     private Object extract() {
-        LinkedBlockingQueue$Node linkedBlockingQueue$Node;
-        this.head = linkedBlockingQueue$Node = this.head.next;
-        Object object = linkedBlockingQueue$Node.item;
-        linkedBlockingQueue$Node.item = null;
+        Node node;
+        this.head = node = this.head.next;
+        Object object = node.item;
+        node.item = null;
         return object;
     }
 
     public LinkedBlockingQueue() {
-        this(-129);
+        this(Integer.MAX_VALUE);
     }
 
     public LinkedBlockingQueue(int n) {
@@ -72,11 +71,11 @@ Serializable {
             throw new IllegalArgumentException();
         }
         this.capacity = n;
-        this.last = this.head = new LinkedBlockingQueue$Node(null);
+        this.last = this.head = new Node(null);
     }
 
     public LinkedBlockingQueue(Collection collection) {
-        this(-129);
+        this(Integer.MAX_VALUE);
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
             Object object = iterator.next();
@@ -84,12 +83,10 @@ Serializable {
         }
     }
 
-    @Override
     public int size() {
         return this.count;
     }
 
-    @Override
     public int remainingCapacity() {
         return this.capacity - this.count;
     }
@@ -97,8 +94,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void put(Object object) {
+    public void put(Object object) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -131,8 +127,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public boolean offer(Object object, long l, TimeUnit timeUnit) {
+    public boolean offer(Object object, long l, TimeUnit timeUnit) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -174,7 +169,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offer(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -205,8 +199,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object take() {
+    public Object take() throws InterruptedException {
         Object object;
         int n = -1;
         Object object2 = this.takeLock;
@@ -238,8 +231,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object poll(long l, TimeUnit timeUnit) {
+    public Object poll(long l, TimeUnit timeUnit) throws InterruptedException {
         Object object = null;
         int n = -1;
         long l2 = timeUnit.toNanos(l);
@@ -279,7 +271,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object poll() {
         if (this.count == 0) {
             return null;
@@ -308,25 +299,23 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object peek() {
         if (this.count == 0) {
             return null;
         }
         Object object = this.takeLock;
         synchronized (object) {
-            LinkedBlockingQueue$Node linkedBlockingQueue$Node = this.head.next;
-            if (linkedBlockingQueue$Node == null) {
+            Node node = this.head.next;
+            if (node == null) {
                 return null;
             }
-            return linkedBlockingQueue$Node.item;
+            return node.item;
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean remove(Object object) {
         if (object == null) {
             return false;
@@ -336,21 +325,21 @@ Serializable {
         synchronized (object2) {
             Object object3 = this.takeLock;
             synchronized (object3) {
-                LinkedBlockingQueue$Node linkedBlockingQueue$Node = this.head;
-                LinkedBlockingQueue$Node linkedBlockingQueue$Node2 = this.head.next;
-                while (linkedBlockingQueue$Node2 != null) {
-                    if (object.equals(linkedBlockingQueue$Node2.item)) {
+                Node node = this.head;
+                Node node2 = this.head.next;
+                while (node2 != null) {
+                    if (object.equals(node2.item)) {
                         bl = true;
                         break;
                     }
-                    linkedBlockingQueue$Node = linkedBlockingQueue$Node2;
-                    linkedBlockingQueue$Node2 = linkedBlockingQueue$Node2.next;
+                    node = node2;
+                    node2 = node2.next;
                 }
                 if (bl) {
-                    linkedBlockingQueue$Node2.item = null;
-                    linkedBlockingQueue$Node.next = linkedBlockingQueue$Node2.next;
-                    if (this.last == linkedBlockingQueue$Node2) {
-                        this.last = linkedBlockingQueue$Node;
+                    node2.item = null;
+                    node.next = node2.next;
+                    if (this.last == node2) {
+                        this.last = node;
                     }
                     LinkedBlockingQueue linkedBlockingQueue = this;
                     synchronized (linkedBlockingQueue) {
@@ -367,7 +356,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray() {
         Object object = this.putLock;
         synchronized (object) {
@@ -376,10 +364,10 @@ Serializable {
                 int n = this.count;
                 Object[] objectArray = new Object[n];
                 int n2 = 0;
-                LinkedBlockingQueue$Node linkedBlockingQueue$Node = this.head.next;
-                while (linkedBlockingQueue$Node != null) {
-                    objectArray[n2++] = linkedBlockingQueue$Node.item;
-                    linkedBlockingQueue$Node = linkedBlockingQueue$Node.next;
+                Node node = this.head.next;
+                while (node != null) {
+                    objectArray[n2++] = node.item;
+                    node = node.next;
                 }
                 return objectArray;
             }
@@ -389,7 +377,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray(Object[] objectArray) {
         Object object = this.putLock;
         synchronized (object) {
@@ -397,13 +384,13 @@ Serializable {
             synchronized (object2) {
                 int n = this.count;
                 if (objectArray.length < n) {
-                    objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), n);
+                    objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), n);
                 }
                 int n2 = 0;
-                LinkedBlockingQueue$Node linkedBlockingQueue$Node = this.head.next;
-                while (linkedBlockingQueue$Node != null) {
-                    objectArray[n2++] = linkedBlockingQueue$Node.item;
-                    linkedBlockingQueue$Node = linkedBlockingQueue$Node.next;
+                Node node = this.head.next;
+                while (node != null) {
+                    objectArray[n2++] = node.item;
+                    node = node.next;
                 }
                 if (objectArray.length > n2) {
                     objectArray[n2] = null;
@@ -416,7 +403,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String toString() {
         Object object = this.putLock;
         synchronized (object) {
@@ -430,7 +416,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         Object object = this.putLock;
         synchronized (object) {
@@ -457,9 +442,8 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection) {
-        LinkedBlockingQueue$Node linkedBlockingQueue$Node;
+        Node node;
         Object object;
         if (collection == null) {
             throw new NullPointerException();
@@ -472,7 +456,7 @@ Serializable {
             object = this.takeLock;
             synchronized (object) {
                 int n;
-                linkedBlockingQueue$Node = this.head.next;
+                node = this.head.next;
                 this.head.next = null;
                 if (!$assertionsDisabled && this.head.item != null) {
                     throw new AssertionError();
@@ -489,12 +473,12 @@ Serializable {
             }
         }
         int n = 0;
-        object = linkedBlockingQueue$Node;
+        object = node;
         while (object != null) {
-            collection.add(((LinkedBlockingQueue$Node)object).item);
-            ((LinkedBlockingQueue$Node)object).item = null;
+            collection.add(((Node)object).item);
+            ((Node)object).item = null;
             ++n;
-            object = ((LinkedBlockingQueue$Node)object).next;
+            object = ((Node)object).next;
         }
         return n;
     }
@@ -502,7 +486,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection, int n) {
         if (collection == null) {
             throw new NullPointerException();
@@ -515,19 +498,19 @@ Serializable {
             Object object2 = this.takeLock;
             synchronized (object2) {
                 int n2;
-                LinkedBlockingQueue$Node linkedBlockingQueue$Node = this.head.next;
-                for (n2 = 0; linkedBlockingQueue$Node != null && n2 < n; ++n2) {
-                    collection.add(linkedBlockingQueue$Node.item);
-                    linkedBlockingQueue$Node.item = null;
-                    linkedBlockingQueue$Node = linkedBlockingQueue$Node.next;
+                Node node = this.head.next;
+                for (n2 = 0; node != null && n2 < n; ++n2) {
+                    collection.add(node.item);
+                    node.item = null;
+                    node = node.next;
                 }
                 if (n2 != 0) {
                     int n3;
-                    this.head.next = linkedBlockingQueue$Node;
+                    this.head.next = node;
                     if (!$assertionsDisabled && this.head.item != null) {
                         throw new AssertionError();
                     }
-                    if (linkedBlockingQueue$Node == null) {
+                    if (node == null) {
                         this.last = this.head;
                     }
                     LinkedBlockingQueue linkedBlockingQueue = this;
@@ -544,24 +527,23 @@ Serializable {
         }
     }
 
-    @Override
     public Iterator iterator() {
-        return new LinkedBlockingQueue$Itr(this);
+        return new Itr();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         Object object = this.putLock;
         synchronized (object) {
             Object object2 = this.takeLock;
             synchronized (object2) {
                 objectOutputStream.defaultWriteObject();
-                LinkedBlockingQueue$Node linkedBlockingQueue$Node = this.head.next;
-                while (linkedBlockingQueue$Node != null) {
-                    objectOutputStream.writeObject(linkedBlockingQueue$Node.item);
-                    linkedBlockingQueue$Node = linkedBlockingQueue$Node.next;
+                Node node = this.head.next;
+                while (node != null) {
+                    objectOutputStream.writeObject(node.item);
+                    node = node.next;
                 }
                 objectOutputStream.writeObject(null);
             }
@@ -571,13 +553,13 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         Object object = this;
         synchronized (object) {
             this.count = 0;
         }
-        this.last = this.head = new LinkedBlockingQueue$Node(null);
+        this.last = this.head = new Node(null);
         while ((object = objectInputStream.readObject()) != null) {
             this.add(object);
         }
@@ -592,37 +574,112 @@ Serializable {
         }
     }
 
-    static /* synthetic */ Object access$100(LinkedBlockingQueue linkedBlockingQueue) {
-        return linkedBlockingQueue.putLock;
-    }
-
-    static /* synthetic */ Object access$200(LinkedBlockingQueue linkedBlockingQueue) {
-        return linkedBlockingQueue.takeLock;
-    }
-
-    static /* synthetic */ LinkedBlockingQueue$Node access$300(LinkedBlockingQueue linkedBlockingQueue) {
-        return linkedBlockingQueue.head;
-    }
-
-    static /* synthetic */ LinkedBlockingQueue$Node access$400(LinkedBlockingQueue linkedBlockingQueue) {
-        return linkedBlockingQueue.last;
-    }
-
-    static /* synthetic */ LinkedBlockingQueue$Node access$402(LinkedBlockingQueue linkedBlockingQueue, LinkedBlockingQueue$Node node) {
-        linkedBlockingQueue.last = node;
-        return linkedBlockingQueue.last;
-    }
-
-    static /* synthetic */ int access$510(LinkedBlockingQueue linkedBlockingQueue) {
-        return linkedBlockingQueue.count--;
-    }
-
-    static /* synthetic */ int access$600(LinkedBlockingQueue linkedBlockingQueue) {
-        return linkedBlockingQueue.capacity;
-    }
-
     static {
         $assertionsDisabled = !(class$edu$emory$mathcs$backport$java$util$concurrent$LinkedBlockingQueue == null ? (class$edu$emory$mathcs$backport$java$util$concurrent$LinkedBlockingQueue = LinkedBlockingQueue.class$("edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingQueue")) : class$edu$emory$mathcs$backport$java$util$concurrent$LinkedBlockingQueue).desiredAssertionStatus();
+    }
+
+    private class Itr
+    implements Iterator {
+        private Node current;
+        private Node lastRet;
+        private Object currentElement;
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        Itr() {
+            Object object = LinkedBlockingQueue.this.putLock;
+            synchronized (object) {
+                Object object2 = LinkedBlockingQueue.this.takeLock;
+                synchronized (object2) {
+                    this.current = ((LinkedBlockingQueue)LinkedBlockingQueue.this).head.next;
+                    if (this.current != null) {
+                        this.currentElement = this.current.item;
+                    }
+                }
+            }
+        }
+
+        public boolean hasNext() {
+            return this.current != null;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public Object next() {
+            Object object = LinkedBlockingQueue.this.putLock;
+            synchronized (object) {
+                Object object2 = LinkedBlockingQueue.this.takeLock;
+                synchronized (object2) {
+                    if (this.current == null) {
+                        throw new NoSuchElementException();
+                    }
+                    Object object3 = this.currentElement;
+                    this.lastRet = this.current;
+                    this.current = this.current.next;
+                    if (this.current != null) {
+                        this.currentElement = this.current.item;
+                    }
+                    return object3;
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void remove() {
+            if (this.lastRet == null) {
+                throw new IllegalStateException();
+            }
+            Object object = LinkedBlockingQueue.this.putLock;
+            synchronized (object) {
+                Object object2 = LinkedBlockingQueue.this.takeLock;
+                synchronized (object2) {
+                    Node node = this.lastRet;
+                    this.lastRet = null;
+                    Node node2 = LinkedBlockingQueue.this.head;
+                    Node node3 = ((LinkedBlockingQueue)LinkedBlockingQueue.this).head.next;
+                    while (node3 != null && node3 != node) {
+                        node2 = node3;
+                        node3 = node3.next;
+                    }
+                    if (node3 == node) {
+                        int n;
+                        node3.item = null;
+                        node2.next = node3.next;
+                        if (LinkedBlockingQueue.this.last == node3) {
+                            LinkedBlockingQueue.this.last = node2;
+                        }
+                        Itr itr = this;
+                        synchronized (itr) {
+                            n = LinkedBlockingQueue.this.count--;
+                        }
+                        if (n == LinkedBlockingQueue.this.capacity) {
+                            LinkedBlockingQueue.this.putLock.notifyAll();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    static class Node {
+        volatile Object item;
+        Node next;
+
+        Node(Object object) {
+            this.item = object;
+        }
+    }
+
+    private static class SerializableLock
+    implements Serializable {
+        private static final long serialVersionUID = -8856990691138858668L;
+
+        private SerializableLock() {
+        }
     }
 }
 

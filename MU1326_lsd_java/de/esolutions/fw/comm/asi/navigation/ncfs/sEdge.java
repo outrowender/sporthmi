@@ -67,7 +67,7 @@ public class sEdge {
     }
 
     public String toString() {
-        return new StringBuffer("sEdge{").append("id=").append(this.id).append(", location=").append(this.location).append(", boundaries=").append(this.boundaries).append(", tileIds=").append("[").append(this.tileIds == null ? "null" : new StringBuffer().append("size=").append(this.tileIds.length).toString()).append("]").append(", roadClass=").append(this.roadClass).append("}").toString();
+        return "sEdge{" + "id=" + this.id + ", location=" + this.location + ", boundaries=" + this.boundaries + ", tileIds=" + "[" + (this.tileIds == null ? "null" : "size=" + this.tileIds.length) + "]" + ", roadClass=" + this.roadClass + "}";
     }
 }
 

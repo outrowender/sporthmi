@@ -14,30 +14,25 @@ import de.vw.mib.bap.stream.BitStream;
 public final class NavBook_ChangedArray
 implements BAPChangedArray {
     private ArrayHeader arrayHeader = new ArrayHeader();
-    private BAPArrayData data = new BAPArrayData(-16842752);
-    private static final int MAX_DATA_ELEMENTS;
+    private BAPArrayData data = new BAPArrayData(65534);
+    private static final int MAX_DATA_ELEMENTS = 65534;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new NavBook_Data(this.getArrayHeader());
     }
@@ -55,14 +50,12 @@ implements BAPChangedArray {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         NavBook_ChangedArray navBook_ChangedArray = (NavBook_ChangedArray)bAPEntity;
         return this.arrayHeader.equalTo(navBook_ChangedArray.arrayHeader) && this.data.equalTo(navBook_ChangedArray.data);
@@ -71,7 +64,6 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("NavBook_ChangedArray:");
@@ -82,20 +74,17 @@ implements BAPChangedArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.arrayHeader.bitSize();
         return n += this.data.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.arrayHeader.serialize(bitStream);
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.arrayHeader.deserialize(bitStream);
         this.data.reset();
@@ -112,7 +101,6 @@ implements BAPChangedArray {
         return 32;
     }
 
-    @Override
     public int getFunctionId() {
         return NavBook_ChangedArray.functionId();
     }

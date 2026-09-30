@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.kombisync.impl;
 import de.esolutions.fw.comm.dsi.kombisync.impl.MenuContextSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync.MMIDisplayStatus;
 import org.dsi.ifc.kombisync.MenuContext;
 
 public class MMIDisplayStatusSerializer {
-    public static void putOptionalMMIDisplayStatus(ISerializer iSerializer, MMIDisplayStatus mMIDisplayStatus) {
+    public static void putOptionalMMIDisplayStatus(ISerializer iSerializer, MMIDisplayStatus mMIDisplayStatus) throws SerializerException {
         boolean bl = mMIDisplayStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class MMIDisplayStatusSerializer {
         }
     }
 
-    public static void putOptionalMMIDisplayStatusVarArray(ISerializer iSerializer, MMIDisplayStatus[] mMIDisplayStatusArray) {
+    public static void putOptionalMMIDisplayStatusVarArray(ISerializer iSerializer, MMIDisplayStatus[] mMIDisplayStatusArray) throws SerializerException {
         boolean bl = mMIDisplayStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class MMIDisplayStatusSerializer {
         }
     }
 
-    public static MMIDisplayStatus getOptionalMMIDisplayStatus(IDeserializer iDeserializer) {
+    public static MMIDisplayStatus getOptionalMMIDisplayStatus(IDeserializer iDeserializer) throws SerializerException {
         MMIDisplayStatus mMIDisplayStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -85,7 +86,7 @@ public class MMIDisplayStatusSerializer {
         return mMIDisplayStatus;
     }
 
-    public static MMIDisplayStatus[] getOptionalMMIDisplayStatusVarArray(IDeserializer iDeserializer) {
+    public static MMIDisplayStatus[] getOptionalMMIDisplayStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         MMIDisplayStatus[] mMIDisplayStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

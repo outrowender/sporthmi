@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.filebrowser.impl.BrowsedFileSerializer;
 import de.esolutions.fw.comm.dsi.filebrowser.impl.PathSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.filebrowser.BrowsedFile;
 import org.dsi.ifc.filebrowser.BrowsedFileSet;
 import org.dsi.ifc.filebrowser.Path;
 
 public class BrowsedFileSetSerializer {
-    public static void putOptionalBrowsedFileSet(ISerializer iSerializer, BrowsedFileSet browsedFileSet) {
+    public static void putOptionalBrowsedFileSet(ISerializer iSerializer, BrowsedFileSet browsedFileSet) throws SerializerException {
         boolean bl = browsedFileSet == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BrowsedFileSetSerializer {
         }
     }
 
-    public static void putOptionalBrowsedFileSetVarArray(ISerializer iSerializer, BrowsedFileSet[] browsedFileSetArray) {
+    public static void putOptionalBrowsedFileSetVarArray(ISerializer iSerializer, BrowsedFileSet[] browsedFileSetArray) throws SerializerException {
         boolean bl = browsedFileSetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BrowsedFileSetSerializer {
         }
     }
 
-    public static BrowsedFileSet getOptionalBrowsedFileSet(IDeserializer iDeserializer) {
+    public static BrowsedFileSet getOptionalBrowsedFileSet(IDeserializer iDeserializer) throws SerializerException {
         BrowsedFileSet browsedFileSet = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class BrowsedFileSetSerializer {
         return browsedFileSet;
     }
 
-    public static BrowsedFileSet[] getOptionalBrowsedFileSetVarArray(IDeserializer iDeserializer) {
+    public static BrowsedFileSet[] getOptionalBrowsedFileSetVarArray(IDeserializer iDeserializer) throws SerializerException {
         BrowsedFileSet[] browsedFileSetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

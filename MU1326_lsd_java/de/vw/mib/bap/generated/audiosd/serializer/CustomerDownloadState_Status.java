@@ -10,13 +10,13 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CustomerDownloadState_Status
 implements StatusProperty {
     public int customerDownloadState;
-    private static final int CUSTOMER_DOWNLOAD_STATE_BITSIZE;
-    public static final int CUSTOMER_DOWNLOAD_STATE_NO_CUSTOMER_DOWNLOAD_ACTIVE;
-    public static final int CUSTOMER_DOWNLOAD_STATE_CUSTOMER_DOWNLOAD_ACTIVE_ONGOING;
-    public static final int CUSTOMER_DOWNLOAD_STATE_CUSTOMER_DOWNLOAD_FAILED;
-    public static final int CUSTOMER_DOWNLOAD_STATE_CUSTOMER_DOWNLOAD_PAUSED;
+    private static final int CUSTOMER_DOWNLOAD_STATE_BITSIZE = 8;
+    public static final int CUSTOMER_DOWNLOAD_STATE_NO_CUSTOMER_DOWNLOAD_ACTIVE = 0;
+    public static final int CUSTOMER_DOWNLOAD_STATE_CUSTOMER_DOWNLOAD_ACTIVE_ONGOING = 1;
+    public static final int CUSTOMER_DOWNLOAD_STATE_CUSTOMER_DOWNLOAD_FAILED = 2;
+    public static final int CUSTOMER_DOWNLOAD_STATE_CUSTOMER_DOWNLOAD_PAUSED = 3;
     public int progressCustomerDownload;
-    private static final int PROGRESS_CUSTOMER_DOWNLOAD_BITSIZE;
+    private static final int PROGRESS_CUSTOMER_DOWNLOAD_BITSIZE = 8;
 
     public CustomerDownloadState_Status() {
         this.internalReset();
@@ -33,12 +33,10 @@ implements StatusProperty {
         this.progressCustomerDownload = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CustomerDownloadState_Status customerDownloadState_Status = (CustomerDownloadState_Status)bAPEntity;
         return this.customerDownloadState == customerDownloadState_Status.customerDownloadState && this.progressCustomerDownload == customerDownloadState_Status.progressCustomerDownload;
@@ -47,7 +45,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CustomerDownloadState_Status:");
@@ -78,20 +75,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.customerDownloadState);
         bitStream.pushByte((byte)this.progressCustomerDownload);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.customerDownloadState = bitStream.popFrontByte();
         this.progressCustomerDownload = bitStream.popFrontByte();
@@ -101,7 +95,6 @@ implements StatusProperty {
         return 48;
     }
 
-    @Override
     public int getFunctionId() {
         return CustomerDownloadState_Status.functionId();
     }

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.kombifastlist;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingAudioReply;
 import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingAudioReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIFastListScrollingAudioReply {
         super(n, (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudioListener == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudioListener = DSIFastListScrollingAudioDispatcher.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingAudioListener")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudioListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicationMediaBrowser(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
+    public void indicationMediaBrowser(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIFastListScrollingAudioReply {
         }
     }
 
-    @Override
-    public void indicationNotifyCommonListPUSH(boolean bl, boolean bl2) {
+    public void indicationNotifyCommonListPUSH(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIFastListScrollingAudioReply {
         }
     }
 
-    @Override
-    public void indicationNotifyReceptionListPUSH(boolean bl, boolean bl2) {
+    public void indicationNotifyReceptionListPUSH(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIFastListScrollingAudioReply {
         }
     }
 
-    @Override
-    public void indicationNotifyCurrentListSizeAudio(boolean bl, boolean bl2) {
+    public void indicationNotifyCurrentListSizeAudio(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -95,8 +91,7 @@ implements DSIFastListScrollingAudioReply {
         }
     }
 
-    @Override
-    public void indicationMediaBrowserJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
+    public void indicationMediaBrowserJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -112,8 +107,7 @@ implements DSIFastListScrollingAudioReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -129,14 +123,13 @@ implements DSIFastListScrollingAudioReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIFastListScrollingAudioListener dSIFastListScrollingAudioListener = (DSIFastListScrollingAudioListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFastListScrollingAudioDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFastListScrollingAudioDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIFastListScrollingAudioListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFastListScrollingAudioDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFastListScrollingAudioDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIFastListScrollingAudioListener, new Object[]{string, string2});
                     continue;
                 }

@@ -3,38 +3,36 @@
  */
 package org.apache.xerces.util;
 
-import org.apache.xerces.util.SymbolHash$Entry;
-
 public class SymbolHash {
     protected int fTableSize = 101;
-    protected SymbolHash$Entry[] fBuckets;
+    protected Entry[] fBuckets;
     protected int fNum = 0;
 
     public SymbolHash() {
-        this.fBuckets = new SymbolHash$Entry[this.fTableSize];
+        this.fBuckets = new Entry[this.fTableSize];
     }
 
     public SymbolHash(int n) {
         this.fTableSize = n;
-        this.fBuckets = new SymbolHash$Entry[this.fTableSize];
+        this.fBuckets = new Entry[this.fTableSize];
     }
 
     public void put(Object object, Object object2) {
-        int n = (object.hashCode() & 0xFFFFFF7F) % this.fTableSize;
-        SymbolHash$Entry symbolHash$Entry = this.search(object, n);
-        if (symbolHash$Entry != null) {
-            symbolHash$Entry.value = object2;
+        int n = (object.hashCode() & Integer.MAX_VALUE) % this.fTableSize;
+        Entry entry = this.search(object, n);
+        if (entry != null) {
+            entry.value = object2;
         } else {
-            this.fBuckets[n] = symbolHash$Entry = new SymbolHash$Entry(object, object2, this.fBuckets[n]);
+            this.fBuckets[n] = entry = new Entry(object, object2, this.fBuckets[n]);
             ++this.fNum;
         }
     }
 
     public Object get(Object object) {
-        int n = (object.hashCode() & 0xFFFFFF7F) % this.fTableSize;
-        SymbolHash$Entry symbolHash$Entry = this.search(object, n);
-        if (symbolHash$Entry != null) {
-            return symbolHash$Entry.value;
+        int n = (object.hashCode() & Integer.MAX_VALUE) % this.fTableSize;
+        Entry entry = this.search(object, n);
+        if (entry != null) {
+            return entry.value;
         }
         return null;
     }
@@ -46,11 +44,11 @@ public class SymbolHash {
     public int getValues(Object[] objectArray, int n) {
         int n2 = 0;
         for (int i2 = 0; i2 < this.fTableSize && n2 < this.fNum; ++i2) {
-            SymbolHash$Entry symbolHash$Entry = this.fBuckets[i2];
-            while (symbolHash$Entry != null) {
-                objectArray[n + n2] = symbolHash$Entry.value;
+            Entry entry = this.fBuckets[i2];
+            while (entry != null) {
+                objectArray[n + n2] = entry.value;
                 ++n2;
-                symbolHash$Entry = symbolHash$Entry.next;
+                entry = entry.next;
             }
         }
         return this.fNum;
@@ -73,15 +71,43 @@ public class SymbolHash {
         this.fNum = 0;
     }
 
-    protected SymbolHash$Entry search(Object object, int n) {
-        SymbolHash$Entry symbolHash$Entry = this.fBuckets[n];
-        while (symbolHash$Entry != null) {
-            if (object.equals(symbolHash$Entry.key)) {
-                return symbolHash$Entry;
+    protected Entry search(Object object, int n) {
+        Entry entry = this.fBuckets[n];
+        while (entry != null) {
+            if (object.equals(entry.key)) {
+                return entry;
             }
-            symbolHash$Entry = symbolHash$Entry.next;
+            entry = entry.next;
         }
         return null;
+    }
+
+    protected static final class Entry {
+        public Object key;
+        public Object value;
+        public Entry next;
+
+        public Entry() {
+            this.key = null;
+            this.value = null;
+            this.next = null;
+        }
+
+        public Entry(Object object, Object object2, Entry entry) {
+            this.key = object;
+            this.value = object2;
+            this.next = entry;
+        }
+
+        public Entry makeClone() {
+            Entry entry = new Entry();
+            entry.key = this.key;
+            entry.value = this.value;
+            if (this.next != null) {
+                entry.next = this.next.makeClone();
+            }
+            return entry;
+        }
     }
 }
 

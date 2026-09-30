@@ -26,28 +26,23 @@ implements DSIBrowser {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$browser$DSIBrowser == null ? (class$org$dsi$ifc$browser$DSIBrowser = DSIBrowserProvider.class$("org.dsi.ifc.browser.DSIBrowser")) : class$org$dsi$ifc$browser$DSIBrowser).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIBrowserProxy(this.instance, (DSIBrowserReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void cancelLoading() {
         try {
             this.proxy.cancelLoading();
@@ -57,7 +52,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void followLink(boolean bl) {
         try {
             this.proxy.followLink(bl);
@@ -67,7 +61,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void getPreference(int n) {
         try {
             this.proxy.getPreference(n);
@@ -77,7 +70,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void goBack() {
         try {
             this.proxy.goBack();
@@ -87,7 +79,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void goForward() {
         try {
             this.proxy.goForward();
@@ -97,7 +88,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void gotoHomeUrl() {
         try {
             this.proxy.gotoHomeUrl();
@@ -107,7 +97,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void loadUrl(String string) {
         try {
             this.proxy.loadUrl(string);
@@ -117,7 +106,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void nextFocus(int n) {
         try {
             this.proxy.nextFocus(n);
@@ -127,7 +115,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void previousFocus(int n) {
         try {
             this.proxy.previousFocus(n);
@@ -137,7 +124,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void scroll(int n, int n2) {
         try {
             this.proxy.scroll(n, n2);
@@ -147,7 +133,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void reloadUrl() {
         try {
             this.proxy.reloadUrl();
@@ -157,7 +142,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void setPreference(int n, int n2, String string) {
         try {
             this.proxy.setPreference(n, n2, string);
@@ -167,7 +151,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void stopBrowser() {
         try {
             this.proxy.stopBrowser();
@@ -177,7 +160,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void zoom(int n, boolean bl) {
         try {
             this.proxy.zoom(n, bl);
@@ -187,7 +169,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void suspendBrowser() {
         try {
             this.proxy.suspendBrowser();
@@ -197,7 +178,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void resumeBrowser() {
         try {
             this.proxy.resumeBrowser();
@@ -207,7 +187,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -217,7 +196,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void deleteCookies() {
         try {
             this.proxy.deleteCookies();
@@ -227,7 +205,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void deleteHistory() {
         try {
             this.proxy.deleteHistory();
@@ -237,7 +214,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void deletePasswords() {
         try {
             this.proxy.deletePasswords();
@@ -247,7 +223,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void deleteCache() {
         try {
             this.proxy.deleteCache();
@@ -257,7 +232,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void downloadFile(String string, String string2) {
         try {
             this.proxy.downloadFile(string, string2);
@@ -267,7 +241,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void enterImageSelectionMode() {
         try {
             this.proxy.enterImageSelectionMode();
@@ -277,7 +250,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void clickOnPosition(int n, int n2, boolean bl) {
         try {
             this.proxy.clickOnPosition(n, n2, bl);
@@ -287,7 +259,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void javaScriptAlertAck() {
         try {
             this.proxy.javaScriptAlertAck();
@@ -297,7 +268,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void javaScriptConfirmAck(boolean bl) {
         try {
             this.proxy.javaScriptConfirmAck(bl);
@@ -307,7 +277,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void javaScriptPromptAck(String string, boolean bl) {
         try {
             this.proxy.javaScriptPromptAck(string, bl);
@@ -317,7 +286,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void bringToFront() {
         try {
             this.proxy.bringToFront();
@@ -327,7 +295,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void keyboardInput(String string) {
         try {
             this.proxy.keyboardInput(string);
@@ -337,7 +304,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void setSelection(int n, boolean bl) {
         try {
             this.proxy.setSelection(n, bl);
@@ -347,7 +313,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void resetToFactoryDefaults() {
         try {
             this.proxy.resetToFactoryDefaults();
@@ -357,7 +322,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void exportBrowserData(String string) {
         try {
             this.proxy.exportBrowserData(string);
@@ -367,7 +331,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void importBrowserData(String string) {
         try {
             this.proxy.importBrowserData(string);
@@ -377,7 +340,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void getHistory(TimePeriod timePeriod) {
         try {
             this.proxy.getHistory(timePeriod);
@@ -387,7 +349,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void executeJavaScript(String string) {
         try {
             this.proxy.executeJavaScript(string);
@@ -397,7 +358,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void touchScroll(int n, int n2) {
         try {
             this.proxy.touchScroll(n, n2);
@@ -407,7 +367,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -417,7 +376,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -427,7 +385,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -437,7 +394,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -447,7 +403,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -457,7 +412,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -467,7 +421,6 @@ implements DSIBrowser {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

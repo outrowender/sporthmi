@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.LocalHazardInformation;
 
 public class LocalHazardInformationSerializer {
-    public static void putOptionalLocalHazardInformation(ISerializer iSerializer, LocalHazardInformation localHazardInformation) {
+    public static void putOptionalLocalHazardInformation(ISerializer iSerializer, LocalHazardInformation localHazardInformation) throws SerializerException {
         boolean bl = localHazardInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class LocalHazardInformationSerializer {
         }
     }
 
-    public static void putOptionalLocalHazardInformationVarArray(ISerializer iSerializer, LocalHazardInformation[] localHazardInformationArray) {
+    public static void putOptionalLocalHazardInformationVarArray(ISerializer iSerializer, LocalHazardInformation[] localHazardInformationArray) throws SerializerException {
         boolean bl = localHazardInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class LocalHazardInformationSerializer {
         }
     }
 
-    public static LocalHazardInformation getOptionalLocalHazardInformation(IDeserializer iDeserializer) {
+    public static LocalHazardInformation getOptionalLocalHazardInformation(IDeserializer iDeserializer) throws SerializerException {
         LocalHazardInformation localHazardInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class LocalHazardInformationSerializer {
         return localHazardInformation;
     }
 
-    public static LocalHazardInformation[] getOptionalLocalHazardInformationVarArray(IDeserializer iDeserializer) {
+    public static LocalHazardInformation[] getOptionalLocalHazardInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         LocalHazardInformation[] localHazardInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

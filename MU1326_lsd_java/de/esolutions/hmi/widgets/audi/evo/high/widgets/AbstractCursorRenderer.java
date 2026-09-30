@@ -20,7 +20,6 @@ implements CursorRenderer {
         this.controller = cursorController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         if (this.controller != null) {
@@ -32,7 +31,6 @@ implements CursorRenderer {
         }
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

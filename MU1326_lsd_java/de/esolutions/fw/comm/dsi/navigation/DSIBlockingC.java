@@ -3,53 +3,39 @@
  */
 package de.esolutions.fw.comm.dsi.navigation;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavLocationWgs84;
 
 public interface DSIBlockingC {
-    default public void blockArea(NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
-    }
+    public void blockArea(NavLocationWgs84 var1, NavLocationWgs84 var2) throws MethodException;
 
-    default public void blockRouteSegments(long l, long l2) {
-    }
+    public void blockRouteSegments(long var1, long var3) throws MethodException;
 
-    default public void blockRoadSegments(NavLocation navLocation) {
-    }
+    public void blockRoadSegments(NavLocation var1) throws MethodException;
 
-    default public void blockRouteBasedOnLength(int n, int n2) {
-    }
+    public void blockRouteBasedOnLength(int var1, int var2) throws MethodException;
 
-    default public void persistBlock(long[] lArray) {
-    }
+    public void persistBlock(long[] var1) throws MethodException;
 
-    default public void deleteBlock(long[] lArray) {
-    }
+    public void deleteBlock(long[] var1) throws MethodException;
 
-    default public void setBlockDescription(long[] lArray, String string) {
-    }
+    public void setBlockDescription(long[] var1, String var2) throws MethodException;
 
-    default public void getBoundingRectangleOfBlocks(long[] lArray) {
-    }
+    public void getBoundingRectangleOfBlocks(long[] var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

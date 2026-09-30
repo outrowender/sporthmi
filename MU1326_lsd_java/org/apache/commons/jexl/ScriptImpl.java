@@ -17,12 +17,10 @@ implements Script {
         this.parsedScript = aSTJexlScript;
     }
 
-    @Override
-    public Object execute(JexlContext jexlContext) {
+    public Object execute(JexlContext jexlContext) throws Exception {
         return this.parsedScript.value(jexlContext);
     }
 
-    @Override
     public String getText() {
         return this.text;
     }

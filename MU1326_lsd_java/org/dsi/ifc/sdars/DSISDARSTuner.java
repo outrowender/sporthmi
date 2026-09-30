@@ -7,138 +7,127 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSISDARSTuner
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_ELECTRONICSERIALCODE;
-    public static final int ATTR_SERVICESTATUS3;
-    public static final int ATTR_SIGNALQUALITY;
-    public static final int ATTR_SELECTEDSTATION;
-    public static final int ATTR_STATIONLIST;
-    public static final int ATTR_CATEGORYLIST;
-    public static final int ATTR_DETECTEDDEVICE;
-    public static final int ATTR_STATICTAGGINGINFO;
-    public static final int ATTR_AVAILABILITY;
-    public static final int ATTR_STATIONDESCRIPTION;
-    public static final int ATTR_SUBSCRIPTIONSTATUS;
-    public static final int ATTR_PROFILESTATE;
-    public static final int UNDEFINEDVALUES_SID;
-    public static final int UNDEFINEDVALUES_STATION_NUMBER;
-    public static final int UNDEFINEDVALUES_CATEGORY_NUMBER;
-    public static final int UNDEFINEDVALUES_SIGNAL;
-    public static final int STATIONSELECTIONMODE_SID;
-    public static final int SELECTSTATIONSTATUS_UNDEFINED;
-    public static final int SELECTSTATIONSTATUS_RUNNING;
-    public static final int SELECTSTATIONSTATUS_ABORTED;
-    public static final int SELECTSTATIONSTATUS_DONE;
-    public static final int SELECTSTATIONSTATUS_INVALID;
-    public static final int SELECTSTATIONSTATUS_NOT_SUBSCRIBED;
-    public static final int SELECTSTATIONSTATUS_GCI_UPDATE_RUNNING;
-    public static final int SUBSCRIPTION_UNDEFINED;
-    public static final int SUBSCRIPTION_UNSUBSCRIBED;
-    public static final int SUBSCRIPTION_SUBSCRIBED;
-    public static final int SUBSCRIPTION_SUSPENDALERT;
-    public static final int SUBSCRIPTION_SUSPENDED;
-    public static final int EPGFLAG_UNDEFINED;
-    public static final int EPGFLAG_FEATURED;
-    public static final int EPGFLAG_HIGHLIGHTED;
-    public static final int EPGFLAG_LIVE;
-    public static final int EPGFLAG_NEW;
-    public static final int AUDIOSTATUS_UNDEFINED;
-    public static final int AUDIOSTATUS_MUTE_ON;
-    public static final int AUDIOSTATUS_MUTE_OFF;
-    public static final int LISTUPDATESTATUS_UNDEFINED;
-    public static final int LISTUPDATESTATUS_RUNNING;
-    public static final int LISTUPDATESTATUS_LIST_STABLE;
-    public static final int UPDATESTATUS_UNDEFINED;
-    public static final int UPDATESTATUS_RUNNING;
-    public static final int UPDATESTATUS_STABLE;
-    public static final int SIGNALQUALITY_UNDEFINED;
-    public static final int SIGNALQUALITY_NO_SIGNAL;
-    public static final int SIGNALQUALITY_WEAK;
-    public static final int SIGNALQUALITY_GOOD;
-    public static final int SIGNALQUALITY_EXCELLENT;
-    public static final int SIGNALSTATUS_UNDEFINED;
-    public static final int SIGNALSTATUS_NOT_PRESENT;
-    public static final int SIGNALSTATUS_PRESENT;
-    public static final int ANTENNASTATUS_UNDEFINED;
-    public static final int ANTENNASTATUS_NOT_CONNECTED;
-    public static final int ANTENNASTATUS_CONNECTED;
-    public static final int DEVICETYPE_UNDEFINED;
-    public static final int DEVICETYPE_NONE;
-    public static final int DEVICETYPE_UNKNOWN;
-    public static final int DEVICETYPE_RU;
-    public static final int DEVICETYPE_UNAVAILABLE;
-    public static final int RESETTYPE_UNDEFINED;
-    public static final int RESETTYPE_TO_DEFAULT;
-    public static final int AVAILABILITY_NOTAVAILABLE;
-    public static final int AVAILABILITY_AVAILABLE;
-    public static final int RESETTYPE_ANONYMIZE;
-    public static final int INFORMATION_UNKNOWN;
-    public static final int INFORMATION_EPGCHANNELLIST;
-    public static final int INFORMATION_RADIOTEXT2;
-    public static final int INFORMATION_CHANNELART;
-    public static final int INFORMATION_BACKGROUNDART;
-    public static final int INFORMATION_ALBUMART;
-    public static final int INFORMATION_GENREART;
-    public static final int INFORMATION_STUDIOART;
-    public static final int RT_SELECTSTATION;
-    public static final int RT_RESET;
-    public static final int RT_GETTIME;
-    public static final int RT_SETRADIOTEXT2CONFIG;
-    public static final int RT_GETEPG24HOUR;
-    public static final int RT_GETEPGDESCRIPTION;
-    public static final int RT_NOTIFYHMIREADY;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
-    public static final int RP_SELECTSTATIONSTATUS;
-    public static final int RP_RESPONSETIME;
-    public static final int RP_RESPONSEEPG24HOUR;
-    public static final int RP_RESPONSEEPGDESCRIPTION;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
-    public static final int IN_INFORMATIONEPGCHANNELLIST;
-    public static final int IN_INFORMATIONRADIOTEXT;
-    public static final int IN_INFORMATIONCHANNELART;
-    public static final int IN_INFORMATIONBACKGROUNDART;
-    public static final int IN_INFORMATIONALBUMART;
-    public static final int IN_INFORMATIONGENREART;
-    public static final int IN_INFORMATIONSTUDIOART;
-    public static final int IN_INFORMATIONRADIOTEXT2;
+    public static final String VERSION = "2.11.20";
+    public static final int ATTR_ELECTRONICSERIALCODE = 2;
+    public static final int ATTR_SERVICESTATUS3 = 6;
+    public static final int ATTR_SIGNALQUALITY = 7;
+    public static final int ATTR_SELECTEDSTATION = 8;
+    public static final int ATTR_STATIONLIST = 9;
+    public static final int ATTR_CATEGORYLIST = 10;
+    public static final int ATTR_DETECTEDDEVICE = 12;
+    public static final int ATTR_STATICTAGGINGINFO = 13;
+    public static final int ATTR_AVAILABILITY = 26;
+    public static final int ATTR_STATIONDESCRIPTION = 27;
+    public static final int ATTR_SUBSCRIPTIONSTATUS = 28;
+    public static final int ATTR_PROFILESTATE = 30;
+    public static final int UNDEFINEDVALUES_SID = 255;
+    public static final int UNDEFINEDVALUES_STATION_NUMBER = 255;
+    public static final int UNDEFINEDVALUES_CATEGORY_NUMBER = 255;
+    public static final int UNDEFINEDVALUES_SIGNAL = 0;
+    public static final int STATIONSELECTIONMODE_SID = 4;
+    public static final int SELECTSTATIONSTATUS_UNDEFINED = 0;
+    public static final int SELECTSTATIONSTATUS_RUNNING = 1;
+    public static final int SELECTSTATIONSTATUS_ABORTED = 2;
+    public static final int SELECTSTATIONSTATUS_DONE = 3;
+    public static final int SELECTSTATIONSTATUS_INVALID = 4;
+    public static final int SELECTSTATIONSTATUS_NOT_SUBSCRIBED = 5;
+    public static final int SELECTSTATIONSTATUS_GCI_UPDATE_RUNNING = 6;
+    public static final int SUBSCRIPTION_UNDEFINED = 0;
+    public static final int SUBSCRIPTION_UNSUBSCRIBED = 1;
+    public static final int SUBSCRIPTION_SUBSCRIBED = 2;
+    public static final int SUBSCRIPTION_SUSPENDALERT = 3;
+    public static final int SUBSCRIPTION_SUSPENDED = 4;
+    public static final int EPGFLAG_UNDEFINED = 0;
+    public static final int EPGFLAG_FEATURED = 1;
+    public static final int EPGFLAG_HIGHLIGHTED = 2;
+    public static final int EPGFLAG_LIVE = 4;
+    public static final int EPGFLAG_NEW = 8;
+    public static final int AUDIOSTATUS_UNDEFINED = 0;
+    public static final int AUDIOSTATUS_MUTE_ON = 1;
+    public static final int AUDIOSTATUS_MUTE_OFF = 2;
+    public static final int LISTUPDATESTATUS_UNDEFINED = 0;
+    public static final int LISTUPDATESTATUS_RUNNING = 1;
+    public static final int LISTUPDATESTATUS_LIST_STABLE = 2;
+    public static final int UPDATESTATUS_UNDEFINED = 0;
+    public static final int UPDATESTATUS_RUNNING = 1;
+    public static final int UPDATESTATUS_STABLE = 2;
+    public static final int SIGNALQUALITY_UNDEFINED = 0;
+    public static final int SIGNALQUALITY_NO_SIGNAL = 1;
+    public static final int SIGNALQUALITY_WEAK = 2;
+    public static final int SIGNALQUALITY_GOOD = 3;
+    public static final int SIGNALQUALITY_EXCELLENT = 4;
+    public static final int SIGNALSTATUS_UNDEFINED = 0;
+    public static final int SIGNALSTATUS_NOT_PRESENT = 1;
+    public static final int SIGNALSTATUS_PRESENT = 2;
+    public static final int ANTENNASTATUS_UNDEFINED = 0;
+    public static final int ANTENNASTATUS_NOT_CONNECTED = 1;
+    public static final int ANTENNASTATUS_CONNECTED = 2;
+    public static final int DEVICETYPE_UNDEFINED = 0;
+    public static final int DEVICETYPE_NONE = 1;
+    public static final int DEVICETYPE_UNKNOWN = 2;
+    public static final int DEVICETYPE_RU = 3;
+    public static final int DEVICETYPE_UNAVAILABLE = 4;
+    public static final int RESETTYPE_UNDEFINED = 0;
+    public static final int RESETTYPE_TO_DEFAULT = 1;
+    public static final int AVAILABILITY_NOTAVAILABLE = 1;
+    public static final int AVAILABILITY_AVAILABLE = 2;
+    public static final int RESETTYPE_ANONYMIZE = 2;
+    public static final int INFORMATION_UNKNOWN = 0;
+    public static final int INFORMATION_EPGCHANNELLIST = 1;
+    public static final int INFORMATION_RADIOTEXT2 = 2;
+    public static final int INFORMATION_CHANNELART = 4;
+    public static final int INFORMATION_BACKGROUNDART = 8;
+    public static final int INFORMATION_ALBUMART = 16;
+    public static final int INFORMATION_GENREART = 32;
+    public static final int INFORMATION_STUDIOART = 64;
+    public static final int RT_SELECTSTATION = 1000;
+    public static final int RT_RESET = 1001;
+    public static final int RT_GETTIME = 1002;
+    public static final int RT_SETRADIOTEXT2CONFIG = 1003;
+    public static final int RT_GETEPG24HOUR = 1004;
+    public static final int RT_GETEPGDESCRIPTION = 1005;
+    public static final int RT_NOTIFYHMIREADY = 1007;
+    public static final int RT_PROFILECHANGE = 1008;
+    public static final int RT_PROFILECOPY = 1009;
+    public static final int RT_PROFILERESET = 1010;
+    public static final int RT_PROFILERESETALL = 1011;
+    public static final int RP_SELECTSTATIONSTATUS = 2000;
+    public static final int RP_RESPONSETIME = 2001;
+    public static final int RP_RESPONSEEPG24HOUR = 2002;
+    public static final int RP_RESPONSEEPGDESCRIPTION = 2003;
+    public static final int RP_PROFILECHANGED = 2004;
+    public static final int RP_PROFILECOPIED = 2005;
+    public static final int RP_PROFILERESET = 2006;
+    public static final int RP_PROFILERESETALL = 2007;
+    public static final int IN_INFORMATIONEPGCHANNELLIST = 3000;
+    public static final int IN_INFORMATIONRADIOTEXT = 3001;
+    public static final int IN_INFORMATIONCHANNELART = 3002;
+    public static final int IN_INFORMATIONBACKGROUNDART = 3003;
+    public static final int IN_INFORMATIONALBUMART = 3004;
+    public static final int IN_INFORMATIONGENREART = 3005;
+    public static final int IN_INFORMATIONSTUDIOART = 3006;
+    public static final int IN_INFORMATIONRADIOTEXT2 = 3007;
 
-    default public void selectStation(int n, int n2) {
-    }
+    public void selectStation(int var1, int var2);
 
-    default public void getTime() {
-    }
+    public void getTime();
 
-    default public void getEPG24Hour(int n) {
-    }
+    public void getEPG24Hour(int var1);
 
-    default public void getEPGDescription(int n, int n2) {
-    }
+    public void getEPGDescription(int var1, int var2);
 
-    default public void notifyHMIReady(int n) {
-    }
+    public void notifyHMIReady(int var1);
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1);
 
-    default public void setRadioText2Config(int n, int n2) {
-    }
+    public void setRadioText2Config(int var1, int var2);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

@@ -40,7 +40,7 @@ public class ParsePosition {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append("[index=").append(this.currentPosition).append(", errorIndex=").append(this.errorIndex).append("]").toString();
+        return String.valueOf(this.getClass().getName()) + "[index=" + this.currentPosition + ", errorIndex=" + this.errorIndex + "]";
     }
 }
 

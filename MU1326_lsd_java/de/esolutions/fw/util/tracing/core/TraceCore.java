@@ -43,6 +43,7 @@ import de.esolutions.fw.util.tracing.timezone.TraceTimeTuple;
 import de.esolutions.fw.util.tracing.timezone.TraceTimeZone;
 import de.esolutions.fw.util.tracing.timezone.TraceTimeZonePool;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class TraceCore {
     private HashMap components = new HashMap();
     private ITracePlugin[] plugins;
     private ITraceCoreErrorHandler errorHandler;
-    private static final String chn;
+    private static final String chn = "Core";
     static /* synthetic */ Class class$de$esolutions$fw$util$tracing$remote$pull$RemoteListenBackendManagerPlugin;
     static /* synthetic */ Class class$de$esolutions$fw$util$tracing$backend$ConsoleBackend;
     static /* synthetic */ Class class$de$esolutions$fw$util$tracing$backend$CommandShellBackend;
@@ -119,13 +120,13 @@ public class TraceCore {
         int n2 = traceConfig.getMessageBufferSize();
         if (n > 0) {
             if (n < n2) {
-                TraceMe.msg(TraceMe.WARN, "Core", "%1: startup buffer size invalid: %2 (size %3) -> ignoring!", traceConfig.getId(), new Integer(n), new Integer(n2));
+                TraceMe.msg(TraceMe.WARN, chn, "%1: startup buffer size invalid: %2 (size %3) -> ignoring!", traceConfig.getId(), new Integer(n), new Integer(n2));
                 n = n2;
             }
         } else {
             n = n2;
         }
-        TraceMe.msg(TraceMe.INFO, "Core", "%1: startup message buffer size=%2", traceConfig.getId(), new Integer(n));
+        TraceMe.msg(TraceMe.INFO, chn, "%1: startup message buffer size=%2", traceConfig.getId(), new Integer(n));
         return n;
     }
 
@@ -153,7 +154,7 @@ public class TraceCore {
             boolean bl = true;
             String string = this.config.disableSpeedLimitFile();
             if (string != null && ((File)(object = new File(string))).exists()) {
-                TraceMe.msg(TraceMe.WARN, "Core", "%1: speed limit was disabled by %2", this.config.getId(), string);
+                TraceMe.msg(TraceMe.WARN, chn, "%1: speed limit was disabled by %2", this.config.getId(), string);
                 bl = false;
             }
             if (bl) {
@@ -248,10 +249,10 @@ public class TraceCore {
         this.shutdownPlugins();
         int n = this.buffer.size();
         if (n > 0) {
-            TraceMe.msg(TraceMe.WARN, "Core", "%1 messages left in buffer", new Integer(n));
+            TraceMe.msg(TraceMe.WARN, chn, "%1 messages left in buffer", new Integer(n));
         }
         if (this.numOverwrites > 0) {
-            TraceMe.msg(TraceMe.WARN, "Core", "%1 messages were overwritten!", new Integer(this.numOverwrites));
+            TraceMe.msg(TraceMe.WARN, chn, "%1 messages were overwritten!", new Integer(this.numOverwrites));
         }
     }
 
@@ -281,7 +282,7 @@ public class TraceCore {
             } else {
                 traceEntity.setCoreFilterLevel(s4);
             }
-            TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: create entity %2", new Integer(this.coreEpoch), traceEntity);
+            TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: create entity %2", new Integer(this.coreEpoch), traceEntity);
             return new TraceEntityURIWithLevel(traceEntity.getURI(), s4);
         }
     }
@@ -309,7 +310,7 @@ public class TraceCore {
                 traceEntity.setCoreFilterLevel(s3);
             }
             this.rootEntities[s] = traceEntityURIWithLevel = new TraceEntityURIWithLevel(traceEntity.getURI(), s3);
-            TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: create root entity %2", new Integer(this.coreEpoch), traceEntity);
+            TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: create root entity %2", new Integer(this.coreEpoch), traceEntity);
             return traceEntityURIWithLevel;
         }
     }
@@ -353,7 +354,7 @@ public class TraceCore {
             }
             ++this.coreEpoch;
             short s = traceEntity.getFrontendFilterLevel();
-            TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: enableEntity %2 level=%3", new Integer(this.coreEpoch), traceEntityURI, TraceLevels.levelNames[s]);
+            TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: enableEntity %2 level=%3", new Integer(this.coreEpoch), traceEntityURI, TraceLevels.levelNames[s]);
             short s2 = traceEntity.enable();
             traceEntity.setChangeEpoch(this.coreEpoch);
             if (this.worker != null) {
@@ -376,7 +377,7 @@ public class TraceCore {
                 return false;
             }
             ++this.coreEpoch;
-            TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: disableEntity %2", new Integer(this.coreEpoch), traceEntityURI);
+            TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: disableEntity %2", new Integer(this.coreEpoch), traceEntityURI);
             short s = traceEntity.disable();
             traceEntity.setChangeEpoch(s);
             if (this.worker != null) {
@@ -448,14 +449,14 @@ public class TraceCore {
             synchronized (object) {
                 boolean bl = this.speedLimiter.check(iTraceMessage, this.deferredSkipCount > 0);
                 if (!bl) {
-                    TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: log message seq=%2 level=%3: dopped by speed limiter!", new Integer(n), new Integer(iTraceMessage.getSeqNum()), TraceLevels.levelNames[iTraceMessage.getLevel()]);
+                    TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: log message seq=%2 level=%3: dopped by speed limiter!", new Integer(n), new Integer(iTraceMessage.getSeqNum()), TraceLevels.levelNames[iTraceMessage.getLevel()]);
                     ++this.deferredSkipCount;
                     this.stats.updateKey("ds", 1);
                     this.stats.updateKey("ts", 1);
                     return false;
                 }
                 if (this.deferredSkipCount > 0) {
-                    TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: speed limiter reports %2 skipped messsages", new Integer(n), new Integer(this.deferredSkipCount));
+                    TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: speed limiter reports %2 skipped messsages", new Integer(n), new Integer(this.deferredSkipCount));
                     this.buffer.skipEntries(this.deferredSkipCount);
                     this.deferredSkipCount = 0;
                 }
@@ -472,7 +473,7 @@ public class TraceCore {
         object = this.buffer.getNumEntriesAndBytes();
         this.stats.updateKey("bc", (int)object[0]);
         this.stats.updateKey("bb", (int)object[1]);
-        TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: log message %2", new Integer(n), iTraceMessage);
+        TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: log message %2", new Integer(n), iTraceMessage);
         if (this.worker != null && (this.msgFlushInterval == 0 || this.buffer.size() > this.msgThreshold || this.buffer.size() == this.buffer.capacity())) {
             this.worker.triggerMessageSignal();
         }
@@ -535,11 +536,11 @@ public class TraceCore {
             }
             short s2 = traceEntity.getFrontendFilterLevel();
             if (s2 == s) {
-                TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: changeFilterLevel %2 %3 -> %4 unchanged!", new Integer(this.coreEpoch), traceEntityURI, TraceLevels.levelNames[s2], TraceLevels.levelNames[s]);
+                TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: changeFilterLevel %2 %3 -> %4 unchanged!", new Integer(this.coreEpoch), traceEntityURI, TraceLevels.levelNames[s2], TraceLevels.levelNames[s]);
                 return true;
             }
             ++this.coreEpoch;
-            TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: changeFilterLevel %2 %3 -> %4", new Integer(this.coreEpoch), traceEntityURI, TraceLevels.levelNames[s2], TraceLevels.levelNames[s]);
+            TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: changeFilterLevel %2 %3 -> %4", new Integer(this.coreEpoch), traceEntityURI, TraceLevels.levelNames[s2], TraceLevels.levelNames[s]);
             traceEntity.setFrontendFilterLevel(s);
             traceEntity.setChangeEpoch(this.coreEpoch);
             if (this.worker != null) {
@@ -570,7 +571,7 @@ public class TraceCore {
             if (this.worker != null) {
                 this.worker.addRegisterTimeZoneCommand(this.coreEpoch, traceTimeZone);
             }
-            TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: register time zone %2 name=%3 resolution=%4", new Integer(this.coreEpoch), new Integer(n2), string, new Integer(n));
+            TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: register time zone %2 name=%3 resolution=%4", new Integer(this.coreEpoch), new Integer(n2), string, new Integer(n));
             return n2;
         }
     }
@@ -586,7 +587,7 @@ public class TraceCore {
         if (this.worker != null) {
             this.worker.addUpdateTimeZoneCommand(traceTimeZone);
         }
-        TraceMe.msg(TraceMe.DEBUG, "Core", "core:%1: update time zone %2 %3", new Integer(n2), new Integer(n), traceTimeTuple);
+        TraceMe.msg(TraceMe.DEBUG, chn, "core:%1: update time zone %2 %3", new Integer(n2), new Integer(n), traceTimeTuple);
         return false;
     }
 
@@ -622,26 +623,26 @@ public class TraceCore {
             string2 = traceEntity.getPath(true);
         }
         String string3 = string2 != null && string2.length() > 0 ? new StringBuffer().append(string2).append(".").append(string).toString() : string;
-        TraceMe.msg(TraceMe.DEBUG, "Core", "     getConfigFilterLevel(%1) -> cfgPath=%2", string, string3);
+        TraceMe.msg(TraceMe.DEBUG, chn, "     getConfigFilterLevel(%1) -> cfgPath=%2", string, string3);
         if (this.levels != null) {
             s2 = this.levels.getTraceLevel(s, string3);
-            TraceMe.msg(TraceMe.DEBUG, "Core", "      from config: %1 (path=%2)", TraceLevels.levelNames[s2], string3);
+            TraceMe.msg(TraceMe.DEBUG, chn, "      from config: %1 (path=%2)", TraceLevels.levelNames[s2], string3);
             if (s2 == 7) {
                 if (traceEntity != null) {
                     s2 = traceEntity.getConfigFilterLevel();
-                    TraceMe.msg(TraceMe.DEBUG, "Core", "      from parent: %1", TraceLevels.levelNames[s2]);
+                    TraceMe.msg(TraceMe.DEBUG, chn, "      from parent: %1", TraceLevels.levelNames[s2]);
                 } else {
                     s2 = this.levels.getDefaultTraceLevel(s);
-                    TraceMe.msg(TraceMe.DEBUG, "Core", "      from default config: %1", TraceLevels.levelNames[s2]);
+                    TraceMe.msg(TraceMe.DEBUG, chn, "      from default config: %1", TraceLevels.levelNames[s2]);
                     if (s2 == 7) {
                         s2 = 0;
-                        TraceMe.msg(TraceMe.DEBUG, "Core", "      from hard-coded default: %1", TraceLevels.levelNames[s2]);
+                        TraceMe.msg(TraceMe.DEBUG, chn, "      from hard-coded default: %1", TraceLevels.levelNames[s2]);
                     }
                 }
             }
         } else {
             s2 = 0;
-            TraceMe.msg(TraceMe.DEBUG, "Core", "      from hard-coded default: %1", TraceLevels.levelNames[s2]);
+            TraceMe.msg(TraceMe.DEBUG, chn, "      from hard-coded default: %1", TraceLevels.levelNames[s2]);
         }
         return s2;
     }
@@ -651,10 +652,10 @@ public class TraceCore {
             s = 0;
         }
         if (s2 > s) {
-            TraceMe.msg(TraceMe.DEBUG, "Core", "      create level (cfg): %1", TraceLevels.levelNames[s2]);
+            TraceMe.msg(TraceMe.DEBUG, chn, "      create level (cfg): %1", TraceLevels.levelNames[s2]);
             return s2;
         }
-        TraceMe.msg(TraceMe.DEBUG, "Core", "      create level (usr): %1", TraceLevels.levelNames[s]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "      create level (usr): %1", TraceLevels.levelNames[s]);
         return s;
     }
 
@@ -719,12 +720,12 @@ public class TraceCore {
         }
         if (n == 0) {
             if (this.config.getUseDefaultConsole()) {
-                TraceMe.msg(TraceMe.INFO, "Core", "core: Using default console backend");
+                TraceMe.msg(TraceMe.INFO, chn, "core: Using default console backend");
                 AbstractTraceBackend abstractTraceBackend = this.config.getCoreClass().compareTo("server") == 0 ? new CommandShellBackend() : new ConsoleBackend();
                 boolean bl = this.registerBackend(abstractTraceBackend, null, "default");
-                TraceMe.msg(TraceMe.INFO, "Core", "core: registering backend %1 ok=%2", abstractTraceBackend.getName(), new Boolean(bl));
+                TraceMe.msg(TraceMe.INFO, chn, "core: registering backend %1 ok=%2", abstractTraceBackend.getName(), new Boolean(bl));
             } else {
-                TraceMe.msg(TraceMe.INFO, "Core", "core: Note: no backends defined in config and default console disabled!");
+                TraceMe.msg(TraceMe.INFO, chn, "core: Note: no backends defined in config and default console disabled!");
             }
         }
     }
@@ -751,7 +752,7 @@ public class TraceCore {
             }
         }
         if (!bl) {
-            TraceMe.msg(TraceMe.INFO, "Core", "core: registering default string decoder");
+            TraceMe.msg(TraceMe.INFO, chn, "core: registering default string decoder");
             messageDecoderRegistry.registerDecoder((short)1, new StringMessageDecoder());
         }
     }
@@ -765,7 +766,7 @@ public class TraceCore {
         MessageDecoderRegistry.getInstance().unregisterDecoder(s);
     }
 
-    public void writeSemFile(String string, String string2) {
+    public void writeSemFile(String string, String string2) throws IOException {
         this.model.writeSemFile(string, string2);
     }
 

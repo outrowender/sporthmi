@@ -7,16 +7,16 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eRestrictionAddType
 extends IEnum {
-    public static final int RESTRICTION_ADDTYPE_NOSIGN;
-    public static final int RESTRICTION_ADDTYPE_EMPTYADDSIGN;
-    public static final int RESTRICTION_ADDTYPE_WET;
-    public static final int RESTRICTION_ADDTYPE_RAIN;
-    public static final int RESTRICTION_ADDTYPE_TEMPCOND;
-    public static final int RESTRICTION_ADDTYPE_ONLYPASSENGERCAR;
-    public static final int RESTRICTION_ADDTYPE_VEHICLEWITHTRAILER;
-    public static final int RESTRICTION_ADDTYPE_VEHILCESTURNRIGHT;
-    public static final int RESTRICTION_ADDTYPE_VEHILCESTURNLEFT;
-    public static final int RESTRICTION_ADDTYPE_OVERTAKINGTRACTORALLOWED;
-    public static final int RESTRICTION_ADDTYPE_VARIABLESIGN;
+    public static final int RESTRICTION_ADDTYPE_NOSIGN = 0;
+    public static final int RESTRICTION_ADDTYPE_EMPTYADDSIGN = 1;
+    public static final int RESTRICTION_ADDTYPE_WET = 2;
+    public static final int RESTRICTION_ADDTYPE_RAIN = 3;
+    public static final int RESTRICTION_ADDTYPE_TEMPCOND = 4;
+    public static final int RESTRICTION_ADDTYPE_ONLYPASSENGERCAR = 5;
+    public static final int RESTRICTION_ADDTYPE_VEHICLEWITHTRAILER = 6;
+    public static final int RESTRICTION_ADDTYPE_VEHILCESTURNRIGHT = 7;
+    public static final int RESTRICTION_ADDTYPE_VEHILCESTURNLEFT = 8;
+    public static final int RESTRICTION_ADDTYPE_OVERTAKINGTRACTORALLOWED = 9;
+    public static final int RESTRICTION_ADDTYPE_VARIABLESIGN = 10;
 }
 

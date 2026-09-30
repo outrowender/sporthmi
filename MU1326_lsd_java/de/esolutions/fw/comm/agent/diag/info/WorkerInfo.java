@@ -18,7 +18,6 @@ extends AbstractInfoBase {
         this.totalCommandCount = agentWorker.getTotalCommandCount();
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return null;
     }

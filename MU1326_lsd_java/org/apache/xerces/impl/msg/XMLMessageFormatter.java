@@ -12,13 +12,12 @@ import org.apache.xerces.util.MessageFormatter;
 
 public class XMLMessageFormatter
 implements MessageFormatter {
-    public static final String XML_DOMAIN;
-    public static final String XMLNS_DOMAIN;
+    public static final String XML_DOMAIN = "http://www.w3.org/TR/1998/REC-xml-19980210";
+    public static final String XMLNS_DOMAIN = "http://www.w3.org/TR/1999/REC-xml-names-19990114";
     private Locale fLocale = null;
     private ResourceBundle fResourceBundle = null;
 
-    @Override
-    public String formatMessage(Locale locale, String string, Object[] objectArray) {
+    public String formatMessage(Locale locale, String string, Object[] objectArray) throws MissingResourceException {
         String string2;
         if (this.fResourceBundle == null || locale != this.fLocale) {
             if (locale != null) {
@@ -37,7 +36,7 @@ implements MessageFormatter {
                 }
                 catch (Exception exception) {
                     string2 = this.fResourceBundle.getString("FormatFailed");
-                    string2 = new StringBuffer().append(string2).append(" ").append(this.fResourceBundle.getString(string)).toString();
+                    string2 = string2 + " " + this.fResourceBundle.getString(string);
                 }
             }
         }

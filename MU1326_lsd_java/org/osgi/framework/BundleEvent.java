@@ -10,11 +10,11 @@ public class BundleEvent
 extends EventObject {
     private transient Bundle bundle;
     private transient int type;
-    public static final int INSTALLED;
-    public static final int STARTED;
-    public static final int STOPPED;
-    public static final int UPDATED;
-    public static final int UNINSTALLED;
+    public static final int INSTALLED = 1;
+    public static final int STARTED = 2;
+    public static final int STOPPED = 4;
+    public static final int UPDATED = 8;
+    public static final int UNINSTALLED = 16;
 
     public BundleEvent(int n, Bundle bundle) {
         super(bundle);

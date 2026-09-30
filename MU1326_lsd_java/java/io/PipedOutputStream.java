@@ -15,19 +15,18 @@ extends OutputStream {
     public PipedOutputStream() {
     }
 
-    public PipedOutputStream(PipedInputStream pipedInputStream) {
+    public PipedOutputStream(PipedInputStream pipedInputStream) throws IOException {
         this.connect(pipedInputStream);
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.dest != null) {
             this.dest.done();
             this.dest = null;
         }
     }
 
-    public void connect(PipedInputStream pipedInputStream) {
+    public void connect(PipedInputStream pipedInputStream) throws IOException {
         if (this.dest == null) {
             if (pipedInputStream.isConnected) {
                 throw new IOException(Msg.getString("K007a"));
@@ -43,23 +42,20 @@ extends OutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         if (this.dest != null) {
             PipedInputStream pipedInputStream = this.dest;
             synchronized (pipedInputStream) {
-                super.notifyAll();
+                this.dest.notifyAll();
             }
         }
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         super.write(byArray, n, n2);
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         if (this.dest == null) {
             throw new IOException();
         }

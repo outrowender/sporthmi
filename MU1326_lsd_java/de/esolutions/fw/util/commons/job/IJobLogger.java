@@ -4,29 +4,23 @@
 package de.esolutions.fw.util.commons.job;
 
 public interface IJobLogger {
-    public static final int LOG_CRITICAL;
-    public static final int LOG_ERROR;
-    public static final int LOG_WARNING;
-    public static final int LOG_INFO;
-    public static final int LOG_DEBUG;
-    public static final int LOG_DEBUG2;
+    public static final int LOG_CRITICAL = 1000;
+    public static final int LOG_ERROR = 10000;
+    public static final int LOG_WARNING = 100000;
+    public static final int LOG_INFO = 1000000;
+    public static final int LOG_DEBUG = 10000000;
+    public static final int LOG_DEBUG2 = 100000000;
 
-    default public void log(int n, String string, Object object) {
-    }
+    public void log(int var1, String var2, Object var3);
 
-    default public void log(int n, String string, Object object, int n2) {
-    }
+    public void log(int var1, String var2, Object var3, int var4);
 
-    default public void log(int n, String string, Object object, int n2, int n3) {
-    }
+    public void log(int var1, String var2, Object var3, int var4, int var5);
 
-    default public void log(int n, String string, Object object, Object object2) {
-    }
+    public void log(int var1, String var2, Object var3, Object var4);
 
-    default public void log(int n, String string, Object object, Object object2, int n2) {
-    }
+    public void log(int var1, String var2, Object var3, Object var4, int var5);
 
-    default public void logException(Exception exception) {
-    }
+    public void logException(Exception var1);
 }
 

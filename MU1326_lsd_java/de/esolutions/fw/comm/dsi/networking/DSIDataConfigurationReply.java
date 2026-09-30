@@ -3,64 +3,48 @@
  */
 package de.esolutions.fw.comm.dsi.networking;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.networking.CDataProfile;
 import org.dsi.ifc.networking.CPacketCounter;
 
 public interface DSIDataConfigurationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f9fb7e79-4d84-5a34-a680-170dceb55106";
+    public static final String IPL_COMM_INTERFACE_KEY = "c8650c36-f6c5-5d60-9989-d1f0620ec7e8";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.14";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.14";
 
-    default public void updateAvailableProfiles(CDataProfile[] cDataProfileArray, int n) {
-    }
+    public void updateAvailableProfiles(CDataProfile[] var1, int var2) throws MethodException;
 
-    default public void updateActiveProfile(int n, int n2) {
-    }
+    public void updateActiveProfile(int var1, int var2) throws MethodException;
 
-    default public void updateRoamingState(int n, int n2) {
-    }
+    public void updateRoamingState(int var1, int var2) throws MethodException;
 
-    default public void updateConnectionMode(int n, int n2) {
-    }
+    public void updateConnectionMode(int var1, int var2) throws MethodException;
 
-    default public void updateDataRequest(int n, int n2) {
-    }
+    public void updateDataRequest(int var1, int var2) throws MethodException;
 
-    default public void updateRequestSetting(int n, int n2, int n3) {
-    }
+    public void updateRequestSetting(int var1, int var2, int var3) throws MethodException;
 
-    default public void setDataProfileResponse(CDataProfile cDataProfile, int n) {
-    }
+    public void setDataProfileResponse(CDataProfile var1, int var2) throws MethodException;
 
-    default public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) {
-    }
+    public void automaticProfileResponse(int var1, CDataProfile var2, int var3) throws MethodException;
 
-    default public void setRoamingStateResponse(int n) {
-    }
+    public void setRoamingStateResponse(int var1) throws MethodException;
 
-    default public void setConnectionModeResponse(int n) {
-    }
+    public void setConnectionModeResponse(int var1) throws MethodException;
 
-    default public void setRequestSettingResponse(int n) {
-    }
+    public void setRequestSettingResponse(int var1) throws MethodException;
 
-    default public void acceptDataRequestResponse(int n) {
-    }
+    public void acceptDataRequestResponse(int var1) throws MethodException;
 
-    default public void resetPacketCounterResponse(int n) {
-    }
+    public void resetPacketCounterResponse(int var1) throws MethodException;
 
-    default public void restoreFactorySettingsResponse(int n) {
-    }
+    public void restoreFactorySettingsResponse(int var1) throws MethodException;
 
-    default public void updatePacketCounter(CPacketCounter cPacketCounter, int n) {
-    }
+    public void updatePacketCounter(CPacketCounter var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -4,118 +4,82 @@
 package de.esolutions.fw.util.serializer;
 
 import de.esolutions.fw.util.serializer.IStreamDeserializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.transport.IWriteable;
 
 public interface IStreamSerializer {
-    default public byte getSerializerId() {
-    }
+    public byte getSerializerId();
 
-    default public void attachBuffer(IWriteable iWriteable) {
-    }
+    public void attachBuffer(IWriteable var1);
 
-    default public IWriteable getAttachedBuffer() {
-    }
+    public IWriteable getAttachedBuffer();
 
-    default public int getDirectPos() {
-    }
+    public int getDirectPos();
 
-    default public int detachBuffer() {
-    }
+    public int detachBuffer();
 
-    default public void beginSizeCalc() {
-    }
+    public void beginSizeCalc();
 
-    default public int endSizeCalc() {
-    }
+    public int endSizeCalc();
 
-    default public void putBool(boolean bl) {
-    }
+    public void putBool(boolean var1) throws SerializerException;
 
-    default public void putUChar16(char c2) {
-    }
+    public void putUChar16(char var1) throws SerializerException;
 
-    default public void putUInt8(short s) {
-    }
+    public void putUInt8(short var1) throws SerializerException;
 
-    default public void putInt8(byte by) {
-    }
+    public void putInt8(byte var1) throws SerializerException;
 
-    default public void putUInt16(int n) {
-    }
+    public void putUInt16(int var1) throws SerializerException;
 
-    default public void putInt16(short s) {
-    }
+    public void putInt16(short var1) throws SerializerException;
 
-    default public void putUInt32(long l) {
-    }
+    public void putUInt32(long var1) throws SerializerException;
 
-    default public void putInt32(int n) {
-    }
+    public void putInt32(int var1) throws SerializerException;
 
-    default public void putUInt64(long l) {
-    }
+    public void putUInt64(long var1) throws SerializerException;
 
-    default public void putInt64(long l) {
-    }
+    public void putInt64(long var1) throws SerializerException;
 
-    default public void putFloat(float f2) {
-    }
+    public void putFloat(float var1) throws SerializerException;
 
-    default public void putDouble(double d2) {
-    }
+    public void putDouble(double var1) throws SerializerException;
 
-    default public void putFlags(byte by, int n) {
-    }
+    public void putFlags(byte var1, int var2) throws SerializerException;
 
-    default public void putBoolArray(boolean[] blArray) {
-    }
+    public void putBoolArray(boolean[] var1) throws SerializerException;
 
-    default public void putUChar16Array(char[] cArray) {
-    }
+    public void putUChar16Array(char[] var1) throws SerializerException;
 
-    default public void putUInt8Array(short[] sArray) {
-    }
+    public void putUInt8Array(short[] var1) throws SerializerException;
 
-    default public void putInt8Array(byte[] byArray) {
-    }
+    public void putInt8Array(byte[] var1) throws SerializerException;
 
-    default public void putUInt16Array(int[] nArray) {
-    }
+    public void putUInt16Array(int[] var1) throws SerializerException;
 
-    default public void putInt16Array(short[] sArray) {
-    }
+    public void putInt16Array(short[] var1) throws SerializerException;
 
-    default public void putUInt32Array(long[] lArray) {
-    }
+    public void putUInt32Array(long[] var1) throws SerializerException;
 
-    default public void putInt32Array(int[] nArray) {
-    }
+    public void putInt32Array(int[] var1) throws SerializerException;
 
-    default public void putUInt64Array(long[] lArray) {
-    }
+    public void putUInt64Array(long[] var1) throws SerializerException;
 
-    default public void putInt64Array(long[] lArray) {
-    }
+    public void putInt64Array(long[] var1) throws SerializerException;
 
-    default public void putFloatArray(float[] fArray) {
-    }
+    public void putFloatArray(float[] var1) throws SerializerException;
 
-    default public void putDoubleArray(double[] dArray) {
-    }
+    public void putDoubleArray(double[] var1) throws SerializerException;
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public byte getId() {
-    }
+    public byte getId();
 
-    default public void putRawBytes(byte[] byArray) {
-    }
+    public void putRawBytes(byte[] var1) throws SerializerException;
 
-    default public IStreamSerializer createCompatibleStreamSerializer() {
-    }
+    public IStreamSerializer createCompatibleStreamSerializer();
 
-    default public IStreamDeserializer createCompatibleStreamDeserializer() {
-    }
+    public IStreamDeserializer createCompatibleStreamDeserializer();
 }
 

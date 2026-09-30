@@ -10,13 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaBrowserControl_Result
 implements ResultMethod {
     public int browserControlResult;
-    private static final int BROWSER_CONTROL_RESULT_BITSIZE;
-    public static final int BROWSER_CONTROL_RESULT_SUCCESSFUL;
-    public static final int BROWSER_CONTROL_RESULT_NOT_SUCCESFUL_NOT_SUPPORTED;
-    public static final int BROWSER_CONTROL_RESULT_ABORT_SUCCESSFUL;
-    public static final int BROWSER_CONTROL_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int BROWSER_CONTROL_RESULT_BITSIZE = 8;
+    public static final int BROWSER_CONTROL_RESULT_SUCCESSFUL = 0;
+    public static final int BROWSER_CONTROL_RESULT_NOT_SUCCESFUL_NOT_SUPPORTED = 1;
+    public static final int BROWSER_CONTROL_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int BROWSER_CONTROL_RESULT_ABORT_NOT_SUCCESSFUL = 3;
 
-    @Override
     public int getResultCode() {
         return this.browserControlResult;
     }
@@ -35,12 +34,10 @@ implements ResultMethod {
         this.browserControlResult = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaBrowserControl_Result mediaBrowserControl_Result = (MediaBrowserControl_Result)bAPEntity;
         return this.browserControlResult == mediaBrowserControl_Result.browserControlResult;
@@ -49,7 +46,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaBrowserControl_Result:");
@@ -78,18 +74,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.browserControlResult);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.browserControlResult = bitStream.popFrontByte();
     }
@@ -98,7 +91,6 @@ implements ResultMethod {
         return 38;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaBrowserControl_Result.functionId();
     }

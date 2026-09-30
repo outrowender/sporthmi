@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.kombisync2;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombisync2.DSIKombiSyncReply;
 import de.esolutions.fw.comm.dsi.kombisync2.impl.DSIKombiSyncReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSIKombiSyncReply {
         super(n, (class$org$dsi$ifc$kombisync2$DSIKombiSyncListener == null ? (class$org$dsi$ifc$kombisync2$DSIKombiSyncListener = DSIKombiSyncDispatcher.class$("org.dsi.ifc.kombisync2.DSIKombiSyncListener")) : class$org$dsi$ifc$kombisync2$DSIKombiSyncListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateKombiCommunicationState(boolean bl, int n) {
+    public void updateKombiCommunicationState(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void updateKombiMessageStateDisplayIdentification(int n, int n2) {
+    public void updateKombiMessageStateDisplayIdentification(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -91,8 +89,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void updateKombiMessageStateDisplayRequestResponse(int n, int n2) {
+    public void updateKombiMessageStateDisplayRequestResponse(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -120,8 +117,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void updateKombiMessageStateDisplayStatus(int n, int n2) {
+    public void updateKombiMessageStateDisplayStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -149,8 +145,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void updateKombiMessageStatePopupActionRequest(int n, int n2) {
+    public void updateKombiMessageStatePopupActionRequest(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -178,8 +173,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void updateKombiMessageStatePopupRegisterResponse(int n, int n2) {
+    public void updateKombiMessageStatePopupRegisterResponse(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -207,8 +201,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void updateKombiMessageStatePopupStatus(int n, int n2) {
+    public void updateKombiMessageStatePopupStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -236,8 +229,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void responseKombiDisplayRequestResponse(DisplayRequestResponse displayRequestResponse) {
+    public void responseKombiDisplayRequestResponse(DisplayRequestResponse displayRequestResponse) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -253,8 +245,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void responseKombiDisplayStatus(DisplayStatus displayStatus) {
+    public void responseKombiDisplayStatus(DisplayStatus displayStatus) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -270,8 +261,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void responseKombiDisplayIdentification(DisplayIdentification displayIdentification) {
+    public void responseKombiDisplayIdentification(DisplayIdentification displayIdentification) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -287,8 +277,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void responseKombiPopupRegisterResponse(PopupRegisterRequestResponse popupRegisterRequestResponse) {
+    public void responseKombiPopupRegisterResponse(PopupRegisterRequestResponse popupRegisterRequestResponse) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -304,8 +293,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void responseKombiPopupActionRequest(PopupActionRequestResponse popupActionRequestResponse) {
+    public void responseKombiPopupActionRequest(PopupActionRequestResponse popupActionRequestResponse) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -321,8 +309,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void responseKombiPopupStatus(PopupStatus popupStatus) {
+    public void responseKombiPopupStatus(PopupStatus popupStatus) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -338,8 +325,7 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -355,14 +341,13 @@ implements DSIKombiSyncReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIKombiSyncListener dSIKombiSyncListener = (DSIKombiSyncListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKombiSyncDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKombiSyncDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIKombiSyncListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKombiSyncDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKombiSyncDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIKombiSyncListener, new Object[]{string, string2});
                     continue;
                 }

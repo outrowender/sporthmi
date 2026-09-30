@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.comm.dsi.navigation.impl.NavRouteListDataIconSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.NavPoiInfo;
 import org.dsi.ifc.navigation.NavRouteListDataIcon;
 
 public class NavPoiInfoSerializer {
-    public static void putOptionalNavPoiInfo(ISerializer iSerializer, NavPoiInfo navPoiInfo) {
+    public static void putOptionalNavPoiInfo(ISerializer iSerializer, NavPoiInfo navPoiInfo) throws SerializerException {
         boolean bl = navPoiInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class NavPoiInfoSerializer {
         }
     }
 
-    public static void putOptionalNavPoiInfoVarArray(ISerializer iSerializer, NavPoiInfo[] navPoiInfoArray) {
+    public static void putOptionalNavPoiInfoVarArray(ISerializer iSerializer, NavPoiInfo[] navPoiInfoArray) throws SerializerException {
         boolean bl = navPoiInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class NavPoiInfoSerializer {
         }
     }
 
-    public static NavPoiInfo getOptionalNavPoiInfo(IDeserializer iDeserializer) {
+    public static NavPoiInfo getOptionalNavPoiInfo(IDeserializer iDeserializer) throws SerializerException {
         NavPoiInfo navPoiInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class NavPoiInfoSerializer {
         return navPoiInfo;
     }
 
-    public static NavPoiInfo[] getOptionalNavPoiInfoVarArray(IDeserializer iDeserializer) {
+    public static NavPoiInfo[] getOptionalNavPoiInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavPoiInfo[] navPoiInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

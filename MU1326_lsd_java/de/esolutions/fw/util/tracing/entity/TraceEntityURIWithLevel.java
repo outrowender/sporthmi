@@ -23,7 +23,6 @@ extends TraceEntityURI {
         return this.level;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (!(object instanceof TraceEntityURI)) {
             return false;
@@ -32,7 +31,6 @@ extends TraceEntityURI {
         return traceEntityURI.getId() == this.getId() && traceEntityURI.getType() == this.getType();
     }
 
-    @Override
     public int hashCode() {
         int n = 1;
         n += 11 * this.getType();

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.SpeedAndFlowSegment;
 
 public class SpeedAndFlowSegmentSerializer {
-    public static void putOptionalSpeedAndFlowSegment(ISerializer iSerializer, SpeedAndFlowSegment speedAndFlowSegment) {
+    public static void putOptionalSpeedAndFlowSegment(ISerializer iSerializer, SpeedAndFlowSegment speedAndFlowSegment) throws SerializerException {
         boolean bl = speedAndFlowSegment == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SpeedAndFlowSegmentSerializer {
         }
     }
 
-    public static void putOptionalSpeedAndFlowSegmentVarArray(ISerializer iSerializer, SpeedAndFlowSegment[] speedAndFlowSegmentArray) {
+    public static void putOptionalSpeedAndFlowSegmentVarArray(ISerializer iSerializer, SpeedAndFlowSegment[] speedAndFlowSegmentArray) throws SerializerException {
         boolean bl = speedAndFlowSegmentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SpeedAndFlowSegmentSerializer {
         }
     }
 
-    public static SpeedAndFlowSegment getOptionalSpeedAndFlowSegment(IDeserializer iDeserializer) {
+    public static SpeedAndFlowSegment getOptionalSpeedAndFlowSegment(IDeserializer iDeserializer) throws SerializerException {
         SpeedAndFlowSegment speedAndFlowSegment = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SpeedAndFlowSegmentSerializer {
         return speedAndFlowSegment;
     }
 
-    public static SpeedAndFlowSegment[] getOptionalSpeedAndFlowSegmentVarArray(IDeserializer iDeserializer) {
+    public static SpeedAndFlowSegment[] getOptionalSpeedAndFlowSegmentVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpeedAndFlowSegment[] speedAndFlowSegmentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

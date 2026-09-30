@@ -3,44 +3,33 @@
  */
 package de.esolutions.fw.comm.dsi.swdllogging;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISwdlLoggingC {
-    default public void getHistory() {
-    }
+    public void getHistory() throws MethodException;
 
-    default public void setUpdate(String string) {
-    }
+    public void setUpdate(String var1) throws MethodException;
 
-    default public void selectSubUpdate(int n) {
-    }
+    public void selectSubUpdate(int var1) throws MethodException;
 
-    default public void getGeneralInformation() {
-    }
+    public void getGeneralInformation() throws MethodException;
 
-    default public void getUnusualEvents() {
-    }
+    public void getUnusualEvents() throws MethodException;
 
-    default public void getUnusualEvent(int n) {
-    }
+    public void getUnusualEvent(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -28,28 +28,23 @@ implements DSIFastListScrollingAudio {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio = DSIFastListScrollingAudioProvider.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingAudio")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIFastListScrollingAudioProxy(this.instance, (DSIFastListScrollingAudioReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void pushFunctionAvailabilityAudio(int n) {
         try {
             this.proxy.pushFunctionAvailabilityAudio(n);
@@ -59,7 +54,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void pushMOSTOperationStateAudio(int n) {
         try {
             this.proxy.pushMOSTOperationStateAudio(n);
@@ -69,7 +63,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void responseMediaBrowser(int n, int n2, int n3, int n4, int n5, int n6, int n7, long l, int n8, long l2, long l3, int n9, int n10, int n11) {
         try {
             this.proxy.responseMediaBrowser(n, n2, n3, n4, n5, n6, n7, l, n8, l2, l3, n9, n10, n11);
@@ -79,7 +72,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void responseMediaBrowserArray(long l, int n, DataMediaBrowser[] dataMediaBrowserArray) {
         try {
             this.proxy.responseMediaBrowserArray(l, n, dataMediaBrowserArray);
@@ -89,7 +81,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void pushCommonList(long l, int n, DataCommonList[] dataCommonListArray) {
         try {
             this.proxy.pushCommonList(l, n, dataCommonListArray);
@@ -99,7 +90,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void pushReceptionList(long l, int n, DataReceptionList[] dataReceptionListArray) {
         try {
             this.proxy.pushReceptionList(l, n, dataReceptionListArray);
@@ -109,7 +99,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void pushCurrentListSizeAudio(int n, int n2, int n3) {
         try {
             this.proxy.pushCurrentListSizeAudio(n, n2, n3);
@@ -119,7 +108,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void responseMediaBrowserJobs(long l, int n, int n2) {
         try {
             this.proxy.responseMediaBrowserJobs(l, n, n2);
@@ -129,7 +117,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void responseNotifyCommonListPush(boolean bl) {
         try {
             this.proxy.responseNotifyCommonListPush(bl);
@@ -139,7 +126,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void responseNotifyCurrentListSizeAudio(boolean bl) {
         try {
             this.proxy.responseNotifyCurrentListSizeAudio(bl);
@@ -149,7 +135,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void responseNotifyReceptionList(boolean bl) {
         try {
             this.proxy.responseNotifyReceptionList(bl);
@@ -159,7 +144,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -169,7 +153,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -179,7 +162,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -189,7 +171,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -199,7 +180,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -209,7 +189,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -219,7 +198,6 @@ implements DSIFastListScrollingAudio {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

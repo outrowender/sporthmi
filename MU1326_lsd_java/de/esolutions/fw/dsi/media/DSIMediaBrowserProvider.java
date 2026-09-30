@@ -26,28 +26,23 @@ implements DSIMediaBrowser {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIMediaBrowser == null ? (class$org$dsi$ifc$media$DSIMediaBrowser = DSIMediaBrowserProvider.class$("org.dsi.ifc.media.DSIMediaBrowser")) : class$org$dsi$ifc$media$DSIMediaBrowser).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMediaBrowserProxy(this.instance, (DSIMediaBrowserReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setContentFilter(int n) {
         try {
             this.proxy.setContentFilter(n);
@@ -57,7 +52,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setBrowseMode(int n) {
         try {
             this.proxy.setBrowseMode(n);
@@ -67,7 +61,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setBrowseMedia(long l, long l2) {
         try {
             this.proxy.setBrowseMedia(l, l2);
@@ -77,7 +70,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void changeFolder(ListEntry[] listEntryArray) {
         try {
             this.proxy.changeFolder(listEntryArray);
@@ -87,7 +79,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void requestList(long l, int n, int n2, int n3) {
         try {
             this.proxy.requestList(l, n, n2, n3);
@@ -97,7 +88,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void requestPickList(long[] lArray) {
         try {
             this.proxy.requestPickList(lArray);
@@ -107,7 +97,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void enableRecurseSubdirectories(boolean bl) {
         try {
             this.proxy.enableRecurseSubdirectories(bl);
@@ -117,7 +106,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void addSelection(boolean bl, int n, long l, int n2, boolean bl2) {
         try {
             this.proxy.addSelection(bl, n, l, n2, bl2);
@@ -127,7 +115,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void undoLastSelection() {
         try {
             this.proxy.undoLastSelection();
@@ -137,7 +124,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void resetSelection() {
         try {
             this.proxy.resetSelection();
@@ -147,7 +133,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setSearchString(String string) {
         try {
             this.proxy.setSearchString(string);
@@ -157,7 +142,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setSearchCriteria(int n) {
         try {
             this.proxy.setSearchCriteria(n);
@@ -167,7 +151,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void activateSearchSpeller() {
         try {
             this.proxy.activateSearchSpeller();
@@ -177,7 +160,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void deactivateSearchSpeller() {
         try {
             this.proxy.deactivateSearchSpeller();
@@ -187,7 +169,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void selectSearchResult(long l) {
         try {
             this.proxy.selectSearchResult(l);
@@ -197,7 +178,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void requestSearchList(long l, int n, int n2) {
         try {
             this.proxy.requestSearchList(l, n, n2);
@@ -207,7 +187,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void resetSearchString() {
         try {
             this.proxy.resetSearchString();
@@ -217,7 +196,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void requestSearchListExt(long l, int n, int n2) {
         try {
             this.proxy.requestSearchListExt(l, n, n2);
@@ -227,7 +205,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void requestFullyQualifiedName(long l) {
         try {
             this.proxy.requestFullyQualifiedName(l);
@@ -237,7 +214,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -247,7 +223,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -257,7 +232,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -267,7 +241,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -277,7 +250,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -287,7 +259,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -297,7 +268,6 @@ implements DSIMediaBrowser {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

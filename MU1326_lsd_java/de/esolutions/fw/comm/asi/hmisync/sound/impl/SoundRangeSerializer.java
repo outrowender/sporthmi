@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.sound.impl;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundRange;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SoundRangeSerializer {
-    public static void putOptionalSoundRange(ISerializer iSerializer, SoundRange soundRange) {
+    public static void putOptionalSoundRange(ISerializer iSerializer, SoundRange soundRange) throws SerializerException {
         boolean bl = soundRange == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SoundRangeSerializer {
         }
     }
 
-    public static void putOptionalSoundRangeVarArray(ISerializer iSerializer, SoundRange[] soundRangeArray) {
+    public static void putOptionalSoundRangeVarArray(ISerializer iSerializer, SoundRange[] soundRangeArray) throws SerializerException {
         boolean bl = soundRangeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SoundRangeSerializer {
         }
     }
 
-    public static SoundRange getOptionalSoundRange(IDeserializer iDeserializer) {
+    public static SoundRange getOptionalSoundRange(IDeserializer iDeserializer) throws SerializerException {
         SoundRange soundRange = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SoundRangeSerializer {
         return soundRange;
     }
 
-    public static SoundRange[] getOptionalSoundRangeVarArray(IDeserializer iDeserializer) {
+    public static SoundRange[] getOptionalSoundRangeVarArray(IDeserializer iDeserializer) throws SerializerException {
         SoundRange[] soundRangeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

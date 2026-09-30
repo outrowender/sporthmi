@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class AtomicLongArray
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2308431214976778248L;
     private final long[] array;
 
     public AtomicLongArray(int n) {
@@ -28,7 +28,7 @@ implements Serializable {
     }
 
     public final synchronized long get(int n) {
-        long l = this.array[n];
+        return this.array[n];
     }
 
     public final synchronized void set(int n, long l) {
@@ -42,7 +42,7 @@ implements Serializable {
     public final synchronized long getAndSet(int n, long l) {
         long l2 = this.array[n];
         this.array[n] = l;
-        long l3 = l2;
+        return l2;
     }
 
     public final synchronized boolean compareAndSet(int n, long l, long l2) {
@@ -64,37 +64,43 @@ implements Serializable {
     public final synchronized long getAndIncrement(int n) {
         int n2 = n;
         long l = this.array[n2];
-        long l2 = l;
         this.array[n2] = l + 1L;
+        return l;
     }
 
     public final synchronized long getAndDecrement(int n) {
         int n2 = n;
         long l = this.array[n2];
-        long l2 = l;
         this.array[n2] = l - 1L;
+        return l;
     }
 
     public final synchronized long getAndAdd(int n, long l) {
         long l2 = this.array[n];
         int n2 = n;
         this.array[n2] = this.array[n2] + l;
-        long l3 = l2;
+        return l2;
     }
 
     public final synchronized long incrementAndGet(int n) {
         int n2 = n;
-        long l = this.array[n2] = this.array[n2] + 1L;
+        long l = this.array[n2] + 1L;
+        this.array[n2] = l;
+        return l;
     }
 
     public final synchronized long decrementAndGet(int n) {
         int n2 = n;
-        long l = this.array[n2] = this.array[n2] - 1L;
+        long l = this.array[n2] - 1L;
+        this.array[n2] = l;
+        return l;
     }
 
     public synchronized long addAndGet(int n, long l) {
         int n2 = n;
-        long l2 = this.array[n2] = this.array[n2] + l;
+        long l2 = this.array[n2] + l;
+        this.array[n2] = l2;
+        return l2;
     }
 
     public synchronized String toString() {

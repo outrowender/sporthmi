@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.navigation.impl;
 import de.esolutions.fw.comm.asi.hmisync.navigation.CarPosition;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class CarPositionSerializer {
-    public static void putOptionalCarPosition(ISerializer iSerializer, CarPosition carPosition) {
+    public static void putOptionalCarPosition(ISerializer iSerializer, CarPosition carPosition) throws SerializerException {
         boolean bl = carPosition == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class CarPositionSerializer {
         }
     }
 
-    public static void putOptionalCarPositionVarArray(ISerializer iSerializer, CarPosition[] carPositionArray) {
+    public static void putOptionalCarPositionVarArray(ISerializer iSerializer, CarPosition[] carPositionArray) throws SerializerException {
         boolean bl = carPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class CarPositionSerializer {
         }
     }
 
-    public static CarPosition getOptionalCarPosition(IDeserializer iDeserializer) {
+    public static CarPosition getOptionalCarPosition(IDeserializer iDeserializer) throws SerializerException {
         CarPosition carPosition = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class CarPositionSerializer {
         return carPosition;
     }
 
-    public static CarPosition[] getOptionalCarPositionVarArray(IDeserializer iDeserializer) {
+    public static CarPosition[] getOptionalCarPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarPosition[] carPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,8 +6,8 @@ package de.esolutions.hmi.widgets.audi.evo.widgets;
 import de.audi.atip.log.LogChannel;
 
 public class SeatVisualizationArrowStateMachine {
-    public static final int MASSAGE_PROGRAM_INTENSITY_MIN;
-    public static final int MASSAGE_PROGRAM_INTENSITY_MAX;
+    public static final int MASSAGE_PROGRAM_INTENSITY_MIN = 1;
+    public static final int MASSAGE_PROGRAM_INTENSITY_MAX = 5;
     private int minIntensity;
     private int decArrowState;
     private int maxIntensity;
@@ -69,7 +69,7 @@ public class SeatVisualizationArrowStateMachine {
 
     public void setIntensity(int n) {
         this.prevIntensity = this.intensity = this.getNormalizedIntensity(n, this.minIntensity, this.maxIntensity);
-        this.logChannelSeat.log(-2137614336, "SeatVisualizationArrowStateMachine#setIntensity intensity = prevIntensity: %1", (long)this.intensity);
+        this.logChannelSeat.log(10000000, "SeatVisualizationArrowStateMachine#setIntensity intensity = prevIntensity: %1", (long)this.intensity);
         this.updateArrowStates();
     }
 
@@ -79,18 +79,18 @@ public class SeatVisualizationArrowStateMachine {
 
     public void updateIntensity(int n) {
         this.intensity = this.getNormalizedIntensity(n, this.minIntensity, this.maxIntensity);
-        this.logChannelSeat.log(-2137614336, "SeatVisualizationArrowStateMachine#updateIntensity intensity: %1", (long)this.intensity);
+        this.logChannelSeat.log(10000000, "SeatVisualizationArrowStateMachine#updateIntensity intensity: %1", (long)this.intensity);
         if (this.intensity != this.prevIntensity) {
             this.updateArrowStates();
             this.prevIntensity = this.intensity;
-            this.logChannelSeat.log(-2137614336, "SeatVisualizationArrowStateMachine#updateIntensity prevIntensity: %1", (long)this.prevIntensity);
+            this.logChannelSeat.log(10000000, "SeatVisualizationArrowStateMachine#updateIntensity prevIntensity: %1", (long)this.prevIntensity);
         }
     }
 
     private void updateArrowStates() {
         this.decArrowState = this.updateSingleArrowState(this.intensity > this.minIntensity);
         this.incArrowState = this.updateSingleArrowState(this.intensity < this.maxIntensity);
-        this.logChannelSeat.log(-2137614336, "SeatVisualizationArrowStateMachine#updateArrowStates decArrowState: %1, incArrowState: %2", (long)this.decArrowState, (long)this.incArrowState);
+        this.logChannelSeat.log(10000000, "SeatVisualizationArrowStateMachine#updateArrowStates decArrowState: %1, incArrowState: %2", (long)this.decArrowState, (long)this.incArrowState);
     }
 
     private int updateSingleArrowState(boolean bl) {

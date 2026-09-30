@@ -4,24 +4,28 @@
 package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.hmi.event.ATIPEvent;
+import de.audi.atip.hmi.event.ATIPEventListener;
 import de.audi.atip.job.JobLogger;
 import de.audi.atip.log.LogChannel;
 import de.eso.IconExtractor.IconExtractor;
-import de.eso.IconExtractor.IconExtractor$Bitmap;
+import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
+import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.fw.util.commons.job.JobQueue;
+import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ByteBufferBackedInputStream;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLoader$CancelableIconLoadWorker;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLoader$IIconLoadedCallBack;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLoader$IconLoadQueue;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public final class IconLoader {
@@ -31,7 +35,7 @@ public final class IconLoader {
     private final DispatcherBase iconLoaderDispatcher;
     private boolean started = false;
     private static Map iconExtractorRecorder = new HashMap();
-    private static final int DEFAULT_WAIT_FOR_ICON_TIME;
+    private static final int DEFAULT_WAIT_FOR_ICON_TIME = 1000;
 
     public static synchronized IconLoader getInstance() {
         if (wrapper == null) {
@@ -42,7 +46,7 @@ public final class IconLoader {
 
     private IconLoader(IFrameworkAccess iFrameworkAccess) {
         this.framework = iFrameworkAccess;
-        this.iconLoadQueue = new IconLoader$IconLoadQueue(iFrameworkAccess.getMonotonicTimeSource());
+        this.iconLoadQueue = new IconLoadQueue(iFrameworkAccess.getMonotonicTimeSource());
         this.iconLoaderDispatcher = iFrameworkAccess.getDispatcherManager().createDispatcher("AsynchronizedIconLoader", new JobLogger(this.getLogChannel()), this.iconLoadQueue);
     }
 
@@ -69,35 +73,35 @@ public final class IconLoader {
         this.iconLoaderDispatcher.stop();
     }
 
-    public void loadImage(int n, Integer n2, IconLoader$IIconLoadedCallBack iconLoader$IIconLoadedCallBack) {
-        IconLoader$CancelableIconLoadWorker iconLoader$CancelableIconLoadWorker = new IconLoader$CancelableIconLoadWorker(this, n, n2, iconLoader$IIconLoadedCallBack);
-        this.getLogChannel().log(1078071040, "IconLoader#loadImage Post load image job %1", (Object)iconLoader$CancelableIconLoadWorker);
-        this.iconLoaderDispatcher.execute(iconLoader$CancelableIconLoadWorker);
+    public void loadImage(int n, Integer n2, IIconLoadedCallBack iIconLoadedCallBack) {
+        CancelableIconLoadWorker cancelableIconLoadWorker = new CancelableIconLoadWorker(n, n2, iIconLoadedCallBack);
+        this.getLogChannel().log(1000000, "IconLoader#loadImage Post load image job %1", (Object)cancelableIconLoadWorker);
+        this.iconLoaderDispatcher.execute(cancelableIconLoadWorker);
     }
 
-    public void cancelLoad(int n, IconLoader$IIconLoadedCallBack iconLoader$IIconLoadedCallBack) {
-        IconLoader$CancelableIconLoadWorker iconLoader$CancelableIconLoadWorker = new IconLoader$CancelableIconLoadWorker(this, n, null, true, iconLoader$IIconLoadedCallBack);
-        this.getLogChannel().log(1078071040, "IconLoader#cancelLoad Post cancel load image job %1", (Object)iconLoader$CancelableIconLoadWorker);
-        this.iconLoaderDispatcher.execute(iconLoader$CancelableIconLoadWorker);
+    public void cancelLoad(int n, IIconLoadedCallBack iIconLoadedCallBack) {
+        CancelableIconLoadWorker cancelableIconLoadWorker = new CancelableIconLoadWorker(n, null, true, iIconLoadedCallBack);
+        this.getLogChannel().log(1000000, "IconLoader#cancelLoad Post cancel load image job %1", (Object)cancelableIconLoadWorker);
+        this.iconLoaderDispatcher.execute(cancelableIconLoadWorker);
     }
 
-    public static IconExtractor$Bitmap getImage(int n) {
+    public static IconExtractor.Bitmap getImage(int n) {
         return IconLoader.getImage(n, 1000);
     }
 
-    public static IconExtractor$Bitmap getImage(int n, int n2) {
-        IWidgetLogChannel.iconLabelLogCh.log(-2137614336, "IconLoader#getImage Bitmap with ID = %1 will be created", (long)n);
+    public static IconExtractor.Bitmap getImage(int n, int n2) {
+        IWidgetLogChannel.iconLabelLogCh.log(10000000, "IconLoader#getImage Bitmap with ID = %1 will be created", (long)n);
         long l = System.currentTimeMillis();
-        IconExtractor$Bitmap iconExtractor$Bitmap = IconExtractor.getImage(n, (long)n2);
+        IconExtractor.Bitmap bitmap = IconExtractor.getImage(n, (long)n2);
         long l2 = System.currentTimeMillis();
-        IWidgetLogChannel.iconLabelLogCh.log(-2137614336, "IconLoader#getImage Bitmap with ID = %1 has been created from IconExtractor in %2 ms", (long)n, l2 - l);
-        if (iconExtractor$Bitmap != null && IWidgetLogChannel.iconLabelLogCh.isDebug()) {
+        IWidgetLogChannel.iconLabelLogCh.log(10000000, "IconLoader#getImage Bitmap with ID = %1 has been created from IconExtractor in %2 ms", (long)n, l2 - l);
+        if (bitmap != null && IWidgetLogChannel.iconLabelLogCh.isDebug()) {
             Integer n3 = new Integer(n);
-            ByteBuffer byteBuffer = iconExtractor$Bitmap.getData();
+            ByteBuffer byteBuffer = bitmap.getData();
             ByteBufferBackedInputStream byteBufferBackedInputStream = new ByteBufferBackedInputStream(byteBuffer);
             IconLoader.compareAndPut(n3, byteBufferBackedInputStream, iconExtractorRecorder);
         }
-        return iconExtractor$Bitmap;
+        return bitmap;
     }
 
     public static void compareAndPut(Object object, ByteBufferBackedInputStream byteBufferBackedInputStream, Map map) {
@@ -117,7 +121,7 @@ public final class IconLoader {
         }
     }
 
-    public static String encryptBytes(ByteBufferBackedInputStream byteBufferBackedInputStream) {
+    public static String encryptBytes(ByteBufferBackedInputStream byteBufferBackedInputStream) throws NoSuchAlgorithmException {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             int n = 1000;
@@ -153,15 +157,153 @@ public final class IconLoader {
             stringBuffer.append("}\r\n");
         }
         stringBuffer.append(']');
-        IWidgetLogChannel.iconLabelLogCh.log(-2137614336, stringBuffer.toString());
+        IWidgetLogChannel.iconLabelLogCh.log(10000000, stringBuffer.toString());
     }
 
-    static /* synthetic */ LogChannel access$300(IconLoader iconLoader) {
-        return iconLoader.getLogChannel();
+    private static final class IconLoadQueue
+    extends JobQueue {
+        public IconLoadQueue(ITimeSource iTimeSource) throws UnsupportedOperationException {
+            super(iTimeSource);
+            this.initFilterChain(new BaseJobFilter(){
+
+                /*
+                 * WARNING - Removed try catching itself - possible behaviour change.
+                 */
+                public void enqueue(Job job, int n) {
+                    CancelableIconLoadWorker cancelableIconLoadWorker = (CancelableIconLoadWorker)job.getPayload();
+                    boolean bl = cancelableIconLoadWorker.isCancelJob();
+                    IconLoadQueue iconLoadQueue = IconLoadQueue.this;
+                    synchronized (iconLoadQueue) {
+                        List list = IconLoadQueue.this.getJobs();
+                        boolean bl2 = !bl;
+                        for (int i2 = 0; i2 < list.size(); ++i2) {
+                            Job job2 = IconLoadQueue.this.getJob(i2);
+                            CancelableIconLoadWorker cancelableIconLoadWorker2 = (CancelableIconLoadWorker)job2.getPayload();
+                            if (cancelableIconLoadWorker2.iconID == cancelableIconLoadWorker.iconID) {
+                                List list2 = cancelableIconLoadWorker2.pendingRequests;
+                                synchronized (list2) {
+                                    if (bl) {
+                                        cancelableIconLoadWorker2.pendingRequests.remove(cancelableIconLoadWorker.iconLoadedCallBack);
+                                        --cancelableIconLoadWorker2.pendingRequestAmount;
+                                    } else {
+                                        cancelableIconLoadWorker2.pendingRequests.add(cancelableIconLoadWorker.iconLoadedCallBack);
+                                        ++cancelableIconLoadWorker2.pendingRequestAmount;
+                                    }
+                                }
+                                bl2 = false;
+                                break;
+                            }
+                            IWidgetLogChannel.iconLabelLogCh.log(1000000, "IconLoadQueue: EnqueueFilter update to old job [%1] ", (Object)cancelableIconLoadWorker2.toString());
+                        }
+                        if (bl2) {
+                            long l = IconLoadQueue.this.getTimeSource().getCurrentTime();
+                            job.setPosted(l);
+                            list.add(job);
+                            IWidgetLogChannel.iconLabelLogCh.log(1000000, "IconLoadQueue: EnqueueFilter insert new job [%1] ", (Object)job.toString());
+                        }
+                        IconLoadQueue.this.notifyAll();
+                    }
+                }
+
+                public String toString() {
+                    return "IconLoadQueue: EnqueueFilter";
+                }
+            });
+        }
     }
 
-    static /* synthetic */ IFrameworkAccess access$400(IconLoader iconLoader) {
-        return iconLoader.framework;
+    public static class IconLoadedEvent
+    extends ATIPEvent {
+        private final int iconID;
+        private final Integer id_int;
+        private final IconExtractor.Bitmap bitmap;
+
+        protected IconLoadedEvent(IIconLoadedCallBack iIconLoadedCallBack, int n, Integer n2, IconExtractor.Bitmap bitmap) {
+            super(iIconLoadedCallBack, n);
+            this.iconID = n;
+            this.id_int = n2;
+            this.bitmap = bitmap;
+        }
+
+        public int getIconID() {
+            return this.iconID;
+        }
+
+        public Integer getIDInt() {
+            return this.id_int;
+        }
+
+        public IconExtractor.Bitmap getImage() {
+            return this.bitmap;
+        }
+    }
+
+    public static interface IIconLoadedCallBack
+    extends ATIPEventListener {
+        public void onIconLoaded(int var1, Integer var2, IconExtractor.Bitmap var3);
+    }
+
+    private class CancelableIconLoadWorker
+    implements Runnable {
+        final int iconID;
+        final Integer id_int;
+        private IconExtractor.Bitmap bitmap = null;
+        IIconLoadedCallBack iconLoadedCallBack;
+        private final boolean cancelJob;
+        int pendingRequestAmount = 0;
+        List pendingRequests = new ArrayList();
+
+        public CancelableIconLoadWorker(int n, Integer n2, IIconLoadedCallBack iIconLoadedCallBack) {
+            this(n, n2, false, iIconLoadedCallBack);
+        }
+
+        public CancelableIconLoadWorker(int n, Integer n2, boolean bl, IIconLoadedCallBack iIconLoadedCallBack) {
+            this.iconID = n;
+            this.id_int = n2;
+            this.pendingRequestAmount = 1;
+            this.pendingRequests.add(iIconLoadedCallBack);
+            this.iconLoadedCallBack = iIconLoadedCallBack;
+            this.cancelJob = bl;
+        }
+
+        public boolean isCancelJob() {
+            return this.cancelJob;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer().append("IconLoadWorker: iconID = ").append(String.valueOf(this.iconID)).append(" pendingRequestAmount = ").append(" iconLoadedCallBack = ").append(String.valueOf(this.iconLoadedCallBack.hashCode())).append(String.valueOf(this.pendingRequestAmount)).append(" pendingRequests = ").append(String.valueOf(this.pendingRequests.size()));
+            buffer.append("[");
+            for (int i2 = 0; i2 < this.pendingRequests.size(); ++i2) {
+                buffer.append(new StringBuffer().append(" ").append(((Object)this.pendingRequests).hashCode()).append(",").toString());
+            }
+            buffer.append("]");
+            return buffer.toString();
+        }
+
+        public void run() {
+            try {
+                this.bitmap = IconLoader.getImage(this.iconID);
+            }
+            catch (Exception exception) {
+                IconLoader.this.getLogChannel().log(10000, "IconLoadWorker#run Caught exception when getting bitmap with id = %2, message as %1", (Object)exception.getMessage(), (long)this.iconID);
+                return;
+            }
+            IconLoader.this.getLogChannel().log(10000000, "IconLoadWorker#run task information %1", (Object)this);
+            int n = this.pendingRequests.size();
+            if (n != this.pendingRequestAmount) {
+                IconLoader.this.getLogChannel().log(10000, "IconLoadWorker#run pendingAmount != pendingRequestAmount");
+            }
+            if (this.pendingRequestAmount > 0) {
+                Iterator iterator = this.pendingRequests.iterator();
+                while (iterator.hasNext()) {
+                    IconLoadedEvent iconLoadedEvent = new IconLoadedEvent((IIconLoadedCallBack)iterator.next(), this.iconID, this.id_int, this.bitmap);
+                    IconLoader.this.framework.getHMIService().getEventDispatcher().postEvent(iconLoadedEvent);
+                }
+            } else {
+                IconLoadedEvent iconLoadedEvent = new IconLoadedEvent(this.iconLoadedCallBack, this.iconID, this.id_int, this.bitmap);
+                IconLoader.this.framework.getHMIService().getEventDispatcher().postEvent(iconLoadedEvent);
+            }
+        }
     }
 }
 

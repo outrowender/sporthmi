@@ -11,52 +11,45 @@ import org.apache.xerces.xni.grammars.XMLSchemaDescription;
 public class XSDDescription
 extends XMLResourceIdentifierImpl
 implements XMLSchemaDescription {
-    public static final short CONTEXT_INITIALIZE;
-    public static final short CONTEXT_INCLUDE;
-    public static final short CONTEXT_REDEFINE;
-    public static final short CONTEXT_IMPORT;
-    public static final short CONTEXT_PREPARSE;
-    public static final short CONTEXT_INSTANCE;
-    public static final short CONTEXT_ELEMENT;
-    public static final short CONTEXT_ATTRIBUTE;
-    public static final short CONTEXT_XSITYPE;
+    public static final short CONTEXT_INITIALIZE = -1;
+    public static final short CONTEXT_INCLUDE = 0;
+    public static final short CONTEXT_REDEFINE = 1;
+    public static final short CONTEXT_IMPORT = 2;
+    public static final short CONTEXT_PREPARSE = 3;
+    public static final short CONTEXT_INSTANCE = 4;
+    public static final short CONTEXT_ELEMENT = 5;
+    public static final short CONTEXT_ATTRIBUTE = 6;
+    public static final short CONTEXT_XSITYPE = 7;
     protected short fContextType;
     protected String[] fLocationHints;
     protected QName fTriggeringComponent;
     protected QName fEnclosedElementName;
     protected XMLAttributes fAttributes;
 
-    @Override
     public String getGrammarType() {
         return "http://www.w3.org/2001/XMLSchema";
     }
 
-    @Override
     public short getContextType() {
         return this.fContextType;
     }
 
-    @Override
     public String getTargetNamespace() {
         return this.fNamespace;
     }
 
-    @Override
     public String[] getLocationHints() {
         return this.fLocationHints;
     }
 
-    @Override
     public QName getTriggeringComponent() {
         return this.fTriggeringComponent;
     }
 
-    @Override
     public QName getEnclosingElementName() {
         return this.fEnclosedElementName;
     }
 
-    @Override
     public XMLAttributes getAttributes() {
         return this.fAttributes;
     }
@@ -76,7 +69,6 @@ implements XMLSchemaDescription {
         return xMLSchemaDescription.getTargetNamespace() == null;
     }
 
-    @Override
     public int hashCode() {
         return this.fNamespace == null ? 0 : this.fNamespace.hashCode();
     }

@@ -5,6 +5,8 @@ package java.text;
 
 import com.ibm.oti.locale.Locale;
 import com.ibm.oti.util.ExtendedResourceBundle;
+import com.ibm.oti.util.Msg;
+import java.io.InvalidObjectException;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -17,37 +19,36 @@ import java.util.TimeZone;
 
 public abstract class DateFormat
 extends Format {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7218322306649953788L;
     protected Calendar calendar;
     protected NumberFormat numberFormat;
-    public static final int DEFAULT;
-    public static final int FULL;
-    public static final int LONG;
-    public static final int MEDIUM;
-    public static final int SHORT;
-    public static final int ERA_FIELD;
-    public static final int YEAR_FIELD;
-    public static final int MONTH_FIELD;
-    public static final int DATE_FIELD;
-    public static final int HOUR_OF_DAY1_FIELD;
-    public static final int HOUR_OF_DAY0_FIELD;
-    public static final int MINUTE_FIELD;
-    public static final int SECOND_FIELD;
-    public static final int MILLISECOND_FIELD;
-    public static final int DAY_OF_WEEK_FIELD;
-    public static final int DAY_OF_YEAR_FIELD;
-    public static final int DAY_OF_WEEK_IN_MONTH_FIELD;
-    public static final int WEEK_OF_YEAR_FIELD;
-    public static final int WEEK_OF_MONTH_FIELD;
-    public static final int AM_PM_FIELD;
-    public static final int HOUR1_FIELD;
-    public static final int HOUR0_FIELD;
-    public static final int TIMEZONE_FIELD;
+    public static final int DEFAULT = 2;
+    public static final int FULL = 0;
+    public static final int LONG = 1;
+    public static final int MEDIUM = 2;
+    public static final int SHORT = 3;
+    public static final int ERA_FIELD = 0;
+    public static final int YEAR_FIELD = 1;
+    public static final int MONTH_FIELD = 2;
+    public static final int DATE_FIELD = 3;
+    public static final int HOUR_OF_DAY1_FIELD = 4;
+    public static final int HOUR_OF_DAY0_FIELD = 5;
+    public static final int MINUTE_FIELD = 6;
+    public static final int SECOND_FIELD = 7;
+    public static final int MILLISECOND_FIELD = 8;
+    public static final int DAY_OF_WEEK_FIELD = 9;
+    public static final int DAY_OF_YEAR_FIELD = 10;
+    public static final int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
+    public static final int WEEK_OF_YEAR_FIELD = 12;
+    public static final int WEEK_OF_MONTH_FIELD = 13;
+    public static final int AM_PM_FIELD = 14;
+    public static final int HOUR1_FIELD = 15;
+    public static final int HOUR0_FIELD = 16;
+    public static final int TIMEZONE_FIELD = 17;
 
     protected DateFormat() {
     }
 
-    @Override
     public Object clone() {
         DateFormat dateFormat = (DateFormat)super.clone();
         dateFormat.calendar = (Calendar)this.calendar.clone();
@@ -66,7 +67,6 @@ extends Format {
         return this.numberFormat.equals(dateFormat.numberFormat) && this.calendar.getTimeZone().equals(dateFormat.calendar.getTimeZone()) && this.calendar.getFirstDayOfWeek() == dateFormat.calendar.getFirstDayOfWeek() && this.calendar.getMinimalDaysInFirstWeek() == dateFormat.calendar.getMinimalDaysInFirstWeek() && this.calendar.isLenient() == dateFormat.calendar.isLenient();
     }
 
-    @Override
     public final StringBuffer format(Object object, StringBuffer stringBuffer, FieldPosition fieldPosition) {
         if (object instanceof Date) {
             return this.format((Date)object, stringBuffer, fieldPosition);
@@ -81,8 +81,7 @@ extends Format {
         return this.format(date, new StringBuffer(), new FieldPosition(0)).toString();
     }
 
-    public abstract StringBuffer format(Date date, StringBuffer stringBuffer, FieldPosition fieldPosition) {
-    }
+    public abstract StringBuffer format(Date var1, StringBuffer var2, FieldPosition var3);
 
     public static java.util.Locale[] getAvailableLocales() {
         return java.util.Locale.getAvailableLocales();
@@ -265,7 +264,7 @@ extends Format {
         return this.calendar.isLenient();
     }
 
-    public Date parse(String string) {
+    public Date parse(String string) throws ParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Date date = this.parse(string, parsePosition);
         if (parsePosition.getErrorIndex() != -1 || parsePosition.getIndex() == 0) {
@@ -274,10 +273,8 @@ extends Format {
         return date;
     }
 
-    public abstract Date parse(String string, ParsePosition parsePosition) {
-    }
+    public abstract Date parse(String var1, ParsePosition var2);
 
-    @Override
     public Object parseObject(String string, ParsePosition parsePosition) {
         return this.parse(string, parsePosition);
     }
@@ -296,6 +293,97 @@ extends Format {
 
     public void setTimeZone(TimeZone timeZone) {
         this.calendar.setTimeZone(timeZone);
+    }
+
+    public static class Field
+    extends Format.Field {
+        public static final Field ERA = new Field("era", 0);
+        public static final Field YEAR = new Field("year", 1);
+        public static final Field MONTH = new Field("month", 2);
+        public static final Field HOUR_OF_DAY0 = new Field("hour of day", 11);
+        public static final Field HOUR_OF_DAY1 = new Field("hour of day 1", -1);
+        public static final Field MINUTE = new Field("minute", 12);
+        public static final Field SECOND = new Field("second", 13);
+        public static final Field MILLISECOND = new Field("millisecond", 14);
+        public static final Field DAY_OF_WEEK = new Field("day of week", 7);
+        public static final Field DAY_OF_MONTH = new Field("day of month", 5);
+        public static final Field DAY_OF_YEAR = new Field("day of year", 6);
+        public static final Field DAY_OF_WEEK_IN_MONTH = new Field("day of week in month", 8);
+        public static final Field WEEK_OF_YEAR = new Field("week of year", 3);
+        public static final Field WEEK_OF_MONTH = new Field("week of month", 4);
+        public static final Field AM_PM = new Field("am pm", 9);
+        public static final Field HOUR0 = new Field("hour", 10);
+        public static final Field HOUR1 = new Field("hour 1", -1);
+        public static final Field TIME_ZONE = new Field("time zone", -1);
+        private static Field[] calendarFields;
+        private int calendarField = -1;
+
+        static {
+            Field[] fieldArray = new Field[17];
+            fieldArray[0] = ERA;
+            fieldArray[1] = YEAR;
+            fieldArray[2] = MONTH;
+            fieldArray[3] = WEEK_OF_YEAR;
+            fieldArray[4] = WEEK_OF_MONTH;
+            fieldArray[5] = DAY_OF_MONTH;
+            fieldArray[6] = DAY_OF_YEAR;
+            fieldArray[7] = DAY_OF_WEEK;
+            fieldArray[8] = DAY_OF_WEEK_IN_MONTH;
+            fieldArray[9] = AM_PM;
+            fieldArray[10] = HOUR0;
+            fieldArray[11] = HOUR_OF_DAY0;
+            fieldArray[12] = MINUTE;
+            fieldArray[13] = SECOND;
+            fieldArray[14] = MILLISECOND;
+            calendarFields = fieldArray;
+        }
+
+        protected Field(String string, int n) {
+            super(string);
+            this.calendarField = n;
+        }
+
+        public int getCalendarField() {
+            return this.calendarField;
+        }
+
+        public static Field ofCalendarField(int n) {
+            if (n < 0 || n >= 17) {
+                throw new IllegalArgumentException();
+            }
+            return calendarFields[n];
+        }
+
+        protected Object readResolve() throws InvalidObjectException {
+            block8: {
+                String string = this.getName();
+                if (string == null) {
+                    throw new InvalidObjectException(Msg.getString("K0344", "DateFormat.Field"));
+                }
+                if (this.calendarField != -1) {
+                    try {
+                        Field field = Field.ofCalendarField(this.calendarField);
+                        if (field != null && string.equals(field.getName())) {
+                            return field;
+                        }
+                        break block8;
+                    }
+                    catch (IllegalArgumentException illegalArgumentException) {
+                        throw new InvalidObjectException(Msg.getString("K0344", "DateFormat.Field"));
+                    }
+                }
+                if (string.equals(TIME_ZONE.getName())) {
+                    return TIME_ZONE;
+                }
+                if (string.equals(HOUR1.getName())) {
+                    return HOUR1;
+                }
+                if (string.equals(HOUR_OF_DAY1.getName())) {
+                    return HOUR_OF_DAY1;
+                }
+            }
+            throw new InvalidObjectException(Msg.getString("K0344", "DateFormat.Field"));
+        }
     }
 }
 

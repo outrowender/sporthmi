@@ -17,12 +17,11 @@ extends AbstractIdleTimerController {
         this.idleTime = 500;
     }
 
-    @Override
     protected void timerFired() {
         if (this.parent instanceof ComboBoxController) {
-            logChannel.log(-2137614336, "ComboBoxTimerController#timerFired: Fire timer --> updateContent if needed");
+            logChannel.log(10000000, "ComboBoxTimerController#timerFired: Fire timer --> updateContent if needed");
             if (((ComboBoxController)this.parent).updateContent()) {
-                logChannel.log(-2137614336, "ComboBoxTimerController#timerFired: model value did not match label value -> trigger repaint");
+                logChannel.log(10000000, "ComboBoxTimerController#timerFired: model value did not match label value -> trigger repaint");
                 this.triggerRepaint();
             }
         }

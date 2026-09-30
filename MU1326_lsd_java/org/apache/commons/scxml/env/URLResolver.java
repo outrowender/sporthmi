@@ -13,7 +13,7 @@ import org.apache.commons.scxml.PathResolver;
 public class URLResolver
 implements PathResolver,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Log log = LogFactory.getLog(class$org$apache$commons$scxml$PathResolver == null ? (class$org$apache$commons$scxml$PathResolver = URLResolver.class$("org.apache.commons.scxml.PathResolver")) : class$org$apache$commons$scxml$PathResolver);
     private URL baseURL = null;
     static /* synthetic */ Class class$org$apache$commons$scxml$PathResolver;
@@ -22,7 +22,6 @@ Serializable {
         this.baseURL = uRL;
     }
 
-    @Override
     public String resolvePath(String string) {
         try {
             URL uRL = new URL(this.baseURL, string);
@@ -34,7 +33,6 @@ Serializable {
         }
     }
 
-    @Override
     public PathResolver getResolver(String string) {
         try {
             URL uRL = new URL(this.baseURL, string);

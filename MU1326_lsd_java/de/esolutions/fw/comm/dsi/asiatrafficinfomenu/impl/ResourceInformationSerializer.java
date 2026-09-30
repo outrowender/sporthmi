@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.asiatrafficinfomenu.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.asiatrafficinfomenu.ResourceInformation;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class ResourceInformationSerializer {
-    public static void putOptionalResourceInformation(ISerializer iSerializer, ResourceInformation resourceInformation) {
+    public static void putOptionalResourceInformation(ISerializer iSerializer, ResourceInformation resourceInformation) throws SerializerException {
         boolean bl = resourceInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ResourceInformationSerializer {
         }
     }
 
-    public static void putOptionalResourceInformationVarArray(ISerializer iSerializer, ResourceInformation[] resourceInformationArray) {
+    public static void putOptionalResourceInformationVarArray(ISerializer iSerializer, ResourceInformation[] resourceInformationArray) throws SerializerException {
         boolean bl = resourceInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ResourceInformationSerializer {
         }
     }
 
-    public static ResourceInformation getOptionalResourceInformation(IDeserializer iDeserializer) {
+    public static ResourceInformation getOptionalResourceInformation(IDeserializer iDeserializer) throws SerializerException {
         ResourceInformation resourceInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class ResourceInformationSerializer {
         return resourceInformation;
     }
 
-    public static ResourceInformation[] getOptionalResourceInformationVarArray(IDeserializer iDeserializer) {
+    public static ResourceInformation[] getOptionalResourceInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         ResourceInformation[] resourceInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

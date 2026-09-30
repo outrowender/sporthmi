@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radiodata.impl;
 import de.esolutions.fw.comm.dsi.radiodata.impl.RadioStationDataRequestSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radiodata.RadioStationDataRequest;
 import org.dsi.ifc.radiodata.RadioStationLogoRequest;
 
 public class RadioStationLogoRequestSerializer {
-    public static void putOptionalRadioStationLogoRequest(ISerializer iSerializer, RadioStationLogoRequest radioStationLogoRequest) {
+    public static void putOptionalRadioStationLogoRequest(ISerializer iSerializer, RadioStationLogoRequest radioStationLogoRequest) throws SerializerException {
         boolean bl = radioStationLogoRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RadioStationLogoRequestSerializer {
         }
     }
 
-    public static void putOptionalRadioStationLogoRequestVarArray(ISerializer iSerializer, RadioStationLogoRequest[] radioStationLogoRequestArray) {
+    public static void putOptionalRadioStationLogoRequestVarArray(ISerializer iSerializer, RadioStationLogoRequest[] radioStationLogoRequestArray) throws SerializerException {
         boolean bl = radioStationLogoRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RadioStationLogoRequestSerializer {
         }
     }
 
-    public static RadioStationLogoRequest getOptionalRadioStationLogoRequest(IDeserializer iDeserializer) {
+    public static RadioStationLogoRequest getOptionalRadioStationLogoRequest(IDeserializer iDeserializer) throws SerializerException {
         RadioStationLogoRequest radioStationLogoRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class RadioStationLogoRequestSerializer {
         return radioStationLogoRequest;
     }
 
-    public static RadioStationLogoRequest[] getOptionalRadioStationLogoRequestVarArray(IDeserializer iDeserializer) {
+    public static RadioStationLogoRequest[] getOptionalRadioStationLogoRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStationLogoRequest[] radioStationLogoRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -18,7 +18,6 @@ Runnable {
         return l2;
     }
 
-    @Override
     public void run() {
         System.out.println("---------- RECURSE ERROR TEST STARTED ----------");
         OSCalls oSCalls = null;
@@ -26,16 +25,15 @@ Runnable {
             oSCalls = null;
         }
         int n = 1;
-        while ((long)n < 0) {
+        while ((long)n < 1000000L) {
             long l = System.currentTimeMillis();
             long l2 = oSCalls != null ? oSCalls.sum(n) : this.sum(n);
             long l3 = System.currentTimeMillis();
-            System.out.println(new StringBuffer().append("sum: s(").append(n).append(")=").append(l2).append(", delta=").append(l3 - l).toString());
+            System.out.println("sum: s(" + n + ")=" + l2 + ", delta=" + (l3 - l));
             n *= 2;
         }
     }
 
-    @Override
     public void executeTraceCallback(int n, byte[] byArray) {
         this.tc.log((short)4, "Trigger endless recursion to test VM!");
         Thread thread = new Thread(this, "RecurseEndless");

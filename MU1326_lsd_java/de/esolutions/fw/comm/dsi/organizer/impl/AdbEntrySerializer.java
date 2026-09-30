@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.organizer.impl.PersonalDataSerializer;
 import de.esolutions.fw.comm.dsi.organizer.impl.PhoneDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.organizer.AddressData;
 import org.dsi.ifc.organizer.EmailData;
@@ -16,7 +17,7 @@ import org.dsi.ifc.organizer.PersonalData;
 import org.dsi.ifc.organizer.PhoneData;
 
 public class AdbEntrySerializer {
-    public static void putOptionalAdbEntry(ISerializer iSerializer, AdbEntry adbEntry) {
+    public static void putOptionalAdbEntry(ISerializer iSerializer, AdbEntry adbEntry) throws SerializerException {
         boolean bl = adbEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class AdbEntrySerializer {
         }
     }
 
-    public static void putOptionalAdbEntryVarArray(ISerializer iSerializer, AdbEntry[] adbEntryArray) {
+    public static void putOptionalAdbEntryVarArray(ISerializer iSerializer, AdbEntry[] adbEntryArray) throws SerializerException {
         boolean bl = adbEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class AdbEntrySerializer {
         }
     }
 
-    public static AdbEntry getOptionalAdbEntry(IDeserializer iDeserializer) {
+    public static AdbEntry getOptionalAdbEntry(IDeserializer iDeserializer) throws SerializerException {
         AdbEntry adbEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -87,7 +88,7 @@ public class AdbEntrySerializer {
         return adbEntry;
     }
 
-    public static AdbEntry[] getOptionalAdbEntryVarArray(IDeserializer iDeserializer) {
+    public static AdbEntry[] getOptionalAdbEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         AdbEntry[] adbEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

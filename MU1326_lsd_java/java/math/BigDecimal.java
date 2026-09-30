@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.math;
 
@@ -12,32 +9,25 @@ import java.math.BigInteger;
 public class BigDecimal
 extends Number
 implements Comparable {
-    private static final long serialVersionUID;
-    public static final int ROUND_UP;
-    public static final int ROUND_DOWN;
-    public static final int ROUND_CEILING;
-    public static final int ROUND_FLOOR;
-    public static final int ROUND_HALF_UP;
-    public static final int ROUND_HALF_DOWN;
-    public static final int ROUND_HALF_EVEN;
-    public static final int ROUND_UNNECESSARY;
-    private static final BigInteger TEN;
-    private static final BigInteger TWO;
-    private static final BigDecimal ONE;
-    private static final BigDecimal ZERO;
+    private static final long serialVersionUID = 6108874887143696463L;
+    public static final int ROUND_UP = 0;
+    public static final int ROUND_DOWN = 1;
+    public static final int ROUND_CEILING = 2;
+    public static final int ROUND_FLOOR = 3;
+    public static final int ROUND_HALF_UP = 4;
+    public static final int ROUND_HALF_DOWN = 5;
+    public static final int ROUND_HALF_EVEN = 6;
+    public static final int ROUND_UNNECESSARY = 7;
+    private static final BigInteger TEN = new BigInteger("10");
+    private static final BigInteger TWO = BigInteger.valueOf(2L);
+    private static final BigDecimal ONE = new BigDecimal(BigInteger.ONE, 0);
+    private static final BigDecimal ZERO = new BigDecimal(BigInteger.ZERO, 0);
     private int scale;
     private BigInteger intVal;
     private transient int setCount = 0;
     private transient int getCount = 0;
     private transient int[] uArray = new int[64];
     private transient int firstK = 0;
-
-    static {
-        TEN = new BigInteger("10");
-        TWO = BigInteger.valueOf(0);
-        ONE = new BigDecimal(BigInteger.ONE, 0);
-        ZERO = new BigDecimal(BigInteger.ZERO, 0);
-    }
 
     public BigDecimal(BigInteger bigInteger) {
         this.intVal = bigInteger;
@@ -53,7 +43,7 @@ implements Comparable {
     }
 
     public BigDecimal(double d2) {
-        long l = Double.doubleToLongBits((double)d2);
+        long l = Double.doubleToLongBits(d2);
         long l2 = (l & Long.MIN_VALUE) >> 63;
         long l3 = (l & 0x7FF0000000000000L) >> 52;
         long l4 = l & 0xFFFFFFFFFFFFFL;
@@ -62,7 +52,7 @@ implements Comparable {
         this.setCount = 0;
         this.getCount = 0;
         String string = l2 == 0L ? "" : "-";
-        if (l3 == 0) {
+        if (l3 == 2047L) {
             throw new NumberFormatException(Msg.getString("K040b"));
         }
         if (l3 == 0L) {
@@ -71,14 +61,14 @@ implements Comparable {
                 this.scale = 0;
                 bl = true;
             } else {
-                n = (int)(l3 - 0 + 1L);
+                n = (int)(l3 - 1075L + 1L);
             }
         } else {
-            l4 |= 0;
-            n = (int)(l3 - 0);
+            l4 |= 0x10000000000000L;
+            n = (int)(l3 - 1075L);
         }
         if (!bl) {
-            String string2 = new StringBuffer(String.valueOf(string)).append(this.freeFormat(n, l4)).toString();
+            String string2 = String.valueOf(string) + this.freeFormat(n, l4);
             this.intVal = new BigInteger(string2.toString());
         }
     }
@@ -105,7 +95,7 @@ implements Comparable {
             int n3 = string2.length();
             String string4 = string2.substring(0, n);
             String string5 = string2.substring(n + 1, n3);
-            this.intVal = new BigInteger(new StringBuffer(String.valueOf(string4)).append(string5).toString());
+            this.intVal = new BigInteger(String.valueOf(string4) + string5);
             this.scale = n3 - n - 1;
         }
         if (string3 != null) {
@@ -144,7 +134,6 @@ implements Comparable {
         return new BigDecimal(bigInteger, n);
     }
 
-    @Override
     public int compareTo(Object object) {
         if (!(object instanceof BigDecimal)) {
             throw new ClassCastException();
@@ -334,7 +323,6 @@ lbl42:
         return new BigDecimal(var12_14, var2_2);
     }
 
-    @Override
     public double doubleValue() {
         try {
             Double d2 = new Double(this.toString());
@@ -355,7 +343,6 @@ lbl42:
         return this.unscaledValue().compareTo(((BigDecimal)object).unscaledValue()) == 0 && this.scale() == ((BigDecimal)object).scale();
     }
 
-    @Override
     public float floatValue() {
         try {
             Float f2 = new Float(this.toString());
@@ -363,9 +350,9 @@ lbl42:
         }
         catch (NumberFormatException numberFormatException) {
             if (this.signum() == -1) {
-                return 33023;
+                return Float.NEGATIVE_INFINITY;
             }
-            return 32895;
+            return Float.POSITIVE_INFINITY;
         }
     }
 
@@ -373,13 +360,11 @@ lbl42:
         return this.intVal.hashCode() ^ this.scale;
     }
 
-    @Override
     public int intValue() {
         BigInteger bigInteger = this.toBigInteger();
         return bigInteger.intValue();
     }
 
-    @Override
     public long longValue() {
         BigInteger bigInteger = this.toBigInteger();
         return bigInteger.longValue();
@@ -603,7 +588,7 @@ lbl42:
             return string3;
         }
         String string4 = new String(string).substring(n - this.scale(), n);
-        return new StringBuffer(String.valueOf(string3)).append(".").append(string4).toString();
+        return String.valueOf(string3) + "." + string4;
     }
 
     public BigInteger unscaledValue() {

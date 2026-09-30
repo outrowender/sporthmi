@@ -7,31 +7,27 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSINavFleetServices
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RP_SETVZOTRACKERSTATERESULT;
-    public static final int RP_SETVZODOWNLOADSTATERESULT;
-    public static final int RP_SETLGITRACKERSTATERESULT;
-    public static final int RP_SETLGIDOWNLOADSTATERESULT;
-    public static final int RT_SETVZOTRACKERSTATE;
-    public static final int RT_SETVZODOWNLOADSTATE;
-    public static final int RT_SETLGITRACKERSTATE;
-    public static final int RT_SETLGIDOWNLOADSTATE;
-    public static final int APPSTATE_ACTIVE;
-    public static final int APPSTATE_FORBIDDENROAMING;
-    public static final int APPSTATE_DEACTIVATE;
-    public static final int NCFSRESULTCODE_OK;
-    public static final int NCFSRESULTCODE_ERROR;
+    public static final String VERSION = "2.11.1";
+    public static final int RP_SETVZOTRACKERSTATERESULT = 2000;
+    public static final int RP_SETVZODOWNLOADSTATERESULT = 2001;
+    public static final int RP_SETLGITRACKERSTATERESULT = 2002;
+    public static final int RP_SETLGIDOWNLOADSTATERESULT = 2003;
+    public static final int RT_SETVZOTRACKERSTATE = 1000;
+    public static final int RT_SETVZODOWNLOADSTATE = 1001;
+    public static final int RT_SETLGITRACKERSTATE = 1002;
+    public static final int RT_SETLGIDOWNLOADSTATE = 1003;
+    public static final int APPSTATE_ACTIVE = 0;
+    public static final int APPSTATE_FORBIDDENROAMING = 1;
+    public static final int APPSTATE_DEACTIVATE = 2;
+    public static final int NCFSRESULTCODE_OK = 0;
+    public static final int NCFSRESULTCODE_ERROR = 1;
 
-    default public void setVZOTrackerState(int n) {
-    }
+    public void setVZOTrackerState(int var1);
 
-    default public void setVZODownloadState(int n) {
-    }
+    public void setVZODownloadState(int var1);
 
-    default public void setLGITrackerState(int n) {
-    }
+    public void setLGITrackerState(int var1);
 
-    default public void setLGIDownloadState(int n) {
-    }
+    public void setLGIDownloadState(int var1);
 }
 

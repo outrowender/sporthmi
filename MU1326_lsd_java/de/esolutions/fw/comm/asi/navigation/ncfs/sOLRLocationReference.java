@@ -22,7 +22,7 @@ public class sOLRLocationReference {
     }
 
     public String toString() {
-        return new StringBuffer("sOLRLocationReference{").append("location=").append("[").append(this.location == null ? "null" : new StringBuffer().append("size=").append(this.location.length).toString()).append("]").append("}").toString();
+        return "sOLRLocationReference{" + "location=" + "[" + (this.location == null ? "null" : "size=" + this.location.length) + "]" + "}";
     }
 }
 

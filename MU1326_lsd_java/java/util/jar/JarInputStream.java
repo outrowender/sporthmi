@@ -4,12 +4,12 @@
 package java.util.jar;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarVerifier;
-import java.util.jar.JarVerifier$VerifierEntry;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -24,7 +24,7 @@ extends ZipInputStream {
     private JarVerifier verifier;
     private OutputStream verStream;
 
-    public JarInputStream(InputStream inputStream, boolean bl) {
+    public JarInputStream(InputStream inputStream, boolean bl) throws IOException {
         super(inputStream);
         if (bl) {
             this.verifier = new JarVerifier("JarInputStream");
@@ -53,7 +53,7 @@ extends ZipInputStream {
         }
     }
 
-    public JarInputStream(InputStream inputStream) {
+    public JarInputStream(InputStream inputStream) throws IOException {
         this(inputStream, true);
     }
 
@@ -61,12 +61,11 @@ extends ZipInputStream {
         return this.manifest;
     }
 
-    public JarEntry getNextJarEntry() {
+    public JarEntry getNextJarEntry() throws IOException {
         return (JarEntry)this.getNextEntry();
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.mEntry != null) {
             return -1;
         }
@@ -78,7 +77,7 @@ extends ZipInputStream {
                     this.verifier.addMetaEntry(this.jarEntry.getName(), ((ByteArrayOutputStream)this.verStream).toByteArray());
                     this.verifier.readCertificates();
                 } else {
-                    this.verifier.verifySignatures((JarVerifier$VerifierEntry)this.verStream, this.jarEntry);
+                    this.verifier.verifySignatures((JarVerifier.VerifierEntry)this.verStream, this.jarEntry);
                 }
             } else {
                 this.verStream.write(byArray, n, n3);
@@ -87,8 +86,7 @@ extends ZipInputStream {
         return n3;
     }
 
-    @Override
-    public ZipEntry getNextEntry() {
+    public ZipEntry getNextEntry() throws IOException {
         this.eos = false;
         if (this.mEntry != null) {
             this.jarEntry = this.mEntry;
@@ -107,7 +105,6 @@ extends ZipInputStream {
         return this.jarEntry;
     }
 
-    @Override
     protected ZipEntry createZipEntry(String string) {
         JarEntry jarEntry = new JarEntry(string);
         if (this.manifest != null) {

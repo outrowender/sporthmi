@@ -8,16 +8,12 @@ import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public interface DSIPredictiveNavigationListener
 extends DSIListener {
-    default public void updateOperationMode(int n, int n2) {
-    }
+    public void updateOperationMode(int var1, int var2);
 
-    default public void updateLikelyDestinations(LikelyDestination[] likelyDestinationArray, int n) {
-    }
+    public void updateLikelyDestinations(LikelyDestination[] var1, int var2);
 
-    default public void updateMaxPredictions(int n, int n2) {
-    }
+    public void updateMaxPredictions(int var1, int var2);
 
-    default public void clearCacheResult() {
-    }
+    public void clearCacheResult();
 }
 

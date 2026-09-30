@@ -9,34 +9,28 @@ import de.audi.atip.hmi.view.IPartialPopupController;
 import de.audi.atip.hmi.view.IPartialPopupManager;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
-import de.esolutions.hmi.widgets.audi.base.AbstractWidgetFinderDiag$1;
-import de.esolutions.hmi.widgets.audi.base.AbstractWidgetFinderDiag$2;
-import de.esolutions.hmi.widgets.audi.base.AbstractWidgetFinderDiag$3;
 import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
 import de.esolutions.hmi.widgets.audi.base.TextToolExport;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map$Entry;
 
 public abstract class AbstractWidgetFinderDiag
 extends AbstractSwDiagnosis {
-    private static final String SOME_BLANKS;
-    private static final String MANY_BLANKS;
-    protected static final int INDENTATION_PER_LEVEL;
-    public static final int FORMAT_VERSION_0;
-    public static final int FORMAT_VERSION_1;
-    public static final int FORMAT_VERSION_2;
+    private static final String SOME_BLANKS = "                                                                                                   ";
+    private static final String MANY_BLANKS = "                                                                                                                                                                                                                                                                                                                                                                                                            ";
+    protected static final int INDENTATION_PER_LEVEL = 4;
+    public static final int FORMAT_VERSION_0 = 0;
+    public static final int FORMAT_VERSION_1 = 1;
+    public static final int FORMAT_VERSION_2 = 2;
     protected int formatVersion = 0;
 
-    @Override
     public String getName() {
         return "Widgets";
     }
 
-    @Override
     public int getId() {
-        return 1907097600;
+        return 44145;
     }
 
     public String getWidgetHierarchy() {
@@ -46,8 +40,7 @@ extends AbstractSwDiagnosis {
         return stringBuffer.toString();
     }
 
-    protected abstract AbstractWidget getCurrentScreen() {
-    }
+    protected abstract AbstractWidget getCurrentScreen();
 
     public String getWidgetAndDrawablesHierarchy() {
         this.formatVersion = 0;
@@ -81,8 +74,7 @@ extends AbstractSwDiagnosis {
         }
     }
 
-    protected abstract void createGraphicsElementsTree(StringBuffer stringBuffer) {
-    }
+    protected abstract void createGraphicsElementsTree(StringBuffer var1);
 
     protected void createTree(AbstractWidget abstractWidget, StringBuffer stringBuffer, int n) {
         if (abstractWidget == null) {
@@ -137,24 +129,24 @@ extends AbstractSwDiagnosis {
 
     private String formatOld(String string, int n, int n2, int n3, int n4, int n5, Map map) {
         Buffer buffer = new Buffer();
-        buffer.append(new StringBuffer().append(string).append(", ").append(n).append(", ").append(n2).append(", ").append(n3).append(", ").append(n4).append(", ").append(n5).toString());
+        buffer.append(string + ", " + n + ", " + n2 + ", " + n3 + ", " + n4 + ", " + n5);
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
+            Map.Entry entry = (Map.Entry)iterator.next();
             buffer.append(", ");
-            buffer.append(map$Entry.getKey()).append(": ").append(map$Entry.getValue());
+            buffer.append(entry.getKey()).append(": ").append(entry.getValue());
         }
         return buffer.toString();
     }
 
     private String formatNew(String string, int n, int n2, int n3, int n4, int n5, Map map) {
         Buffer buffer = new Buffer();
-        buffer.append(new StringBuffer().append(string).append(", hash=").append(n).append(", x=").append(n2).append(", y=").append(n3).append(", width=").append(n4).append(", height=").append(n5).toString());
+        buffer.append(string + ", hash=" + n + ", x=" + n2 + ", y=" + n3 + ", width=" + n4 + ", height=" + n5);
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
+            Map.Entry entry = (Map.Entry)iterator.next();
             buffer.append(", ");
-            buffer.append(map$Entry.getKey()).append("=\"").append(this.escapeValue(map$Entry.getValue())).append('\"');
+            buffer.append(entry.getKey()).append("=\"").append(this.escapeValue(entry.getValue())).append('\"');
         }
         return buffer.toString();
     }
@@ -182,7 +174,7 @@ extends AbstractSwDiagnosis {
 
     protected String indentation(int n) {
         int n2 = n * 4;
-        return "                                                                                                                                                                                                                                                                                                                                                                                                            ".substring(0, n2);
+        return MANY_BLANKS.substring(0, n2);
     }
 
     private int[] findAbsoluteCoordinates(AbstractWidget abstractWidget) {
@@ -201,26 +193,40 @@ extends AbstractSwDiagnosis {
         return true;
     }
 
-    public void cmdMarkArea(int n, int n2, int n3, int n4) {
-        AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new AbstractWidgetFinderDiag$1(this, n3, n4, n, n2)));
+    public void cmdMarkArea(final int n, final int n2, final int n3, final int n4) {
+        AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+            public void run() {
+                int n5 = Math.max(n3, 1);
+                int n22 = Math.max(n4, 1);
+                AbstractWidgetFinderDiag.this.markSynced(n, n2, n5, n22);
+            }
+        }));
     }
 
-    public void cmdCallbackSelected(String string) {
-        AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new AbstractWidgetFinderDiag$2(this, string)));
+    public void cmdCallbackSelected(final String string) {
+        AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+            public void run() {
+                AbstractWidgetFinderDiag.this.callbackSelectedSynced(string);
+            }
+        }));
     }
 
-    protected abstract void markSynced(int n, int n2, int n3, int n4) {
-    }
+    protected abstract void markSynced(int var1, int var2, int var3, int var4);
 
-    protected abstract void callbackSelectedSynced(String string) {
-    }
+    protected abstract void callbackSelectedSynced(String var1);
 
     public void cmdClearMarkedArea() {
-        AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new AbstractWidgetFinderDiag$3(this)));
+        AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+            public void run() {
+                AbstractWidgetFinderDiag.this.clearMarkerSynced();
+            }
+        }));
     }
 
-    protected abstract void clearMarkerSynced() {
-    }
+    protected abstract void clearMarkerSynced();
 
     public HMITerminalImpl getTerminal() {
         return (HMITerminalImpl)AbstractWidget.framework.getHMIService().getHMITerminal(0);

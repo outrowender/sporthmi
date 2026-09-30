@@ -15,10 +15,9 @@ import java.util.List;
 
 public class UpperLowerCaseHandlingJPRule
 extends AbstractPRPRule {
-    private static final int MAX_ALTERNATIVE_LENGTH;
+    private static final int MAX_ALTERNATIVE_LENGTH = 5;
     private final HashMap cachedCaseChars = new HashMap(5);
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (list == null || list.isEmpty()) {
             return;
@@ -139,7 +138,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Upper Lower Case Handling Rule(JP)";
     }

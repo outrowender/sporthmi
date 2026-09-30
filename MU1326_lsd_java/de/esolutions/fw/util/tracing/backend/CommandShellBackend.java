@@ -71,7 +71,6 @@ implements Runnable {
         super("Terminal");
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         this.keyMap = new HashMap();
@@ -96,12 +95,11 @@ implements Runnable {
         this.thread.start();
     }
 
-    @Override
     public void exit() {
         this.doRun = false;
         this.thread.interrupt();
         try {
-            this.thread.join(0);
+            this.thread.join(500L);
         }
         catch (InterruptedException interruptedException) {
             // empty catch block
@@ -159,7 +157,6 @@ implements Runnable {
         ++this.numMessages;
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         String[] stringArray = this.formatter.formatMessage(iTraceMessage, this.resolver);
         if (this.doStatistics) {
@@ -191,7 +188,6 @@ implements Runnable {
         return true;
     }
 
-    @Override
     public boolean droppedMessages(int n) {
         System.out.println(new StringBuffer().append("DROPPED ").append(n).append(" MESSAGES").toString());
         return true;
@@ -214,7 +210,6 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean createEntity(ITraceEntity iTraceEntity) {
         Map map = this.keyMap;
         synchronized (map) {
@@ -241,7 +236,6 @@ implements Runnable {
         return true;
     }
 
-    @Override
     public void run() {
         InputStream inputStream = System.in;
         boolean bl = false;
@@ -587,7 +581,7 @@ implements Runnable {
                     this.waitForType = s2;
                     for (int i2 = 0; i2 < n; i2 += 100) {
                         try {
-                            this.waitForLock.wait(0);
+                            this.waitForLock.wait(100L);
                             continue;
                         }
                         catch (InterruptedException interruptedException) {

@@ -30,8 +30,7 @@ VoiceEncoderC {
         return this.proxy;
     }
 
-    @Override
-    public void startEncode(int n, String string, String string2, long l) {
+    public void startEncode(int n, String string, String string2, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -45,8 +44,7 @@ VoiceEncoderC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void cancel() {
+    public void cancel() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 }

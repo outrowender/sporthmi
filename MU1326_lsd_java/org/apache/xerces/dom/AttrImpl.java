@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.dom;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import org.apache.xerces.dom.ChildNode;
@@ -23,12 +24,12 @@ public class AttrImpl
 extends NodeImpl
 implements Attr,
 TypeInfo {
-    static final long serialVersionUID;
-    static final String DTD_URI;
+    static final long serialVersionUID = 7277707688218972102L;
+    static final String DTD_URI = "http://www.w3.org/TR/REC-xml";
     protected Object value = null;
     protected String name;
     transient Object type;
-    protected static TextImpl textNode;
+    protected static TextImpl textNode = null;
 
     protected AttrImpl(CoreDocumentImpl coreDocumentImpl, String string) {
         super(coreDocumentImpl);
@@ -61,7 +62,6 @@ TypeInfo {
         }
     }
 
-    @Override
     protected void setOwnerDocument(CoreDocumentImpl coreDocumentImpl) {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -83,12 +83,10 @@ TypeInfo {
         this.isIdAttribute(bl);
     }
 
-    @Override
     public boolean isId() {
         return this.isIdAttribute();
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         AttrImpl attrImpl;
         if (this.needsSyncChildren()) {
@@ -104,12 +102,10 @@ TypeInfo {
         return attrImpl;
     }
 
-    @Override
     public short getNodeType() {
         return 2;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -117,35 +113,29 @@ TypeInfo {
         return this.name;
     }
 
-    @Override
-    public void setNodeValue(String string) {
+    public void setNodeValue(String string) throws DOMException {
         this.setValue(string);
     }
 
-    @Override
     public String getTypeName() {
         return (String)this.type;
     }
 
-    @Override
     public String getTypeNamespace() {
         if (this.type != null) {
-            return "http://www.w3.org/TR/REC-xml";
+            return DTD_URI;
         }
         return null;
     }
 
-    @Override
     public TypeInfo getSchemaTypeInfo() {
         return this;
     }
 
-    @Override
     public String getNodeValue() {
         return this.getValue();
     }
 
-    @Override
     public String getName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -153,7 +143,6 @@ TypeInfo {
         return this.name;
     }
 
-    @Override
     public void setValue(String string) {
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         if (coreDocumentImpl.errorChecking && this.isReadOnly()) {
@@ -222,7 +211,6 @@ TypeInfo {
         }
     }
 
-    @Override
     public String getValue() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -259,7 +247,6 @@ TypeInfo {
         return stringBuffer.toString();
     }
 
-    @Override
     public boolean getSpecified() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -271,12 +258,10 @@ TypeInfo {
         return (Element)((Object)(this.isOwned() ? this.ownerNode : null));
     }
 
-    @Override
     public Element getOwnerElement() {
         return (Element)((Object)(this.isOwned() ? this.ownerNode : null));
     }
 
-    @Override
     public void normalize() {
         if (this.isNormalized() || this.hasStringValue()) {
             return;
@@ -310,12 +295,10 @@ TypeInfo {
         this.type = object;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append(this.getName()).append("=").append("\"").append(this.getValue()).append("\"").toString();
+        return this.getName() + "=" + "\"" + this.getValue() + "\"";
     }
 
-    @Override
     public boolean hasChildNodes() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -323,7 +306,6 @@ TypeInfo {
         return this.value != null;
     }
 
-    @Override
     public NodeList getChildNodes() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -331,7 +313,6 @@ TypeInfo {
         return this;
     }
 
-    @Override
     public Node getFirstChild() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -340,7 +321,6 @@ TypeInfo {
         return (Node)this.value;
     }
 
-    @Override
     public Node getLastChild() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -359,12 +339,11 @@ TypeInfo {
         }
     }
 
-    @Override
-    public Node insertBefore(Node node, Node node2) {
+    public Node insertBefore(Node node, Node node2) throws DOMException {
         return this.internalInsertBefore(node, node2, false);
     }
 
-    Node internalInsertBefore(Node node, Node node2, boolean bl) {
+    Node internalInsertBefore(Node node, Node node2, boolean bl) throws DOMException {
         Object object;
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         boolean bl2 = coreDocumentImpl.errorChecking;
@@ -456,8 +435,7 @@ TypeInfo {
         return node;
     }
 
-    @Override
-    public Node removeChild(Node node) {
+    public Node removeChild(Node node) throws DOMException {
         if (this.hasStringValue()) {
             String string = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NOT_FOUND_ERR", null);
             throw new DOMException(8, string);
@@ -465,7 +443,7 @@ TypeInfo {
         return this.internalRemoveChild(node, false);
     }
 
-    Node internalRemoveChild(Node node, boolean bl) {
+    Node internalRemoveChild(Node node, boolean bl) throws DOMException {
         ChildNode childNode;
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         if (coreDocumentImpl.errorChecking) {
@@ -510,8 +488,7 @@ TypeInfo {
         return childNode2;
     }
 
-    @Override
-    public Node replaceChild(Node node, Node node2) {
+    public Node replaceChild(Node node, Node node2) throws DOMException {
         this.makeChildNode();
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         coreDocumentImpl.replacingNode(this);
@@ -523,7 +500,6 @@ TypeInfo {
         return node2;
     }
 
-    @Override
     public int getLength() {
         if (this.hasStringValue()) {
             return 1;
@@ -537,7 +513,6 @@ TypeInfo {
         return n;
     }
 
-    @Override
     public Node item(int n) {
         if (this.hasStringValue()) {
             if (n != 0 || this.value == null) {
@@ -556,17 +531,14 @@ TypeInfo {
         return childNode;
     }
 
-    @Override
     public boolean isEqualNode(Node node) {
         return super.isEqualNode(node);
     }
 
-    @Override
     public boolean isDerivedFrom(String string, String string2, int n) {
         return false;
     }
 
-    @Override
     public void setReadOnly(boolean bl, boolean bl2) {
         super.setReadOnly(bl, bl2);
         if (bl2) {
@@ -609,20 +581,16 @@ TypeInfo {
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
         }
         objectOutputStream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
         objectInputStream.defaultReadObject();
         this.needsSyncChildren(false);
-    }
-
-    static {
-        textNode = null;
     }
 }
 

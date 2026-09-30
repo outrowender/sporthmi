@@ -26,7 +26,6 @@ implements IMenuCallback {
         return (MenuController)this.parent;
     }
 
-    @Override
     public void menuLayouted() {
         int n = this.setupVisibleSeparators();
         this.hideAdditionalSeparators(n);
@@ -64,7 +63,7 @@ implements IMenuCallback {
                 bl = false;
                 continue;
             }
-            menuLogCh.log(-1601830656, "ListSeparatingLinesController#setupVisibleSeparators: item %1 is not realized (item height: %2 -> %3)", (Object)menuItemMetaData, (long)menuItemMetaData.heightBefore, (long)menuItemMetaData.heightAfter);
+            menuLogCh.log(100000, "ListSeparatingLinesController#setupVisibleSeparators: item %1 is not realized (item height: %2 -> %3)", (Object)menuItemMetaData, (long)menuItemMetaData.heightBefore, (long)menuItemMetaData.heightAfter);
         }
         return n3;
     }
@@ -88,10 +87,10 @@ implements IMenuCallback {
         MenuController menuController = this.getMenu();
         int n3 = this.calculateSeparatorY(menuItemMetaData, bl);
         if (this.shouldHideForCursor(n3, n, n2)) {
-            menuLayoutLogCh.log(-2137614336, "LineSeparatingLinesController#layoutSeparatorLine: hide separatingLine %2 item %1 at position %3 because adjacent cursor", (Object)menuItemMetaData, (Object)(bl ? "above" : "below"), (long)n3);
+            menuLayoutLogCh.log(10000000, "LineSeparatingLinesController#layoutSeparatorLine: hide separatingLine %2 item %1 at position %3 because adjacent cursor", (Object)menuItemMetaData, (Object)(bl ? "above" : "below"), (long)n3);
             abstractWidget.setOnScreen(false);
         } else {
-            menuLayoutLogCh.log(-2137614336, "LineSeparatingLinesController#layoutSeparatorLine: show separatingLine %2 item %1 at position %3", (Object)menuItemMetaData, (Object)(bl ? "above" : "below"), (long)n3);
+            menuLayoutLogCh.log(10000000, "LineSeparatingLinesController#layoutSeparatorLine: show separatingLine %2 item %1 at position %3", (Object)menuItemMetaData, (Object)(bl ? "above" : "below"), (long)n3);
             abstractWidget.setOnScreen(true);
             abstractWidget.setBounds(menuItemMetaData.widget.getX(), n3, menuItemMetaData.widget.getWidth(), 1);
             if (menuController instanceof NowPlayingMenuController) {
@@ -124,31 +123,24 @@ implements IMenuCallback {
         }
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarViewOption;
 
 public class CarViewOptionSerializer {
-    public static void putOptionalCarViewOption(ISerializer iSerializer, CarViewOption carViewOption) {
+    public static void putOptionalCarViewOption(ISerializer iSerializer, CarViewOption carViewOption) throws SerializerException {
         boolean bl = carViewOption == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class CarViewOptionSerializer {
         }
     }
 
-    public static void putOptionalCarViewOptionVarArray(ISerializer iSerializer, CarViewOption[] carViewOptionArray) {
+    public static void putOptionalCarViewOptionVarArray(ISerializer iSerializer, CarViewOption[] carViewOptionArray) throws SerializerException {
         boolean bl = carViewOptionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class CarViewOptionSerializer {
         }
     }
 
-    public static CarViewOption getOptionalCarViewOption(IDeserializer iDeserializer) {
+    public static CarViewOption getOptionalCarViewOption(IDeserializer iDeserializer) throws SerializerException {
         CarViewOption carViewOption = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class CarViewOptionSerializer {
         return carViewOption;
     }
 
-    public static CarViewOption[] getOptionalCarViewOptionVarArray(IDeserializer iDeserializer) {
+    public static CarViewOption[] getOptionalCarViewOptionVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarViewOption[] carViewOptionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

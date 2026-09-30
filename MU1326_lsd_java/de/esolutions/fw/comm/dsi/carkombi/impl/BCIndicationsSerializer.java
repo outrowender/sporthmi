@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCIndications;
 
 public class BCIndicationsSerializer {
-    public static void putOptionalBCIndications(ISerializer iSerializer, BCIndications bCIndications) {
+    public static void putOptionalBCIndications(ISerializer iSerializer, BCIndications bCIndications) throws SerializerException {
         boolean bl = bCIndications == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BCIndicationsSerializer {
         }
     }
 
-    public static void putOptionalBCIndicationsVarArray(ISerializer iSerializer, BCIndications[] bCIndicationsArray) {
+    public static void putOptionalBCIndicationsVarArray(ISerializer iSerializer, BCIndications[] bCIndicationsArray) throws SerializerException {
         boolean bl = bCIndicationsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BCIndicationsSerializer {
         }
     }
 
-    public static BCIndications getOptionalBCIndications(IDeserializer iDeserializer) {
+    public static BCIndications getOptionalBCIndications(IDeserializer iDeserializer) throws SerializerException {
         BCIndications bCIndications = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BCIndicationsSerializer {
         return bCIndications;
     }
 
-    public static BCIndications[] getOptionalBCIndicationsVarArray(IDeserializer iDeserializer) {
+    public static BCIndications[] getOptionalBCIndicationsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCIndications[] bCIndicationsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

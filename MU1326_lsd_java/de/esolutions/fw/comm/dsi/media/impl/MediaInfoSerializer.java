@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.media.impl;
 import de.esolutions.fw.comm.dsi.media.impl.MediaCapabilitiesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.MediaCapabilities;
 import org.dsi.ifc.media.MediaInfo;
 
 public class MediaInfoSerializer {
-    public static void putOptionalMediaInfo(ISerializer iSerializer, MediaInfo mediaInfo) {
+    public static void putOptionalMediaInfo(ISerializer iSerializer, MediaInfo mediaInfo) throws SerializerException {
         boolean bl = mediaInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class MediaInfoSerializer {
         }
     }
 
-    public static void putOptionalMediaInfoVarArray(ISerializer iSerializer, MediaInfo[] mediaInfoArray) {
+    public static void putOptionalMediaInfoVarArray(ISerializer iSerializer, MediaInfo[] mediaInfoArray) throws SerializerException {
         boolean bl = mediaInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class MediaInfoSerializer {
         }
     }
 
-    public static MediaInfo getOptionalMediaInfo(IDeserializer iDeserializer) {
+    public static MediaInfo getOptionalMediaInfo(IDeserializer iDeserializer) throws SerializerException {
         MediaInfo mediaInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class MediaInfoSerializer {
         return mediaInfo;
     }
 
-    public static MediaInfo[] getOptionalMediaInfoVarArray(IDeserializer iDeserializer) {
+    public static MediaInfo[] getOptionalMediaInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaInfo[] mediaInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

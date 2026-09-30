@@ -4,10 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 import de.audi.atip.util.Util;
+import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.graphics.eal.FlagFontStyle;
 import de.esolutions.graphics.eal.api.ITextLayout;
 import de.esolutions.graphics.eal.api.ITextLayoutSection;
-import de.esolutions.graphics.eal.api.ITextLayoutSection$style_t;
 import de.esolutions.hmi.widgets.audi.base.RedrawContext;
 import de.esolutions.hmi.widgets.audi.base.StringUtility;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
@@ -15,7 +15,6 @@ import de.esolutions.hmi.widgets.audi.base.eal.HMITerminalEAL;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedFont;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3DTextMultiSection;
 import de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.HighlightingLabelRendererHigh$LayoutSection;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.LabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LabelController;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ extends LabelRendererHigh {
     private IWrappedNode3DTextMultiSection textNode;
     private int[] highlighting;
     private List layoutSections;
-    private static final boolean HIGHLIGHTED;
+    private static final boolean HIGHLIGHTED = true;
     private int previousX = 0;
     private int previousY = 0;
 
@@ -35,12 +34,10 @@ extends LabelRendererHigh {
         super(labelController);
     }
 
-    @Override
     public String calculateDisplayData(String string, boolean bl) {
         return string;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -101,23 +98,23 @@ extends LabelRendererHigh {
         }
         ArrayList arrayList = new ArrayList();
         if (!this.checkHighlightingAreas(nArray)) {
-            arrayList.add(new HighlightingLabelRendererHigh$LayoutSection(this, 0, string.length(), false));
+            arrayList.add(new LayoutSection(0, string.length(), false));
             return arrayList;
         }
         boolean[] blArray = this.getBooleanHihglightingArray(string.length(), nArray);
-        HighlightingLabelRendererHigh$LayoutSection highlightingLabelRendererHigh$LayoutSection = new HighlightingLabelRendererHigh$LayoutSection(this);
-        highlightingLabelRendererHigh$LayoutSection.start = 0;
-        highlightingLabelRendererHigh$LayoutSection.highlighted = blArray[0];
+        LayoutSection layoutSection = new LayoutSection();
+        layoutSection.start = 0;
+        layoutSection.highlighted = blArray[0];
         for (int i2 = 1; i2 < blArray.length; ++i2) {
-            if (blArray[i2] == highlightingLabelRendererHigh$LayoutSection.highlighted) continue;
-            highlightingLabelRendererHigh$LayoutSection.end = i2 - 1;
-            arrayList.add(highlightingLabelRendererHigh$LayoutSection);
-            highlightingLabelRendererHigh$LayoutSection = new HighlightingLabelRendererHigh$LayoutSection(this);
-            highlightingLabelRendererHigh$LayoutSection.start = i2;
-            highlightingLabelRendererHigh$LayoutSection.highlighted = blArray[i2];
+            if (blArray[i2] == layoutSection.highlighted) continue;
+            layoutSection.end = i2 - 1;
+            arrayList.add(layoutSection);
+            layoutSection = new LayoutSection();
+            layoutSection.start = i2;
+            layoutSection.highlighted = blArray[i2];
         }
-        highlightingLabelRendererHigh$LayoutSection.end = string.length();
-        arrayList.add(highlightingLabelRendererHigh$LayoutSection);
+        layoutSection.end = string.length();
+        arrayList.add(layoutSection);
         return arrayList;
     }
 
@@ -157,12 +154,12 @@ extends LabelRendererHigh {
         iTextLayout.setTextLayoutSectionNum(this.layoutSections.size());
         IWrappedFont iWrappedFont = this.getInheritedFont();
         for (int i2 = 0; i2 < this.layoutSections.size(); ++i2) {
-            HighlightingLabelRendererHigh$LayoutSection highlightingLabelRendererHigh$LayoutSection = (HighlightingLabelRendererHigh$LayoutSection)this.layoutSections.get(i2);
+            LayoutSection layoutSection = (LayoutSection)this.layoutSections.get(i2);
             ITextLayoutSection iTextLayoutSection = iTextLayout.getLayoutSection(i2);
-            iTextLayoutSection.setColor(highlightingLabelRendererHigh$LayoutSection.highlighted ? n : n2);
-            iTextLayoutSection.setStyle(new FlagFontStyle(ITextLayoutSection$style_t.STYLE_REGULAR));
-            iTextLayoutSection.setBasicFontGroup(iWrappedFont.getSize(), highlightingLabelRendererHigh$LayoutSection.end);
-            iTextLayoutSection.setStartEndIndex(highlightingLabelRendererHigh$LayoutSection.start, highlightingLabelRendererHigh$LayoutSection.end);
+            iTextLayoutSection.setColor(layoutSection.highlighted ? n : n2);
+            iTextLayoutSection.setStyle(new FlagFontStyle(ITextLayoutSection.style_t.STYLE_REGULAR));
+            iTextLayoutSection.setBasicFontGroup(iWrappedFont.getSize(), layoutSection.end);
+            iTextLayoutSection.setStartEndIndex(layoutSection.start, layoutSection.end);
         }
     }
 
@@ -170,9 +167,9 @@ extends LabelRendererHigh {
         if (list == null) {
             return;
         }
-        logChannel.log(-2137614336, "HighlightingLabelRendererHigh#updateHighlighting() sections:");
+        logChannel.log(10000000, "HighlightingLabelRendererHigh#updateHighlighting() sections:");
         for (int i2 = 0; i2 < list.size(); ++i2) {
-            logChannel.log(14808325, "%1", list.get(i2));
+            logChannel.log(100000000, "%1", list.get(i2));
         }
     }
 
@@ -208,7 +205,6 @@ extends LabelRendererHigh {
         return bl;
     }
 
-    @Override
     public int getPreferredWidth() {
         String string = this.calculateText();
         if (string == null || string.length() == 0) {
@@ -217,12 +213,10 @@ extends LabelRendererHigh {
         return this.getEALManager().getTextWidth(string, this.getInheritedFont());
     }
 
-    @Override
     public int getPreferredHeight() {
         return EALManager.getFontHeightUppercase(this.getInheritedFont());
     }
 
-    @Override
     public String getText() {
         return this.calculateText();
     }
@@ -245,7 +239,6 @@ extends LabelRendererHigh {
         return this.controller.getText();
     }
 
-    @Override
     public void disconnect() {
         EALManager eALManager = this.getEALManager();
         if (this.textNode != null) {
@@ -253,6 +246,28 @@ extends LabelRendererHigh {
         }
         this.text = null;
         this.textNode = null;
+    }
+
+    protected class LayoutSection {
+        int start = 0;
+        int end = 0;
+        boolean highlighted = false;
+
+        public LayoutSection(int n, int n2, boolean bl) {
+            this.start = n;
+            this.end = n2;
+            this.highlighted = bl;
+        }
+
+        public LayoutSection() {
+            this(0, 0, false);
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("[").append(this.start).append("-").append(this.end).append(",highlighted:").append(this.highlighted).append("]");
+            return buffer.toString();
+        }
     }
 }
 

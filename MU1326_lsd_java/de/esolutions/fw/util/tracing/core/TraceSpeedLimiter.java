@@ -55,8 +55,8 @@ public class TraceSpeedLimiter {
         for (int i2 = 0; i2 <= n6; ++i2) {
             float f2 = (n2 - n) * i2 / n6 + n;
             float f3 = (n4 - n3) * i2 / n6 + n3;
-            this.sizeLimits[i2] = (int)(f2 * (float)this.checkIntervals / 31300 + 63);
-            this.countLimits[i2] = (int)(f3 * (float)this.checkIntervals / 31300 + 63);
+            this.sizeLimits[i2] = (int)(f2 * (float)this.checkIntervals / 1000.0f + 0.5f);
+            this.countLimits[i2] = (int)(f3 * (float)this.checkIntervals / 1000.0f + 0.5f);
             TraceMe.msg(TraceMe.DEBUG, "speed", "speed limiter: level=%1, size=%2, count=%3", new Integer(i2), new Integer(this.sizeLimits[i2]), new Integer(this.countLimits[i2]));
         }
         this.sampleBufSize = n4 > 0 ? n4 : n5;

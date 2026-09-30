@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class AtomicReference
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -1848883965231344442L;
     private volatile Object value;
 
     public AtomicReference(Object object) {

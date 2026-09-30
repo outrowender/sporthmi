@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eActionFBAS
 extends IEnum {
-    public static final int FBAS_ACTION_DEACTIVATE;
-    public static final int FBAS_ACTION_ACTIVATE;
+    public static final int FBAS_ACTION_DEACTIVATE = 0;
+    public static final int FBAS_ACTION_ACTIVATE = 1;
 }
 

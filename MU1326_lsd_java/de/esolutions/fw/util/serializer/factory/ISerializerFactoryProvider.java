@@ -3,13 +3,12 @@
  */
 package de.esolutions.fw.util.serializer.factory;
 
+import de.esolutions.fw.util.serializer.exception.SerializerFactoryException;
 import de.esolutions.fw.util.serializer.factory.ISerializerFactory;
 
 public interface ISerializerFactoryProvider {
-    default public ISerializerFactory createSerializerFactory(String string, String string2) {
-    }
+    public ISerializerFactory createSerializerFactory(String var1, String var2) throws SerializerFactoryException;
 
-    default public ISerializerFactory createMySerializerFactory(String string, String string2) {
-    }
+    public ISerializerFactory createMySerializerFactory(String var1, String var2) throws SerializerFactoryException;
 }
 

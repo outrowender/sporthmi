@@ -52,7 +52,7 @@ public class AudioChannel {
     }
 
     public String toString() {
-        return new StringBuffer("AudioChannel{").append("id=").append(this.id).append(", language=").append(this.language).append(", format=").append(this.format).append(", description=").append(this.description).append("}").toString();
+        return "AudioChannel{" + "id=" + this.id + ", language=" + this.language + ", format=" + this.format + ", description=" + this.description + "}";
     }
 }
 

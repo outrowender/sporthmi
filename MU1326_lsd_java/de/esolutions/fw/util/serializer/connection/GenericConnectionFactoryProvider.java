@@ -27,33 +27,31 @@ implements IConnectionFactoryProvider {
         this.serializerFactoryProvider = iSerializerFactoryProvider;
     }
 
-    @Override
-    public IConnectionFactory createConnectionFactory(String string, String string2) {
+    public IConnectionFactory createConnectionFactory(String string, String string2) throws ConnectionFactoryException {
         try {
             ISingleTransportFactory iSingleTransportFactory = this.transportFactoryProvider.createSingleTransportFactory(string, string2);
             ISerializerFactory iSerializerFactory = this.serializerFactoryProvider.createSerializerFactory(string, string2);
             return new GenericConnectionFactory(iSingleTransportFactory, iSerializerFactory);
         }
         catch (TransportFactoryException transportFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Transport failed for peer ").append(string).append(":").append(string2).append(" -> ").append(transportFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Transport failed for peer " + string + ":" + string2 + " -> " + transportFactoryException.toString());
         }
         catch (SerializerFactoryException serializerFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Serializer failed for peer ").append(string).append(":").append(string2).append(" -> ").append(serializerFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Serializer failed for peer " + string + ":" + string2 + " -> " + serializerFactoryException.toString());
         }
     }
 
-    @Override
-    public ISpawnConnectionFactory createSpawnConnectionFactory(String string, String string2) {
+    public ISpawnConnectionFactory createSpawnConnectionFactory(String string, String string2) throws ConnectionFactoryException {
         try {
             ISpawnTransportFactory iSpawnTransportFactory = this.transportFactoryProvider.createSpawnTransportFactory(string, string2);
             ISerializerFactory iSerializerFactory = this.serializerFactoryProvider.createMySerializerFactory(string, string2);
             return new GenericSpawnConnectionFactory(iSpawnTransportFactory, iSerializerFactory);
         }
         catch (TransportFactoryException transportFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Transport failed: ").append(transportFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Transport failed: " + transportFactoryException.toString());
         }
         catch (SerializerFactoryException serializerFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Serializer failed: ").append(serializerFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Serializer failed: " + serializerFactoryException.toString());
         }
     }
 }

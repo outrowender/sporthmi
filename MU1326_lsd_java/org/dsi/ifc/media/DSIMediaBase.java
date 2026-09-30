@@ -7,126 +7,117 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIMediaBase
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_PARENTALML;
-    public static final int ATTR_PREFERREDLANGUAGE;
-    public static final int ATTR_MEDIALIST;
-    public static final int ATTR_DEVICELIST;
-    public static final int ATTR_CUSTOMERUPDATE;
-    public static final int ATTR_APPLICATIONVERSION;
-    public static final int ATTR_METADATADBVERSION;
-    public static final int ATTR_PROFILESTATE;
-    public static final int RT_SETPREFERREDLANGUAGE;
-    public static final int RT_SETPARENTALML;
-    public static final int RT_EJECTMEDIUM;
-    public static final int RT_REQUESTRESETFACTORYSETTINGS;
-    public static final int RT_LAUNCHAPP;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
-    public static final int RP_RESPONSERESETFACTORYSETTINGS;
-    public static final int RP_LAUNCHAPPRESULT;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
-    public static final int DEVICETYPE_JUKEBOX;
-    public static final int DEVICETYPE_SD;
-    public static final int DEVICETYPE_USB;
-    public static final int DEVICETYPE_DVDINT;
-    public static final int DEVICETYPE_CDINT;
-    public static final int DEVICETYPE_CDC;
-    public static final int DEVICETYPE_DVDC;
-    public static final int DEVICETYPE_AUX;
-    public static final int DEVICETYPE_WLAN;
-    public static final int DEVICETYPE_BT;
-    public static final int DEVICETYPE_FILEPLAYER;
-    public static final int DEVICETYPE_BDINT;
-    public static final int DEVICEFLAGS_COOPERATIVE;
-    public static final int DEVICEFLAGS_EXCLUSIVE;
-    public static final int DEVICEFLAGS_ERROR;
-    public static final int DEVICEFLAGS_UNAVAILABLE;
-    public static final int DEVICEFLAGS_OVERTEMP;
-    public static final int DEVICEFLAGS_UNDERTEMP;
-    public static final int DEVICEFLAGS_OVERCURRENT;
-    public static final int DEVICEFLAGS_LIMITED_FUNCTIONALITY;
-    public static final int MEDIAFLAG_NOPLAYABLEFILES;
-    public static final int MEDIAFLAG_PASS_ALL_COMPLETED;
-    public static final int MEDIAFLAG_IMPORT_RUNNING;
-    public static final int MEDIAFLAG_INVALID_REGIONCODE;
-    public static final int MEDIAFLAG_PML_BLOCKED;
-    public static final int MEDIAFLAG_PML_RESTRICTED;
-    public static final int MEDIAFLAG_PLAYBACK;
-    public static final int MEDIAFLAG_NO_CONTENT;
-    public static final int MEDIAFLAG_COPY_PROTECTED;
-    public static final int MEDIAFLAG_READ_ONLY;
-    public static final int MEDIAFLAG_READY_FOR_RECORDER;
-    public static final int MEDIAFLAG_FIRMWARE_NOT_SUPPORTED;
-    public static final int MEDIAFLAG_PASS_FILESYSTEM_COMPLETED;
-    public static final int MEDIAFLAG_PASS_METADATA_COMPLETED;
-    public static final int MEDIAFLAG_PASS_COVERART_COMPLETED;
-    public static final int MEDIAFLAG_PASS_EXTERNAL_METADATA_COMPLETED;
-    public static final int MEDIAFLAG_DELETION_RUNNING;
-    public static final int MEDIAFLAG_LAST_PLAYSELECTION_VALID;
-    public static final int MEDIAFLAG_INTERNATIONALIZABLE;
-    public static final int MEDIAFLAG_CORRUPTED_PARTITION;
-    public static final int MEDIAFLAG_CHARGING;
-    public static final int MEDIAFLAG_DATABASE_FULL;
-    public static final int MEDIAFLAG_READY_FOR_ALBUMBROWSER;
-    public static final int MEDIATYPE_UNKNOWN;
-    public static final int MEDIATYPE_CDAUDIO;
-    public static final int MEDIATYPE_DVDAUDIO;
-    public static final int MEDIATYPE_DVDVIDEO;
-    public static final int MEDIATYPE_CDROM;
-    public static final int MEDIATYPE_DVDROM;
-    public static final int MEDIATYPE_FILESYSTEM;
-    public static final int MEDIATYPE_RAW;
-    public static final int MEDIATYPE_RCP;
-    public static final int MEDIATYPE_EMPTY;
-    public static final int MEDIATYPE_UNREADABLE;
-    public static final int MEDIATYPE_LOADING;
-    public static final int MEDIATYPE_AUTOMATIC_RELOAD;
-    public static final int MEDIATYPE_UNSUPPORTED;
-    public static final int MEDIATYPE_UPDATE;
-    public static final int MEDIATYPE_FILEPLAYER;
-    public static final int MEDIATYPE_NAVIGATIONDATABASE;
-    public static final int MEDIATYPE_IPOD;
-    public static final int MEDIATYPE_BLURAY;
-    public static final int MEDIATYPE_BOARDBOOK;
-    public static final int RESETMODE_FACTORYSETTINGS;
-    public static final int RESETMODE_DATABASE;
-    public static final int RESETMODE_JUKEBOX;
-    public static final int RESETMODE_CUSTOMERUPDATE;
-    public static final int CUSTOMERUPDATE_UNKNOWN;
-    public static final int CUSTOMERUPDATE_NOT_AVAILABLE;
-    public static final int CUSTOMERUPDATE_AVAILABLE;
+    public static final String VERSION = "2.11.52";
+    public static final int ATTR_PARENTALML = 1;
+    public static final int ATTR_PREFERREDLANGUAGE = 2;
+    public static final int ATTR_MEDIALIST = 3;
+    public static final int ATTR_DEVICELIST = 4;
+    public static final int ATTR_CUSTOMERUPDATE = 5;
+    public static final int ATTR_APPLICATIONVERSION = 7;
+    public static final int ATTR_METADATADBVERSION = 8;
+    public static final int ATTR_PROFILESTATE = 9;
+    public static final int RT_SETPREFERREDLANGUAGE = 1000;
+    public static final int RT_SETPARENTALML = 1001;
+    public static final int RT_EJECTMEDIUM = 1002;
+    public static final int RT_REQUESTRESETFACTORYSETTINGS = 1003;
+    public static final int RT_LAUNCHAPP = 1004;
+    public static final int RT_PROFILECHANGE = 1005;
+    public static final int RT_PROFILECOPY = 1006;
+    public static final int RT_PROFILERESET = 1007;
+    public static final int RT_PROFILERESETALL = 1008;
+    public static final int RP_RESPONSERESETFACTORYSETTINGS = 2000;
+    public static final int RP_LAUNCHAPPRESULT = 2001;
+    public static final int RP_PROFILECHANGED = 2002;
+    public static final int RP_PROFILECOPIED = 2003;
+    public static final int RP_PROFILERESET = 2004;
+    public static final int RP_PROFILERESETALL = 2005;
+    public static final int DEVICETYPE_JUKEBOX = 0;
+    public static final int DEVICETYPE_SD = 1;
+    public static final int DEVICETYPE_USB = 2;
+    public static final int DEVICETYPE_DVDINT = 3;
+    public static final int DEVICETYPE_CDINT = 4;
+    public static final int DEVICETYPE_CDC = 5;
+    public static final int DEVICETYPE_DVDC = 6;
+    public static final int DEVICETYPE_AUX = 8;
+    public static final int DEVICETYPE_WLAN = 9;
+    public static final int DEVICETYPE_BT = 10;
+    public static final int DEVICETYPE_FILEPLAYER = 12;
+    public static final int DEVICETYPE_BDINT = 13;
+    public static final int DEVICEFLAGS_COOPERATIVE = 1;
+    public static final int DEVICEFLAGS_EXCLUSIVE = 2;
+    public static final int DEVICEFLAGS_ERROR = 4;
+    public static final int DEVICEFLAGS_UNAVAILABLE = 8;
+    public static final int DEVICEFLAGS_OVERTEMP = 16;
+    public static final int DEVICEFLAGS_UNDERTEMP = 32;
+    public static final int DEVICEFLAGS_OVERCURRENT = 64;
+    public static final int DEVICEFLAGS_LIMITED_FUNCTIONALITY = 128;
+    public static final int MEDIAFLAG_NOPLAYABLEFILES = 1;
+    public static final int MEDIAFLAG_PASS_ALL_COMPLETED = 8;
+    public static final int MEDIAFLAG_IMPORT_RUNNING = 16;
+    public static final int MEDIAFLAG_INVALID_REGIONCODE = 32;
+    public static final int MEDIAFLAG_PML_BLOCKED = 64;
+    public static final int MEDIAFLAG_PML_RESTRICTED = 128;
+    public static final int MEDIAFLAG_PLAYBACK = 512;
+    public static final int MEDIAFLAG_NO_CONTENT = 1024;
+    public static final int MEDIAFLAG_COPY_PROTECTED = 4096;
+    public static final int MEDIAFLAG_READ_ONLY = 8192;
+    public static final int MEDIAFLAG_READY_FOR_RECORDER = 16384;
+    public static final int MEDIAFLAG_FIRMWARE_NOT_SUPPORTED = 32768;
+    public static final int MEDIAFLAG_PASS_FILESYSTEM_COMPLETED = 65536;
+    public static final int MEDIAFLAG_PASS_METADATA_COMPLETED = 131072;
+    public static final int MEDIAFLAG_PASS_COVERART_COMPLETED = 262144;
+    public static final int MEDIAFLAG_PASS_EXTERNAL_METADATA_COMPLETED = 524288;
+    public static final int MEDIAFLAG_DELETION_RUNNING = 0x100000;
+    public static final int MEDIAFLAG_LAST_PLAYSELECTION_VALID = 0x400000;
+    public static final int MEDIAFLAG_INTERNATIONALIZABLE = 0x800000;
+    public static final int MEDIAFLAG_CORRUPTED_PARTITION = 0x1000000;
+    public static final int MEDIAFLAG_CHARGING = 0x2000000;
+    public static final int MEDIAFLAG_DATABASE_FULL = 0x4000000;
+    public static final int MEDIAFLAG_READY_FOR_ALBUMBROWSER = Integer.MIN_VALUE;
+    public static final int MEDIATYPE_UNKNOWN = 0;
+    public static final int MEDIATYPE_CDAUDIO = 1;
+    public static final int MEDIATYPE_DVDAUDIO = 2;
+    public static final int MEDIATYPE_DVDVIDEO = 3;
+    public static final int MEDIATYPE_CDROM = 5;
+    public static final int MEDIATYPE_DVDROM = 6;
+    public static final int MEDIATYPE_FILESYSTEM = 7;
+    public static final int MEDIATYPE_RAW = 8;
+    public static final int MEDIATYPE_RCP = 9;
+    public static final int MEDIATYPE_EMPTY = 10;
+    public static final int MEDIATYPE_UNREADABLE = 11;
+    public static final int MEDIATYPE_LOADING = 12;
+    public static final int MEDIATYPE_AUTOMATIC_RELOAD = 13;
+    public static final int MEDIATYPE_UNSUPPORTED = 15;
+    public static final int MEDIATYPE_UPDATE = 17;
+    public static final int MEDIATYPE_FILEPLAYER = 18;
+    public static final int MEDIATYPE_NAVIGATIONDATABASE = 19;
+    public static final int MEDIATYPE_IPOD = 20;
+    public static final int MEDIATYPE_BLURAY = 21;
+    public static final int MEDIATYPE_BOARDBOOK = 22;
+    public static final int RESETMODE_FACTORYSETTINGS = 1;
+    public static final int RESETMODE_DATABASE = 2;
+    public static final int RESETMODE_JUKEBOX = 4;
+    public static final int RESETMODE_CUSTOMERUPDATE = 8;
+    public static final int CUSTOMERUPDATE_UNKNOWN = 0;
+    public static final int CUSTOMERUPDATE_NOT_AVAILABLE = 1;
+    public static final int CUSTOMERUPDATE_AVAILABLE = 2;
 
-    default public void setPreferredLanguage(String string) {
-    }
+    public void setPreferredLanguage(String var1);
 
-    default public void setParentalML(int n) {
-    }
+    public void setParentalML(int var1);
 
-    default public void ejectMedium(long l, long l2) {
-    }
+    public void ejectMedium(long var1, long var3);
 
-    default public void requestResetFactorySettings(int n) {
-    }
+    public void requestResetFactorySettings(int var1);
 
-    default public void launchApp(long l, long l2, String string) {
-    }
+    public void launchApp(long var1, long var3, String var5);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

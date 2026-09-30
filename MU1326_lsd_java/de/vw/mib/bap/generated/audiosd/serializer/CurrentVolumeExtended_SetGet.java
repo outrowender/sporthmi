@@ -10,28 +10,28 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CurrentVolumeExtended_SetGet
 implements SetGetProperty {
     public int changingVolumeType;
-    private static final int CHANGING_VOLUME_TYPE_BITSIZE;
-    public static final int CHANGING_VOLUME_TYPE_NO_VOLUME_IS_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_ENTERTAINMENT_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_NAVIGATION_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_PHONE_RINGING_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_TA_TP_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_CAR_PARKING_FADER_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_READ_MESSAGE_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_TMC_TRAFFIC_MESSAGE_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_PHONE_CALL_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_READ_CONTACT_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_MMI_TOUCH_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_ANNOUNCEMENT_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_ONLINE_VOLUME_TYPE_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_SDS_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_EXTERNAL_SDS_VOLUME_IS_BEING_CHANGED_DF4_4;
+    private static final int CHANGING_VOLUME_TYPE_BITSIZE = 8;
+    public static final int CHANGING_VOLUME_TYPE_NO_VOLUME_IS_CHANGED = 0;
+    public static final int CHANGING_VOLUME_TYPE_ENTERTAINMENT_VOLUME_IS_BEING_CHANGED = 1;
+    public static final int CHANGING_VOLUME_TYPE_NAVIGATION_VOLUME_IS_BEING_CHANGED = 2;
+    public static final int CHANGING_VOLUME_TYPE_PHONE_RINGING_VOLUME_IS_BEING_CHANGED = 3;
+    public static final int CHANGING_VOLUME_TYPE_TA_TP_VOLUME_IS_BEING_CHANGED = 4;
+    public static final int CHANGING_VOLUME_TYPE_CAR_PARKING_FADER_IS_BEING_CHANGED = 5;
+    public static final int CHANGING_VOLUME_TYPE_READ_MESSAGE_VOLUME_IS_BEING_CHANGED = 6;
+    public static final int CHANGING_VOLUME_TYPE_TMC_TRAFFIC_MESSAGE_VOLUME_IS_BEING_CHANGED = 7;
+    public static final int CHANGING_VOLUME_TYPE_PHONE_CALL_VOLUME_IS_BEING_CHANGED = 8;
+    public static final int CHANGING_VOLUME_TYPE_READ_CONTACT_VOLUME_IS_BEING_CHANGED = 9;
+    public static final int CHANGING_VOLUME_TYPE_MMI_TOUCH_VOLUME_IS_BEING_CHANGED = 10;
+    public static final int CHANGING_VOLUME_TYPE_ANNOUNCEMENT_VOLUME_IS_BEING_CHANGED = 11;
+    public static final int CHANGING_VOLUME_TYPE_ONLINE_VOLUME_TYPE_IS_BEING_CHANGED = 12;
+    public static final int CHANGING_VOLUME_TYPE_SDS_VOLUME_IS_BEING_CHANGED = 16;
+    public static final int CHANGING_VOLUME_TYPE_EXTERNAL_SDS_VOLUME_IS_BEING_CHANGED_DF4_4 = 17;
     public int reserve1;
-    private static final int RESERVE1_BITSIZE;
+    private static final int RESERVE1_BITSIZE = 8;
     public int reserve2;
-    private static final int RESERVE2_BITSIZE;
+    private static final int RESERVE2_BITSIZE = 8;
     public int genericVolume;
-    private static final int GENERIC_VOLUME_BITSIZE;
+    private static final int GENERIC_VOLUME_BITSIZE = 8;
 
     public CurrentVolumeExtended_SetGet() {
         this.internalReset();
@@ -50,12 +50,10 @@ implements SetGetProperty {
         this.genericVolume = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentVolumeExtended_SetGet currentVolumeExtended_SetGet = (CurrentVolumeExtended_SetGet)bAPEntity;
         return this.changingVolumeType == currentVolumeExtended_SetGet.changingVolumeType && this.reserve1 == currentVolumeExtended_SetGet.reserve1 && this.reserve2 == currentVolumeExtended_SetGet.reserve2 && this.genericVolume == currentVolumeExtended_SetGet.genericVolume;
@@ -64,7 +62,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentVolumeExtended_SetGet:");
@@ -143,7 +140,6 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -152,7 +148,6 @@ implements SetGetProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.changingVolumeType);
         bitStream.pushByte((byte)this.reserve1);
@@ -160,7 +155,6 @@ implements SetGetProperty {
         bitStream.pushByte((byte)this.genericVolume);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.changingVolumeType = bitStream.popFrontByte();
         this.reserve1 = bitStream.popFrontByte();
@@ -172,7 +166,6 @@ implements SetGetProperty {
         return 47;
     }
 
-    @Override
     public int getFunctionId() {
         return CurrentVolumeExtended_SetGet.functionId();
     }

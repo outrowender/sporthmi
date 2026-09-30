@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RGSConfiguration;
 
 public class RGSConfigurationSerializer {
-    public static void putOptionalRGSConfiguration(ISerializer iSerializer, RGSConfiguration rGSConfiguration) {
+    public static void putOptionalRGSConfiguration(ISerializer iSerializer, RGSConfiguration rGSConfiguration) throws SerializerException {
         boolean bl = rGSConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class RGSConfigurationSerializer {
         }
     }
 
-    public static void putOptionalRGSConfigurationVarArray(ISerializer iSerializer, RGSConfiguration[] rGSConfigurationArray) {
+    public static void putOptionalRGSConfigurationVarArray(ISerializer iSerializer, RGSConfiguration[] rGSConfigurationArray) throws SerializerException {
         boolean bl = rGSConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class RGSConfigurationSerializer {
         }
     }
 
-    public static RGSConfiguration getOptionalRGSConfiguration(IDeserializer iDeserializer) {
+    public static RGSConfiguration getOptionalRGSConfiguration(IDeserializer iDeserializer) throws SerializerException {
         RGSConfiguration rGSConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class RGSConfigurationSerializer {
         return rGSConfiguration;
     }
 
-    public static RGSConfiguration[] getOptionalRGSConfigurationVarArray(IDeserializer iDeserializer) {
+    public static RGSConfiguration[] getOptionalRGSConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RGSConfiguration[] rGSConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

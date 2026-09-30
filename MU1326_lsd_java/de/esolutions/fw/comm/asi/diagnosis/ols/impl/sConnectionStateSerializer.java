@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.ols.impl;
 import de.esolutions.fw.comm.asi.diagnosis.ols.sConnectionState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sConnectionStateSerializer {
-    public static void putOptionalsConnectionState(ISerializer iSerializer, sConnectionState sConnectionState2) {
+    public static void putOptionalsConnectionState(ISerializer iSerializer, sConnectionState sConnectionState2) throws SerializerException {
         boolean bl = sConnectionState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class sConnectionStateSerializer {
         }
     }
 
-    public static void putOptionalsConnectionStateVarArray(ISerializer iSerializer, sConnectionState[] sConnectionStateArray) {
+    public static void putOptionalsConnectionStateVarArray(ISerializer iSerializer, sConnectionState[] sConnectionStateArray) throws SerializerException {
         boolean bl = sConnectionStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class sConnectionStateSerializer {
         }
     }
 
-    public static sConnectionState getOptionalsConnectionState(IDeserializer iDeserializer) {
+    public static sConnectionState getOptionalsConnectionState(IDeserializer iDeserializer) throws SerializerException {
         sConnectionState sConnectionState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class sConnectionStateSerializer {
         return sConnectionState2;
     }
 
-    public static sConnectionState[] getOptionalsConnectionStateVarArray(IDeserializer iDeserializer) {
+    public static sConnectionState[] getOptionalsConnectionStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sConnectionState[] sConnectionStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

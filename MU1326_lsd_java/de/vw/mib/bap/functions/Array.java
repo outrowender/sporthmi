@@ -9,10 +9,8 @@ import de.vw.mib.bap.functions.BAPFunction;
 
 public interface Array
 extends BAPFunction {
-    default public void getArray(BAPEntity bAPEntity, ArrayListener arrayListener) {
-    }
+    public void getArray(BAPEntity var1, ArrayListener var2);
 
-    default public void setGetArray(BAPEntity bAPEntity, ArrayListener arrayListener) {
-    }
+    public void setGetArray(BAPEntity var1, ArrayListener var2);
 }
 

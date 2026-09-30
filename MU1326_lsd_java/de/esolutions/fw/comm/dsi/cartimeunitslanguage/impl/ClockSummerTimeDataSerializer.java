@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockSummerTimeData;
 
 public class ClockSummerTimeDataSerializer {
-    public static void putOptionalClockSummerTimeData(ISerializer iSerializer, ClockSummerTimeData clockSummerTimeData) {
+    public static void putOptionalClockSummerTimeData(ISerializer iSerializer, ClockSummerTimeData clockSummerTimeData) throws SerializerException {
         boolean bl = clockSummerTimeData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class ClockSummerTimeDataSerializer {
         }
     }
 
-    public static void putOptionalClockSummerTimeDataVarArray(ISerializer iSerializer, ClockSummerTimeData[] clockSummerTimeDataArray) {
+    public static void putOptionalClockSummerTimeDataVarArray(ISerializer iSerializer, ClockSummerTimeData[] clockSummerTimeDataArray) throws SerializerException {
         boolean bl = clockSummerTimeDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class ClockSummerTimeDataSerializer {
         }
     }
 
-    public static ClockSummerTimeData getOptionalClockSummerTimeData(IDeserializer iDeserializer) {
+    public static ClockSummerTimeData getOptionalClockSummerTimeData(IDeserializer iDeserializer) throws SerializerException {
         ClockSummerTimeData clockSummerTimeData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class ClockSummerTimeDataSerializer {
         return clockSummerTimeData;
     }
 
-    public static ClockSummerTimeData[] getOptionalClockSummerTimeDataVarArray(IDeserializer iDeserializer) {
+    public static ClockSummerTimeData[] getOptionalClockSummerTimeDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockSummerTimeData[] clockSummerTimeDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

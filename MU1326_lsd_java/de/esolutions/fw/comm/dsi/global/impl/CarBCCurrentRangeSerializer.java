@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCCurrentRange;
 
 public class CarBCCurrentRangeSerializer {
-    public static void putOptionalCarBCCurrentRange(ISerializer iSerializer, CarBCCurrentRange carBCCurrentRange) {
+    public static void putOptionalCarBCCurrentRange(ISerializer iSerializer, CarBCCurrentRange carBCCurrentRange) throws SerializerException {
         boolean bl = carBCCurrentRange == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCCurrentRangeSerializer {
         }
     }
 
-    public static void putOptionalCarBCCurrentRangeVarArray(ISerializer iSerializer, CarBCCurrentRange[] carBCCurrentRangeArray) {
+    public static void putOptionalCarBCCurrentRangeVarArray(ISerializer iSerializer, CarBCCurrentRange[] carBCCurrentRangeArray) throws SerializerException {
         boolean bl = carBCCurrentRangeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCCurrentRangeSerializer {
         }
     }
 
-    public static CarBCCurrentRange getOptionalCarBCCurrentRange(IDeserializer iDeserializer) {
+    public static CarBCCurrentRange getOptionalCarBCCurrentRange(IDeserializer iDeserializer) throws SerializerException {
         CarBCCurrentRange carBCCurrentRange = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCCurrentRangeSerializer {
         return carBCCurrentRange;
     }
 
-    public static CarBCCurrentRange[] getOptionalCarBCCurrentRangeVarArray(IDeserializer iDeserializer) {
+    public static CarBCCurrentRange[] getOptionalCarBCCurrentRangeVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCCurrentRange[] carBCCurrentRangeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

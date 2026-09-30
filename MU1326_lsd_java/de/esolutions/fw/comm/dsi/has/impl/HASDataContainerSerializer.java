@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.has.impl;
 import de.esolutions.fw.comm.dsi.has.impl.HASDataElementSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class HASDataContainerSerializer {
-    public static void putOptionalHASDataContainer(ISerializer iSerializer, HASDataContainer hASDataContainer) {
+    public static void putOptionalHASDataContainer(ISerializer iSerializer, HASDataContainer hASDataContainer) throws SerializerException {
         boolean bl = hASDataContainer == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class HASDataContainerSerializer {
         }
     }
 
-    public static void putOptionalHASDataContainerVarArray(ISerializer iSerializer, HASDataContainer[] hASDataContainerArray) {
+    public static void putOptionalHASDataContainerVarArray(ISerializer iSerializer, HASDataContainer[] hASDataContainerArray) throws SerializerException {
         boolean bl = hASDataContainerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class HASDataContainerSerializer {
         }
     }
 
-    public static HASDataContainer getOptionalHASDataContainer(IDeserializer iDeserializer) {
+    public static HASDataContainer getOptionalHASDataContainer(IDeserializer iDeserializer) throws SerializerException {
         HASDataContainer hASDataContainer = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class HASDataContainerSerializer {
         return hASDataContainer;
     }
 
-    public static HASDataContainer[] getOptionalHASDataContainerVarArray(IDeserializer iDeserializer) {
+    public static HASDataContainer[] getOptionalHASDataContainerVarArray(IDeserializer iDeserializer) throws SerializerException {
         HASDataContainer[] hASDataContainerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

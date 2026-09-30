@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.SeekEntry;
 
 public class SeekEntrySerializer {
-    public static void putOptionalSeekEntry(ISerializer iSerializer, SeekEntry seekEntry) {
+    public static void putOptionalSeekEntry(ISerializer iSerializer, SeekEntry seekEntry) throws SerializerException {
         boolean bl = seekEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SeekEntrySerializer {
         }
     }
 
-    public static void putOptionalSeekEntryVarArray(ISerializer iSerializer, SeekEntry[] seekEntryArray) {
+    public static void putOptionalSeekEntryVarArray(ISerializer iSerializer, SeekEntry[] seekEntryArray) throws SerializerException {
         boolean bl = seekEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SeekEntrySerializer {
         }
     }
 
-    public static SeekEntry getOptionalSeekEntry(IDeserializer iDeserializer) {
+    public static SeekEntry getOptionalSeekEntry(IDeserializer iDeserializer) throws SerializerException {
         SeekEntry seekEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class SeekEntrySerializer {
         return seekEntry;
     }
 
-    public static SeekEntry[] getOptionalSeekEntryVarArray(IDeserializer iDeserializer) {
+    public static SeekEntry[] getOptionalSeekEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeekEntry[] seekEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

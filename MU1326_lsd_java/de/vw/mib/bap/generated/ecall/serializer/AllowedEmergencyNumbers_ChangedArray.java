@@ -14,10 +14,9 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AllowedEmergencyNumbers_ChangedArray
 implements BAPChangedArray {
     public ArrayHeader arrayHeader = new ArrayHeader();
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 255;
     public BAPArrayData data = new BAPArrayData(255, this.arrayHeader);
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new AllowedEmergencyNumbers_Data(this.getArrayHeader());
     }
@@ -35,14 +34,12 @@ implements BAPChangedArray {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AllowedEmergencyNumbers_ChangedArray allowedEmergencyNumbers_ChangedArray = (AllowedEmergencyNumbers_ChangedArray)bAPEntity;
         return this.arrayHeader.equalTo(allowedEmergencyNumbers_ChangedArray.arrayHeader) && this.data.equalTo(allowedEmergencyNumbers_ChangedArray.data);
@@ -51,7 +48,6 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AllowedEmergencyNumbers_ChangedArray");
@@ -60,18 +56,15 @@ implements BAPChangedArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.arrayHeader.serialize(bitStream);
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.arrayHeader.deserialize(bitStream);
         this.arrayHeader.evaluateRecordAddressPosForChangedArray();
@@ -88,27 +81,22 @@ implements BAPChangedArray {
         return 29;
     }
 
-    @Override
     public int getFunctionId() {
         return AllowedEmergencyNumbers_ChangedArray.functionId();
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }

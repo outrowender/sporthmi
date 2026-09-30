@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.CategoryInfo;
 
 public class CategoryInfoSerializer {
-    public static void putOptionalCategoryInfo(ISerializer iSerializer, CategoryInfo categoryInfo) {
+    public static void putOptionalCategoryInfo(ISerializer iSerializer, CategoryInfo categoryInfo) throws SerializerException {
         boolean bl = categoryInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CategoryInfoSerializer {
         }
     }
 
-    public static void putOptionalCategoryInfoVarArray(ISerializer iSerializer, CategoryInfo[] categoryInfoArray) {
+    public static void putOptionalCategoryInfoVarArray(ISerializer iSerializer, CategoryInfo[] categoryInfoArray) throws SerializerException {
         boolean bl = categoryInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CategoryInfoSerializer {
         }
     }
 
-    public static CategoryInfo getOptionalCategoryInfo(IDeserializer iDeserializer) {
+    public static CategoryInfo getOptionalCategoryInfo(IDeserializer iDeserializer) throws SerializerException {
         CategoryInfo categoryInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CategoryInfoSerializer {
         return categoryInfo;
     }
 
-    public static CategoryInfo[] getOptionalCategoryInfoVarArray(IDeserializer iDeserializer) {
+    public static CategoryInfo[] getOptionalCategoryInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         CategoryInfo[] categoryInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

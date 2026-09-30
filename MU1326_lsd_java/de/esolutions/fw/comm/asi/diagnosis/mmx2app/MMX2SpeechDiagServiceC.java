@@ -6,19 +6,16 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCountryRegionVersion;
 import de.esolutions.fw.comm.asi.diagnosis.speech.sCommandSDS;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.tts.LanguageVoiceInfo;
 
 public interface MMX2SpeechDiagServiceC {
-    default public void responseErrorSpeech(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorSpeech(sClientResponseError var1) throws MethodException;
 
-    default public void responseCommandSDS(sCommandSDS sCommandSDS2) {
-    }
+    public void responseCommandSDS(sCommandSDS var1) throws MethodException;
 
-    default public void responseCountryRegionVersion(sNavCountryRegionVersion sNavCountryRegionVersion2) {
-    }
+    public void responseCountryRegionVersion(sNavCountryRegionVersion var1) throws MethodException;
 
-    default public void updateAvailableLanguages(LanguageVoiceInfo[] languageVoiceInfoArray, int n) {
-    }
+    public void updateAvailableLanguages(LanguageVoiceInfo[] var1, int var2) throws MethodException;
 }
 

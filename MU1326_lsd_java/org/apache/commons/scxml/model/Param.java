@@ -10,7 +10,7 @@ import org.apache.commons.scxml.model.NamespacePrefixesHolder;
 public class Param
 implements NamespacePrefixesHolder,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String name = null;
     private String expr = null;
     private Map namespaces;
@@ -31,12 +31,10 @@ Serializable {
         this.expr = string;
     }
 
-    @Override
     public final Map getNamespaces() {
         return this.namespaces;
     }
 
-    @Override
     public final void setNamespaces(Map map) {
         this.namespaces = map;
     }

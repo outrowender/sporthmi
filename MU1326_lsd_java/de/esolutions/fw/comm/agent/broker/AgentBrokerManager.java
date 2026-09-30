@@ -110,12 +110,12 @@ IConnectionRequestCallback {
         }
         catch (ConnectionFactoryException connectionFactoryException) {
             CommAgentTracing.BROKER.log((short)5, "Can't find connection to 'broker': %1", (Object)connectionFactoryException.getMessage());
-            this.state.setErrorState(true, new StringBuffer().append("broker connection not found! config problem? ").append(connectionFactoryException.getMessage()).toString());
+            this.state.setErrorState(true, "broker connection not found! config problem? " + connectionFactoryException.getMessage());
             return null;
         }
         catch (ClientException clientException) {
             CommAgentTracing.BROKER.log((short)4, "Can't connect to 'broker': %1", (Object)clientException.getMessage());
-            this.state.setErrorState(false, new StringBuffer().append("can't establish broker connection!").append(clientException.getMessage()).toString());
+            this.state.setErrorState(false, "can't establish broker connection!" + clientException.getMessage());
             return null;
         }
         CommAgentTracing.BROKER.log((short)0, "- broker connect");
@@ -134,7 +134,7 @@ IConnectionRequestCallback {
         this.brokerAgentID = iClientHandler.getPeerAgentID();
         if (serviceInstanceID == null) {
             CommAgentTracing.BROKER.log((short)4, "returned broker instance ID invalid!");
-            this.state.setErrorState(true, new StringBuffer().append("returned broker instance invalid: ").append(serviceInstanceID).toString());
+            this.state.setErrorState(true, "returned broker instance invalid: " + serviceInstanceID);
             return false;
         }
         byte by = iClientHandler.getProtocolVersion();
@@ -145,14 +145,14 @@ IConnectionRequestCallback {
             }
             default: {
                 CommAgentTracing.BROKER.log((short)4, "Unsupported 'broker' protocol version: %1", new Integer(by));
-                this.state.setErrorState(true, new StringBuffer().append("invalid broker protocol version: ").append(by).toString());
+                this.state.setErrorState(true, "invalid broker protocol version: " + by);
                 return false;
             }
         }
         this.brokerInstanceID = this.brokerProxyWrapper.getBrokerInstanceID();
         if (!this.brokerInstanceID.getServiceUUID().equals(serviceInstanceID.getServiceUUID())) {
             CommAgentTracing.BROKER.log((short)5, "Inconsistent Setup: Broker Interface Mismatch: remote=%1 local=%2", serviceInstanceID, (Object)this.brokerInstanceID);
-            this.state.setErrorState(true, new StringBuffer().append("broker interface mismatch: ").append(this.brokerInstanceID).append(" != ").append(serviceInstanceID).toString());
+            this.state.setErrorState(true, "broker interface mismatch: " + this.brokerInstanceID + " != " + serviceInstanceID);
             return false;
         }
         this.agentService = this.brokerProxyWrapper.createAgentService(this.worker, this.myAgentID);
@@ -203,7 +203,6 @@ IConnectionRequestCallback {
         CommAgentTracing.BROKER.log((short)0, "- shutdown broker");
     }
 
-    @Override
     public void proxyStateChanged(Proxy proxy, int n) {
         if (proxy != this.brokerProxy) {
             CommAgentTracing.BROKER.log((short)3, "proxy change from unknown: %1", proxy);
@@ -297,19 +296,16 @@ IConnectionRequestCallback {
         return this.brokerAgentID;
     }
 
-    @Override
     public void brokerConnectedToAgentService() {
         this.agentStubConnected = true;
         this.updateBrokerState();
     }
 
-    @Override
     public void brokerDisconnectedFromAgentService() {
         this.agentStubDisconnected = true;
         this.updateBrokerState();
     }
 
-    @Override
     public void brokerCallFailed() {
         this.agentStubCallFailed = true;
         this.updateBrokerState();
@@ -389,7 +385,6 @@ IConnectionRequestCallback {
         this.state.setErrorState(false, "setting up broker connection failed -> DISCONNECTED");
     }
 
-    @Override
     public void connectionEstablished(IClientHandler iClientHandler) {
         CommAgentTracing.BROKER.log((short)1, "broker connection reported as established");
         if (!this.state.setState(2, 1)) {
@@ -399,7 +394,6 @@ IConnectionRequestCallback {
         }
     }
 
-    @Override
     public void connectionFailed(IClientHandler iClientHandler, String string) {
         CommAgentTracing.BROKER.log((short)4, "broker connection reported as FAILED: %1", (Object)string);
         this.state.setErrorState(false, "setting up broker connection failed -> DISCONNECTED");

@@ -14,7 +14,6 @@ implements ICaseBalancingStrategy {
     protected static final char[] WORD_SEPARATORS_EUROPE = new char[]{' ', '!', '\'', '(', ')', '+', ',', '-', '.', '/', ':', ';', '?', '_', '\u00a1', '\u00bf'};
     protected boolean isHandwrittenActive = false;
 
-    @Override
     public String refreshForDisplayCaseBalancingText(int n, int n2, IntList intList, List list) {
         Buffer buffer = new Buffer(n2 - n);
         boolean bl = false;
@@ -53,7 +52,6 @@ implements ICaseBalancingStrategy {
         return buffer.toString();
     }
 
-    @Override
     public boolean isWordSeparator(char c2) {
         return Arrays.binarySearch(WORD_SEPARATORS_EUROPE, c2) >= 0;
     }
@@ -79,12 +77,10 @@ implements ICaseBalancingStrategy {
         return 0;
     }
 
-    @Override
     public boolean needRefreshDisplayTextAfterTextChange() {
         return false;
     }
 
-    @Override
     public void setHandWrittenModeIsActive(boolean bl) {
         this.isHandwrittenActive = bl;
     }

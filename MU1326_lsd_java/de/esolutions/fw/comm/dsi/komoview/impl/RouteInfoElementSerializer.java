@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.komoview.impl.ManeuverElementSerializer;
 import de.esolutions.fw.comm.dsi.komoview.impl.TrafficInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.komoview.ManeuverElement;
 import org.dsi.ifc.komoview.RouteInfoElement;
 import org.dsi.ifc.komoview.TrafficInfo;
 
 public class RouteInfoElementSerializer {
-    public static void putOptionalRouteInfoElement(ISerializer iSerializer, RouteInfoElement routeInfoElement) {
+    public static void putOptionalRouteInfoElement(ISerializer iSerializer, RouteInfoElement routeInfoElement) throws SerializerException {
         boolean bl = routeInfoElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -55,7 +56,7 @@ public class RouteInfoElementSerializer {
         }
     }
 
-    public static void putOptionalRouteInfoElementVarArray(ISerializer iSerializer, RouteInfoElement[] routeInfoElementArray) {
+    public static void putOptionalRouteInfoElementVarArray(ISerializer iSerializer, RouteInfoElement[] routeInfoElementArray) throws SerializerException {
         boolean bl = routeInfoElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -66,7 +67,7 @@ public class RouteInfoElementSerializer {
         }
     }
 
-    public static RouteInfoElement getOptionalRouteInfoElement(IDeserializer iDeserializer) {
+    public static RouteInfoElement getOptionalRouteInfoElement(IDeserializer iDeserializer) throws SerializerException {
         RouteInfoElement routeInfoElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -111,7 +112,7 @@ public class RouteInfoElementSerializer {
         return routeInfoElement;
     }
 
-    public static RouteInfoElement[] getOptionalRouteInfoElementVarArray(IDeserializer iDeserializer) {
+    public static RouteInfoElement[] getOptionalRouteInfoElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         RouteInfoElement[] routeInfoElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AgentDirectory {
     private Map agentMap = new HashMap();
-    public static final short EPOCH_NONE;
+    public static final short EPOCH_NONE = 0;
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.

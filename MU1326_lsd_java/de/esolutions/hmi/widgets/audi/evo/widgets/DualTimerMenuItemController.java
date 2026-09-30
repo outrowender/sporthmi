@@ -12,14 +12,13 @@ public class DualTimerMenuItemController
 extends MenuItemController {
     TimeSettingsWidgetController startTimeSettings = null;
     TimeSettingsWidgetController endTimeSettings = null;
-    private static final int STATE_UNSELECTED;
-    private static final int STATE_START_HOUR;
-    private static final int STATE_START_MINUTE;
-    private static final int STATE_END_HOUR;
-    private static final int STATE_END_MINUTE;
+    private static final int STATE_UNSELECTED = 0;
+    private static final int STATE_START_HOUR = 1;
+    private static final int STATE_START_MINUTE = 2;
+    private static final int STATE_END_HOUR = 3;
+    private static final int STATE_END_MINUTE = 4;
     private int selectionState = 0;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof TimeSettingsWidgetController) {
             if (this.startTimeSettings == null) {
@@ -31,7 +30,6 @@ extends MenuItemController {
         super.add(abstractWidget);
     }
 
-    @Override
     public void disconnecting() {
         this.processBack(new KeyEvent(null, 0, 15, this.startTimeSettings.getTerminal().getTerminalID()));
         super.disconnecting();
@@ -100,7 +98,6 @@ extends MenuItemController {
         keyEvent.consume();
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             case 17: {
@@ -118,7 +115,6 @@ extends MenuItemController {
         return "DualTimerController";
     }
 
-    @Override
     public String getDiagnosisText() {
         return "DualTimerController";
     }

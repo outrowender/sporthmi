@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.NADTemperatureStruct;
 
 public class NADTemperatureStructSerializer {
-    public static void putOptionalNADTemperatureStruct(ISerializer iSerializer, NADTemperatureStruct nADTemperatureStruct) {
+    public static void putOptionalNADTemperatureStruct(ISerializer iSerializer, NADTemperatureStruct nADTemperatureStruct) throws SerializerException {
         boolean bl = nADTemperatureStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NADTemperatureStructSerializer {
         }
     }
 
-    public static void putOptionalNADTemperatureStructVarArray(ISerializer iSerializer, NADTemperatureStruct[] nADTemperatureStructArray) {
+    public static void putOptionalNADTemperatureStructVarArray(ISerializer iSerializer, NADTemperatureStruct[] nADTemperatureStructArray) throws SerializerException {
         boolean bl = nADTemperatureStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NADTemperatureStructSerializer {
         }
     }
 
-    public static NADTemperatureStruct getOptionalNADTemperatureStruct(IDeserializer iDeserializer) {
+    public static NADTemperatureStruct getOptionalNADTemperatureStruct(IDeserializer iDeserializer) throws SerializerException {
         NADTemperatureStruct nADTemperatureStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NADTemperatureStructSerializer {
         return nADTemperatureStruct;
     }
 
-    public static NADTemperatureStruct[] getOptionalNADTemperatureStructVarArray(IDeserializer iDeserializer) {
+    public static NADTemperatureStruct[] getOptionalNADTemperatureStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         NADTemperatureStruct[] nADTemperatureStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

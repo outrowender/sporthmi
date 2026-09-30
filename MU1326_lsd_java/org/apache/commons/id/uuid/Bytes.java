@@ -31,7 +31,7 @@ public final class Bytes {
     }
 
     public static long toLong(byte[] byArray) {
-        return ((long)byArray[7] & 0) + (((long)byArray[6] & 0) << 8) + (((long)byArray[5] & 0) << 16) + (((long)byArray[4] & 0) << 24) + (((long)byArray[3] & 0) << 32) + (((long)byArray[2] & 0) << 40) + (((long)byArray[1] & 0) << 48) + (((long)byArray[0] & 0) << 56);
+        return ((long)byArray[7] & 0xFFL) + (((long)byArray[6] & 0xFFL) << 8) + (((long)byArray[5] & 0xFFL) << 16) + (((long)byArray[4] & 0xFFL) << 24) + (((long)byArray[3] & 0xFFL) << 32) + (((long)byArray[2] & 0xFFL) << 40) + (((long)byArray[1] & 0xFFL) << 48) + (((long)byArray[0] & 0xFFL) << 56);
     }
 
     public static boolean areEqual(byte[] byArray, byte[] byArray2) {

@@ -8,6 +8,7 @@ import de.esolutions.fw.util.serializer.IDeserializable;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializable;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ServiceUUID
 implements ISerializable,
@@ -24,7 +25,7 @@ IDeserializable {
         this.uuid = uUID;
     }
 
-    public ServiceUUID(IDeserializer iDeserializer) {
+    public ServiceUUID(IDeserializer iDeserializer) throws SerializerException {
         byte[] byArray = new byte[16];
         iDeserializer.getInt8Array(byArray);
         this.uuid = new UUID(byArray);
@@ -42,13 +43,11 @@ IDeserializable {
         return this.uuid.toString();
     }
 
-    @Override
-    public void serialize(ISerializer iSerializer) {
+    public void serialize(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt8Array(this.uuid.getRawBytes());
     }
 
-    @Override
-    public void deserialize(IDeserializer iDeserializer) {
+    public void deserialize(IDeserializer iDeserializer) throws SerializerException {
         byte[] byArray = new byte[16];
         iDeserializer.getInt8Array(byArray);
         this.uuid = new UUID(byArray);

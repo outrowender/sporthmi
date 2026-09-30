@@ -19,7 +19,7 @@ public class ResManTransportParam {
             if (string2 == null) {
                 return null;
             }
-            string = new StringBuffer().append(string2).append(File.separatorChar).append(string).toString();
+            string = string2 + File.separatorChar + string;
         }
         return new ResManTransportParam(string);
     }
@@ -33,7 +33,7 @@ public class ResManTransportParam {
     }
 
     public String toString() {
-        return new StringBuffer().append("[ResMan:").append(this.path).append("]").toString();
+        return "[ResMan:" + this.path + "]";
     }
 }
 

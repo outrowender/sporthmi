@@ -13,7 +13,6 @@ import de.audi.remotehmi.ui.mib2.grid.IInfiniteListData;
 import de.audi.remotehmi.ui.mib2.grid.IInfiniteListListener;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListModel;
-import de.esolutions.hmi.widgets.audi.evo.online.GridListModel$RowSubrowIterator;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListRow;
 import de.esolutions.hmi.widgets.audi.evo.online.IInfiniteListModelAccess;
 import de.esolutions.hmi.widgets.audi.evo.online.InfiniteListStatistics;
@@ -44,10 +43,10 @@ implements IInfiniteListModelAccess {
     private int requestedRowsCount;
     boolean hasArtificialRowAtBeginning;
     boolean hasArtificialRowAtEnd;
-    public static final int REQUEST_NONE;
-    public static final int REQUEST_NEXT;
-    public static final int REQUEST_PREVIOUS;
-    public static final int REQUEST_ALL;
+    public static final int REQUEST_NONE = 1;
+    public static final int REQUEST_NEXT = 2;
+    public static final int REQUEST_PREVIOUS = 4;
+    public static final int REQUEST_ALL = Integer.MAX_VALUE;
     private int isWaitingFor = 1;
     private int triggerRequestFor = 1;
     private int triggerResetFor = 1;
@@ -68,18 +67,17 @@ implements IInfiniteListModelAccess {
         this.requestedRowsCount = n;
     }
 
-    @Override
     public void viewportChanged(MenuViewport menuViewport) {
         int n = this.targetFirstVisibleIndex;
         int n2 = this.targetLastVisibleIndex;
         this.targetFirstVisibleIndex = menuViewport.start.widgetPart;
         this.targetLastVisibleIndex = menuViewport.end.widgetPart;
         if (this.targetFirstVisibleIndex != n || this.targetLastVisibleIndex != n2) {
-            log.log(-2137614336, "InfiniteListModelAccess#viewportChanged: old target: firstVisible=%1, lastVisible=%2", (long)n, (long)n2);
-            log.log(-2137614336, "InfiniteListModelAccess#viewportChanged  new target: firstVisible=%1, lastVisible=%2, length=%3", (long)this.targetFirstVisibleIndex, (long)this.targetLastVisibleIndex, (long)this.getCurrentListLength());
+            log.log(10000000, "InfiniteListModelAccess#viewportChanged: old target: firstVisible=%1, lastVisible=%2", (long)n, (long)n2);
+            log.log(10000000, "InfiniteListModelAccess#viewportChanged  new target: firstVisible=%1, lastVisible=%2, length=%3", (long)this.targetFirstVisibleIndex, (long)this.targetLastVisibleIndex, (long)this.getCurrentListLength());
         }
         if (this.ignoringIndexChanges) {
-            log.log(-2137614336, "InfiniteListModelAccess#viewportChanged: changes are ignored!");
+            log.log(10000000, "InfiniteListModelAccess#viewportChanged: changes are ignored!");
             return;
         }
         if (n == -1) {
@@ -87,21 +85,21 @@ implements IInfiniteListModelAccess {
         }
         boolean bl = this.targetFirstVisibleIndex < n && this.targetLastVisibleIndex < n2;
         boolean bl2 = this.targetFirstVisibleIndex > n && this.targetLastVisibleIndex > n2;
-        log.log(-2137614336, "InfiniteListModelAccess#viewportChanged: hasScrolledUp=%1, hasScrolledDown=%2.", bl, bl2);
+        log.log(10000000, "InfiniteListModelAccess#viewportChanged: hasScrolledUp=%1, hasScrolledDown=%2.", bl, bl2);
         if (bl && this.triggerRequestFor == 2) {
             this.triggerRequestFor = 1;
-            log.log(1078071040, "InfiniteListModelAccess#viewportChanged: next entry request was aborted.");
+            log.log(1000000, "InfiniteListModelAccess#viewportChanged: next entry request was aborted.");
         }
         if (bl2 && this.triggerRequestFor == 4) {
             this.triggerRequestFor = 1;
-            log.log(1078071040, "InfiniteListModelAccess#viewportChanged: previous entry request was aborted.");
+            log.log(1000000, "InfiniteListModelAccess#viewportChanged: previous entry request was aborted.");
         }
         boolean bl3 = !this.isInsideProxyRange(n, true) && !this.isInsideProxyRange(n2, false);
         this.checkForSettingRequestTrigger(bl3);
     }
 
     public void checkForSettingRequestTrigger(boolean bl) {
-        log.log(1078071040, "InfiniteListModelAccess#checkForSettingRequestTrigger: resolvingRows=%1, resetting=%2, firstTimeAfterUpdate=%3.", this.resolvingRows, this.resetting, this.firstTimeAfterUpdate);
+        log.log(1000000, "InfiniteListModelAccess#checkForSettingRequestTrigger: resolvingRows=%1, resetting=%2, firstTimeAfterUpdate=%3.", this.resolvingRows, this.resetting, this.firstTimeAfterUpdate);
         if (this.resolvingRows || this.resetting) {
             return;
         }
@@ -111,15 +109,14 @@ implements IInfiniteListModelAccess {
         }
         if (this.triggerRequestFor != 4 && this.isWaitingFor != 4 && (this.isBeginningArtificialRowShown() || bl && this.isInsideProxyRange(this.targetFirstVisibleIndex, true))) {
             this.triggerRequestFor = 4;
-            log.log(1078071040, "InfiniteListModelAccess#checkForSettingRequestTrigger: trigger for previous entry request is set.");
+            log.log(1000000, "InfiniteListModelAccess#checkForSettingRequestTrigger: trigger for previous entry request is set.");
         }
         if (this.triggerRequestFor != 2 && this.isWaitingFor != 2 && (this.isEndArtificialRowShown() || bl && this.isInsideProxyRange(this.targetLastVisibleIndex, false))) {
             this.triggerRequestFor = 2;
-            log.log(1078071040, "InfiniteListModelAccess#checkForSettingRequestTrigger: trigger for next entry request is set.");
+            log.log(1000000, "InfiniteListModelAccess#checkForSettingRequestTrigger: trigger for next entry request is set.");
         }
     }
 
-    @Override
     public void rendered(MenuItemIndex menuItemIndex, MenuItemIndex menuItemIndex2) {
         try {
             this.renderedWork(menuItemIndex, menuItemIndex2);
@@ -140,8 +137,8 @@ implements IInfiniteListModelAccess {
         this.currentLastVisibleIndex = menuItemIndex2.widgetPart;
         boolean bl2 = bl = n != this.currentFirstVisibleIndex || n2 != this.currentLastVisibleIndex;
         if (bl) {
-            log.log(-2137614336, "InfiniteListModelAccess#renderedWork: old firstVisible=%1, lastVisible=%2", (long)n, (long)n2);
-            log.log(-2137614336, "InfiniteListModelAccess#renderedWork: new firstVisible=%1, lastVisible=%2", (long)this.currentFirstVisibleIndex, (long)this.currentLastVisibleIndex);
+            log.log(10000000, "InfiniteListModelAccess#renderedWork: old firstVisible=%1, lastVisible=%2", (long)n, (long)n2);
+            log.log(10000000, "InfiniteListModelAccess#renderedWork: new firstVisible=%1, lastVisible=%2", (long)this.currentFirstVisibleIndex, (long)this.currentLastVisibleIndex);
         }
     }
 
@@ -159,11 +156,11 @@ implements IInfiniteListModelAccess {
         }
         int n3 = this.getCurrentListLength();
         if (n3 == 0 || this.currentLastVisibleIndex < this.currentFirstVisibleIndex || n3 <= this.currentLastVisibleIndex) {
-            log.log(-1601830656, "InfiniteListModelAccess#resolveRows: inconsistent values: no subrows were resolved: currentFirstVisibleIndex=%1, currentLastVisibleIndex=%2, length=%3", (long)this.currentFirstVisibleIndex, (long)this.currentLastVisibleIndex, (long)n3);
+            log.log(100000, "InfiniteListModelAccess#resolveRows: inconsistent values: no subrows were resolved: currentFirstVisibleIndex=%1, currentLastVisibleIndex=%2, length=%3", (long)this.currentFirstVisibleIndex, (long)this.currentLastVisibleIndex, (long)n3);
             return false;
         }
         if (this.isScrollAnimationRunning()) {
-            log.log(-2137614336, "InfiniteListModelAccess#resolveRows: animation still running: no subrows were resolved: firstVisible=%1, lastVisible=%2, length=%3", (long)this.currentFirstVisibleIndex, (long)this.currentLastVisibleIndex, (long)n3);
+            log.log(10000000, "InfiniteListModelAccess#resolveRows: animation still running: no subrows were resolved: firstVisible=%1, lastVisible=%2, length=%3", (long)this.currentFirstVisibleIndex, (long)this.currentLastVisibleIndex, (long)n3);
             return false;
         }
         if (bl) {
@@ -189,7 +186,7 @@ implements IInfiniteListModelAccess {
 
     private void resolveRowsWork(int n, int n2) {
         int n3 = this.getCurrentListLength();
-        log.log(1078071040, "InfiniteListModelAccess#resolveRowsWork: firstVisible=%1, lastVisible=%2, length=%3", (long)n, (long)n2, (long)n3);
+        log.log(1000000, "InfiniteListModelAccess#resolveRowsWork: firstVisible=%1, lastVisible=%2, length=%3", (long)n, (long)n2, (long)n3);
         int n4 = n3 - 1;
         boolean bl = false;
         boolean bl2 = false;
@@ -206,7 +203,7 @@ implements IInfiniteListModelAccess {
             int n6 = list2.size();
             boolean bl6 = bl4 = n6 > 0;
             if (bl4) {
-                log.log(1078071040, "InfiniteListModelAccess#resolveRowsWork: inserting %1 rows after index=%2.", (long)n6, (long)i2);
+                log.log(1000000, "InfiniteListModelAccess#resolveRowsWork: inserting %1 rows after index=%2.", (long)n6, (long)i2);
                 this.insertRowsAfter(i2, list2);
                 bl2 = true;
                 list2.clear();
@@ -217,7 +214,7 @@ implements IInfiniteListModelAccess {
             boolean bl7 = n2 != -1 && (i2 == n - 1 || i2 == n2 + 1);
             boolean bl8 = bl3 = bl7 && !bl4;
             if (!gridListRow.isDeletableIfOffscreen() || bl5 || bl3) continue;
-            log.log(1078071040, "InfiniteListModelAccess#resolveRowsWork: deleting row with gridId='%1'.", (Object)gridListRow.getGridId());
+            log.log(1000000, "InfiniteListModelAccess#resolveRowsWork: deleting row with gridId='%1'.", (Object)gridListRow.getGridId());
             this.removeRows(i2, 1);
             bl2 = true;
             if (i2 != 0 && i2 != n4) continue;
@@ -248,7 +245,6 @@ implements IInfiniteListModelAccess {
         }
     }
 
-    @Override
     public boolean isVisibleAreaOverlappingForbiddenArea() {
         int n;
         int n2;
@@ -265,7 +261,6 @@ implements IInfiniteListModelAccess {
         return this.currentFirstVisibleIndex <= n && this.currentLastVisibleIndex >= n2;
     }
 
-    @Override
     public void updateInfiniteListData(IInfiniteListData iInfiniteListData, GridListRow[] gridListRowArray) {
         this.firstTimeAfterUpdate = true;
         this.totalListLength = iInfiniteListData.getTotalLength();
@@ -278,7 +273,7 @@ implements IInfiniteListModelAccess {
         this.statistics.update((GridListModel)this.model, 1);
         int n2 = this.currentStartIndex;
         this.currentStartIndex = this.getAbsoluteIndexOfRow(gridListRowArray[0]);
-        log.log(-2137614336, "InfiniteListModelAccess#updateInfiniteListData: startIndex: old=%1, current=%2", (long)n2, (long)this.currentStartIndex);
+        log.log(10000000, "InfiniteListModelAccess#updateInfiniteListData: startIndex: old=%1, current=%2", (long)n2, (long)this.currentStartIndex);
         this.resolveRows(true);
         this.changeAllRowsToArtificialOrOriginal();
         this.triggerResetFor = this.checkForReset(n);
@@ -289,12 +284,10 @@ implements IInfiniteListModelAccess {
         this.startRequestIfTriggered();
     }
 
-    @Override
     public long getFirstVisibleRowId() {
         return this.getRowIdByIndex(this.currentFirstVisibleIndex);
     }
 
-    @Override
     public long getLastVisibleRowId() {
         return this.getRowIdByIndex(this.currentLastVisibleIndex);
     }
@@ -324,7 +317,7 @@ implements IInfiniteListModelAccess {
     }
 
     private void requestEntries(int n, int n2, String string, GridListRow gridListRow, GridListRow gridListRow2) {
-        log.log(1078071040, "InfiniteListModelAccess#requestEntries: requesting %1 %2 entries: startIndex=%3", (Object)string, (long)n2, (long)n);
+        log.log(1000000, "InfiniteListModelAccess#requestEntries: requesting %1 %2 entries: startIndex=%3", (Object)string, (long)n2, (long)n);
         String string2 = gridListRow.getGridId();
         String string3 = gridListRow2.getGridId();
         long l = this.getAbsoluteIndexOfRow(gridListRow);
@@ -332,7 +325,6 @@ implements IInfiniteListModelAccess {
         this.getInfiniteListListener().requestItems(n, n2, string, this.overlapSize, string2, string3, (int)l, (int)l2);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
     }
 
@@ -382,7 +374,6 @@ implements IInfiniteListModelAccess {
         }
     }
 
-    @Override
     public void changeAllRowsToArtificialOrOriginal() {
         boolean bl;
         boolean bl2;
@@ -406,7 +397,7 @@ implements IInfiniteListModelAccess {
             this.makeRowArtificial(i2, false);
             if (i2 != n) continue;
             GridListRow gridListRow2 = (GridListRow)gridListModel.getGuiRow(i2);
-            log.log(1078071040, "InfiniteListModelAccess#changeAllRowsToArtificialOrOriginal: itemFocused will be sent for rowIndex=%1, offset by startIndex=%2", (long)i2, (long)this.currentStartIndex);
+            log.log(1000000, "InfiniteListModelAccess#changeAllRowsToArtificialOrOriginal: itemFocused will be sent for rowIndex=%1, offset by startIndex=%2", (long)i2, (long)this.currentStartIndex);
             this.getBaseListListener().itemFocused(gridListRow2, gridListModel.getID(), i2, 0, this.terminalId);
         }
     }
@@ -424,7 +415,7 @@ implements IInfiniteListModelAccess {
         RowInfo rowInfo;
         RowInfo rowInfo2;
         if (this.triggerRequestFor == 1) {
-            log.log(-2137614336, "InfiniteListModelAccess#markAllNonOverlappingRowsAsDeleted: no request is running!");
+            log.log(10000000, "InfiniteListModelAccess#markAllNonOverlappingRowsAsDeleted: no request is running!");
             return;
         }
         GridListModel gridListModel = (GridListModel)this.model;
@@ -435,10 +426,10 @@ implements IInfiniteListModelAccess {
             rowInfo2 = this.statistics.getRowInfo(0);
             rowInfo = this.statistics.getRowInfo(5);
         }
-        GridListModel$RowSubrowIterator gridListModel$RowSubrowIterator = gridListModel.rowSubrowIterator();
-        while (gridListModel$RowSubrowIterator.hasNext()) {
-            GridListRow gridListRow = (GridListRow)gridListModel$RowSubrowIterator.next();
-            RowInfo rowInfo3 = gridListModel$RowSubrowIterator.previousRowInfo();
+        GridListModel.RowSubrowIterator rowSubrowIterator = gridListModel.rowSubrowIterator();
+        while (rowSubrowIterator.hasNext()) {
+            GridListRow gridListRow = (GridListRow)rowSubrowIterator.next();
+            RowInfo rowInfo3 = rowSubrowIterator.previousRowInfo();
             if (!rowInfo3.isBefore(rowInfo2) && !rowInfo3.isAfter(rowInfo)) continue;
             gridListRow.setDeletableIfOffscreen(true);
         }
@@ -449,7 +440,7 @@ implements IInfiniteListModelAccess {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void removeRows(int n, int n2) {
-        log.log(-2137614336, "InfiniteListModelAccess#removeRows: start removing %1 rows, starting at index %2 ...", (long)n2, (long)n);
+        log.log(10000000, "InfiniteListModelAccess#removeRows: start removing %1 rows, starting at index %2 ...", (long)n2, (long)n);
         boolean bl = this.ignoringIndexChanges;
         boolean bl2 = this.resolvingRows;
         ListController listController = this.getListController();
@@ -462,7 +453,7 @@ implements IInfiniteListModelAccess {
             this.ignoringIndexChanges = bl;
             this.resolvingRows = bl2;
         }
-        log.log(1078071040, "InfiniteListModelAccess#removeRows: ... %1 rows removed, starting at index %2.", (long)n2, (long)n);
+        log.log(1000000, "InfiniteListModelAccess#removeRows: ... %1 rows removed, starting at index %2.", (long)n2, (long)n);
         if (this.scrollbar1 != null) {
             this.scrollbar1.setEntireMax(this.initialListLength);
             if (n == 0) {
@@ -481,14 +472,13 @@ implements IInfiniteListModelAccess {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void insertRowsAfter(int n, List list) {
         String string;
         GridListRow gridListRow;
         boolean bl;
         int n2 = list.size();
-        log.log(-2137614336, "InfiniteListModelAccess#insertRowsAfter: start adding %1 rows after index %2 ...", (long)n2, (long)n);
-        log.log(-2137614336, "InfiniteListModelAccess#insertRowsAfter: rows = %1", (Object)list);
+        log.log(10000000, "InfiniteListModelAccess#insertRowsAfter: start adding %1 rows after index %2 ...", (long)n2, (long)n);
+        log.log(10000000, "InfiniteListModelAccess#insertRowsAfter: rows = %1", (Object)list);
         EvoListRow[] evoListRowArray = (EvoListRow[])list.toArray(new EvoListRow[n2]);
         boolean bl2 = this.ignoringIndexChanges;
         boolean bl3 = this.resolvingRows;
@@ -515,11 +505,10 @@ implements IInfiniteListModelAccess {
             this.ignoringIndexChanges = bl2;
             this.resolvingRows = bl3;
         }
-        log.log(1078071040, "InfiniteListModelAccess#insertRowsAfter: ... %3 rows added %1 row with gridId=%2", (Object)string, (Object)gridListRow.getGridId(), (long)n2);
+        log.log(1000000, "InfiniteListModelAccess#insertRowsAfter: ... %3 rows added %1 row with gridId=%2", (Object)string, (Object)gridListRow.getGridId(), (long)n2);
         this.statistics.setDirty(true);
     }
 
-    @Override
     public ListController getListController() {
         if (this.listController == null) {
             throw new IllegalStateException(new StringBuffer().append("List controller is null. You must set it before you can use ").append(class$de$esolutions$hmi$widgets$audi$evo$online$InfiniteListModelAccess == null ? (class$de$esolutions$hmi$widgets$audi$evo$online$InfiniteListModelAccess = InfiniteListModelAccess.class$("de.esolutions.hmi.widgets.audi.evo.online.InfiniteListModelAccess")) : class$de$esolutions$hmi$widgets$audi$evo$online$InfiniteListModelAccess).toString());
@@ -527,7 +516,6 @@ implements IInfiniteListModelAccess {
         return this.listController;
     }
 
-    @Override
     public void setListController(ListController listController) {
         this.listController = listController;
     }
@@ -539,12 +527,10 @@ implements IInfiniteListModelAccess {
         return this.hasArtificialRowAtEnd && n >= this.statistics.getModelIndex(3);
     }
 
-    @Override
     public IInfiniteListListener getInfiniteListListener() {
         return (IInfiniteListListener)((Object)this.getBaseListListener());
     }
 
-    @Override
     public BaseListModelListener getBaseListListener() {
         GridListModel gridListModel = (GridListModel)this.model;
         return gridListModel.getListener();
@@ -564,11 +550,11 @@ implements IInfiniteListModelAccess {
 
     private int checkForReset(int n) {
         if (n == 4 && this.isBeginningArtificialRowShown()) {
-            log.log(1078071040, "InfiniteListModelAccess#checkForReset: trigger resetting view because no new data provided at beginning.");
+            log.log(1000000, "InfiniteListModelAccess#checkForReset: trigger resetting view because no new data provided at beginning.");
             return 4;
         }
         if (n == 2 && this.isEndArtificialRowShown()) {
-            log.log(1078071040, "InfiniteListModelAccess#checkForReset: trigger resetting view because no new data provided at end.");
+            log.log(1000000, "InfiniteListModelAccess#checkForReset: trigger resetting view because no new data provided at end.");
             return 2;
         }
         return 1;
@@ -603,10 +589,10 @@ implements IInfiniteListModelAccess {
         FocusAdvice focusAdvice;
         int n2;
         String string = this.triggerResetFor == 4 ? "top" : "bottom";
-        log.log(1078071040, "InfiniteListModelAccess#resetWork: start trying to resolve rows for reset to %1 of list.", (Object)string);
+        log.log(1000000, "InfiniteListModelAccess#resetWork: start trying to resolve rows for reset to %1 of list.", (Object)string);
         boolean bl = this.resolveRows(false);
         if (!bl) {
-            log.log(1078071040, "InfiniteListModelAccess#resetWork: running animation delays reset to %1 of list.", (Object)string);
+            log.log(1000000, "InfiniteListModelAccess#resetWork: running animation delays reset to %1 of list.", (Object)string);
             return false;
         }
         int n3 = this.getCurrentListLength();
@@ -626,9 +612,9 @@ implements IInfiniteListModelAccess {
             n2 = n3 - 2;
             focusAdvice = FocusAdvice.VIEWPORT_LAST_POSITION;
         }
-        log.log(1078071040, "InfiniteListModelAccess#resetWork: setting focused item to list index %1", (long)n2);
+        log.log(1000000, "InfiniteListModelAccess#resetWork: setting focused item to list index %1", (long)n2);
         menuController.focusItemImmediately(new MenuItemIndex(n4, n2), focusAdvice);
-        log.log(1078071040, "InfiniteListModelAccess#resetWork: focused item to list index %1 was set!", (long)n2);
+        log.log(1000000, "InfiniteListModelAccess#resetWork: focused item to list index %1 was set!", (long)n2);
         this.triggerResetFor = 1;
         this.triggerRequestFor = 1;
         gridListModel.notifyResolvingRowsAndResettingFinished();
@@ -641,17 +627,14 @@ implements IInfiniteListModelAccess {
         return menuController.getAnimationManager().isScrollAnimationRunning();
     }
 
-    @Override
     public boolean isResolvingRows() {
         return this.resolvingRows;
     }
 
-    @Override
     public boolean isResetting() {
         return this.resetting;
     }
 
-    @Override
     public void checkDelayedTasks() {
         boolean bl = this.resetIfTriggered();
         if (bl) {

@@ -4,9 +4,9 @@
 package org.apache.xerces.impl;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.Locale;
 import org.apache.xerces.impl.XMLEntityManager;
-import org.apache.xerces.impl.XMLEntityManager$ScannedEntity;
 import org.apache.xerces.impl.XMLErrorReporter;
 import org.apache.xerces.impl.io.UCSReader;
 import org.apache.xerces.util.SymbolTable;
@@ -18,20 +18,19 @@ import org.apache.xerces.xni.XMLString;
 
 public class XMLEntityScanner
 implements XMLLocator {
-    private static final boolean DEBUG_ENCODINGS;
-    private static final boolean DEBUG_BUFFER;
+    private static final boolean DEBUG_ENCODINGS = false;
+    private static final boolean DEBUG_BUFFER = false;
     private XMLEntityManager fEntityManager = null;
-    protected XMLEntityManager$ScannedEntity fCurrentEntity = null;
+    protected XMLEntityManager.ScannedEntity fCurrentEntity = null;
     protected SymbolTable fSymbolTable = null;
     protected int fBufferSize = 2048;
     protected XMLErrorReporter fErrorReporter;
 
-    @Override
     public String getBaseSystemId() {
         return this.fCurrentEntity != null && this.fCurrentEntity.entityLocation != null ? this.fCurrentEntity.entityLocation.getExpandedSystemId() : null;
     }
 
-    public void setEncoding(String string) {
+    public void setEncoding(String string) throws IOException {
         if (!(this.fCurrentEntity.stream == null || this.fCurrentEntity.encoding != null && this.fCurrentEntity.encoding.equals(string))) {
             if (this.fCurrentEntity.encoding != null && this.fCurrentEntity.encoding.startsWith("UTF-16")) {
                 String string2 = string.toUpperCase(Locale.ENGLISH);
@@ -60,7 +59,7 @@ implements XMLLocator {
         return this.fCurrentEntity.isExternal();
     }
 
-    public int peekChar() {
+    public int peekChar() throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }
@@ -71,7 +70,7 @@ implements XMLLocator {
         return n;
     }
 
-    public int scanChar() {
+    public int scanChar() throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }
@@ -95,7 +94,7 @@ implements XMLLocator {
         return n;
     }
 
-    public String scanNmtoken() {
+    public String scanNmtoken() throws IOException {
         Object object;
         int n;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
@@ -125,7 +124,7 @@ implements XMLLocator {
         return object;
     }
 
-    public String scanName() {
+    public String scanName() throws IOException {
         Object object;
         int n;
         int n2;
@@ -166,7 +165,7 @@ implements XMLLocator {
         return object;
     }
 
-    public String scanNCName() {
+    public String scanNCName() throws IOException {
         Object object;
         int n;
         int n2;
@@ -207,7 +206,7 @@ implements XMLLocator {
         return object;
     }
 
-    public boolean scanQName(QName qName) {
+    public boolean scanQName(QName qName) throws IOException {
         int n;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -273,7 +272,7 @@ implements XMLLocator {
         return false;
     }
 
-    public int scanContent(XMLString xMLString) {
+    public int scanContent(XMLString xMLString) throws IOException {
         int n;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -351,7 +350,7 @@ implements XMLLocator {
         return n3;
     }
 
-    public int scanLiteral(int n, XMLString xMLString) {
+    public int scanLiteral(int n, XMLString xMLString) throws IOException {
         int n2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -429,7 +428,7 @@ implements XMLLocator {
         return n4;
     }
 
-    public boolean scanData(String string, XMLStringBuffer xMLStringBuffer) {
+    public boolean scanData(String string, XMLStringBuffer xMLStringBuffer) throws IOException {
         int n;
         boolean bl = false;
         int n2 = string.length();
@@ -541,7 +540,7 @@ implements XMLLocator {
         return !bl;
     }
 
-    public boolean skipChar(int n) {
+    public boolean skipChar(int n) throws IOException {
         char c2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -572,7 +571,7 @@ implements XMLLocator {
         return false;
     }
 
-    public boolean skipSpaces() {
+    public boolean skipSpaces() throws IOException {
         char c2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -609,7 +608,7 @@ implements XMLLocator {
         return false;
     }
 
-    public boolean skipDeclSpaces() {
+    public boolean skipDeclSpaces() throws IOException {
         char c2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -646,7 +645,7 @@ implements XMLLocator {
         return false;
     }
 
-    public boolean skipString(String string) {
+    public boolean skipString(String string) throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }
@@ -668,12 +667,10 @@ implements XMLLocator {
         return true;
     }
 
-    @Override
     public String getPublicId() {
         return this.fCurrentEntity != null && this.fCurrentEntity.entityLocation != null ? this.fCurrentEntity.entityLocation.getPublicId() : null;
     }
 
-    @Override
     public String getExpandedSystemId() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.entityLocation != null && this.fCurrentEntity.entityLocation.getExpandedSystemId() != null) {
@@ -684,7 +681,6 @@ implements XMLLocator {
         return null;
     }
 
-    @Override
     public String getLiteralSystemId() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.entityLocation != null && this.fCurrentEntity.entityLocation.getLiteralSystemId() != null) {
@@ -695,7 +691,6 @@ implements XMLLocator {
         return null;
     }
 
-    @Override
     public int getLineNumber() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.isExternal()) {
@@ -706,7 +701,6 @@ implements XMLLocator {
         return -1;
     }
 
-    @Override
     public int getColumnNumber() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.isExternal()) {
@@ -717,7 +711,6 @@ implements XMLLocator {
         return -1;
     }
 
-    @Override
     public int getCharacterOffset() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.isExternal()) {
@@ -728,7 +721,6 @@ implements XMLLocator {
         return -1;
     }
 
-    @Override
     public String getEncoding() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.isExternal()) {
@@ -739,7 +731,6 @@ implements XMLLocator {
         return null;
     }
 
-    @Override
     public String getXMLVersion() {
         if (this.fCurrentEntity != null) {
             if (this.fCurrentEntity.isExternal()) {
@@ -750,8 +741,8 @@ implements XMLLocator {
         return null;
     }
 
-    public void setCurrentEntity(XMLEntityManager$ScannedEntity xMLEntityManager$ScannedEntity) {
-        this.fCurrentEntity = xMLEntityManager$ScannedEntity;
+    public void setCurrentEntity(XMLEntityManager.ScannedEntity scannedEntity) {
+        this.fCurrentEntity = scannedEntity;
     }
 
     public void setBufferSize(int n) {
@@ -765,7 +756,7 @@ implements XMLLocator {
         this.fErrorReporter = xMLErrorReporter;
     }
 
-    final boolean load(int n, boolean bl) {
+    final boolean load(int n, boolean bl) throws IOException {
         this.fCurrentEntity.baseCharOffset += this.fCurrentEntity.position - this.fCurrentEntity.startPosition;
         int n2 = this.fCurrentEntity.mayReadChunks ? this.fCurrentEntity.ch.length - n : 64;
         int n3 = this.fCurrentEntity.reader.read(this.fCurrentEntity.ch, n, n2);

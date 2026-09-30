@@ -3,86 +3,61 @@
  */
 package de.esolutions.fw.comm.dsi.ddp20;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.ddp20.DisplayRequest;
 import org.dsi.ifc.ddp20.UpdateRequest;
 
 public interface DSIDDP20C {
-    default public void getDisplayStatus() {
-    }
+    public void getDisplayStatus() throws MethodException;
 
-    default public void setHMIState(int n, int n2, int n3) {
-    }
+    public void setHMIState(int var1, int var2, int var3) throws MethodException;
 
-    default public void setNaviState(int n, int n2) {
-    }
+    public void setNaviState(int var1, int var2) throws MethodException;
 
-    default public void setMediaState(int n) {
-    }
+    public void setMediaState(int var1) throws MethodException;
 
-    default public void setPhoneState(int n, int n2, int n3) {
-    }
+    public void setPhoneState(int var1, int var2, int var3) throws MethodException;
 
-    default public void setFrameStatus(DisplayRequest displayRequest) {
-    }
+    public void setFrameStatus(DisplayRequest var1) throws MethodException;
 
-    default public void setFrameUpdate(UpdateRequest updateRequest) {
-    }
+    public void setFrameUpdate(UpdateRequest var1) throws MethodException;
 
-    default public void setManeuver(int n, short[] sArray, boolean bl) {
-    }
+    public void setManeuver(int var1, short[] var2, boolean var3) throws MethodException;
 
-    default public void setCompass(int n, short[] sArray, boolean bl) {
-    }
+    public void setCompass(int var1, short[] var2, boolean var3) throws MethodException;
 
-    default public void setDistanceBar(int n, int n2, boolean bl, boolean bl2) {
-    }
+    public void setDistanceBar(int var1, int var2, boolean var3, boolean var4) throws MethodException;
 
-    default public void setDeviationBar(int n, int n2, boolean bl, boolean bl2) {
-    }
+    public void setDeviationBar(int var1, int var2, boolean var3, boolean var4) throws MethodException;
 
-    default public void setText(int n, int n2, String string, int n3, boolean bl) {
-    }
+    public void setText(int var1, int var2, String var3, int var4, boolean var5) throws MethodException;
 
-    default public void setTextStyle(int n, int n2, int n3, int n4, boolean bl) {
-    }
+    public void setTextStyle(int var1, int var2, int var3, int var4, boolean var5) throws MethodException;
 
-    default public void setColor(int n, int n2, int[] nArray, boolean bl) {
-    }
+    public void setColor(int var1, int var2, int[] var3, boolean var4) throws MethodException;
 
-    default public void setCursor(int n, int n2, int n3, int n4, int n5, boolean bl) {
-    }
+    public void setCursor(int var1, int var2, int var3, int var4, int var5, boolean var6) throws MethodException;
 
-    default public void setTrafficSign(int n, int n2, int n3, int n4, boolean bl) {
-    }
+    public void setTrafficSign(int var1, int var2, int var3, int var4, boolean var5) throws MethodException;
 
-    default public void setLaneGuidanceHeader(int n, int n2, int n3, int n4, int n5, boolean bl) {
-    }
+    public void setLaneGuidanceHeader(int var1, int var2, int var3, int var4, int var5, boolean var6) throws MethodException;
 
-    default public void setLaneGuidanceData(int n, int n2, int n3, int n4, short[] sArray, boolean bl) {
-    }
+    public void setLaneGuidanceData(int var1, int var2, int var3, int var4, short[] var5, boolean var6) throws MethodException;
 
-    default public void setCodePage(int n) {
-    }
+    public void setCodePage(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

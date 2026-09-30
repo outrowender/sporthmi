@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.media.impl;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaBrowserSelectionData;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MediaBrowserSelectionDataSerializer {
-    public static void putOptionalMediaBrowserSelectionData(ISerializer iSerializer, MediaBrowserSelectionData mediaBrowserSelectionData) {
+    public static void putOptionalMediaBrowserSelectionData(ISerializer iSerializer, MediaBrowserSelectionData mediaBrowserSelectionData) throws SerializerException {
         boolean bl = mediaBrowserSelectionData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MediaBrowserSelectionDataSerializer {
         }
     }
 
-    public static void putOptionalMediaBrowserSelectionDataVarArray(ISerializer iSerializer, MediaBrowserSelectionData[] mediaBrowserSelectionDataArray) {
+    public static void putOptionalMediaBrowserSelectionDataVarArray(ISerializer iSerializer, MediaBrowserSelectionData[] mediaBrowserSelectionDataArray) throws SerializerException {
         boolean bl = mediaBrowserSelectionDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MediaBrowserSelectionDataSerializer {
         }
     }
 
-    public static MediaBrowserSelectionData getOptionalMediaBrowserSelectionData(IDeserializer iDeserializer) {
+    public static MediaBrowserSelectionData getOptionalMediaBrowserSelectionData(IDeserializer iDeserializer) throws SerializerException {
         MediaBrowserSelectionData mediaBrowserSelectionData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class MediaBrowserSelectionDataSerializer {
         return mediaBrowserSelectionData;
     }
 
-    public static MediaBrowserSelectionData[] getOptionalMediaBrowserSelectionDataVarArray(IDeserializer iDeserializer) {
+    public static MediaBrowserSelectionData[] getOptionalMediaBrowserSelectionDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaBrowserSelectionData[] mediaBrowserSelectionDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

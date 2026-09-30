@@ -3,22 +3,20 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.instance;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncInstanceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "33835c21-9cd6-4b66-a078-9209b43a1b61";
+    public static final String IPL_COMM_INTERFACE_KEY = "15181a2f-42ba-55da-a0d1-172a25018685";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void responseInstanceId(String string, String string2, int n, int n2) {
-    }
+    public void responseInstanceId(String var1, String var2, int var3, int var4) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 }
 

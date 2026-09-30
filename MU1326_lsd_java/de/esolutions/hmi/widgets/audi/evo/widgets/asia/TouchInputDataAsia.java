@@ -45,29 +45,24 @@ implements ITouchInputDataAsia {
         this.isHandWrittenModeActive = false;
     }
 
-    @Override
     public void setInputMethod(AsianInputMethod asianInputMethod) {
         this.conversionPolicy.willChangeInputMethod(this);
         this.conversionPolicy = asianInputMethod.getCharacterConversionPolicy();
         this.inputMethod = asianInputMethod;
     }
 
-    @Override
     public final IWordPredictionAccess getWordPredictionAccess() {
         return this.wordPredictionAccess;
     }
 
-    @Override
     public final void setWordPredictionAccess(IWordPredictionAccess iWordPredictionAccess) {
         this.wordPredictionAccess = iWordPredictionAccess;
     }
 
-    @Override
     public AsianInputMethod getInputMethod() {
         return this.inputMethod;
     }
 
-    @Override
     public void longPressOnCharacterOccurred(String string) {
         if (this.inputMethod == AsianInputMethod.NO_CONVERSION) {
             this.appendRegularCharacters(string, true);
@@ -78,13 +73,11 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public void spellerClosed() {
         this.conversionPolicy.spellerClosed(this);
         this.setHandWrittenModeIsActive(false);
     }
 
-    @Override
     public void setHandWrittenModeIsActive(boolean bl) {
         if (!bl && this.hasTouchResultPreview()) {
             this.acceptTouchResultPreview();
@@ -96,7 +89,6 @@ implements ITouchInputDataAsia {
         this.caseBalancingStrategy.setHandWrittenModeIsActive(this.isHandWrittenModeActive);
     }
 
-    @Override
     public boolean isHandWrittenModeActive() {
         return this.isHandWrittenModeActive;
     }
@@ -105,7 +97,6 @@ implements ITouchInputDataAsia {
         this.conversionPolicy.willChangeInputMethod(this);
     }
 
-    @Override
     public char insertString(String string, String[] stringArray, boolean bl) {
         char c2 = '\u0000';
         if ('\b' == TouchController.getMostPlausibleCharacter(string)) {
@@ -151,14 +142,12 @@ implements ITouchInputDataAsia {
         return string2;
     }
 
-    @Override
     public String getFullText() {
         this.fullTextBuffer.clear();
         String string = this.fullTextBuffer.append(this.getCurrentDisplayString()).append(this.getUnconvertedCharacters()).append(this.getTouchResultPreview()).toString();
         return string;
     }
 
-    @Override
     public void appendRegularCharacters(String string, boolean bl) {
         if (!StringUtilities.isNullOrEmpty(string)) {
             int n;
@@ -171,7 +160,6 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public void appendUnconvertedCharacters(String string, boolean bl) {
         if (!StringUtilities.isNullOrEmpty(string)) {
             String string2 = this.getUnconvertedCharacters();
@@ -180,17 +168,14 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public String getUnconvertedCharacters() {
         return this.currentlyUnconvertedCharacters.toString();
     }
 
-    @Override
     public boolean hasUnconvertedCharacters() {
         return this.currentlyUnconvertedCharacters.length() > 0;
     }
 
-    @Override
     public void clearUnconvertedCharacters(boolean bl) {
         if (this.hasUnconvertedCharacters()) {
             String string = this.getUnconvertedCharacters();
@@ -217,7 +202,6 @@ implements ITouchInputDataAsia {
         return buffer.toString();
     }
 
-    @Override
     public void convertUnconvertedCharactersToRegularCharacters() {
         if (this.hasUnconvertedCharacters()) {
             String string = TouchInputDataAsia.trimDelimiters(this.getUnconvertedCharacters());
@@ -231,7 +215,6 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public void setTouchResultPreview(String string) {
         String string2 = this.getTouchResultPreview();
         if (!string2.equals(string)) {
@@ -244,7 +227,6 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public String getTouchResultPreview() {
         return this.currentTouchResultPreviewCharacters.toString();
     }
@@ -262,7 +244,6 @@ implements ITouchInputDataAsia {
         return string;
     }
 
-    @Override
     public String deleteTouchResultPreview() {
         return this.deleteTouchResultPreview(true);
     }
@@ -273,7 +254,6 @@ implements ITouchInputDataAsia {
         this.notifyDataChange(1, true, string2, string3);
     }
 
-    @Override
     public void acceptTouchResultPreview() {
         String string = this.deleteTouchResultPreview(false);
         if (!StringUtilities.isNullOrEmpty(string)) {
@@ -289,22 +269,18 @@ implements ITouchInputDataAsia {
         this.delegate.notifyDataChange(n, bl, string, string2);
     }
 
-    @Override
     public boolean hasTouchResultPreview() {
         return this.currentTouchResultPreviewCharacters.length() > 0;
     }
 
-    @Override
     public boolean hasNonRegularCharacters() {
         return this.hasTouchResultPreview() || this.hasUnconvertedCharacters();
     }
 
-    @Override
     public void setPasswordMode(boolean bl) {
         this.delegate.setPasswordMode(bl);
     }
 
-    @Override
     public void clear(boolean bl) {
         this.clear(bl, false);
     }
@@ -318,7 +294,6 @@ implements ITouchInputDataAsia {
         this.deleteSuggestion(bl);
     }
 
-    @Override
     public void clearModelTriggered() {
         this.clear(false, true);
     }
@@ -331,61 +306,52 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public String buildModelString() {
         return this.delegate.buildModelString();
     }
 
-    @Override
     public boolean isEmpty() {
         boolean bl = this.delegate.isEmpty() && !this.hasNonRegularCharacters();
         return bl;
     }
 
-    @Override
     public boolean isStartOfText() {
         return this.isEmpty();
     }
 
-    @Override
     public boolean isStartOfWord() {
         if (this.hasTouchResultPreview()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#isStartOfWord: handle preview text for word separator");
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchControllerAsia#isStartOfWord: handle preview text for word separator");
             String string = this.getTouchResultPreview();
             return this.caseBalancingStrategy.isWordSeparator(string.charAt(0));
         }
         if (this.hasUnconvertedCharacters()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#isStartOfWord: handle last unconverted character for word separator");
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchControllerAsia#isStartOfWord: handle last unconverted character for word separator");
             if (this.getInputMethod() != AsianInputMethod.STROKE) {
                 String string = this.getUnconvertedCharacters();
                 return this.caseBalancingStrategy.isWordSeparator(string.charAt(string.length() - 1));
             }
         }
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#isStartOfWord: call TouchController#isStartOfWord");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchControllerAsia#isStartOfWord: call TouchController#isStartOfWord");
         return this.delegate.isStartOfWord();
     }
 
-    @Override
     public String getCurrentWord() {
         return this.delegate.getCurrentWord();
     }
 
-    @Override
     public String getCurrentText() {
         return this.delegate.getCurrentText();
     }
 
-    @Override
     public String getCurrentDisplayString() {
         return this.delegate.getCurrentDisplayString();
     }
 
-    @Override
     public void moveCursor(int n) {
         this.delegate.moveCursor(n);
     }
 
-    @Override
     public int getCursorPos() {
         if (this.hasUnconvertedCharacters()) {
             return this.delegate.getCursorPos() + this.currentlyUnconvertedCharacters.length();
@@ -396,17 +362,14 @@ implements ITouchInputDataAsia {
         return this.delegate.getCursorPos();
     }
 
-    @Override
     public int getTextLength() {
         return this.delegate.getTextLength();
     }
 
-    @Override
     public void hideCharacters() {
         this.delegate.hideCharacters();
     }
 
-    @Override
     public boolean delete(boolean bl) {
         return this.delegate.delete(bl);
     }
@@ -415,17 +378,14 @@ implements ITouchInputDataAsia {
         this.delegate.deleteWordIncludingPrecedingWhitespaces();
     }
 
-    @Override
     public void insertAutoCompletion(String string) {
         this.delegate.insertAutoCompletion(string);
     }
 
-    @Override
     public int getKeyboardType() {
         return this.delegate.getKeyboardType();
     }
 
-    @Override
     public void setKbdType(int n) {
         this.delegate.setKbdType(n);
     }
@@ -446,12 +406,10 @@ implements ITouchInputDataAsia {
         this.delegate.unlock();
     }
 
-    @Override
     public void setCaseBalanced(boolean bl) {
         this.delegate.setCaseBalanced(bl);
     }
 
-    @Override
     public String doCaseBalancingForSuggestion(String string) {
         return this.delegate.doCaseBalancingForSuggestion(string);
     }
@@ -460,22 +418,18 @@ implements ITouchInputDataAsia {
         return new Buffer("TouchInputDataAsia [regularText='").append(this.getCurrentText()).append("', unconverted='").append(this.getUnconvertedCharacters()).append("', touchResultPreview='").append(this.getTouchResultPreview()).append("']").toString();
     }
 
-    @Override
     public void registerDataChangeListener(ITouchInputDataChangeHandler iTouchInputDataChangeHandler) {
         this.delegate.registerDataChangeListener(iTouchInputDataChangeHandler);
     }
 
-    @Override
     public void unregisterDataChangeListener(ITouchInputDataChangeHandler iTouchInputDataChangeHandler) {
         this.delegate.unregisterDataChangeListener(iTouchInputDataChangeHandler);
     }
 
-    @Override
     public void setUpperCaseOnly(boolean bl) {
         this.delegate.setUpperCaseOnly(bl);
     }
 
-    @Override
     public void replaceLastUnconvertedCharacter(String string) {
         if (this.hasUnconvertedCharacters() && !StringUtilities.isNullOrEmpty(string)) {
             String string2 = this.getUnconvertedCharacters();
@@ -485,11 +439,10 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public void setUnconvertedCharacters(String string, boolean bl) {
         String string2 = this.getUnconvertedCharacters();
         if (string2.equals(string)) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchInputDataAsia#setUnconvertedCharacters: ignored '%1', because they don't differ from the current ones.", (Object)string);
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchInputDataAsia#setUnconvertedCharacters: ignored '%1', because they don't differ from the current ones.", (Object)string);
             return;
         }
         this.currentlyUnconvertedCharacters.clear();
@@ -497,37 +450,30 @@ implements ITouchInputDataAsia {
         this.notifyDataChange(3, bl, string2, string);
     }
 
-    @Override
     public void setNeedPreviewDataUpdateToModel(boolean bl) {
         this.needPreviewDataUpdateToModel = bl;
     }
 
-    @Override
     public void setMaximumTextLength(int n) {
         this.delegate.setMaximumTextLength(n);
     }
 
-    @Override
     public int getMaximumTextLength() {
         return this.delegate.getMaximumTextLength();
     }
 
-    @Override
     public void setMinimumTextLength(int n) {
         this.delegate.setMinimumTextLength(n);
     }
 
-    @Override
     public int getMinimumTextLength() {
         return this.delegate.getMinimumTextLength();
     }
 
-    @Override
     public void onWordPredictionServiceRemoved() {
         this.inputMethod.getCharacterConversionPolicy().onWordPredictionServiceRemoved(this);
     }
 
-    @Override
     public boolean isSuggestionValid() {
         if (this.hasNonRegularCharacters()) {
             return false;
@@ -538,7 +484,6 @@ implements ITouchInputDataAsia {
         return false;
     }
 
-    @Override
     public void setSuggestion(String string) {
         String string2;
         String string3 = string2 = string == null ? "" : string;
@@ -549,19 +494,16 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     public String getSuggestion() {
         return this.suggestion;
     }
 
-    @Override
     public void acceptSuggestion(boolean bl) {
         String string = this.getSuggestion();
         this.clear(false);
         this.appendRegularCharacters(string, bl);
     }
 
-    @Override
     public String getPredictionContextWithLastInputWord(String string, boolean bl) {
         String string2 = this.getCurrentText();
         String string3 = StringUtilities.isNullOrEmpty(string) ? TouchInputDataAsia.getCharsBeforeLastSpaceSeperator(string2, bl) : ('\b' == string.charAt(0) ? (this.isEmpty() ? TouchInputDataAsia.getCharsBeforeLastSpaceSeperator(string2, bl) : TouchInputDataAsia.getCharsBeforeLastSpaceSeperator(string2.substring(0, string2.length() - 1), bl)) : TouchInputDataAsia.getCharsBeforeLastSpaceSeperator(StringUtility.concatenate(string2, string), bl));

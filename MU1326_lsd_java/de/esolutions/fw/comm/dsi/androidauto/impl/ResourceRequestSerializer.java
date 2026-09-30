@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.androidauto.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto.ResourceRequest;
 
 public class ResourceRequestSerializer {
-    public static void putOptionalResourceRequest(ISerializer iSerializer, ResourceRequest resourceRequest) {
+    public static void putOptionalResourceRequest(ISerializer iSerializer, ResourceRequest resourceRequest) throws SerializerException {
         boolean bl = resourceRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ResourceRequestSerializer {
         }
     }
 
-    public static void putOptionalResourceRequestVarArray(ISerializer iSerializer, ResourceRequest[] resourceRequestArray) {
+    public static void putOptionalResourceRequestVarArray(ISerializer iSerializer, ResourceRequest[] resourceRequestArray) throws SerializerException {
         boolean bl = resourceRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ResourceRequestSerializer {
         }
     }
 
-    public static ResourceRequest getOptionalResourceRequest(IDeserializer iDeserializer) {
+    public static ResourceRequest getOptionalResourceRequest(IDeserializer iDeserializer) throws SerializerException {
         ResourceRequest resourceRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ResourceRequestSerializer {
         return resourceRequest;
     }
 
-    public static ResourceRequest[] getOptionalResourceRequestVarArray(IDeserializer iDeserializer) {
+    public static ResourceRequest[] getOptionalResourceRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         ResourceRequest[] resourceRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

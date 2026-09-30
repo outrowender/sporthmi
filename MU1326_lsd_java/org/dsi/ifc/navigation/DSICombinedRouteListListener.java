@@ -12,25 +12,18 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public interface DSICombinedRouteListListener
 extends DSIListener {
-    default public void windowChanged(int n) {
-    }
+    public void windowChanged(int var1);
 
-    default public void combinedRouteListResult(long l, CombinedRouteListElement[] combinedRouteListElementArray, int n) {
-    }
+    public void combinedRouteListResult(long var1, CombinedRouteListElement[] var3, int var4);
 
-    default public void trafficInformationResult(TmcMessage tmcMessage, int n) {
-    }
+    public void trafficInformationResult(TmcMessage var1, int var2);
 
-    default public void poiInformationResult(NavPoiInfo navPoiInfo, int n) {
-    }
+    public void poiInformationResult(NavPoiInfo var1, int var2);
 
-    default public void updateElementsTotal(long l, long l2, int n) {
-    }
+    public void updateElementsTotal(long var1, long var3, int var5);
 
-    default public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] lArray, NavRectangle navRectangle) {
-    }
+    public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] var1, NavRectangle var2);
 
-    default public void requestPriceInfoResult(NavPriceInfo navPriceInfo, int n) {
-    }
+    public void requestPriceInfoResult(NavPriceInfo var1, int var2);
 }
 

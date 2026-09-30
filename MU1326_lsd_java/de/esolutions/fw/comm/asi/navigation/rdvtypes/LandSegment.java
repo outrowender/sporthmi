@@ -38,7 +38,7 @@ public class LandSegment {
     }
 
     public String toString() {
-        return new StringBuffer("LandSegment{").append("rangePolygons=").append("[").append(this.rangePolygons == null ? "null" : Arrays.asList(this.rangePolygons).toString()).append("]").append(", blankPolygons=").append("[").append(this.blankPolygons == null ? "null" : Arrays.asList(this.blankPolygons).toString()).append("]").append("}").toString();
+        return "LandSegment{" + "rangePolygons=" + "[" + (this.rangePolygons == null ? "null" : Arrays.asList(this.rangePolygons).toString()) + "]" + ", blankPolygons=" + "[" + (this.blankPolygons == null ? "null" : Arrays.asList(this.blankPolygons).toString()) + "]" + "}";
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.NBestSlot;
 
 public class NBestSlotSerializer {
-    public static void putOptionalNBestSlot(ISerializer iSerializer, NBestSlot nBestSlot) {
+    public static void putOptionalNBestSlot(ISerializer iSerializer, NBestSlot nBestSlot) throws SerializerException {
         boolean bl = nBestSlot == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class NBestSlotSerializer {
         }
     }
 
-    public static void putOptionalNBestSlotVarArray(ISerializer iSerializer, NBestSlot[] nBestSlotArray) {
+    public static void putOptionalNBestSlotVarArray(ISerializer iSerializer, NBestSlot[] nBestSlotArray) throws SerializerException {
         boolean bl = nBestSlotArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class NBestSlotSerializer {
         }
     }
 
-    public static NBestSlot getOptionalNBestSlot(IDeserializer iDeserializer) {
+    public static NBestSlot getOptionalNBestSlot(IDeserializer iDeserializer) throws SerializerException {
         NBestSlot nBestSlot = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class NBestSlotSerializer {
         return nBestSlot;
     }
 
-    public static NBestSlot[] getOptionalNBestSlotVarArray(IDeserializer iDeserializer) {
+    public static NBestSlot[] getOptionalNBestSlotVarArray(IDeserializer iDeserializer) throws SerializerException {
         NBestSlot[] nBestSlotArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -11,16 +11,16 @@ import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 
 public class ScrollSubticksFilter
 implements WidgetConstants {
-    static final int STATE_INIT;
-    static final int STATE_STABLE;
-    static final int STATE_MOVE;
-    private static final int HDDS_SUBCLICKS_PER_MAINCLICK;
-    private static final int HDDS_SNAP_IN_SUBTICKS;
-    private static final float HDDS_START_THRESHOLD_BIG;
-    private static final float HDDS_START_THRESHOLD_SMALL;
-    private static final int HDDS_START_THRESHOLD_CHANGE_TIME;
-    private static final int HDDS_CLICK_DELAY;
-    private static final int UNDEFINED_SUBTICKS;
+    static final int STATE_INIT = 0;
+    static final int STATE_STABLE = 1;
+    static final int STATE_MOVE = 2;
+    private static final int HDDS_SUBCLICKS_PER_MAINCLICK = 100;
+    private static final int HDDS_SNAP_IN_SUBTICKS = 15;
+    private static final float HDDS_START_THRESHOLD_BIG = 0.15f;
+    private static final float HDDS_START_THRESHOLD_SMALL = 0.015f;
+    private static final int HDDS_START_THRESHOLD_CHANGE_TIME = 500;
+    private static final int HDDS_CLICK_DELAY = 250;
+    private static final int UNDEFINED_SUBTICKS = 999999;
     private int state;
     private boolean fingersOnTouchpad;
     private boolean handsOnRing;
@@ -44,7 +44,7 @@ implements WidgetConstants {
         this.handsOnRing = false;
         this.fingersOnTouchpad = false;
         this.lastClickTime = this.getCurrentTime();
-        this.lastSubticks = 1061293824;
+        this.lastSubticks = 999999;
         this.hddsLockedForListEnd = false;
     }
 
@@ -54,7 +54,7 @@ implements WidgetConstants {
         if (!this.handsOnRing || this.ddsPressed || bl2) {
             this.lastSubticks = n2;
             this.state = 0;
-            this.lc.log(-2137614336, "ScrollSubticksFilter#calculateSubticksProgress: ignore subticks. HandsOnRing: %1, DDS Pressed: %2, click delay running: %3", this.handsOnRing, this.ddsPressed, bl2);
+            this.lc.log(10000000, "ScrollSubticksFilter#calculateSubticksProgress: ignore subticks. HandsOnRing: %1, DDS Pressed: %2, click delay running: %3", this.handsOnRing, this.ddsPressed, bl2);
             return 0.0f;
         }
         this.initialize(n2, l);
@@ -82,7 +82,7 @@ implements WidgetConstants {
     }
 
     private int calculateInitialStableOriginPosition(int n) {
-        if (this.lastSubticks != 1061293824) {
+        if (this.lastSubticks != 999999) {
             return this.lastSubticks;
         }
         return n;
@@ -90,9 +90,9 @@ implements WidgetConstants {
 
     private float handleStableState(boolean bl, int n, long l) {
         float f2 = this.getCurrentStartThreshold(l);
-        float f3 = f2 * 51266;
+        float f3 = f2 * 100.0f;
         if (!bl && (float)Math.abs(n - this.stableOriginPosition) < f3) {
-            this.lc.log(-2137614336, "ScrollSubticksFilter#handleStableState: ignore subticks, because subtickCount (%1) is below start threshhold (%2). Stable origin: %3", (double)n, (double)f3, (double)this.stableOriginPosition);
+            this.lc.log(10000000, "ScrollSubticksFilter#handleStableState: ignore subticks, because subtickCount (%1) is below start threshhold (%2). Stable origin: %3", (double)n, (double)f3, (double)this.stableOriginPosition);
             return 0.0f;
         }
         this.state = 2;
@@ -104,7 +104,7 @@ implements WidgetConstants {
         if (Math.abs(n) < n2) {
             if (this.hddsLockedForListEnd) {
                 this.hddsLockedForListEnd = false;
-                this.lc.log(-2137614336, "ScrollSubticksFilter#handleMoveState: unlock hDDS, because focus reached snap-in area");
+                this.lc.log(10000000, "ScrollSubticksFilter#handleMoveState: unlock hDDS, because focus reached snap-in area");
             }
             this.originSnapIn = true;
             return 0.0f;
@@ -113,7 +113,7 @@ implements WidgetConstants {
             this.originSnapIn = true;
         }
         if (this.hddsLockedForListEnd) {
-            this.lc.log(-2137614336, "ScrollSubticksFilter#handleMoveState: ignore subticks, because hDDS is locked. (subticks from event: %1)", (long)n);
+            this.lc.log(10000000, "ScrollSubticksFilter#handleMoveState: ignore subticks, because hDDS is locked. (subticks from event: %1)", (long)n);
             return 0.0f;
         }
         int n3 = this.getNearestZeroOffset(n);
@@ -123,7 +123,7 @@ implements WidgetConstants {
         int n7 = Math.abs(100 * n6 - n3 + n4);
         float f2 = (float)n5 / (float)n7;
         f2 = Math.min(f2, 1.0f);
-        f2 = Math.max(f2, (float)32959);
+        f2 = Math.max(f2, -1.0f);
         return f2;
     }
 
@@ -183,17 +183,17 @@ implements WidgetConstants {
     float getCurrentStartThreshold(long l) {
         if (this.fingersOnTouchpad) {
             this.thresholdChangeStartTime = l;
-            return -1701242562;
+            return 0.15f;
         }
         int n = (int)(l - this.thresholdChangeStartTime);
-        float f2 = (float)n / 64067;
+        float f2 = (float)n / 500.0f;
         f2 = Math.min(1.0f, f2);
-        return -1701242562 - 1899825726 * f2;
+        return 0.15f - 0.135f * f2;
     }
 
     private boolean isLastClickTimeoutRunning(long l) {
         long l2 = l - this.lastClickTime;
-        return l2 < 0;
+        return l2 < 250L;
     }
 
     protected long getCurrentTime() {

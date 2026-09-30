@@ -25,28 +25,23 @@ implements DSIDestinationImport {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIDestinationImport == null ? (class$org$dsi$ifc$online$DSIDestinationImport = DSIDestinationImportProvider.class$("org.dsi.ifc.online.DSIDestinationImport")) : class$org$dsi$ifc$online$DSIDestinationImport).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDestinationImportProxy(this.instance, (DSIDestinationImportReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void downloadAddressList(int n, boolean bl) {
         try {
             this.proxy.downloadAddressList(n, bl);
@@ -56,7 +51,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void stopAction() {
         try {
             this.proxy.stopAction();
@@ -66,7 +60,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void setADBImportStatus(long[] lArray, int n) {
         try {
             this.proxy.setADBImportStatus(lArray, n);
@@ -76,7 +69,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -86,7 +78,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -96,7 +87,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -106,7 +96,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -116,7 +105,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -126,7 +114,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -136,7 +123,6 @@ implements DSIDestinationImport {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

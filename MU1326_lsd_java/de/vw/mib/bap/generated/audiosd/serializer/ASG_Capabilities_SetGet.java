@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.presentationCapabilities.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ASG_Capabilities_SetGet aSG_Capabilities_SetGet = (ASG_Capabilities_SetGet)bAPEntity;
         return this.presentationCapabilities.equalTo(aSG_Capabilities_SetGet.presentationCapabilities);
@@ -40,7 +38,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ASG_Capabilities_SetGet:");
@@ -49,18 +46,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.presentationCapabilities.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.presentationCapabilities.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.presentationCapabilities.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements SetGetProperty {
         return 43;
     }
 
-    @Override
     public int getFunctionId() {
         return ASG_Capabilities_SetGet.functionId();
     }

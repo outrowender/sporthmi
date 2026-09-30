@@ -7,6 +7,7 @@ import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 import de.esolutions.fw.util.tracing.model.TraceEntity;
 import de.esolutions.fw.util.tracing.model.TraceEntityPool;
+import java.io.IOException;
 
 public class TraceModel {
     private TraceEntityPool pool;
@@ -69,7 +70,7 @@ public class TraceModel {
         return traceEntity2;
     }
 
-    public synchronized void writeSemFile(String string, String string2) {
+    public synchronized void writeSemFile(String string, String string2) throws IOException {
         this.pool.writeSemFile(string, string2);
     }
 }

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.HdStationInfo;
 
 public class HdStationInfoSerializer {
-    public static void putOptionalHdStationInfo(ISerializer iSerializer, HdStationInfo hdStationInfo) {
+    public static void putOptionalHdStationInfo(ISerializer iSerializer, HdStationInfo hdStationInfo) throws SerializerException {
         boolean bl = hdStationInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -69,7 +70,7 @@ public class HdStationInfoSerializer {
         }
     }
 
-    public static void putOptionalHdStationInfoVarArray(ISerializer iSerializer, HdStationInfo[] hdStationInfoArray) {
+    public static void putOptionalHdStationInfoVarArray(ISerializer iSerializer, HdStationInfo[] hdStationInfoArray) throws SerializerException {
         boolean bl = hdStationInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -80,7 +81,7 @@ public class HdStationInfoSerializer {
         }
     }
 
-    public static HdStationInfo getOptionalHdStationInfo(IDeserializer iDeserializer) {
+    public static HdStationInfo getOptionalHdStationInfo(IDeserializer iDeserializer) throws SerializerException {
         HdStationInfo hdStationInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -141,7 +142,7 @@ public class HdStationInfoSerializer {
         return hdStationInfo;
     }
 
-    public static HdStationInfo[] getOptionalHdStationInfoVarArray(IDeserializer iDeserializer) {
+    public static HdStationInfo[] getOptionalHdStationInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         HdStationInfo[] hdStationInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

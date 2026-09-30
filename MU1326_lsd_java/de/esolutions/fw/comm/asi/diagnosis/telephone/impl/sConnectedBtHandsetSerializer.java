@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sConnectedBtHandset;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sConnectedBtHandsetSerializer {
-    public static void putOptionalsConnectedBtHandset(ISerializer iSerializer, sConnectedBtHandset sConnectedBtHandset2) {
+    public static void putOptionalsConnectedBtHandset(ISerializer iSerializer, sConnectedBtHandset sConnectedBtHandset2) throws SerializerException {
         boolean bl = sConnectedBtHandset2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sConnectedBtHandsetSerializer {
         }
     }
 
-    public static void putOptionalsConnectedBtHandsetVarArray(ISerializer iSerializer, sConnectedBtHandset[] sConnectedBtHandsetArray) {
+    public static void putOptionalsConnectedBtHandsetVarArray(ISerializer iSerializer, sConnectedBtHandset[] sConnectedBtHandsetArray) throws SerializerException {
         boolean bl = sConnectedBtHandsetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sConnectedBtHandsetSerializer {
         }
     }
 
-    public static sConnectedBtHandset getOptionalsConnectedBtHandset(IDeserializer iDeserializer) {
+    public static sConnectedBtHandset getOptionalsConnectedBtHandset(IDeserializer iDeserializer) throws SerializerException {
         sConnectedBtHandset sConnectedBtHandset2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sConnectedBtHandsetSerializer {
         return sConnectedBtHandset2;
     }
 
-    public static sConnectedBtHandset[] getOptionalsConnectedBtHandsetVarArray(IDeserializer iDeserializer) {
+    public static sConnectedBtHandset[] getOptionalsConnectedBtHandsetVarArray(IDeserializer iDeserializer) throws SerializerException {
         sConnectedBtHandset[] sConnectedBtHandsetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

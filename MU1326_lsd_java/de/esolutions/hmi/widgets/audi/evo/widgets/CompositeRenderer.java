@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface CompositeRenderer
 extends IRenderer {
-    default public void setClipping(boolean bl) {
-    }
+    public void setClipping(boolean var1);
 }
 

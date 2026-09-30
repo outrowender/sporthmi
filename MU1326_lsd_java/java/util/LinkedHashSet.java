@@ -16,7 +16,7 @@ extends HashSet
 implements Set,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2851667679971038690L;
 
     public LinkedHashSet() {
         super(new LinkedHashMap());
@@ -38,7 +38,6 @@ Serializable {
         }
     }
 
-    @Override
     HashMap createBackingMap(int n, float f2) {
         return new LinkedHashMap(n, f2);
     }

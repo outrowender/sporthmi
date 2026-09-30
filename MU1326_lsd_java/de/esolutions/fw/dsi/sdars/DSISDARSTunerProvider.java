@@ -25,28 +25,23 @@ implements DSISDARSTuner {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$sdars$DSISDARSTuner == null ? (class$org$dsi$ifc$sdars$DSISDARSTuner = DSISDARSTunerProvider.class$("org.dsi.ifc.sdars.DSISDARSTuner")) : class$org$dsi$ifc$sdars$DSISDARSTuner).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISDARSTunerProxy(this.instance, (DSISDARSTunerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void selectStation(int n, int n2) {
         try {
             this.proxy.selectStation(n, n2);
@@ -56,7 +51,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void getTime() {
         try {
             this.proxy.getTime();
@@ -66,7 +60,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void getEPG24Hour(int n) {
         try {
             this.proxy.getEPG24Hour(n);
@@ -76,7 +69,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void getEPGDescription(int n, int n2) {
         try {
             this.proxy.getEPGDescription(n, n2);
@@ -86,7 +78,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void notifyHMIReady(int n) {
         try {
             this.proxy.notifyHMIReady(n);
@@ -96,7 +87,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void reset(int n) {
         try {
             this.proxy.reset(n);
@@ -106,7 +96,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void setRadioText2Config(int n, int n2) {
         try {
             this.proxy.setRadioText2Config(n, n2);
@@ -116,7 +105,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -126,7 +114,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -136,7 +123,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -146,7 +132,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -156,7 +141,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -166,7 +150,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -176,7 +159,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -186,7 +168,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -196,7 +177,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -206,7 +186,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -216,7 +195,6 @@ implements DSISDARSTuner {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

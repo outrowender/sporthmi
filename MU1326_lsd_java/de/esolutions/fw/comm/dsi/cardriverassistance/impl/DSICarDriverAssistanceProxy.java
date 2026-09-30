@@ -10,13 +10,14 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.cardriverassistance.DSICarDriverAssistance;
 import de.esolutions.fw.comm.dsi.cardriverassistance.DSICarDriverAssistanceC;
 import de.esolutions.fw.comm.dsi.cardriverassistance.DSICarDriverAssistanceReply;
-import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceProxy$1;
-import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceProxy$2;
-import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceProxy$3;
-import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceProxy$4;
-import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceProxy$5;
-import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceProxy$6;
+import de.esolutions.fw.comm.dsi.cardriverassistance.impl.ACCDistanceWarningSerializer;
+import de.esolutions.fw.comm.dsi.cardriverassistance.impl.AWVEmergencyBrakeSerializer;
 import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceReplyService;
+import de.esolutions.fw.comm.dsi.cardriverassistance.impl.NVObjectDetectionSerializer;
+import de.esolutions.fw.comm.dsi.cardriverassistance.impl.TSDRoadSignFilterSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.CarBCSpeedSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.ACCDistanceWarning;
@@ -41,8 +42,7 @@ DSICarDriverAssistanceC {
         return this.proxy;
     }
 
-    @Override
-    public void setACCGongState(boolean bl) {
+    public void setACCGongState(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -53,8 +53,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setACCGongVolume(int n) {
+    public void setACCGongVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -65,8 +64,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setACCDrivingProgram(int n) {
+    public void setACCDrivingProgram(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -77,8 +75,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setACCTimeGap(int n) {
+    public void setACCTimeGap(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -89,8 +86,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setACCDefaultMode(int n) {
+    public void setACCDefaultMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -101,8 +97,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setACCCurveAssist(boolean bl) {
+    public void setACCCurveAssist(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -113,8 +108,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)98, genericSerializable);
     }
 
-    @Override
-    public void setACCSpeedLimitAdoption(boolean bl) {
+    public void setACCSpeedLimitAdoption(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -125,8 +119,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)101, genericSerializable);
     }
 
-    @Override
-    public void setACCTrafficJamAssist(boolean bl) {
+    public void setACCTrafficJamAssist(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -137,8 +130,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)103, genericSerializable);
     }
 
-    @Override
-    public void setACCSpeedLimitOffset(int n) {
+    public void setACCSpeedLimitOffset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -149,19 +141,21 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)144, genericSerializable);
     }
 
-    @Override
-    public void setACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning) {
-        DSICarDriverAssistanceProxy$1 dSICarDriverAssistanceProxy$1 = new DSICarDriverAssistanceProxy$1(this, aCCDistanceWarning);
-        this.proxy.remoteCallMethod((short)99, dSICarDriverAssistanceProxy$1);
+    public void setACCDistanceWarning(final ACCDistanceWarning aCCDistanceWarning) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ACCDistanceWarningSerializer.putOptionalACCDistanceWarning(iSerializer, aCCDistanceWarning);
+            }
+        };
+        this.proxy.remoteCallMethod((short)99, iSerializable);
     }
 
-    @Override
-    public void setACCSetFactoryDefault() {
+    public void setACCSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)100, null);
     }
 
-    @Override
-    public void setPACCSensibility(boolean bl) {
+    public void setPACCSensibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -172,8 +166,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)161, genericSerializable);
     }
 
-    @Override
-    public void setPACCMaxSpeed(int n, int n2) {
+    public void setPACCMaxSpeed(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -185,8 +178,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)160, genericSerializable);
     }
 
-    @Override
-    public void setPACCDrivingProgram(int n) {
+    public void setPACCDrivingProgram(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -197,8 +189,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)159, genericSerializable);
     }
 
-    @Override
-    public void setAWVSystem(int n) {
+    public void setAWVSystem(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -209,8 +200,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setAWVWarning(boolean bl) {
+    public void setAWVWarning(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -221,8 +211,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setAWVGong(boolean bl) {
+    public void setAWVGong(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -233,8 +222,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setAWVGongVolume(int n) {
+    public void setAWVGongVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -245,8 +233,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setAWVBrakeJerk(boolean bl) {
+    public void setAWVBrakeJerk(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -257,14 +244,17 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setAWVEmergencyBrake(AWVEmergencyBrake aWVEmergencyBrake) {
-        DSICarDriverAssistanceProxy$2 dSICarDriverAssistanceProxy$2 = new DSICarDriverAssistanceProxy$2(this, aWVEmergencyBrake);
-        this.proxy.remoteCallMethod((short)13, dSICarDriverAssistanceProxy$2);
+    public void setAWVEmergencyBrake(final AWVEmergencyBrake aWVEmergencyBrake) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AWVEmergencyBrakeSerializer.putOptionalAWVEmergencyBrake(iSerializer, aWVEmergencyBrake);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void setAWVDistanceWarning(boolean bl) {
+    public void setAWVDistanceWarning(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -275,8 +265,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setAWVWarningTimegap(int n) {
+    public void setAWVWarningTimegap(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -287,13 +276,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)148, genericSerializable);
     }
 
-    @Override
-    public void setAWVSetFactoryDefault() {
+    public void setAWVSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)147, null);
     }
 
-    @Override
-    public void setSWABrightness(int n) {
+    public void setSWABrightness(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -304,8 +291,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void setSWAWarningTime(int n) {
+    public void setSWAWarningTime(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -316,8 +302,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void setSWAFrequency(int n) {
+    public void setSWAFrequency(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -328,8 +313,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void setSWASystem(int n) {
+    public void setSWASystem(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -340,8 +324,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)41, genericSerializable);
     }
 
-    @Override
-    public void setSWAGongState(boolean bl) {
+    public void setSWAGongState(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -352,8 +335,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void setSWAGongVolume(int n) {
+    public void setSWAGongVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -364,8 +346,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void setSWARCTA(boolean bl) {
+    public void setSWARCTA(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -376,8 +357,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)114, genericSerializable);
     }
 
-    @Override
-    public void setSWAExitAssist(boolean bl) {
+    public void setSWAExitAssist(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -388,8 +368,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)113, genericSerializable);
     }
 
-    @Override
-    public void setNVActivation(boolean bl) {
+    public void setNVActivation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -400,8 +379,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setNVContrast(int n) {
+    public void setNVContrast(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -412,8 +390,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setNVBrightness(int n) {
+    public void setNVBrightness(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -424,14 +401,17 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setNVObjectDetection(NVObjectDetection nVObjectDetection) {
-        DSICarDriverAssistanceProxy$3 dSICarDriverAssistanceProxy$3 = new DSICarDriverAssistanceProxy$3(this, nVObjectDetection);
-        this.proxy.remoteCallMethod((short)108, dSICarDriverAssistanceProxy$3);
+    public void setNVObjectDetection(final NVObjectDetection nVObjectDetection) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NVObjectDetectionSerializer.putOptionalNVObjectDetection(iSerializer, nVObjectDetection);
+            }
+        };
+        this.proxy.remoteCallMethod((short)108, iSerializable);
     }
 
-    @Override
-    public void setNVColorPA(int n) {
+    public void setNVColorPA(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -442,8 +422,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setNVDesignPA(int n) {
+    public void setNVDesignPA(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -454,8 +433,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setNVDisplay(int n) {
+    public void setNVDisplay(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -466,8 +444,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void setNVZoomPanning(int n) {
+    public void setNVZoomPanning(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -478,8 +455,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setNVSound(int n) {
+    public void setNVSound(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -490,8 +466,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void setNVSymbol(boolean bl) {
+    public void setNVSymbol(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -502,13 +477,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void setNVSetFactoryDefault() {
+    public void setNVSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)173, null);
     }
 
-    @Override
-    public void setNVWarningTimegap(int n) {
+    public void setNVWarningTimegap(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -519,8 +492,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)175, genericSerializable);
     }
 
-    @Override
-    public void setNVSystem(boolean bl) {
+    public void setNVSystem(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -531,8 +503,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)174, genericSerializable);
     }
 
-    @Override
-    public void setLDWWarningTime(int n) {
+    public void setLDWWarningTime(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -543,8 +514,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setLDWSteeringWheelVibration(int n) {
+    public void setLDWSteeringWheelVibration(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -555,8 +525,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setHCAInterventionStyle(int n) {
+    public void setHCAInterventionStyle(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -567,8 +536,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setHCAToleranceLevel(int n) {
+    public void setHCAToleranceLevel(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -579,13 +547,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setLdwhcaSetFactoryDefault() {
+    public void setLdwhcaSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)22, null);
     }
 
-    @Override
-    public void setLDWHCASystemOnOff(boolean bl) {
+    public void setLDWHCASystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -596,8 +562,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)106, genericSerializable);
     }
 
-    @Override
-    public void setLDWHCAWarningSound(boolean bl, int n) {
+    public void setLDWHCAWarningSound(boolean bl, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -609,8 +574,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)172, genericSerializable);
     }
 
-    @Override
-    public void setTSDSystemOnOff(boolean bl) {
+    public void setTSDSystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -621,31 +585,42 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void setTSDRoadSignFilter(TSDRoadSignFilter tSDRoadSignFilter) {
-        DSICarDriverAssistanceProxy$4 dSICarDriverAssistanceProxy$4 = new DSICarDriverAssistanceProxy$4(this, tSDRoadSignFilter);
-        this.proxy.remoteCallMethod((short)43, dSICarDriverAssistanceProxy$4);
+    public void setTSDRoadSignFilter(final TSDRoadSignFilter tSDRoadSignFilter) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TSDRoadSignFilterSerializer.putOptionalTSDRoadSignFilter(iSerializer, tSDRoadSignFilter);
+            }
+        };
+        this.proxy.remoteCallMethod((short)43, iSerializable);
     }
 
-    @Override
-    public void setTsdSetFactoryDefault() {
+    public void setTsdSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)45, null);
     }
 
-    @Override
-    public void setTSDSpeedWarningThreshold(boolean bl, CarBCSpeed carBCSpeed) {
-        DSICarDriverAssistanceProxy$5 dSICarDriverAssistanceProxy$5 = new DSICarDriverAssistanceProxy$5(this, bl, carBCSpeed);
-        this.proxy.remoteCallMethod((short)115, dSICarDriverAssistanceProxy$5);
+    public void setTSDSpeedWarningThreshold(final boolean bl, final CarBCSpeed carBCSpeed) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                CarBCSpeedSerializer.putOptionalCarBCSpeed(iSerializer, carBCSpeed);
+            }
+        };
+        this.proxy.remoteCallMethod((short)115, iSerializable);
     }
 
-    @Override
-    public void setTSDTrailerSpeedLimit(CarBCSpeed carBCSpeed) {
-        DSICarDriverAssistanceProxy$6 dSICarDriverAssistanceProxy$6 = new DSICarDriverAssistanceProxy$6(this, carBCSpeed);
-        this.proxy.remoteCallMethod((short)116, dSICarDriverAssistanceProxy$6);
+    public void setTSDTrailerSpeedLimit(final CarBCSpeed carBCSpeed) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarBCSpeedSerializer.putOptionalCarBCSpeed(iSerializer, carBCSpeed);
+            }
+        };
+        this.proxy.remoteCallMethod((short)116, iSerializable);
     }
 
-    @Override
-    public void setTSDSpeedWarningAcoustics(boolean bl) {
+    public void setTSDSpeedWarningAcoustics(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -656,8 +631,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)176, genericSerializable);
     }
 
-    @Override
-    public void setMKESystemOnOff(boolean bl) {
+    public void setMKESystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -668,13 +642,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setMKESetFactoryDefault() {
+    public void setMKESetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)107, null);
     }
 
-    @Override
-    public void setPASystemOnOff(boolean bl) {
+    public void setPASystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -685,13 +657,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)112, genericSerializable);
     }
 
-    @Override
-    public void setPASetFactoryDefault() {
+    public void setPASetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)111, null);
     }
 
-    @Override
-    public void setPAConfigInformation(boolean bl) {
+    public void setPAConfigInformation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -702,8 +672,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)109, genericSerializable);
     }
 
-    @Override
-    public void setPAConfigWarning(boolean bl) {
+    public void setPAConfigWarning(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -714,8 +683,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)110, genericSerializable);
     }
 
-    @Override
-    public void setPAWarningTimegap(int n) {
+    public void setPAWarningTimegap(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -726,8 +694,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)149, genericSerializable);
     }
 
-    @Override
-    public void setCurveAssistSystemOnOff(boolean bl) {
+    public void setCurveAssistSystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -738,13 +705,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)105, genericSerializable);
     }
 
-    @Override
-    public void setCurveAssistSetFactoryDefault() {
+    public void setCurveAssistSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)104, null);
     }
 
-    @Override
-    public void setFTASystemOnOff(boolean bl) {
+    public void setFTASystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -755,8 +720,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)171, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -767,8 +731,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -779,13 +742,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)36, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)34, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -796,8 +757,7 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -808,13 +768,11 @@ DSICarDriverAssistanceC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

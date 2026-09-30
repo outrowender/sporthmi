@@ -48,47 +48,38 @@ implements IAgentSnapshot {
         }
     }
 
-    @Override
     public final ProxyInfo[] getAllProxies() {
         return this.proxies;
     }
 
-    @Override
     public StubInfo[] getAllStubs() {
         return this.stubs;
     }
 
-    @Override
     public ClientInfo[] getAllClients() {
         return this.clients;
     }
 
-    @Override
     public ServiceHandlerInfo[] getAllServiceHandlers() {
         return this.svcHandlers;
     }
 
-    @Override
     public ServiceLocatorInfo[] getAllServiceLocators() {
         return this.svcLocators;
     }
 
-    @Override
     public WorkerInfo getWorker() {
         return this.worker;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timeStamp;
     }
 
-    @Override
     public String[] getAllInfoProviderNames() {
         return this.agentInfoMap.getAllNames();
     }
 
-    @Override
     public IInfoBase[] getInfoProviderData(String string) {
         return this.agentInfoMap.getIInfoBaseForName(string);
     }

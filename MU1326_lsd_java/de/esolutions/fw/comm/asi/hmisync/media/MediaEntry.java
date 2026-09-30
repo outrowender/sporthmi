@@ -107,7 +107,7 @@ public class MediaEntry {
     }
 
     public String toString() {
-        return new StringBuffer("MediaEntry{").append("id=").append(this.id).append(", type=").append(this.type).append(", title=").append(this.title).append(", artist=").append(this.artist).append(", artistID=").append(this.artistID).append(", album=").append(this.album).append(", albumID=").append(this.albumID).append(", genreID=").append(this.genreID).append(", coverUrl=").append(this.coverUrl).append("}").toString();
+        return "MediaEntry{" + "id=" + this.id + ", type=" + this.type + ", title=" + this.title + ", artist=" + this.artist + ", artistID=" + this.artistID + ", album=" + this.album + ", albumID=" + this.albumID + ", genreID=" + this.genreID + ", coverUrl=" + this.coverUrl + "}";
     }
 }
 

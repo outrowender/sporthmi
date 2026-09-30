@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.FCDPosition;
 
 public class FCDPositionSerializer {
-    public static void putOptionalFCDPosition(ISerializer iSerializer, FCDPosition fCDPosition) {
+    public static void putOptionalFCDPosition(ISerializer iSerializer, FCDPosition fCDPosition) throws SerializerException {
         boolean bl = fCDPosition == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class FCDPositionSerializer {
         }
     }
 
-    public static void putOptionalFCDPositionVarArray(ISerializer iSerializer, FCDPosition[] fCDPositionArray) {
+    public static void putOptionalFCDPositionVarArray(ISerializer iSerializer, FCDPosition[] fCDPositionArray) throws SerializerException {
         boolean bl = fCDPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class FCDPositionSerializer {
         }
     }
 
-    public static FCDPosition getOptionalFCDPosition(IDeserializer iDeserializer) {
+    public static FCDPosition getOptionalFCDPosition(IDeserializer iDeserializer) throws SerializerException {
         FCDPosition fCDPosition = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class FCDPositionSerializer {
         return fCDPosition;
     }
 
-    public static FCDPosition[] getOptionalFCDPositionVarArray(IDeserializer iDeserializer) {
+    public static FCDPosition[] getOptionalFCDPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         FCDPosition[] fCDPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

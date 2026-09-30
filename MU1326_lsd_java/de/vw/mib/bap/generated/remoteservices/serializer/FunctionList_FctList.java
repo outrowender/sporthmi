@@ -13,7 +13,7 @@ implements BAPEntity {
     public boolean fctBap_ConfigAvailable;
     public boolean fctFunctionListAvailable;
     public boolean fctHeartbeatAvailable;
-    private static final int RESERVED_BIT_5__12_BITSIZE;
+    private static final int RESERVED_BIT_5__12_BITSIZE = 8;
     public boolean fctFsg_ControlAvailable;
     public boolean fctFsg_SetupAvailable;
     public boolean fctFsg_OperationStateAvailable;
@@ -28,7 +28,7 @@ implements BAPEntity {
     public boolean fctVtanauthDataAvailable;
     public boolean fctVtandecryptionAvailable;
     public boolean fctMobDevKeyControlAvailable;
-    private static final int RESERVED_BIT_27__63_BITSIZE;
+    private static final int RESERVED_BIT_27__63_BITSIZE = 37;
 
     public FunctionList_FctList() {
         this.internalReset();
@@ -62,12 +62,10 @@ implements BAPEntity {
         this.fctMobDevKeyControlAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_FctList functionList_FctList = (FunctionList_FctList)bAPEntity;
         return this.reserved_bit_0 == functionList_FctList.reserved_bit_0 && this.fctGetAllAvailable == functionList_FctList.fctGetAllAvailable && this.fctBap_ConfigAvailable == functionList_FctList.fctBap_ConfigAvailable && this.fctFunctionListAvailable == functionList_FctList.fctFunctionListAvailable && this.fctHeartbeatAvailable == functionList_FctList.fctHeartbeatAvailable && this.fctFsg_ControlAvailable == functionList_FctList.fctFsg_ControlAvailable && this.fctFsg_SetupAvailable == functionList_FctList.fctFsg_SetupAvailable && this.fctFsg_OperationStateAvailable == functionList_FctList.fctFsg_OperationStateAvailable && this.fctStartEngineChallengeAvailable == functionList_FctList.fctStartEngineChallengeAvailable && this.fctStartEngineAuthenticationAvailable == functionList_FctList.fctStartEngineAuthenticationAvailable && this.fctStartEngineSignatureAvailable == functionList_FctList.fctStartEngineSignatureAvailable && this.fctMobDevKeyChallengeAvailable == functionList_FctList.fctMobDevKeyChallengeAvailable && this.fctMobDevKeyAuthAvailable == functionList_FctList.fctMobDevKeyAuthAvailable && this.fctMobDevKeyCommandAvailable == functionList_FctList.fctMobDevKeyCommandAvailable && this.fctMobDevKeyActiveKeyAvailable == functionList_FctList.fctMobDevKeyActiveKeyAvailable && this.fctMobDevKeySetupAvailable == functionList_FctList.fctMobDevKeySetupAvailable && this.fctVtanauthDataAvailable == functionList_FctList.fctVtanauthDataAvailable && this.fctVtandecryptionAvailable == functionList_FctList.fctVtandecryptionAvailable && this.fctMobDevKeyControlAvailable == functionList_FctList.fctMobDevKeyControlAvailable;
@@ -76,7 +74,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_FctList");
@@ -102,12 +99,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllAvailable);
@@ -132,7 +127,6 @@ implements BAPEntity {
         bitStream.resetBits(37);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllAvailable = bitStream.popFrontBoolean();

@@ -7,16 +7,12 @@ import de.esolutions.fw.comm.core.ILifecycleListener;
 
 public interface IAgentLifecycleListener
 extends ILifecycleListener {
-    default public void brokerLinkStateChanged(boolean bl) {
-    }
+    public void brokerLinkStateChanged(boolean var1);
 
-    default public void brokerConnectRetry(boolean bl) {
-    }
+    public void brokerConnectRetry(boolean var1);
 
-    default public void agentIdUpdate(short s) {
-    }
+    public void agentIdUpdate(short var1);
 
-    default public Short getAgentIdProposal() {
-    }
+    public Short getAgentIdProposal();
 }
 

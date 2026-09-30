@@ -7,375 +7,296 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSISound
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_GETVOLUME;
-    public static final int RT_SETVOLUME;
-    public static final int RT_DECREASEVOLUME;
-    public static final int RT_INCREASEVOLUME;
-    public static final int RT_GETBALANCE;
-    public static final int RT_SETBALANCE;
-    public static final int RT_DECREASEBALANCE;
-    public static final int RT_INCREASEBALANCE;
-    public static final int RT_GETBASS;
-    public static final int RT_SETBASS;
-    public static final int RT_DECREASEBASS;
-    public static final int RT_INCREASEBASS;
-    public static final int RT_GETTREBLE;
-    public static final int RT_SETTREBLE;
-    public static final int RT_DECREASETREBLE;
-    public static final int RT_INCREASETREBLE;
-    public static final int RT_GETFADER;
-    public static final int RT_SETFADER;
-    public static final int RT_DECREASEFADER;
-    public static final int RT_INCREASEFADER;
-    public static final int RT_GETSUBWOOFER;
-    public static final int RT_SETSUBWOOFER;
-    public static final int RT_GETINPUTGAINOFFSET;
-    public static final int RT_SETINPUTGAINOFFSET;
-    public static final int RT_GETINPUTGAINOFFSETRANGE;
-    public static final int RT_GETLOWERINGENTERTAINMENT;
-    public static final int RT_SETLOWERINGENTERTAINMENT;
-    public static final int RT_GETMENUVOLENTRANGE;
-    public static final int RT_GETMENUVOLUMERANGE;
-    public static final int RT_GETSURROUNDLEVEL;
-    public static final int RT_SETSURROUNDLEVEL;
-    public static final int RT_SETSURROUNDONOFF;
-    public static final int RT_REVERTTOFACTORYSETTINGS;
-    public static final int RT_CREATEEXPORTFILE;
-    public static final int RT_IMPORTFILE;
-    public static final int RT_GETMIDDLE;
-    public static final int RT_SETMIDDLE;
-    public static final int RT_DECREASEMIDDLE;
-    public static final int RT_INCREASEMIDDLE;
-    public static final int RT_SETMICGAINLEVEL;
-    public static final int RT_DECREASEMICGAINLEVEL;
-    public static final int RT_INCREASEMICGAINLEVEL;
-    public static final int RT_SETEQUALIZER;
-    public static final int RT_INCREASEEQUALIZER;
-    public static final int RT_DECREASEEQUALIZER;
-    public static final int RT_GETEQUALIZER;
-    public static final int RT_SETONVOLUMELIMIT;
-    public static final int RT_INCREASEONVOLUMELIMIT;
-    public static final int RT_DECREASEONVOLUMELIMIT;
-    public static final int RT_DECREASEINPUTGAINOFFSET;
-    public static final int RT_INCREASEINPUTGAINOFFSET;
-    public static final int RT_DECREASESUBWOOFER;
-    public static final int RT_INCREASESUBWOOFER;
-    public static final int RT_DECREASESURROUNDLEVEL;
-    public static final int RT_INCREASESURROUNDLEVEL;
-    public static final int RT_DECREASELOWERINGENTERTAINMENT;
-    public static final int RT_INCREASELOWERINGENTERTAINMENT;
-    public static final int RT_GETNOISECOMPENSATION;
-    public static final int RT_SETNOISECOMPENSATION;
-    public static final int RT_INCREASENOISECOMPENSATION;
-    public static final int RT_DECREASENOISECOMPENSATION;
-    public static final int RT_GETPRESETPOSITION;
-    public static final int RT_SETPRESETPOSITION;
-    public static final int RT_GETPRESETEQ;
-    public static final int RT_SETPRESETEQ;
-    public static final int RT_SETSUBWOOFERACTIVITY;
-    public static final int RT_GET3DMODE;
-    public static final int RT_SET3DMODE;
-    public static final int RT_SETWIDEBANDSPEECH;
-    public static final int RT_SETDURATION;
-    public static final int RT_GETVOLUMERANGE;
-    public static final int RT_GETSOUNDSHAPEACTIVE;
-    public static final int RT_SETSOUNDSHAPEACTIVE;
-    public static final int RT_GETSOUNDSHAPE;
-    public static final int RT_SETSOUNDSHAPE;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
-    public static final int ATTR_BALANCE;
-    public static final int ATTR_BALANCERANGE;
-    public static final int ATTR_BASS;
-    public static final int ATTR_BASSRANGE;
-    public static final int ATTR_FADER;
-    public static final int ATTR_FADERRANGE;
-    public static final int ATTR_INPUTGAINOFFSET;
-    public static final int ATTR_LOWERINGENTERTAINMENT;
-    public static final int ATTR_MUTEPINSTATE;
-    public static final int ATTR_SUBWOOFER;
-    public static final int ATTR_SUBWOOFERRANGE;
-    public static final int ATTR_SURRLEVELRANGE;
-    public static final int ATTR_SURROUNDLEVEL;
-    public static final int ATTR_TREBLE;
-    public static final int ATTR_TREBLERANGE;
-    public static final int ATTR_VOLUME;
-    public static final int ATTR_VOLUMERANGE;
-    public static final int ATTR_MIDDLE;
-    public static final int ATTR_MIDDLERANGE;
-    public static final int ATTR_EQUALIZERRANGE;
-    public static final int ATTR_EQUALIZER;
-    public static final int ATTR_ONVOLUMELIMIT;
-    public static final int ATTR_ONVOLUMELIMITRANGE;
-    public static final int ATTR_ACTIVEAMPLIFIERCAPABILITIES;
-    public static final int ATTR_MUTETHEFTPROTECTION;
-    public static final int ATTR_MICGAINLEVEL;
-    public static final int ATTR_VOLUMEFOCUS;
-    public static final int ATTR_NOISECOMPENSATION;
-    public static final int ATTR_PRESETPOSITION;
-    public static final int ATTR_PRESETEQ;
-    public static final int ATTR_PRESETPOSITIONLIST;
-    public static final int ATTR_PRESETEQLIST;
-    public static final int ATTR_NOISECOMPENSATIONRANGE;
-    public static final int ATTR_SUBWOOFERACTIVITY;
-    public static final int ATTR_SURROUNDONOFF;
-    public static final int ATTR_THREEDMODE;
-    public static final int ATTR_THREEDMODERANGE;
-    public static final int ATTR_SOUNDSHAPEACTIVE;
-    public static final int ATTR_SOUNDSHAPE;
-    public static final int ATTR_SOUNDSHAPERANGE;
-    public static final int ATTR_ICCAVAILABLE;
-    public static final int ATTR_PROFILESTATE;
-    public static final int RP_INPUTGAINOFFSETRANGE;
-    public static final int RP_MENUVOLENTRANGE;
-    public static final int RP_MENUVOLUMERANGE;
-    public static final int RP_CREATEEXPORTFILERESULT;
-    public static final int RP_IMPORTFILERESPONSE;
-    public static final int RP_RESPONSEWIDEBANDSPEECH;
-    public static final int RP_VOLUMERANGE;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
+    public static final String VERSION = "2.11.45";
+    public static final int RT_GETVOLUME = 1000;
+    public static final int RT_SETVOLUME = 1001;
+    public static final int RT_DECREASEVOLUME = 1002;
+    public static final int RT_INCREASEVOLUME = 1003;
+    public static final int RT_GETBALANCE = 1004;
+    public static final int RT_SETBALANCE = 1005;
+    public static final int RT_DECREASEBALANCE = 1006;
+    public static final int RT_INCREASEBALANCE = 1007;
+    public static final int RT_GETBASS = 1008;
+    public static final int RT_SETBASS = 1009;
+    public static final int RT_DECREASEBASS = 1010;
+    public static final int RT_INCREASEBASS = 1011;
+    public static final int RT_GETTREBLE = 1012;
+    public static final int RT_SETTREBLE = 1013;
+    public static final int RT_DECREASETREBLE = 1014;
+    public static final int RT_INCREASETREBLE = 1015;
+    public static final int RT_GETFADER = 1016;
+    public static final int RT_SETFADER = 1017;
+    public static final int RT_DECREASEFADER = 1018;
+    public static final int RT_INCREASEFADER = 1019;
+    public static final int RT_GETSUBWOOFER = 1020;
+    public static final int RT_SETSUBWOOFER = 1021;
+    public static final int RT_GETINPUTGAINOFFSET = 1022;
+    public static final int RT_SETINPUTGAINOFFSET = 1023;
+    public static final int RT_GETINPUTGAINOFFSETRANGE = 1024;
+    public static final int RT_GETLOWERINGENTERTAINMENT = 1025;
+    public static final int RT_SETLOWERINGENTERTAINMENT = 1026;
+    public static final int RT_GETMENUVOLENTRANGE = 1027;
+    public static final int RT_GETMENUVOLUMERANGE = 1028;
+    public static final int RT_GETSURROUNDLEVEL = 1031;
+    public static final int RT_SETSURROUNDLEVEL = 1032;
+    public static final int RT_SETSURROUNDONOFF = 1037;
+    public static final int RT_REVERTTOFACTORYSETTINGS = 1038;
+    public static final int RT_CREATEEXPORTFILE = 1039;
+    public static final int RT_IMPORTFILE = 1040;
+    public static final int RT_GETMIDDLE = 1041;
+    public static final int RT_SETMIDDLE = 1042;
+    public static final int RT_DECREASEMIDDLE = 1043;
+    public static final int RT_INCREASEMIDDLE = 1044;
+    public static final int RT_SETMICGAINLEVEL = 1045;
+    public static final int RT_DECREASEMICGAINLEVEL = 1046;
+    public static final int RT_INCREASEMICGAINLEVEL = 1047;
+    public static final int RT_SETEQUALIZER = 1048;
+    public static final int RT_INCREASEEQUALIZER = 1049;
+    public static final int RT_DECREASEEQUALIZER = 1050;
+    public static final int RT_GETEQUALIZER = 1051;
+    public static final int RT_SETONVOLUMELIMIT = 1052;
+    public static final int RT_INCREASEONVOLUMELIMIT = 1053;
+    public static final int RT_DECREASEONVOLUMELIMIT = 1054;
+    public static final int RT_DECREASEINPUTGAINOFFSET = 1056;
+    public static final int RT_INCREASEINPUTGAINOFFSET = 1057;
+    public static final int RT_DECREASESUBWOOFER = 1058;
+    public static final int RT_INCREASESUBWOOFER = 1059;
+    public static final int RT_DECREASESURROUNDLEVEL = 1060;
+    public static final int RT_INCREASESURROUNDLEVEL = 1061;
+    public static final int RT_DECREASELOWERINGENTERTAINMENT = 1064;
+    public static final int RT_INCREASELOWERINGENTERTAINMENT = 1065;
+    public static final int RT_GETNOISECOMPENSATION = 1066;
+    public static final int RT_SETNOISECOMPENSATION = 1067;
+    public static final int RT_INCREASENOISECOMPENSATION = 1068;
+    public static final int RT_DECREASENOISECOMPENSATION = 1069;
+    public static final int RT_GETPRESETPOSITION = 1074;
+    public static final int RT_SETPRESETPOSITION = 1075;
+    public static final int RT_GETPRESETEQ = 1076;
+    public static final int RT_SETPRESETEQ = 1077;
+    public static final int RT_SETSUBWOOFERACTIVITY = 1078;
+    public static final int RT_GET3DMODE = 1079;
+    public static final int RT_SET3DMODE = 1080;
+    public static final int RT_SETWIDEBANDSPEECH = 1081;
+    public static final int RT_SETDURATION = 1082;
+    public static final int RT_GETVOLUMERANGE = 1083;
+    public static final int RT_GETSOUNDSHAPEACTIVE = 1084;
+    public static final int RT_SETSOUNDSHAPEACTIVE = 1085;
+    public static final int RT_GETSOUNDSHAPE = 1086;
+    public static final int RT_SETSOUNDSHAPE = 1087;
+    public static final int RT_PROFILECHANGE = 1088;
+    public static final int RT_PROFILECOPY = 1089;
+    public static final int RT_PROFILERESET = 1090;
+    public static final int RT_PROFILERESETALL = 1091;
+    public static final int ATTR_BALANCE = 2;
+    public static final int ATTR_BALANCERANGE = 3;
+    public static final int ATTR_BASS = 4;
+    public static final int ATTR_BASSRANGE = 5;
+    public static final int ATTR_FADER = 9;
+    public static final int ATTR_FADERRANGE = 10;
+    public static final int ATTR_INPUTGAINOFFSET = 12;
+    public static final int ATTR_LOWERINGENTERTAINMENT = 13;
+    public static final int ATTR_MUTEPINSTATE = 14;
+    public static final int ATTR_SUBWOOFER = 17;
+    public static final int ATTR_SUBWOOFERRANGE = 18;
+    public static final int ATTR_SURRLEVELRANGE = 19;
+    public static final int ATTR_SURROUNDLEVEL = 20;
+    public static final int ATTR_TREBLE = 21;
+    public static final int ATTR_TREBLERANGE = 22;
+    public static final int ATTR_VOLUME = 24;
+    public static final int ATTR_VOLUMERANGE = 26;
+    public static final int ATTR_MIDDLE = 27;
+    public static final int ATTR_MIDDLERANGE = 28;
+    public static final int ATTR_EQUALIZERRANGE = 31;
+    public static final int ATTR_EQUALIZER = 32;
+    public static final int ATTR_ONVOLUMELIMIT = 33;
+    public static final int ATTR_ONVOLUMELIMITRANGE = 34;
+    public static final int ATTR_ACTIVEAMPLIFIERCAPABILITIES = 35;
+    public static final int ATTR_MUTETHEFTPROTECTION = 36;
+    public static final int ATTR_MICGAINLEVEL = 37;
+    public static final int ATTR_VOLUMEFOCUS = 38;
+    public static final int ATTR_NOISECOMPENSATION = 39;
+    public static final int ATTR_PRESETPOSITION = 42;
+    public static final int ATTR_PRESETEQ = 43;
+    public static final int ATTR_PRESETPOSITIONLIST = 44;
+    public static final int ATTR_PRESETEQLIST = 45;
+    public static final int ATTR_NOISECOMPENSATIONRANGE = 47;
+    public static final int ATTR_SUBWOOFERACTIVITY = 48;
+    public static final int ATTR_SURROUNDONOFF = 49;
+    public static final int ATTR_THREEDMODE = 50;
+    public static final int ATTR_THREEDMODERANGE = 51;
+    public static final int ATTR_SOUNDSHAPEACTIVE = 52;
+    public static final int ATTR_SOUNDSHAPE = 53;
+    public static final int ATTR_SOUNDSHAPERANGE = 54;
+    public static final int ATTR_ICCAVAILABLE = 55;
+    public static final int ATTR_PROFILESTATE = 56;
+    public static final int RP_INPUTGAINOFFSETRANGE = 2000;
+    public static final int RP_MENUVOLENTRANGE = 2001;
+    public static final int RP_MENUVOLUMERANGE = 2002;
+    public static final int RP_CREATEEXPORTFILERESULT = 2004;
+    public static final int RP_IMPORTFILERESPONSE = 2005;
+    public static final int RP_RESPONSEWIDEBANDSPEECH = 2006;
+    public static final int RP_VOLUMERANGE = 2007;
+    public static final int RP_PROFILECHANGED = 2008;
+    public static final int RP_PROFILECOPIED = 2009;
+    public static final int RP_PROFILERESET = 2010;
+    public static final int RP_PROFILERESETALL = 2011;
 
-    default public void getVolume(int n, int n2) {
-    }
+    public void getVolume(int var1, int var2);
 
-    default public void setVolume(int n, int n2, short s) {
-    }
+    public void setVolume(int var1, int var2, short var3);
 
-    default public void decreaseVolume(int n, int n2, short s) {
-    }
+    public void decreaseVolume(int var1, int var2, short var3);
 
-    default public void increaseVolume(int n, int n2, short s) {
-    }
+    public void increaseVolume(int var1, int var2, short var3);
 
-    default public void getBalance(int n, int n2) {
-    }
+    public void getBalance(int var1, int var2);
 
-    default public void setBalance(int n, int n2, short s) {
-    }
+    public void setBalance(int var1, int var2, short var3);
 
-    default public void decreaseBalance(int n, int n2, short s) {
-    }
+    public void decreaseBalance(int var1, int var2, short var3);
 
-    default public void increaseBalance(int n, int n2, short s) {
-    }
+    public void increaseBalance(int var1, int var2, short var3);
 
-    default public void getBass(int n, int n2) {
-    }
+    public void getBass(int var1, int var2);
 
-    default public void setBass(int n, int n2, short s) {
-    }
+    public void setBass(int var1, int var2, short var3);
 
-    default public void decreaseBass(int n, int n2, short s) {
-    }
+    public void decreaseBass(int var1, int var2, short var3);
 
-    default public void increaseBass(int n, int n2, short s) {
-    }
+    public void increaseBass(int var1, int var2, short var3);
 
-    default public void getTreble(int n, int n2) {
-    }
+    public void getTreble(int var1, int var2);
 
-    default public void setTreble(int n, int n2, short s) {
-    }
+    public void setTreble(int var1, int var2, short var3);
 
-    default public void decreaseTreble(int n, int n2, short s) {
-    }
+    public void decreaseTreble(int var1, int var2, short var3);
 
-    default public void increaseTreble(int n, int n2, short s) {
-    }
+    public void increaseTreble(int var1, int var2, short var3);
 
-    default public void getFader(int n, int n2) {
-    }
+    public void getFader(int var1, int var2);
 
-    default public void setFader(int n, int n2, short s) {
-    }
+    public void setFader(int var1, int var2, short var3);
 
-    default public void decreaseFader(int n, int n2, short s) {
-    }
+    public void decreaseFader(int var1, int var2, short var3);
 
-    default public void increaseFader(int n, int n2, short s) {
-    }
+    public void increaseFader(int var1, int var2, short var3);
 
-    default public void getSubwoofer(int n, int n2) {
-    }
+    public void getSubwoofer(int var1, int var2);
 
-    default public void setSubwoofer(int n, int n2, short s) {
-    }
+    public void setSubwoofer(int var1, int var2, short var3);
 
-    default public void getInputGainOffset(int n, int n2) {
-    }
+    public void getInputGainOffset(int var1, int var2);
 
-    default public void setInputGainOffset(int n, int n2, short s) {
-    }
+    public void setInputGainOffset(int var1, int var2, short var3);
 
-    default public void getInputGainOffsetRange(int n, int n2) {
-    }
+    public void getInputGainOffsetRange(int var1, int var2);
 
-    default public void getLoweringEntertainment(int n, int n2, int n3) {
-    }
+    public void getLoweringEntertainment(int var1, int var2, int var3);
 
-    default public void setLoweringEntertainment(int n, int n2, int n3, short s) {
-    }
+    public void setLoweringEntertainment(int var1, int var2, int var3, short var4);
 
-    default public void getMenuVolEntRange(int n) {
-    }
+    public void getMenuVolEntRange(int var1);
 
-    default public void getMenuVolumeRange(int n, int n2) {
-    }
+    public void getMenuVolumeRange(int var1, int var2);
 
-    default public void getVolumeRange(int n, int n2) {
-    }
+    public void getVolumeRange(int var1, int var2);
 
-    default public void getSurroundLevel(int n, int n2) {
-    }
+    public void getSurroundLevel(int var1, int var2);
 
-    default public void setSurroundLevel(int n, int n2, short s) {
-    }
+    public void setSurroundLevel(int var1, int var2, short var3);
 
-    default public void setSurroundOnOff(int n, int n2, boolean bl) {
-    }
+    public void setSurroundOnOff(int var1, int var2, boolean var3);
 
-    default public void revertToFactorySettings(int n, int n2) {
-    }
+    public void revertToFactorySettings(int var1, int var2);
 
-    default public void createExportFile(String string, int n) {
-    }
+    public void createExportFile(String var1, int var2);
 
-    default public void importFile(String string, int n) {
-    }
+    public void importFile(String var1, int var2);
 
-    default public void getMiddle(int n, int n2) {
-    }
+    public void getMiddle(int var1, int var2);
 
-    default public void setMiddle(int n, int n2, short s) {
-    }
+    public void setMiddle(int var1, int var2, short var3);
 
-    default public void decreaseMiddle(int n, int n2, short s) {
-    }
+    public void decreaseMiddle(int var1, int var2, short var3);
 
-    default public void increaseMiddle(int n, int n2, short s) {
-    }
+    public void increaseMiddle(int var1, int var2, short var3);
 
-    default public void setEqualizer(int n, int n2, int n3, int n4) {
-    }
+    public void setEqualizer(int var1, int var2, int var3, int var4);
 
-    default public void increaseEqualizer(int n, int n2, int n3, short s) {
-    }
+    public void increaseEqualizer(int var1, int var2, int var3, short var4);
 
-    default public void decreaseEqualizer(int n, int n2, int n3, short s) {
-    }
+    public void decreaseEqualizer(int var1, int var2, int var3, short var4);
 
-    default public void getEqualizer(int n, int n2) {
-    }
+    public void getEqualizer(int var1, int var2);
 
-    default public void setOnVolumeLimit(int n) {
-    }
+    public void setOnVolumeLimit(int var1);
 
-    default public void increaseOnVolumeLimit(short s) {
-    }
+    public void increaseOnVolumeLimit(short var1);
 
-    default public void decreaseOnVolumeLimit(short s) {
-    }
+    public void decreaseOnVolumeLimit(short var1);
 
-    default public void decreaseSubwoofer(int n, int n2, short s) {
-    }
+    public void decreaseSubwoofer(int var1, int var2, short var3);
 
-    default public void increaseSubwoofer(int n, int n2, short s) {
-    }
+    public void increaseSubwoofer(int var1, int var2, short var3);
 
-    default public void decreaseInputGainOffset(int n, int n2, short s) {
-    }
+    public void decreaseInputGainOffset(int var1, int var2, short var3);
 
-    default public void increaseInputGainOffset(int n, int n2, short s) {
-    }
+    public void increaseInputGainOffset(int var1, int var2, short var3);
 
-    default public void decreaseLoweringEntertainment(int n, int n2, int n3, short s) {
-    }
+    public void decreaseLoweringEntertainment(int var1, int var2, int var3, short var4);
 
-    default public void increaseLoweringEntertainment(int n, int n2, int n3, short s) {
-    }
+    public void increaseLoweringEntertainment(int var1, int var2, int var3, short var4);
 
-    default public void decreaseSurroundLevel(int n, int n2, short s) {
-    }
+    public void decreaseSurroundLevel(int var1, int var2, short var3);
 
-    default public void increaseSurroundLevel(int n, int n2, short s) {
-    }
+    public void increaseSurroundLevel(int var1, int var2, short var3);
 
-    default public void setMicGainLevel(int n) {
-    }
+    public void setMicGainLevel(int var1);
 
-    default public void decreaseMicGainLevel(short s) {
-    }
+    public void decreaseMicGainLevel(short var1);
 
-    default public void increaseMicGainLevel(short s) {
-    }
+    public void increaseMicGainLevel(short var1);
 
-    default public void getNoiseCompensation(int n, int n2) {
-    }
+    public void getNoiseCompensation(int var1, int var2);
 
-    default public void setNoiseCompensation(int n, int n2, short s) {
-    }
+    public void setNoiseCompensation(int var1, int var2, short var3);
 
-    default public void increaseNoiseCompensation(int n, int n2, short s) {
-    }
+    public void increaseNoiseCompensation(int var1, int var2, short var3);
 
-    default public void decreaseNoiseCompensation(int n, int n2, short s) {
-    }
+    public void decreaseNoiseCompensation(int var1, int var2, short var3);
 
-    default public void getPresetEQ(int n, int n2) {
-    }
+    public void getPresetEQ(int var1, int var2);
 
-    default public void setPresetEQ(int n, int n2, int n3) {
-    }
+    public void setPresetEQ(int var1, int var2, int var3);
 
-    default public void getPresetPosition(int n, int n2) {
-    }
+    public void getPresetPosition(int var1, int var2);
 
-    default public void setPresetPosition(int n, int n2, int n3) {
-    }
+    public void setPresetPosition(int var1, int var2, int var3);
 
-    default public void get3DMode(int n, int n2) {
-    }
+    public void get3DMode(int var1, int var2);
 
-    default public void set3DMode(int n, int n2, int n3) {
-    }
+    public void set3DMode(int var1, int var2, int var3);
 
-    default public void setSubwooferActivity(int n, int n2, boolean bl) {
-    }
+    public void setSubwooferActivity(int var1, int var2, boolean var3);
 
-    default public void setWidebandSpeech(int n, boolean bl) {
-    }
+    public void setWidebandSpeech(int var1, boolean var2);
 
-    default public void setDuration(int n, int n2) {
-    }
+    public void setDuration(int var1, int var2);
 
-    default public void getSoundShapeActive() {
-    }
+    public void getSoundShapeActive();
 
-    default public void setSoundShapeActive(boolean bl) {
-    }
+    public void setSoundShapeActive(boolean var1);
 
-    default public void getSoundShape() {
-    }
+    public void getSoundShape();
 
-    default public void setSoundShape(short s, short s2, short s3) {
-    }
+    public void setSoundShape(short var1, short var2, short var3);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

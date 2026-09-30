@@ -23,10 +23,9 @@ extends AbstractWidgetController {
     }
 
     private void updateWithRangeModel(RangeModelGUI rangeModelGUI) {
-        this.setAirPressurePercentageValue(51266 * (float)(rangeModelGUI.getValue() - rangeModelGUI.getMinimum()) / (float)(rangeModelGUI.getMaximum() - rangeModelGUI.getMinimum()));
+        this.setAirPressurePercentageValue(100.0f * (float)(rangeModelGUI.getValue() - rangeModelGUI.getMinimum()) / (float)(rangeModelGUI.getMaximum() - rangeModelGUI.getMinimum()));
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         switch (n) {
@@ -37,7 +36,7 @@ extends AbstractWidgetController {
                 break;
             }
             default: {
-                logChannel.log(-1601830656, "ChargingAirPressureGaugeController#processModelUpdateEvent untreated updateType: %1", (long)n);
+                logChannel.log(100000, "ChargingAirPressureGaugeController#processModelUpdateEvent untreated updateType: %1", (long)n);
             }
         }
     }
@@ -46,15 +45,14 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
     public void setAirPressurePercentageValue(float f2) {
-        if (f2 < 0.0f || f2 > 51266) {
-            logChannel.log(-1601830656, "ChargingAirPressureGaugeController#setAirPressurePercentageValue %1", (double)f2);
-            f2 = Math.max(Math.min(f2, (float)51266), 0.0f);
+        if (f2 < 0.0f || f2 > 100.0f) {
+            logChannel.log(100000, "ChargingAirPressureGaugeController#setAirPressurePercentageValue %1", (double)f2);
+            f2 = Math.max(Math.min(f2, 100.0f), 0.0f);
         }
         this.airPressurePercentageValue = f2;
     }

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.MirrorViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class MirrorViewOptionsSerializer {
-    public static void putOptionalMirrorViewOptions(ISerializer iSerializer, MirrorViewOptions mirrorViewOptions) {
+    public static void putOptionalMirrorViewOptions(ISerializer iSerializer, MirrorViewOptions mirrorViewOptions) throws SerializerException {
         boolean bl = mirrorViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class MirrorViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalMirrorViewOptionsVarArray(ISerializer iSerializer, MirrorViewOptions[] mirrorViewOptionsArray) {
+    public static void putOptionalMirrorViewOptionsVarArray(ISerializer iSerializer, MirrorViewOptions[] mirrorViewOptionsArray) throws SerializerException {
         boolean bl = mirrorViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class MirrorViewOptionsSerializer {
         }
     }
 
-    public static MirrorViewOptions getOptionalMirrorViewOptions(IDeserializer iDeserializer) {
+    public static MirrorViewOptions getOptionalMirrorViewOptions(IDeserializer iDeserializer) throws SerializerException {
         MirrorViewOptions mirrorViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class MirrorViewOptionsSerializer {
         return mirrorViewOptions;
     }
 
-    public static MirrorViewOptions[] getOptionalMirrorViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static MirrorViewOptions[] getOptionalMirrorViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         MirrorViewOptions[] mirrorViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

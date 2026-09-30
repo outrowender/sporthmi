@@ -13,49 +13,34 @@ import org.dsi.ifc.sdars.TrafficWxEntry;
 
 public interface DSISDARSSeekListener
 extends DSIListener {
-    default public void updateSeekPossibility(SeekPossibility seekPossibility, int n) {
-    }
+    public void updateSeekPossibility(SeekPossibility var1, int var2);
 
-    default public void updateSeekList(SeekEntry[] seekEntryArray, int n) {
-    }
+    public void updateSeekList(SeekEntry[] var1, int var2);
 
-    default public void updateLeagueList(LeagueEntry[] leagueEntryArray, int n) {
-    }
+    public void updateLeagueList(LeagueEntry[] var1, int var2);
 
-    default public void updateTrafficWeatherList(TrafficWxEntry[] trafficWxEntryArray, int n) {
-    }
+    public void updateTrafficWeatherList(TrafficWxEntry[] var1, int var2);
 
-    default public void updateSeekAlert(SeekAlert seekAlert, int n) {
-    }
+    public void updateSeekAlert(SeekAlert var1, int var2);
 
-    default public void setSeekCommandResult(int n) {
-    }
+    public void setSeekCommandResult(int var1);
 
-    default public void manageSeekResult(int n) {
-    }
+    public void manageSeekResult(int var1);
 
-    default public void teamsOfLeague(TeamEntry[] teamEntryArray) {
-    }
+    public void teamsOfLeague(TeamEntry[] var1);
 
-    default public void leagues(LeagueEntry[] leagueEntryArray) {
-    }
+    public void leagues(LeagueEntry[] var1);
 
-    default public void updateRegisteredTeams(TeamEntry[] teamEntryArray, int n) {
-    }
+    public void updateRegisteredTeams(TeamEntry[] var1, int var2);
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3);
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2);
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3);
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2);
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1);
 }
 

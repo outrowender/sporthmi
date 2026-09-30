@@ -8,7 +8,6 @@ import org.osgi.service.log.LogEntry;
 
 public interface LogListener
 extends EventListener {
-    default public void logged(LogEntry logEntry) {
-    }
+    public void logged(LogEntry var1);
 }
 

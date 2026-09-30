@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSOPSOverlay;
 
 public class VPSOPSOverlaySerializer {
-    public static void putOptionalVPSOPSOverlay(ISerializer iSerializer, VPSOPSOverlay vPSOPSOverlay) {
+    public static void putOptionalVPSOPSOverlay(ISerializer iSerializer, VPSOPSOverlay vPSOPSOverlay) throws SerializerException {
         boolean bl = vPSOPSOverlay == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class VPSOPSOverlaySerializer {
         }
     }
 
-    public static void putOptionalVPSOPSOverlayVarArray(ISerializer iSerializer, VPSOPSOverlay[] vPSOPSOverlayArray) {
+    public static void putOptionalVPSOPSOverlayVarArray(ISerializer iSerializer, VPSOPSOverlay[] vPSOPSOverlayArray) throws SerializerException {
         boolean bl = vPSOPSOverlayArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class VPSOPSOverlaySerializer {
         }
     }
 
-    public static VPSOPSOverlay getOptionalVPSOPSOverlay(IDeserializer iDeserializer) {
+    public static VPSOPSOverlay getOptionalVPSOPSOverlay(IDeserializer iDeserializer) throws SerializerException {
         VPSOPSOverlay vPSOPSOverlay = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class VPSOPSOverlaySerializer {
         return vPSOPSOverlay;
     }
 
-    public static VPSOPSOverlay[] getOptionalVPSOPSOverlayVarArray(IDeserializer iDeserializer) {
+    public static VPSOPSOverlay[] getOptionalVPSOPSOverlayVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSOPSOverlay[] vPSOPSOverlayArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

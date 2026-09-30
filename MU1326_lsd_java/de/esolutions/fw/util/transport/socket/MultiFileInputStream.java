@@ -6,6 +6,7 @@ package de.esolutions.fw.util.transport.socket;
 import de.esolutions.fw.util.transport.socket.MultiFileNamer;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class MultiFileInputStream
@@ -13,22 +14,20 @@ extends InputStream {
     private MultiFileNamer namer;
     private FileInputStream stream;
 
-    public MultiFileInputStream(String string, String string2, int n, int n2) {
+    public MultiFileInputStream(String string, String string2, int n, int n2) throws FileNotFoundException {
         this.namer = new MultiFileNamer(string, string2, n, n2);
         this.stream = new FileInputStream(this.namer.nextFileName());
     }
 
-    public MultiFileInputStream(String string, String string2) {
+    public MultiFileInputStream(String string, String string2) throws FileNotFoundException {
         this(string, string2, 4, 0);
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.stream.close();
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.stream.read();
         if (n == -1) {
             this.stream.close();
@@ -43,13 +42,11 @@ extends InputStream {
         return n;
     }
 
-    @Override
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         return this.read(byArray, 0, byArray.length);
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         int n3 = this.stream.read(byArray, n, n2);
         if (n3 == -1) {
             this.stream.close();

@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 
@@ -26,15 +27,13 @@ extends AbstractMessage {
         super(MessageType.REGISTER_TIMEZONE);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt32(this.id);
         iSerializer.putInt32(this.resolution);
         iSerializer.putString(this.name);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.id = iDeserializer.getInt32();
         this.resolution = iDeserializer.getInt32();
         this.name = iDeserializer.getString();
@@ -52,7 +51,6 @@ extends AbstractMessage {
         return this.name;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("Register TimeZone: id=");
         buffer.append(this.id);

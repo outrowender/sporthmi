@@ -3,37 +3,28 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.OperatorCallData;
 
 public interface DSIOperatorCallC {
-    default public void requestOperatorCallResult(String string, int n) {
-    }
+    public void requestOperatorCallResult(String var1, int var2) throws MethodException;
 
-    default public void requestOperatorPhoneNumber(int n, OperatorCallData operatorCallData, boolean bl) {
-    }
+    public void requestOperatorPhoneNumber(int var1, OperatorCallData var2, boolean var3) throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

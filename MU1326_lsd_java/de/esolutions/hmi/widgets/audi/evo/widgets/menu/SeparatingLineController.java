@@ -27,7 +27,6 @@ implements IMenuCallback {
     private AbstractWidgetController c1;
     private AbstractWidgetController c2;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.parent instanceof MenuController) {
@@ -44,7 +43,6 @@ implements IMenuCallback {
         }
     }
 
-    @Override
     public void menuLayouted() {
         AbstractWidgetController abstractWidgetController = this.c1;
         AbstractWidgetController abstractWidgetController2 = this.c2;
@@ -87,7 +85,7 @@ implements IMenuCallback {
         int n4 = (n + n2 + n3) / 2;
         boolean bl = n4 > 0 && n4 < this.parentMenu.getHeight() && n < n3;
         this.setOnScreen(bl &= abstractWidgetController.getX() < 1000 && abstractWidgetController2.getX() < 1000);
-        menuItemLogCh.log(-2137614336, "SeparatingLineController#menuLayouted y = %2, visible = %1", bl, (long)n4);
+        menuItemLogCh.log(10000000, "SeparatingLineController#menuLayouted y = %2, visible = %1", bl, (long)n4);
         int n5 = this.parentMenu.getLayout().getContentLeftOffset();
         int n6 = this.parentMenu.getWidth() - this.parentMenu.getLayout().getActiveContentRightOffset(true) - n5;
         this.setBounds(n5, n4, n6, 1);
@@ -118,7 +116,7 @@ implements IMenuCallback {
             boolean bl3 = bl2 = focusCursorController.getBorderBottomVisible() == 1.0f;
         }
         if (this.shouldHideForCursor(this.getY(), n, n2, bl, bl2)) {
-            menuItemLogCh.log(-2137614336, "SeparatingLineController#checkHideForAdjacentCursor Separating line is hidden by cursor.");
+            menuItemLogCh.log(10000000, "SeparatingLineController#checkHideForAdjacentCursor Separating line is hidden by cursor.");
             this.setOnScreen(false);
         }
     }
@@ -147,14 +145,13 @@ implements IMenuCallback {
         this.succWidId = n;
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
     private int[] getListControllerPositionInformation(ListController listController) {
         List list = listController.getChildren();
-        int n = -129;
-        int n2 = 128;
+        int n = Integer.MAX_VALUE;
+        int n2 = Integer.MIN_VALUE;
         int n3 = 0;
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -171,23 +168,18 @@ implements IMenuCallback {
         return new int[]{n, n3, n2};
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 }

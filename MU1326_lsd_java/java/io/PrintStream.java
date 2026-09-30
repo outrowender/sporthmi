@@ -35,7 +35,7 @@ extends FilterOutputStream {
         this.autoflush = bl;
     }
 
-    public PrintStream(OutputStream outputStream, boolean bl, String string) {
+    public PrintStream(OutputStream outputStream, boolean bl, String string) throws UnsupportedEncodingException {
         super(outputStream);
         if (outputStream == null) {
             throw new NullPointerException();
@@ -57,7 +57,6 @@ extends FilterOutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void close() {
         Object object = this.lock;
         synchronized (object) {
@@ -77,7 +76,6 @@ extends FilterOutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void flush() {
         Object object = this.lock;
         synchronized (object) {
@@ -209,7 +207,6 @@ extends FilterOutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(byte[] byArray, int n, int n2) {
         if (byArray != null) {
             if (n >= 0 && n <= byArray.length && n2 >= 0 && n2 <= byArray.length - n) {
@@ -238,7 +235,6 @@ extends FilterOutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(int n) {
         Object object = this.lock;
         synchronized (object) {

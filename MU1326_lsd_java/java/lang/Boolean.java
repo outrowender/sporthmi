@@ -7,17 +7,11 @@ import java.io.Serializable;
 
 public final class Boolean
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -3665804199014368530L;
     private final boolean value;
-    public static final Class TYPE;
-    public static final Boolean TRUE;
-    public static final Boolean FALSE;
-
-    static {
-        TYPE = super.getClass().getComponentType();
-        TRUE = new Boolean(true);
-        FALSE = new Boolean(false);
-    }
+    public static final Class TYPE = new boolean[0].getClass().getComponentType();
+    public static final Boolean TRUE = new Boolean(true);
+    public static final Boolean FALSE = new Boolean(false);
 
     public Boolean(String string) {
         this(Boolean.toBoolean(string));

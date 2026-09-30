@@ -19,14 +19,12 @@ extends WrappedNode3D {
         this.setVisible(false);
     }
 
-    @Override
     public boolean remove(IWrappedNode3D iWrappedNode3D) {
         boolean bl = super.remove(iWrappedNode3D);
         this.updateVisibility();
         return bl;
     }
 
-    @Override
     public void addByIndex(IWrappedNode3D iWrappedNode3D, int n) {
         super.addByIndex(iWrappedNode3D, n);
         this.updateVisibility();
@@ -39,18 +37,18 @@ extends WrappedNode3D {
                 IWrappedNode3D iWrappedNode3D = (IWrappedNode3D)this.children.get(i2);
                 if (!iWrappedNode3D.isVisible()) continue;
                 bl = true;
-                logChannel3DEngineLayersAndViewports.log(-2137614336, "WrappedNode3DVisibility#updateVisibility: at least one visible child");
+                logChannel3DEngineLayersAndViewports.log(10000000, "WrappedNode3DVisibility#updateVisibility: at least one visible child");
                 break;
             }
         }
         if (this.visible == bl) {
             if (logChannel3DEngineLayersAndViewports.isDebug()) {
-                logChannel3DEngineLayersAndViewports.log(-2137614336, "WrappedNode3DVisibility#updateVisibility: %2 no visibility change, visible = %1", bl, (Object)this.getNode().getName());
+                logChannel3DEngineLayersAndViewports.log(10000000, "WrappedNode3DVisibility#updateVisibility: %2 no visibility change, visible = %1", bl, (Object)this.getNode().getName());
             }
             return;
         }
         if (logChannel3DEngineLayersAndViewports.isInfo()) {
-            logChannel3DEngineLayersAndViewports.log(1078071040, "WrappedNode3DVisibility#updateVisibility: %3, %2 visibility set to %1", bl, (Object)this.getNode().getName(), (Object)this.viewport);
+            logChannel3DEngineLayersAndViewports.log(1000000, "WrappedNode3DVisibility#updateVisibility: %3, %2 visibility set to %1", bl, (Object)this.getNode().getName(), (Object)this.viewport);
         }
         this.setVisible(bl);
         if (this.viewport != null) {
@@ -58,7 +56,6 @@ extends WrappedNode3D {
         }
     }
 
-    @Override
     public String toString() {
         String string = "WrappedNode3DVisibility[";
         Buffer buffer = new Buffer();
@@ -67,7 +64,6 @@ extends WrappedNode3D {
         return buffer.toString();
     }
 
-    @Override
     public void resetTransformation() {
         boolean bl = this.isVisible();
         super.resetTransformation();

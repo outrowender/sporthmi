@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCFISAdditionalConfiguration;
 
 public class BCFISAdditionalConfigurationSerializer {
-    public static void putOptionalBCFISAdditionalConfiguration(ISerializer iSerializer, BCFISAdditionalConfiguration bCFISAdditionalConfiguration) {
+    public static void putOptionalBCFISAdditionalConfiguration(ISerializer iSerializer, BCFISAdditionalConfiguration bCFISAdditionalConfiguration) throws SerializerException {
         boolean bl = bCFISAdditionalConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -53,7 +54,7 @@ public class BCFISAdditionalConfigurationSerializer {
         }
     }
 
-    public static void putOptionalBCFISAdditionalConfigurationVarArray(ISerializer iSerializer, BCFISAdditionalConfiguration[] bCFISAdditionalConfigurationArray) {
+    public static void putOptionalBCFISAdditionalConfigurationVarArray(ISerializer iSerializer, BCFISAdditionalConfiguration[] bCFISAdditionalConfigurationArray) throws SerializerException {
         boolean bl = bCFISAdditionalConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -64,7 +65,7 @@ public class BCFISAdditionalConfigurationSerializer {
         }
     }
 
-    public static BCFISAdditionalConfiguration getOptionalBCFISAdditionalConfiguration(IDeserializer iDeserializer) {
+    public static BCFISAdditionalConfiguration getOptionalBCFISAdditionalConfiguration(IDeserializer iDeserializer) throws SerializerException {
         BCFISAdditionalConfiguration bCFISAdditionalConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -111,7 +112,7 @@ public class BCFISAdditionalConfigurationSerializer {
         return bCFISAdditionalConfiguration;
     }
 
-    public static BCFISAdditionalConfiguration[] getOptionalBCFISAdditionalConfigurationVarArray(IDeserializer iDeserializer) {
+    public static BCFISAdditionalConfiguration[] getOptionalBCFISAdditionalConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCFISAdditionalConfiguration[] bCFISAdditionalConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

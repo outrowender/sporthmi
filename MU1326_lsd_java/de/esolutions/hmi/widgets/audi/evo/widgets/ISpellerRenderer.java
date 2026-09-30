@@ -4,30 +4,22 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 
 public interface ISpellerRenderer
 extends IRenderer {
-    default public void startCursorAnimation(SpellerController$ISpellerItem spellerController$ISpellerItem, SpellerController$ISpellerItem spellerController$ISpellerItem2) {
-    }
+    public void startCursorAnimation(SpellerController.ISpellerItem var1, SpellerController.ISpellerItem var2);
 
-    default public void closeItem(SpellerController$AbstractExpandableItem spellerController$AbstractExpandableItem) {
-    }
+    public void closeItem(SpellerController.AbstractExpandableItem var1);
 
-    default public void openItem() {
-    }
+    public void openItem();
 
-    default public void switchCase() {
-    }
+    public void switchCase();
 
-    default public void deleteMoved() {
-    }
+    public void deleteMoved();
 
-    default public void refreshItemColors() {
-    }
+    public void refreshItemColors();
 
-    default public void switchCharSet() {
-    }
+    public void switchCharSet();
 }
 

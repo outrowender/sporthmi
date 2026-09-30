@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tvtuner.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tvtuner.AudioChannel;
 
 public class AudioChannelSerializer {
-    public static void putOptionalAudioChannel(ISerializer iSerializer, AudioChannel audioChannel) {
+    public static void putOptionalAudioChannel(ISerializer iSerializer, AudioChannel audioChannel) throws SerializerException {
         boolean bl = audioChannel == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AudioChannelSerializer {
         }
     }
 
-    public static void putOptionalAudioChannelVarArray(ISerializer iSerializer, AudioChannel[] audioChannelArray) {
+    public static void putOptionalAudioChannelVarArray(ISerializer iSerializer, AudioChannel[] audioChannelArray) throws SerializerException {
         boolean bl = audioChannelArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AudioChannelSerializer {
         }
     }
 
-    public static AudioChannel getOptionalAudioChannel(IDeserializer iDeserializer) {
+    public static AudioChannel getOptionalAudioChannel(IDeserializer iDeserializer) throws SerializerException {
         AudioChannel audioChannel = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class AudioChannelSerializer {
         return audioChannel;
     }
 
-    public static AudioChannel[] getOptionalAudioChannelVarArray(IDeserializer iDeserializer) {
+    public static AudioChannel[] getOptionalAudioChannelVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioChannel[] audioChannelArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

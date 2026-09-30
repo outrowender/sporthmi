@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.radio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.radio.DSIUnifiedTunerReply;
 import de.esolutions.fw.comm.dsi.radio.impl.DSIUnifiedTunerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIUnifiedTunerReply {
         super(n, (class$org$dsi$ifc$radio$DSIUnifiedTunerListener == null ? (class$org$dsi$ifc$radio$DSIUnifiedTunerListener = DSIUnifiedTunerDispatcher.class$("org.dsi.ifc.radio.DSIUnifiedTunerListener")) : class$org$dsi$ifc$radio$DSIUnifiedTunerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void selectStationStatus(int n) {
+    public void selectStationStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -48,8 +47,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateAudioStatus(int n, int n2) {
+    public void updateAudioStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -77,8 +75,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateDetectedDevice(int n, int n2) {
+    public void updateDetectedDevice(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -106,8 +103,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedStation(UnifiedStation unifiedStation, int n) {
+    public void updateSelectedStation(UnifiedStation unifiedStation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -135,8 +131,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateStationList(UnifiedStation[] unifiedStationArray, int n) {
+    public void updateStationList(UnifiedStation[] unifiedStationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -164,8 +159,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateRadioText(UnifiedRadioText unifiedRadioText, int n) {
+    public void updateRadioText(UnifiedRadioText unifiedRadioText, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -193,8 +187,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateEnhancedRadioText(UnifiedRadioText unifiedRadioText, int n) {
+    public void updateEnhancedRadioText(UnifiedRadioText unifiedRadioText, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -222,8 +215,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus, int n) {
+    public void updateRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -251,8 +243,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus, int n) {
+    public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -280,8 +271,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo, int n) {
+    public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -309,8 +299,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void listMode(int n) {
+    public void listMode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -326,8 +315,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void stationFollowingMode(int n) {
+    public void stationFollowingMode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -343,8 +331,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateSoftLinkSwitchStatus(int n, int n2) {
+    public void updateSoftLinkSwitchStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -372,8 +359,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateRegModeStatus(int n, int n2) {
+    public void updateRegModeStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -401,8 +387,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateDeviceUsageStatus(int n, int n2) {
+    public void updateDeviceUsageStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -430,8 +415,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -459,8 +443,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -476,8 +459,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -493,8 +475,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -510,8 +491,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -527,8 +507,7 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -544,14 +523,13 @@ implements DSIUnifiedTunerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIUnifiedTunerListener dSIUnifiedTunerListener = (DSIUnifiedTunerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIUnifiedTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIUnifiedTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIUnifiedTunerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIUnifiedTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIUnifiedTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIUnifiedTunerListener, new Object[]{string, string2});
                     continue;
                 }

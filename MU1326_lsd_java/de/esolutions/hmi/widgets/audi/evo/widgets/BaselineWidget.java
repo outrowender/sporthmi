@@ -4,10 +4,8 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 public interface BaselineWidget {
-    default public int getBaseline() {
-    }
+    public int getBaseline();
 
-    default public boolean hasBaseline() {
-    }
+    public boolean hasBaseline();
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.picturestore;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.picturestore.DSIPictureStoreReply;
 import de.esolutions.fw.comm.dsi.picturestore.impl.DSIPictureStoreReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIPictureStoreReply {
         super(n, (class$org$dsi$ifc$picturestore$DSIPictureStoreListener == null ? (class$org$dsi$ifc$picturestore$DSIPictureStoreListener = DSIPictureStoreDispatcher.class$("org.dsi.ifc.picturestore.DSIPictureStoreListener")) : class$org$dsi$ifc$picturestore$DSIPictureStoreListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void importPictureResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) {
+    public void importPictureResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -46,8 +45,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void pictureExists(ResourceLocator resourceLocator, boolean bl) {
+    public void pictureExists(ResourceLocator resourceLocator, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -63,8 +61,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void freeSlots(int n, int n2) {
+    public void freeSlots(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -80,8 +77,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void getReferencesResult(ResourceLocator resourceLocator, int[] nArray) {
+    public void getReferencesResult(ResourceLocator resourceLocator, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -97,8 +93,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void deletedPictures(ResourceLocator[] resourceLocatorArray) {
+    public void deletedPictures(ResourceLocator[] resourceLocatorArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -114,8 +109,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void responseLRUPictures(int n, ResourceLocator[] resourceLocatorArray) {
+    public void responseLRUPictures(int n, ResourceLocator[] resourceLocatorArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -131,8 +125,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void listResult(ResourceLocator[] resourceLocatorArray, int n) {
+    public void listResult(ResourceLocator[] resourceLocatorArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -148,8 +141,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void listForContextResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
+    public void listForContextResult(int n, ResourceLocator[] resourceLocatorArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -165,8 +157,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void getPictureAttributesResult(ResourceLocator resourceLocator, PictureAttribute[] pictureAttributeArray, int n) {
+    public void getPictureAttributesResult(ResourceLocator resourceLocator, PictureAttribute[] pictureAttributeArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -182,8 +173,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void importPictureFromSourceResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) {
+    public void importPictureFromSourceResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -199,8 +189,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
+    public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -216,8 +205,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void listForContextWithFilterSortDistResult(int n, ResourceLocator[] resourceLocatorArray, int n2, float f2, float f3) {
+    public void listForContextWithFilterSortDistResult(int n, ResourceLocator[] resourceLocatorArray, int n2, float f2, float f3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -233,8 +221,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void getRectanglePicturesGridResult(GeoPicture[] geoPictureArray) {
+    public void getRectanglePicturesGridResult(GeoPicture[] geoPictureArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -250,8 +237,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void getAvailableYearsResult(int[] nArray) {
+    public void getAvailableYearsResult(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -267,8 +253,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void getAvailableMonthsResult(int[] nArray) {
+    public void getAvailableMonthsResult(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -284,8 +269,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void createFilterSetResult(int n) {
+    public void createFilterSetResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -301,8 +285,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void cloneFilterSetResult(int n, int n2) {
+    public void cloneFilterSetResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -318,8 +301,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void resetToFactorySettingsResult(int n) {
+    public void resetToFactorySettingsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -335,8 +317,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void invalidData(int[] nArray, int n) {
+    public void invalidData(int[] nArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -352,8 +333,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void getAvailableFoldersResult(int n, String[] stringArray) {
+    public void getAvailableFoldersResult(int n, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -369,8 +349,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void countPicturesInContextResult(int n, int n2, int n3) {
+    public void countPicturesInContextResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -386,8 +365,7 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -403,14 +381,13 @@ implements DSIPictureStoreReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPictureStoreListener dSIPictureStoreListener = (DSIPictureStoreListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPictureStoreDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPictureStoreDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPictureStoreListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPictureStoreDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPictureStoreDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPictureStoreListener, new Object[]{string, string2});
                     continue;
                 }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.DABRadioText;
 
 public class DABRadioTextSerializer {
-    public static void putOptionalDABRadioText(ISerializer iSerializer, DABRadioText dABRadioText) {
+    public static void putOptionalDABRadioText(ISerializer iSerializer, DABRadioText dABRadioText) throws SerializerException {
         boolean bl = dABRadioText == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class DABRadioTextSerializer {
         }
     }
 
-    public static void putOptionalDABRadioTextVarArray(ISerializer iSerializer, DABRadioText[] dABRadioTextArray) {
+    public static void putOptionalDABRadioTextVarArray(ISerializer iSerializer, DABRadioText[] dABRadioTextArray) throws SerializerException {
         boolean bl = dABRadioTextArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class DABRadioTextSerializer {
         }
     }
 
-    public static DABRadioText getOptionalDABRadioText(IDeserializer iDeserializer) {
+    public static DABRadioText getOptionalDABRadioText(IDeserializer iDeserializer) throws SerializerException {
         DABRadioText dABRadioText = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class DABRadioTextSerializer {
         return dABRadioText;
     }
 
-    public static DABRadioText[] getOptionalDABRadioTextVarArray(IDeserializer iDeserializer) {
+    public static DABRadioText[] getOptionalDABRadioTextVarArray(IDeserializer iDeserializer) throws SerializerException {
         DABRadioText[] dABRadioTextArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

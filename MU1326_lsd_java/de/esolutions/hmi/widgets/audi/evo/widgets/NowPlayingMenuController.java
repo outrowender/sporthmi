@@ -39,27 +39,25 @@ public class NowPlayingMenuController
 extends MenuController
 implements AnimationListener,
 ATIPEventListener {
-    public static final int DEFAULT_LAYOUT_INDEX;
-    private static final int NOW_PLAYING_LAYOUT_INDEX;
+    public static final int DEFAULT_LAYOUT_INDEX = 0;
+    private static final int NOW_PLAYING_LAYOUT_INDEX = 1;
     private boolean nowPlayingActive;
     private boolean transitionAnimationRunning;
     private MenuItemMetaData nowPlayingItem;
     private TimerEvent nowPlayingTimerEvent;
     private Job nowPlayingTimer;
-    private long nowPlayingActivationTime = 0;
+    private long nowPlayingActivationTime = 10000L;
     private boolean nowPlayingActivationTimeEnabled = true;
     private float fakeAnimationStart;
     private boolean expectDestroyNowPlayingItem = false;
     private TitleBarWidget titleBar;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.resetNowPlaying();
         this.nowPlayingTimerEvent = new TimerEvent(this);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.restartNowPlayingTimer();
@@ -81,7 +79,6 @@ ATIPEventListener {
         return bl;
     }
 
-    @Override
     public void disconnecting() {
         this.cancelNowPlayingTimer();
         this.nowPlayingTimer = null;
@@ -93,7 +90,6 @@ ATIPEventListener {
         super.disconnecting();
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         if (this.isNowPlayingActive()) {
@@ -101,7 +97,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void animate(int n, float f2) {
         if (n == 78 && this.isNowPlayingAnimationRunning()) {
             float f3 = this.getNowPlayingAnimationProgress();
@@ -120,7 +115,6 @@ ATIPEventListener {
         return this.fakeAnimationStart + f2 * this.getAnimationManager().getAnimationProgress();
     }
 
-    @Override
     public void adjustAnimationStartValuesForRestart() {
         super.adjustAnimationStartValuesForRestart();
         if (this.isNowPlayingAnimationRunning() && this.animationManager.isShortAnimationRunning()) {
@@ -178,11 +172,9 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         this.nowPlayingAnimationFinished();
     }
@@ -216,7 +208,7 @@ ATIPEventListener {
 
     private MenuItemController getNowPlayingWidget() {
         if (!this.nowPlayingItem.isRealized()) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#getNowPlayingWidget: NPS-item %1 was not realized. Realize it now.", (Object)this.nowPlayingItem);
+            menuLogCh.log(100000, "NowPlayingMenuController#getNowPlayingWidget: NPS-item %1 was not realized. Realize it now.", (Object)this.nowPlayingItem);
             this.realizeMenuItem(this.nowPlayingItem);
         }
         return (MenuItemController)this.nowPlayingItem.widget;
@@ -224,25 +216,25 @@ ATIPEventListener {
 
     public void activateNowPlayingOnFocus(boolean bl) {
         if (!this.hasFocusedItem()) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlayingLayout: no item focused");
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlayingLayout: no item focused");
             return;
         }
         MenuItemIndex menuItemIndex = this.getFocusedIndex();
         if (!menuItemIndex.equals(this.getSelectedIndex())) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlayingLayout: focus is not on selected item. Focus: %1, selection: %2", (Object)menuItemIndex, (Object)this.getSelectedIndex());
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlayingLayout: focus is not on selected item. Focus: %1, selection: %2", (Object)menuItemIndex, (Object)this.getSelectedIndex());
             return;
         }
         MenuItemMetaData menuItemMetaData = this.getAnimationManager().getLayoutData().findAnimationItem(menuItemIndex);
         if (menuItemMetaData == null) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlayingLayout: focused item not visible: %1", (Object)menuItemIndex);
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlayingLayout: focused item not visible: %1", (Object)menuItemIndex);
             return;
         }
         if (!menuItemMetaData.isRealized()) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlayingLayout: focused item is not realized: %1", (Object)menuItemIndex);
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlayingLayout: focused item is not realized: %1", (Object)menuItemIndex);
             return;
         }
         if (!(menuItemMetaData.widget instanceof MenuItemController)) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlayingLayout: focused item is not a MenuItemController: %1", (Object)menuItemMetaData.widget);
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlayingLayout: focused item is not a MenuItemController: %1", (Object)menuItemMetaData.widget);
             return;
         }
         this.activateNowPlaying(menuItemMetaData, bl);
@@ -254,18 +246,18 @@ ATIPEventListener {
 
     private void activateNowPlaying(MenuItemMetaData menuItemMetaData, boolean bl) {
         if (this.nowPlayingActive) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlaying: nowPlaying-Mode is already active. nowPlayingItem: %1, requested item: %2", (Object)this.nowPlayingItem, (Object)menuItemMetaData);
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlaying: nowPlaying-Mode is already active. nowPlayingItem: %1, requested item: %2", (Object)this.nowPlayingItem, (Object)menuItemMetaData);
             if (Util.equals(menuItemMetaData, this.nowPlayingItem)) {
                 return;
             }
             this.deactivateNowPlaying(bl);
         }
         if (!this.isNowPlayingModeEnabled(menuItemMetaData)) {
-            menuLogCh.log(-2137614336, "NowPlayingMenuController#activateNowPlaying: nowPlayingMode is disabled for item %1 ", (Object)menuItemMetaData);
+            menuLogCh.log(10000000, "NowPlayingMenuController#activateNowPlaying: nowPlayingMode is disabled for item %1 ", (Object)menuItemMetaData);
             return;
         }
         if (menuItemMetaData.widget == null) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlaying: the controller of the requested item: %1 is null", (Object)menuItemMetaData);
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlaying: the controller of the requested item: %1 is null", (Object)menuItemMetaData);
             return;
         }
         if (((MenuItemController)menuItemMetaData.widget).hasLayoutChoice(1)) {
@@ -274,7 +266,7 @@ ATIPEventListener {
         } else if (this.event != 0) {
             this.fireEventForNowPlaying(menuItemMetaData);
         } else {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#activateNowPlaying: item %1 has no layout for nowPlayingMode and no SM event configured", (Object)menuItemMetaData.index);
+            menuLogCh.log(100000, "NowPlayingMenuController#activateNowPlaying: item %1 has no layout for nowPlayingMode and no SM event configured", (Object)menuItemMetaData.index);
         }
     }
 
@@ -290,7 +282,7 @@ ATIPEventListener {
         this.transitionAnimationRunning = true;
         this.getAnimationManager().heightChanged(menuItemMetaData.index, focusAdvice, false);
         if (!this.getAnimationManager().isShortAnimationRunning()) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#startTransitionAnimation: no animation was started for item: %1", (Object)menuItemMetaData);
+            menuLogCh.log(100000, "NowPlayingMenuController#startTransitionAnimation: no animation was started for item: %1", (Object)menuItemMetaData);
             this.nowPlayingAnimationFinished();
             this.relayout();
             this.transitionAnimationRunning = false;
@@ -298,7 +290,7 @@ ATIPEventListener {
     }
 
     private void fireEventForNowPlaying(MenuItemMetaData menuItemMetaData) {
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#fireEventForNowPlaying: fire SM event for nowPlaying item: %1, event: %2, terminalID: %3", (Object)menuItemMetaData, (long)this.event, (long)this.initContext.getTerminalID());
+        menuLogCh.log(10000000, "NowPlayingMenuController#fireEventForNowPlaying: fire SM event for nowPlaying item: %1, event: %2, terminalID: %3", (Object)menuItemMetaData, (long)this.event, (long)this.initContext.getTerminalID());
         this.fireSMEvent(this.initContext.getTerminalID(), this.event);
     }
 
@@ -309,7 +301,7 @@ ATIPEventListener {
         this.nowPlayingItem = menuItemMetaData;
         MenuItemController menuItemController = this.getNowPlayingWidget();
         int n = this.getNowPlayingItemHeight(menuItemMetaData);
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#activateNowPlayingWithLayoutChange: activate nowPlayingScreen on item: %2, height: %3, immediately: %1", (Object)bl, (Object)menuItemMetaData, (long)n);
+        menuLogCh.log(10000000, "NowPlayingMenuController#activateNowPlayingWithLayoutChange: activate nowPlayingScreen on item: %2, height: %3, immediately: %1", (Object)bl, (Object)menuItemMetaData, (long)n);
         menuItemController.setPreferredHeight(n);
         if (bl) {
             menuItemController.selectLayoutManager(1);
@@ -325,10 +317,10 @@ ATIPEventListener {
 
     public void deactivateNowPlaying(boolean bl) {
         if (!this.nowPlayingActive) {
-            menuLogCh.log(-1601830656, "NowPlayingMenuController#deactivateNowPlaying: nowPlaying-Mode is not active. nowPlayingItem: %1", (Object)this.nowPlayingItem);
+            menuLogCh.log(100000, "NowPlayingMenuController#deactivateNowPlaying: nowPlaying-Mode is not active. nowPlayingItem: %1", (Object)this.nowPlayingItem);
             return;
         }
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#deactivateNowPlaying: deactivate nowPlayingScreen from item: %1", (Object)this.nowPlayingItem);
+        menuLogCh.log(10000000, "NowPlayingMenuController#deactivateNowPlaying: deactivate nowPlayingScreen from item: %1", (Object)this.nowPlayingItem);
         MenuItemIndex menuItemIndex = this.nowPlayingItem.index;
         this.deactivateNowPlayingInternal(bl);
         if (bl) {
@@ -352,7 +344,6 @@ ATIPEventListener {
         return new WidgetFocusAdvice(n, true);
     }
 
-    @Override
     public void mergeCursors(FocusAdvice focusAdvice) {
         MenuItemIndex menuItemIndex = this.getFocusedIndex();
         super.mergeCursors(focusAdvice);
@@ -389,7 +380,7 @@ ATIPEventListener {
     }
 
     private void resetNowPlaying() {
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#resetNowPlaying: reset nowPlaying state. old old nowPlayingFlag: %1, nowPlayingItem: %2", this.nowPlayingActive, (Object)this.nowPlayingItem);
+        menuLogCh.log(10000000, "NowPlayingMenuController#resetNowPlaying: reset nowPlaying state. old old nowPlayingFlag: %1, nowPlayingItem: %2", this.nowPlayingActive, (Object)this.nowPlayingItem);
         this.resetNowPlayingItemWidget(this.nowPlayingItem);
         this.nowPlayingActive = false;
         this.transitionAnimationRunning = false;
@@ -413,7 +404,6 @@ ATIPEventListener {
         return this.getLayout().getContentAreaHeight() - this.getMenuItemGlassplateInsets(menuItemMetaData, true) - this.getMenuItemGlassplateInsets(menuItemMetaData, false);
     }
 
-    @Override
     protected void focusedItemHasChanged(boolean bl, boolean bl2) {
         super.focusedItemHasChanged(bl, bl2);
         if (this.isNowPlayingActive()) {
@@ -424,7 +414,6 @@ ATIPEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected MenuItemMetaData replaceItem(MenuItemMetaData menuItemMetaData) {
         MenuItemMetaData menuItemMetaData2;
         this.expectDestroyNowPlayingItem = Util.equals(menuItemMetaData, this.nowPlayingItem);
@@ -438,21 +427,20 @@ ATIPEventListener {
             if (menuItemMetaData2 != null) {
                 this.resetNowPlayingItemWidget(this.nowPlayingItem);
                 this.nowPlayingItem = menuItemMetaData2;
-                menuLogCh.log(-2137614336, "NowPlayingMenuController#replaceItem: nowPlayingItem was replaced: %1", (Object)menuItemMetaData2);
+                menuLogCh.log(10000000, "NowPlayingMenuController#replaceItem: nowPlayingItem was replaced: %1", (Object)menuItemMetaData2);
                 this.realizeMenuItem(menuItemMetaData2);
                 this.nowPlayingActive = false;
                 this.activateNowPlaying(menuItemMetaData2, true);
                 this.nowPlayingActive = true;
                 this.nowPlayingItem = menuItemMetaData2;
             } else {
-                menuLogCh.log(-1601830656, "NowPlayingMenuController#replaceItem: nowPlayingItem was destroyed: %1, focus: %2", (Object)menuItemMetaData, (Object)this.getFocusedIndex());
+                menuLogCh.log(100000, "NowPlayingMenuController#replaceItem: nowPlayingItem was destroyed: %1, focus: %2", (Object)menuItemMetaData, (Object)this.getFocusedIndex());
                 this.resetNowPlaying();
             }
         }
         return menuItemMetaData2;
     }
 
-    @Override
     public void destroyMenuItem(MenuItemMetaData menuItemMetaData) {
         if (Util.equals(menuItemMetaData, this.nowPlayingItem)) {
             this.resetNowPlayingItemWidget(menuItemMetaData);
@@ -460,7 +448,7 @@ ATIPEventListener {
                 this.resetNowPlaying();
                 int n = this.getNowPlayingItemHeight(menuItemMetaData);
                 if (menuItemMetaData.heightAfter == n) {
-                    menuLogCh.log(-1601830656, "NowPlayingMenuController#destroyMenuItem: nowPlayingItem destroyed: %1, focus: %2", (Object)menuItemMetaData, (Object)this.getFocusedIndex());
+                    menuLogCh.log(100000, "NowPlayingMenuController#destroyMenuItem: nowPlayingItem destroyed: %1, focus: %2", (Object)menuItemMetaData, (Object)this.getFocusedIndex());
                     int n2 = this.getMenuItemHeight(menuItemMetaData, this.isExpanded(menuItemMetaData.index));
                     if (menuItemMetaData.heightAfter == menuItemMetaData.heightBefore) {
                         menuItemMetaData.heightBefore = n2;
@@ -476,7 +464,6 @@ ATIPEventListener {
         super.destroyMenuItem(menuItemMetaData);
     }
 
-    @Override
     public int getMenuItemHeight(MenuItemIndex menuItemIndex, boolean bl) {
         if (this.nowPlayingActive && menuItemIndex.equals(this.nowPlayingItem.index)) {
             return this.getNowPlayingItemHeight(this.nowPlayingItem);
@@ -484,7 +471,6 @@ ATIPEventListener {
         return super.getMenuItemHeight(menuItemIndex, bl);
     }
 
-    @Override
     public int getMenuItemHeight(MenuItemMetaData menuItemMetaData, boolean bl) {
         if (this.nowPlayingActive && menuItemMetaData.index.equals(this.nowPlayingItem.index)) {
             return this.getNowPlayingItemHeight(this.nowPlayingItem);
@@ -492,11 +478,10 @@ ATIPEventListener {
         return super.getMenuItemHeight(menuItemMetaData, bl);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         this.cancelNowPlayingTimer();
         if (this.isNowPlayingActive() && keyEvent.getKeyCode() == 15) {
-            menuLogCh.log(-2137614336, "NowPlayingMenuController#keyPressed: Back clicked, deactivate nowPlayingMode (%1)", (Object)this);
+            menuLogCh.log(10000000, "NowPlayingMenuController#keyPressed: Back clicked, deactivate nowPlayingMode (%1)", (Object)this);
             this.deactivateNowPlaying(false);
             keyEvent.consume();
             return;
@@ -504,17 +489,15 @@ ATIPEventListener {
         super.keyPressed(keyEvent);
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         super.keyReleased(keyEvent);
         this.restartNowPlayingTimer();
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.isNowPlayingActive()) {
             if (wheelButtonEvent.getClickCount() == 0) {
-                menuLogCh.log(-2137614336, "NowPlayingMenuController#keyTurned: ignore hDDS turn on nowPlayingScreen. subticks: %2, event: %1", (Object)wheelButtonEvent, (long)wheelButtonEvent.getSubClickCount());
+                menuLogCh.log(10000000, "NowPlayingMenuController#keyTurned: ignore hDDS turn on nowPlayingScreen. subticks: %2, event: %1", (Object)wheelButtonEvent, (long)wheelButtonEvent.getSubClickCount());
                 return;
             }
             this.deactivateNowPlaying(false);
@@ -524,19 +507,16 @@ ATIPEventListener {
         super.keyTurned(wheelButtonEvent);
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         this.cancelNowPlayingTimer();
         super.touchPadPressed(touchEvent);
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         super.touchPadReleased(touchEvent);
         this.restartNowPlayingTimer();
     }
 
-    @Override
     public void focusItemImmediately(MenuItemIndex menuItemIndex, FocusAdvice focusAdvice) {
         if (this.isNowPlayingActive() && !Util.equals(menuItemIndex, this.getFocusedIndex())) {
             this.deactivateNowPlaying(true);
@@ -547,15 +527,15 @@ ATIPEventListener {
     protected void restartNowPlayingTimer() {
         this.cancelNowPlayingTimer();
         if (this.nowPlayingActive) {
-            menuLogCh.log(-2137614336, "NowPlayingMenuController#restartNowPlayingTimer: nowPlaying already active on item: %1", (Object)this.nowPlayingItem);
+            menuLogCh.log(10000000, "NowPlayingMenuController#restartNowPlayingTimer: nowPlaying already active on item: %1", (Object)this.nowPlayingItem);
             return;
         }
         if (!this.nowPlayingActivationTimeEnabled) {
-            menuLogCh.log(-2137614336, "NowPlayingMenuController#restartNowPlayingTimer: nowPlayingTimer is disabled");
+            menuLogCh.log(10000000, "NowPlayingMenuController#restartNowPlayingTimer: nowPlayingTimer is disabled");
             return;
         }
         if (this.nowPlayingActivationTime > 0L) {
-            menuLogCh.log(-2137614336, "NowPlayingMenuController#restartNowPlayingTimer: timeout: %1", this.nowPlayingActivationTime);
+            menuLogCh.log(10000000, "NowPlayingMenuController#restartNowPlayingTimer: timeout: %1", this.nowPlayingActivationTime);
             this.nowPlayingTimer = hmiService.getEventDispatcher().postEvent(this.nowPlayingTimerEvent, this.nowPlayingActivationTime);
         } else {
             menuLogCh.log(10000, "NowPlayingMenuController#restartNowPlayingTimer: timeout is invalid: %1", this.nowPlayingActivationTime);
@@ -564,7 +544,7 @@ ATIPEventListener {
 
     private void cancelNowPlayingTimer() {
         if (this.isNowPlayingTimerRunning()) {
-            menuLogCh.log(-2137614336, "NowPlayingMenuController#cancelNowPlayingTimer");
+            menuLogCh.log(10000000, "NowPlayingMenuController#cancelNowPlayingTimer");
             this.nowPlayingTimer.cancel();
             this.nowPlayingTimer = null;
         }
@@ -574,9 +554,8 @@ ATIPEventListener {
         return this.nowPlayingTimer != null && !this.nowPlayingTimer.isCanceled();
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#processEvent is called - event: %1 expectedEvent: %2, timer: %3", (Object)aTIPEvent, (Object)this.nowPlayingTimerEvent, (Object)this.nowPlayingTimer);
+        menuLogCh.log(10000000, "NowPlayingMenuController#processEvent is called - event: %1 expectedEvent: %2, timer: %3", (Object)aTIPEvent, (Object)this.nowPlayingTimerEvent, (Object)this.nowPlayingTimer);
         if (Util.equals(aTIPEvent, this.nowPlayingTimerEvent)) {
             this.activateNowPlayingOnFocus(false);
         }
@@ -590,7 +569,7 @@ ATIPEventListener {
         if (this.nowPlayingActivationTime == l) {
             return;
         }
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#setNowPlayingActivationTime: changed timeout from %1 to %2", this.nowPlayingActivationTime, l);
+        menuLogCh.log(10000000, "NowPlayingMenuController#setNowPlayingActivationTime: changed timeout from %1 to %2", this.nowPlayingActivationTime, l);
         this.nowPlayingActivationTime = l;
         if (this.isConnected()) {
             this.restartNowPlayingTimer();
@@ -605,18 +584,17 @@ ATIPEventListener {
         if (this.nowPlayingActivationTimeEnabled == bl) {
             return;
         }
-        menuLogCh.log(-2137614336, "NowPlayingMenuController#setNowPlayingActivationTimeEnabled: changed timeout-enabled from %1 to %2", this.nowPlayingActivationTimeEnabled, bl);
+        menuLogCh.log(10000000, "NowPlayingMenuController#setNowPlayingActivationTimeEnabled: changed timeout-enabled from %1 to %2", this.nowPlayingActivationTimeEnabled, bl);
         this.nowPlayingActivationTimeEnabled = bl;
         if (this.isConnected()) {
             this.restartNowPlayingTimer();
         }
     }
 
-    @Override
     public void setSDSActive(boolean bl) {
         super.setSDSActive(bl);
         if (bl && this.isNowPlayingActive()) {
-            menuLogCh.log(1078071040, "NowPlayingMenuController#setSDSActive: SDS activated, deactivate NowPlayingScreen.");
+            menuLogCh.log(1000000, "NowPlayingMenuController#setSDSActive: SDS activated, deactivate NowPlayingScreen.");
             this.deactivateNowPlaying(false);
         }
     }

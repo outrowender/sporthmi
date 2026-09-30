@@ -4,7 +4,6 @@
 package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.concurrent.BrokenBarrierException;
-import edu.emory.mathcs.backport.java.util.concurrent.CyclicBarrier$Generation;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeoutException;
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
@@ -13,13 +12,13 @@ public class CyclicBarrier {
     private final Object lock = new Object();
     private final int parties;
     private final Runnable barrierCommand;
-    private CyclicBarrier$Generation generation = new CyclicBarrier$Generation(null);
+    private Generation generation = new Generation();
     private int count;
 
     private void nextGeneration() {
         this.lock.notifyAll();
         this.count = this.parties;
-        this.generation = new CyclicBarrier$Generation(null);
+        this.generation = new Generation();
     }
 
     private void breakBarrier() {
@@ -34,12 +33,12 @@ public class CyclicBarrier {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    private int dowait(boolean bl, long l) {
+    private int dowait(boolean bl, long l) throws InterruptedException, BrokenBarrierException, TimeoutException {
         Object object = this.lock;
         synchronized (object) {
             int n;
-            CyclicBarrier$Generation cyclicBarrier$Generation = this.generation;
-            if (cyclicBarrier$Generation.broken) {
+            Generation generation = this.generation;
+            if (generation.broken) {
                 throw new BrokenBarrierException();
             }
             if (Thread.interrupted()) {
@@ -77,17 +76,17 @@ public class CyclicBarrier {
                         }
                     }
                     catch (InterruptedException interruptedException) {
-                        if (cyclicBarrier$Generation == this.generation && !cyclicBarrier$Generation.broken) {
+                        if (generation == this.generation && !generation.broken) {
                             this.breakBarrier();
                             throw interruptedException;
                         }
                         Thread.currentThread().interrupt();
                     }
                 }
-                if (cyclicBarrier$Generation.broken) {
+                if (generation.broken) {
                     throw new BrokenBarrierException();
                 }
-                if (cyclicBarrier$Generation != this.generation) {
+                if (generation != this.generation) {
                     return n;
                 }
                 if (bl && l <= 0L) {
@@ -116,7 +115,7 @@ public class CyclicBarrier {
         return this.parties;
     }
 
-    public int await() {
+    public int await() throws InterruptedException, BrokenBarrierException {
         try {
             return this.dowait(false, 0L);
         }
@@ -125,7 +124,7 @@ public class CyclicBarrier {
         }
     }
 
-    public int await(long l, TimeUnit timeUnit) {
+    public int await(long l, TimeUnit timeUnit) throws InterruptedException, BrokenBarrierException, TimeoutException {
         return this.dowait(true, timeUnit.toNanos(l));
     }
 
@@ -157,6 +156,13 @@ public class CyclicBarrier {
         Object object = this.lock;
         synchronized (object) {
             return this.parties - this.count;
+        }
+    }
+
+    private static class Generation {
+        boolean broken = false;
+
+        private Generation() {
         }
     }
 }

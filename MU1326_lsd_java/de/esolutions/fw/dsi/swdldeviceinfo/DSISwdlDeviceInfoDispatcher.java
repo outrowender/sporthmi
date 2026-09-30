@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.swdldeviceinfo;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.swdldeviceinfo.DSISwdlDeviceInfoReply;
 import de.esolutions.fw.comm.dsi.swdldeviceinfo.impl.DSISwdlDeviceInfoReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSISwdlDeviceInfoReply {
         super(n, (class$org$dsi$ifc$swdldeviceinfo$DSISwdlDeviceInfoListener == null ? (class$org$dsi$ifc$swdldeviceinfo$DSISwdlDeviceInfoListener = DSISwdlDeviceInfoDispatcher.class$("org.dsi.ifc.swdldeviceinfo.DSISwdlDeviceInfoListener")) : class$org$dsi$ifc$swdldeviceinfo$DSISwdlDeviceInfoListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSummaryChanged(String string, int n) {
+    public void updateSummaryChanged(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getDevices(String[] stringArray, int[] nArray) {
+    public void getDevices(String[] stringArray, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -73,8 +71,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getModules(int n, String[] stringArray, int[] nArray, short[] sArray) {
+    public void getModules(int n, String[] stringArray, int[] nArray, short[] sArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -90,8 +87,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getLanguages(int n, String[] stringArray, short s, short s2, short s3) {
+    public void getLanguages(int n, String[] stringArray, short s, short s2, short s3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -107,8 +103,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getErrors(int n, int[] nArray, short[] sArray) {
+    public void getErrors(int n, int[] nArray, short[] sArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -124,8 +119,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void isDataModule(int n, int n2, boolean bl) {
+    public void isDataModule(int n, int n2, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -141,8 +135,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void isNoExclusiveBoloUpdate(int n, int n2, boolean bl) {
+    public void isNoExclusiveBoloUpdate(int n, int n2, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -158,8 +151,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getVersions(int n, int n2, long[] lArray) {
+    public void getVersions(int n, int n2, long[] lArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -175,8 +167,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getTargetVersions(int n, int n2, long[] lArray) {
+    public void getTargetVersions(int n, int n2, long[] lArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -192,8 +183,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getAdditionalInfo(int n, int n2, int[] nArray) {
+    public void getAdditionalInfo(int n, int n2, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -209,8 +199,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getFileNames(int n, int n2, String[] stringArray) {
+    public void getFileNames(int n, int n2, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -226,8 +215,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getFileDetails(int n, int n2, int n3, long l, long l2, long l3, boolean bl, boolean bl2, String string, String string2) {
+    public void getFileDetails(int n, int n2, int n3, long l, long l2, long l3, boolean bl, boolean bl2, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -243,8 +231,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getInfoFilePath(int n, String string, String string2) {
+    public void getInfoFilePath(int n, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -260,8 +247,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getNumberOfPopups(int n) {
+    public void getNumberOfPopups(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -277,8 +263,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void getPopup(int n, int n2, String string, int n3, int n4, int n5, String string2) {
+    public void getPopup(int n, int n2, String string, int n3, int n4, int n5, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -294,8 +279,7 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -311,14 +295,13 @@ implements DSISwdlDeviceInfoReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISwdlDeviceInfoListener dSISwdlDeviceInfoListener = (DSISwdlDeviceInfoListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlDeviceInfoDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlDeviceInfoDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISwdlDeviceInfoListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlDeviceInfoDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlDeviceInfoDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISwdlDeviceInfoListener, new Object[]{string, string2});
                     continue;
                 }

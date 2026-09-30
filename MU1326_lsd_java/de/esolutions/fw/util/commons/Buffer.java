@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.util.commons;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
@@ -45,7 +46,7 @@ public final class Buffer {
     private void expandCapacity(int n) {
         int n2 = (this.value.length + 1) * 2;
         if (n2 < 0) {
-            n2 = -129;
+            n2 = Integer.MAX_VALUE;
         } else if (n > n2) {
             n2 = n;
         }
@@ -183,12 +184,12 @@ public final class Buffer {
         return cArray;
     }
 
-    public void writeTo(Writer writer, String string) {
+    public void writeTo(Writer writer, String string) throws IOException {
         writer.write(this.value, 0, this.count);
         writer.write(string);
     }
 
-    public void writeBytesTo(OutputStream outputStream) {
+    public void writeBytesTo(OutputStream outputStream) throws IOException {
         for (int i2 = 0; i2 < this.count; ++i2) {
             outputStream.write((byte)this.value[i2]);
         }

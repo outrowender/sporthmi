@@ -10,10 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.displaymanagement.DSIDisplayManagement;
 import de.esolutions.fw.comm.dsi.displaymanagement.DSIDisplayManagementC;
 import de.esolutions.fw.comm.dsi.displaymanagement.DSIDisplayManagementReply;
-import de.esolutions.fw.comm.dsi.displaymanagement.impl.DSIDisplayManagementProxy$1;
-import de.esolutions.fw.comm.dsi.displaymanagement.impl.DSIDisplayManagementProxy$2;
-import de.esolutions.fw.comm.dsi.displaymanagement.impl.DSIDisplayManagementProxy$3;
 import de.esolutions.fw.comm.dsi.displaymanagement.impl.DSIDisplayManagementReplyService;
+import de.esolutions.fw.comm.dsi.displaymanagement.impl.DisplayContextSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.displaymanagement.DisplayContext;
@@ -35,14 +36,17 @@ DSIDisplayManagementC {
         return this.proxy;
     }
 
-    @Override
-    public void declareContexts(DisplayContext[] displayContextArray) {
-        DSIDisplayManagementProxy$1 dSIDisplayManagementProxy$1 = new DSIDisplayManagementProxy$1(this, displayContextArray);
-        this.proxy.remoteCallMethod((short)3, dSIDisplayManagementProxy$1);
+    public void declareContexts(final DisplayContext[] displayContextArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DisplayContextSerializer.putOptionalDisplayContextVarArray(iSerializer, displayContextArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void switchContext(int n, int n2, int n3) {
+    public void switchContext(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -55,8 +59,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setOpacity(int n, int n2, int n3) {
+    public void setOpacity(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -69,8 +72,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void fadeToOpacity(int n, int n2, int n3, int n4) {
+    public void fadeToOpacity(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -84,8 +86,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setPosition(int n, int n2, int n3, int n4) {
+    public void setPosition(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -99,8 +100,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void getExtents(int n) {
+    public void getExtents(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -111,8 +111,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void takeScreenshot(int n, String string) {
+    public void takeScreenshot(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -124,8 +123,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void lockDisplay(int n) {
+    public void lockDisplay(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -136,8 +134,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void unlockDisplay(int n) {
+    public void unlockDisplay(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -148,8 +145,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void switchDisplayPower(int n, int n2) {
+    public void switchDisplayPower(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -161,8 +157,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void getDisplayPower(int n) {
+    public void getDisplayPower(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -173,8 +168,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setDisplayBrightness(int n, int n2) {
+    public void setDisplayBrightness(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -186,8 +180,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void getDisplayBrightness(int n) {
+    public void getDisplayBrightness(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -198,8 +191,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setBrightness(int n, int n2) {
+    public void setBrightness(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -211,8 +203,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void getBrightness(int n) {
+    public void getBrightness(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -223,8 +214,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setContrast(int n, int n2) {
+    public void setContrast(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -236,8 +226,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void getContrast(int n) {
+    public void getContrast(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -248,8 +237,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setColor(int n, int n2) {
+    public void setColor(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -261,8 +249,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void getColor(int n) {
+    public void getColor(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -273,8 +260,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setTint(int n, int n2) {
+    public void setTint(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -286,8 +272,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void getTint(int n) {
+    public void getTint(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -298,8 +283,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
+    public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -319,8 +303,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void getDisplayableInfo(int n, int n2) {
+    public void getDisplayableInfo(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -332,8 +315,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void setDimension(int n, int n2, int n3, int n4) {
+    public void setDimension(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -347,8 +329,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)47, genericSerializable);
     }
 
-    @Override
-    public void setScaleMode(int n, int n2, int n3) {
+    public void setScaleMode(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -361,8 +342,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void takeScreenshotOnExternalStorage(int n, String string) {
+    public void takeScreenshotOnExternalStorage(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -374,8 +354,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)49, genericSerializable);
     }
 
-    @Override
-    public void setDisplayType(int n, int n2) {
+    public void setDisplayType(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -387,8 +366,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)55, genericSerializable);
     }
 
-    @Override
-    public void getDisplayType(int n) {
+    public void getDisplayType(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -399,8 +377,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void setUpdateRate(int n, int n2) {
+    public void setUpdateRate(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -412,8 +389,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)57, genericSerializable);
     }
 
-    @Override
-    public void getUpdateRate(int n) {
+    public void getUpdateRate(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -424,8 +400,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)53, genericSerializable);
     }
 
-    @Override
-    public void startComponent(int n, int n2, int n3) {
+    public void startComponent(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -438,8 +413,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)59, genericSerializable);
     }
 
-    @Override
-    public void stopComponent(int n, int n2, int n3) {
+    public void stopComponent(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -452,20 +426,29 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void createImageDisplayable(ResourceLocator resourceLocator, int n) {
-        DSIDisplayManagementProxy$2 dSIDisplayManagementProxy$2 = new DSIDisplayManagementProxy$2(this, resourceLocator, n);
-        this.proxy.remoteCallMethod((short)63, dSIDisplayManagementProxy$2);
+    public void createImageDisplayable(final ResourceLocator resourceLocator, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)63, iSerializable);
     }
 
-    @Override
-    public void requestUpdateImageDisplayable(ResourceLocator resourceLocator, int n) {
-        DSIDisplayManagementProxy$3 dSIDisplayManagementProxy$3 = new DSIDisplayManagementProxy$3(this, resourceLocator, n);
-        this.proxy.remoteCallMethod((short)69, dSIDisplayManagementProxy$3);
+    public void requestUpdateImageDisplayable(final ResourceLocator resourceLocator, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)69, iSerializable);
     }
 
-    @Override
-    public void destroyImageDisplayable(int n) {
+    public void destroyImageDisplayable(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -476,8 +459,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)65, genericSerializable);
     }
 
-    @Override
-    public void initAnnotations(int n) {
+    public void initAnnotations(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -488,8 +470,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)67, genericSerializable);
     }
 
-    @Override
-    public void setAnnotationData(int n, int n2, String string) {
+    public void setAnnotationData(int n, int n2, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -502,8 +483,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)71, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -514,8 +494,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -526,13 +505,11 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)18, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -543,8 +520,7 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -555,13 +531,11 @@ DSIDisplayManagementC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

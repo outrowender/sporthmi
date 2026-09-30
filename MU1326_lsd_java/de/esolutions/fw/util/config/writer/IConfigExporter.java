@@ -5,45 +5,33 @@ package de.esolutions.fw.util.config.writer;
 
 import de.esolutions.fw.util.config.model.ConfigArray;
 import de.esolutions.fw.util.config.model.ConfigDictionary;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public interface IConfigExporter {
-    default public void beginDictionary(ConfigDictionary configDictionary, int n) {
-    }
+    public void beginDictionary(ConfigDictionary var1, int var2) throws WriteConfigException;
 
-    default public void endDictionary() {
-    }
+    public void endDictionary() throws WriteConfigException;
 
-    default public void beginArray(ConfigArray configArray, int n) {
-    }
+    public void beginArray(ConfigArray var1, int var2) throws WriteConfigException;
 
-    default public void endArray() {
-    }
+    public void endArray() throws WriteConfigException;
 
-    default public void beginDictEntry(int n, String string) {
-    }
+    public void beginDictEntry(int var1, String var2) throws WriteConfigException;
 
-    default public void endDictEntry(boolean bl) {
-    }
+    public void endDictEntry(boolean var1) throws WriteConfigException;
 
-    default public void beginArrayEntry(int n) {
-    }
+    public void beginArrayEntry(int var1) throws WriteConfigException;
 
-    default public void endArrayEntry(boolean bl) {
-    }
+    public void endArrayEntry(boolean var1) throws WriteConfigException;
 
-    default public void writeString(String string) {
-    }
+    public void writeString(String var1) throws WriteConfigException;
 
-    default public void writeInteger(int n) {
-    }
+    public void writeInteger(int var1) throws WriteConfigException;
 
-    default public void writeDouble(double d2) {
-    }
+    public void writeDouble(double var1) throws WriteConfigException;
 
-    default public void writeNull() {
-    }
+    public void writeNull() throws WriteConfigException;
 
-    default public void writeBoolean(boolean bl) {
-    }
+    public void writeBoolean(boolean var1) throws WriteConfigException;
 }
 

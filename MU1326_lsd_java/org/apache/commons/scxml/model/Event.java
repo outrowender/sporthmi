@@ -8,12 +8,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.scxml.ErrorReporter;
 import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCInstance;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.TriggerEvent;
 import org.apache.commons.scxml.model.Action;
+import org.apache.commons.scxml.model.ModelException;
 
 public class Event
 extends Action {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String name;
 
     public final String getName() {
@@ -24,10 +26,9 @@ extends Action {
         this.name = string;
     }
 
-    @Override
-    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
+    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) throws ModelException, SCXMLExpressionException {
         if (log.isDebugEnabled()) {
-            log.debug(new StringBuffer().append("<event>: Adding event named '").append(this.name).append("' to list of derived events.").toString());
+            log.debug("<event>: Adding event named '" + this.name + "' to list of derived events.");
         }
         TriggerEvent triggerEvent = new TriggerEvent(this.name, 3);
         collection.add(triggerEvent);

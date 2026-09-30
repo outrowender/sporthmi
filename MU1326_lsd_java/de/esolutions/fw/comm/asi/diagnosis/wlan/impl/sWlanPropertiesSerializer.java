@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.wlan.impl;
 import de.esolutions.fw.comm.asi.diagnosis.wlan.sWlanProperties;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sWlanPropertiesSerializer {
-    public static void putOptionalsWlanProperties(ISerializer iSerializer, sWlanProperties sWlanProperties2) {
+    public static void putOptionalsWlanProperties(ISerializer iSerializer, sWlanProperties sWlanProperties2) throws SerializerException {
         boolean bl = sWlanProperties2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class sWlanPropertiesSerializer {
         }
     }
 
-    public static void putOptionalsWlanPropertiesVarArray(ISerializer iSerializer, sWlanProperties[] sWlanPropertiesArray) {
+    public static void putOptionalsWlanPropertiesVarArray(ISerializer iSerializer, sWlanProperties[] sWlanPropertiesArray) throws SerializerException {
         boolean bl = sWlanPropertiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class sWlanPropertiesSerializer {
         }
     }
 
-    public static sWlanProperties getOptionalsWlanProperties(IDeserializer iDeserializer) {
+    public static sWlanProperties getOptionalsWlanProperties(IDeserializer iDeserializer) throws SerializerException {
         sWlanProperties sWlanProperties2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class sWlanPropertiesSerializer {
         return sWlanProperties2;
     }
 
-    public static sWlanProperties[] getOptionalsWlanPropertiesVarArray(IDeserializer iDeserializer) {
+    public static sWlanProperties[] getOptionalsWlanPropertiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         sWlanProperties[] sWlanPropertiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

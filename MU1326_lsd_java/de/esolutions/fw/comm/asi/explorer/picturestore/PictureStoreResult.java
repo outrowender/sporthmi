@@ -7,11 +7,11 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface PictureStoreResult
 extends IEnum {
-    public static final int RESULT_SUCCESS;
-    public static final int RESULT_NOSLOTAVAILABLE;
-    public static final int RESULT_IOERROR;
-    public static final int RESULT_PICTURENOTFOUND;
-    public static final int RESULT_INTERNALERROR;
-    public static final int RESULT_WRONG_PARAMETER;
+    public static final int RESULT_SUCCESS = 0;
+    public static final int RESULT_NOSLOTAVAILABLE = 1;
+    public static final int RESULT_IOERROR = 2;
+    public static final int RESULT_PICTURENOTFOUND = 3;
+    public static final int RESULT_INTERNALERROR = 4;
+    public static final int RESULT_WRONG_PARAMETER = 5;
 }
 

@@ -10,10 +10,12 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.calendar.DSICalendar;
 import de.esolutions.fw.comm.dsi.calendar.DSICalendarC;
 import de.esolutions.fw.comm.dsi.calendar.DSICalendarReply;
-import de.esolutions.fw.comm.dsi.calendar.impl.DSICalendarProxy$1;
-import de.esolutions.fw.comm.dsi.calendar.impl.DSICalendarProxy$2;
-import de.esolutions.fw.comm.dsi.calendar.impl.DSICalendarProxy$3;
+import de.esolutions.fw.comm.dsi.calendar.impl.CalendarConfigSerializer;
 import de.esolutions.fw.comm.dsi.calendar.impl.DSICalendarReplyService;
+import de.esolutions.fw.comm.dsi.calendar.impl.ProfileInfoSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.CalendarConfig;
@@ -36,14 +38,18 @@ DSICalendarC {
         return this.proxy;
     }
 
-    @Override
-    public void getCalendarSummaries(DateTime dateTime, DateTime dateTime2) {
-        DSICalendarProxy$1 dSICalendarProxy$1 = new DSICalendarProxy$1(this, dateTime, dateTime2);
-        this.proxy.remoteCallMethod((short)7, dSICalendarProxy$1);
+    public void getCalendarSummaries(final DateTime dateTime, final DateTime dateTime2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DateTimeSerializer.putOptionalDateTime(iSerializer, dateTime);
+                DateTimeSerializer.putOptionalDateTime(iSerializer, dateTime2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void getCalendarEntry(long l) {
+    public void getCalendarEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -54,14 +60,17 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setCalendarConfig(CalendarConfig calendarConfig) {
-        DSICalendarProxy$2 dSICalendarProxy$2 = new DSICalendarProxy$2(this, calendarConfig);
-        this.proxy.remoteCallMethod((short)12, dSICalendarProxy$2);
+    public void setCalendarConfig(final CalendarConfig calendarConfig) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CalendarConfigSerializer.putOptionalCalendarConfig(iSerializer, calendarConfig);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void getCalendarConfig(long l) {
+    public void getCalendarConfig(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -72,8 +81,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setAlarm(long l, long l2) {
+    public void setAlarm(long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -85,8 +93,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void getAlarm(long l) {
+    public void getAlarm(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -97,8 +104,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void getEmailAddresses(long l) {
+    public void getEmailAddresses(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -109,8 +115,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void getTelephoneNumbers(long l) {
+    public void getTelephoneNumbers(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -121,14 +126,17 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void insertProfile(ProfileInfo profileInfo) {
-        DSICalendarProxy$3 dSICalendarProxy$3 = new DSICalendarProxy$3(this, profileInfo);
-        this.proxy.remoteCallMethod((short)30, dSICalendarProxy$3);
+    public void insertProfile(final ProfileInfo profileInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ProfileInfoSerializer.putOptionalProfileInfo(iSerializer, profileInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)30, iSerializable);
     }
 
-    @Override
-    public void deleteProfile(long l) {
+    public void deleteProfile(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -139,8 +147,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -151,8 +158,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -163,13 +169,11 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -180,8 +184,7 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -192,13 +195,11 @@ DSICalendarC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

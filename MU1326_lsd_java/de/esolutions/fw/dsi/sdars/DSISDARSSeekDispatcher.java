@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.sdars;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.sdars.DSISDARSSeekReply;
 import de.esolutions.fw.comm.dsi.sdars.impl.DSISDARSSeekReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSISDARSSeekReply {
         super(n, (class$org$dsi$ifc$sdars$DSISDARSSeekListener == null ? (class$org$dsi$ifc$sdars$DSISDARSSeekListener = DSISDARSSeekDispatcher.class$("org.dsi.ifc.sdars.DSISDARSSeekListener")) : class$org$dsi$ifc$sdars$DSISDARSSeekListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSeekPossibility(SeekPossibility seekPossibility, int n) {
+    public void updateSeekPossibility(SeekPossibility seekPossibility, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void updateSeekList(SeekEntry[] seekEntryArray, int n) {
+    public void updateSeekList(SeekEntry[] seekEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -91,8 +89,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void updateLeagueList(LeagueEntry[] leagueEntryArray, int n) {
+    public void updateLeagueList(LeagueEntry[] leagueEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -120,8 +117,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void updateTrafficWeatherList(TrafficWxEntry[] trafficWxEntryArray, int n) {
+    public void updateTrafficWeatherList(TrafficWxEntry[] trafficWxEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -149,8 +145,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void updateSeekAlert(SeekAlert seekAlert, int n) {
+    public void updateSeekAlert(SeekAlert seekAlert, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -178,8 +173,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void setSeekCommandResult(int n) {
+    public void setSeekCommandResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -195,8 +189,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void manageSeekResult(int n) {
+    public void manageSeekResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -212,8 +205,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void teamsOfLeague(TeamEntry[] teamEntryArray) {
+    public void teamsOfLeague(TeamEntry[] teamEntryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -229,8 +221,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void leagues(LeagueEntry[] leagueEntryArray) {
+    public void leagues(LeagueEntry[] leagueEntryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -246,8 +237,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void updateRegisteredTeams(TeamEntry[] teamEntryArray, int n) {
+    public void updateRegisteredTeams(TeamEntry[] teamEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -275,8 +265,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -304,8 +293,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -321,8 +309,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -338,8 +325,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -355,8 +341,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -372,8 +357,7 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -389,14 +373,13 @@ implements DSISDARSSeekReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISDARSSeekListener dSISDARSSeekListener = (DSISDARSSeekListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISDARSSeekDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISDARSSeekDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISDARSSeekListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISDARSSeekDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISDARSSeekDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISDARSSeekListener, new Object[]{string, string2});
                     continue;
                 }

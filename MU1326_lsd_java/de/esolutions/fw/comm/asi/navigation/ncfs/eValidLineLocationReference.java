@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eValidLineLocationReference
 extends IEnum {
-    public static final int VALID_LR_OLR;
-    public static final int VALID_LR_TMC;
+    public static final int VALID_LR_OLR = 1;
+    public static final int VALID_LR_TMC = 2;
 }
 

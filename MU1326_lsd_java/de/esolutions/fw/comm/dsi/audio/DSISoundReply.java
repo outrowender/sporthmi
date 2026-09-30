@@ -3,177 +3,123 @@
  */
 package de.esolutions.fw.comm.dsi.audio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.audio.AmplifierCapabilities;
 
 public interface DSISoundReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "781e4762-ef2b-5a94-972a-3c284bdb0fd4";
+    public static final String IPL_COMM_INTERFACE_KEY = "e1e9715f-7c10-5394-b9b3-c506acbe5ba0";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.45";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.45";
 
-    default public void inputGainOffsetRange(int n, int n2, int n3, int n4) {
-    }
+    public void inputGainOffsetRange(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void menuVolEntRange(int n, int n2, int n3) {
-    }
+    public void menuVolEntRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void menuVolumeRange(int n, int n2, int n3, int n4) {
-    }
+    public void menuVolumeRange(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void volumeRange(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void volumeRange(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void updateSurroundOnOff(int n, int n2, boolean bl, int n3) {
-    }
+    public void updateSurroundOnOff(int var1, int var2, boolean var3, int var4) throws MethodException;
 
-    default public void updateBalance(int n, int n2, short s, int n3) {
-    }
+    public void updateBalance(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateBalanceRange(int n, int n2, int n3) {
-    }
+    public void updateBalanceRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateBass(int n, int n2, short s, int n3) {
-    }
+    public void updateBass(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateBassRange(int n, int n2, int n3) {
-    }
+    public void updateBassRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void createExportFileResult(int n, boolean bl) {
-    }
+    public void createExportFileResult(int var1, boolean var2) throws MethodException;
 
-    default public void updateFader(int n, int n2, short s, int n3) {
-    }
+    public void updateFader(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateFaderRange(int n, int n2, int n3) {
-    }
+    public void updateFaderRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void importFileResponse(int n, boolean bl) {
-    }
+    public void importFileResponse(int var1, boolean var2) throws MethodException;
 
-    default public void updateInputGainOffset(int n, int n2, short s, int n3) {
-    }
+    public void updateInputGainOffset(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateLoweringEntertainment(int n, int n2, int n3, short s, int n4) {
-    }
+    public void updateLoweringEntertainment(int var1, int var2, int var3, short var4, int var5) throws MethodException;
 
-    default public void updateMutePinState(boolean bl, int n) {
-    }
+    public void updateMutePinState(boolean var1, int var2) throws MethodException;
 
-    default public void updateSubwoofer(int n, int n2, short s, int n3) {
-    }
+    public void updateSubwoofer(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateSubwooferRange(int n, int n2, int n3) {
-    }
+    public void updateSubwooferRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateSurrLevelRange(int n, int n2, int n3) {
-    }
+    public void updateSurrLevelRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateSurroundLevel(int n, int n2, short s, int n3) {
-    }
+    public void updateSurroundLevel(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateTreble(int n, int n2, short s, int n3) {
-    }
+    public void updateTreble(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateTrebleRange(int n, int n2, int n3) {
-    }
+    public void updateTrebleRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateVolume(int n, int n2, short s, int n3) {
-    }
+    public void updateVolume(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateVolumeRange(int n, int n2, int n3) {
-    }
+    public void updateVolumeRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateMiddle(int n, int n2, short s, int n3) {
-    }
+    public void updateMiddle(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateMiddleRange(int n, int n2, int n3) {
-    }
+    public void updateMiddleRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateEqualizerRange(int n, int n2, int[] nArray, int n3) {
-    }
+    public void updateEqualizerRange(int var1, int var2, int[] var3, int var4) throws MethodException;
 
-    default public void updateEqualizer(int[] nArray, int[] nArray2, int n) {
-    }
+    public void updateEqualizer(int[] var1, int[] var2, int var3) throws MethodException;
 
-    default public void updateOnVolumeLimit(int n, int n2) {
-    }
+    public void updateOnVolumeLimit(int var1, int var2) throws MethodException;
 
-    default public void updateOnVolumeLimitRange(int n, int n2, int n3) {
-    }
+    public void updateOnVolumeLimitRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateActiveAmplifierCapabilities(AmplifierCapabilities amplifierCapabilities, int n) {
-    }
+    public void updateActiveAmplifierCapabilities(AmplifierCapabilities var1, int var2) throws MethodException;
 
-    default public void updateMuteTheftProtection(boolean bl, int n) {
-    }
+    public void updateMuteTheftProtection(boolean var1, int var2) throws MethodException;
 
-    default public void updateMicGainLevel(int n, int n2) {
-    }
+    public void updateMicGainLevel(int var1, int var2) throws MethodException;
 
-    default public void updateVolumeFocus(int n, int n2, int n3) {
-    }
+    public void updateVolumeFocus(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateNoiseCompensation(int n, int n2, short s, int n3) {
-    }
+    public void updateNoiseCompensation(int var1, int var2, short var3, int var4) throws MethodException;
 
-    default public void updateNoiseCompensationRange(int n, int n2, int n3) {
-    }
+    public void updateNoiseCompensationRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateThreeDMode(int n, int n2, int n3, int n4) {
-    }
+    public void updateThreeDMode(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void updateThreeDModeRange(int n, int n2, int n3) {
-    }
+    public void updateThreeDModeRange(int var1, int var2, int var3) throws MethodException;
 
-    default public void updatePresetPosition(int n, int n2, int n3, int n4) {
-    }
+    public void updatePresetPosition(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void updatePresetPositionList(int n, int n2) {
-    }
+    public void updatePresetPositionList(int var1, int var2) throws MethodException;
 
-    default public void updatePresetEQList(int n, int n2) {
-    }
+    public void updatePresetEQList(int var1, int var2) throws MethodException;
 
-    default public void updatePresetEQ(int n, int n2, int n3, int n4) {
-    }
+    public void updatePresetEQ(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void updateSubwooferActivity(int n, int n2, boolean bl, int n3) {
-    }
+    public void updateSubwooferActivity(int var1, int var2, boolean var3, int var4) throws MethodException;
 
-    default public void responseWidebandSpeech(int n, boolean bl) {
-    }
+    public void responseWidebandSpeech(int var1, boolean var2) throws MethodException;
 
-    default public void updateSoundShapeActive(boolean bl, int n) {
-    }
+    public void updateSoundShapeActive(boolean var1, int var2) throws MethodException;
 
-    default public void updateSoundShape(short s, short s2, short s3, int n) {
-    }
+    public void updateSoundShape(short var1, short var2, short var3, int var4) throws MethodException;
 
-    default public void updateSoundShapeRange(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
-    }
+    public void updateSoundShapeRange(int var1, int var2, int var3, int var4, int var5, int var6, int var7) throws MethodException;
 
-    default public void updateICCAvailable(boolean bl, int n, int n2) {
-    }
+    public void updateICCAvailable(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sActiveNavDB;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sActiveNavDBSerializer {
-    public static void putOptionalsActiveNavDB(ISerializer iSerializer, sActiveNavDB sActiveNavDB2) {
+    public static void putOptionalsActiveNavDB(ISerializer iSerializer, sActiveNavDB sActiveNavDB2) throws SerializerException {
         boolean bl = sActiveNavDB2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sActiveNavDBSerializer {
         }
     }
 
-    public static void putOptionalsActiveNavDBVarArray(ISerializer iSerializer, sActiveNavDB[] sActiveNavDBArray) {
+    public static void putOptionalsActiveNavDBVarArray(ISerializer iSerializer, sActiveNavDB[] sActiveNavDBArray) throws SerializerException {
         boolean bl = sActiveNavDBArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sActiveNavDBSerializer {
         }
     }
 
-    public static sActiveNavDB getOptionalsActiveNavDB(IDeserializer iDeserializer) {
+    public static sActiveNavDB getOptionalsActiveNavDB(IDeserializer iDeserializer) throws SerializerException {
         sActiveNavDB sActiveNavDB2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sActiveNavDBSerializer {
         return sActiveNavDB2;
     }
 
-    public static sActiveNavDB[] getOptionalsActiveNavDBVarArray(IDeserializer iDeserializer) {
+    public static sActiveNavDB[] getOptionalsActiveNavDBVarArray(IDeserializer iDeserializer) throws SerializerException {
         sActiveNavDB[] sActiveNavDBArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

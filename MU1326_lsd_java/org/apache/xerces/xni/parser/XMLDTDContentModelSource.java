@@ -6,10 +6,8 @@ package org.apache.xerces.xni.parser;
 import org.apache.xerces.xni.XMLDTDContentModelHandler;
 
 public interface XMLDTDContentModelSource {
-    default public void setDTDContentModelHandler(XMLDTDContentModelHandler xMLDTDContentModelHandler) {
-    }
+    public void setDTDContentModelHandler(XMLDTDContentModelHandler var1);
 
-    default public XMLDTDContentModelHandler getDTDContentModelHandler() {
-    }
+    public XMLDTDContentModelHandler getDTDContentModelHandler();
 }
 

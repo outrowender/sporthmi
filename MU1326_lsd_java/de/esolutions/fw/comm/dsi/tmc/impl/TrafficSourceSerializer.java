@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.TrafficSource;
 
 public class TrafficSourceSerializer {
-    public static void putOptionalTrafficSource(ISerializer iSerializer, TrafficSource trafficSource) {
+    public static void putOptionalTrafficSource(ISerializer iSerializer, TrafficSource trafficSource) throws SerializerException {
         boolean bl = trafficSource == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TrafficSourceSerializer {
         }
     }
 
-    public static void putOptionalTrafficSourceVarArray(ISerializer iSerializer, TrafficSource[] trafficSourceArray) {
+    public static void putOptionalTrafficSourceVarArray(ISerializer iSerializer, TrafficSource[] trafficSourceArray) throws SerializerException {
         boolean bl = trafficSourceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TrafficSourceSerializer {
         }
     }
 
-    public static TrafficSource getOptionalTrafficSource(IDeserializer iDeserializer) {
+    public static TrafficSource getOptionalTrafficSource(IDeserializer iDeserializer) throws SerializerException {
         TrafficSource trafficSource = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class TrafficSourceSerializer {
         return trafficSource;
     }
 
-    public static TrafficSource[] getOptionalTrafficSourceVarArray(IDeserializer iDeserializer) {
+    public static TrafficSource[] getOptionalTrafficSourceVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficSource[] trafficSourceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

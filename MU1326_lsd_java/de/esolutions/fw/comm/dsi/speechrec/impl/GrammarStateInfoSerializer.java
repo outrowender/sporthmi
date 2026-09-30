@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.GrammarStateInfo;
 
 public class GrammarStateInfoSerializer {
-    public static void putOptionalGrammarStateInfo(ISerializer iSerializer, GrammarStateInfo grammarStateInfo) {
+    public static void putOptionalGrammarStateInfo(ISerializer iSerializer, GrammarStateInfo grammarStateInfo) throws SerializerException {
         boolean bl = grammarStateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class GrammarStateInfoSerializer {
         }
     }
 
-    public static void putOptionalGrammarStateInfoVarArray(ISerializer iSerializer, GrammarStateInfo[] grammarStateInfoArray) {
+    public static void putOptionalGrammarStateInfoVarArray(ISerializer iSerializer, GrammarStateInfo[] grammarStateInfoArray) throws SerializerException {
         boolean bl = grammarStateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class GrammarStateInfoSerializer {
         }
     }
 
-    public static GrammarStateInfo getOptionalGrammarStateInfo(IDeserializer iDeserializer) {
+    public static GrammarStateInfo getOptionalGrammarStateInfo(IDeserializer iDeserializer) throws SerializerException {
         GrammarStateInfo grammarStateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class GrammarStateInfoSerializer {
         return grammarStateInfo;
     }
 
-    public static GrammarStateInfo[] getOptionalGrammarStateInfoVarArray(IDeserializer iDeserializer) {
+    public static GrammarStateInfo[] getOptionalGrammarStateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         GrammarStateInfo[] grammarStateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

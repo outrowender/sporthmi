@@ -31,7 +31,6 @@ implements IConnectionFrontendListener {
         this.dumper = iMessageDumper;
     }
 
-    @Override
     public void configureHandler(ConnectionFrontendHandler connectionFrontendHandler) {
         if (this.ignoreLevels != null) {
             connectionFrontendHandler.setIgnoreLevels(this.ignoreLevels);
@@ -44,15 +43,12 @@ implements IConnectionFrontendListener {
         }
     }
 
-    @Override
     public void registerConnection(ConnectionFrontendHandler connectionFrontendHandler) {
     }
 
-    @Override
     public void unregisterConnection(ConnectionFrontendHandler connectionFrontendHandler) {
     }
 
-    @Override
     public void handleMessage(ConnectionFrontendHandler connectionFrontendHandler, AbstractMessage abstractMessage) {
         if (this.dumper != null) {
             this.dumper.dump(abstractMessage);

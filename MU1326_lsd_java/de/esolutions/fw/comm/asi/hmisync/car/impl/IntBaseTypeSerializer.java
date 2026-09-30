@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.IntBaseType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class IntBaseTypeSerializer {
-    public static void putOptionalIntBaseType(ISerializer iSerializer, IntBaseType intBaseType) {
+    public static void putOptionalIntBaseType(ISerializer iSerializer, IntBaseType intBaseType) throws SerializerException {
         boolean bl = intBaseType == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class IntBaseTypeSerializer {
         }
     }
 
-    public static void putOptionalIntBaseTypeVarArray(ISerializer iSerializer, IntBaseType[] intBaseTypeArray) {
+    public static void putOptionalIntBaseTypeVarArray(ISerializer iSerializer, IntBaseType[] intBaseTypeArray) throws SerializerException {
         boolean bl = intBaseTypeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class IntBaseTypeSerializer {
         }
     }
 
-    public static IntBaseType getOptionalIntBaseType(IDeserializer iDeserializer) {
+    public static IntBaseType getOptionalIntBaseType(IDeserializer iDeserializer) throws SerializerException {
         IntBaseType intBaseType = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class IntBaseTypeSerializer {
         return intBaseType;
     }
 
-    public static IntBaseType[] getOptionalIntBaseTypeVarArray(IDeserializer iDeserializer) {
+    public static IntBaseType[] getOptionalIntBaseTypeVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntBaseType[] intBaseTypeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

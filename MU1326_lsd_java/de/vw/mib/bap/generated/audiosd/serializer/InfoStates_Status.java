@@ -10,80 +10,80 @@ import de.vw.mib.bap.stream.BitStream;
 public final class InfoStates_Status
 implements StatusProperty {
     public int states;
-    private static final int STATES_BITSIZE;
-    public static final int STATES_NO_ERROR;
-    public static final int STATES_ERROR_UNSPECIFIED;
-    public static final int STATES_NO_CD;
-    public static final int STATES_NO_DVD;
-    public static final int STATES_NO_SD;
-    public static final int STATES_CHECK_MEDIA;
-    public static final int STATES_NO_MEDIA;
-    public static final int STATES_NO_MEDIA_INSERTED;
-    public static final int STATES_MEDIA_NOT_READABLE;
-    public static final int STATES_MEDIA_IS_BEING_LOADED;
-    public static final int STATES_MEDIA_IS_BEING_EJECTED;
-    public static final int STATES_TEMPERATURE_TOO_HIGH;
-    public static final int STATES_NO_STORAGE_SPACE_ON_MEDIUM_LEFT_SD_CARD_FULL;
-    public static final int STATES_SIRIUS_NOT_SUBSCRIBED_SDARS;
-    public static final int STATES_XM_NOT_SUBSCRIBED_SDARS;
-    public static final int STATES_GCI_UPDATE_IN_PROGRESS_SDARS;
-    public static final int STATES_AUX_IN_AUDIO;
-    public static final int STATES_AUX_IN_VIDEO;
-    public static final int STATES_ENTER_CODE;
-    public static final int STATES_PLEASE_WAIT;
-    public static final int STATES_INSERT_DISK;
-    public static final int STATES_SELECT_DISK;
-    public static final int STATES_SELECT_CD_POSITION;
-    public static final int STATES_REMOVE_DISK;
-    public static final int STATES_SAVING_DATA;
-    public static final int STATES_RETRIEVING_DATA;
-    public static final int STATES_SHUTTING_DOWN;
-    public static final int STATES_CREATING_AUTO_STORE_LIST;
-    public static final int STATES_CREATING_INITIAL_AUTO_STORE_LIST;
-    public static final int STATES_NO_SAT_RADIO_AVAILABLE_NO_SAT_TUNER_CONNECTED;
-    public static final int STATES_DIAGNOSIS_SESSION_ACTIVE;
-    public static final int STATES_SOFTWARE_UPDATE_IN_PROGRESS;
-    public static final int STATES_TA_MESSAGE_IS_BEING_RECORDED;
-    public static final int STATES_SDS_INITIALISING_SDS_IS_BEING_INITIALISED;
-    public static final int STATES_NO_PLAYABLE_FILES;
-    public static final int STATES_WRONG_REGION_CODE_SOME_CHANGES_LEFT;
-    public static final int STATES_WRONG_REGION_CODE_NO_CHANGES_LEFT;
-    public static final int STATES_CONNECTION_ERROR_WIRED_CONNECTION;
-    public static final int STATES_CONNECTION_ERROR_WIRELESS_CONNECTION;
-    public static final int STATES_NO_DEVICE_CONECTED;
-    public static final int STATES_BLUETOOTH_ERROR_UNSPECIFIED;
-    public static final int STATES_BLUETOOTH_DEACTIVATED;
-    public static final int STATES_BLUETOOTH_OFF_DUE_TO_CLAMP_S_OFF;
-    public static final int STATES_NO_BT_AUDIO_PLAYER_CONNECTED;
-    public static final int STATES_FILE_CORRUPTED;
-    public static final int STATES_FILE_IS_DRM_PROTECTED;
-    public static final int STATES_IMPORT_RUNNING;
-    public static final int STATES_CHILDLOCK_ERROR;
-    public static final int STATES_WLAN_CONNECT_IN_PROGRESS;
-    public static final int STATES_NO_WLAN_PLAYER_IN_SYSTEM;
-    public static final int STATES_WLAN_S_CONTACT_MISSING;
-    public static final int STATES_WLAN_DEACTIVATED;
-    public static final int STATES_UNSPECIFIC_WLAN_ERROR;
-    public static final int STATES_OVERCURRENT;
-    public static final int STATES_CABLE_ERROR;
-    public static final int STATES_SUBSCRIPTION_UPDATE_PSV_UPDATE_SDARS;
-    public static final int STATES_ANTENNA_ERROR_SDARS;
-    public static final int STATES_NO_TP_TIM_MESSAGES_RECORDED;
-    public static final int STATES_MEDIUM_WRITE_PROTECTED_SD_CARD_WRITE_PROTECTED;
-    public static final int STATES_JUBEBOX_IS_BEEING_DELETED;
-    public static final int STATES_JUKEBOX_IS_STILL_EMPTY;
-    public static final int STATES_BT_AUDIO_PLAYER_DEACTIVATED;
-    public static final int STATES_BT_AUTOMATIC_RECONNECT;
-    public static final int STATES_WLAN_PLAYER_DEACTIVATED;
-    public static final int STATES_TEMPERATURE_TOO_LOW;
-    public static final int STATES_EXTERNAL_DEVICE_NOT_SUPPORTED;
-    public static final int STATES_EXTERNAL_DEVICE_FIRMWARE_ERROR;
-    public static final int STATES_HANDBOOK_VIDEO_ACTIVE;
-    public static final int STATES_MEDIA_DEVICE_IS_BEING_CONNECTED_DF_4_1;
-    public static final int STATES_SDARS_TUNER_IS_BEING_INITALISED_DF_4_1;
-    public static final int STATES_FILES_BEING_USED_AS_RINGTONE_DF_4_1;
-    public static final int STATES_NO_APP_ACTIVATED_DF4_4;
-    public static final int STATES_UNKNOWN;
+    private static final int STATES_BITSIZE = 8;
+    public static final int STATES_NO_ERROR = 0;
+    public static final int STATES_ERROR_UNSPECIFIED = 1;
+    public static final int STATES_NO_CD = 2;
+    public static final int STATES_NO_DVD = 3;
+    public static final int STATES_NO_SD = 4;
+    public static final int STATES_CHECK_MEDIA = 5;
+    public static final int STATES_NO_MEDIA = 6;
+    public static final int STATES_NO_MEDIA_INSERTED = 7;
+    public static final int STATES_MEDIA_NOT_READABLE = 8;
+    public static final int STATES_MEDIA_IS_BEING_LOADED = 9;
+    public static final int STATES_MEDIA_IS_BEING_EJECTED = 10;
+    public static final int STATES_TEMPERATURE_TOO_HIGH = 11;
+    public static final int STATES_NO_STORAGE_SPACE_ON_MEDIUM_LEFT_SD_CARD_FULL = 12;
+    public static final int STATES_SIRIUS_NOT_SUBSCRIBED_SDARS = 13;
+    public static final int STATES_XM_NOT_SUBSCRIBED_SDARS = 14;
+    public static final int STATES_GCI_UPDATE_IN_PROGRESS_SDARS = 15;
+    public static final int STATES_AUX_IN_AUDIO = 16;
+    public static final int STATES_AUX_IN_VIDEO = 17;
+    public static final int STATES_ENTER_CODE = 18;
+    public static final int STATES_PLEASE_WAIT = 19;
+    public static final int STATES_INSERT_DISK = 20;
+    public static final int STATES_SELECT_DISK = 21;
+    public static final int STATES_SELECT_CD_POSITION = 22;
+    public static final int STATES_REMOVE_DISK = 23;
+    public static final int STATES_SAVING_DATA = 24;
+    public static final int STATES_RETRIEVING_DATA = 25;
+    public static final int STATES_SHUTTING_DOWN = 26;
+    public static final int STATES_CREATING_AUTO_STORE_LIST = 27;
+    public static final int STATES_CREATING_INITIAL_AUTO_STORE_LIST = 28;
+    public static final int STATES_NO_SAT_RADIO_AVAILABLE_NO_SAT_TUNER_CONNECTED = 29;
+    public static final int STATES_DIAGNOSIS_SESSION_ACTIVE = 30;
+    public static final int STATES_SOFTWARE_UPDATE_IN_PROGRESS = 31;
+    public static final int STATES_TA_MESSAGE_IS_BEING_RECORDED = 32;
+    public static final int STATES_SDS_INITIALISING_SDS_IS_BEING_INITIALISED = 33;
+    public static final int STATES_NO_PLAYABLE_FILES = 34;
+    public static final int STATES_WRONG_REGION_CODE_SOME_CHANGES_LEFT = 35;
+    public static final int STATES_WRONG_REGION_CODE_NO_CHANGES_LEFT = 36;
+    public static final int STATES_CONNECTION_ERROR_WIRED_CONNECTION = 37;
+    public static final int STATES_CONNECTION_ERROR_WIRELESS_CONNECTION = 38;
+    public static final int STATES_NO_DEVICE_CONECTED = 39;
+    public static final int STATES_BLUETOOTH_ERROR_UNSPECIFIED = 40;
+    public static final int STATES_BLUETOOTH_DEACTIVATED = 41;
+    public static final int STATES_BLUETOOTH_OFF_DUE_TO_CLAMP_S_OFF = 42;
+    public static final int STATES_NO_BT_AUDIO_PLAYER_CONNECTED = 43;
+    public static final int STATES_FILE_CORRUPTED = 44;
+    public static final int STATES_FILE_IS_DRM_PROTECTED = 45;
+    public static final int STATES_IMPORT_RUNNING = 46;
+    public static final int STATES_CHILDLOCK_ERROR = 47;
+    public static final int STATES_WLAN_CONNECT_IN_PROGRESS = 48;
+    public static final int STATES_NO_WLAN_PLAYER_IN_SYSTEM = 49;
+    public static final int STATES_WLAN_S_CONTACT_MISSING = 50;
+    public static final int STATES_WLAN_DEACTIVATED = 51;
+    public static final int STATES_UNSPECIFIC_WLAN_ERROR = 52;
+    public static final int STATES_OVERCURRENT = 53;
+    public static final int STATES_CABLE_ERROR = 54;
+    public static final int STATES_SUBSCRIPTION_UPDATE_PSV_UPDATE_SDARS = 55;
+    public static final int STATES_ANTENNA_ERROR_SDARS = 56;
+    public static final int STATES_NO_TP_TIM_MESSAGES_RECORDED = 57;
+    public static final int STATES_MEDIUM_WRITE_PROTECTED_SD_CARD_WRITE_PROTECTED = 58;
+    public static final int STATES_JUBEBOX_IS_BEEING_DELETED = 59;
+    public static final int STATES_JUKEBOX_IS_STILL_EMPTY = 60;
+    public static final int STATES_BT_AUDIO_PLAYER_DEACTIVATED = 61;
+    public static final int STATES_BT_AUTOMATIC_RECONNECT = 62;
+    public static final int STATES_WLAN_PLAYER_DEACTIVATED = 63;
+    public static final int STATES_TEMPERATURE_TOO_LOW = 64;
+    public static final int STATES_EXTERNAL_DEVICE_NOT_SUPPORTED = 65;
+    public static final int STATES_EXTERNAL_DEVICE_FIRMWARE_ERROR = 66;
+    public static final int STATES_HANDBOOK_VIDEO_ACTIVE = 67;
+    public static final int STATES_MEDIA_DEVICE_IS_BEING_CONNECTED_DF_4_1 = 68;
+    public static final int STATES_SDARS_TUNER_IS_BEING_INITALISED_DF_4_1 = 69;
+    public static final int STATES_FILES_BEING_USED_AS_RINGTONE_DF_4_1 = 70;
+    public static final int STATES_NO_APP_ACTIVATED_DF4_4 = 71;
+    public static final int STATES_UNKNOWN = 255;
 
     public InfoStates_Status() {
         this.internalReset();
@@ -99,12 +99,10 @@ implements StatusProperty {
         this.states = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         InfoStates_Status infoStates_Status = (InfoStates_Status)bAPEntity;
         return this.states == infoStates_Status.states;
@@ -113,7 +111,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("InfoStates_Status:");
@@ -418,18 +415,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.states);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.states = bitStream.popFrontByte();
     }
@@ -438,7 +432,6 @@ implements StatusProperty {
         return 30;
     }
 
-    @Override
     public int getFunctionId() {
         return InfoStates_Status.functionId();
     }

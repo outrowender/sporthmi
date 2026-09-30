@@ -10,19 +10,14 @@ import de.vw.mib.bap.functions.Method;
 import de.vw.mib.bap.functions.Property;
 
 public interface BAPFunctionRegistry {
-    default public BAPFunction getBAPFunction(int n) {
-    }
+    public BAPFunction getBAPFunction(int var1);
 
-    default public Array getArray(int n) {
-    }
+    public Array getArray(int var1);
 
-    default public Method getMethod(int n) {
-    }
+    public Method getMethod(int var1);
 
-    default public Property getProperty(int n) {
-    }
+    public Property getProperty(int var1);
 
-    default public FSGOperationState getBapFSGOperationStateFunction() {
-    }
+    public FSGOperationState getBapFSGOperationStateFunction();
 }
 

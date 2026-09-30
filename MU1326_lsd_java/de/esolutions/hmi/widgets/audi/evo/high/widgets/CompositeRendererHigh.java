@@ -26,12 +26,10 @@ IKanziTemplateRenderer {
         this.controller = abstractWidgetController;
     }
 
-    @Override
     public void setClipping(boolean bl) {
         this.clipping = bl;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -61,7 +59,6 @@ IKanziTemplateRenderer {
         this.applyProperties(redrawContextHigh);
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
         if (this.node == null) {
@@ -120,13 +117,11 @@ IKanziTemplateRenderer {
         this.rotationZ = f2;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNode();
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -135,7 +130,6 @@ IKanziTemplateRenderer {
         return this.node;
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 }

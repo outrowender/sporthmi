@@ -12,83 +12,59 @@ import de.vw.mib.bap.datatypes.BAPArrayDataList;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 
 public interface ASGArrayList {
-    public static final int ARRAY_ERROR_CODE_REQUEST_TIME_OUT;
-    public static final int ARRAY_ERROR_CODE_HEART_BEAT_TIME_OUT;
-    public static final int ARRAY_ERROR_CODE_MAX_DATA_LENGTH_EXCEEDED;
-    public static final int ARRAY_ERROR_CODE_TEMPORARY_NOT_AVAILABLE;
-    public static final int HIGH_LEVEL_RETRY_TYPE_A;
-    public static final int HIGH_LEVEL_RETRY_TYPE_B;
+    public static final int ARRAY_ERROR_CODE_REQUEST_TIME_OUT = -1;
+    public static final int ARRAY_ERROR_CODE_HEART_BEAT_TIME_OUT = -2;
+    public static final int ARRAY_ERROR_CODE_MAX_DATA_LENGTH_EXCEEDED = -3;
+    public static final int ARRAY_ERROR_CODE_TEMPORARY_NOT_AVAILABLE = -4;
+    public static final int HIGH_LEVEL_RETRY_TYPE_A = 0;
+    public static final int HIGH_LEVEL_RETRY_TYPE_B = 1;
 
-    default public void changedArray(BAPChangedArray bAPChangedArray) {
-    }
+    public void changedArray(BAPChangedArray var1);
 
-    default public void statusArray(BAPStatusArray bAPStatusArray) {
-    }
+    public void statusArray(BAPStatusArray var1);
 
-    default public void error(int n) {
-    }
+    public void error(int var1);
 
-    default public void insertArrayElements(BAPArrayDataList bAPArrayDataList, int n, int n2) {
-    }
+    public void insertArrayElements(BAPArrayDataList var1, int var2, int var3);
 
-    default public void deleteArrayElements(BAPArrayDataList bAPArrayDataList, int n) {
-    }
+    public void deleteArrayElements(BAPArrayDataList var1, int var2);
 
-    default public void modifyArrayElement(BAPArrayElement bAPArrayElement, int n) {
-    }
+    public void modifyArrayElement(BAPArrayElement var1, int var2);
 
-    default public void reloadData() {
-    }
+    public void reloadData();
 
-    default public void refreshElements(BAPArrayElement bAPArrayElement, int n, int n2) {
-    }
+    public void refreshElements(BAPArrayElement var1, int var2, int var3);
 
-    default public void stopFetchingData() {
-    }
+    public void stopFetchingData();
 
-    default public void clearList() {
-    }
+    public void clearList();
 
-    default public boolean isLoading() {
-    }
+    public boolean isLoading();
 
-    default public boolean isLoadingError() {
-    }
+    public boolean isLoadingError();
 
-    default public boolean isModifyRequestPending() {
-    }
+    public boolean isModifyRequestPending();
 
-    default public int getListId() {
-    }
+    public int getListId();
 
-    default public int getAsgId() {
-    }
+    public int getAsgId();
 
-    default public int size() {
-    }
+    public int size();
 
-    default public int getBapArrayListSize() {
-    }
+    public int getBapArrayListSize();
 
-    default public int getHighLevelRetryType() {
-    }
+    public int getHighLevelRetryType();
 
-    default public BAPArrayElement get(int n) {
-    }
+    public BAPArrayElement get(int var1);
 
-    default public BAPArrayDataList getElements(int n, int n2) {
-    }
+    public BAPArrayDataList getElements(int var1, int var2);
 
-    default public BAPArrayDataList getAllElements() {
-    }
+    public BAPArrayDataList getAllElements();
 
-    default public ASGArrayListDelegate getDelegate() {
-    }
+    public ASGArrayListDelegate getDelegate();
 
-    default public ASGArrayListChangeNotifier getChangeNotifier() {
-    }
+    public ASGArrayListChangeNotifier getChangeNotifier();
 
-    default public ASGArrayListFactory getFactory() {
-    }
+    public ASGArrayListFactory getFactory();
 }
 

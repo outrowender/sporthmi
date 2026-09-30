@@ -12,7 +12,6 @@ extends Command {
         super("Terminate");
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return false;
     }

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
@@ -11,7 +8,7 @@ import com.ibm.oti.util.PriviAction;
 import com.ibm.oti.vm.VM;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.EmulatedFields$ObjectSlot;
+import java.io.EmulatedFields;
 import java.io.EmulatedFieldsForLoading;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -20,9 +17,6 @@ import java.io.InvalidClassException;
 import java.io.InvalidObjectException;
 import java.io.NotActiveException;
 import java.io.ObjectInput;
-import java.io.ObjectInputStream$1;
-import java.io.ObjectInputStream$GetField;
-import java.io.ObjectInputStream$InputValidationDesc;
 import java.io.ObjectInputValidation;
 import java.io.ObjectStreamClass;
 import java.io.ObjectStreamConstants;
@@ -39,6 +33,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.IdentityHashMap;
@@ -60,7 +55,7 @@ ObjectStreamConstants {
     private Hashtable objectsRead;
     private Object currentObject;
     private ObjectStreamClass currentClass;
-    private ObjectInputStream$InputValidationDesc[] validations;
+    private InputValidationDesc[] validations;
     private boolean subclassOverridingImplementation;
     private ClassLoader callerClassLoader;
     private boolean mustResolve = true;
@@ -68,7 +63,7 @@ ObjectStreamConstants {
     private IdentityHashMap readResolveCache;
     static /* synthetic */ Class class$0;
 
-    protected ObjectInputStream() {
+    protected ObjectInputStream() throws IOException, SecurityException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
@@ -76,9 +71,9 @@ ObjectStreamConstants {
         this.subclassOverridingImplementation = true;
     }
 
-    public ObjectInputStream(InputStream inputStream) {
+    public ObjectInputStream(InputStream inputStream) throws StreamCorruptedException, IOException {
         boolean bl;
-        Class clazz = super.getClass();
+        final Class clazz = this.getClass();
         Class clazz2 = class$0;
         if (clazz2 == null) {
             try {
@@ -88,9 +83,29 @@ ObjectStreamConstants {
                 throw new NoClassDefFoundError(classNotFoundException.getMessage());
             }
         }
-        Class clazz3 = clazz2;
+        final Class clazz3 = clazz2;
         SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager != null && clazz != clazz3 && (bl = ((Boolean)AccessController.doPrivileged(new ObjectInputStream$1(this, clazz, clazz3))).booleanValue())) {
+        if (securityManager != null && clazz != clazz3 && (bl = ((Boolean)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                Method method;
+                try {
+                    method = clazz.getMethod("readFields", ObjectStreamClass.EMPTY_CONSTRUCTOR_PARAM_TYPES);
+                    if (method.getDeclaringClass() != clazz3) {
+                        return Boolean.TRUE;
+                    }
+                }
+                catch (NoSuchMethodException noSuchMethodException) {}
+                try {
+                    method = clazz.getMethod("readUnshared", ObjectStreamClass.EMPTY_CONSTRUCTOR_PARAM_TYPES);
+                    if (method.getDeclaringClass() != clazz3) {
+                        return Boolean.TRUE;
+                    }
+                }
+                catch (NoSuchMethodException noSuchMethodException) {}
+                return Boolean.FALSE;
+            }
+        })).booleanValue())) {
             securityManager.checkPermission(ObjectStreamConstants.SUBCLASS_IMPLEMENTATION_PERMISSION);
         }
         this.input = inputStream instanceof DataInputStream ? (DataInputStream)inputStream : new DataInputStream(inputStream);
@@ -105,13 +120,12 @@ ObjectStreamConstants {
         this.primitiveData = emptyStream;
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         this.checkReadPrimitiveTypes();
         return this.primitiveData.available();
     }
 
-    private void checkReadPrimitiveTypes() {
+    private void checkReadPrimitiveTypes() throws IOException {
         int n;
         if (this.primitiveData == this.input || this.primitiveData.available() > 0) {
             return;
@@ -145,19 +159,18 @@ ObjectStreamConstants {
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.input.close();
     }
 
-    public void defaultReadObject() {
+    public void defaultReadObject() throws IOException, ClassNotFoundException, NotActiveException {
         if (this.currentObject == null && this.mustResolve) {
             throw new NotActiveException();
         }
         this.readFieldValues(this.currentObject, this.currentClass);
     }
 
-    protected boolean enableResolveObject(boolean bl) {
+    protected boolean enableResolveObject(boolean bl) throws SecurityException {
         SecurityManager securityManager;
         if (bl && (securityManager = System.getSecurityManager()) != null) {
             securityManager.checkPermission(SUBSTITUTION_PERMISSION);
@@ -181,14 +194,13 @@ ObjectStreamConstants {
         return string.substring(0, n).equals(string2.substring(0, n2));
     }
 
-    private static native Object newInstance(Class clazz, Class clazz2) {
-    }
+    private static native Object newInstance(Class var0, Class var1);
 
     private int nextHandle() {
         return this.currentHandle++;
     }
 
-    private byte nextTC() {
+    private byte nextTC() throws IOException {
         if (this.hasPushbackTC) {
             this.hasPushbackTC = false;
         } else {
@@ -197,18 +209,16 @@ ObjectStreamConstants {
         return this.pushbackTC;
     }
 
-    private void pushbackTC() {
+    private void pushbackTC() throws IOException {
         this.hasPushbackTC = true;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         this.checkReadPrimitiveTypes();
         return this.primitiveData.read();
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (byArray != null) {
             if (n >= 0 && n <= byArray.length && n2 >= 0 && n2 <= byArray.length - n) {
                 if (n2 == 0) {
@@ -222,34 +232,31 @@ ObjectStreamConstants {
         throw new NullPointerException();
     }
 
-    private byte[] readBlockData() {
+    private byte[] readBlockData() throws IOException {
         byte[] byArray = new byte[this.input.readByte() & 0xFF];
         this.input.readFully(byArray);
         return byArray;
     }
 
-    private byte[] readBlockDataLong() {
+    private byte[] readBlockDataLong() throws IOException {
         byte[] byArray = new byte[this.input.readInt()];
         this.input.readFully(byArray);
         return byArray;
     }
 
-    @Override
-    public boolean readBoolean() {
+    public boolean readBoolean() throws IOException {
         return this.primitiveTypes.readBoolean();
     }
 
-    @Override
-    public byte readByte() {
+    public byte readByte() throws IOException {
         return this.primitiveTypes.readByte();
     }
 
-    @Override
-    public char readChar() {
+    public char readChar() throws IOException {
         return this.primitiveTypes.readChar();
     }
 
-    private void discardData() {
+    private void discardData() throws ClassNotFoundException, IOException {
         this.primitiveData = emptyStream;
         boolean bl = this.mustResolve;
         this.mustResolve = false;
@@ -263,7 +270,7 @@ ObjectStreamConstants {
         }
     }
 
-    private ObjectStreamClass readClassDesc() {
+    private ObjectStreamClass readClassDesc() throws ClassNotFoundException, IOException {
         byte by = this.nextTC();
         switch (by) {
             case 114: {
@@ -287,7 +294,7 @@ ObjectStreamConstants {
         throw new StreamCorruptedException(Msg.getString("K00d2", Integer.toHexString(by & 0xFF)));
     }
 
-    private Object readContent(byte by) {
+    private Object readContent(byte by) throws ClassNotFoundException, IOException {
         switch (by) {
             case 119: {
                 return this.readBlockData();
@@ -331,7 +338,7 @@ ObjectStreamConstants {
         throw new StreamCorruptedException(Msg.getString("K00d2", Integer.toHexString(by & 0xFF)));
     }
 
-    private Object readNonPrimitiveContent(boolean bl) {
+    private Object readNonPrimitiveContent(boolean bl) throws ClassNotFoundException, IOException {
         byte by;
         this.checkReadPrimitiveTypes();
         if (this.primitiveData.available() > 0) {
@@ -390,23 +397,22 @@ ObjectStreamConstants {
         throw new StreamCorruptedException(Msg.getString("K00d2", Integer.toHexString(by & 0xFF)));
     }
 
-    private Object readCyclicReference() {
+    private Object readCyclicReference() throws InvalidObjectException, IOException {
         return this.registeredObjectRead(this.readNewHandle());
     }
 
-    @Override
-    public double readDouble() {
+    public double readDouble() throws IOException {
         return this.primitiveTypes.readDouble();
     }
 
-    private Exception readException() {
+    private Exception readException() throws WriteAbortedException, OptionalDataException, ClassNotFoundException, IOException {
         this.resetSeenObjects();
         Exception exception = (Exception)this.readObject();
         this.resetSeenObjects();
         return exception;
     }
 
-    private void readFieldDescriptors(ObjectStreamClass objectStreamClass) {
+    private void readFieldDescriptors(ObjectStreamClass objectStreamClass) throws ClassNotFoundException, IOException {
         short s = this.input.readShort();
         ObjectStreamField[] objectStreamFieldArray = new ObjectStreamField[s];
         objectStreamClass.setLoadFields(objectStreamFieldArray);
@@ -422,7 +428,7 @@ ObjectStreamConstants {
         }
     }
 
-    public ObjectInputStream$GetField readFields() {
+    public GetField readFields() throws IOException, ClassNotFoundException, NotActiveException {
         if (this.currentObject != null) {
             EmulatedFieldsForLoading emulatedFieldsForLoading = new EmulatedFieldsForLoading(this.currentClass);
             this.readFieldValues(emulatedFieldsForLoading);
@@ -431,31 +437,31 @@ ObjectStreamConstants {
         throw new NotActiveException();
     }
 
-    private void readFieldValues(EmulatedFieldsForLoading emulatedFieldsForLoading) {
-        EmulatedFields$ObjectSlot[] emulatedFields$ObjectSlotArray = emulatedFieldsForLoading.emulatedFields().slots();
+    private void readFieldValues(EmulatedFieldsForLoading emulatedFieldsForLoading) throws OptionalDataException, InvalidClassException, IOException {
+        EmulatedFields.ObjectSlot[] objectSlotArray = emulatedFieldsForLoading.emulatedFields().slots();
         int n = 0;
-        while (n < emulatedFields$ObjectSlotArray.length) {
-            emulatedFields$ObjectSlotArray[n].defaulted = false;
-            Class clazz = emulatedFields$ObjectSlotArray[n].field.getType();
+        while (n < objectSlotArray.length) {
+            objectSlotArray[n].defaulted = false;
+            Class clazz = objectSlotArray[n].field.getType();
             if (clazz == Integer.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Integer(this.input.readInt());
+                objectSlotArray[n].fieldValue = new Integer(this.input.readInt());
             } else if (clazz == Byte.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Byte(this.input.readByte());
+                objectSlotArray[n].fieldValue = new Byte(this.input.readByte());
             } else if (clazz == Character.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Character(this.input.readChar());
+                objectSlotArray[n].fieldValue = new Character(this.input.readChar());
             } else if (clazz == Short.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Short(this.input.readShort());
+                objectSlotArray[n].fieldValue = new Short(this.input.readShort());
             } else if (clazz == Boolean.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Boolean(this.input.readBoolean());
+                objectSlotArray[n].fieldValue = new Boolean(this.input.readBoolean());
             } else if (clazz == Long.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Long(this.input.readLong());
+                objectSlotArray[n].fieldValue = new Long(this.input.readLong());
             } else if (clazz == Float.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Float(this.input.readFloat());
+                objectSlotArray[n].fieldValue = new Float(this.input.readFloat());
             } else if (clazz == Double.TYPE) {
-                emulatedFields$ObjectSlotArray[n].fieldValue = new Double(this.input.readDouble());
+                objectSlotArray[n].fieldValue = new Double(this.input.readDouble());
             } else {
                 try {
-                    emulatedFields$ObjectSlotArray[n].fieldValue = this.readObject();
+                    objectSlotArray[n].fieldValue = this.readObject();
                 }
                 catch (ClassNotFoundException classNotFoundException) {
                     throw new InvalidClassException(classNotFoundException.toString());
@@ -465,7 +471,7 @@ ObjectStreamConstants {
         }
     }
 
-    private void readFieldValues(Object object, ObjectStreamClass objectStreamClass) {
+    private void readFieldValues(Object object, ObjectStreamClass objectStreamClass) throws OptionalDataException, ClassNotFoundException, IOException {
         ObjectStreamField[] objectStreamFieldArray = objectStreamClass.getLoadFields();
         Class clazz = objectStreamClass.forClass();
         if (clazz == null && this.mustResolve) {
@@ -543,22 +549,19 @@ ObjectStreamConstants {
         }
     }
 
-    @Override
-    public float readFloat() {
+    public float readFloat() throws IOException {
         return this.primitiveTypes.readFloat();
     }
 
-    @Override
-    public void readFully(byte[] byArray) {
+    public void readFully(byte[] byArray) throws IOException {
         this.primitiveTypes.readFully(byArray);
     }
 
-    @Override
-    public void readFully(byte[] byArray, int n, int n2) {
+    public void readFully(byte[] byArray, int n, int n2) throws IOException {
         this.primitiveTypes.readFully(byArray, n, n2);
     }
 
-    private void readHierarchy(Object object, ObjectStreamClass objectStreamClass) {
+    private void readHierarchy(Object object, ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException, NotActiveException {
         if (object == null && this.mustResolve) {
             throw new NotActiveException();
         }
@@ -615,7 +618,7 @@ ObjectStreamConstants {
         return -1;
     }
 
-    private void readObjectNoData(Object object, Class clazz) {
+    private void readObjectNoData(Object object, Class clazz) throws ObjectStreamException {
         if (!ObjectStreamClass.isSerializable(clazz)) {
             return;
         }
@@ -641,7 +644,7 @@ ObjectStreamConstants {
         }
     }
 
-    private void readObjectForClass(Object object, ObjectStreamClass objectStreamClass) {
+    private void readObjectForClass(Object object, ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException, NotActiveException {
         this.currentObject = object;
         this.currentClass = objectStreamClass;
         boolean bl = (objectStreamClass.getFlags() & 1) > 0;
@@ -682,18 +685,15 @@ ObjectStreamConstants {
         }
     }
 
-    @Override
-    public int readInt() {
+    public int readInt() throws IOException {
         return this.primitiveTypes.readInt();
     }
 
-    @Override
-    public String readLine() {
+    public String readLine() throws IOException {
         return this.primitiveTypes.readLine();
     }
 
-    @Override
-    public long readLong() {
+    public long readLong() throws IOException {
         return this.primitiveTypes.readLong();
     }
 
@@ -701,7 +701,7 @@ ObjectStreamConstants {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    private Object readNewArray(boolean bl) {
+    private Object readNewArray(boolean bl) throws OptionalDataException, ClassNotFoundException, IOException {
         ObjectStreamClass objectStreamClass = this.readClassDesc();
         if (objectStreamClass == null) {
             throw new InvalidClassException(Msg.getString("K00d1"));
@@ -783,7 +783,7 @@ ObjectStreamConstants {
         return object;
     }
 
-    private Class readNewClass(boolean bl) {
+    private Class readNewClass(boolean bl) throws ClassNotFoundException, IOException {
         ObjectStreamClass objectStreamClass = this.readClassDesc();
         if (objectStreamClass != null) {
             Integer n = new Integer(this.nextHandle());
@@ -796,7 +796,7 @@ ObjectStreamConstants {
         throw new InvalidClassException(Msg.getString("K00d1"));
     }
 
-    private ObjectStreamClass readNewClassDesc(boolean bl) {
+    private ObjectStreamClass readNewClassDesc(boolean bl) throws ClassNotFoundException, IOException {
         ObjectStreamClass objectStreamClass;
         block4: {
             this.primitiveData = this.input;
@@ -829,7 +829,7 @@ ObjectStreamConstants {
         return objectStreamClass;
     }
 
-    private Class readNewProxyClassDesc() {
+    private Class readNewProxyClassDesc() throws ClassNotFoundException, IOException {
         int n = this.input.readInt();
         String[] stringArray = new String[n];
         int n2 = 0;
@@ -842,7 +842,7 @@ ObjectStreamConstants {
         return clazz;
     }
 
-    protected ObjectStreamClass readClassDescriptor() {
+    protected ObjectStreamClass readClassDescriptor() throws IOException, ClassNotFoundException {
         if (this.descriptorHandle == null) {
             throw new NotActiveException();
         }
@@ -856,7 +856,7 @@ ObjectStreamConstants {
         return objectStreamClass;
     }
 
-    protected Class resolveProxyClass(String[] stringArray) {
+    protected Class resolveProxyClass(String[] stringArray) throws IOException, ClassNotFoundException {
         ClassLoader classLoader = VM.getNonBootstrapClassLoader();
         Class[] classArray = new Class[stringArray.length];
         int n = 0;
@@ -872,11 +872,11 @@ ObjectStreamConstants {
         }
     }
 
-    private Integer readNewHandle() {
+    private Integer readNewHandle() throws IOException {
         return new Integer(this.input.readInt());
     }
 
-    private Object readNewObject(boolean bl) {
+    private Object readNewObject(boolean bl) throws OptionalDataException, ClassNotFoundException, IOException {
         Object object;
         Object object2;
         Object object3;
@@ -985,7 +985,7 @@ ObjectStreamConstants {
         return object2;
     }
 
-    private Object readNewString(boolean bl) {
+    private Object readNewString(boolean bl) throws IOException {
         Object object = this.input.readUTF();
         if (this.enableResolve) {
             object = this.resolveObject(object);
@@ -997,7 +997,7 @@ ObjectStreamConstants {
         return object;
     }
 
-    private Object readNewLongString(boolean bl) {
+    private Object readNewLongString(boolean bl) throws IOException {
         long l = this.input.readLong();
         Object object = this.input.decodeUTF((int)l);
         if (this.enableResolve) {
@@ -1010,16 +1010,15 @@ ObjectStreamConstants {
         return object;
     }
 
-    @Override
-    public final Object readObject() {
+    public final Object readObject() throws OptionalDataException, ClassNotFoundException, IOException {
         return this.readObject(false);
     }
 
-    public Object readUnshared() {
+    public Object readUnshared() throws IOException, ClassNotFoundException {
         return this.readObject(true);
     }
 
-    private Object readObject(boolean bl) {
+    private Object readObject(boolean bl) throws OptionalDataException, ClassNotFoundException, IOException {
         Object object;
         boolean bl2 = this.primitiveData == this.input;
         if (bl2) {
@@ -1057,38 +1056,34 @@ ObjectStreamConstants {
         return object;
     }
 
-    protected Object readObjectOverride() {
+    protected Object readObjectOverride() throws OptionalDataException, ClassNotFoundException, IOException {
         throw new IOException();
     }
 
-    @Override
-    public short readShort() {
+    public short readShort() throws IOException {
         return this.primitiveTypes.readShort();
     }
 
-    protected void readStreamHeader() {
+    protected void readStreamHeader() throws IOException, StreamCorruptedException {
         if (this.input.readShort() == -21267 && this.input.readShort() == 5) {
             return;
         }
         throw new StreamCorruptedException();
     }
 
-    @Override
-    public int readUnsignedByte() {
+    public int readUnsignedByte() throws IOException {
         return this.primitiveTypes.readUnsignedByte();
     }
 
-    @Override
-    public int readUnsignedShort() {
+    public int readUnsignedShort() throws IOException {
         return this.primitiveTypes.readUnsignedShort();
     }
 
-    @Override
-    public String readUTF() {
+    public String readUTF() throws IOException {
         return this.primitiveTypes.readUTF();
     }
 
-    private Object registeredObjectRead(Integer n) {
+    private Object registeredObjectRead(Integer n) throws InvalidObjectException {
         return this.objectsRead.get(n);
     }
 
@@ -1100,36 +1095,36 @@ ObjectStreamConstants {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    public synchronized void registerValidation(ObjectInputValidation objectInputValidation, int n) {
+    public synchronized void registerValidation(ObjectInputValidation objectInputValidation, int n) throws NotActiveException, InvalidObjectException {
         if (objectInputValidation == null) throw new InvalidObjectException(Msg.getString("K00d9"));
         Object object = this.currentObject;
         if (object == null) throw new NotActiveException();
-        ObjectInputStream$InputValidationDesc objectInputStream$InputValidationDesc = new ObjectInputStream$InputValidationDesc(this);
-        objectInputStream$InputValidationDesc.validator = objectInputValidation;
-        objectInputStream$InputValidationDesc.priority = n;
+        InputValidationDesc inputValidationDesc = new InputValidationDesc();
+        inputValidationDesc.validator = objectInputValidation;
+        inputValidationDesc.priority = n;
         if (this.validations == null) {
-            this.validations = new ObjectInputStream$InputValidationDesc[1];
-            this.validations[0] = objectInputStream$InputValidationDesc;
+            this.validations = new InputValidationDesc[1];
+            this.validations[0] = inputValidationDesc;
             return;
         } else {
             int n2 = 0;
             while (n2 < this.validations.length) {
-                ObjectInputStream$InputValidationDesc objectInputStream$InputValidationDesc2 = this.validations[n2];
-                if (n >= objectInputStream$InputValidationDesc2.priority) break;
+                InputValidationDesc inputValidationDesc2 = this.validations[n2];
+                if (n >= inputValidationDesc2.priority) break;
                 ++n2;
             }
-            ObjectInputStream$InputValidationDesc[] objectInputStream$InputValidationDescArray = this.validations;
-            int n3 = objectInputStream$InputValidationDescArray.length;
-            this.validations = new ObjectInputStream$InputValidationDesc[n3 + 1];
-            System.arraycopy((Object)objectInputStream$InputValidationDescArray, 0, (Object)this.validations, 0, n2);
-            System.arraycopy((Object)objectInputStream$InputValidationDescArray, n2, (Object)this.validations, n2 + 1, n3 - n2);
-            this.validations[n2] = objectInputStream$InputValidationDesc;
+            InputValidationDesc[] inputValidationDescArray = this.validations;
+            int n3 = inputValidationDescArray.length;
+            this.validations = new InputValidationDesc[n3 + 1];
+            System.arraycopy((Object)inputValidationDescArray, 0, (Object)this.validations, 0, n2);
+            System.arraycopy((Object)inputValidationDescArray, n2, (Object)this.validations, n2 + 1, n3 - n2);
+            this.validations[n2] = inputValidationDesc;
         }
     }
 
     private void resetSeenObjects() {
         this.objectsRead = new Hashtable();
-        this.currentHandle = 32256;
+        this.currentHandle = 0x7E0000;
         this.primitiveData = emptyStream;
     }
 
@@ -1139,7 +1134,7 @@ ObjectStreamConstants {
         this.pushbackTC = 0;
     }
 
-    protected Class resolveClass(ObjectStreamClass objectStreamClass) {
+    protected Class resolveClass(ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException {
         try {
             return Class.forName(objectStreamClass.getName(), true, this.callerClassLoader);
         }
@@ -1176,39 +1171,29 @@ ObjectStreamConstants {
         }
     }
 
-    protected Object resolveObject(Object object) {
+    protected Object resolveObject(Object object) throws IOException {
         return object;
     }
 
-    private static native void setField(Object object, Class clazz, String string, byte by) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, byte var3);
 
-    private static native void setField(Object object, Class clazz, String string, char c2) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, char var3);
 
-    private static native void setField(Object object, Class clazz, String string, double d2) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, double var3);
 
-    private static native void setField(Object object, Class clazz, String string, float f2) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, float var3);
 
-    private static native void setField(Object object, Class clazz, String string, int n) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, int var3);
 
-    private static native void setField(Object object, Class clazz, String string, long l) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, long var3);
 
-    private static native void objSetField(Object object, Class clazz, String string, String string2, Object object2) {
-    }
+    private static native void objSetField(Object var0, Class var1, String var2, String var3, Object var4);
 
-    private static native void setField(Object object, Class clazz, String string, short s) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, short var3);
 
-    private static native void setField(Object object, Class clazz, String string, boolean bl) {
-    }
+    private static native void setField(Object var0, Class var1, String var2, boolean var3);
 
-    @Override
-    public int skipBytes(int n) {
+    public int skipBytes(int n) throws IOException {
         int n2 = 0;
         while (n2 < n) {
             this.checkReadPrimitiveTypes();
@@ -1221,11 +1206,43 @@ ObjectStreamConstants {
         return n;
     }
 
-    private void verifySUID(ObjectStreamClass objectStreamClass) {
+    private void verifySUID(ObjectStreamClass objectStreamClass) throws InvalidClassException {
         Class clazz = objectStreamClass.forClass();
         ObjectStreamClass objectStreamClass2 = ObjectStreamClass.lookupStreamClass(clazz);
         if (objectStreamClass.getSerialVersionUID() != objectStreamClass2.getSerialVersionUID()) {
             throw new InvalidClassException(objectStreamClass.getName(), Msg.getString("K00da", objectStreamClass, objectStreamClass2));
+        }
+    }
+
+    public static abstract class GetField {
+        public abstract ObjectStreamClass getObjectStreamClass();
+
+        public abstract boolean defaulted(String var1) throws IOException, IllegalArgumentException;
+
+        public abstract boolean get(String var1, boolean var2) throws IOException, IllegalArgumentException;
+
+        public abstract char get(String var1, char var2) throws IOException, IllegalArgumentException;
+
+        public abstract byte get(String var1, byte var2) throws IOException, IllegalArgumentException;
+
+        public abstract short get(String var1, short var2) throws IOException, IllegalArgumentException;
+
+        public abstract int get(String var1, int var2) throws IOException, IllegalArgumentException;
+
+        public abstract long get(String var1, long var2) throws IOException, IllegalArgumentException;
+
+        public abstract float get(String var1, float var2) throws IOException, IllegalArgumentException;
+
+        public abstract double get(String var1, double var2) throws IOException, IllegalArgumentException;
+
+        public abstract Object get(String var1, Object var2) throws IOException, IllegalArgumentException;
+    }
+
+    class InputValidationDesc {
+        ObjectInputValidation validator;
+        int priority;
+
+        InputValidationDesc() {
         }
     }
 }

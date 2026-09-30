@@ -15,7 +15,6 @@ extends AbstractWidgetController {
     private MeccaCompassRendererHigh renderer;
     private float meccaAngle;
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1) {
@@ -36,7 +35,6 @@ extends AbstractWidgetController {
         this.renderer = meccaCompassRendererHigh;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -44,14 +42,13 @@ extends AbstractWidgetController {
     private void updateContent() {
         if (this.model instanceof ChoiceModelGUI) {
             this.meccaAngle = ((ChoiceModelGUI)this.model).getValue();
-            if (this.meccaAngle == 32959) {
+            if (this.meccaAngle == -1.0f) {
                 this.meccaAngle = 0.0f;
             }
             this.setCompositesDirty(true);
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         this.updateContent();
         super.connected(initializationContext);

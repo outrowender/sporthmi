@@ -10,15 +10,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.SeparatingHeadlineController;
 
 public class SeparatingHeadlineRendererHigh
 extends AbstractKanziTemplateRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/separatingHeadline";
+    private static final String EAL_NODE_NAME = "separatingheadline";
     SeparatingHeadlineController controller;
 
     public SeparatingHeadlineRendererHigh(SeparatingHeadlineController separatingHeadlineController) {
         this.controller = separatingHeadlineController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         this.node.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
         this.setProperty("sh_width", this.controller.getWidth());
@@ -26,22 +25,18 @@ extends AbstractKanziTemplateRenderer {
         this.node.setOpacity(this.controller.getRenderOpacity());
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/separatingHeadline";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "separatingheadline";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

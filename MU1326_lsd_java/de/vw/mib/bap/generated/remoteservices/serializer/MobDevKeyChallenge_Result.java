@@ -11,7 +11,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MobDevKeyChallenge_Result
 implements ResultMethod {
     public final BAPString dataAcknowledge = new BAPString(700);
-    private static final int MAX_DATAACKNOWLEDGE_LENGTH;
+    private static final int MAX_DATAACKNOWLEDGE_LENGTH = 700;
 
     public MobDevKeyChallenge_Result() {
         this.internalReset();
@@ -26,13 +26,11 @@ implements ResultMethod {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.dataAcknowledge.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeyChallenge_Result mobDevKeyChallenge_Result = (MobDevKeyChallenge_Result)bAPEntity;
         return this.dataAcknowledge.equalTo(mobDevKeyChallenge_Result.dataAcknowledge);
@@ -41,12 +39,10 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public int getResultCode() {
         return 0;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeyChallenge_Result");
@@ -54,17 +50,14 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.dataAcknowledge.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.dataAcknowledge.deserialize(bitStream);
     }
@@ -73,7 +66,6 @@ implements ResultMethod {
         return 19;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeyChallenge_Result.functionId();
     }

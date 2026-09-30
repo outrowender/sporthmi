@@ -4,6 +4,7 @@
 package java.security;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.Hashtable;
 
 public class CodeSource
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4977541819976013951L;
     private URL location;
     private transient Certificate[] certificates;
     private transient Hashtable certificatesSet;
@@ -48,7 +49,7 @@ implements Serializable {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         CodeSource codeSource = (CodeSource)object;
@@ -142,7 +143,7 @@ implements Serializable {
                         return false;
                     }
                 } else if (!string.endsWith("/")) {
-                    if (!string2.equals(new StringBuffer(String.valueOf(string)).append("/").toString())) {
+                    if (!string2.equals(String.valueOf(string) + "/")) {
                         return false;
                     }
                 } else {
@@ -158,12 +159,12 @@ implements Serializable {
 
     public String toString() {
         if (this.certificates == null || this.certificates.length == 0) {
-            return new StringBuffer("(").append(this.location).append(" <no certificates>)").toString();
+            return "(" + this.location + " <no certificates>)";
         }
-        return new StringBuffer("(").append(this.location).append(" ").append(this.certificates).append(")").toString();
+        return "(" + this.location + " " + this.certificates + ")";
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         if (this.certificates == null) {
             objectOutputStream.writeInt(0);
@@ -185,7 +186,7 @@ implements Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         int n = objectInputStream.readInt();
         if (n > 0) {

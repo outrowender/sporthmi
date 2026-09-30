@@ -34,7 +34,7 @@ public class GenericPacket {
     }
 
     public String toString() {
-        return new StringBuffer("GenericPacket{").append("keyword=").append(this.keyword).append(", data=").append("[").append(this.data == null ? "null" : Arrays.asList(this.data).toString()).append("]").append("}").toString();
+        return "GenericPacket{" + "keyword=" + this.keyword + ", data=" + "[" + (this.data == null ? "null" : Arrays.asList(this.data).toString()) + "]" + "}";
     }
 }
 

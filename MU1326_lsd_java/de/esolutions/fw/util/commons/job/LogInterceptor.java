@@ -25,14 +25,13 @@ implements IInterceptor {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute(Job job) {
-        this.log.log(1078071040, "%1: dispatching %2, latency %3ms", (Object)this.name, job, (int)job.getLatency());
+        this.log.log(1000000, "%1: dispatching %2, latency %3ms", (Object)this.name, job, (int)job.getLatency());
         try {
             super.execute(job);
         }
         finally {
-            this.log.log(1078071040, "%1: dispatching %2 done in %3ms", (Object)this.name, job, (int)job.getNeeded());
+            this.log.log(1000000, "%1: dispatching %2 done in %3ms", (Object)this.name, job, (int)job.getNeeded());
         }
     }
 }

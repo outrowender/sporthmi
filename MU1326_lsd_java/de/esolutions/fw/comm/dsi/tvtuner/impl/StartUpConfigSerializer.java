@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tvtuner.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tvtuner.StartUpConfig;
 
 public class StartUpConfigSerializer {
-    public static void putOptionalStartUpConfig(ISerializer iSerializer, StartUpConfig startUpConfig) {
+    public static void putOptionalStartUpConfig(ISerializer iSerializer, StartUpConfig startUpConfig) throws SerializerException {
         boolean bl = startUpConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -81,7 +82,7 @@ public class StartUpConfigSerializer {
         }
     }
 
-    public static void putOptionalStartUpConfigVarArray(ISerializer iSerializer, StartUpConfig[] startUpConfigArray) {
+    public static void putOptionalStartUpConfigVarArray(ISerializer iSerializer, StartUpConfig[] startUpConfigArray) throws SerializerException {
         boolean bl = startUpConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -92,7 +93,7 @@ public class StartUpConfigSerializer {
         }
     }
 
-    public static StartUpConfig getOptionalStartUpConfig(IDeserializer iDeserializer) {
+    public static StartUpConfig getOptionalStartUpConfig(IDeserializer iDeserializer) throws SerializerException {
         StartUpConfig startUpConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -167,7 +168,7 @@ public class StartUpConfigSerializer {
         return startUpConfig;
     }
 
-    public static StartUpConfig[] getOptionalStartUpConfigVarArray(IDeserializer iDeserializer) {
+    public static StartUpConfig[] getOptionalStartUpConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         StartUpConfig[] startUpConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -45,7 +45,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void close() {
         Object object = this.lock;
         synchronized (object) {
@@ -64,7 +63,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void flush() {
         Object object = this.lock;
         synchronized (object) {
@@ -202,7 +200,6 @@ extends Writer {
         }
     }
 
-    @Override
     public void write(char[] cArray) {
         this.write(cArray, 0, cArray.length);
     }
@@ -210,7 +207,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(char[] cArray, int n, int n2) {
         Object object = this.lock;
         synchronized (object) {
@@ -230,7 +226,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(int n) {
         Object object = this.lock;
         synchronized (object) {
@@ -238,12 +233,10 @@ extends Writer {
         }
     }
 
-    @Override
     public void write(String string) {
         this.print(string);
     }
 
-    @Override
     public void write(String string, int n, int n2) {
         this.print(string.substring(n, n + n2));
     }

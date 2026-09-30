@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingBootBlindState;
 
 public class DoorLockingBootBlindStateSerializer {
-    public static void putOptionalDoorLockingBootBlindState(ISerializer iSerializer, DoorLockingBootBlindState doorLockingBootBlindState) {
+    public static void putOptionalDoorLockingBootBlindState(ISerializer iSerializer, DoorLockingBootBlindState doorLockingBootBlindState) throws SerializerException {
         boolean bl = doorLockingBootBlindState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DoorLockingBootBlindStateSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingBootBlindStateVarArray(ISerializer iSerializer, DoorLockingBootBlindState[] doorLockingBootBlindStateArray) {
+    public static void putOptionalDoorLockingBootBlindStateVarArray(ISerializer iSerializer, DoorLockingBootBlindState[] doorLockingBootBlindStateArray) throws SerializerException {
         boolean bl = doorLockingBootBlindStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DoorLockingBootBlindStateSerializer {
         }
     }
 
-    public static DoorLockingBootBlindState getOptionalDoorLockingBootBlindState(IDeserializer iDeserializer) {
+    public static DoorLockingBootBlindState getOptionalDoorLockingBootBlindState(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingBootBlindState doorLockingBootBlindState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DoorLockingBootBlindStateSerializer {
         return doorLockingBootBlindState;
     }
 
-    public static DoorLockingBootBlindState[] getOptionalDoorLockingBootBlindStateVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingBootBlindState[] getOptionalDoorLockingBootBlindStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingBootBlindState[] doorLockingBootBlindStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

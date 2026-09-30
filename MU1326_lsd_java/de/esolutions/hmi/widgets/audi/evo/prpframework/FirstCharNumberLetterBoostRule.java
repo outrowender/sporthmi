@@ -20,7 +20,6 @@ extends AbstractPRPRule {
         this.boostParamId = n;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (AbstractWidget.isArabia() && TouchControllerArabia.isArabicCharSetActivated()) {
             return;
@@ -39,12 +38,10 @@ extends AbstractPRPRule {
         this.findAndBoostFirstCharLetter(recognizerResultArray[0], recognizerResultArray[1], recognizerResultArray[2]);
     }
 
-    @Override
     public String getRuleName() {
         return "First-Char-Number-Letter-Boosting-Rule";
     }
 
-    @Override
     public int getValidity() {
         return 0;
     }

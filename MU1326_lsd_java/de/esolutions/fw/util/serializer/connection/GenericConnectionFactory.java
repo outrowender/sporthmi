@@ -21,7 +21,6 @@ implements IConnectionFactory {
         this.serializerFactory = iSerializerFactory;
     }
 
-    @Override
     public Connection createConnection() {
         ITransport iTransport = this.transportFactory.createTransport();
         ISerializer iSerializer = this.serializerFactory.createExtendedSerializer();

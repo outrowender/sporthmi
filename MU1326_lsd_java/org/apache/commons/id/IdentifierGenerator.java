@@ -4,7 +4,6 @@
 package org.apache.commons.id;
 
 public interface IdentifierGenerator {
-    default public Object nextIdentifier() {
-    }
+    public Object nextIdentifier();
 }
 

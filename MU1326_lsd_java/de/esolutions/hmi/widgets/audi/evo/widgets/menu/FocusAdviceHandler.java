@@ -16,11 +16,11 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuViewport;
 
 public class FocusAdviceHandler
 implements IWidgetLogChannel {
-    public static final int EVALUATION_BEST;
-    public static final int EVALUATION_IMPROVING;
-    public static final int EVALUATION_BAD;
-    public static final int EVALUATION_CHANGE_ALIGNMENT_WITH_FIRST_POSTION;
-    public static final int EVALUATION_CHANGE_ALIGNMENT_WITH_SAME_ADVICE;
+    public static final int EVALUATION_BEST = 0;
+    public static final int EVALUATION_IMPROVING = 1;
+    public static final int EVALUATION_BAD = 2;
+    public static final int EVALUATION_CHANGE_ALIGNMENT_WITH_FIRST_POSTION = 3;
+    public static final int EVALUATION_CHANGE_ALIGNMENT_WITH_SAME_ADVICE = 4;
     private final FocusAdvice advice;
     private final MenuViewport oldViewport;
     private final MenuController menu;
@@ -43,7 +43,7 @@ implements IWidgetLogChannel {
             if (focusAdvice2 == FocusAdvice.KEEP_POSITION) {
                 focusAdvice2 = FocusAdvice.VIEWPORT_FIRST_POSITION;
             }
-            menuLogCh.log(-2137614336, "FocusAdviceHandler#setupAdvice: advice is KEEP_POSITION, but old viewport is empty. Use instead: %1", (Object)focusAdvice2);
+            menuLogCh.log(10000000, "FocusAdviceHandler#setupAdvice: advice is KEEP_POSITION, but old viewport is empty. Use instead: %1", (Object)focusAdvice2);
             return focusAdvice2;
         }
         return focusAdvice;
@@ -106,7 +106,7 @@ implements IWidgetLogChannel {
         boolean bl;
         boolean bl2 = bl = !new MenuUpdateManager(this.menu, this.layoutData).shouldUseItemToFillViewport(menuItemMetaData, this.focusedItem, this.oldViewport, !this.isTopAligned(), this.advice);
         if (bl) {
-            menuLogCh.log(-2137614336, "FocusAdviceHandler#shouldNotScrollInItem: don't scroll in item %1, focus: %2, old viewport: %3", (Object)menuItemMetaData, (Object)this.focusedItem, (Object)this.oldViewport);
+            menuLogCh.log(10000000, "FocusAdviceHandler#shouldNotScrollInItem: don't scroll in item %1, focus: %2, old viewport: %3", (Object)menuItemMetaData, (Object)this.focusedItem, (Object)this.oldViewport);
         }
         return bl;
     }
@@ -117,7 +117,7 @@ implements IWidgetLogChannel {
         }
         int n2 = this.getMaxHeight();
         if (this.heightSum > n2) {
-            menuLogCh.log(-1601830656, "FocusAdviceHandler#evaluateForItemPosition: exceeded max height: %2, current height sum: %3, requested position: %3", (long)n2, (long)this.heightSum, (long)n);
+            menuLogCh.log(100000, "FocusAdviceHandler#evaluateForItemPosition: exceeded max height: %2, current height sum: %3, requested position: %3", (long)n2, (long)this.heightSum, (long)n);
             return 3;
         }
         if (this.itemsCount < n) {
@@ -129,7 +129,7 @@ implements IWidgetLogChannel {
     private int evaluatePixelAdvice(MenuItemMetaData menuItemMetaData, int n, int n2) {
         if (this.heightSum > this.getMaxHeight()) {
             if (this.oldViewport.contains(menuItemMetaData.index)) {
-                menuLogCh.log(-1601830656, "FocusAdviceHandler#evaluatePixelAdvice: height too high, can't keep pixels: %2, maxHeight: %3, currentItem: %1", (Object)menuItemMetaData, (long)n, (long)this.getMaxHeight());
+                menuLogCh.log(100000, "FocusAdviceHandler#evaluatePixelAdvice: height too high, can't keep pixels: %2, maxHeight: %3, currentItem: %1", (Object)menuItemMetaData, (long)n, (long)this.getMaxHeight());
                 return 3;
             }
             return 2;
@@ -167,7 +167,7 @@ implements IWidgetLogChannel {
     private int evaluateKeepPosition(MenuItemMetaData menuItemMetaData) {
         MenuItemIndex menuItemIndex;
         if (this.heightSum > this.getMaxHeight()) {
-            menuLogCh.log(-2137614336, "FocusAdviceHandler#evaluateKeepPosition: height too high, change alignment. currentItem: %1, oldViewport: %2, heightSum: %3", (Object)menuItemMetaData, (Object)this.oldViewport, (long)this.heightSum);
+            menuLogCh.log(10000000, "FocusAdviceHandler#evaluateKeepPosition: height too high, change alignment. currentItem: %1, oldViewport: %2, heightSum: %3", (Object)menuItemMetaData, (Object)this.oldViewport, (long)this.heightSum);
             return 3;
         }
         MenuItemIndex menuItemIndex2 = menuItemIndex = this.isTopAligned() ? this.oldViewport.start : this.oldViewport.end;

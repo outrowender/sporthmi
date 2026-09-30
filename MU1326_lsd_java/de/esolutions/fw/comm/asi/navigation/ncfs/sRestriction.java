@@ -92,7 +92,7 @@ public class sRestriction {
     }
 
     public String toString() {
-        return new StringBuffer("sRestriction{").append("id=").append(this.id).append(", edgeId=").append(this.edgeId).append(", startAt=").append(this.startAt).append(", endAt=").append(this.endAt).append(", type=").append(this.type).append(", value=").append(this.value).append(", addSignType=").append(this.addSignType).append(", addSignValue=").append(this.addSignValue).append("}").toString();
+        return "sRestriction{" + "id=" + this.id + ", edgeId=" + this.edgeId + ", startAt=" + this.startAt + ", endAt=" + this.endAt + ", type=" + this.type + ", value=" + this.value + ", addSignType=" + this.addSignType + ", addSignValue=" + this.addSignValue + "}";
     }
 }
 

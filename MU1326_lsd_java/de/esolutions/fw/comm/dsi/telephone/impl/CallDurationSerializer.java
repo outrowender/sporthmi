@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.CallDuration;
 
 public class CallDurationSerializer {
-    public static void putOptionalCallDuration(ISerializer iSerializer, CallDuration callDuration) {
+    public static void putOptionalCallDuration(ISerializer iSerializer, CallDuration callDuration) throws SerializerException {
         boolean bl = callDuration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class CallDurationSerializer {
         }
     }
 
-    public static void putOptionalCallDurationVarArray(ISerializer iSerializer, CallDuration[] callDurationArray) {
+    public static void putOptionalCallDurationVarArray(ISerializer iSerializer, CallDuration[] callDurationArray) throws SerializerException {
         boolean bl = callDurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class CallDurationSerializer {
         }
     }
 
-    public static CallDuration getOptionalCallDuration(IDeserializer iDeserializer) {
+    public static CallDuration getOptionalCallDuration(IDeserializer iDeserializer) throws SerializerException {
         CallDuration callDuration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class CallDurationSerializer {
         return callDuration;
     }
 
-    public static CallDuration[] getOptionalCallDurationVarArray(IDeserializer iDeserializer) {
+    public static CallDuration[] getOptionalCallDurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         CallDuration[] callDurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

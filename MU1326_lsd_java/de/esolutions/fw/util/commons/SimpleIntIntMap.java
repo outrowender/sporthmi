@@ -18,15 +18,14 @@ extends AbstractSimpleIntMap {
     public SimpleIntIntMap(int n) {
         super(n);
         this.values = new int[n];
-        Arrays.fill(this.values, 128);
+        Arrays.fill(this.values, Integer.MIN_VALUE);
     }
 
-    @Override
     protected void resizeValueArray(int n) {
         int[] nArray = new int[n];
         if (n > this.values.length) {
             System.arraycopy((Object)this.values, 0, (Object)nArray, 0, this.values.length);
-            Arrays.fill(nArray, this.values.length, nArray.length, 128);
+            Arrays.fill(nArray, this.values.length, nArray.length, Integer.MIN_VALUE);
             this.values = nArray;
         } else if (n < this.values.length) {
             System.arraycopy((Object)this.values, 0, (Object)nArray, 0, nArray.length);
@@ -34,14 +33,12 @@ extends AbstractSimpleIntMap {
         }
     }
 
-    @Override
     protected void clearValues() {
-        Arrays.fill(this.values, 128);
+        Arrays.fill(this.values, Integer.MIN_VALUE);
     }
 
-    @Override
     protected void clearValue(int n) {
-        this.values[n] = 128;
+        this.values[n] = Integer.MIN_VALUE;
     }
 
     public void add(int n, int n2) {
@@ -61,7 +58,7 @@ extends AbstractSimpleIntMap {
         int[] nArray = new int[this.size()];
         int n = 0;
         for (int i2 = 0; i2 < this.keys.length; ++i2) {
-            if (this.keys[i2] == 128) continue;
+            if (this.keys[i2] == Integer.MIN_VALUE) continue;
             nArray[n] = this.values[i2];
             ++n;
         }

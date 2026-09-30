@@ -9,94 +9,54 @@ import java.util.ListIterator;
 
 public interface List
 extends Collection {
-    default public void add(int n, Object object) {
-    }
+    public void add(int var1, Object var2);
 
-    @Override
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    default public boolean addAll(int n, Collection collection) {
-    }
+    public boolean addAll(int var1, Collection var2);
 
-    @Override
-    default public boolean addAll(Collection collection) {
-    }
+    public boolean addAll(Collection var1);
 
-    @Override
-    default public void clear() {
-    }
+    public void clear();
 
-    @Override
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    @Override
-    default public boolean containsAll(Collection collection) {
-    }
+    public boolean containsAll(Collection var1);
 
-    @Override
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public Object get(int n) {
-    }
+    public Object get(int var1);
 
-    @Override
-    default public int hashCode() {
-    }
+    public int hashCode();
 
-    default public int indexOf(Object object) {
-    }
+    public int indexOf(Object var1);
 
-    @Override
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    @Override
-    default public Iterator iterator() {
-    }
+    public Iterator iterator();
 
-    default public int lastIndexOf(Object object) {
-    }
+    public int lastIndexOf(Object var1);
 
-    default public ListIterator listIterator() {
-    }
+    public ListIterator listIterator();
 
-    default public ListIterator listIterator(int n) {
-    }
+    public ListIterator listIterator(int var1);
 
-    default public Object remove(int n) {
-    }
+    public Object remove(int var1);
 
-    @Override
-    default public boolean remove(Object object) {
-    }
+    public boolean remove(Object var1);
 
-    @Override
-    default public boolean removeAll(Collection collection) {
-    }
+    public boolean removeAll(Collection var1);
 
-    @Override
-    default public boolean retainAll(Collection collection) {
-    }
+    public boolean retainAll(Collection var1);
 
-    default public Object set(int n, Object object) {
-    }
+    public Object set(int var1, Object var2);
 
-    @Override
-    default public int size() {
-    }
+    public int size();
 
-    default public List subList(int n, int n2) {
-    }
+    public List subList(int var1, int var2);
 
-    @Override
-    default public Object[] toArray() {
-    }
+    public Object[] toArray();
 
-    @Override
-    default public Object[] toArray(Object[] objectArray) {
-    }
+    public Object[] toArray(Object[] var1);
 }
 

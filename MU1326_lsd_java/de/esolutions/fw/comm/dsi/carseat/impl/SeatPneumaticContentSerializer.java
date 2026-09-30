@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SeatPneumaticContent;
 
 public class SeatPneumaticContentSerializer {
-    public static void putOptionalSeatPneumaticContent(ISerializer iSerializer, SeatPneumaticContent seatPneumaticContent) {
+    public static void putOptionalSeatPneumaticContent(ISerializer iSerializer, SeatPneumaticContent seatPneumaticContent) throws SerializerException {
         boolean bl = seatPneumaticContent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SeatPneumaticContentSerializer {
         }
     }
 
-    public static void putOptionalSeatPneumaticContentVarArray(ISerializer iSerializer, SeatPneumaticContent[] seatPneumaticContentArray) {
+    public static void putOptionalSeatPneumaticContentVarArray(ISerializer iSerializer, SeatPneumaticContent[] seatPneumaticContentArray) throws SerializerException {
         boolean bl = seatPneumaticContentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SeatPneumaticContentSerializer {
         }
     }
 
-    public static SeatPneumaticContent getOptionalSeatPneumaticContent(IDeserializer iDeserializer) {
+    public static SeatPneumaticContent getOptionalSeatPneumaticContent(IDeserializer iDeserializer) throws SerializerException {
         SeatPneumaticContent seatPneumaticContent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SeatPneumaticContentSerializer {
         return seatPneumaticContent;
     }
 
-    public static SeatPneumaticContent[] getOptionalSeatPneumaticContentVarArray(IDeserializer iDeserializer) {
+    public static SeatPneumaticContent[] getOptionalSeatPneumaticContentVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatPneumaticContent[] seatPneumaticContentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

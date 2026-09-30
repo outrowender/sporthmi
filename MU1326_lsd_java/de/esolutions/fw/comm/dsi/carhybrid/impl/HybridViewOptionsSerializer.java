@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carhybrid.impl.HybridConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.HybridConfiguration;
 import org.dsi.ifc.carhybrid.HybridViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class HybridViewOptionsSerializer {
-    public static void putOptionalHybridViewOptions(ISerializer iSerializer, HybridViewOptions hybridViewOptions) {
+    public static void putOptionalHybridViewOptions(ISerializer iSerializer, HybridViewOptions hybridViewOptions) throws SerializerException {
         boolean bl = hybridViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class HybridViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalHybridViewOptionsVarArray(ISerializer iSerializer, HybridViewOptions[] hybridViewOptionsArray) {
+    public static void putOptionalHybridViewOptionsVarArray(ISerializer iSerializer, HybridViewOptions[] hybridViewOptionsArray) throws SerializerException {
         boolean bl = hybridViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class HybridViewOptionsSerializer {
         }
     }
 
-    public static HybridViewOptions getOptionalHybridViewOptions(IDeserializer iDeserializer) {
+    public static HybridViewOptions getOptionalHybridViewOptions(IDeserializer iDeserializer) throws SerializerException {
         HybridViewOptions hybridViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class HybridViewOptionsSerializer {
         return hybridViewOptions;
     }
 
-    public static HybridViewOptions[] getOptionalHybridViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static HybridViewOptions[] getOptionalHybridViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         HybridViewOptions[] hybridViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

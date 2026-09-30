@@ -32,7 +32,7 @@ public class IconLabelRendererHigh
 extends AbstractRendererHigh
 implements IconRenderer,
 Alignment {
-    private static final int NODE_INDEX_FOREGROUND;
+    private static final int NODE_INDEX_FOREGROUND = 1;
     private int alignmentVert = 4;
     private int alignmentHoriz = 1;
     private IconLabelController controller;
@@ -58,7 +58,7 @@ Alignment {
     private float scaleX = 1.0f;
     private boolean isCenterAligned = false;
     public boolean debug = false;
-    public static boolean showBounds;
+    public static boolean showBounds = false;
 
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         if (this.imageNode == null && (this.controller.getTexture() != null || this.controller.hasPlaceholderSettings())) {
@@ -83,11 +83,11 @@ Alignment {
             this.node.setVisible(abstractWidgetController.shouldRender());
             this.node.setScale(fArray[0], fArray[1], 1.0f);
         } else {
-            iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#applyProperties Node is not valid or null (%1).", this.node == null);
+            iconLabelLogCh.log(10000000, "IconLabelRendererHigh#applyProperties Node is not valid or null (%1).", this.node == null);
         }
         if (this.textNode != null) {
             this.textNode.setVisible(this.controller.getID() != -1 && this.controller.hasContent());
-            iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#applyProperties for text = %2, valid = %1", this.textNode.isValid(), (Object)this.textNode.getText());
+            iconLabelLogCh.log(10000000, "IconLabelRendererHigh#applyProperties for text = %2, valid = %1", this.textNode.isValid(), (Object)this.textNode.getText());
         } else if (this.text != null) {
             iconLabelLogCh.log(10000, "IconLabelRendererHigh#applyProperties Text node is null, but text = %1 is not.", (Object)this.text);
         }
@@ -101,20 +101,19 @@ Alignment {
 
     private void logPositions() {
         if (iconLabelLogCh.isDebug()) {
-            iconLabelLogCh.log(-2137614336, new StringBuffer().append("IconLabelRendererHigh#logPositions isCenterAligned = {%1} , controller.getX( = {%2}, controller.getY() = {%3}, controller.getWidth() = {").append(String.valueOf(this.controller.getWidth())).append("}, ").append("controller.getHeight() = {").append(String.valueOf(this.controller.getHeight())).append("}").toString(), (Object)String.valueOf(this.isCenterAligned), (Object)String.valueOf(this.controller.getX()), (Object)String.valueOf(this.controller.getY()));
+            iconLabelLogCh.log(10000000, "IconLabelRendererHigh#logPositions isCenterAligned = {%1} , controller.getX( = {%2}, controller.getY() = {%3}, controller.getWidth() = {" + String.valueOf(this.controller.getWidth()) + "}, " + "controller.getHeight() = {" + String.valueOf(this.controller.getHeight()) + "}", (Object)String.valueOf(this.isCenterAligned), (Object)String.valueOf(this.controller.getX()), (Object)String.valueOf(this.controller.getY()));
             if (this.imageNode != null) {
-                iconLabelLogCh.log(-2137614336, new StringBuffer().append("IconLabelRendererHigh#logPositions#imageNodeimageNode.getWidth() = {").append(String.valueOf(this.imageNode.getWidth())).append("} ").append(", imageNode.getHeight() = {").append(String.valueOf(this.imageNode.getHeight())).append("}").append(", imageNode.getScaleX() = {").append(String.valueOf(this.imageNode.getScaleX())).append("}, ").append(", imageNode.getX() = {").append(String.valueOf(this.imageNode.getX())).append("}, ").append(", imageNode.getY() = {").append(String.valueOf(this.imageNode.getY())).append("}").toString());
+                iconLabelLogCh.log(10000000, "IconLabelRendererHigh#logPositions#imageNodeimageNode.getWidth() = {" + String.valueOf(this.imageNode.getWidth()) + "} " + ", imageNode.getHeight() = {" + String.valueOf(this.imageNode.getHeight()) + "}" + ", imageNode.getScaleX() = {" + String.valueOf(this.imageNode.getScaleX()) + "}, " + ", imageNode.getX() = {" + String.valueOf(this.imageNode.getX()) + "}, " + ", imageNode.getY() = {" + String.valueOf(this.imageNode.getY()) + "}");
             }
             if (this.textNode != null) {
-                iconLabelLogCh.log(-2137614336, new StringBuffer().append("IconLabelRendererHigh#logPositions#textNodetextNode.getWidth() = {").append(String.valueOf(this.textNode.getWidth())).append("} ").append(", textNode.getHeight() = {").append(String.valueOf(this.textNode.getHeight())).append("}").append(", textNode.getX() = {").append(String.valueOf(this.textNode.getX())).append("}, ").append(", textNode.getY() = {").append(String.valueOf(this.textNode.getY())).append("}").toString());
+                iconLabelLogCh.log(10000000, "IconLabelRendererHigh#logPositions#textNodetextNode.getWidth() = {" + String.valueOf(this.textNode.getWidth()) + "} " + ", textNode.getHeight() = {" + String.valueOf(this.textNode.getHeight()) + "}" + ", textNode.getX() = {" + String.valueOf(this.textNode.getX()) + "}, " + ", textNode.getY() = {" + String.valueOf(this.textNode.getY()) + "}");
             }
             if (this.textNode2 != null) {
-                iconLabelLogCh.log(-2137614336, new StringBuffer().append("IconLabelRendererHigh#logPositions#textNode2textNode2.getWidth() = {").append(String.valueOf(this.textNode2.getWidth())).append("} ").append(", textNode2.getHeight() = {").append(String.valueOf(this.textNode2.getHeight())).append("}").append(", textNode2.getX() = {").append(String.valueOf(this.textNode2.getX())).append("}, ").append(", textNode2.getY() = {").append(String.valueOf(this.textNode2.getY())).append("}").toString());
+                iconLabelLogCh.log(10000000, "IconLabelRendererHigh#logPositions#textNode2textNode2.getWidth() = {" + String.valueOf(this.textNode2.getWidth()) + "} " + ", textNode2.getHeight() = {" + String.valueOf(this.textNode2.getHeight()) + "}" + ", textNode2.getX() = {" + String.valueOf(this.textNode2.getX()) + "}, " + ", textNode2.getY() = {" + String.valueOf(this.textNode2.getY()) + "}");
             }
         }
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
     }
@@ -131,8 +130,8 @@ Alignment {
                     this.textColor = this.getTextColorARGB(iconCell);
                     this.deltaX = iconCell.getDeltaX();
                     this.deltaY = iconCell.getDeltaY();
-                    iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#render fontReference = %1, fontSize = %2", (long)this.fontReference, (long)this.fontSize);
-                    iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#render textColor = %1", (long)this.textColor);
+                    iconLabelLogCh.log(10000000, "IconLabelRendererHigh#render fontReference = %1, fontSize = %2", (long)this.fontReference, (long)this.fontSize);
+                    iconLabelLogCh.log(10000000, "IconLabelRendererHigh#render textColor = %1", (long)this.textColor);
                     if (this.fontSize > 0) {
                         IWrappedFont iWrappedFont = (IWrappedFont)this.getTerminal().getFontLoader().getFont(this.fontReference, this.fontSize);
                         if (iWrappedFont != null) {
@@ -149,7 +148,7 @@ Alignment {
                             iconLabelLogCh.log(10000, "IconLabelRendererHigh#render Font is null.");
                         }
                     } else {
-                        iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#render Font size is %1", (long)this.fontSize);
+                        iconLabelLogCh.log(10000000, "IconLabelRendererHigh#render Font size is %1", (long)this.fontSize);
                     }
                 } else if (this.controller.getID() != -1) {
                     iconLabelLogCh.log(10000, "IconLabelRendererHigh#render Text of icon %1 is null", (long)this.controller.getID());
@@ -166,7 +165,7 @@ Alignment {
             mapOverlayLogCh.log(10000, "IconLabelRendererHigh#render Error creating text node with text %1.", (Object)this.text);
             return;
         }
-        mapOverlayLogCh.log(-2137614336, "IconLabelRendererHigh#render Text node created with text = %1", (Object)this.text);
+        mapOverlayLogCh.log(10000000, "IconLabelRendererHigh#render Text node created with text = %1", (Object)this.text);
         this.textPos_x = (this.getPreferredWidth() - (int)this.textNode.getWidth()) / 2 + this.deltaX;
         this.textPos_y = (this.getPreferredHeight() + EALManager.getFontHeightUppercase(iWrappedFont)) / 2 - 1 + this.deltaY;
         int n = EALManager.createColorCode(this.textColor);
@@ -206,7 +205,7 @@ Alignment {
     }
 
     private void destroyNodesImageAndText() {
-        iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#destroyNodesImageAndText");
+        iconLabelLogCh.log(10000000, "IconLabelRendererHigh#destroyNodesImageAndText");
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {
             if (this.imageNode != null) {
@@ -237,19 +236,16 @@ Alignment {
         this.node = null;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNodes();
         this.cell = null;
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (!NavMapInfoTextWidget.isTarget()) {
             TextureDescription textureDescription = this.getTextureDescription(0, true);
@@ -266,7 +262,6 @@ Alignment {
         return this.controller.getBitmapWidth();
     }
 
-    @Override
     public int getPreferredHeight() {
         if (!NavMapInfoTextWidget.isTarget()) {
             TextureDescription textureDescription = this.getTextureDescription(0, true);
@@ -291,7 +286,6 @@ Alignment {
         this.controller = iconLabelController;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -305,7 +299,7 @@ Alignment {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         IconCell iconCell = this.controller.getIconCell();
         if (!Util.equals(this.cell, iconCell) || this.controller.hasDataChanged(true) || !NavMapInfoTextWidget.isTarget()) {
-            iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#render Content changed.");
+            iconLabelLogCh.log(10000000, "IconLabelRendererHigh#render Content changed.");
             this.cell = iconCell;
             EALManager eALManager = ((HMITerminalEAL)((Object)this.getTerminal())).getEALManager();
             int n = redrawContext.getCalculatedNodeIndex(this.controller.getDepth());
@@ -327,7 +321,7 @@ Alignment {
                         iconLabelLogCh.log(10000, "IconLabelRendererHigh#render Creating quick draw debug node failed.");
                     } else {
                         this.debugFrame.setLineWidth(2.0f);
-                        int n4 = EALManager.createColorCode(-65281);
+                        int n4 = EALManager.createColorCode(-16711681);
                         this.debugFrame.setLineColor(n4);
                         this.debugFrame.setPosition(0.0f, 0.0f, 0.0f);
                         this.debugFrame.setVisible(true);
@@ -346,7 +340,7 @@ Alignment {
         } else {
             int n = this.cell == null ? -1 : this.cell.getResourceLocator().getResourceID();
             int n5 = iconCell == null ? -1 : iconCell.getResourceLocator().getResourceID();
-            iconLabelLogCh.log(-2137614336, "IconLabelRendererHigh#render Content has not changed (old = %1, new = %2).", (long)n, (long)n5);
+            iconLabelLogCh.log(10000000, "IconLabelRendererHigh#render Content has not changed (old = %1, new = %2).", (long)n, (long)n5);
         }
         this.applyProperties(redrawContextHigh);
     }
@@ -365,7 +359,6 @@ Alignment {
         this.node.setSize(this.getPreferredWidth(), this.getPreferredHeight());
     }
 
-    @Override
     public void setAlignment(int n, int n2) {
         this.alignmentVert = n2;
         this.alignmentHoriz = n;
@@ -375,17 +368,14 @@ Alignment {
         return this.scaleMode;
     }
 
-    @Override
     public void setScaleMode(int n) {
         this.scaleMode = n;
     }
 
-    @Override
     public String getDiagnosisText() {
         return null;
     }
 
-    @Override
     public void setScaleFactor(float f2, float f3) {
         this.scaleX = f2;
         this.scaleY = f3;
@@ -395,25 +385,18 @@ Alignment {
         return this.autoscaleModification;
     }
 
-    @Override
     public void setAutoscaleModification(int n) {
         this.autoscaleModification = n;
     }
 
-    @Override
     public void setRotationY(float f2) {
     }
 
-    @Override
     public void setRotationZ(float f2) {
     }
 
     public void setCenterAligned(boolean bl) {
         this.isCenterAligned = bl;
-    }
-
-    static {
-        showBounds = false;
     }
 }
 

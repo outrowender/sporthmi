@@ -3,48 +3,37 @@
  */
 package de.esolutions.fw.comm.dsi.connectedradio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.connectedradio.RadioStation;
 
 public interface DSIOnlineRadioReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "67900ab4-039a-59dd-9141-ca1a0fb8a2bf";
+    public static final String IPL_COMM_INTERFACE_KEY = "cda08e84-495a-5b75-83b5-00f0e4603808";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void getRadioStationLogoResult(int n, int n2, RadioStation radioStation, int n3) {
-    }
+    public void getRadioStationLogoResult(int var1, int var2, RadioStation var3, int var4) throws MethodException;
 
-    default public void getStreamUrlResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void getStreamUrlResult(int var1, int var2, RadioStation var3) throws MethodException;
 
-    default public void getMetaInformationResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void getMetaInformationResult(int var1, int var2, RadioStation var3) throws MethodException;
 
-    default public void downloadDatabaseResult(int n, int n2) {
-    }
+    public void downloadDatabaseResult(int var1, int var2) throws MethodException;
 
-    default public void cancelDownloadDatabaseResult(int n, int n2) {
-    }
+    public void cancelDownloadDatabaseResult(int var1, int var2) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

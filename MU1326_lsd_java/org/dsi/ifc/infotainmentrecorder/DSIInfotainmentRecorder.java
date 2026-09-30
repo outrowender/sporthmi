@@ -7,46 +7,41 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIInfotainmentRecorder
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_LOGPANELNAME;
-    public static final int RT_LOGKEYEVENT;
-    public static final int RT_BACKUPTRIGGER;
-    public static final int RT_ENABLETRIGGER;
-    public static final int RT_LOGINIT;
-    public static final int ATTR_ENABLEDTRIGGERS;
-    public static final int TTRIGGERTYPES_IRC_EXCEPTION_TRIGGER;
-    public static final int TTRIGGERTYPES_IRC_HOTKEY_TRIGGER;
-    public static final int TTRIGGERTYPES_IRC_RESET_TRIGGER;
-    public static final int TTRIGGERTYPES_SYSTEM_DRIVE_ERROR;
-    public static final int TTRIGGERTYPES_SYSTEM_DRIVE_READERROR;
-    public static final int TTRIGGERTYPES_SYSTEM_HDD_DEFECT;
-    public static final int TTRIGGERTYPES_SYSTEM_HDD_PRESURE;
-    public static final int TTRIGGERTYPES_SYSTEM_OVER_HEAT;
-    public static final int TTRIGGERTYPES_TEL_PHONE_NOT_FUNCTIONAL;
-    public static final int TTRIGGERTYPES_TEL_PHONE_TEMPERATURE_OFF;
-    public static final int TTRIGGERTYPES_TEL_SECCO_BLOCKED;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_CD_DRIVE_DAMAGED;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_CD_DRIVE_TEMPHIGH;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_CD_DRIVE_TEMPLOW;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_DVD_DRIVE_DAMAGED;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_DVD_DRIVE_TEMPHIGH;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_DVD_DRIVE_TEMPLOW;
-    public static final int TTRIGGERTYPES_TEMP_SYSTEM_TEMP;
-    public static final int TTRIGGERTYPES_UNUSED;
+    public static final String VERSION = "2.11.0";
+    public static final int RT_LOGPANELNAME = 1000;
+    public static final int RT_LOGKEYEVENT = 1002;
+    public static final int RT_BACKUPTRIGGER = 1003;
+    public static final int RT_ENABLETRIGGER = 1004;
+    public static final int RT_LOGINIT = 1005;
+    public static final int ATTR_ENABLEDTRIGGERS = 1;
+    public static final int TTRIGGERTYPES_IRC_EXCEPTION_TRIGGER = 61;
+    public static final int TTRIGGERTYPES_IRC_HOTKEY_TRIGGER = 63;
+    public static final int TTRIGGERTYPES_IRC_RESET_TRIGGER = 62;
+    public static final int TTRIGGERTYPES_SYSTEM_DRIVE_ERROR = 12;
+    public static final int TTRIGGERTYPES_SYSTEM_DRIVE_READERROR = 8;
+    public static final int TTRIGGERTYPES_SYSTEM_HDD_DEFECT = 9;
+    public static final int TTRIGGERTYPES_SYSTEM_HDD_PRESURE = 10;
+    public static final int TTRIGGERTYPES_SYSTEM_OVER_HEAT = 11;
+    public static final int TTRIGGERTYPES_TEL_PHONE_NOT_FUNCTIONAL = 13;
+    public static final int TTRIGGERTYPES_TEL_PHONE_TEMPERATURE_OFF = 14;
+    public static final int TTRIGGERTYPES_TEL_SECCO_BLOCKED = 15;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_CD_DRIVE_DAMAGED = 7;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_CD_DRIVE_TEMPHIGH = 3;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_CD_DRIVE_TEMPLOW = 5;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_DVD_DRIVE_DAMAGED = 6;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_DVD_DRIVE_TEMPHIGH = 2;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_DVD_DRIVE_TEMPLOW = 4;
+    public static final int TTRIGGERTYPES_TEMP_SYSTEM_TEMP = 1;
+    public static final int TTRIGGERTYPES_UNUSED = 0;
 
-    default public void logPanelName(String string) {
-    }
+    public void logPanelName(String var1);
 
-    default public void logKeyEvent(int n, int n2, int n3) {
-    }
+    public void logKeyEvent(int var1, int var2, int var3);
 
-    default public void backupTrigger(int n) {
-    }
+    public void backupTrigger(int var1);
 
-    default public void enableTrigger(boolean bl, int n) {
-    }
+    public void enableTrigger(boolean var1, int var2);
 
-    default public void logInit() {
-    }
+    public void logInit();
 }
 

@@ -6,16 +6,12 @@ package org.apache.commons.id.uuid;
 import org.apache.commons.id.uuid.state.Node;
 
 public interface NodeManager {
-    default public Node currentNode() {
-    }
+    public Node currentNode();
 
-    default public Node nextAvailableNode() {
-    }
+    public Node nextAvailableNode();
 
-    default public void lockNode(Node node) {
-    }
+    public void lockNode(Node var1);
 
-    default public void releaseNode(Node node) {
-    }
+    public void releaseNode(Node var1);
 }
 

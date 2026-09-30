@@ -26,7 +26,7 @@ public class RdvPointList {
     }
 
     public String toString() {
-        return new StringBuffer("RdvPointList{").append("points=").append("[").append(this.points == null ? "null" : Arrays.asList(this.points).toString()).append("]").append("}").toString();
+        return "RdvPointList{" + "points=" + "[" + (this.points == null ? "null" : Arrays.asList(this.points).toString()) + "]" + "}";
     }
 }
 

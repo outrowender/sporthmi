@@ -29,12 +29,10 @@ extends IObject {
         return iProperty == null ? 0L : iProperty.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -46,7 +44,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -154,7 +151,6 @@ extends IObject {
         return l == 0L ? null : new IMaterial(l, true);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IProperty_isValid(this.swigCPtr, this);
     }
@@ -163,7 +159,6 @@ extends IObject {
         return propertyType_t.swigToEnum(ealswigJNI.eal_api_IProperty_getType(this.swigCPtr, this));
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IProperty_dispose(this.swigCPtr, this);
     }

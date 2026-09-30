@@ -11,7 +11,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class StartEngineChallenge_StartResult
 implements StartResultMethod {
     public final BAPString dataRequest = new BAPString(6);
-    private static final int MAX_DATAREQUEST_LENGTH;
+    private static final int MAX_DATAREQUEST_LENGTH = 6;
 
     public StartEngineChallenge_StartResult() {
         this.internalReset();
@@ -26,13 +26,11 @@ implements StartResultMethod {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.dataRequest.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         StartEngineChallenge_StartResult startEngineChallenge_StartResult = (StartEngineChallenge_StartResult)bAPEntity;
         return this.dataRequest.equalTo(startEngineChallenge_StartResult.dataRequest);
@@ -41,7 +39,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("StartEngineChallenge_StartResult");
@@ -49,17 +46,14 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.dataRequest.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.dataRequest.deserialize(bitStream);
     }
@@ -68,7 +62,6 @@ implements StartResultMethod {
         return 16;
     }
 
-    @Override
     public int getFunctionId() {
         return StartEngineChallenge_StartResult.functionId();
     }

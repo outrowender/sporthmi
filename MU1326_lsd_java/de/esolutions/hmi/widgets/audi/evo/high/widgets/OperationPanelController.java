@@ -17,8 +17,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.ModelStubController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ISpellerListener;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerButtonArgument;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,12 +34,12 @@ implements ISpellerListener {
     private int cursorPosition = -1;
     private boolean hasOkButton = false;
     private boolean spellerOpen = false;
-    private static final int KEY_SPELLER_ID;
+    private static final int KEY_SPELLER_ID = 20;
     private int tunerMode = -1;
     private int[] positions = new int[4];
     private int alignment = 1;
-    protected static final int LEFT_ALIGNEMNT;
-    protected static final int RIGHT_ALIGNTMENT;
+    protected static final int LEFT_ALIGNEMNT = 0;
+    protected static final int RIGHT_ALIGNTMENT = 1;
     private int indexCursorImages = 0;
     private int indexBackgroundImages = 1;
     private int indexAlignmentImages = 4;
@@ -53,38 +51,37 @@ implements ISpellerListener {
     private int keyId = -1;
     private int iconSize = 30;
     private int renderedKeys = 0;
-    public static final int KEY_LEFT_ALIGNEMENT;
-    public static final int KEY_RIGHT_ALIGNEMENT;
-    private static final int KEY_ID_OK_ENTER;
+    public static final int KEY_LEFT_ALIGNEMENT = -1;
+    public static final int KEY_RIGHT_ALIGNEMENT = -2;
+    private static final int KEY_ID_OK_ENTER = 6;
     private AbstractWidgetController buttonHandlerWidget = null;
-    public static final int ROLE_FUNCTIONAL_KEY;
-    public static final int ROLE_PANEL_KEY;
-    public static final int ROLE_KEY_HANDLER;
-    public static final int ROLE_SPELLER;
+    public static final int ROLE_FUNCTIONAL_KEY = 0;
+    public static final int ROLE_PANEL_KEY = 1;
+    public static final int ROLE_KEY_HANDLER = 2;
+    public static final int ROLE_SPELLER = 3;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof ModelStubController) {
             if (this.buttonHandlerWidget == null) {
                 this.buttonHandlerWidget = (ModelStubController)abstractWidget;
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#add ButtonHandlerWidget to OpaertionPanel: %1", (Object)this.buttonHandlerWidget);
+                logOperationalPanel.log(10000000, "OperationalPanelController#add ButtonHandlerWidget to OpaertionPanel: %1", (Object)this.buttonHandlerWidget);
                 return;
             }
             if (this.functionalKeysWidget == null) {
                 this.functionalKeysWidget = (ModelStubController)abstractWidget;
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#add FunctionaKeysWidget to OperationPanel: %1", (Object)this.functionalKeysWidget);
+                logOperationalPanel.log(10000000, "OperationalPanelController#add FunctionaKeysWidget to OperationPanel: %1", (Object)this.functionalKeysWidget);
                 return;
             }
             if (this.systemKeysWidget == null) {
                 this.systemKeysWidget = (ModelStubController)abstractWidget;
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#add SystemKeyWidget to OperationPanel: %1", (Object)this.systemKeysWidget);
+                logOperationalPanel.log(10000000, "OperationalPanelController#add SystemKeyWidget to OperationPanel: %1", (Object)this.systemKeysWidget);
                 return;
             }
         }
         if (abstractWidget instanceof SpellerController) {
             this.speller = (SpellerController)abstractWidget;
             this.speller.registerSpellerListener(this);
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#add add Speller to OperationPanel: %1", (Object)this.speller);
+            logOperationalPanel.log(10000000, "OperationalPanelController#add add Speller to OperationPanel: %1", (Object)this.speller);
         }
         super.add(abstractWidget);
     }
@@ -93,18 +90,18 @@ implements ISpellerListener {
         if (abstractWidget instanceof ModelStubController) {
             if (n == 0) {
                 this.functionalKeysWidget = (ModelStubController)abstractWidget;
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#add FunctionaKeysWidget to OperationPanel: %1", (Object)this.functionalKeysWidget);
+                logOperationalPanel.log(10000000, "OperationalPanelController#add FunctionaKeysWidget to OperationPanel: %1", (Object)this.functionalKeysWidget);
             } else if (n == 1) {
                 this.systemKeysWidget = (ModelStubController)abstractWidget;
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#add SystemKeyWidget to OperationPanel: %1", (Object)this.systemKeysWidget);
+                logOperationalPanel.log(10000000, "OperationalPanelController#add SystemKeyWidget to OperationPanel: %1", (Object)this.systemKeysWidget);
             } else if (n == 2) {
                 this.buttonHandlerWidget = (ModelStubController)abstractWidget;
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#add ButtonHandlerWidget to OpaertionPanel: %1", (Object)this.buttonHandlerWidget);
+                logOperationalPanel.log(10000000, "OperationalPanelController#add ButtonHandlerWidget to OpaertionPanel: %1", (Object)this.buttonHandlerWidget);
             }
         }
         if (n == 3 && abstractWidget instanceof SpellerController) {
             this.speller = (SpellerController)abstractWidget;
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#add add Speller to OperationPanel: %1", (Object)this.speller);
+            logOperationalPanel.log(10000000, "OperationalPanelController#add add Speller to OperationPanel: %1", (Object)this.speller);
         }
         super.add(abstractWidget);
     }
@@ -152,7 +149,7 @@ implements ISpellerListener {
         }
         if (logOperationalPanel.isDebug()) {
             for (n2 = 0; n2 < this.panelKeys.size(); ++n2) {
-                logOperationalPanel.log(-2137614336, "OperationalPanelController#initalizeKeyPanel key added: %1", this.panelKeys.get(n2));
+                logOperationalPanel.log(10000000, "OperationalPanelController#initalizeKeyPanel key added: %1", this.panelKeys.get(n2));
             }
         }
     }
@@ -194,7 +191,6 @@ implements ISpellerListener {
         this.speller.setCompositesDirty(true);
     }
 
-    @Override
     protected void initializeWidget() {
         this.updateValue();
         this.initalizeKeyPanel();
@@ -210,7 +206,6 @@ implements ISpellerListener {
         return this.speller != null;
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (!this.isVisible()) {
             return;
@@ -220,7 +215,7 @@ implements ISpellerListener {
             return;
         }
         if (this.cursorPosition == -1) {
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#keyTurned cursorPosition not initalized");
+            logOperationalPanel.log(10000000, "OperationalPanelController#keyTurned cursorPosition not initalized");
             return;
         }
         int n = wheelButtonEvent.getDirection();
@@ -238,17 +233,16 @@ implements ISpellerListener {
                 break;
             }
             default: {
-                logOperationalPanel.log(-1601830656, "OperationPanelController#keyTurned unknown direction: %1", (long)n);
+                logOperationalPanel.log(100000, "OperationPanelController#keyTurned unknown direction: %1", (long)n);
             }
         }
         if (n2 != this.cursorPosition) {
             this.setCompositesDirty(true);
             wheelButtonEvent.consume();
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#keyTurned set cursorPosition to %1", (long)this.cursorPosition);
+            logOperationalPanel.log(10000000, "OperationalPanelController#keyTurned set cursorPosition to %1", (long)this.cursorPosition);
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (!this.isVisible()) {
             return;
@@ -293,7 +287,7 @@ implements ISpellerListener {
                 return;
             }
             ((ChoiceModelGUI)this.buttonHandlerWidget.getModel()).keyPressed(this.keyId, this.getTerminal().getTerminalID());
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#keyPressed Send Keypressed to key: %1", (long)this.keyId);
+            logOperationalPanel.log(10000000, "OperationalPanelController#keyPressed Send Keypressed to key: %1", (long)this.keyId);
         }
     }
 
@@ -315,7 +309,7 @@ implements ISpellerListener {
                 break;
             }
             default: {
-                logOperationalPanel.log(-1601830656, "OperationalPanelController#doAlignment unkown alignment: %1", (long)n);
+                logOperationalPanel.log(100000, "OperationalPanelController#doAlignment unkown alignment: %1", (long)n);
             }
         }
         this.doSpellerAlignment();
@@ -337,7 +331,7 @@ implements ISpellerListener {
     }
 
     private void openSpeller() {
-        logOperationalPanel.log(-2137614336, "OperationalPanelController#openSpeller");
+        logOperationalPanel.log(10000000, "OperationalPanelController#openSpeller");
         this.speller.setVisible(this.isVisible());
         this.spellerOpen = this.speller.isVisible();
         this.speller.setCompositesDirty(true);
@@ -346,7 +340,7 @@ implements ISpellerListener {
     }
 
     private void closeSpeller() {
-        logOperationalPanel.log(-2137614336, "OperationalPanelController#closeSpeller");
+        logOperationalPanel.log(10000000, "OperationalPanelController#closeSpeller");
         this.spellerOpen = false;
         this.speller.setVisible(false);
         this.speller.setCompositesDirty(true);
@@ -358,7 +352,6 @@ implements ISpellerListener {
         return this.spellerOpen;
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() != 17 || this.spellerOpen) {
             super.keyReleased(keyEvent);
@@ -369,23 +362,20 @@ implements ISpellerListener {
         }
         if (this.cursorPosition != -1 && this.panelKeysHandler.size() > this.cursorPosition && this.keyId > 0 && this.keyId != 20) {
             ((ChoiceModelGUI)this.buttonHandlerWidget.getModel()).keyReleased(this.keyId, this.getTerminal().getTerminalID());
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#keyReleased Send KeyReleased to key: %1", (long)this.keyId);
+            logOperationalPanel.log(10000000, "OperationalPanelController#keyReleased Send KeyReleased to key: %1", (long)this.keyId);
             this.keyId = -1;
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.updateValue();
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
     }
 
-    @Override
     public void disconnecting() {
         this.alignment = 1;
         this.spellerOpen = false;
@@ -393,12 +383,10 @@ implements ISpellerListener {
         super.disconnecting();
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         super.setEnabled(bl);
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (!bl) {
             this.closeSpeller();
@@ -406,7 +394,6 @@ implements ISpellerListener {
         super.setVisible(bl);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -511,27 +498,23 @@ implements ISpellerListener {
         return this.alignment;
     }
 
-    @Override
-    public void buttonPressed(SpellerController$SpellerButtonType spellerController$SpellerButtonType, SpellerButtonArgument spellerButtonArgument) {
-        if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.CLOSE) {
+    public void buttonPressed(SpellerController.SpellerButtonType spellerButtonType, SpellerButtonArgument spellerButtonArgument) {
+        if (spellerButtonType == SpellerController.SpellerButtonType.CLOSE) {
             this.closeSpeller();
         }
-        if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.OK) {
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#keyPressed Send Keypressed to key: %1", (Object)SpellerController$SpellerButtonType.OK);
+        if (spellerButtonType == SpellerController.SpellerButtonType.OK) {
+            logOperationalPanel.log(10000000, "OperationalPanelController#keyPressed Send Keypressed to key: %1", (Object)SpellerController.SpellerButtonType.OK);
             ((ChoiceModelGUI)this.buttonHandlerWidget.getModel()).keyPressed(6, this.getTerminal().getTerminalID());
             ((ChoiceModelGUI)this.buttonHandlerWidget.getModel()).keyReleased(6, this.getTerminal().getTerminalID());
         }
     }
 
-    @Override
-    public void buttonLongPressed(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
+    public void buttonLongPressed(SpellerController.SpellerButtonType spellerButtonType) {
     }
 
-    @Override
-    public void buttonReleased(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
+    public void buttonReleased(SpellerController.SpellerButtonType spellerButtonType) {
     }
 
-    @Override
     public void characterPressed(String string, boolean bl, boolean bl2) {
         if (!this.speller.isActive()) {
             return;
@@ -539,7 +522,7 @@ implements ISpellerListener {
         try {
             int n = Integer.valueOf(string);
             n = n == 0 ? 29 : n + 19;
-            logOperationalPanel.log(-2137614336, "OperationalPanelController#keyPressed Send Keypressed to key: %1", (long)n);
+            logOperationalPanel.log(10000000, "OperationalPanelController#keyPressed Send Keypressed to key: %1", (long)n);
             ((ChoiceModelGUI)this.buttonHandlerWidget.getModel()).keyPressed(n, this.getTerminal().getTerminalID());
             ((ChoiceModelGUI)this.buttonHandlerWidget.getModel()).keyReleased(n, this.getTerminal().getTerminalID());
         }
@@ -548,11 +531,9 @@ implements ISpellerListener {
         }
     }
 
-    @Override
     public void focusedCharacterChanged(String string) {
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
     }
 
@@ -572,8 +553,7 @@ implements ISpellerListener {
         this.speller = spellerController;
     }
 
-    @Override
-    public void focusChanged(SpellerController$ISpellerItem spellerController$ISpellerItem, int n) {
+    public void focusChanged(SpellerController.ISpellerItem iSpellerItem, int n) {
     }
 }
 

@@ -6,7 +6,6 @@ package java.text;
 import com.ibm.oti.util.Msg;
 import java.text.ParseException;
 import java.text.PatternEntry;
-import java.text.PatternEntry$Parser;
 import java.util.ArrayList;
 
 final class MergeCollation {
@@ -19,7 +18,7 @@ final class MergeCollation {
     private final int BYTEPOWER;
     private final int BYTEMASK;
 
-    public MergeCollation(String string) {
+    public MergeCollation(String string) throws ParseException {
         this.BITARRAYMASK = 1;
         this.BYTEPOWER = 3;
         this.BYTEMASK = 7;
@@ -105,20 +104,20 @@ final class MergeCollation {
         return stringBuffer.toString();
     }
 
-    public void setPattern(String string) {
+    public void setPattern(String string) throws ParseException {
         this.patterns.clear();
         this.addPattern(string);
     }
 
-    public void addPattern(String string) {
+    public void addPattern(String string) throws ParseException {
         if (string == null) {
             return;
         }
-        PatternEntry$Parser patternEntry$Parser = new PatternEntry$Parser(string);
-        PatternEntry patternEntry = patternEntry$Parser.next();
+        PatternEntry.Parser parser = new PatternEntry.Parser(string);
+        PatternEntry patternEntry = parser.next();
         while (patternEntry != null) {
             this.fixEntry(patternEntry);
-            patternEntry = patternEntry$Parser.next();
+            patternEntry = parser.next();
         }
     }
 
@@ -130,7 +129,7 @@ final class MergeCollation {
         return (PatternEntry)this.patterns.get(n);
     }
 
-    private final void fixEntry(PatternEntry patternEntry) {
+    private final void fixEntry(PatternEntry patternEntry) throws ParseException {
         if (this.lastEntry != null && patternEntry.chars.equals(this.lastEntry.chars) && patternEntry.extension.equals(this.lastEntry.extension)) {
             if (patternEntry.strength != 3 && patternEntry.strength != -2) {
                 throw new ParseException(Msg.getString("K01ac", this.lastEntry, patternEntry), -1);
@@ -160,7 +159,7 @@ final class MergeCollation {
             this.excess.setLength(0);
             n = this.findLastEntry(this.lastEntry, this.excess);
             if (this.excess.length() != 0) {
-                patternEntry.extension = new StringBuffer().append((Object)this.excess).append(patternEntry.extension).toString();
+                patternEntry.extension = this.excess + patternEntry.extension;
                 if (n != this.patterns.size()) {
                     this.lastEntry = this.saveEntry;
                     bl = false;
@@ -178,7 +177,7 @@ final class MergeCollation {
         }
     }
 
-    private final int findLastEntry(PatternEntry patternEntry, StringBuffer stringBuffer) {
+    private final int findLastEntry(PatternEntry patternEntry, StringBuffer stringBuffer) throws ParseException {
         if (patternEntry == null) {
             return 0;
         }

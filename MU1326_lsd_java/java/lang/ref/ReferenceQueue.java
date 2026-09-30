@@ -10,7 +10,7 @@ public class ReferenceQueue {
     private int head = 0;
     private int tail = 0;
     private boolean empty = true;
-    private static final int DEFAULT_QUEUE_SIZE;
+    private static final int DEFAULT_QUEUE_SIZE = 128;
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -35,14 +35,14 @@ public class ReferenceQueue {
         return reference;
     }
 
-    public Reference remove() {
+    public Reference remove() throws InterruptedException {
         return this.remove(0L);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public Reference remove(long l) {
+    public Reference remove(long l) throws IllegalArgumentException, InterruptedException {
         Reference reference;
         if (l < 0L) {
             throw new IllegalArgumentException();
@@ -50,7 +50,7 @@ public class ReferenceQueue {
         ReferenceQueue referenceQueue = this;
         synchronized (referenceQueue) {
             if (this.empty) {
-                super.wait(l);
+                this.wait(l);
                 if (this.empty) {
                     return null;
                 }
@@ -64,7 +64,7 @@ public class ReferenceQueue {
             if (this.head == this.tail) {
                 this.empty = true;
             } else {
-                super.notifyAll();
+                this.notifyAll();
             }
         }
         return reference;
@@ -92,7 +92,7 @@ public class ReferenceQueue {
                 this.tail = 0;
             }
             this.empty = false;
-            super.notifyAll();
+            this.notifyAll();
         }
         return true;
     }

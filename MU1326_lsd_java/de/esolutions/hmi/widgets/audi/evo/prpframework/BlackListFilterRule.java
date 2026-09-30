@@ -22,11 +22,10 @@ extends AbstractPRPRule {
         this.validity = n;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         ICharacterRegister iCharacterRegister;
         Object object2;
-        IWidgetLogChannel.logPRPEngine.log(1078071040, "BlackListFilterRule#execute");
+        IWidgetLogChannel.logPRPEngine.log(1000000, "BlackListFilterRule#execute");
         if (object instanceof String) {
             object2 = ((String)object).toCharArray();
             Arrays.sort((char[])object2);
@@ -46,12 +45,10 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public int getValidity() {
         return this.validity;
     }
 
-    @Override
     public String getRuleName() {
         return this.ruleName;
     }

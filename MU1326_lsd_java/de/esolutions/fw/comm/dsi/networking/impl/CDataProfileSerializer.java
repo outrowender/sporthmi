@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.CDataProfile;
 
 public class CDataProfileSerializer {
-    public static void putOptionalCDataProfile(ISerializer iSerializer, CDataProfile cDataProfile) {
+    public static void putOptionalCDataProfile(ISerializer iSerializer, CDataProfile cDataProfile) throws SerializerException {
         boolean bl = cDataProfile == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class CDataProfileSerializer {
         }
     }
 
-    public static void putOptionalCDataProfileVarArray(ISerializer iSerializer, CDataProfile[] cDataProfileArray) {
+    public static void putOptionalCDataProfileVarArray(ISerializer iSerializer, CDataProfile[] cDataProfileArray) throws SerializerException {
         boolean bl = cDataProfileArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class CDataProfileSerializer {
         }
     }
 
-    public static CDataProfile getOptionalCDataProfile(IDeserializer iDeserializer) {
+    public static CDataProfile getOptionalCDataProfile(IDeserializer iDeserializer) throws SerializerException {
         CDataProfile cDataProfile = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class CDataProfileSerializer {
         return cDataProfile;
     }
 
-    public static CDataProfile[] getOptionalCDataProfileVarArray(IDeserializer iDeserializer) {
+    public static CDataProfile[] getOptionalCDataProfileVarArray(IDeserializer iDeserializer) throws SerializerException {
         CDataProfile[] cDataProfileArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

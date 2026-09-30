@@ -7,10 +7,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
 
 public interface ComboBoxRenderer
 extends CompositeRenderer {
-    default public void open() {
-    }
+    public void open();
 
-    default public void close() {
-    }
+    public void close();
 }
 

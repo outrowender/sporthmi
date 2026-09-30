@@ -52,7 +52,7 @@ public class sBoundingBox {
     }
 
     public String toString() {
-        return new StringBuffer("sBoundingBox{").append("minLat=").append(this.minLat).append(", minLong=").append(this.minLong).append(", maxLat=").append(this.maxLat).append(", maxLong=").append(this.maxLong).append("}").toString();
+        return "sBoundingBox{" + "minLat=" + this.minLat + ", minLong=" + this.minLong + ", maxLat=" + this.maxLat + ", maxLong=" + this.maxLong + "}";
     }
 }
 

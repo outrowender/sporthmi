@@ -7,6 +7,8 @@ import de.esolutions.fw.util.transport.ITransport;
 import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.async.ClientContext;
 import de.esolutions.fw.util.transport.async.TransportJob;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public final class TXTransportJob
 extends TransportJob {
@@ -21,8 +23,7 @@ extends TransportJob {
         return this.writer;
     }
 
-    @Override
-    protected final void doIO() {
+    protected final void doIO() throws InterruptedException, IOException, TransportException {
         this.transport.send(this.writer);
     }
 }

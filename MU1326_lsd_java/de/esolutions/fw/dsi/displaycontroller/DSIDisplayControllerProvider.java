@@ -25,28 +25,23 @@ implements DSIDisplayController {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$displaycontroller$DSIDisplayController == null ? (class$org$dsi$ifc$displaycontroller$DSIDisplayController = DSIDisplayControllerProvider.class$("org.dsi.ifc.displaycontroller.DSIDisplayController")) : class$org$dsi$ifc$displaycontroller$DSIDisplayController).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDisplayControllerProxy(this.instance, (DSIDisplayControllerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void switchDisplayPower(int n, int n2, int n3) {
         try {
             this.proxy.switchDisplayPower(n, n2, n3);
@@ -56,7 +51,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void setDisplayBrightness(int n, int n2) {
         try {
             this.proxy.setDisplayBrightness(n, n2);
@@ -66,7 +60,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void getDisplayBrightness(int n) {
         try {
             this.proxy.getDisplayBrightness(n);
@@ -76,7 +69,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -86,7 +78,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -96,7 +87,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -106,7 +96,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -116,7 +105,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -126,7 +114,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -136,7 +123,6 @@ implements DSIDisplayController {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.SignalQuality;
 
 public class SignalQualitySerializer {
-    public static void putOptionalSignalQuality(ISerializer iSerializer, SignalQuality signalQuality) {
+    public static void putOptionalSignalQuality(ISerializer iSerializer, SignalQuality signalQuality) throws SerializerException {
         boolean bl = signalQuality == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SignalQualitySerializer {
         }
     }
 
-    public static void putOptionalSignalQualityVarArray(ISerializer iSerializer, SignalQuality[] signalQualityArray) {
+    public static void putOptionalSignalQualityVarArray(ISerializer iSerializer, SignalQuality[] signalQualityArray) throws SerializerException {
         boolean bl = signalQualityArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SignalQualitySerializer {
         }
     }
 
-    public static SignalQuality getOptionalSignalQuality(IDeserializer iDeserializer) {
+    public static SignalQuality getOptionalSignalQuality(IDeserializer iDeserializer) throws SerializerException {
         SignalQuality signalQuality = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SignalQualitySerializer {
         return signalQuality;
     }
 
-    public static SignalQuality[] getOptionalSignalQualityVarArray(IDeserializer iDeserializer) {
+    public static SignalQuality[] getOptionalSignalQualityVarArray(IDeserializer iDeserializer) throws SerializerException {
         SignalQuality[] signalQualityArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

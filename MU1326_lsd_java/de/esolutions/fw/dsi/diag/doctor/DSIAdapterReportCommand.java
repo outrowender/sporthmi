@@ -15,17 +15,14 @@ extends AbstractDSIAdapterDiagnosisCommand {
         super(dSIAdmin);
     }
 
-    @Override
     public String[] getNames() {
         return new String[]{"dsi_diagnosis_report", "dsir"};
     }
 
-    @Override
     public String getDescription() {
         return "generate a dsiadapter diagnosis report";
     }
 
-    @Override
     protected void handleWithDSIAdapterDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         DiagnosisReportGenerator diagnosisReportGenerator = new DiagnosisReportGenerator(printStream, false);
         diagnosisReportGenerator.generateFullReport(this.getDiagnosis());

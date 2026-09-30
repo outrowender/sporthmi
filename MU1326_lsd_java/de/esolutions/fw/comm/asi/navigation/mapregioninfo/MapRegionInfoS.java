@@ -4,17 +4,15 @@
 package de.esolutions.fw.comm.asi.navigation.mapregioninfo;
 
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.MapRegionInfoReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.global.NavRectangle;
 
 public interface MapRegionInfoS {
-    default public void requestGetDatabaseInfo(NavLocationWgs84 navLocationWgs84, int n, MapRegionInfoReply mapRegionInfoReply) {
-    }
+    public void requestGetDatabaseInfo(NavLocationWgs84 var1, int var2, MapRegionInfoReply var3) throws MethodException;
 
-    default public void requestGetMultipleDatabaseInfo(NavLocationWgs84[] navLocationWgs84Array, int n, MapRegionInfoReply mapRegionInfoReply) {
-    }
+    public void requestGetMultipleDatabaseInfo(NavLocationWgs84[] var1, int var2, MapRegionInfoReply var3) throws MethodException;
 
-    default public void requestGetRegionsInVicinity(NavRectangle navRectangle, int n, MapRegionInfoReply mapRegionInfoReply) {
-    }
+    public void requestGetRegionsInVicinity(NavRectangle var1, int var2, MapRegionInfoReply var3) throws MethodException;
 }
 

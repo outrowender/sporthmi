@@ -8,7 +8,6 @@ import de.esolutions.fw.util.tracing.command.ITraceCommandExecutor;
 
 public class QuitCommand
 implements ITraceCommand {
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.quit();
         return false;

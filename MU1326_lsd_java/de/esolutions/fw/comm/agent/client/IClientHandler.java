@@ -11,47 +11,32 @@ import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IClientHandler
 extends IProxyBackend {
-    default public void shutdown() {
-    }
+    public void shutdown();
 
-    @Override
-    default public short getPeerAgentID() {
-    }
+    public short getPeerAgentID();
 
-    default public short getPeerAgentEpoch() {
-    }
+    public short getPeerAgentEpoch();
 
-    default public short getMyAssignedAgentID() {
-    }
+    public short getMyAssignedAgentID();
 
-    default public short getMyAssignedAgentEpoch() {
-    }
+    public short getMyAssignedAgentEpoch();
 
-    default public byte getProtocolVersion() {
-    }
+    public byte getProtocolVersion();
 
-    default public ServiceInstanceID getBrokerServiceInstanceID() {
-    }
+    public ServiceInstanceID getBrokerServiceInstanceID();
 
-    default public boolean connectProxy(Proxy proxy) {
-    }
+    public boolean connectProxy(Proxy var1);
 
-    default public void disconnectProxy(Proxy proxy) {
-    }
+    public void disconnectProxy(Proxy var1);
 
-    default public void dropStub(IStub iStub) {
-    }
+    public void dropStub(IStub var1);
 
-    default public boolean isAvailable() {
-    }
+    public boolean isAvailable();
 
-    default public boolean isConnected() {
-    }
+    public boolean isConnected();
 
-    default public boolean isDeadOrError() {
-    }
+    public boolean isDeadOrError();
 
-    default public ClientInfo createInfo() {
-    }
+    public ClientInfo createInfo();
 }
 

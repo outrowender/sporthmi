@@ -12,12 +12,10 @@ extends AbstractTraceBackend {
         super("Null");
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         return true;
     }
 
-    @Override
     public boolean droppedMessages(int n) {
         return true;
     }

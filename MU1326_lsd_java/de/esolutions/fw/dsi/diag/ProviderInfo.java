@@ -27,17 +27,16 @@ extends AbstractInfoBase {
     public final int proxyReconnectionCounter;
     public final String errorMessage;
     public final ServiceInstanceID serviceInstanceId;
-    private static final int DEFAULT_PROXY_RECONNECTION_COUNTER;
-    private static final int DEFAULT_PROXY_ERROR_CODE_0;
-    private static final int DEFAULT_PROXY_ERROR_CODE_MINUS_1;
-    private static final boolean DEFAULT_REGISTERED;
-    private static final String DEFAULT_PROXY_STATE;
-    private static final String DEFAULT_PROVIDER_STATE;
-    private static final int DEFAULT_SERVICE_WORKER_USE_COUNT;
-    private static final int DEFAULT_PROXY_ID;
+    private static final int DEFAULT_PROXY_RECONNECTION_COUNTER = 0;
+    private static final int DEFAULT_PROXY_ERROR_CODE_0 = 0;
+    private static final int DEFAULT_PROXY_ERROR_CODE_MINUS_1 = -1;
+    private static final boolean DEFAULT_REGISTERED = true;
+    private static final String DEFAULT_PROXY_STATE = Lifecycle.lifecycleNames[1];
+    private static final String DEFAULT_PROVIDER_STATE = ProviderState.stateNames[2];
+    private static final int DEFAULT_SERVICE_WORKER_USE_COUNT = 1;
+    private static final int DEFAULT_PROXY_ID = -1;
 
-    @Override
-    protected Object fieldValueToObject(Field field) {
+    protected Object fieldValueToObject(Field field) throws IllegalArgumentException, IllegalAccessException {
         if (field == null) {
             return null;
         }
@@ -54,7 +53,7 @@ extends AbstractInfoBase {
         if (string != null) {
             this.errorTimeStamp = super.getTimeStampString();
         }
-        this.providerClass = iProvider != null ? super.getClass().getName() : null;
+        this.providerClass = iProvider != null ? iProvider.getClass().getName() : null;
         this.proxyReconnectionCounter = n3;
         this.providerState = providerState != null ? ProviderState.stateNames[providerState.getState()] : null;
         this.proxyState = Lifecycle.lifecycleNames[n2];
@@ -79,14 +78,8 @@ extends AbstractInfoBase {
         }
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return this.serviceInstanceId;
-    }
-
-    static {
-        DEFAULT_PROXY_STATE = Lifecycle.lifecycleNames[1];
-        DEFAULT_PROVIDER_STATE = ProviderState.stateNames[2];
     }
 }
 

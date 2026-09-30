@@ -44,7 +44,7 @@ public class TraceTimeZone {
     }
 
     public String toString() {
-        return new StringBuffer().append("<").append(this.id).append(",").append(this.name).append(",res=").append(this.resolution).append("@").append(this.createEpoch).append("=").append(this.lastUpdate).append(">").toString();
+        return "<" + this.id + "," + this.name + ",res=" + this.resolution + "@" + this.createEpoch + "=" + this.lastUpdate + ">";
     }
 }
 

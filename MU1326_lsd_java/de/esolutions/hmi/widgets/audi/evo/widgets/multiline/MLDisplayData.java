@@ -6,18 +6,18 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.multiline;
 import de.audi.atip.hmi.model.texteditor.DoubleCursor;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.GhostCursor;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.IMLDimensions;
-import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.MultilineString$ArrList;
+import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.MultilineString;
 
 public class MLDisplayData {
-    public static final int DEFAULT_MAX_PROCESSED_CHARS;
-    public static final int STATE_PART_INVALID;
-    public static final int STATE_FULLY_INVALID;
-    public static final int STATE_FINISH;
-    public static final int STATE_NEXT;
-    public static final int STATE_POP_NEW_LINE;
-    public static final int STATE_POP_SOFTBREAK;
-    public static final int STATE_POP_HARDBREAK;
-    public static final int NO_STATE;
+    public static final int DEFAULT_MAX_PROCESSED_CHARS = 100;
+    public static final int STATE_PART_INVALID = 0;
+    public static final int STATE_FULLY_INVALID = 1;
+    public static final int STATE_FINISH = 2;
+    public static final int STATE_NEXT = 3;
+    public static final int STATE_POP_NEW_LINE = 4;
+    public static final int STATE_POP_SOFTBREAK = 5;
+    public static final int STATE_POP_HARDBREAK = 6;
+    public static final int NO_STATE = 7;
     public DoubleCursor cursor = null;
     public IMLDimensions dims = null;
     public int maxLineWidth = 0;
@@ -31,8 +31,8 @@ public class MLDisplayData {
     public int cursorPosition = 0;
     public int processedChars = 0;
     public int maxProcessedChars = 100;
-    public MultilineString$ArrList charMetaData = null;
-    public MultilineString$ArrList sCharLines = null;
+    public MultilineString.ArrList charMetaData = null;
+    public MultilineString.ArrList sCharLines = null;
     public GhostCursor ghostCursor = null;
     public boolean needsRendering = true;
     public boolean linesNeedRepos = false;
@@ -59,8 +59,8 @@ public class MLDisplayData {
     }
 
     public void initOutput() {
-        this.charMetaData = new MultilineString$ArrList(this.cursor != null && this.cursor.getCharArray() != null ? this.cursor.getCharArray().length : 100);
-        this.sCharLines = new MultilineString$ArrList();
+        this.charMetaData = new MultilineString.ArrList(this.cursor != null && this.cursor.getCharArray() != null ? this.cursor.getCharArray().length : 100);
+        this.sCharLines = new MultilineString.ArrList();
         this.ghostCursor = new GhostCursor(this.cursor, this);
     }
 

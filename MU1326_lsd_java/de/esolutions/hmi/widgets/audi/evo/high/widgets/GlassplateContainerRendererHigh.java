@@ -26,7 +26,6 @@ extends ContainerRendererHigh {
         super(containerController);
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         super.renderNode(redrawContextHigh);
         this.glassplateContainerLayer = this.getEALManager().createLayer(EALManager.createNodeName("GlassplateContainer", this), -10, GlassplateRendererHigh.OFFSCREEN_TEXTURE_WIDTH, GlassplateRendererHigh.OFFSCREEN_TEXTURE_HEIGHT);
@@ -37,7 +36,6 @@ extends ContainerRendererHigh {
         }
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         IWrappedNode3D iWrappedNode3D = this.glassplateContainerLayer.getNode();
@@ -48,7 +46,6 @@ extends ContainerRendererHigh {
         iWrappedNode3D.setRotationZ(this.rotationZ);
     }
 
-    @Override
     public RedrawContext createRedrawContext(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = new RedrawContextHigh();
         this.copyRedrawContextFields((RedrawContextHigh)redrawContext, redrawContextHigh);
@@ -56,7 +53,6 @@ extends ContainerRendererHigh {
         return redrawContextHigh;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         if (abstractWidget instanceof GlassplateController || abstractWidget instanceof PartialPopupGlassplateController) {
             if (this.glassplateContainerLayer != null && this.controller.isInvalid()) {
@@ -78,7 +74,6 @@ extends ContainerRendererHigh {
         }
     }
 
-    @Override
     public void disconnect() {
         if (this.glassplateContainerLayer != null) {
             this.getEALManager().destroy(this.contentNode);

@@ -3,147 +3,102 @@
  */
 package de.esolutions.fw.comm.dsi.speechrec;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.speechrec.DictionaryEntry;
 import org.dsi.ifc.speechrec.Grammar;
 import org.dsi.ifc.speechrec.GrammarInfo;
 
 public interface DSISpeechRecC {
-    default public void abort() {
-    }
+    public void abort() throws MethodException;
 
-    default public void deleteProfile(int n) {
-    }
+    public void deleteProfile(int var1) throws MethodException;
 
-    default public void deleteVoiceTag(int n) {
-    }
+    public void deleteVoiceTag(int var1) throws MethodException;
 
-    default public void enableContinuousUpdate(boolean bl) {
-    }
+    public void enableContinuousUpdate(boolean var1) throws MethodException;
 
-    default public void getVersion() {
-    }
+    public void getVersion() throws MethodException;
 
-    default public void init() {
-    }
+    public void init() throws MethodException;
 
-    default public void initVoiceTag(int n) {
-    }
+    public void initVoiceTag(int var1) throws MethodException;
 
-    default public void loadGrammar(Grammar[] grammarArray) {
-    }
+    public void loadGrammar(Grammar[] var1) throws MethodException;
 
-    default public void loadProfile(int n) {
-    }
+    public void loadProfile(int var1) throws MethodException;
 
-    default public void preloadGrammar(Grammar[] grammarArray) {
-    }
+    public void preloadGrammar(Grammar[] var1) throws MethodException;
 
-    default public void recordVoiceTag() {
-    }
+    public void recordVoiceTag() throws MethodException;
 
-    default public void setLanguage(String string, int n) {
-    }
+    public void setLanguage(String var1, int var2) throws MethodException;
 
-    default public void shutdown() {
-    }
+    public void shutdown() throws MethodException;
 
-    default public void startRecognition(int n, int n2, int n3) {
-    }
+    public void startRecognition(int var1, int var2, int var3) throws MethodException;
 
-    default public void unloadGrammar(GrammarInfo[] grammarInfoArray) {
-    }
+    public void unloadGrammar(GrammarInfo[] var1) throws MethodException;
 
-    default public void unloadProfile(int n) {
-    }
+    public void unloadProfile(int var1) throws MethodException;
 
-    default public void unpreloadGrammar(GrammarInfo[] grammarInfoArray) {
-    }
+    public void unpreloadGrammar(GrammarInfo[] var1) throws MethodException;
 
-    default public void waitForResults() {
-    }
+    public void waitForResults() throws MethodException;
 
-    default public void setMaxCommandNBestListSize(int n) {
-    }
+    public void setMaxCommandNBestListSize(int var1) throws MethodException;
 
-    default public void setMaxSlotNBestListSize(int n) {
-    }
+    public void setMaxSlotNBestListSize(int var1) throws MethodException;
 
-    default public void setRecognitionTimeout(int n) {
-    }
+    public void setRecognitionTimeout(int var1) throws MethodException;
 
-    default public void setUnambiguousResultThreshold(int n) {
-    }
+    public void setUnambiguousResultThreshold(int var1) throws MethodException;
 
-    default public void setUnambiguousResultRange(int n) {
-    }
+    public void setUnambiguousResultRange(int var1) throws MethodException;
 
-    default public void setFirstLevelSize(int n) {
-    }
+    public void setFirstLevelSize(int var1) throws MethodException;
 
-    default public void startPostTraining(int n) {
-    }
+    public void startPostTraining(int var1) throws MethodException;
 
-    default public void stopPostTraining() {
-    }
+    public void stopPostTraining() throws MethodException;
 
-    default public void requestSDSAvailability() {
-    }
+    public void requestSDSAvailability() throws MethodException;
 
-    default public void setSpellingMode(int n) {
-    }
+    public void setSpellingMode(int var1) throws MethodException;
 
-    default public void deleteLastSpellingBlock() {
-    }
+    public void deleteLastSpellingBlock() throws MethodException;
 
-    default public void startDialogue() {
-    }
+    public void startDialogue() throws MethodException;
 
-    default public void stopDialogue() {
-    }
+    public void stopDialogue() throws MethodException;
 
-    default public void requestCheckDbPartition() {
-    }
+    public void requestCheckDbPartition() throws MethodException;
 
-    default public void requestGraphemicGroupAsNBestList(int n) {
-    }
+    public void requestGraphemicGroupAsNBestList(int var1) throws MethodException;
 
-    default public void requestVDECapabilities(String string) {
-    }
+    public void requestVDECapabilities(String var1) throws MethodException;
 
-    default public void requestRestoreFactorySettings() {
-    }
+    public void requestRestoreFactorySettings() throws MethodException;
 
-    default public void setDictionary(int n, String string, String string2, DictionaryEntry[] dictionaryEntryArray) {
-    }
+    public void setDictionary(int var1, String var2, String var3, DictionaryEntry[] var4) throws MethodException;
 
-    default public void setASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3) {
-    }
+    public void setASRParameterConfiguration(int[] var1, int[] var2, int[] var3) throws MethodException;
 
-    default public void deleteLastFlexVDEPart() {
-    }
+    public void deleteLastFlexVDEPart() throws MethodException;
 
-    default public void clearFlexVDEHistory() {
-    }
+    public void clearFlexVDEHistory() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

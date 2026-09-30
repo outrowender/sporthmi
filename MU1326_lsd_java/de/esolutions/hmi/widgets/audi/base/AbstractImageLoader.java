@@ -14,7 +14,7 @@ public abstract class AbstractImageLoader
 implements IImageLoader,
 IWidgetLogChannel {
     protected static final boolean LOAD_FROM_FILE;
-    public static final String DEFAULT_IMAGE_ROOT;
+    public static final String DEFAULT_IMAGE_ROOT = "/images/";
     public static String imageRoot;
     protected String errorInfo = "";
     protected LRUCache guideBitmapCache;
@@ -27,10 +27,8 @@ IWidgetLogChannel {
         this.ressourceLocatorIDBitmapCache = this.createLRUCache(n3);
     }
 
-    protected abstract LRUCache createLRUCache(int n) {
-    }
+    protected abstract LRUCache createLRUCache(int var1);
 
-    @Override
     public void clearImageCache() {
         this.guideBitmapCache.clear();
         this.ressourceLocatorPathBitmapCache.clear();
@@ -39,31 +37,24 @@ IWidgetLogChannel {
         this.destroyErrorImage();
     }
 
-    protected abstract void destroyEmptyImage() {
-    }
+    protected abstract void destroyEmptyImage();
 
-    protected abstract void destroyErrorImage() {
-    }
+    protected abstract void destroyErrorImage();
 
-    @Override
     public Object getImageFromCache(int n, int n2, int n3) {
         return this.guideBitmapCache.get(new Integer(n), n2, n3);
     }
 
-    protected abstract int getAutoFormat(int n) {
-    }
+    protected abstract int getAutoFormat(int var1);
 
     protected int getImageFlags(int n) {
         return 0;
     }
 
-    protected abstract Object loadViaPath(String string, int n, int n2) {
-    }
+    protected abstract Object loadViaPath(String var1, int var2, int var3);
 
-    protected abstract Object loadViaStream(InputStream inputStream, int n, int n2) {
-    }
+    protected abstract Object loadViaStream(InputStream var1, int var2, int var3);
 
-    @Override
     public Object loadImage(HMIResourceLocator hMIResourceLocator, boolean bl, int n, int n2) {
         if (hMIResourceLocator.containsResourceURI()) {
             return this.getResourceViaResourceLocatorPath(hMIResourceLocator, n, n2, bl);
@@ -78,7 +69,7 @@ IWidgetLogChannel {
         Integer n3;
         int n4 = hMIResourceLocator.getResourceID();
         if (imageLoaderLogChannel.isDebug()) {
-            imageLoaderLogChannel.log(-2137614336, new StringBuffer().append("AbstractImageLoader#getResourceViaResourceLocatorID cached: ").append(bl).append(" screenID: %2 resourceID: %1 ").toString(), (long)n4, (long)n);
+            imageLoaderLogChannel.log(10000000, "AbstractImageLoader#getResourceViaResourceLocatorID cached: " + bl + " screenID: %2 resourceID: %1 ", (long)n4, (long)n);
         }
         Object object = null;
         if (bl && (object = this.ressourceLocatorIDBitmapCache.get(n3 = new Integer(hMIResourceLocator.hashCode()), n, n2)) != null) {
@@ -99,13 +90,12 @@ IWidgetLogChannel {
         return object;
     }
 
-    protected abstract Object loadViaID(int n, int n2, int n3) {
-    }
+    protected abstract Object loadViaID(int var1, int var2, int var3);
 
     protected Object getResourceViaResourceLocatorPath(HMIResourceLocator hMIResourceLocator, int n, int n2, boolean bl) {
         String string = hMIResourceLocator.getResourceURI();
         if (imageLoaderLogChannel.isDebug()) {
-            imageLoaderLogChannel.log(-2137614336, new StringBuffer().append("AbstractImageLoader#getResourceViaResourceLocatorPath cached: ").append(bl).append(" screenID: %2 path: %1 ").toString(), (Object)string, (long)n);
+            imageLoaderLogChannel.log(10000000, "AbstractImageLoader#getResourceViaResourceLocatorPath cached: " + bl + " screenID: %2 path: %1 ", (Object)string, (long)n);
         }
         Object object = null;
         if (bl && (object = this.ressourceLocatorPathBitmapCache.get((Comparable)((Object)string), n, n2)) != null) {
@@ -125,15 +115,12 @@ IWidgetLogChannel {
         return object;
     }
 
-    protected abstract int getDefaultFormat() {
-    }
+    protected abstract int getDefaultFormat();
 
-    @Override
     public Object loadImageAbsolutePath(int n, String string, boolean bl, boolean bl2, int n2, int n3, int n4) {
         return this.doLoadHybridBitmap(n, string, bl, bl2, n2, n3, n4);
     }
 
-    @Override
     public Object loadImage(int n, String string, boolean bl, boolean bl2, int n2, int n3, int n4) {
         String string2 = new Buffer(imageRoot.length() + string.length()).append(imageRoot).append(string).toString();
         return this.doLoadHybridBitmap(n, string2, bl, bl2, n2, n3, n4);
@@ -146,7 +133,7 @@ IWidgetLogChannel {
             n5 = this.getDefaultFormat();
             imageLoaderLogChannel.log(10000, "AbstractImageLoader#getAutoFormat format for image %1 cannot be found, using RGBA", (long)n);
         } else {
-            imageLoaderLogChannel.log(-2137614336, "AbstractImageLoader#loading image %1 with format %2", (long)n, (long)n5);
+            imageLoaderLogChannel.log(10000000, "AbstractImageLoader#loading image %1 with format %2", (long)n, (long)n5);
         }
         if (object == null) {
             return this.getErrorImage();
@@ -155,13 +142,13 @@ IWidgetLogChannel {
         if (bl && (object2 = this.guideBitmapCache.get(new Integer(n), n3, n4)) != null) {
             return object2;
         }
-        imageLoaderLogChannel.log(-2137614336, "AbstractImageLoader#doLoadHybridBitmap before createBitmap call for id: %1", (long)n);
+        imageLoaderLogChannel.log(10000000, "AbstractImageLoader#doLoadHybridBitmap before createBitmap call for id: %1", (long)n);
         object2 = object instanceof InputStream ? this.loadViaStream((InputStream)object, n5, n2) : this.loadViaPath((String)object, n5, n2);
         if (object2 == null) {
             return this.getErrorImage();
         }
         if (screenLogChannel.isDebug()) {
-            imageLoaderLogChannel.log(-2137614336, "AbstractImageLoader#doLoadHybridBitmap after createBitmap call for id: %1 size: %2 : %3", (long)n, (long)this.getWidth(object2), (long)this.getHeight(object2));
+            imageLoaderLogChannel.log(10000000, "AbstractImageLoader#doLoadHybridBitmap after createBitmap call for id: %1 size: %2 : %3", (long)n, (long)this.getWidth(object2), (long)this.getHeight(object2));
         }
         if (bl2) {
             int n6 = this.getRealImageSize(this.getWidth(object2), this.getHeight(object2), this.getDefaultFormat());
@@ -184,36 +171,34 @@ IWidgetLogChannel {
         int n;
         Object[] objectArray;
         if (this.guideBitmapCache != null) {
-            imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache start dumping GUIDE-images");
+            imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache start dumping GUIDE-images");
             objectArray = this.guideBitmapCache.elements();
             for (n = 0; n < objectArray.length; ++n) {
-                imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache nextBitmap, width: %1 height: %2", (long)this.getWidth(objectArray[n]), (long)this.getHeight(objectArray[n]));
+                imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache nextBitmap, width: %1 height: %2", (long)this.getWidth(objectArray[n]), (long)this.getHeight(objectArray[n]));
             }
-            imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache finished dumping GUIDE-images");
+            imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache finished dumping GUIDE-images");
         }
         if (this.ressourceLocatorIDBitmapCache != null) {
-            imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache start dumping resource locator id images");
+            imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache start dumping resource locator id images");
             objectArray = this.ressourceLocatorIDBitmapCache.elements();
             for (n = 0; n < objectArray.length; ++n) {
-                imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache nextRessourceIcon , width: %1 height: %2", (long)this.getWidth(objectArray[n]), (long)this.getHeight(objectArray[n]));
+                imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache nextRessourceIcon , width: %1 height: %2", (long)this.getWidth(objectArray[n]), (long)this.getHeight(objectArray[n]));
             }
-            imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache finished dumping resource locator id images");
+            imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache finished dumping resource locator id images");
         }
         if (this.ressourceLocatorPathBitmapCache != null) {
-            imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache start dumping resource locator path images");
+            imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache start dumping resource locator path images");
             objectArray = this.ressourceLocatorPathBitmapCache.elements();
             for (n = 0; n < objectArray.length; ++n) {
-                imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache nextRessourceIcon , width: %1 height: %2", (long)this.getWidth(objectArray[n]), (long)this.getHeight(objectArray[n]));
+                imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache nextRessourceIcon , width: %1 height: %2", (long)this.getWidth(objectArray[n]), (long)this.getHeight(objectArray[n]));
             }
-            imageLoaderStatisticsLogChannel.log(-2137614336, "ImageLoader#dumpBitmapCache finished dumping resource locator path images");
+            imageLoaderStatisticsLogChannel.log(10000000, "ImageLoader#dumpBitmapCache finished dumping resource locator path images");
         }
     }
 
-    protected abstract int getWidth(Object object) {
-    }
+    protected abstract int getWidth(Object var1);
 
-    protected abstract int getHeight(Object object) {
-    }
+    protected abstract int getHeight(Object var1);
 
     public int getBitmapCount() {
         int n = 0;
@@ -292,10 +277,10 @@ IWidgetLogChannel {
     static {
         String string = System.getProperty("ImageRoot");
         if (string != null) {
-            imageRoot = new StringBuffer().append(string).append("/").toString();
+            imageRoot = string + "/";
             LOAD_FROM_FILE = true;
         } else {
-            imageRoot = "/images/";
+            imageRoot = DEFAULT_IMAGE_ROOT;
             LOAD_FROM_FILE = false;
         }
     }

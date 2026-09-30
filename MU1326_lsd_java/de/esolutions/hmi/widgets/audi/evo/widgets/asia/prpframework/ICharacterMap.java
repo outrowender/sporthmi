@@ -4,7 +4,6 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework;
 
 public interface ICharacterMap {
-    default public char[] getMappedCharacters(char c2, int n) {
-    }
+    public char[] getMappedCharacters(char var1, int var2);
 }
 

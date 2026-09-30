@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.swdl.impl;
 import de.esolutions.fw.comm.asi.diagnosis.swdl.sModuleVersionNumbers;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sModuleVersionNumbersSerializer {
-    public static void putOptionalsModuleVersionNumbers(ISerializer iSerializer, sModuleVersionNumbers sModuleVersionNumbers2) {
+    public static void putOptionalsModuleVersionNumbers(ISerializer iSerializer, sModuleVersionNumbers sModuleVersionNumbers2) throws SerializerException {
         boolean bl = sModuleVersionNumbers2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class sModuleVersionNumbersSerializer {
         }
     }
 
-    public static void putOptionalsModuleVersionNumbersVarArray(ISerializer iSerializer, sModuleVersionNumbers[] sModuleVersionNumbersArray) {
+    public static void putOptionalsModuleVersionNumbersVarArray(ISerializer iSerializer, sModuleVersionNumbers[] sModuleVersionNumbersArray) throws SerializerException {
         boolean bl = sModuleVersionNumbersArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class sModuleVersionNumbersSerializer {
         }
     }
 
-    public static sModuleVersionNumbers getOptionalsModuleVersionNumbers(IDeserializer iDeserializer) {
+    public static sModuleVersionNumbers getOptionalsModuleVersionNumbers(IDeserializer iDeserializer) throws SerializerException {
         sModuleVersionNumbers sModuleVersionNumbers2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class sModuleVersionNumbersSerializer {
         return sModuleVersionNumbers2;
     }
 
-    public static sModuleVersionNumbers[] getOptionalsModuleVersionNumbersVarArray(IDeserializer iDeserializer) {
+    public static sModuleVersionNumbers[] getOptionalsModuleVersionNumbersVarArray(IDeserializer iDeserializer) throws SerializerException {
         sModuleVersionNumbers[] sModuleVersionNumbersArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

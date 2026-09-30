@@ -19,15 +19,15 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.StatusBarG24Controller;
 public class StatusBarG24Renderer
 extends AbstractKanziTemplateRenderer
 implements IStatusbarG24Renderer {
-    private static final float GLASSPLATE_HEIGHT;
-    private static final float GLASSPLATE_Y_OFFSET;
-    private static final float SDS_TEXT_Y_OFFSET;
+    private static final float GLASSPLATE_HEIGHT = 33.0f;
+    private static final float GLASSPLATE_Y_OFFSET = 3.0f;
+    private static final float SDS_TEXT_Y_OFFSET = 24.0f;
     private AbstractWidgetController controller;
     private IWrappedNode3D statusbarNode;
     private IWrappedNode3DText scdTextNode;
     private int scdTextColor;
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String TEMPLATE_NODE_PATH_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/sds_commandlinePopup";
+    private static final String TEMPLATE_NODE_PATH_NAME = "sds_commandlinePopup";
     private Layout layoutSportskin;
     private int dxSportskin = 0;
     private int dySportskin = 0;
@@ -41,7 +41,6 @@ implements IStatusbarG24Renderer {
         this.getEALManager().moveToParent(this.statusbarNode, redrawContextHigh.parentNode);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         Object object;
         if (this.statusbarNode == null) {
@@ -68,10 +67,10 @@ implements IStatusbarG24Renderer {
             this.dxSportskin = 0;
         }
         this.node.setNodeIndex(10);
-        this.node.setPosition(this.controller.getX(), (float)this.controller.getY() + 16448, 0.0f);
+        this.node.setPosition(this.controller.getX(), (float)this.controller.getY() + 3.0f, 0.0f);
         this.statusbarNode.setPosition(this.controller.getX() + this.dxSportskin, this.controller.getY() + this.dySportskin, 0.0f);
         this.setProperty("gp_width", this.controller.getWidth());
-        this.setProperty("gp_height", 1090);
+        this.setProperty("gp_height", 33.0f);
         if (statusBarG24Controller.isSDSVisible()) {
             this.statusbarNode.setVisible(false);
         } else {
@@ -81,15 +80,15 @@ implements IStatusbarG24Renderer {
         if (object != null) {
             if (this.scdTextNode == null) {
                 this.scdTextNode = this.getEALManager().createText3D(this.node, "SCDTextNode", (String)object, this.getInheritedFont());
-                float f2 = this.scdTextNode.getScaleX() * 1899850303;
-                float f3 = this.scdTextNode.getScaleY() * 1899850303;
+                float f2 = this.scdTextNode.getScaleX() * 0.915f;
+                float f3 = this.scdTextNode.getScaleY() * 0.915f;
                 float f4 = this.scdTextNode.getScaleZ();
                 this.scdTextNode.setScale(f2, f3, f4);
             } else {
                 this.scdTextNode.setText((String)object, this.getInheritedFont());
             }
             int n = Math.round((float)this.controller.getWidth() - this.scdTextNode.getWidth()) / 2;
-            this.scdTextNode.setPosition(n, 49217, 0.0f);
+            this.scdTextNode.setPosition(n, 24.0f, 0.0f);
             if (statusBarG24Controller.isViewSizeChanging()) {
                 this.scdTextNode.setVisible(false);
             } else {
@@ -102,7 +101,6 @@ implements IStatusbarG24Renderer {
         }
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
         if (this.statusbarNode == null) {
@@ -111,22 +109,18 @@ implements IStatusbarG24Renderer {
         ((RedrawContextHigh)redrawContext).parentNode = this.statusbarNode;
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/sds_commandlinePopup";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "sds_commandlinePopup";
+        return TEMPLATE_NODE_PATH_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         if (this.statusbarNode != null) {
             this.getEALManager().destroy(this.statusbarNode);
@@ -143,7 +137,6 @@ implements IStatusbarG24Renderer {
         return 1;
     }
 
-    @Override
     public void removeFromParentNode() {
         IWrappedNode3D iWrappedNode3D;
         StatusBarG24Controller statusBarG24Controller = (StatusBarG24Controller)this.controller;
@@ -156,7 +149,6 @@ implements IStatusbarG24Renderer {
         return this.controller.getTerminalImpl().getViewSizeManager().isSportskinSmallStage();
     }
 
-    @Override
     protected int getKzbConstant() {
         return 16;
     }

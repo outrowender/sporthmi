@@ -7,10 +7,8 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIHMIWatchDogListener
 extends DSIListener {
-    default public void triggerErrorLogDump() {
-    }
+    public void triggerErrorLogDump();
 
-    default public void updateQueryHeartbeat(int n, int n2) {
-    }
+    public void updateQueryHeartbeat(int var1, int var2);
 }
 

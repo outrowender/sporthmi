@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.KeyboardInfo;
 
 public class KeyboardInfoSerializer {
-    public static void putOptionalKeyboardInfo(ISerializer iSerializer, KeyboardInfo keyboardInfo) {
+    public static void putOptionalKeyboardInfo(ISerializer iSerializer, KeyboardInfo keyboardInfo) throws SerializerException {
         boolean bl = keyboardInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class KeyboardInfoSerializer {
         }
     }
 
-    public static void putOptionalKeyboardInfoVarArray(ISerializer iSerializer, KeyboardInfo[] keyboardInfoArray) {
+    public static void putOptionalKeyboardInfoVarArray(ISerializer iSerializer, KeyboardInfo[] keyboardInfoArray) throws SerializerException {
         boolean bl = keyboardInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class KeyboardInfoSerializer {
         }
     }
 
-    public static KeyboardInfo getOptionalKeyboardInfo(IDeserializer iDeserializer) {
+    public static KeyboardInfo getOptionalKeyboardInfo(IDeserializer iDeserializer) throws SerializerException {
         KeyboardInfo keyboardInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class KeyboardInfoSerializer {
         return keyboardInfo;
     }
 
-    public static KeyboardInfo[] getOptionalKeyboardInfoVarArray(IDeserializer iDeserializer) {
+    public static KeyboardInfo[] getOptionalKeyboardInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         KeyboardInfo[] keyboardInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

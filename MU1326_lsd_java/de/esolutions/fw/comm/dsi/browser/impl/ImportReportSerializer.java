@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.ImportReport;
 
 public class ImportReportSerializer {
-    public static void putOptionalImportReport(ISerializer iSerializer, ImportReport importReport) {
+    public static void putOptionalImportReport(ISerializer iSerializer, ImportReport importReport) throws SerializerException {
         boolean bl = importReport == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class ImportReportSerializer {
         }
     }
 
-    public static void putOptionalImportReportVarArray(ISerializer iSerializer, ImportReport[] importReportArray) {
+    public static void putOptionalImportReportVarArray(ISerializer iSerializer, ImportReport[] importReportArray) throws SerializerException {
         boolean bl = importReportArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class ImportReportSerializer {
         }
     }
 
-    public static ImportReport getOptionalImportReport(IDeserializer iDeserializer) {
+    public static ImportReport getOptionalImportReport(IDeserializer iDeserializer) throws SerializerException {
         ImportReport importReport = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class ImportReportSerializer {
         return importReport;
     }
 
-    public static ImportReport[] getOptionalImportReportVarArray(IDeserializer iDeserializer) {
+    public static ImportReport[] getOptionalImportReportVarArray(IDeserializer iDeserializer) throws SerializerException {
         ImportReport[] importReportArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

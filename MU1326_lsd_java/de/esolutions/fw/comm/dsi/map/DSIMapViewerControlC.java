@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.global.NavRectangle;
@@ -14,340 +15,228 @@ import org.dsi.ifc.map.Point;
 import org.dsi.ifc.map.Rect;
 
 public interface DSIMapViewerControlC {
-    default public void configureFlags(int n, MapFlag[] mapFlagArray) {
-    }
+    public void configureFlags(int var1, MapFlag[] var2) throws MethodException;
 
-    default public void dragMap(short s, short s2) {
-    }
+    public void dragMap(short var1, short var2) throws MethodException;
 
-    default public void ensureTMCVisibility(long l) {
-    }
+    public void ensureTMCVisibility(long var1) throws MethodException;
 
-    default public void getInfoForPosition() {
-    }
+    public void getInfoForPosition() throws MethodException;
 
-    default public void getInfoForScreenPosition(Point point) {
-    }
+    public void getInfoForScreenPosition(Point var1) throws MethodException;
 
-    default public void getNumberOfPOIs() {
-    }
+    public void getNumberOfPOIs() throws MethodException;
 
-    default public void goToTMCMessage(long l) {
-    }
+    public void goToTMCMessage(long var1) throws MethodException;
 
-    default public void packPOIContainer() {
-    }
+    public void packPOIContainer() throws MethodException;
 
-    default public void rbSelectAlternativeRoute(int n) {
-    }
+    public void rbSelectAlternativeRoute(int var1) throws MethodException;
 
-    default public void rbSelectNextSegment() {
-    }
+    public void rbSelectNextSegment() throws MethodException;
 
-    default public void rbSelectPreviousSegment() {
-    }
+    public void rbSelectPreviousSegment() throws MethodException;
 
-    default public void rbSetPosition(int n) {
-    }
+    public void rbSetPosition(int var1) throws MethodException;
 
-    default public void scrollToDirection(short s, int n, short s2) {
-    }
+    public void scrollToDirection(short var1, int var2, short var3) throws MethodException;
 
-    default public void selectNextPOI() {
-    }
+    public void selectNextPOI() throws MethodException;
 
-    default public void selectPrevPOI() {
-    }
+    public void selectPrevPOI() throws MethodException;
 
-    default public void set3DLandmarksVisible(boolean bl) {
-    }
+    public void set3DLandmarksVisible(boolean var1) throws MethodException;
 
-    default public void setCarPosition(Point point) {
-    }
+    public void setCarPosition(Point var1) throws MethodException;
 
-    default public void setDayView() {
-    }
+    public void setDayView() throws MethodException;
 
-    default public void setEnableRouteCalcMode(boolean bl) {
-    }
+    public void setEnableRouteCalcMode(boolean var1) throws MethodException;
 
-    default public void setEnableSoftJump(boolean bl) {
-    }
+    public void setEnableSoftJump(boolean var1) throws MethodException;
 
-    default public void setEnableSoftRotation(boolean bl) {
-    }
+    public void setEnableSoftRotation(boolean var1) throws MethodException;
 
-    default public void setEnableSoftTilt(boolean bl) {
-    }
+    public void setEnableSoftTilt(boolean var1) throws MethodException;
 
-    default public void setEnableSoftZoom(boolean bl) {
-    }
+    public void setEnableSoftZoom(boolean var1) throws MethodException;
 
-    default public void setHotPoint(Point point) {
-    }
+    public void setHotPoint(Point var1) throws MethodException;
 
-    default public void setLocation(int n, short s) {
-    }
+    public void setLocation(int var1, short var2) throws MethodException;
 
-    default public void setLocationByLocation(NavLocation navLocation) {
-    }
+    public void setLocationByLocation(NavLocation var1) throws MethodException;
 
-    default public void setLocationByLocationAndView(NavLocation navLocation, short s, int n) {
-    }
+    public void setLocationByLocationAndView(NavLocation var1, short var2, int var3) throws MethodException;
 
-    default public void setMapPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void setMapPosition(NavLocationWgs84 var1) throws MethodException;
 
-    default public void setMapViewPort(NavLocationWgs84 navLocationWgs84, short s, int n) {
-    }
+    public void setMapViewPort(NavLocationWgs84 var1, short var2, int var3) throws MethodException;
 
-    default public void setMapViewPortByLD(NavLocation navLocation, NavLocation navLocation2, int n) {
-    }
+    public void setMapViewPortByLD(NavLocation var1, NavLocation var2, int var3) throws MethodException;
 
-    default public void setMode(int n) {
-    }
+    public void setMode(int var1) throws MethodException;
 
-    default public void setNightView() {
-    }
+    public void setNightView() throws MethodException;
 
-    default public void setOrientation(int n, Point point) {
-    }
+    public void setOrientation(int var1, Point var2) throws MethodException;
 
-    default public void setRotation(short s) {
-    }
+    public void setRotation(short var1) throws MethodException;
 
-    default public void setViewType(int n) {
-    }
+    public void setViewType(int var1) throws MethodException;
 
-    default public void setZoomArea(Rect rect) {
-    }
+    public void setZoomArea(Rect var1) throws MethodException;
 
-    default public void setZoomLevel(float f2, int n) {
-    }
+    public void setZoomLevel(float var1, int var2) throws MethodException;
 
-    default public void setCountryOverviewCountry(String string) {
-    }
+    public void setCountryOverviewCountry(String var1) throws MethodException;
 
-    default public void showTMCMessages(boolean bl) {
-    }
+    public void showTMCMessages(boolean var1) throws MethodException;
 
-    default public void startScrollToDirection(int n) {
-    }
+    public void startScrollToDirection(int var1) throws MethodException;
 
-    default public void stopScrollToDirection() {
-    }
+    public void stopScrollToDirection() throws MethodException;
 
-    default public void unpackPOIContainer(long l) {
-    }
+    public void unpackPOIContainer(long var1) throws MethodException;
 
-    default public void viewFreeze(boolean bl) {
-    }
+    public void viewFreeze(boolean var1) throws MethodException;
 
-    default public void viewSetScreenViewport(Rect rect) {
-    }
+    public void viewSetScreenViewport(Rect var1) throws MethodException;
 
-    default public void viewSetScreenViewportMaximum(Rect rect) {
-    }
+    public void viewSetScreenViewportMaximum(Rect var1) throws MethodException;
 
-    default public void viewSetVisible(boolean bl) {
-    }
+    public void viewSetVisible(boolean var1) throws MethodException;
 
-    default public void setMetricSystem(int n) {
-    }
+    public void setMetricSystem(int var1) throws MethodException;
 
-    default public void setViewFocusOnBlock(long[] lArray) {
-    }
+    public void setViewFocusOnBlock(long[] var1) throws MethodException;
 
-    default public void setViewFocusOnPoi(PoiListElement[] poiListElementArray) {
-    }
+    public void setViewFocusOnPoi(PoiListElement[] var1) throws MethodException;
 
-    default public void startToDrawNewRectangleInMap() {
-    }
+    public void startToDrawNewRectangleInMap() throws MethodException;
 
-    default public void editRectangleInMap(long l) {
-    }
+    public void editRectangleInMap(long var1) throws MethodException;
 
-    default public void setSouthWestCornerOfRectangleInMap(Point point) {
-    }
+    public void setSouthWestCornerOfRectangleInMap(Point var1) throws MethodException;
 
-    default public void setNorthEastCornerOfRectangleInMap(Point point) {
-    }
+    public void setNorthEastCornerOfRectangleInMap(Point var1) throws MethodException;
 
-    default public void finishDrawRectangleInMap() {
-    }
+    public void finishDrawRectangleInMap() throws MethodException;
 
-    default public void setCityModelMode(int n) {
-    }
+    public void setCityModelMode(int var1) throws MethodException;
 
-    default public void displayRemainingRangeOfVehicle(boolean bl) {
-    }
+    public void displayRemainingRangeOfVehicle(boolean var1) throws MethodException;
 
-    default public void touchApproach(boolean bl) {
-    }
+    public void touchApproach(boolean var1) throws MethodException;
 
-    default public void setBrandIconStyle(int[] nArray, int n) {
-    }
+    public void setBrandIconStyle(int[] var1, int var2) throws MethodException;
 
-    default public void startScrollByVector(int n, int n2) {
-    }
+    public void startScrollByVector(int var1, int var2) throws MethodException;
 
-    default public void setGuidanceSymbol(int n) {
-    }
+    public void setGuidanceSymbol(int var1) throws MethodException;
 
-    default public void setHOVLaneVisibility(boolean bl) {
-    }
+    public void setHOVLaneVisibility(boolean var1) throws MethodException;
 
-    default public void rbGetIDOfSelectedSegment() {
-    }
+    public void rbGetIDOfSelectedSegment() throws MethodException;
 
-    default public void rbGetRRDToSelectedSegment(long l) {
-    }
+    public void rbGetRRDToSelectedSegment(long var1) throws MethodException;
 
-    default public void setTollRoadHighLighting(boolean bl) {
-    }
+    public void setTollRoadHighLighting(boolean var1) throws MethodException;
 
-    default public void setMountainPeakMarker(boolean bl) {
-    }
+    public void setMountainPeakMarker(boolean var1) throws MethodException;
 
-    default public void setViewFocusOnCombinedRouteListElements(long[] lArray) {
-    }
+    public void setViewFocusOnCombinedRouteListElements(long[] var1) throws MethodException;
 
-    default public void setFrameRateMode(int n) {
-    }
+    public void setFrameRateMode(int var1) throws MethodException;
 
-    default public void setScrollByCrossHairs(boolean bl) {
-    }
+    public void setScrollByCrossHairs(boolean var1) throws MethodException;
 
-    default public void setScrollByCrossHairsBoundingBox(Rect rect) {
-    }
+    public void setScrollByCrossHairsBoundingBox(Rect var1) throws MethodException;
 
-    default public void setRouteColoringPolicy(int n) {
-    }
+    public void setRouteColoringPolicy(int var1) throws MethodException;
 
-    default public void setWeatherVisualization(boolean bl) {
-    }
+    public void setWeatherVisualization(boolean var1) throws MethodException;
 
-    default public void setPictureNavigationIconVisibility(boolean bl, int n) {
-    }
+    public void setPictureNavigationIconVisibility(boolean var1, int var2) throws MethodException;
 
-    default public void setMobilityHorizonVisibility(boolean bl) {
-    }
+    public void setMobilityHorizonVisibility(boolean var1) throws MethodException;
 
-    default public void setTrafficMapStyle(boolean bl) {
-    }
+    public void setTrafficMapStyle(boolean var1) throws MethodException;
 
-    default public void showSpeedAndFlowFreeFlow(boolean bl) {
-    }
+    public void showSpeedAndFlowFreeFlow(boolean var1) throws MethodException;
 
-    default public void showSpeedAndFlowCongestions(boolean bl) {
-    }
+    public void showSpeedAndFlowCongestions(boolean var1) throws MethodException;
 
-    default public void showRichContent(boolean bl) {
-    }
+    public void showRichContent(boolean var1) throws MethodException;
 
-    default public void setGeneralPoiVisibility(boolean bl) {
-    }
+    public void setGeneralPoiVisibility(boolean var1) throws MethodException;
 
-    default public void setCrossHairsColor(int n) {
-    }
+    public void setCrossHairsColor(int var1) throws MethodException;
 
-    default public void setViewPortBorder(int n) {
-    }
+    public void setViewPortBorder(int var1) throws MethodException;
 
-    default public void setTerrainElevation(boolean bl) {
-    }
+    public void setTerrainElevation(boolean var1) throws MethodException;
 
-    default public void ensurePoiVisibility(NavLocation[] navLocationArray) {
-    }
+    public void ensurePoiVisibility(NavLocation[] var1) throws MethodException;
 
-    default public void suspendMapViewer() {
-    }
+    public void suspendMapViewer() throws MethodException;
 
-    default public void wakeupMapViewer() {
-    }
+    public void wakeupMapViewer() throws MethodException;
 
-    default public void setMobilityHorizonZoomMode(int n) {
-    }
+    public void setMobilityHorizonZoomMode(int var1) throws MethodException;
 
-    default public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void isDetailedMapMaterialAvailable(NavLocationWgs84 var1) throws MethodException;
 
-    default public void setHorizonMarkerVisibility(boolean bl) {
-    }
+    public void setHorizonMarkerVisibility(boolean var1) throws MethodException;
 
-    default public void ensureTrafficEventIconsVisibility(long[] lArray) {
-    }
+    public void ensureTrafficEventIconsVisibility(long[] var1) throws MethodException;
 
-    default public void setMapViewPortByWGS84Rectangle(NavRectangle navRectangle, int n) {
-    }
+    public void setMapViewPortByWGS84Rectangle(NavRectangle var1, int var2) throws MethodException;
 
-    default public void startRouteDragging(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void startRouteDragging(NavLocationWgs84 var1) throws MethodException;
 
-    default public void dragRoute(short s, short s2) {
-    }
+    public void dragRoute(short var1, short var2) throws MethodException;
 
-    default public void setDragRouteMarker(int n) {
-    }
+    public void setDragRouteMarker(int var1) throws MethodException;
 
-    default public void highlightRouteBasedOnLength(long l, long l2, int n) {
-    }
+    public void highlightRouteBasedOnLength(long var1, long var3, int var5) throws MethodException;
 
-    default public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetCategoryVisibility(int var1, int[] var2, boolean[] var3) throws MethodException;
 
-    default public void ehSetCategoryVisibilityToDefault(int n) {
-    }
+    public void ehSetCategoryVisibilityToDefault(int var1) throws MethodException;
 
-    default public void setMapOverlays(int n, MapOverlay[] mapOverlayArray, int n2, int n3) {
-    }
+    public void setMapOverlays(int var1, MapOverlay[] var2, int var3, int var4) throws MethodException;
 
-    default public void setMapLayerVisible(int[] nArray) {
-    }
+    public void setMapLayerVisible(int[] var1) throws MethodException;
 
-    default public void setTemperatureScale(int n) {
-    }
+    public void setTemperatureScale(int var1) throws MethodException;
 
-    default public void setSoftAnimationSpeed(int n) {
-    }
+    public void setSoftAnimationSpeed(int var1) throws MethodException;
 
-    default public void setSpeedAndFlowRoadClass(int n) {
-    }
+    public void setSpeedAndFlowRoadClass(int var1) throws MethodException;
 
-    default public void setRouteVisibility(boolean bl) {
-    }
+    public void setRouteVisibility(boolean var1) throws MethodException;
 
-    default public void setVisibleRoutes(NavSegmentID[] navSegmentIDArray) {
-    }
+    public void setVisibleRoutes(NavSegmentID[] var1) throws MethodException;
 
-    default public void showTrafficEventListView(long[] lArray, boolean bl, boolean bl2) {
-    }
+    public void showTrafficEventListView(long[] var1, boolean var2, boolean var3) throws MethodException;
 
-    default public void setMapStyle(int n) {
-    }
+    public void setMapStyle(int var1) throws MethodException;
 
-    default public void setCopyrightPosition(NavRectangle navRectangle, int n, int n2) {
-    }
+    public void setCopyrightPosition(NavRectangle var1, int var2, int var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

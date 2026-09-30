@@ -27,9 +27,7 @@ import de.esolutions.hmi.widgets.audi.base.eal.TextureDescription;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractRendererHigh;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$Cursor;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$PlaceholderItemEntry;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$Slot;
+import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IKanziTemplateRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PlaceholderMenuRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SelectionMenuController;
@@ -37,7 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 
 public class SelectionMenuRendererHigh
 extends AbstractRendererHigh
@@ -45,30 +42,30 @@ implements PlaceholderMenuRenderer,
 IKanziTemplateRenderer {
     private static final boolean LOAD_RESSOURCES_ON_DEMAND = SystemProperties.getBoolean("mergeSelectionDrawerOnDemand", false);
     private final SelectionMenuController controller;
-    private static final int MAIN_PLACEHOLDER_COUNT;
-    private static final int SUB_PLACEHOLDER_COUNT;
-    private static final String PROPERTY_KEY_MAIN_ARROW_DOWN;
-    private static final String PROPERTY_KEY_MAIN_ARROW_UP;
-    private static final String PROPERTY_KEY_POS_MAIN_C1;
-    private static final String PROPERTY_KEY_POS_MAIN_C2;
-    private static final String PROPERTY_KEY_POS_MAIN_ITEM;
-    private static final String PROPERTY_KEY_IN_OUT_POSITION;
-    private static final String PROPERTY_KEY_STAGE;
-    private static final String PROPERTY_KEY_SUB_MENU_VISIBILITY;
-    private static final String PROPERTY_KEY_SUB_ARROW_DOWN;
-    private static final String PROPERTY_KEY_SUB_ARROW_UP;
-    private static final String PROPERTY_KEY_POS_SUB_C1;
-    private static final String PROPERTY_KEY_POS_SUB_C2;
-    private static final String PROPERTY_KEY_POS_SUB_ITEM;
-    private static final String PROPERTY_KEY_REFLEX_STRENGTH;
-    private static final String PROPERTY_KEY_DARKEN;
-    private static final String PROPERTY_KEY_DESATURATE;
-    private static final String PROPERTY_KEY_WIDTH_C1;
-    private static final String PROPERTY_KEY_WIDTH_C2;
-    private static final String PROPERTY_KEY_TEXTURE;
-    private static final String PROPERTY_KEY_REFLEX_TEXTURE;
-    private static final String PROPERTY_KEY_INACTIVE;
-    private static final String PROPERTY_KEY_COLOR;
+    private static final int MAIN_PLACEHOLDER_COUNT = 6;
+    private static final int SUB_PLACEHOLDER_COUNT = 5;
+    private static final String PROPERTY_KEY_MAIN_ARROW_DOWN = "ds_main_arrow_down";
+    private static final String PROPERTY_KEY_MAIN_ARROW_UP = "ds_main_arrow_up";
+    private static final String PROPERTY_KEY_POS_MAIN_C1 = "ds_mainC1";
+    private static final String PROPERTY_KEY_POS_MAIN_C2 = "ds_mainC2";
+    private static final String PROPERTY_KEY_POS_MAIN_ITEM = "ds_mainItemPos";
+    private static final String PROPERTY_KEY_IN_OUT_POSITION = "ds_RingPos";
+    private static final String PROPERTY_KEY_STAGE = "ds_Stage";
+    private static final String PROPERTY_KEY_SUB_MENU_VISIBILITY = "ds_Sub";
+    private static final String PROPERTY_KEY_SUB_ARROW_DOWN = "ds_sub_arrow_down";
+    private static final String PROPERTY_KEY_SUB_ARROW_UP = "ds_sub_arrow_up";
+    private static final String PROPERTY_KEY_POS_SUB_C1 = "ds_subC1";
+    private static final String PROPERTY_KEY_POS_SUB_C2 = "ds_subC2";
+    private static final String PROPERTY_KEY_POS_SUB_ITEM = "ds_subItemPos";
+    private static final String PROPERTY_KEY_REFLEX_STRENGTH = "reflectionStrength";
+    private static final String PROPERTY_KEY_DARKEN = "ds_darken";
+    private static final String PROPERTY_KEY_DESATURATE = "ds_desaturate";
+    private static final String PROPERTY_KEY_WIDTH_C1 = "c1_width";
+    private static final String PROPERTY_KEY_WIDTH_C2 = "c2_width";
+    private static final String PROPERTY_KEY_TEXTURE = "Texture";
+    private static final String PROPERTY_KEY_REFLEX_TEXTURE = "ReflexTexture";
+    private static final String PROPERTY_KEY_INACTIVE = "ds_inactive";
+    private static final String PROPERTY_KEY_COLOR = "Color";
     private static INode3D animNode;
     private static INode mainFocusCursorNode;
     private static INode mainSelectionCursorNode;
@@ -88,25 +85,25 @@ IKanziTemplateRenderer {
     private static boolean projectMerged;
     private final EALPropertyCache propertyCache = new EALPropertyCache();
     private IWrappedFont font;
-    private static final int COLOR_COUNT;
+    private static final int COLOR_COUNT = 4;
     private final int[] ealColors = new int[4];
-    private static final int COLOR_INDEX_CURSOR;
-    private static final int COLOR_INDEX_TEXT_ENABLED;
-    private static final int COLOR_INDEX_DISABLED;
-    private static final int COLOR_INDEX_TEXT_HIGHLIGHTED;
+    private static final int COLOR_INDEX_CURSOR = 0;
+    private static final int COLOR_INDEX_TEXT_ENABLED = 1;
+    private static final int COLOR_INDEX_DISABLED = 2;
+    private static final int COLOR_INDEX_TEXT_HIGHLIGHTED = 3;
     private int colorWhite;
     private boolean colorsInitialized;
     private static final LogChannel lc;
-    public static final float DEFAULT_ICON_WIDTH;
-    protected float iconWidth = 43074;
-    public static final float DEFAULT_RIGHT_PADDING;
-    protected float rightPadding = 24641;
-    public static final float DEFAULT_REFLEX_STRENGTH;
+    public static final float DEFAULT_ICON_WIDTH = 84.0f;
+    protected float iconWidth = 84.0f;
+    public static final float DEFAULT_RIGHT_PADDING = 14.0f;
+    protected float rightPadding = 14.0f;
+    public static final float DEFAULT_REFLEX_STRENGTH = 1.0f;
     private float reflexStrength = 1.0f;
     private int yTextOffset;
-    private static final float ITEM_INVISIBLE_POSITION;
-    private static final int ICON_INDEX_NORMAL;
-    private static final int ICON_INDEX_NORMAL_REFLEX;
+    private static final float ITEM_INVISIBLE_POSITION = 0.0f;
+    private static final int ICON_INDEX_NORMAL = 0;
+    private static final int ICON_INDEX_NORMAL_REFLEX = 1;
     private final Map textureMap = new HashMap();
     private boolean isColorInitialized = false;
 
@@ -114,7 +111,6 @@ IKanziTemplateRenderer {
         this.controller = selectionMenuController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.registerAsKzbMergeListener();
@@ -127,11 +123,10 @@ IKanziTemplateRenderer {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.shouldRender()) {
             if (resourcesLoaded) {
-                this.propertyCache.setProperty((INode)animNode, "ds_RingPos", 0.0f);
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_IN_OUT_POSITION, 0.0f);
                 if (animNode.isVisible()) {
                     animNode.setVisible(false);
                 }
@@ -170,32 +165,32 @@ IKanziTemplateRenderer {
     }
 
     private void applyProperties() {
-        lc.log(1078071040, "SelectionMenuRendererHigh#applyProperties");
+        lc.log(1000000, "SelectionMenuRendererHigh#applyProperties");
         float f2 = this.controller.getInOutPosition();
         if (!this.controller.isConnected()) {
             animNode.setVisible(false);
         } else if (animNode.isVisible() != f2 > 0.0f) {
             animNode.setVisible(f2 > 0.0f);
         }
-        this.propertyCache.setProperty((INode)animNode, "ds_RingPos", f2);
-        this.propertyCache.setProperty((INode)animNode, "ds_Stage", this.controller.getDrawerStage());
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_IN_OUT_POSITION, f2);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_STAGE, this.controller.getDrawerStage());
         if (f2 <= 0.0f) {
-            lc.log(1078071040, "SelectionMenuRendererHigh#applyProperties selection drawer closed");
+            lc.log(1000000, "SelectionMenuRendererHigh#applyProperties selection drawer closed");
             return;
         }
-        this.propertyCache.setProperty((INode)animNode, "reflectionStrength", this.reflexStrength);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_REFLEX_STRENGTH, this.reflexStrength);
         float f3 = this.controller.getSubPosition();
         if (f3 <= 0.0f) {
-            lc.log(1078071040, "SelectionMenuRendererHigh#applyProperties sub ring closed");
-            this.propertyCache.setProperty((INode)animNode, "ds_Sub", 0.0f);
+            lc.log(1000000, "SelectionMenuRendererHigh#applyProperties sub ring closed");
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_SUB_MENU_VISIBILITY, 0.0f);
         } else {
-            lc.log(1078071040, "SelectionMenuRendererHigh#applyProperties sub ring opened at %1", (double)f3);
-            this.propertyCache.setProperty((INode)animNode, "ds_Sub", f3);
+            lc.log(1000000, "SelectionMenuRendererHigh#applyProperties sub ring opened at %1", (double)f3);
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_SUB_MENU_VISIBILITY, f3);
         }
-        this.propertyCache.setProperty((INode)animNode, "ds_desaturate", this.controller.getDesaturation());
-        this.propertyCache.setProperty((INode)animNode, "ds_darken", this.controller.getDarkening());
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_DESATURATE, this.controller.getDesaturation());
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_DARKEN, this.controller.getDarkening());
         if (!this.isColorInitialized) {
-            this.propertyCache.setColorProperty(subSelectionCursorNode, "Color", this.ealColors[0]);
+            this.propertyCache.setColorProperty(subSelectionCursorNode, PROPERTY_KEY_COLOR, this.ealColors[0]);
             this.isColorInitialized = true;
         }
         this.applyPropertiesMain();
@@ -206,38 +201,38 @@ IKanziTemplateRenderer {
         boolean bl;
         boolean bl2;
         float f2;
-        this.propertyCache.setProperty((INode)animNode, "ds_main_arrow_up", 0.0f);
-        this.propertyCache.setProperty((INode)animNode, "ds_main_arrow_down", 0.0f);
-        AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor = this.controller.getFocusCursor();
-        if (abstractPlaceholderMenuController$Cursor.isVisible()) {
-            float f3 = abstractPlaceholderMenuController$Cursor.getCurrentPosition();
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesMain main focus cursor pos %1", (double)f3);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_MAIN_ARROW_UP, 0.0f);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_MAIN_ARROW_DOWN, 0.0f);
+        AbstractPlaceholderMenuController.Cursor cursor = this.controller.getFocusCursor();
+        if (cursor.isVisible()) {
+            float f3 = cursor.getCurrentPosition();
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesMain main focus cursor pos %1", (double)f3);
             if (!mainFocusCursorNode.isVisible()) {
                 mainFocusCursorNode.setVisible(true);
             }
             if (this.controller.isBouncing()) {
-                this.propertyCache.setProperty((INode)animNode, "ds_mainC1", f3 + this.controller.getBounceOffset());
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_MAIN_C1, f3 + this.controller.getBounceOffset());
             } else {
-                this.propertyCache.setProperty((INode)animNode, "ds_mainC1", f3);
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_MAIN_C1, f3);
             }
-            this.propertyCache.setColorProperty(mainFocusCursorNode, "Color", this.ealColors[0]);
+            this.propertyCache.setColorProperty(mainFocusCursorNode, PROPERTY_KEY_COLOR, this.ealColors[0]);
         } else {
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesMain main focus invisible");
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesMain main focus invisible");
             if (mainFocusCursorNode.isVisible()) {
                 mainFocusCursorNode.setVisible(false);
             }
         }
-        AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor2 = this.controller.getSelectionCursor();
-        if (abstractPlaceholderMenuController$Cursor2.isVisible()) {
-            f2 = abstractPlaceholderMenuController$Cursor2.getCurrentPosition();
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesMain main selection cursor pos %1", (double)f2);
+        AbstractPlaceholderMenuController.Cursor cursor2 = this.controller.getSelectionCursor();
+        if (cursor2.isVisible()) {
+            f2 = cursor2.getCurrentPosition();
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesMain main selection cursor pos %1", (double)f2);
             if (!mainSelectionCursorNode.isVisible()) {
                 mainSelectionCursorNode.setVisible(true);
             }
-            this.propertyCache.setProperty((INode)animNode, "ds_mainC2", f2);
-            this.propertyCache.setColorProperty(mainSelectionCursorNode, "Color", this.ealColors[0]);
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_MAIN_C2, f2);
+            this.propertyCache.setColorProperty(mainSelectionCursorNode, PROPERTY_KEY_COLOR, this.ealColors[0]);
         } else {
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesMain main selection invisible");
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesMain main selection invisible");
             if (mainSelectionCursorNode.isVisible()) {
                 mainSelectionCursorNode.setVisible(false);
             }
@@ -251,23 +246,23 @@ IKanziTemplateRenderer {
             bl2 = f4 > 0.0f;
             boolean bl3 = bl = f4 + f2 < 1.0f;
             if (lc.isDebug()) {
-                lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesMain viewport position %1, length %2", (Object)new Float(f4), (Object)new Float(f2));
+                lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesMain viewport position %1, length %2", (Object)new Float(f4), (Object)new Float(f2));
             }
         }
         boolean bl4 = this.getTerminal().getViewSizeManager().isSportskinSmallStage();
-        lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesMain scroll arrows visible ? up=%1, down=%2", bl2 && !bl4, bl && !bl4);
-        AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor3 = this.controller.getSubFocusCursor();
-        if (abstractPlaceholderMenuController$Cursor3 == null || !abstractPlaceholderMenuController$Cursor3.isVisible()) {
-            this.propertyCache.setProperty((INode)animNode, "ds_main_arrow_up", bl2 && !bl4 ? 1.0f : 0.0f);
-            this.propertyCache.setProperty((INode)animNode, "ds_main_arrow_down", bl && !bl4 ? 1.0f : 0.0f);
+        lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesMain scroll arrows visible ? up=%1, down=%2", bl2 && !bl4, bl && !bl4);
+        AbstractPlaceholderMenuController.Cursor cursor3 = this.controller.getSubFocusCursor();
+        if (cursor3 == null || !cursor3.isVisible()) {
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_MAIN_ARROW_UP, bl2 && !bl4 ? 1.0f : 0.0f);
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_MAIN_ARROW_DOWN, bl && !bl4 ? 1.0f : 0.0f);
         }
         List list = this.controller.getSlots();
         int n = Math.min(6, list.size());
         int n2 = this.getInitContext().getScreenID();
         for (int i2 = 0; i2 < n; ++i2) {
-            AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = (AbstractPlaceholderMenuController$Slot)list.get(i2);
+            AbstractPlaceholderMenuController.Slot slot = (AbstractPlaceholderMenuController.Slot)list.get(i2);
             INode iNode = mainItemNodes[i2];
-            if (abstractPlaceholderMenuController$Slot.isEnabled()) {
+            if (slot.isEnabled()) {
                 IWrappedTexture iWrappedTexture;
                 Object object;
                 IWrappedTexture iWrappedTexture2;
@@ -275,14 +270,14 @@ IKanziTemplateRenderer {
                 if (!iNode.isVisible()) {
                     iNode.setVisible(true);
                 }
-                float f5 = abstractPlaceholderMenuController$Slot.getPosition();
-                this.propertyCache.setProperty((INode)animNode, new StringBuffer().append("ds_mainItemPos").append(i2).toString(), f5);
+                float f5 = slot.getPosition();
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_MAIN_ITEM + i2, f5);
                 INode3DText iNode3DText = mainItemlabels[i2];
-                AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = abstractPlaceholderMenuController$Slot.getItemEntry();
-                boolean bl5 = abstractPlaceholderMenuController$PlaceholderItemEntry.equals(abstractPlaceholderMenuController$Cursor2.getTargetItemEntry());
-                boolean bl6 = abstractPlaceholderMenuController$PlaceholderItemEntry.isEnabled();
-                boolean bl7 = abstractPlaceholderMenuController$PlaceholderItemEntry.isFocused();
-                String string = abstractPlaceholderMenuController$PlaceholderItemEntry.getLabelText();
+                AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = slot.getItemEntry();
+                boolean bl5 = placeholderItemEntry.equals(cursor2.getTargetItemEntry());
+                boolean bl6 = placeholderItemEntry.isEnabled();
+                boolean bl7 = placeholderItemEntry.isFocused();
+                String string = placeholderItemEntry.getLabelText();
                 if (string == null) {
                     string = " ";
                 }
@@ -292,12 +287,12 @@ IKanziTemplateRenderer {
                     iNode3DText.setText(this.font.getSize(), string);
                 }
                 if (bl5 || bl7) {
-                    int n3 = abstractPlaceholderMenuController$PlaceholderItemEntry.getTextWidth();
+                    int n3 = placeholderItemEntry.getTextWidth();
                     if (bl5) {
-                        this.propertyCache.setProperty(mainSelectionCursorNode, "c2_width", (float)n3);
+                        this.propertyCache.setProperty(mainSelectionCursorNode, PROPERTY_KEY_WIDTH_C2, (float)n3);
                     }
-                    if (bl7 && !abstractPlaceholderMenuController$Cursor.isCursorWidthInitialized()) {
-                        abstractPlaceholderMenuController$Cursor.setTargetWidth(this.calculateCurrentFocusWidth(abstractPlaceholderMenuController$Cursor, n3));
+                    if (bl7 && !cursor.isCursorWidthInitialized()) {
+                        cursor.setTargetWidth(this.calculateCurrentFocusWidth(cursor, n3));
                     }
                 }
                 SelectionMenuRendererHigh.lastMainItemLabelColors[i2] = l = this.getTextColor(bl6, bl5);
@@ -308,31 +303,31 @@ IKanziTemplateRenderer {
                 if (iNode3DText.getTranslationY() != (float)n4 || iNode3DText.getTranslationX() != f6) {
                     iNode3DText.setTranslation(f6, n4, 0.0f);
                 }
-                IWrappedTexture iWrappedTexture3 = iWrappedTexture2 = (object = abstractPlaceholderMenuController$PlaceholderItemEntry.getIconData(0)) instanceof Integer ? this.getGuideTexture((Integer)object, n2) : this.getTexture(object, n2);
+                IWrappedTexture iWrappedTexture3 = iWrappedTexture2 = (object = placeholderItemEntry.getIconData(0)) instanceof Integer ? this.getGuideTexture((Integer)object, n2) : this.getTexture(object, n2);
                 if (iWrappedTexture2 == null) {
-                    this.propertyCache.setProperty(iNode, "Texture", (ITexture)null);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_TEXTURE, (ITexture)null);
                 } else {
-                    this.propertyCache.setProperty(iNode, "Texture", iWrappedTexture2.getTexture());
-                    this.propertyCache.setColorProperty(iNode, "Color", bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_TEXTURE, iWrappedTexture2.getTexture());
+                    this.propertyCache.setColorProperty(iNode, PROPERTY_KEY_COLOR, bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
                     float f7 = bl6 ? (bl5 ? 0.0f : this.controller.getSubPosition()) : 1.0f;
-                    this.propertyCache.setProperty(iNode, "ds_inactive", f7);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_INACTIVE, f7);
                 }
-                Object object2 = abstractPlaceholderMenuController$PlaceholderItemEntry.getIconData(1);
+                Object object2 = placeholderItemEntry.getIconData(1);
                 IWrappedTexture iWrappedTexture4 = iWrappedTexture = object2 instanceof Integer ? this.getGuideTexture((Integer)object2, n2) : this.getTexture(object2, n2);
                 if (iWrappedTexture == null) {
-                    this.propertyCache.setProperty(iNode, "ReflexTexture", (ITexture)null);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_REFLEX_TEXTURE, (ITexture)null);
                     continue;
                 }
-                this.propertyCache.setProperty(iNode, "ReflexTexture", iWrappedTexture.getTexture());
-                this.propertyCache.setColorProperty(iNode, "Color", bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
+                this.propertyCache.setProperty(iNode, PROPERTY_KEY_REFLEX_TEXTURE, iWrappedTexture.getTexture());
+                this.propertyCache.setColorProperty(iNode, PROPERTY_KEY_COLOR, bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
                 continue;
             }
-            this.propertyCache.setProperty((INode)animNode, new StringBuffer().append("ds_mainItemPos").append(i2).toString(), 0.0f);
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_MAIN_ITEM + i2, 0.0f);
             if (!iNode.isVisible()) continue;
             iNode.setVisible(false);
         }
-        if (abstractPlaceholderMenuController$Cursor.isVisible() && abstractPlaceholderMenuController$Cursor.isCursorWidthInitialized()) {
-            this.propertyCache.setProperty(mainFocusCursorNode, "c1_width", abstractPlaceholderMenuController$Cursor.getCurrentWidth());
+        if (cursor.isVisible() && cursor.isCursorWidthInitialized()) {
+            this.propertyCache.setProperty(mainFocusCursorNode, PROPERTY_KEY_WIDTH_C1, cursor.getCurrentWidth());
         }
     }
 
@@ -342,31 +337,31 @@ IKanziTemplateRenderer {
             iNode3DText.setScale(1.0f, 1.0f, 1.0f);
             return 0.0f;
         }
-        iNode3DText.setScale(32959, 1.0f, 1.0f);
+        iNode3DText.setScale(-1.0f, 1.0f, 1.0f);
         return Math.abs(iNode3DText.getWidth());
     }
 
-    private int calculateCurrentFocusWidth(AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor, int n) {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry;
-        float f2 = abstractPlaceholderMenuController$Cursor.getHddsOffset();
+    private int calculateCurrentFocusWidth(AbstractPlaceholderMenuController.Cursor cursor, int n) {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry;
+        float f2 = cursor.getHddsOffset();
         if (f2 == 0.0f) {
             return n;
         }
         boolean bl = f2 > 0.0f;
-        for (abstractPlaceholderMenuController$PlaceholderItemEntry = abstractPlaceholderMenuController$Cursor.getTargetItemEntry().getNextIteratedEntry(bl); abstractPlaceholderMenuController$PlaceholderItemEntry != null && !abstractPlaceholderMenuController$PlaceholderItemEntry.isVisible(); abstractPlaceholderMenuController$PlaceholderItemEntry = abstractPlaceholderMenuController$PlaceholderItemEntry.getNextIteratedEntry(bl)) {
+        for (placeholderItemEntry = cursor.getTargetItemEntry().getNextIteratedEntry(bl); placeholderItemEntry != null && !placeholderItemEntry.isVisible(); placeholderItemEntry = placeholderItemEntry.getNextIteratedEntry(bl)) {
         }
-        int n2 = this.getLabelWidth(abstractPlaceholderMenuController$PlaceholderItemEntry);
+        int n2 = this.getLabelWidth(placeholderItemEntry);
         if (n2 == -1) {
             return n;
         }
         return (int)((float)n + (float)(n2 - n) * Math.abs(f2));
     }
 
-    private int getLabelWidth(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+    private int getLabelWidth(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        if (placeholderItemEntry == null) {
             return -1;
         }
-        String string = abstractPlaceholderMenuController$PlaceholderItemEntry.getLabelText();
+        String string = placeholderItemEntry.getLabelText();
         return this.getEALManager().getTextWidth(string, this.getFont());
     }
 
@@ -374,39 +369,39 @@ IKanziTemplateRenderer {
         boolean bl;
         boolean bl2;
         float f2;
-        this.propertyCache.setProperty((INode)animNode, "ds_sub_arrow_up", 0.0f);
-        this.propertyCache.setProperty((INode)animNode, "ds_sub_arrow_down", 0.0f);
-        AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor = this.controller.getSubFocusCursor();
-        if (abstractPlaceholderMenuController$Cursor.isVisible()) {
-            float f3 = abstractPlaceholderMenuController$Cursor.getCurrentPosition();
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesSub sub focus cursor pos %1", (double)f3);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_SUB_ARROW_UP, 0.0f);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_SUB_ARROW_DOWN, 0.0f);
+        AbstractPlaceholderMenuController.Cursor cursor = this.controller.getSubFocusCursor();
+        if (cursor.isVisible()) {
+            float f3 = cursor.getCurrentPosition();
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub sub focus cursor pos %1", (double)f3);
             if (!subFocusCursorNode.isVisible()) {
                 subFocusCursorNode.setVisible(true);
             }
             if (this.controller.isBouncing()) {
-                this.propertyCache.setProperty((INode)animNode, "ds_subC1", f3 + this.controller.getBounceOffset());
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_SUB_C1, f3 + this.controller.getBounceOffset());
             } else {
-                this.propertyCache.setProperty((INode)animNode, "ds_subC1", f3);
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_SUB_C1, f3);
             }
         } else {
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesSub sub focus cursor invisible");
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub sub focus cursor invisible");
             if (subFocusCursorNode.isVisible()) {
                 subFocusCursorNode.setVisible(false);
             }
             return;
         }
-        this.propertyCache.setColorProperty(subFocusCursorNode, "Color", this.ealColors[0]);
-        AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor2 = this.controller.getSubSelectionCursor();
-        if (abstractPlaceholderMenuController$Cursor2.isVisible()) {
-            f2 = abstractPlaceholderMenuController$Cursor2.getCurrentPosition();
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesSub sub selection cursor pos=%1", (double)f2);
+        this.propertyCache.setColorProperty(subFocusCursorNode, PROPERTY_KEY_COLOR, this.ealColors[0]);
+        AbstractPlaceholderMenuController.Cursor cursor2 = this.controller.getSubSelectionCursor();
+        if (cursor2.isVisible()) {
+            f2 = cursor2.getCurrentPosition();
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub sub selection cursor pos=%1", (double)f2);
             if (!subSelectionCursorNode.isVisible()) {
                 subSelectionCursorNode.setVisible(true);
             }
-            this.propertyCache.setProperty((INode)animNode, "ds_subC2", f2);
-            this.propertyCache.setColorProperty(subSelectionCursorNode, "Color", this.ealColors[0]);
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_SUB_C2, f2);
+            this.propertyCache.setColorProperty(subSelectionCursorNode, PROPERTY_KEY_COLOR, this.ealColors[0]);
         } else {
-            lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesSub sub selection cursor invisible");
+            lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub sub selection cursor invisible");
             if (subSelectionCursorNode.isVisible()) {
                 subSelectionCursorNode.setVisible(false);
             }
@@ -420,13 +415,13 @@ IKanziTemplateRenderer {
             bl2 = f4 > 0.0f;
             boolean bl3 = bl = f4 + f2 < 1.0f;
             if (lc.isDebug()) {
-                lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesSub viewport position %1, length %2", (Object)new Float(f4), (Object)new Float(f2));
+                lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub viewport position %1, length %2", (Object)new Float(f4), (Object)new Float(f2));
             }
         }
         boolean bl4 = this.getTerminal().getViewSizeManager().isSportskinSmallStage();
-        lc.log(-2137614336, "SelectionMenuRendererHigh#applyPropertiesSub scroll arrows visible ? up=%1, down=%2", bl2 && !bl4, bl && !bl4);
-        this.propertyCache.setProperty((INode)animNode, "ds_sub_arrow_up", bl2 && !bl4 ? 1.0f : 0.0f);
-        this.propertyCache.setProperty((INode)animNode, "ds_sub_arrow_down", bl && !bl4 ? 1.0f : 0.0f);
+        lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub scroll arrows visible ? up=%1, down=%2", bl2 && !bl4, bl && !bl4);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_SUB_ARROW_UP, bl2 && !bl4 ? 1.0f : 0.0f);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_SUB_ARROW_DOWN, bl && !bl4 ? 1.0f : 0.0f);
         if (this.controller.getSubPosition() <= 0.0f) {
             return;
         }
@@ -434,9 +429,9 @@ IKanziTemplateRenderer {
         List list = this.controller.getSubSlots();
         int n2 = Math.min(5, list.size());
         for (int i2 = 0; i2 < n2; ++i2) {
-            AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = (AbstractPlaceholderMenuController$Slot)list.get(i2);
+            AbstractPlaceholderMenuController.Slot slot = (AbstractPlaceholderMenuController.Slot)list.get(i2);
             INode iNode = subItemNodes[i2];
-            if (abstractPlaceholderMenuController$Slot.isEnabled()) {
+            if (slot.isEnabled()) {
                 IWrappedTexture iWrappedTexture;
                 Object object;
                 IWrappedTexture iWrappedTexture2;
@@ -444,19 +439,19 @@ IKanziTemplateRenderer {
                 if (!iNode.isVisible()) {
                     iNode.setVisible(true);
                 }
-                float f5 = abstractPlaceholderMenuController$Slot.getPosition();
-                this.propertyCache.setProperty((INode)animNode, new StringBuffer().append("ds_subItemPos").append(i2).toString(), f5);
+                float f5 = slot.getPosition();
+                this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_SUB_ITEM + i2, f5);
                 INode3DText iNode3DText = subItemlabels[i2];
-                AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = abstractPlaceholderMenuController$Slot.getItemEntry();
-                boolean bl5 = abstractPlaceholderMenuController$PlaceholderItemEntry.equals(abstractPlaceholderMenuController$Cursor2.getTargetItemEntry());
-                boolean bl6 = abstractPlaceholderMenuController$PlaceholderItemEntry.isEnabled();
-                boolean bl7 = abstractPlaceholderMenuController$PlaceholderItemEntry.isFocused();
-                String string = abstractPlaceholderMenuController$PlaceholderItemEntry.getLabelText();
+                AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = slot.getItemEntry();
+                boolean bl5 = placeholderItemEntry.equals(cursor2.getTargetItemEntry());
+                boolean bl6 = placeholderItemEntry.isEnabled();
+                boolean bl7 = placeholderItemEntry.isFocused();
+                String string = placeholderItemEntry.getLabelText();
                 if (string == null) {
                     string = " ";
                 }
                 if (lc.isDebug()) {
-                    lc.log(-2137614336, new StringBuffer().append("SelectionMenuRendererHigh#applyPropertiesSub sub icon %1, pos=%2, text='%3' selected=%4, focused=").append(bl7).toString(), (Object)Util.createInteger(i2), (Object)new Float(f5), (Object)string, (Object)bl5);
+                    lc.log(10000000, "SelectionMenuRendererHigh#applyPropertiesSub sub icon %1, pos=%2, text='%3' selected=%4, focused=" + bl7, (Object)Util.createInteger(i2), (Object)new Float(f5), (Object)string, (Object)bl5);
                 }
                 if (!string.equals(subItemlabelTexts[i2])) {
                     SelectionMenuRendererHigh.subItemlabelTexts[i2] = string;
@@ -464,12 +459,12 @@ IKanziTemplateRenderer {
                     iNode3DText.setText(this.font.getSize(), string);
                 }
                 if (bl5 || bl7) {
-                    int n3 = abstractPlaceholderMenuController$PlaceholderItemEntry.getTextWidth();
+                    int n3 = placeholderItemEntry.getTextWidth();
                     if (bl5) {
-                        this.propertyCache.setProperty(subSelectionCursorNode, "c2_width", (float)n3);
+                        this.propertyCache.setProperty(subSelectionCursorNode, PROPERTY_KEY_WIDTH_C2, (float)n3);
                     }
-                    if (bl7 && !abstractPlaceholderMenuController$Cursor.isCursorWidthInitialized()) {
-                        abstractPlaceholderMenuController$Cursor.setTargetWidth(this.calculateCurrentFocusWidth(abstractPlaceholderMenuController$Cursor, n3));
+                    if (bl7 && !cursor.isCursorWidthInitialized()) {
+                        cursor.setTargetWidth(this.calculateCurrentFocusWidth(cursor, n3));
                     }
                 }
                 SelectionMenuRendererHigh.lastSubItemLabelColors[i2] = l = this.getTextColor(bl6, bl5);
@@ -480,29 +475,29 @@ IKanziTemplateRenderer {
                 if (iNode3DText.getTranslationY() != (float)n4 || iNode3DText.getTranslationX() != f6) {
                     iNode3DText.setTranslation(f6, n4, 0.0f);
                 }
-                IWrappedTexture iWrappedTexture3 = iWrappedTexture2 = (object = abstractPlaceholderMenuController$PlaceholderItemEntry.getIconData(0)) instanceof Integer ? this.getGuideTexture((Integer)object, n) : this.getTexture(object, n);
+                IWrappedTexture iWrappedTexture3 = iWrappedTexture2 = (object = placeholderItemEntry.getIconData(0)) instanceof Integer ? this.getGuideTexture((Integer)object, n) : this.getTexture(object, n);
                 if (iWrappedTexture2 == null) {
-                    this.propertyCache.setProperty(iNode, "Texture", (ITexture)null);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_TEXTURE, (ITexture)null);
                 } else {
-                    this.propertyCache.setProperty(iNode, "Texture", iWrappedTexture2.getTexture());
-                    this.propertyCache.setColorProperty(iNode, "Color", bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_TEXTURE, iWrappedTexture2.getTexture());
+                    this.propertyCache.setColorProperty(iNode, PROPERTY_KEY_COLOR, bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
                 }
-                Object object2 = abstractPlaceholderMenuController$PlaceholderItemEntry.getIconData(1);
+                Object object2 = placeholderItemEntry.getIconData(1);
                 IWrappedTexture iWrappedTexture4 = iWrappedTexture = object2 instanceof Integer ? this.getGuideTexture((Integer)object2, n) : this.getTexture(object2, n);
                 if (iWrappedTexture == null) {
-                    this.propertyCache.setProperty(iNode, "ReflexTexture", (ITexture)null);
+                    this.propertyCache.setProperty(iNode, PROPERTY_KEY_REFLEX_TEXTURE, (ITexture)null);
                     continue;
                 }
-                this.propertyCache.setProperty(iNode, "ReflexTexture", iWrappedTexture.getTexture());
-                this.propertyCache.setColorProperty(iNode, "Color", bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
+                this.propertyCache.setProperty(iNode, PROPERTY_KEY_REFLEX_TEXTURE, iWrappedTexture.getTexture());
+                this.propertyCache.setColorProperty(iNode, PROPERTY_KEY_COLOR, bl5 && bl6 ? this.ealColors[0] : this.colorWhite);
                 continue;
             }
-            this.propertyCache.setProperty((INode)animNode, new StringBuffer().append("ds_subItemPos").append(i2).toString(), 0.0f);
+            this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_POS_SUB_ITEM + i2, 0.0f);
             if (!iNode.isVisible()) continue;
             iNode.setVisible(false);
         }
-        if (abstractPlaceholderMenuController$Cursor.isVisible() && abstractPlaceholderMenuController$Cursor.isCursorWidthInitialized()) {
-            this.propertyCache.setProperty(subFocusCursorNode, "c1_width", abstractPlaceholderMenuController$Cursor.getCurrentWidth());
+        if (cursor.isVisible() && cursor.isCursorWidthInitialized()) {
+            this.propertyCache.setProperty(subFocusCursorNode, PROPERTY_KEY_WIDTH_C1, cursor.getCurrentWidth());
         }
     }
 
@@ -592,13 +587,13 @@ IKanziTemplateRenderer {
         INode3D iNode3D;
         INode3D iNode3D2;
         int n;
-        lc.log(-2137614336, "SelectionMenuRendererHigh#loadResources: loading resources");
+        lc.log(10000000, "SelectionMenuRendererHigh#loadResources: loading resources");
         if (!projectMerged) {
             if (EALManager.isSelectionDrawerMerged()) {
                 this.finishAsyncMerge("Layers/ds_root");
                 projectMerged = true;
             } else {
-                lc.log(-2137614336, "SelectionMenuRendererHigh#loadResources: project not merged");
+                lc.log(10000000, "SelectionMenuRendererHigh#loadResources: project not merged");
                 return;
             }
         }
@@ -629,20 +624,20 @@ IKanziTemplateRenderer {
             return;
         }
         for (n = 0; n < 6; ++n) {
-            iNode3D2 = this.getNode3D(new StringBuffer().append("ds_main_item").append(n).toString());
+            iNode3D2 = this.getNode3D("ds_main_item" + n);
             if (iNode3D2 == null) {
                 this.clearResources();
                 return;
             }
             SelectionMenuRendererHigh.mainItemNodes[n] = iNode3D2;
-            iNode3D = this.getNode3D(new StringBuffer().append("ds_main_label").append(n).toString());
+            iNode3D = this.getNode3D("ds_main_label" + n);
             if (iNode3D == null) {
                 this.clearResources();
                 return;
             }
             SelectionMenuRendererHigh.mainItemLabelParents[n] = iNode3D;
             string = EALManager.createNodeName("maintextnode", n, (AbstractRenderer)this);
-            lc.log(-2137614336, "SelectionMenuRendererHigh#loadResources: creating label node %2: '%1'", (Object)string, (long)n);
+            lc.log(10000000, "SelectionMenuRendererHigh#loadResources: creating label node %2: '%1'", (Object)string, (long)n);
             iNode3DText = this.createTextNode(string);
             if (iNode3DText == null) {
                 this.clearResources();
@@ -652,20 +647,20 @@ IKanziTemplateRenderer {
             SelectionMenuRendererHigh.mainItemlabels[n] = iNode3DText;
         }
         for (n = 0; n < 5; ++n) {
-            iNode3D2 = this.getNode3D(new StringBuffer().append("ds_sub_item").append(n).toString());
+            iNode3D2 = this.getNode3D("ds_sub_item" + n);
             if (iNode3D2 == null) {
                 this.clearResources();
                 return;
             }
             SelectionMenuRendererHigh.subItemNodes[n] = iNode3D2;
-            iNode3D = this.getNode3D(new StringBuffer().append("ds_sub_label").append(n).toString());
+            iNode3D = this.getNode3D("ds_sub_label" + n);
             if (iNode3D == null) {
                 this.clearResources();
                 return;
             }
             SelectionMenuRendererHigh.subItemLabelParents[n] = iNode3D;
             string = EALManager.createNodeName("subtextnode", n, (AbstractRenderer)this);
-            lc.log(-2137614336, "SelectionMenuRendererHigh#loadResources: creating label node %2: '%1'", (Object)string, (long)n);
+            lc.log(10000000, "SelectionMenuRendererHigh#loadResources: creating label node %2: '%1'", (Object)string, (long)n);
             iNode3DText = this.createTextNode(string);
             if (iNode3DText == null) {
                 this.clearResources();
@@ -676,17 +671,17 @@ IKanziTemplateRenderer {
         }
         this.reinitializeViewSize();
         resourcesLoaded = true;
-        lc.log(-2137614336, "SelectionMenuRendererHigh#loadResources: resources loaded");
+        lc.log(10000000, "SelectionMenuRendererHigh#loadResources: resources loaded");
     }
 
     private INode3DText createTextNode(String string) {
         INode3DText iNode3DText = new INode3DText(this.getEALManager().getProject(), string);
         if (!iNode3DText.isValid()) {
-            lc.log(-2137614336, "SelectionMenuRendererHigh#createTextNode could not create text node '%1'", (Object)string);
+            lc.log(10000000, "SelectionMenuRendererHigh#createTextNode could not create text node '%1'", (Object)string);
             iNode3DText.dispose();
             return null;
         }
-        iNode3DText.rotateX(13379);
+        iNode3DText.rotateX(180.0f);
         return iNode3DText;
     }
 
@@ -695,9 +690,9 @@ IKanziTemplateRenderer {
         INode iNode2;
         INode3DText iNode3DText;
         int n;
-        lc.log(-2137614336, "SelectionMenuRendererHigh#clearResources: clearing properties");
+        lc.log(10000000, "SelectionMenuRendererHigh#clearResources: clearing properties");
         this.propertyCache.clearAll();
-        lc.log(-2137614336, "SelectionMenuRendererHigh#clearResources: disposing item nodes");
+        lc.log(10000000, "SelectionMenuRendererHigh#clearResources: disposing item nodes");
         for (n = 0; n < mainItemlabels.length; ++n) {
             iNode3DText = mainItemlabels[n];
             iNode2 = mainItemLabelParents[n];
@@ -739,7 +734,7 @@ IKanziTemplateRenderer {
         subSelectionCursorNode = null;
         this.destroyColors();
         resourcesLoaded = false;
-        lc.log(-2137614336, "SelectionMenuRendererHigh#clearResources: resources cleared");
+        lc.log(10000000, "SelectionMenuRendererHigh#clearResources: resources cleared");
     }
 
     private void destroyColors() {
@@ -754,7 +749,7 @@ IKanziTemplateRenderer {
     }
 
     private INode3D getNode3D(String string) {
-        lc.log(-2137614336, "SelectionMenuRendererHigh#getNode3D: getting node '%1'", (Object)string);
+        lc.log(10000000, "SelectionMenuRendererHigh#getNode3D: getting node '%1'", (Object)string);
         INode3D iNode3D = this.getEALManager().getProject().getNode3D(string);
         if (!iNode3D.isValid()) {
             lc.log(10000, "SelectionMenuRendererHigh#getNode3D: Could not get node '%1'", (Object)string);
@@ -764,48 +759,43 @@ IKanziTemplateRenderer {
         return iNode3D;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.clearResources();
         Iterator iterator = this.textureMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            IWrappedTexture iWrappedTexture = (IWrappedTexture)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            IWrappedTexture iWrappedTexture = (IWrappedTexture)entry.getValue();
             if (iWrappedTexture == null) continue;
             iWrappedTexture.releaseTexture(true, this);
         }
         this.textureMap.clear();
     }
 
-    @Override
     public void inOutPositionChanged() {
         if (animNode == null) {
             return;
         }
         float f2 = this.controller.getInOutPosition();
         if (!this.controller.isConnected()) {
-            lc.log(-1601830656, "SelectionMenuRendererHigh#inOutPositionChanged controller not connected, explicitly set animNode to visible=false, was %1, inOutPosition=%2", animNode.isVisible(), (Object)Float.toString(f2));
+            lc.log(100000, "SelectionMenuRendererHigh#inOutPositionChanged controller not connected, explicitly set animNode to visible=false, was %1, inOutPosition=%2", animNode.isVisible(), (Object)Float.toString(f2));
             animNode.setVisible(false);
             return;
         }
-        this.propertyCache.setProperty((INode)animNode, "ds_RingPos", f2);
+        this.propertyCache.setProperty((INode)animNode, PROPERTY_KEY_IN_OUT_POSITION, f2);
         if (animNode.isVisible() != f2 > 0.0f) {
             animNode.setVisible(f2 > 0.0f);
         }
     }
 
-    @Override
     public StringUtility getStringUtility() {
         return ((HMITerminalImplMIB2High)this.getTerminal()).getStringUtility(this.font);
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
@@ -842,7 +832,7 @@ IKanziTemplateRenderer {
         }
         eALManager.getMasterRoot().addAuto(iNode2D, 200);
         iNode2D.dispose();
-        logChannelParking.log(1078071040, "SelectionMenuRendererHigh#mergeFinished: asynchronous merge finalized");
+        logChannelParking.log(1000000, "SelectionMenuRendererHigh#mergeFinished: asynchronous merge finalized");
     }
 
     static {

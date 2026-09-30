@@ -11,31 +11,28 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public class TouchMediaHandler
 extends AbstractWidgetController {
-    public static final int MODE_DVD;
-    public static final int MODE_JP_TV;
-    private static final int TRIGGER_MIN_DISTANCE;
-    private static final int TRIGGER_DISTANCE;
+    public static final int MODE_DVD = 0;
+    public static final int MODE_JP_TV = 1;
+    private static final int TRIGGER_MIN_DISTANCE = 200;
+    private static final int TRIGGER_DISTANCE = 400;
     private int triggerRootXCoordinate = 0;
     private int triggerRootYCoordinate = 0;
     private int currentXCoordinate = 0;
     private int currentYCoordinate = 0;
     private boolean triggeredInCycle = false;
 
-    @Override
     protected void initializeWidget() {
         if (this.terminal != null && this.terminal.getTouchInputManager() != null) {
             this.terminal.getTouchInputManager().setDesiredRecognizerMode(this, 25);
         }
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         this.triggerRootXCoordinate = touchEvent.getX();
         this.triggerRootYCoordinate = touchEvent.getY();
         this.triggeredInCycle = false;
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         this.currentXCoordinate = touchEvent.getX();
         this.currentYCoordinate = touchEvent.getY();
@@ -52,7 +49,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (!this.triggeredInCycle && this.model instanceof VirtualButtonModelGUI) {
             int n = Math.abs(this.triggerRootXCoordinate - this.currentXCoordinate);
@@ -68,7 +64,6 @@ extends AbstractWidgetController {
         ((VirtualButtonModelGUI)this.model).joyIdle(this.terminal.getTerminalID());
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == 17 && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).keyPressed(keyEvent.getKeyCode(), this.terminal.getTerminalID());
@@ -76,7 +71,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == 17 && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).keyReleased(keyEvent.getKeyCode(), this.terminal.getTerminalID());
@@ -101,7 +95,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

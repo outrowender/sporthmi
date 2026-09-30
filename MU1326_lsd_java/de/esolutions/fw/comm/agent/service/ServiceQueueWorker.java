@@ -3,7 +3,6 @@
  */
 package de.esolutions.fw.comm.agent.service;
 
-import de.esolutions.fw.comm.agent.service.ServiceQueueWorker$ServiceTimeOutHandler;
 import de.esolutions.fw.comm.agent.tracing.CommAgentTracing;
 import de.esolutions.fw.comm.core.IMethod;
 import de.esolutions.fw.comm.core.IService;
@@ -12,9 +11,9 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.util.commons.error.IRunnableWrapper;
 import de.esolutions.fw.util.commons.queue.QueueShutdownException;
 import de.esolutions.fw.util.commons.queue.QueueWorker;
+import de.esolutions.fw.util.commons.timeout.ITimeOutHandler;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.fw.util.commons.timeout.TimeOutTimer;
-import de.esolutions.fw.util.commons.timeout.TimeOutTimer$TimeOutTask;
 
 public class ServiceQueueWorker
 extends QueueWorker
@@ -36,7 +35,6 @@ implements IServiceWorker {
         this.monoTime = iTimeSource;
     }
 
-    @Override
     public synchronized void registerService(IService iService) {
         ++this.serviceCount;
         if (!this.lazyStartup && this.serviceCount == 1) {
@@ -51,7 +49,6 @@ implements IServiceWorker {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterService(IService iService) {
         boolean bl = false;
         ServiceQueueWorker serviceQueueWorker = this;
@@ -71,11 +68,9 @@ implements IServiceWorker {
         }
     }
 
-    @Override
     public void stubCountChanged(IService iService, int n) {
     }
 
-    @Override
     public synchronized void enqueueCall(IMethod iMethod) {
         if (this.lazyStartup && !this.isRunning()) {
             CommAgentTracing.SERVICE.log((short)1, "  lazy starting service worker %1 (prio=%2)", (Object)this.name, (Object)new Integer(this.threadPrio));
@@ -94,18 +89,17 @@ implements IServiceWorker {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void handleQueuedObject(Object object) {
         IMethod iMethod = (IMethod)object;
-        TimeOutTimer$TimeOutTask timeOutTimer$TimeOutTask = null;
-        ServiceQueueWorker$ServiceTimeOutHandler serviceQueueWorker$ServiceTimeOutHandler = null;
+        TimeOutTimer.TimeOutTask timeOutTask = null;
+        ServiceTimeOutHandler serviceTimeOutHandler = null;
         try {
             CommAgentTracing.SERVICE.log((short)1, "  + invoke %1 on worker %2", iMethod, (Object)this.name);
             ServiceQueueWorker serviceQueueWorker = this;
             synchronized (serviceQueueWorker) {
                 if (this.timer != null) {
-                    serviceQueueWorker$ServiceTimeOutHandler = new ServiceQueueWorker$ServiceTimeOutHandler(this, iMethod.toString());
-                    timeOutTimer$TimeOutTask = this.timer.schedule(serviceQueueWorker$ServiceTimeOutHandler, this.maxMethodTime);
+                    serviceTimeOutHandler = new ServiceTimeOutHandler(iMethod.toString());
+                    timeOutTask = this.timer.schedule(serviceTimeOutHandler, this.maxMethodTime);
                 }
             }
             long l = this.monoTime.getCurrentTime();
@@ -122,13 +116,13 @@ implements IServiceWorker {
             this.otherExceptionHandler(exception);
         }
         finally {
-            if (timeOutTimer$TimeOutTask != null) {
-                timeOutTimer$TimeOutTask.disarm();
-                timeOutTimer$TimeOutTask = null;
+            if (timeOutTask != null) {
+                timeOutTask.disarm();
+                timeOutTask = null;
             }
-            if (serviceQueueWorker$ServiceTimeOutHandler != null) {
-                serviceQueueWorker$ServiceTimeOutHandler.disarm();
-                serviceQueueWorker$ServiceTimeOutHandler = null;
+            if (serviceTimeOutHandler != null) {
+                serviceTimeOutHandler.disarm();
+                serviceTimeOutHandler = null;
             }
         }
     }
@@ -137,6 +131,31 @@ implements IServiceWorker {
     }
 
     protected void otherExceptionHandler(Exception exception) {
+    }
+
+    protected class ServiceTimeOutHandler
+    implements ITimeOutHandler {
+        private String methodDesc;
+
+        public ServiceTimeOutHandler(String string) {
+            this.methodDesc = string;
+        }
+
+        public void disarm() {
+            this.methodDesc = null;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void timeoutOccurred(Thread thread) {
+            int n;
+            ServiceQueueWorker serviceQueueWorker = ServiceQueueWorker.this;
+            synchronized (serviceQueueWorker) {
+                n = ServiceQueueWorker.this.maxMethodTime;
+            }
+            CommAgentTracing.SERVICE.log((short)4, "method invocation timeout detected:\n  method=%1\n  worker=%2 thread=%3 maxMethodTime=%4 ms", (Object)this.methodDesc, (Object)ServiceQueueWorker.this.name, (Object)thread, (Object)new Integer(n));
+        }
     }
 }
 

@@ -6,9 +6,9 @@ package de.esolutions.fw.util.transport.config;
 import de.esolutions.fw.util.config.query.IConfigQuery;
 
 public class SerializerParam {
-    public static final int BE;
-    public static final int LE;
-    public static final String[] typeNames;
+    public static final int BE = 0;
+    public static final int LE = 1;
+    public static final String[] typeNames = new String[]{"BE", "LE"};
     private int type;
 
     public static SerializerParam create(IConfigQuery iConfigQuery) {
@@ -36,11 +36,7 @@ public class SerializerParam {
     }
 
     public String toString() {
-        return new StringBuffer().append("[Serializer:").append(typeNames[this.type]).append("]").toString();
-    }
-
-    static {
-        typeNames = new String[]{"BE", "LE"};
+        return "[Serializer:" + typeNames[this.type] + "]";
     }
 }
 

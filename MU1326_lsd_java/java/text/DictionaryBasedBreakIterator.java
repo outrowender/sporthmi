@@ -3,12 +3,14 @@
  */
 package java.text;
 
+import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.BreakDictionary;
+import java.text.CharSet;
 import java.text.CharacterIterator;
-import java.text.DictionaryBasedBreakIterator$Builder;
 import java.text.RuleBasedBreakIterator;
-import java.text.RuleBasedBreakIterator$Builder;
+import java.util.Hashtable;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -20,17 +22,15 @@ extends RuleBasedBreakIterator {
     private int[] cachedBreakPositions;
     private int positionInCache;
 
-    public DictionaryBasedBreakIterator(String string, InputStream inputStream) {
+    public DictionaryBasedBreakIterator(String string, InputStream inputStream) throws IOException {
         super(string);
         this.dictionary = new BreakDictionary(inputStream);
     }
 
-    @Override
-    protected RuleBasedBreakIterator$Builder makeBuilder() {
-        return new DictionaryBasedBreakIterator$Builder(this);
+    protected RuleBasedBreakIterator.Builder makeBuilder() {
+        return new Builder();
     }
 
-    @Override
     public void setText(CharacterIterator characterIterator) {
         super.setText(characterIterator);
         this.cachedBreakPositions = null;
@@ -38,7 +38,6 @@ extends RuleBasedBreakIterator {
         this.positionInCache = 0;
     }
 
-    @Override
     public int first() {
         this.cachedBreakPositions = null;
         this.dictionaryCharCount = 0;
@@ -46,7 +45,6 @@ extends RuleBasedBreakIterator {
         return super.first();
     }
 
-    @Override
     public int last() {
         this.cachedBreakPositions = null;
         this.dictionaryCharCount = 0;
@@ -54,7 +52,6 @@ extends RuleBasedBreakIterator {
         return super.last();
     }
 
-    @Override
     public int previous() {
         CharacterIterator characterIterator = this.getText();
         if (this.cachedBreakPositions != null && this.positionInCache > 0) {
@@ -70,7 +67,6 @@ extends RuleBasedBreakIterator {
         return n;
     }
 
-    @Override
     public int preceding(int n) {
         CharacterIterator characterIterator = this.getText();
         DictionaryBasedBreakIterator.checkOffset(n, characterIterator);
@@ -87,7 +83,6 @@ extends RuleBasedBreakIterator {
         return characterIterator.getIndex();
     }
 
-    @Override
     public int following(int n) {
         CharacterIterator characterIterator = this.getText();
         DictionaryBasedBreakIterator.checkOffset(n, characterIterator);
@@ -103,7 +98,6 @@ extends RuleBasedBreakIterator {
         return characterIterator.getIndex();
     }
 
-    @Override
     protected int handleNext() {
         CharacterIterator characterIterator = this.getText();
         if (this.cachedBreakPositions == null || this.positionInCache == this.cachedBreakPositions.length - 1) {
@@ -125,7 +119,6 @@ extends RuleBasedBreakIterator {
         return -9999;
     }
 
-    @Override
     protected int lookupCategory(char c2) {
         int n = super.lookupCategory(c2);
         if (n != -1 && this.categoryFlags[n]) {
@@ -208,12 +201,38 @@ extends RuleBasedBreakIterator {
         this.positionInCache = 0;
     }
 
-    static /* synthetic */ void access$0(DictionaryBasedBreakIterator dictionaryBasedBreakIterator, boolean[] blArray) {
-        dictionaryBasedBreakIterator.categoryFlags = blArray;
-    }
+    protected class Builder
+    extends RuleBasedBreakIterator.Builder {
+        private CharSet dictionaryChars = new CharSet();
+        private String dictionaryExpression = "";
 
-    static /* synthetic */ boolean[] access$1(DictionaryBasedBreakIterator dictionaryBasedBreakIterator) {
-        return dictionaryBasedBreakIterator.categoryFlags;
+        protected void handleSpecialSubstitution(String string, String string2, int n, String string3) {
+            super.handleSpecialSubstitution(string, string2, n, string3);
+            if (string.equals("<dictionary>")) {
+                if (string2.charAt(0) == '(') {
+                    this.error(Msg.getString("K00c3"), n, string3);
+                }
+                this.dictionaryExpression = string2;
+                this.dictionaryChars = CharSet.parseString(string2);
+            }
+        }
+
+        protected void buildCharCategories(Vector vector) {
+            super.buildCharCategories(vector);
+            DictionaryBasedBreakIterator.this.categoryFlags = new boolean[this.categories.size()];
+            int n = 0;
+            while (n < this.categories.size()) {
+                CharSet charSet = (CharSet)this.categories.elementAt(n);
+                if (!charSet.intersection(this.dictionaryChars).empty()) {
+                    ((DictionaryBasedBreakIterator)DictionaryBasedBreakIterator.this).categoryFlags[n] = true;
+                }
+                ++n;
+            }
+        }
+
+        protected void mungeExpressionList(Hashtable hashtable) {
+            hashtable.put(this.dictionaryExpression, this.dictionaryChars);
+        }
     }
 }
 

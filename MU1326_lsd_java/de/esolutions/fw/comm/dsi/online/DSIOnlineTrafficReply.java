@@ -3,46 +3,36 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.FCDPosition;
 import org.dsi.ifc.online.LocatablePosition;
 
 public interface DSIOnlineTrafficReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "a6541574-206f-51ef-b0df-9f6f80e9edfb";
+    public static final String IPL_COMM_INTERFACE_KEY = "a94f3724-0361-547e-b190-41d13b2282ad";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void updateConsumerReady(int n, int n2) {
-    }
+    public void updateConsumerReady(int var1, int var2) throws MethodException;
 
-    default public void updateWantOnlineTrafficData(int n, int n2) {
-    }
+    public void updateWantOnlineTrafficData(int var1, int var2) throws MethodException;
 
-    default public void getNewDataResult(int n, LocatablePosition[] locatablePositionArray) {
-    }
+    public void getNewDataResult(int var1, LocatablePosition[] var2) throws MethodException;
 
-    default public void setNewDataResult(String string, int n) {
-    }
+    public void setNewDataResult(String var1, int var2) throws MethodException;
 
-    default public void getNewSession() {
-    }
+    public void getNewSession() throws MethodException;
 
-    default public void setTimeoutForFallbackResult(int n) {
-    }
+    public void setTimeoutForFallbackResult(int var1) throws MethodException;
 
-    default public void getNewFCDInformationResult(FCDPosition fCDPosition) {
-    }
+    public void getNewFCDInformationResult(FCDPosition var1) throws MethodException;
 
-    default public void getInventoryResult(String string) {
-    }
+    public void getInventoryResult(String var1) throws MethodException;
 
-    default public void getDownloadFileResult(String string) {
-    }
+    public void getDownloadFileResult(String var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

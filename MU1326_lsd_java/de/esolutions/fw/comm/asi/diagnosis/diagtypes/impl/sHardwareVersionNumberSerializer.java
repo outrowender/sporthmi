@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sHardwareVersionNumber;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sHardwareVersionNumberSerializer {
-    public static void putOptionalsHardwareVersionNumber(ISerializer iSerializer, sHardwareVersionNumber sHardwareVersionNumber2) {
+    public static void putOptionalsHardwareVersionNumber(ISerializer iSerializer, sHardwareVersionNumber sHardwareVersionNumber2) throws SerializerException {
         boolean bl = sHardwareVersionNumber2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sHardwareVersionNumberSerializer {
         }
     }
 
-    public static void putOptionalsHardwareVersionNumberVarArray(ISerializer iSerializer, sHardwareVersionNumber[] sHardwareVersionNumberArray) {
+    public static void putOptionalsHardwareVersionNumberVarArray(ISerializer iSerializer, sHardwareVersionNumber[] sHardwareVersionNumberArray) throws SerializerException {
         boolean bl = sHardwareVersionNumberArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sHardwareVersionNumberSerializer {
         }
     }
 
-    public static sHardwareVersionNumber getOptionalsHardwareVersionNumber(IDeserializer iDeserializer) {
+    public static sHardwareVersionNumber getOptionalsHardwareVersionNumber(IDeserializer iDeserializer) throws SerializerException {
         sHardwareVersionNumber sHardwareVersionNumber2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sHardwareVersionNumberSerializer {
         return sHardwareVersionNumber2;
     }
 
-    public static sHardwareVersionNumber[] getOptionalsHardwareVersionNumberVarArray(IDeserializer iDeserializer) {
+    public static sHardwareVersionNumber[] getOptionalsHardwareVersionNumberVarArray(IDeserializer iDeserializer) throws SerializerException {
         sHardwareVersionNumber[] sHardwareVersionNumberArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

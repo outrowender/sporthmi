@@ -35,9 +35,9 @@ import java.io.InterruptedIOException;
 
 public class ConnectionHandler
 implements Runnable {
-    public static final int NORMAL_OPERATION;
-    public static final int HANDSHAKE_FAILED;
-    public static final int LOST_CONNECTION;
+    public static final int NORMAL_OPERATION = 0;
+    public static final int HANDSHAKE_FAILED = 1;
+    public static final int LOST_CONNECTION = 2;
     private final short myID;
     private final short myAgentID;
     private Connection connection;
@@ -60,11 +60,11 @@ implements Runnable {
     private IConnectionRequestCallback callback;
     private Long dispatchStartTime;
     private AbstractMessage dispatchMessage;
-    private int minDurationInt = -129;
+    private int minDurationInt = Integer.MAX_VALUE;
     private int maxDurationInt;
     private long avgDurationInt;
     private long avgCountInt;
-    private int minDurationCall = -129;
+    private int minDurationCall = Integer.MAX_VALUE;
     private int maxDurationCall;
     private long avgDurationCall;
     private long avgCountCall;
@@ -275,7 +275,6 @@ implements Runnable {
         }
     }
 
-    @Override
     public void run() {
         int n;
         CommAgentTracing.CLIENT.log((short)1, "$%1(%2): connection handler started", new Short(this.myID), (Object)new Short(this.peerAgentID));
@@ -353,7 +352,7 @@ implements Runnable {
             }
             catch (Exception exception) {
                 if (this.getDoShutdown()) break;
-                if (super.getClass() == (class$de$esolutions$fw$util$transport$exception$EndOfTransportException == null ? (class$de$esolutions$fw$util$transport$exception$EndOfTransportException = ConnectionHandler.class$("de.esolutions.fw.util.transport.exception.EndOfTransportException")) : class$de$esolutions$fw$util$transport$exception$EndOfTransportException)) {
+                if (exception.getClass() == (class$de$esolutions$fw$util$transport$exception$EndOfTransportException == null ? (class$de$esolutions$fw$util$transport$exception$EndOfTransportException = ConnectionHandler.class$("de.esolutions.fw.util.transport.exception.EndOfTransportException")) : class$de$esolutions$fw$util$transport$exception$EndOfTransportException)) {
                     CommAgentTracing.CLIENT.log((short)1, "EOT detected");
                     break;
                 }
@@ -441,7 +440,7 @@ implements Runnable {
         }
     }
 
-    private final boolean doHandshake() {
+    private final boolean doHandshake() throws ClientException {
         try {
             boolean bl;
             this.connection.open();

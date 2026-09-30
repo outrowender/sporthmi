@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public final class SimpleCharStream {
-    public static final boolean staticFlag;
+    public static final boolean staticFlag = false;
     int bufsize;
     int available;
     int tokenBegin;
@@ -59,7 +59,7 @@ public final class SimpleCharStream {
         this.tokenBegin = 0;
     }
 
-    private final void FillBuff() {
+    private final void FillBuff() throws IOException {
         if (this.maxNextCharInd == this.available) {
             if (this.available == this.bufsize) {
                 if (this.tokenBegin > 2048) {
@@ -99,7 +99,7 @@ public final class SimpleCharStream {
         }
     }
 
-    public final char BeginToken() {
+    public final char BeginToken() throws IOException {
         this.tokenBegin = -1;
         char c2 = this.readChar();
         this.tokenBegin = this.bufpos;
@@ -140,7 +140,7 @@ public final class SimpleCharStream {
         this.bufcolumn[this.bufpos] = this.column;
     }
 
-    public final char readChar() {
+    public final char readChar() throws IOException {
         if (this.inBuf > 0) {
             --this.inBuf;
             if (++this.bufpos == this.bufsize) {
@@ -259,7 +259,7 @@ public final class SimpleCharStream {
         if (this.bufpos >= this.tokenBegin) {
             return new String(this.buffer, this.tokenBegin, this.bufpos - this.tokenBegin + 1);
         }
-        return new StringBuffer().append(new String(this.buffer, this.tokenBegin, this.bufsize - this.tokenBegin)).append(new String(this.buffer, 0, this.bufpos + 1)).toString();
+        return new String(this.buffer, this.tokenBegin, this.bufsize - this.tokenBegin) + new String(this.buffer, 0, this.bufpos + 1);
     }
 
     public final char[] GetSuffix(int n) {

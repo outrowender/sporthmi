@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCDisplayDependency;
 
 public class DCDisplayDependencySerializer {
-    public static void putOptionalDCDisplayDependency(ISerializer iSerializer, DCDisplayDependency dCDisplayDependency) {
+    public static void putOptionalDCDisplayDependency(ISerializer iSerializer, DCDisplayDependency dCDisplayDependency) throws SerializerException {
         boolean bl = dCDisplayDependency == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class DCDisplayDependencySerializer {
         }
     }
 
-    public static void putOptionalDCDisplayDependencyVarArray(ISerializer iSerializer, DCDisplayDependency[] dCDisplayDependencyArray) {
+    public static void putOptionalDCDisplayDependencyVarArray(ISerializer iSerializer, DCDisplayDependency[] dCDisplayDependencyArray) throws SerializerException {
         boolean bl = dCDisplayDependencyArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class DCDisplayDependencySerializer {
         }
     }
 
-    public static DCDisplayDependency getOptionalDCDisplayDependency(IDeserializer iDeserializer) {
+    public static DCDisplayDependency getOptionalDCDisplayDependency(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayDependency dCDisplayDependency = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class DCDisplayDependencySerializer {
         return dCDisplayDependency;
     }
 
-    public static DCDisplayDependency[] getOptionalDCDisplayDependencyVarArray(IDeserializer iDeserializer) {
+    public static DCDisplayDependency[] getOptionalDCDisplayDependencyVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayDependency[] dCDisplayDependencyArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

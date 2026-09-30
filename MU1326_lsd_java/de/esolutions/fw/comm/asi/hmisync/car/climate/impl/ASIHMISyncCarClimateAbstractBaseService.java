@@ -6,17 +6,18 @@ package de.esolutions.fw.comm.asi.hmisync.car.climate.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.IntBaseType;
 import de.esolutions.fw.comm.asi.hmisync.car.climate.ASIHMISyncCarClimateReply;
 import de.esolutions.fw.comm.asi.hmisync.car.climate.ASIHMISyncCarClimateS;
-import de.esolutions.fw.comm.asi.hmisync.car.climate.impl.ASIHMISyncCarClimateAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncCarClimateAbstractBaseService
 implements ASIHMISyncCarClimateS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.car.climate.ASIHMISyncCarClimate");
-    private static final int attributesCount;
+    private static final int attributesCount = 6;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -50,39 +51,33 @@ implements ASIHMISyncCarClimateS {
     }
 
     public ASIHMISyncCarClimateAbstractBaseService() {
-        ASIHMISyncCarClimateAbstractBaseService$AttributesBitMapProvider aSIHMISyncCarClimateAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncCarClimateAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncCarClimate", aSIHMISyncCarClimateAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncCarClimate", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncCarClimateReply);
         this.sendAttributeUpdate(l, aSIHMISyncCarClimateReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         this.baseService.setNotification(aSIHMISyncCarClimateReply);
         this.sendAttributeUpdate(aSIHMISyncCarClimateReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncCarClimateReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncCarClimateReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncCarClimateReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         this.baseService.clearNotification(aSIHMISyncCarClimateReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncCarClimateReply);
     }
@@ -109,17 +104,17 @@ implements ASIHMISyncCarClimateS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
         try {
-            if (l == 0) {
+            if (l == 7L) {
                 aSIHMISyncCarClimateReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 12L) {
                 aSIHMISyncCarClimateReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 11L) {
                 aSIHMISyncCarClimateReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 9L) {
                 aSIHMISyncCarClimateReply.updateAirconTempZone1(this.AirconTempZone1, this.AirconTempZone1_valid);
-            } else if (l == 0) {
+            } else if (l == 10L) {
                 aSIHMISyncCarClimateReply.updateAirconTempZone2(this.AirconTempZone2, this.AirconTempZone2_valid);
-            } else if (l == 0) {
+            } else if (l == 8L) {
                 aSIHMISyncCarClimateReply.updateAirconMaxAC(this.AirconMaxAC, this.AirconMaxAC_valid);
             } else {
                 System.out.println("unexpected");
@@ -130,11 +125,11 @@ implements ASIHMISyncCarClimateS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncCarClimateAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(7);
@@ -148,11 +143,11 @@ implements ASIHMISyncCarClimateS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -171,11 +166,11 @@ implements ASIHMISyncCarClimateS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -194,11 +189,11 @@ implements ASIHMISyncCarClimateS {
         }
     }
 
-    public void updateAirconTempZone1(IntBaseType intBaseType) {
+    public void updateAirconTempZone1(IntBaseType intBaseType) throws MethodException {
         this.updateAirconTempZone1(intBaseType, true);
     }
 
-    public void updateAirconTempZone1(IntBaseType intBaseType, boolean bl) {
+    public void updateAirconTempZone1(IntBaseType intBaseType, boolean bl) throws MethodException {
         this.AirconTempZone1 = ASIHMISyncCarClimateAbstractBaseService.copyIntBaseType(intBaseType);
         this.AirconTempZone1_valid = bl;
         List list = this.baseService.getNotifications(9);
@@ -212,11 +207,11 @@ implements ASIHMISyncCarClimateS {
         }
     }
 
-    public void updateAirconTempZone2(IntBaseType intBaseType) {
+    public void updateAirconTempZone2(IntBaseType intBaseType) throws MethodException {
         this.updateAirconTempZone2(intBaseType, true);
     }
 
-    public void updateAirconTempZone2(IntBaseType intBaseType, boolean bl) {
+    public void updateAirconTempZone2(IntBaseType intBaseType, boolean bl) throws MethodException {
         this.AirconTempZone2 = ASIHMISyncCarClimateAbstractBaseService.copyIntBaseType(intBaseType);
         this.AirconTempZone2_valid = bl;
         List list = this.baseService.getNotifications(10);
@@ -230,11 +225,11 @@ implements ASIHMISyncCarClimateS {
         }
     }
 
-    public void updateAirconMaxAC(boolean bl) {
+    public void updateAirconMaxAC(boolean bl) throws MethodException {
         this.updateAirconMaxAC(bl, true);
     }
 
-    public void updateAirconMaxAC(boolean bl, boolean bl2) {
+    public void updateAirconMaxAC(boolean bl, boolean bl2) throws MethodException {
         this.AirconMaxAC = bl;
         this.AirconMaxAC_valid = bl2;
         List list = this.baseService.getNotifications(8);
@@ -245,6 +240,29 @@ implements ASIHMISyncCarClimateS {
                 aSIHMISyncCarClimateReply.updateAirconMaxAC(bl, bl2);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(7L), new Integer(0));
+            this.map.put(new Long(12L), new Integer(1));
+            this.map.put(new Long(11L), new Integer(2));
+            this.map.put(new Long(9L), new Integer(3));
+            this.map.put(new Long(10L), new Integer(4));
+            this.map.put(new Long(8L), new Integer(5));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 6;
         }
     }
 }

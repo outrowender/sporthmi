@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.CarBCAccelerationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCSpeedSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCMaxValues;
 import org.dsi.ifc.global.CarBCAcceleration;
 import org.dsi.ifc.global.CarBCSpeed;
 
 public class BCMaxValuesSerializer {
-    public static void putOptionalBCMaxValues(ISerializer iSerializer, BCMaxValues bCMaxValues) {
+    public static void putOptionalBCMaxValues(ISerializer iSerializer, BCMaxValues bCMaxValues) throws SerializerException {
         boolean bl = bCMaxValues == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class BCMaxValuesSerializer {
         }
     }
 
-    public static void putOptionalBCMaxValuesVarArray(ISerializer iSerializer, BCMaxValues[] bCMaxValuesArray) {
+    public static void putOptionalBCMaxValuesVarArray(ISerializer iSerializer, BCMaxValues[] bCMaxValuesArray) throws SerializerException {
         boolean bl = bCMaxValuesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class BCMaxValuesSerializer {
         }
     }
 
-    public static BCMaxValues getOptionalBCMaxValues(IDeserializer iDeserializer) {
+    public static BCMaxValues getOptionalBCMaxValues(IDeserializer iDeserializer) throws SerializerException {
         BCMaxValues bCMaxValues = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class BCMaxValuesSerializer {
         return bCMaxValues;
     }
 
-    public static BCMaxValues[] getOptionalBCMaxValuesVarArray(IDeserializer iDeserializer) {
+    public static BCMaxValues[] getOptionalBCMaxValuesVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCMaxValues[] bCMaxValuesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

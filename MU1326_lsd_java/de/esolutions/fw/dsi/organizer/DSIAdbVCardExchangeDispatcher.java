@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.organizer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbVCardExchangeReply;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbVCardExchangeReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIAdbVCardExchangeReply {
         super(n, (class$org$dsi$ifc$organizer$DSIAdbVCardExchangeListener == null ? (class$org$dsi$ifc$organizer$DSIAdbVCardExchangeListener = DSIAdbVCardExchangeDispatcher.class$("org.dsi.ifc.organizer.DSIAdbVCardExchangeListener")) : class$org$dsi$ifc$organizer$DSIAdbVCardExchangeListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateExportCount(DownloadInfo downloadInfo, int n) {
+    public void updateExportCount(DownloadInfo downloadInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -58,8 +57,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void updateImportCount(DownloadInfo downloadInfo, int n) {
+    public void updateImportCount(DownloadInfo downloadInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -87,8 +85,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void importVCardResult(int n, int n2, int n3, int n4) {
+    public void importVCardResult(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -104,8 +101,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void exportVCardResult(int n, int n2, int n3, int n4) {
+    public void exportVCardResult(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -121,8 +117,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void exportSpellerVCardResult(int n, int n2, int n3, int n4, int n5) {
+    public void exportSpellerVCardResult(int n, int n2, int n3, int n4, int n5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -138,8 +133,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void createVCardResult(int n, long[] lArray, int n2, String string) {
+    public void createVCardResult(int n, long[] lArray, int n2, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -155,8 +149,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void parseVCardResult(int n, AdbEntry[] adbEntryArray) {
+    public void parseVCardResult(int n, AdbEntry[] adbEntryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -172,8 +165,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void responseAbort(int n) {
+    public void responseAbort(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -189,8 +181,7 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -206,14 +197,13 @@ implements DSIAdbVCardExchangeReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAdbVCardExchangeListener dSIAdbVCardExchangeListener = (DSIAdbVCardExchangeListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbVCardExchangeDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbVCardExchangeDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAdbVCardExchangeListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbVCardExchangeDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbVCardExchangeDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAdbVCardExchangeListener, new Object[]{string, string2});
                     continue;
                 }

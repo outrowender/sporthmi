@@ -9,7 +9,7 @@ import org.apache.commons.id.AbstractStringIdentifierGenerator;
 public class NumericGenerator
 extends AbstractStringIdentifierGenerator
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 20060121L;
     private boolean wrapping;
     private long count = 0L;
 
@@ -18,12 +18,10 @@ implements Serializable {
         this.count = l;
     }
 
-    @Override
     public long maxLength() {
         return AbstractStringIdentifierGenerator.MAX_LONG_NUMERIC_VALUE_LENGTH;
     }
 
-    @Override
     public long minLength() {
         return 1L;
     }
@@ -39,7 +37,6 @@ implements Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String nextStringIdentifier() {
         long l = 0L;
         if (this.wrapping) {

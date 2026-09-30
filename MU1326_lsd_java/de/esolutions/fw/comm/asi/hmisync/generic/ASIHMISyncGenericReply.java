@@ -4,23 +4,20 @@
 package de.esolutions.fw.comm.asi.hmisync.generic;
 
 import de.esolutions.fw.comm.asi.hmisync.generic.GenericPacket;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncGenericReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "8194babf-6beb-418f-bd90-f74b3c21802b";
+    public static final String IPL_COMM_INTERFACE_KEY = "a72d3c71-2310-5bc0-8a73-f82f260b9d4e";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.1.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void sendDataFromUnit(GenericPacket genericPacket) {
-    }
+    public void sendDataFromUnit(GenericPacket var1) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 }
 

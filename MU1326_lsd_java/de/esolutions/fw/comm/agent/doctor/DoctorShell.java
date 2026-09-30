@@ -3,7 +3,6 @@
  */
 package de.esolutions.fw.comm.agent.doctor;
 
-import de.esolutions.fw.comm.agent.doctor.DoctorShell$1;
 import de.esolutions.fw.comm.agent.doctor.DoctorShellState;
 import de.esolutions.fw.comm.agent.doctor.command.DoctorCommandRegistry;
 import de.esolutions.fw.comm.agent.doctor.command.ExitCommand;
@@ -14,6 +13,7 @@ import de.esolutions.fw.util.tracing.util.TraceTimeStamp;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class DoctorShell {
@@ -51,7 +51,14 @@ public class DoctorShell {
         Object object;
         int n;
         Object[] objectArray = DoctorCommandRegistry.getInstance().getAllCommands();
-        Arrays.sort(objectArray, new DoctorShell$1(this));
+        Arrays.sort(objectArray, new Comparator(){
+
+            public int compare(Object object, Object object2) {
+                IDoctorCommand iDoctorCommand = (IDoctorCommand)object;
+                IDoctorCommand iDoctorCommand2 = (IDoctorCommand)object2;
+                return iDoctorCommand.getAllNames().compareTo(iDoctorCommand2.getAllNames());
+            }
+        });
         int n2 = 0;
         int n3 = 0;
         for (n = 0; n < objectArray.length; ++n) {
@@ -124,7 +131,7 @@ public class DoctorShell {
                 break;
             }
             if (bl) {
-                printStream.println(new StringBuffer().append("Command name '").append(string2).append("' is ambiguous! Please rephrase.").toString());
+                printStream.println("Command name '" + string2 + "' is ambiguous! Please rephrase.");
                 return false;
             }
             iDoctorCommand = iDoctorCommand2;
@@ -142,7 +149,7 @@ public class DoctorShell {
             }
             return iDoctorCommand.handle(this, stringArray2, printStream);
         }
-        printStream.print(new StringBuffer().append("'").append(string2).append("'? ").toString());
+        printStream.print("'" + string2 + "'? ");
         printStream.println(quotes[this.quotePos++]);
         if (this.quotePos == quotes.length) {
             this.quotePos = 0;

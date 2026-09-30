@@ -7,7 +7,7 @@ import java.security.Permission;
 
 public class AccessControlException
 extends SecurityException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5138225684096988535L;
     Permission perm;
 
     public AccessControlException(String string) {

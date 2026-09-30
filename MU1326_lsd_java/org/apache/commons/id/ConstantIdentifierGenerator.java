@@ -25,12 +25,10 @@ extends AbstractStringIdentifierGenerator {
         this.identifier = string;
     }
 
-    @Override
     public String nextStringIdentifier() {
         return this.identifier;
     }
 
-    @Override
     public long maxLength() {
         if (this.identifier == null) {
             return 0L;
@@ -38,7 +36,6 @@ extends AbstractStringIdentifierGenerator {
         return this.identifier.length();
     }
 
-    @Override
     public long minLength() {
         return this.maxLength();
     }

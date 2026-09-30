@@ -21,7 +21,6 @@ extends AbstractMenuIdleTimerController {
         this.idleTime = 500;
     }
 
-    @Override
     protected void timerFired() {
         MenuController menuController = this.getMenu();
         if (menuController != null) {
@@ -29,12 +28,10 @@ extends AbstractMenuIdleTimerController {
         }
     }
 
-    @Override
     protected boolean shouldExecuteActionInMenu(MenuController menuController) {
         return super.shouldExecuteActionInMenu(menuController) && menuController.hasMoveItem();
     }
 
-    @Override
     public void menuMoveModeChanged() {
         MenuController menuController = this.getMenu();
         if (menuController == null) {
@@ -43,7 +40,7 @@ extends AbstractMenuIdleTimerController {
         if (!this.isMoveModeActive(menuController)) {
             this.cancelTimer();
         } else if (this.isEnabled()) {
-            this.lc.log(-2137614336, "%1#menuMoveModeChanged, move mode active - start timer.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#menuMoveModeChanged, move mode active - start timer.", (Object)this.logPrefix);
             this.restartTimer();
         }
     }

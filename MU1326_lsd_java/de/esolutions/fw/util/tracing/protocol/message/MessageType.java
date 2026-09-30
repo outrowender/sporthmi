@@ -27,49 +27,49 @@ import de.esolutions.fw.util.tracing.protocol.message.ToggleEntityMessage;
 import de.esolutions.fw.util.tracing.protocol.message.UpdateTimezoneMessage;
 
 public class MessageType {
-    public static final byte TYPE_INIT;
-    public static final byte TYPE_EXIT;
-    public static final byte TYPE_TIME_SYNC;
-    public static final byte TYPE_CREATE_ENTITY;
-    public static final byte TYPE_LOG_DATA;
-    public static final byte TYPE_DROPPED_DATA;
-    public static final byte TYPE_TOGGLE_ENTITY;
-    public static final byte TYPE_CHANGE_LEVEL;
-    public static final byte TYPE_EXECUTE_CALLBACK;
-    public static final byte TYPE_REGISTER_TIMEZONE;
-    public static final byte TYPE_UPDATE_TIMEZONE;
-    public static final byte TYPE_SYNC_MARKER;
-    public static final byte TYPE_FILE_REQUEST;
-    public static final byte TYPE_FILE_STATUS;
-    public static final byte TYPE_FILE_TRANSFER;
-    public static final byte TYPE_LOGGER_TIME;
-    public static final byte TYPE_LOGGER_DATA;
-    public static final byte TYPE_BULK_CREATE_ENTITY;
-    public static final byte TYPE_BULK_LOG_DATA;
-    public static final byte TYPE_BULK_CHANGE_LEVEL;
-    public static final byte TYPE_MLP;
-    public static final MessageType INIT;
-    public static final MessageType EXIT;
-    public static final MessageType TIME_SYNC;
-    public static final MessageType CREATE_ENTITY;
-    public static final MessageType LOG_DATA;
-    public static final MessageType DROPPED_DATA;
-    public static final MessageType TOGGLE_ENTITY;
-    public static final MessageType CHANGE_LEVEL;
-    public static final MessageType EXECUTE_CALLBACK;
-    public static final MessageType REGISTER_TIMEZONE;
-    public static final MessageType UPDATE_TIMEZONE;
-    public static final MessageType SYNC_MARKER;
-    public static final MessageType LOGGER_TIME;
-    public static final MessageType LOGGER_DATA;
-    public static final MessageType FILE_REQUEST;
-    public static final MessageType FILE_STATUS;
-    public static final MessageType FILE_TRANSFER;
-    public static final MessageType BULK_CREATE_ENTITY;
-    public static final MessageType BULK_LOG_DATA;
-    public static final MessageType BULK_CHANGE_LEVEL;
-    public static final MessageType MLP;
-    public static final MessageType[] ALL_MESSAGE_TYPES;
+    public static final byte TYPE_INIT = 0;
+    public static final byte TYPE_EXIT = 1;
+    public static final byte TYPE_TIME_SYNC = 2;
+    public static final byte TYPE_CREATE_ENTITY = 3;
+    public static final byte TYPE_LOG_DATA = 4;
+    public static final byte TYPE_DROPPED_DATA = 5;
+    public static final byte TYPE_TOGGLE_ENTITY = 16;
+    public static final byte TYPE_CHANGE_LEVEL = 17;
+    public static final byte TYPE_EXECUTE_CALLBACK = 18;
+    public static final byte TYPE_REGISTER_TIMEZONE = 19;
+    public static final byte TYPE_UPDATE_TIMEZONE = 20;
+    public static final byte TYPE_SYNC_MARKER = 21;
+    public static final byte TYPE_FILE_REQUEST = 22;
+    public static final byte TYPE_FILE_STATUS = 23;
+    public static final byte TYPE_FILE_TRANSFER = 24;
+    public static final byte TYPE_LOGGER_TIME = 32;
+    public static final byte TYPE_LOGGER_DATA = 33;
+    public static final byte TYPE_BULK_CREATE_ENTITY = 48;
+    public static final byte TYPE_BULK_LOG_DATA = 49;
+    public static final byte TYPE_BULK_CHANGE_LEVEL = 50;
+    public static final byte TYPE_MLP = -128;
+    public static final MessageType INIT = new MessageType(0);
+    public static final MessageType EXIT = new MessageType(1);
+    public static final MessageType TIME_SYNC = new MessageType(2);
+    public static final MessageType CREATE_ENTITY = new MessageType(3);
+    public static final MessageType LOG_DATA = new MessageType(4);
+    public static final MessageType DROPPED_DATA = new MessageType(5);
+    public static final MessageType TOGGLE_ENTITY = new MessageType(16);
+    public static final MessageType CHANGE_LEVEL = new MessageType(17);
+    public static final MessageType EXECUTE_CALLBACK = new MessageType(18);
+    public static final MessageType REGISTER_TIMEZONE = new MessageType(19);
+    public static final MessageType UPDATE_TIMEZONE = new MessageType(20);
+    public static final MessageType SYNC_MARKER = new MessageType(21);
+    public static final MessageType LOGGER_TIME = new MessageType(32);
+    public static final MessageType LOGGER_DATA = new MessageType(33);
+    public static final MessageType FILE_REQUEST = new MessageType(22);
+    public static final MessageType FILE_STATUS = new MessageType(23);
+    public static final MessageType FILE_TRANSFER = new MessageType(24);
+    public static final MessageType BULK_CREATE_ENTITY = new MessageType(48);
+    public static final MessageType BULK_LOG_DATA = new MessageType(49);
+    public static final MessageType BULK_CHANGE_LEVEL = new MessageType(50);
+    public static final MessageType MLP = new MessageType(-128);
+    public static final MessageType[] ALL_MESSAGE_TYPES = new MessageType[]{INIT, EXIT, TIME_SYNC, LOG_DATA, DROPPED_DATA, TOGGLE_ENTITY, EXECUTE_CALLBACK, REGISTER_TIMEZONE, UPDATE_TIMEZONE, SYNC_MARKER, LOGGER_TIME, LOGGER_DATA, CHANGE_LEVEL, CREATE_ENTITY, FILE_REQUEST, FILE_STATUS, FILE_TRANSFER, BULK_CREATE_ENTITY, BULK_LOG_DATA, BULK_CHANGE_LEVEL, MLP};
     private byte type;
 
     public MessageType(byte by) {
@@ -323,31 +323,6 @@ public class MessageType {
         }
         MessageType messageType = (MessageType)object;
         return messageType.type == this.type;
-    }
-
-    static {
-        INIT = new MessageType(0);
-        EXIT = new MessageType(1);
-        TIME_SYNC = new MessageType(2);
-        CREATE_ENTITY = new MessageType(3);
-        LOG_DATA = new MessageType(4);
-        DROPPED_DATA = new MessageType(5);
-        TOGGLE_ENTITY = new MessageType(16);
-        CHANGE_LEVEL = new MessageType(17);
-        EXECUTE_CALLBACK = new MessageType(18);
-        REGISTER_TIMEZONE = new MessageType(19);
-        UPDATE_TIMEZONE = new MessageType(20);
-        SYNC_MARKER = new MessageType(21);
-        LOGGER_TIME = new MessageType(32);
-        LOGGER_DATA = new MessageType(33);
-        FILE_REQUEST = new MessageType(22);
-        FILE_STATUS = new MessageType(23);
-        FILE_TRANSFER = new MessageType(24);
-        BULK_CREATE_ENTITY = new MessageType(48);
-        BULK_LOG_DATA = new MessageType(49);
-        BULK_CHANGE_LEVEL = new MessageType(50);
-        MLP = new MessageType(-128);
-        ALL_MESSAGE_TYPES = new MessageType[]{INIT, EXIT, TIME_SYNC, LOG_DATA, DROPPED_DATA, TOGGLE_ENTITY, EXECUTE_CALLBACK, REGISTER_TIMEZONE, UPDATE_TIMEZONE, SYNC_MARKER, LOGGER_TIME, LOGGER_DATA, CHANGE_LEVEL, CREATE_ENTITY, FILE_REQUEST, FILE_STATUS, FILE_TRANSFER, BULK_CREATE_ENTITY, BULK_LOG_DATA, BULK_CHANGE_LEVEL, MLP};
     }
 }
 

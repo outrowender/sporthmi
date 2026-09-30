@@ -18,19 +18,18 @@ implements ITraceCallback {
         this.basePath = string;
     }
 
-    @Override
     public void executeTraceCallback(int n, byte[] byArray) {
         TraceFrontend traceFrontend;
         TraceClient traceClient = TraceClient.getTraceClient();
         if (traceClient != null && (traceFrontend = traceClient.getFrontend()) != null) {
             String string = SystemConfig.getInstance().getMyProcName();
-            String string2 = new StringBuffer().append(this.basePath).append(File.separator).append(string).append(".sem").toString();
+            String string2 = this.basePath + File.separator + string + ".sem";
             try {
                 traceFrontend.writeSemFile(string2, string);
-                System.out.println(new StringBuffer().append("--> Wrote sem file ").append(string2).toString());
+                System.out.println("--> Wrote sem file " + string2);
             }
             catch (IOException iOException) {
-                System.out.println(new StringBuffer().append("--> Error writing sem file ").append(string2).append(": ").append(iOException.getMessage()).toString());
+                System.out.println("--> Error writing sem file " + string2 + ": " + iOException.getMessage());
             }
         }
     }

@@ -29,13 +29,12 @@ implements IWrappedNode3DImage {
         this.node = iNode3DImage;
         this.texture = iWrappedTexture;
         this.deleteIfNoCache = bl;
-        iNode3DImage.rotateX(13379);
+        iNode3DImage.rotateX(180.0f);
         this.storePosition();
         this.setScale(1.0f, 1.0f, 1.0f);
         this.oldReference = object;
     }
 
-    @Override
     public IINodeImage getInterfaceImage() {
         if (this.interfaceImage != null) {
             return this.interfaceImage;
@@ -44,22 +43,18 @@ implements IWrappedNode3DImage {
         return this.interfaceImage;
     }
 
-    @Override
     public INode3DImage getImageNode() {
         return this.node;
     }
 
-    @Override
     public float getOriginX() {
         return 0.0f;
     }
 
-    @Override
     public float getOriginY() {
         return this.scaleY * this.unscaledHeight;
     }
 
-    @Override
     protected boolean shouldFlipBack() {
         if (this.texture == null) {
             return false;
@@ -67,7 +62,6 @@ implements IWrappedNode3DImage {
         return this.shouldFlipBack && !this.isLtr && this.texture.getDescription().preventRTLFlip();
     }
 
-    @Override
     public String getFilename() {
         if (this.texture == null) {
             return "<no texture>";
@@ -75,15 +69,13 @@ implements IWrappedNode3DImage {
         return String.valueOf(this.texture.getDescription().getCacheKey());
     }
 
-    @Override
     public void resetTransformation() {
         super.resetTransformation();
-        this.node.rotateX(13379);
+        this.node.rotateX(180.0f);
         this.storePosition();
         this.node.setModulateColor(-1L);
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         if (this.interfaceImage != null) {
@@ -92,7 +84,6 @@ implements IWrappedNode3DImage {
         }
     }
 
-    @Override
     public boolean setModulateColor(int n) {
         if (this.equalsColor(n)) {
             return true;
@@ -109,7 +100,6 @@ implements IWrappedNode3DImage {
         return this.color == n;
     }
 
-    @Override
     public boolean setMaterial(IMaterial iMaterial) {
         if (this.material != null && this.material.equals(iMaterial)) {
             return true;
@@ -118,7 +108,6 @@ implements IWrappedNode3DImage {
         return this.node.setMaterial(iMaterial);
     }
 
-    @Override
     public boolean setTexture(IWrappedTexture iWrappedTexture, boolean bl, Object object) {
         ITexture iTexture;
         if (this.texture != null && this.texture.equals(iWrappedTexture)) {
@@ -149,33 +138,28 @@ implements IWrappedNode3DImage {
         return bl2;
     }
 
-    @Override
     public IWrappedTexture getTexture() {
         return this.texture;
     }
 
-    @Override
     public void mirrorX() {
         if (this.node != null) {
             this.node.flipX();
         }
     }
 
-    @Override
     public void mirrorY() {
         if (this.node != null) {
             this.node.flipY();
         }
     }
 
-    @Override
     public void mirrorXY() {
         if (this.node != null) {
             this.node.flipXY();
         }
     }
 
-    @Override
     public void releaseTexture() {
         IProperty iProperty = this.node.getProperty("Texture");
         if (iProperty.isValid()) {

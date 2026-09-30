@@ -42,7 +42,7 @@ public class sNavCorrectedDirection {
     }
 
     public String toString() {
-        return new StringBuffer("sNavCorrectedDirection{").append("msg_id=").append(this.msg_id).append(", directionCorrected=").append(this.directionCorrected).append(", statusOK=").append(this.statusOK).append("}").toString();
+        return "sNavCorrectedDirection{" + "msg_id=" + this.msg_id + ", directionCorrected=" + this.directionCorrected + ", statusOK=" + this.statusOK + "}";
     }
 }
 

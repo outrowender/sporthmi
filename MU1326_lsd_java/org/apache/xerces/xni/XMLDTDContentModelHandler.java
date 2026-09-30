@@ -4,49 +4,38 @@
 package org.apache.xerces.xni;
 
 import org.apache.xerces.xni.Augmentations;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDTDContentModelSource;
 
 public interface XMLDTDContentModelHandler {
-    public static final short SEPARATOR_CHOICE;
-    public static final short SEPARATOR_SEQUENCE;
-    public static final short OCCURS_ZERO_OR_ONE;
-    public static final short OCCURS_ZERO_OR_MORE;
-    public static final short OCCURS_ONE_OR_MORE;
+    public static final short SEPARATOR_CHOICE = 0;
+    public static final short SEPARATOR_SEQUENCE = 1;
+    public static final short OCCURS_ZERO_OR_ONE = 2;
+    public static final short OCCURS_ZERO_OR_MORE = 3;
+    public static final short OCCURS_ONE_OR_MORE = 4;
 
-    default public void startContentModel(String string, Augmentations augmentations) {
-    }
+    public void startContentModel(String var1, Augmentations var2) throws XNIException;
 
-    default public void any(Augmentations augmentations) {
-    }
+    public void any(Augmentations var1) throws XNIException;
 
-    default public void empty(Augmentations augmentations) {
-    }
+    public void empty(Augmentations var1) throws XNIException;
 
-    default public void startGroup(Augmentations augmentations) {
-    }
+    public void startGroup(Augmentations var1) throws XNIException;
 
-    default public void pcdata(Augmentations augmentations) {
-    }
+    public void pcdata(Augmentations var1) throws XNIException;
 
-    default public void element(String string, Augmentations augmentations) {
-    }
+    public void element(String var1, Augmentations var2) throws XNIException;
 
-    default public void separator(short s, Augmentations augmentations) {
-    }
+    public void separator(short var1, Augmentations var2) throws XNIException;
 
-    default public void occurrence(short s, Augmentations augmentations) {
-    }
+    public void occurrence(short var1, Augmentations var2) throws XNIException;
 
-    default public void endGroup(Augmentations augmentations) {
-    }
+    public void endGroup(Augmentations var1) throws XNIException;
 
-    default public void endContentModel(Augmentations augmentations) {
-    }
+    public void endContentModel(Augmentations var1) throws XNIException;
 
-    default public void setDTDContentModelSource(XMLDTDContentModelSource xMLDTDContentModelSource) {
-    }
+    public void setDTDContentModelSource(XMLDTDContentModelSource var1);
 
-    default public XMLDTDContentModelSource getDTDContentModelSource() {
-    }
+    public XMLDTDContentModelSource getDTDContentModelSource();
 }
 

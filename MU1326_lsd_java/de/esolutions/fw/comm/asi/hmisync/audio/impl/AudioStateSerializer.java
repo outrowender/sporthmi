@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.audio.impl;
 import de.esolutions.fw.comm.asi.hmisync.audio.AudioState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AudioStateSerializer {
-    public static void putOptionalAudioState(ISerializer iSerializer, AudioState audioState) {
+    public static void putOptionalAudioState(ISerializer iSerializer, AudioState audioState) throws SerializerException {
         boolean bl = audioState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AudioStateSerializer {
         }
     }
 
-    public static void putOptionalAudioStateVarArray(ISerializer iSerializer, AudioState[] audioStateArray) {
+    public static void putOptionalAudioStateVarArray(ISerializer iSerializer, AudioState[] audioStateArray) throws SerializerException {
         boolean bl = audioStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AudioStateSerializer {
         }
     }
 
-    public static AudioState getOptionalAudioState(IDeserializer iDeserializer) {
+    public static AudioState getOptionalAudioState(IDeserializer iDeserializer) throws SerializerException {
         AudioState audioState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AudioStateSerializer {
         return audioState;
     }
 
-    public static AudioState[] getOptionalAudioStateVarArray(IDeserializer iDeserializer) {
+    public static AudioState[] getOptionalAudioStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioState[] audioStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -3,56 +3,41 @@
  */
 package de.esolutions.fw.comm.dsi.sdars;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISDARSSeekC {
-    default public void setSeekCommand(int n, int n2, int n3) {
-    }
+    public void setSeekCommand(int var1, int var2, int var3) throws MethodException;
 
-    default public void manageSeek(int n, int n2) {
-    }
+    public void manageSeek(int var1, int var2) throws MethodException;
 
-    default public void manageSeek2(int n, int n2, int n3, int n4) {
-    }
+    public void manageSeek2(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void getTeamsOfLeague(int n) {
-    }
+    public void getTeamsOfLeague(int var1) throws MethodException;
 
-    default public void getLeagues() {
-    }
+    public void getLeagues() throws MethodException;
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

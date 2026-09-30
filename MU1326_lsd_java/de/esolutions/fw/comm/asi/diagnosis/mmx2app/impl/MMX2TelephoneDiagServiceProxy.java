@@ -3,21 +3,21 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sRoutineResponseSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sRoutineResponse;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2TelephoneDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2TelephoneDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2TelephoneDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$3;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$4;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$5;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$6;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$7;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$8;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceProxy$9;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2TelephoneDiagServiceReplyService;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sConnectedBtHandsetSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sNadIMEISerializer;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sNumberHandsetsHUCsSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sSimStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sTelephoneAntennaStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sTelephoneNetworkStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.telephone.impl.sTelephoneTemperatureSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sConnectedBtHandset;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sNadIMEI;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sNumberHandsetsHUCs;
@@ -29,6 +29,8 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -48,62 +50,97 @@ MMX2TelephoneDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorTelephone(sClientResponseError sClientResponseError2) {
-        MMX2TelephoneDiagServiceProxy$1 mMX2TelephoneDiagServiceProxy$1 = new MMX2TelephoneDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)43, mMX2TelephoneDiagServiceProxy$1);
+    public void responseErrorTelephone(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)43, iSerializable);
     }
 
-    @Override
-    public void responseSimState(sSimState sSimState2) {
-        MMX2TelephoneDiagServiceProxy$2 mMX2TelephoneDiagServiceProxy$2 = new MMX2TelephoneDiagServiceProxy$2(this, sSimState2);
-        this.proxy.remoteCallMethod((short)42, mMX2TelephoneDiagServiceProxy$2);
+    public void responseSimState(final sSimState sSimState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sSimStateSerializer.putOptionalsSimState(iSerializer, sSimState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)42, iSerializable);
     }
 
-    @Override
-    public void responseNadIMEI(sNadIMEI sNadIMEI2) {
-        MMX2TelephoneDiagServiceProxy$3 mMX2TelephoneDiagServiceProxy$3 = new MMX2TelephoneDiagServiceProxy$3(this, sNadIMEI2);
-        this.proxy.remoteCallMethod((short)10, mMX2TelephoneDiagServiceProxy$3);
+    public void responseNadIMEI(final sNadIMEI sNadIMEI2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sNadIMEISerializer.putOptionalsNadIMEI(iSerializer, sNadIMEI2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void responseTelephoneAntennaState(sTelephoneAntennaState sTelephoneAntennaState2) {
-        MMX2TelephoneDiagServiceProxy$4 mMX2TelephoneDiagServiceProxy$4 = new MMX2TelephoneDiagServiceProxy$4(this, sTelephoneAntennaState2);
-        this.proxy.remoteCallMethod((short)31, mMX2TelephoneDiagServiceProxy$4);
+    public void responseTelephoneAntennaState(final sTelephoneAntennaState sTelephoneAntennaState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTelephoneAntennaStateSerializer.putOptionalsTelephoneAntennaState(iSerializer, sTelephoneAntennaState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)31, iSerializable);
     }
 
-    @Override
-    public void responseConnectedBtHandset(sConnectedBtHandset sConnectedBtHandset2) {
-        MMX2TelephoneDiagServiceProxy$5 mMX2TelephoneDiagServiceProxy$5 = new MMX2TelephoneDiagServiceProxy$5(this, sConnectedBtHandset2);
-        this.proxy.remoteCallMethod((short)7, mMX2TelephoneDiagServiceProxy$5);
+    public void responseConnectedBtHandset(final sConnectedBtHandset sConnectedBtHandset2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sConnectedBtHandsetSerializer.putOptionalsConnectedBtHandset(iSerializer, sConnectedBtHandset2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void responseNumberHandsetsHUCs(sNumberHandsetsHUCs sNumberHandsetsHUCs2) {
-        MMX2TelephoneDiagServiceProxy$6 mMX2TelephoneDiagServiceProxy$6 = new MMX2TelephoneDiagServiceProxy$6(this, sNumberHandsetsHUCs2);
-        this.proxy.remoteCallMethod((short)11, mMX2TelephoneDiagServiceProxy$6);
+    public void responseNumberHandsetsHUCs(final sNumberHandsetsHUCs sNumberHandsetsHUCs2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sNumberHandsetsHUCsSerializer.putOptionalsNumberHandsetsHUCs(iSerializer, sNumberHandsetsHUCs2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void responseTelephoneNetworkState(sTelephoneNetworkState sTelephoneNetworkState2) {
-        MMX2TelephoneDiagServiceProxy$7 mMX2TelephoneDiagServiceProxy$7 = new MMX2TelephoneDiagServiceProxy$7(this, sTelephoneNetworkState2);
-        this.proxy.remoteCallMethod((short)29, mMX2TelephoneDiagServiceProxy$7);
+    public void responseTelephoneNetworkState(final sTelephoneNetworkState sTelephoneNetworkState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTelephoneNetworkStateSerializer.putOptionalsTelephoneNetworkState(iSerializer, sTelephoneNetworkState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)29, iSerializable);
     }
 
-    @Override
-    public void responseTelephoneTemperature(sTelephoneTemperature sTelephoneTemperature2) {
-        MMX2TelephoneDiagServiceProxy$8 mMX2TelephoneDiagServiceProxy$8 = new MMX2TelephoneDiagServiceProxy$8(this, sTelephoneTemperature2);
-        this.proxy.remoteCallMethod((short)27, mMX2TelephoneDiagServiceProxy$8);
+    public void responseTelephoneTemperature(final sTelephoneTemperature sTelephoneTemperature2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTelephoneTemperatureSerializer.putOptionalsTelephoneTemperature(iSerializer, sTelephoneTemperature2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void responseDeleteMemory(sRoutineResponse sRoutineResponse2) {
-        MMX2TelephoneDiagServiceProxy$9 mMX2TelephoneDiagServiceProxy$9 = new MMX2TelephoneDiagServiceProxy$9(this, sRoutineResponse2);
-        this.proxy.remoteCallMethod((short)25, mMX2TelephoneDiagServiceProxy$9);
+    public void responseDeleteMemory(final sRoutineResponse sRoutineResponse2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sRoutineResponseSerializer.putOptionalsRoutineResponse(iSerializer, sRoutineResponse2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void responseNetworkName(long l, String string) {
+    public void responseNetworkName(long l, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -115,8 +152,7 @@ MMX2TelephoneDiagServiceC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void responseNetworkType(long l, int n) {
+    public void responseNetworkType(long l, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -128,8 +164,7 @@ MMX2TelephoneDiagServiceC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void responseDialNumber(long l) {
+    public void responseDialNumber(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -140,8 +175,7 @@ MMX2TelephoneDiagServiceC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void responseCallStatus(long l, boolean bl) {
+    public void responseCallStatus(long l, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -153,8 +187,7 @@ MMX2TelephoneDiagServiceC {
         this.proxy.remoteCallMethod((short)36, genericSerializable);
     }
 
-    @Override
-    public void responseInternalSimIdentification(long l, String string, String string2) {
+    public void responseInternalSimIdentification(long l, String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);

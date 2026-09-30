@@ -9,14 +9,13 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public class SuggestionController
 extends AbstractWidgetController {
-    private static final int CURSOR_POS_SPELLER_OPEN;
-    public static final int MAX_USED_SUGGESTIONS;
+    private static final int CURSOR_POS_SPELLER_OPEN = 0;
+    public static final int MAX_USED_SUGGESTIONS = 3;
     private String[] suggestions;
     private int cursorPos;
     private boolean isSuggestionBarActive;
     private IRenderer renderer;
 
-    @Override
     protected void initializeWidget() {
         this.isSuggestionBarActive = false;
         this.cursorPos = 0;
@@ -36,7 +35,6 @@ extends AbstractWidgetController {
         return this.suggestions;
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         super.keyTurned(wheelButtonEvent);
         if (!wheelButtonEvent.isConsumed() && this.suggestions != null && this.isSuggestionBarActive) {
@@ -63,7 +61,6 @@ extends AbstractWidgetController {
         return this.isSuggestionBarActive;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

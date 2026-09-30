@@ -11,19 +11,14 @@ import de.vw.mib.bap.array.timer.TimerNotifier;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 
 public interface ASGArrayListFactory {
-    default public BAPGetArray createGetArrayRequest(ASGArrayList aSGArrayList) {
-    }
+    public BAPGetArray createGetArrayRequest(ASGArrayList var1);
 
-    default public BAPSetGetArray createSetGetArrayRequest(ASGArrayList aSGArrayList) {
-    }
+    public BAPSetGetArray createSetGetArrayRequest(ASGArrayList var1);
 
-    default public BAPArrayElement createEmptyElement(ASGArrayList aSGArrayList) {
-    }
+    public BAPArrayElement createEmptyElement(ASGArrayList var1);
 
-    default public BAPArrayElement mergeArrayElementAttributes(ASGArrayList aSGArrayList, BAPArrayElement bAPArrayElement, BAPArrayElement bAPArrayElement2, int n) {
-    }
+    public BAPArrayElement mergeArrayElementAttributes(ASGArrayList var1, BAPArrayElement var2, BAPArrayElement var3, int var4);
 
-    default public Timer createTimer(ASGArrayList aSGArrayList, TimerNotifier timerNotifier, long l) {
-    }
+    public Timer createTimer(ASGArrayList var1, TimerNotifier var2, long var3);
 }
 

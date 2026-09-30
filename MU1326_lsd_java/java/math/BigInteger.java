@@ -1,34 +1,27 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.math;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.util.Random;
 
 public class BigInteger
 extends Number
 implements Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -8287574255936472291L;
     private long[] data;
-    private static final BigInteger NEGATIVE_ONE;
-    public static final BigInteger ZERO;
-    public static final BigInteger ONE;
+    private static final BigInteger NEGATIVE_ONE = new BigInteger(new long[]{-1L});
+    public static final BigInteger ZERO = BigInteger.valueOf(0L);
+    public static final BigInteger ONE = BigInteger.valueOf(1L);
     private static final ObjectStreamField[] serialPersistentFields;
     static /* synthetic */ Class class$0;
 
     static {
-        NEGATIVE_ONE = new BigInteger(new long[]{-1L});
-        ZERO = BigInteger.valueOf(0L);
-        ONE = BigInteger.valueOf(1L);
         ObjectStreamField[] objectStreamFieldArray = new ObjectStreamField[6];
         objectStreamFieldArray[0] = new ObjectStreamField("bitCount", Integer.TYPE);
         objectStreamFieldArray[1] = new ObjectStreamField("bitLength", Integer.TYPE);
@@ -110,32 +103,29 @@ implements Comparable {
         return this;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     public BigInteger(byte[] byArray) {
         int n = byArray.length;
         if (n == 0) {
             throw new NumberFormatException(Msg.getString("K040e"));
         }
-        int n2 = byArray[0] < 0 ? 0 : (int)0L;
-        int n3 = n / 8 + 1;
-        this.data = new long[n3];
-        int n4 = 0;
-        int n5 = n - 1;
-        int n6 = 0;
-        while (n5 >= 0) {
-            int n7 = n4++;
-            this.data[n7] = this.data[n7] | ((long)byArray[n5] & 0) << n6 * 8;
-            if ((n6 = (n6 + 1) % 8) == 0) {
+        long l = byArray[0] < 0 ? 255L : 0L;
+        int n2 = n / 8 + 1;
+        this.data = new long[n2];
+        int n3 = 0;
+        int n4 = n - 1;
+        int n5 = 0;
+        while (n4 >= 0) {
+            int n6 = n3++;
+            this.data[n6] = this.data[n6] | ((long)byArray[n4] & 0xFFL) << n5 * 8;
+            if ((n5 = (n5 + 1) % 8) == 0) {
                 // empty if block
             }
-            --n5;
+            --n4;
         }
-        while (n4 < n3) {
-            int n8 = n4++;
-            this.data[n8] = this.data[n8] | n2 << n6 * 8;
-            if ((n6 = (n6 + 1) % 8) != 0) continue;
+        while (n3 < n2) {
+            int n7 = n3++;
+            this.data[n7] = this.data[n7] | l << n5 * 8;
+            if ((n5 = (n5 + 1) % 8) != 0) continue;
         }
         this.normalize();
     }
@@ -163,7 +153,7 @@ implements Comparable {
             int n6 = byArray.length;
             while (--n6 >= 0) {
                 int n7 = n4++;
-                this.data[n7] = this.data[n7] | ((long)byArray[n6] & 0) << n5 * 8;
+                this.data[n7] = this.data[n7] | ((long)byArray[n6] & 0xFFL) << n5 * 8;
                 if ((n5 = (n5 + 1) % 8) != 0) continue;
             }
             this.normalize();
@@ -214,7 +204,7 @@ implements Comparable {
             if (bigInteger.data[0] == 1L) {
                 return false;
             }
-            if (bigInteger.data[0] == 0) {
+            if (bigInteger.data[0] == 2L) {
                 return true;
             }
         }
@@ -307,7 +297,6 @@ implements Comparable {
         return 0;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (!(object instanceof BigInteger)) {
             throw new ClassCastException();
@@ -315,12 +304,10 @@ implements Comparable {
         return this.compareTo((BigInteger)object);
     }
 
-    @Override
     public int intValue() {
         return (int)this.data[0];
     }
 
-    @Override
     public long longValue() {
         return this.data[0];
     }
@@ -477,8 +464,8 @@ implements Comparable {
                 long l = this.data[n];
                 int n2 = 0;
                 while (true) {
-                    if ((l & 0) != 0L) {
-                        int n3 = (int)(l & 0);
+                    if ((l & 0xFFL) != 0L) {
+                        int n3 = (int)(l & 0xFFL);
                         int n4 = n * 64 + n2 * 8;
                         while (true) {
                             if ((n3 & 1) != 0) {
@@ -690,7 +677,7 @@ implements Comparable {
         long l = 0L;
         int n = this.data.length - 1;
         while (n >= 0) {
-            l = l * 0 + this.data[n];
+            l = l * 31L + this.data[n];
             --n;
         }
         return (int)(l ^ l >>> 32);
@@ -1059,12 +1046,11 @@ lbl46:
         return n3;
     }
 
-    @Override
     public double doubleValue() {
         if (this.signum() > 0) {
             int n = this.bitLength();
             long l = n - 53 + 1075;
-            if (l >= 0) {
+            if (l >= 2047L) {
                 return Double.POSITIVE_INFINITY;
             }
             l <<= 52;
@@ -1085,7 +1071,7 @@ lbl46:
                 l2 = this.data[0];
             }
             l2 = l2 & 0xFFFFFFFFFFFFFL | l;
-            return Double.longBitsToDouble((long)l2);
+            return Double.longBitsToDouble(l2);
         }
         if (this.signum() < 0) {
             return -this.negate().doubleValue();
@@ -1093,17 +1079,16 @@ lbl46:
         return 0.0;
     }
 
-    @Override
     public float floatValue() {
         return (float)this.doubleValue();
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("bitCount", -1);
-        objectOutputStream$PutField.put("bitLength", -1);
-        objectOutputStream$PutField.put("firstNonzeroByteNum", -2);
-        objectOutputStream$PutField.put("lowestSetBit", -2);
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("bitCount", -1);
+        putField.put("bitLength", -1);
+        putField.put("firstNonzeroByteNum", -2);
+        putField.put("lowestSetBit", -2);
         int n = this.signum();
         byte[] byArray = n == -1 ? this.negate().toByteArray() : this.toByteArray();
         if (byArray[0] == 0) {
@@ -1111,15 +1096,15 @@ lbl46:
             System.arraycopy((Object)byArray, 1, (Object)byArray2, 0, byArray2.length);
             byArray = byArray2;
         }
-        objectOutputStream$PutField.put("magnitude", byArray);
-        objectOutputStream$PutField.put("signum", n);
+        putField.put("magnitude", byArray);
+        putField.put("signum", n);
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        byte[] byArray = (byte[])objectInputStream$GetField.get("magnitude", null);
-        int n = objectInputStream$GetField.get("signum", 0);
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        byte[] byArray = (byte[])getField.get("magnitude", null);
+        int n = getField.get("signum", 0);
         this.fromBytes(n, byArray);
     }
 }

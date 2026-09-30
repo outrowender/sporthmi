@@ -6,18 +6,16 @@ package java.text;
 import com.ibm.oti.locale.Locale;
 import com.ibm.oti.util.ExtendedResourceBundle;
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.DateFormat;
-import java.text.DateFormat$Field;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
-import java.text.Format$Field;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Date;
@@ -28,8 +26,8 @@ import java.util.Vector;
 
 public class SimpleDateFormat
 extends DateFormat {
-    private static final long serialVersionUID;
-    private static final String patternChars;
+    private static final long serialVersionUID = 4774881970558875024L;
+    private static final String patternChars = "GyMdkHmsSEDFwWahKzZ";
     private String pattern;
     private DateFormatSymbols formatData;
     private transient int creationYear;
@@ -111,20 +109,20 @@ extends DateFormat {
 
     private void append(StringBuffer stringBuffer, FieldPosition fieldPosition, Vector vector, char c2, int n) {
         int n2 = -1;
-        int n3 = "GyMdkHmsSEDFwWahKzZ".indexOf(c2);
+        int n3 = patternChars.indexOf(c2);
         if (n3 == -1) {
             throw new IllegalArgumentException(Msg.getString("K002b", c2));
         }
         int n4 = stringBuffer.length();
-        DateFormat$Field dateFormat$Field = null;
+        DateFormat.Field field = null;
         switch (n3) {
             case 0: {
-                dateFormat$Field = DateFormat$Field.ERA;
+                field = DateFormat.Field.ERA;
                 stringBuffer.append(this.formatData.eras[this.calendar.get(0)]);
                 break;
             }
             case 1: {
-                dateFormat$Field = DateFormat$Field.YEAR;
+                field = DateFormat.Field.YEAR;
                 int n5 = this.calendar.get(1);
                 if (n < 4) {
                     this.appendNumber(stringBuffer, 2, n5 %= 100);
@@ -134,7 +132,7 @@ extends DateFormat {
                 break;
             }
             case 2: {
-                dateFormat$Field = DateFormat$Field.MONTH;
+                field = DateFormat.Field.MONTH;
                 int n6 = this.calendar.get(2);
                 if (n <= 2) {
                     this.appendNumber(stringBuffer, n, n6 + 1);
@@ -148,39 +146,39 @@ extends DateFormat {
                 break;
             }
             case 3: {
-                dateFormat$Field = DateFormat$Field.DAY_OF_MONTH;
+                field = DateFormat.Field.DAY_OF_MONTH;
                 n2 = 5;
                 break;
             }
             case 4: {
-                dateFormat$Field = DateFormat$Field.HOUR_OF_DAY1;
+                field = DateFormat.Field.HOUR_OF_DAY1;
                 int n7 = this.calendar.get(11);
                 this.appendNumber(stringBuffer, n, n7 == 0 ? 24 : n7);
                 break;
             }
             case 5: {
-                dateFormat$Field = DateFormat$Field.HOUR_OF_DAY0;
+                field = DateFormat.Field.HOUR_OF_DAY0;
                 n2 = 11;
                 break;
             }
             case 6: {
-                dateFormat$Field = DateFormat$Field.MINUTE;
+                field = DateFormat.Field.MINUTE;
                 n2 = 12;
                 break;
             }
             case 7: {
-                dateFormat$Field = DateFormat$Field.SECOND;
+                field = DateFormat.Field.SECOND;
                 n2 = 13;
                 break;
             }
             case 8: {
-                dateFormat$Field = DateFormat$Field.MILLISECOND;
+                field = DateFormat.Field.MILLISECOND;
                 int n8 = this.calendar.get(14);
                 this.appendNumber(stringBuffer, n, n8);
                 break;
             }
             case 9: {
-                dateFormat$Field = DateFormat$Field.DAY_OF_WEEK;
+                field = DateFormat.Field.DAY_OF_WEEK;
                 int n9 = this.calendar.get(7);
                 if (n < 4) {
                     stringBuffer.append(this.formatData.shortWeekdays[n9]);
@@ -190,48 +188,48 @@ extends DateFormat {
                 break;
             }
             case 10: {
-                dateFormat$Field = DateFormat$Field.DAY_OF_YEAR;
+                field = DateFormat.Field.DAY_OF_YEAR;
                 n2 = 6;
                 break;
             }
             case 11: {
-                dateFormat$Field = DateFormat$Field.DAY_OF_WEEK_IN_MONTH;
+                field = DateFormat.Field.DAY_OF_WEEK_IN_MONTH;
                 n2 = 8;
                 break;
             }
             case 12: {
-                dateFormat$Field = DateFormat$Field.WEEK_OF_YEAR;
+                field = DateFormat.Field.WEEK_OF_YEAR;
                 n2 = 3;
                 break;
             }
             case 13: {
-                dateFormat$Field = DateFormat$Field.WEEK_OF_MONTH;
+                field = DateFormat.Field.WEEK_OF_MONTH;
                 n2 = 4;
                 break;
             }
             case 14: {
-                dateFormat$Field = DateFormat$Field.AM_PM;
+                field = DateFormat.Field.AM_PM;
                 stringBuffer.append(this.formatData.ampms[this.calendar.get(9)]);
                 break;
             }
             case 15: {
-                dateFormat$Field = DateFormat$Field.HOUR1;
+                field = DateFormat.Field.HOUR1;
                 int n10 = this.calendar.get(10);
                 this.appendNumber(stringBuffer, n, n10 == 0 ? 12 : n10);
                 break;
             }
             case 16: {
-                dateFormat$Field = DateFormat$Field.HOUR0;
+                field = DateFormat.Field.HOUR0;
                 n2 = 10;
                 break;
             }
             case 17: {
-                dateFormat$Field = DateFormat$Field.TIME_ZONE;
+                field = DateFormat.Field.TIME_ZONE;
                 this.appendTimeZone(stringBuffer, n, true);
                 break;
             }
             case 18: {
-                dateFormat$Field = DateFormat$Field.TIME_ZONE;
+                field = DateFormat.Field.TIME_ZONE;
                 this.appendTimeZone(stringBuffer, n, false);
             }
         }
@@ -239,11 +237,11 @@ extends DateFormat {
             this.appendNumber(stringBuffer, n, this.calendar.get(n2));
         }
         if (vector != null) {
-            fieldPosition = new FieldPosition(dateFormat$Field);
+            fieldPosition = new FieldPosition(field);
             fieldPosition.setBeginIndex(n4);
             fieldPosition.setEndIndex(stringBuffer.length());
             vector.add(fieldPosition);
-        } else if ((fieldPosition.getFieldAttribute() == dateFormat$Field || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == n3) && fieldPosition.getEndIndex() == 0) {
+        } else if ((fieldPosition.getFieldAttribute() == field || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == n3) && fieldPosition.getEndIndex() == 0) {
             fieldPosition.setBeginIndex(n4);
             fieldPosition.setEndIndex(stringBuffer.length());
         }
@@ -271,9 +269,9 @@ extends DateFormat {
                 }
                 stringBuffer.append("GMT");
                 stringBuffer.append(c2);
-                this.appendNumber(stringBuffer, 2, n2 / -2131872256);
+                this.appendNumber(stringBuffer, 2, n2 / 3600000);
                 stringBuffer.append(':');
-                this.appendNumber(stringBuffer, 2, n2 % -2131872256 / 1625948160);
+                this.appendNumber(stringBuffer, 2, n2 % 3600000 / 60000);
             } else {
                 int n3 = n2 = this.calendar.get(16) == 0 ? 0 : 2;
                 if (n < 4) {
@@ -290,8 +288,8 @@ extends DateFormat {
                 n4 = -n4;
             }
             stringBuffer.append(c3);
-            this.appendNumber(stringBuffer, 2, n4 / -2131872256);
-            this.appendNumber(stringBuffer, 2, n4 % -2131872256 / 1625948160);
+            this.appendNumber(stringBuffer, 2, n4 / 3600000);
+            this.appendNumber(stringBuffer, 2, n4 % 3600000 / 60000);
         }
     }
 
@@ -303,7 +301,7 @@ extends DateFormat {
     }
 
     public void applyLocalizedPattern(String string) {
-        this.pattern = this.convertPattern(string, this.formatData.getLocalPatternChars(), "GyMdkHmsSEDFwWahKzZ", true);
+        this.pattern = this.convertPattern(string, this.formatData.getLocalPatternChars(), patternChars, true);
     }
 
     public void applyPattern(String string) {
@@ -311,7 +309,6 @@ extends DateFormat {
         this.pattern = string;
     }
 
-    @Override
     public Object clone() {
         SimpleDateFormat simpleDateFormat = (SimpleDateFormat)super.clone();
         simpleDateFormat.formatData = (DateFormatSymbols)this.formatData.clone();
@@ -328,7 +325,6 @@ extends DateFormat {
         return stringBuffer.toString();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -346,7 +342,6 @@ extends DateFormat {
         return null;
     }
 
-    @Override
     public AttributedCharacterIterator formatToCharacterIterator(Object object) {
         if (object instanceof Date) {
             return this.formatToCharacterIteratorImpl((Date)object);
@@ -365,20 +360,19 @@ extends DateFormat {
         int n = 0;
         while (n < vector.size()) {
             FieldPosition fieldPosition = (FieldPosition)vector.elementAt(n);
-            Format$Field format$Field = fieldPosition.getFieldAttribute();
-            attributedString.addAttribute(format$Field, format$Field, fieldPosition.getBeginIndex(), fieldPosition.getEndIndex());
+            Format.Field field = fieldPosition.getFieldAttribute();
+            attributedString.addAttribute(field, field, fieldPosition.getBeginIndex(), fieldPosition.getEndIndex());
             ++n;
         }
         return attributedString.getIterator();
     }
 
-    @Override
     public StringBuffer format(Date date, StringBuffer stringBuffer, FieldPosition fieldPosition) {
         return this.formatImpl(date, stringBuffer, fieldPosition, null);
     }
 
     private void validateFormat(char c2) {
-        int n = "GyMdkHmsSEDFwWahKzZ".indexOf(c2);
+        int n = patternChars.indexOf(c2);
         if (n == -1) {
             throw new IllegalArgumentException(Msg.getString("K002b", c2));
         }
@@ -484,13 +478,12 @@ extends DateFormat {
         return (DateFormatSymbols)this.formatData.clone();
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode() + this.pattern.hashCode() + this.formatData.hashCode() + this.creationYear;
     }
 
     private int parse(String string, int n, char c2, int n2) {
-        int n3 = "GyMdkHmsSEDFwWahKzZ".indexOf(c2);
+        int n3 = patternChars.indexOf(c2);
         if (n3 == -1) {
             throw new IllegalArgumentException(Msg.getString("K002b", c2));
         }
@@ -619,7 +612,6 @@ extends DateFormat {
         return n;
     }
 
-    @Override
     public Date parse(String string, ParsePosition parsePosition) {
         Date date;
         boolean bl = false;
@@ -752,7 +744,7 @@ extends DateFormat {
                 return -parsePosition.getErrorIndex() - 1;
             }
             int n2 = number.intValue();
-            int n3 = n2 * -2131872256;
+            int n3 = n2 * 3600000;
             int n4 = parsePosition.getIndex();
             if (n4 < string.length() && string.charAt(n4) == ':') {
                 parsePosition.setIndex(n4 + 1);
@@ -761,9 +753,9 @@ extends DateFormat {
                     return -parsePosition.getErrorIndex() - 1;
                 }
                 int n5 = number.intValue();
-                n3 += n5 * 1625948160;
+                n3 += n5 * 60000;
             } else if (n2 >= 24) {
-                n3 = n2 / 100 * -2131872256 + n2 % 100 * 1625948160;
+                n3 = n2 / 100 * 3600000 + n2 % 100 * 60000;
             }
             if (c2 == '-') {
                 n3 = -n3;
@@ -814,7 +806,7 @@ extends DateFormat {
                 }
                 int n4 = timeZone.getRawOffset();
                 if (n3 >= 3 && timeZone.useDaylightTime()) {
-                    n4 += -2131872256;
+                    n4 += 3600000;
                 }
                 this.calendar.setTimeZone(new SimpleTimeZone(n4, ""));
                 return this.formatData.zoneStrings[n2][n3].length();
@@ -836,29 +828,29 @@ extends DateFormat {
     }
 
     public String toLocalizedPattern() {
-        return this.convertPattern(this.pattern, "GyMdkHmsSEDFwWahKzZ", this.formatData.getLocalPatternChars(), false);
+        return this.convertPattern(this.pattern, patternChars, this.formatData.getLocalPatternChars(), false);
     }
 
     public String toPattern() {
         return this.pattern;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("defaultCenturyStart", this.defaultCenturyStart);
-        objectOutputStream$PutField.put("formatData", this.formatData);
-        objectOutputStream$PutField.put("pattern", this.pattern);
-        objectOutputStream$PutField.put("serialVersionOnStream", 1);
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("defaultCenturyStart", this.defaultCenturyStart);
+        putField.put("formatData", this.formatData);
+        putField.put("pattern", this.pattern);
+        putField.put("serialVersionOnStream", 1);
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        int n = objectInputStream$GetField.get("serialVersionOnStream", 0);
-        Date date = n > 0 ? (Date)objectInputStream$GetField.get("defaultCenturyStart", new Date()) : new Date();
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        int n = getField.get("serialVersionOnStream", 0);
+        Date date = n > 0 ? (Date)getField.get("defaultCenturyStart", new Date()) : new Date();
         this.set2DigitYearStart(date);
-        this.formatData = (DateFormatSymbols)objectInputStream$GetField.get("formatData", null);
-        this.pattern = (String)objectInputStream$GetField.get("pattern", "");
+        this.formatData = (DateFormatSymbols)getField.get("formatData", null);
+        this.pattern = (String)getField.get("pattern", "");
     }
 }
 

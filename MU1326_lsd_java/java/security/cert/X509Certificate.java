@@ -6,6 +6,10 @@ package java.security.cert;
 import java.math.BigInteger;
 import java.security.Principal;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Extension;
 import java.util.Collection;
 import java.util.Date;
@@ -15,80 +19,63 @@ import javax.security.auth.x500.X500Principal;
 public abstract class X509Certificate
 extends Certificate
 implements X509Extension {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -6439739127092946520L;
 
     protected X509Certificate() {
         super("X.509");
     }
 
-    public abstract void checkValidity() {
-    }
+    public abstract void checkValidity() throws CertificateExpiredException, CertificateNotYetValidException;
 
-    public abstract void checkValidity(Date date) {
-    }
+    public abstract void checkValidity(Date var1) throws CertificateExpiredException, CertificateNotYetValidException;
 
-    public abstract int getBasicConstraints() {
-    }
+    public abstract int getBasicConstraints();
 
-    public abstract Principal getIssuerDN() {
-    }
+    public abstract Principal getIssuerDN();
 
     public X500Principal getIssuerX500Principal() {
         return new X500Principal(this.getIssuerDN().getName());
     }
 
-    public abstract boolean[] getIssuerUniqueID() {
-    }
+    public abstract boolean[] getIssuerUniqueID();
 
-    public abstract boolean[] getKeyUsage() {
-    }
+    public abstract boolean[] getKeyUsage();
 
-    public abstract Date getNotAfter() {
-    }
+    public abstract Date getNotAfter();
 
-    public abstract Date getNotBefore() {
-    }
+    public abstract Date getNotBefore();
 
-    public abstract BigInteger getSerialNumber() {
-    }
+    public abstract BigInteger getSerialNumber();
 
-    public abstract String getSigAlgName() {
-    }
+    public abstract String getSigAlgName();
 
-    public abstract String getSigAlgOID() {
-    }
+    public abstract String getSigAlgOID();
 
-    public abstract byte[] getSigAlgParams() {
-    }
+    public abstract byte[] getSigAlgParams();
 
-    public abstract byte[] getSignature() {
-    }
+    public abstract byte[] getSignature();
 
-    public abstract Principal getSubjectDN() {
-    }
+    public abstract Principal getSubjectDN();
 
     public X500Principal getSubjectX500Principal() {
         return new X500Principal(this.getSubjectDN().getName());
     }
 
-    public abstract boolean[] getSubjectUniqueID() {
-    }
+    public abstract boolean[] getSubjectUniqueID();
 
-    public abstract byte[] getTBSCertificate() {
-    }
+    public abstract byte[] getTBSCertificate() throws CertificateEncodingException;
 
-    public abstract int getVersion() {
-    }
+    public abstract int getVersion();
 
-    public List getExtendedKeyUsage() {
+    public List getExtendedKeyUsage() throws CertificateParsingException {
         throw new UnsupportedOperationException();
     }
 
-    public Collection getSubjectAlternativeNames() {
+    public Collection getSubjectAlternativeNames() throws CertificateParsingException {
         throw new UnsupportedOperationException();
     }
 
-    public Collection getIssuerAlternativeNames() {
+    public Collection getIssuerAlternativeNames() throws CertificateParsingException {
         throw new UnsupportedOperationException();
     }
 }

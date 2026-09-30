@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.cardriverassistance;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.cardriverassistance.ACCDistanceWarning;
 import org.dsi.ifc.cardriverassistance.AWVEmergencyBrake;
 import org.dsi.ifc.cardriverassistance.NVObjectDetection;
@@ -10,226 +11,152 @@ import org.dsi.ifc.cardriverassistance.TSDRoadSignFilter;
 import org.dsi.ifc.global.CarBCSpeed;
 
 public interface DSICarDriverAssistanceC {
-    default public void setACCGongState(boolean bl) {
-    }
+    public void setACCGongState(boolean var1) throws MethodException;
 
-    default public void setACCGongVolume(int n) {
-    }
+    public void setACCGongVolume(int var1) throws MethodException;
 
-    default public void setACCDrivingProgram(int n) {
-    }
+    public void setACCDrivingProgram(int var1) throws MethodException;
 
-    default public void setACCTimeGap(int n) {
-    }
+    public void setACCTimeGap(int var1) throws MethodException;
 
-    default public void setACCDefaultMode(int n) {
-    }
+    public void setACCDefaultMode(int var1) throws MethodException;
 
-    default public void setACCCurveAssist(boolean bl) {
-    }
+    public void setACCCurveAssist(boolean var1) throws MethodException;
 
-    default public void setACCSpeedLimitAdoption(boolean bl) {
-    }
+    public void setACCSpeedLimitAdoption(boolean var1) throws MethodException;
 
-    default public void setACCTrafficJamAssist(boolean bl) {
-    }
+    public void setACCTrafficJamAssist(boolean var1) throws MethodException;
 
-    default public void setACCSpeedLimitOffset(int n) {
-    }
+    public void setACCSpeedLimitOffset(int var1) throws MethodException;
 
-    default public void setACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning) {
-    }
+    public void setACCDistanceWarning(ACCDistanceWarning var1) throws MethodException;
 
-    default public void setACCSetFactoryDefault() {
-    }
+    public void setACCSetFactoryDefault() throws MethodException;
 
-    default public void setPACCSensibility(boolean bl) {
-    }
+    public void setPACCSensibility(boolean var1) throws MethodException;
 
-    default public void setPACCMaxSpeed(int n, int n2) {
-    }
+    public void setPACCMaxSpeed(int var1, int var2) throws MethodException;
 
-    default public void setPACCDrivingProgram(int n) {
-    }
+    public void setPACCDrivingProgram(int var1) throws MethodException;
 
-    default public void setAWVSystem(int n) {
-    }
+    public void setAWVSystem(int var1) throws MethodException;
 
-    default public void setAWVWarning(boolean bl) {
-    }
+    public void setAWVWarning(boolean var1) throws MethodException;
 
-    default public void setAWVGong(boolean bl) {
-    }
+    public void setAWVGong(boolean var1) throws MethodException;
 
-    default public void setAWVGongVolume(int n) {
-    }
+    public void setAWVGongVolume(int var1) throws MethodException;
 
-    default public void setAWVBrakeJerk(boolean bl) {
-    }
+    public void setAWVBrakeJerk(boolean var1) throws MethodException;
 
-    default public void setAWVEmergencyBrake(AWVEmergencyBrake aWVEmergencyBrake) {
-    }
+    public void setAWVEmergencyBrake(AWVEmergencyBrake var1) throws MethodException;
 
-    default public void setAWVDistanceWarning(boolean bl) {
-    }
+    public void setAWVDistanceWarning(boolean var1) throws MethodException;
 
-    default public void setAWVWarningTimegap(int n) {
-    }
+    public void setAWVWarningTimegap(int var1) throws MethodException;
 
-    default public void setAWVSetFactoryDefault() {
-    }
+    public void setAWVSetFactoryDefault() throws MethodException;
 
-    default public void setSWABrightness(int n) {
-    }
+    public void setSWABrightness(int var1) throws MethodException;
 
-    default public void setSWAWarningTime(int n) {
-    }
+    public void setSWAWarningTime(int var1) throws MethodException;
 
-    default public void setSWAFrequency(int n) {
-    }
+    public void setSWAFrequency(int var1) throws MethodException;
 
-    default public void setSWASystem(int n) {
-    }
+    public void setSWASystem(int var1) throws MethodException;
 
-    default public void setSWAGongState(boolean bl) {
-    }
+    public void setSWAGongState(boolean var1) throws MethodException;
 
-    default public void setSWAGongVolume(int n) {
-    }
+    public void setSWAGongVolume(int var1) throws MethodException;
 
-    default public void setSWARCTA(boolean bl) {
-    }
+    public void setSWARCTA(boolean var1) throws MethodException;
 
-    default public void setSWAExitAssist(boolean bl) {
-    }
+    public void setSWAExitAssist(boolean var1) throws MethodException;
 
-    default public void setNVActivation(boolean bl) {
-    }
+    public void setNVActivation(boolean var1) throws MethodException;
 
-    default public void setNVContrast(int n) {
-    }
+    public void setNVContrast(int var1) throws MethodException;
 
-    default public void setNVBrightness(int n) {
-    }
+    public void setNVBrightness(int var1) throws MethodException;
 
-    default public void setNVObjectDetection(NVObjectDetection nVObjectDetection) {
-    }
+    public void setNVObjectDetection(NVObjectDetection var1) throws MethodException;
 
-    default public void setNVColorPA(int n) {
-    }
+    public void setNVColorPA(int var1) throws MethodException;
 
-    default public void setNVDesignPA(int n) {
-    }
+    public void setNVDesignPA(int var1) throws MethodException;
 
-    default public void setNVDisplay(int n) {
-    }
+    public void setNVDisplay(int var1) throws MethodException;
 
-    default public void setNVZoomPanning(int n) {
-    }
+    public void setNVZoomPanning(int var1) throws MethodException;
 
-    default public void setNVSound(int n) {
-    }
+    public void setNVSound(int var1) throws MethodException;
 
-    default public void setNVSymbol(boolean bl) {
-    }
+    public void setNVSymbol(boolean var1) throws MethodException;
 
-    default public void setNVSetFactoryDefault() {
-    }
+    public void setNVSetFactoryDefault() throws MethodException;
 
-    default public void setNVWarningTimegap(int n) {
-    }
+    public void setNVWarningTimegap(int var1) throws MethodException;
 
-    default public void setNVSystem(boolean bl) {
-    }
+    public void setNVSystem(boolean var1) throws MethodException;
 
-    default public void setLDWWarningTime(int n) {
-    }
+    public void setLDWWarningTime(int var1) throws MethodException;
 
-    default public void setLDWSteeringWheelVibration(int n) {
-    }
+    public void setLDWSteeringWheelVibration(int var1) throws MethodException;
 
-    default public void setHCAInterventionStyle(int n) {
-    }
+    public void setHCAInterventionStyle(int var1) throws MethodException;
 
-    default public void setHCAToleranceLevel(int n) {
-    }
+    public void setHCAToleranceLevel(int var1) throws MethodException;
 
-    default public void setLdwhcaSetFactoryDefault() {
-    }
+    public void setLdwhcaSetFactoryDefault() throws MethodException;
 
-    default public void setLDWHCASystemOnOff(boolean bl) {
-    }
+    public void setLDWHCASystemOnOff(boolean var1) throws MethodException;
 
-    default public void setLDWHCAWarningSound(boolean bl, int n) {
-    }
+    public void setLDWHCAWarningSound(boolean var1, int var2) throws MethodException;
 
-    default public void setTSDSystemOnOff(boolean bl) {
-    }
+    public void setTSDSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setTSDRoadSignFilter(TSDRoadSignFilter tSDRoadSignFilter) {
-    }
+    public void setTSDRoadSignFilter(TSDRoadSignFilter var1) throws MethodException;
 
-    default public void setTsdSetFactoryDefault() {
-    }
+    public void setTsdSetFactoryDefault() throws MethodException;
 
-    default public void setTSDSpeedWarningThreshold(boolean bl, CarBCSpeed carBCSpeed) {
-    }
+    public void setTSDSpeedWarningThreshold(boolean var1, CarBCSpeed var2) throws MethodException;
 
-    default public void setTSDTrailerSpeedLimit(CarBCSpeed carBCSpeed) {
-    }
+    public void setTSDTrailerSpeedLimit(CarBCSpeed var1) throws MethodException;
 
-    default public void setTSDSpeedWarningAcoustics(boolean bl) {
-    }
+    public void setTSDSpeedWarningAcoustics(boolean var1) throws MethodException;
 
-    default public void setMKESystemOnOff(boolean bl) {
-    }
+    public void setMKESystemOnOff(boolean var1) throws MethodException;
 
-    default public void setMKESetFactoryDefault() {
-    }
+    public void setMKESetFactoryDefault() throws MethodException;
 
-    default public void setPASystemOnOff(boolean bl) {
-    }
+    public void setPASystemOnOff(boolean var1) throws MethodException;
 
-    default public void setPASetFactoryDefault() {
-    }
+    public void setPASetFactoryDefault() throws MethodException;
 
-    default public void setPAConfigInformation(boolean bl) {
-    }
+    public void setPAConfigInformation(boolean var1) throws MethodException;
 
-    default public void setPAConfigWarning(boolean bl) {
-    }
+    public void setPAConfigWarning(boolean var1) throws MethodException;
 
-    default public void setPAWarningTimegap(int n) {
-    }
+    public void setPAWarningTimegap(int var1) throws MethodException;
 
-    default public void setCurveAssistSystemOnOff(boolean bl) {
-    }
+    public void setCurveAssistSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setCurveAssistSetFactoryDefault() {
-    }
+    public void setCurveAssistSetFactoryDefault() throws MethodException;
 
-    default public void setFTASystemOnOff(boolean bl) {
-    }
+    public void setFTASystemOnOff(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

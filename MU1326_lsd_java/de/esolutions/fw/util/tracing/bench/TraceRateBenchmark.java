@@ -26,7 +26,7 @@ public class TraceRateBenchmark {
             n3 = Integer.parseInt(stringArray[2]);
         }
         if (n4 > 3) {
-            l = Long.parseLong(stringArray[3]) * 0;
+            l = Long.parseLong(stringArray[3]) * 1000L;
         }
         StringBuffer stringBuffer = new StringBuffer();
         for (int i2 = 0; i2 < n3; ++i2) {
@@ -34,9 +34,9 @@ public class TraceRateBenchmark {
         }
         String string = stringBuffer.toString();
         int n5 = 1000 * (n3 *= 10) / (n *= 1024);
-        System.out.println(new StringBuffer().append("rate=").append(n).append(" messages=").append(n2).append(" msg_len=").append(n3).toString());
-        System.out.println(new StringBuffer().append("pkt_delay=").append(n5).toString());
-        System.out.println(new StringBuffer().append("starting in ").append(l).append("ms").toString());
+        System.out.println("rate=" + n + " messages=" + n2 + " msg_len=" + n3);
+        System.out.println("pkt_delay=" + n5);
+        System.out.println("starting in " + l + "ms");
         try {
             Thread.sleep(l);
         }

@@ -5,25 +5,22 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.BlockingQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.SynchronousQueue$EmptyIterator;
-import edu.emory.mathcs.backport.java.util.concurrent.SynchronousQueue$FifoWaitQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.SynchronousQueue$LifoWaitQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.SynchronousQueue$Node;
-import edu.emory.mathcs.backport.java.util.concurrent.SynchronousQueue$WaitQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
+import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SynchronousQueue
 extends AbstractQueue
 implements BlockingQueue,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -3223113410248163686L;
     private final ReentrantLock qlock;
-    private final SynchronousQueue$WaitQueue waitingProducers;
-    private final SynchronousQueue$WaitQueue waitingConsumers;
+    private final WaitQueue waitingProducers;
+    private final WaitQueue waitingConsumers;
 
     public SynchronousQueue() {
         this(false);
@@ -32,19 +29,19 @@ Serializable {
     public SynchronousQueue(boolean bl) {
         if (bl) {
             this.qlock = new ReentrantLock(true);
-            this.waitingProducers = new SynchronousQueue$FifoWaitQueue();
-            this.waitingConsumers = new SynchronousQueue$FifoWaitQueue();
+            this.waitingProducers = new FifoWaitQueue();
+            this.waitingConsumers = new FifoWaitQueue();
         } else {
             this.qlock = new ReentrantLock();
-            this.waitingProducers = new SynchronousQueue$LifoWaitQueue();
-            this.waitingConsumers = new SynchronousQueue$LifoWaitQueue();
+            this.waitingProducers = new LifoWaitQueue();
+            this.waitingConsumers = new LifoWaitQueue();
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void unlinkCancelledConsumer(SynchronousQueue$Node node) {
+    private void unlinkCancelledConsumer(Node node) {
         if (this.waitingConsumers.shouldUnlink(node)) {
             this.qlock.lock();
             try {
@@ -61,7 +58,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void unlinkCancelledProducer(SynchronousQueue$Node node) {
+    private void unlinkCancelledProducer(Node node) {
         if (this.waitingProducers.shouldUnlink(node)) {
             this.qlock.lock();
             try {
@@ -78,9 +75,8 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void put(Object object) {
-        SynchronousQueue$Node synchronousQueue$Node;
+    public void put(Object object) throws InterruptedException {
+        Node node;
         if (object == null) {
             throw new NullPointerException();
         }
@@ -92,10 +88,10 @@ Serializable {
             }
             reentrantLock.lock();
             try {
-                synchronousQueue$Node = this.waitingConsumers.deq();
-                bl = synchronousQueue$Node == null;
+                node = this.waitingConsumers.deq();
+                bl = node == null;
                 if (bl) {
-                    synchronousQueue$Node = this.waitingProducers.enq(object);
+                    node = this.waitingProducers.enq(object);
                 }
             }
             finally {
@@ -103,22 +99,21 @@ Serializable {
             }
             if (!bl) continue;
             try {
-                synchronousQueue$Node.waitForTake();
+                node.waitForTake();
                 return;
             }
             catch (InterruptedException interruptedException) {
-                this.unlinkCancelledProducer(synchronousQueue$Node);
+                this.unlinkCancelledProducer(node);
                 throw interruptedException;
             }
-        } while (!synchronousQueue$Node.setItem(object));
+        } while (!node.setItem(object));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public boolean offer(Object object, long l, TimeUnit timeUnit) {
-        SynchronousQueue$Node synchronousQueue$Node;
+    public boolean offer(Object object, long l, TimeUnit timeUnit) throws InterruptedException {
+        Node node;
         if (object == null) {
             throw new NullPointerException();
         }
@@ -131,10 +126,10 @@ Serializable {
             }
             reentrantLock.lock();
             try {
-                synchronousQueue$Node = this.waitingConsumers.deq();
-                bl = synchronousQueue$Node == null;
+                node = this.waitingConsumers.deq();
+                bl = node == null;
                 if (bl) {
-                    synchronousQueue$Node = this.waitingProducers.enq(object);
+                    node = this.waitingProducers.enq(object);
                 }
             }
             finally {
@@ -142,26 +137,25 @@ Serializable {
             }
             if (!bl) continue;
             try {
-                boolean bl2 = synchronousQueue$Node.waitForTake(l2);
+                boolean bl2 = node.waitForTake(l2);
                 if (!bl2) {
-                    this.unlinkCancelledProducer(synchronousQueue$Node);
+                    this.unlinkCancelledProducer(node);
                 }
                 return bl2;
             }
             catch (InterruptedException interruptedException) {
-                this.unlinkCancelledProducer(synchronousQueue$Node);
+                this.unlinkCancelledProducer(node);
                 throw interruptedException;
             }
-        } while (!synchronousQueue$Node.setItem(object));
+        } while (!node.setItem(object));
         return true;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object take() {
-        SynchronousQueue$Node synchronousQueue$Node;
+    public Object take() throws InterruptedException {
+        Node node;
         Object object;
         ReentrantLock reentrantLock = this.qlock;
         do {
@@ -171,10 +165,10 @@ Serializable {
             }
             reentrantLock.lock();
             try {
-                synchronousQueue$Node = this.waitingProducers.deq();
-                bl = synchronousQueue$Node == null;
+                node = this.waitingProducers.deq();
+                bl = node == null;
                 if (bl) {
-                    synchronousQueue$Node = this.waitingConsumers.enq(null);
+                    node = this.waitingConsumers.enq(null);
                 }
             }
             finally {
@@ -182,23 +176,22 @@ Serializable {
             }
             if (!bl) continue;
             try {
-                object = synchronousQueue$Node.waitForPut();
+                object = node.waitForPut();
                 return object;
             }
             catch (InterruptedException interruptedException) {
-                this.unlinkCancelledConsumer(synchronousQueue$Node);
+                this.unlinkCancelledConsumer(node);
                 throw interruptedException;
             }
-        } while ((object = synchronousQueue$Node.getItem()) == null);
+        } while ((object = node.getItem()) == null);
         return object;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object poll(long l, TimeUnit timeUnit) {
-        SynchronousQueue$Node synchronousQueue$Node;
+    public Object poll(long l, TimeUnit timeUnit) throws InterruptedException {
+        Node node;
         Object object;
         long l2 = timeUnit.toNanos(l);
         ReentrantLock reentrantLock = this.qlock;
@@ -209,10 +202,10 @@ Serializable {
             }
             reentrantLock.lock();
             try {
-                synchronousQueue$Node = this.waitingProducers.deq();
-                bl = synchronousQueue$Node == null;
+                node = this.waitingProducers.deq();
+                bl = node == null;
                 if (bl) {
-                    synchronousQueue$Node = this.waitingConsumers.enq(null);
+                    node = this.waitingConsumers.enq(null);
                 }
             }
             finally {
@@ -220,26 +213,25 @@ Serializable {
             }
             if (!bl) continue;
             try {
-                object = synchronousQueue$Node.waitForPut(l2);
+                object = node.waitForPut(l2);
                 if (object == null) {
-                    this.unlinkCancelledConsumer(synchronousQueue$Node);
+                    this.unlinkCancelledConsumer(node);
                 }
                 return object;
             }
             catch (InterruptedException interruptedException) {
-                this.unlinkCancelledConsumer(synchronousQueue$Node);
+                this.unlinkCancelledConsumer(node);
                 throw interruptedException;
             }
-        } while ((object = synchronousQueue$Node.getItem()) == null);
+        } while ((object = node.getItem()) == null);
         return object;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offer(Object object) {
-        SynchronousQueue$Node synchronousQueue$Node;
+        Node node;
         if (object == null) {
             throw new NullPointerException();
         }
@@ -247,99 +239,85 @@ Serializable {
         do {
             reentrantLock.lock();
             try {
-                synchronousQueue$Node = this.waitingConsumers.deq();
+                node = this.waitingConsumers.deq();
             }
             finally {
                 reentrantLock.unlock();
             }
-            if (synchronousQueue$Node != null) continue;
+            if (node != null) continue;
             return false;
-        } while (!synchronousQueue$Node.setItem(object));
+        } while (!node.setItem(object));
         return true;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object poll() {
-        SynchronousQueue$Node synchronousQueue$Node;
+        Node node;
         Object object;
         ReentrantLock reentrantLock = this.qlock;
         do {
             reentrantLock.lock();
             try {
-                synchronousQueue$Node = this.waitingProducers.deq();
+                node = this.waitingProducers.deq();
             }
             finally {
                 reentrantLock.unlock();
             }
-            if (synchronousQueue$Node != null) continue;
+            if (node != null) continue;
             return null;
-        } while ((object = synchronousQueue$Node.getItem()) == null);
+        } while ((object = node.getItem()) == null);
         return object;
     }
 
-    @Override
     public boolean isEmpty() {
         return true;
     }
 
-    @Override
     public int size() {
         return 0;
     }
 
-    @Override
     public int remainingCapacity() {
         return 0;
     }
 
-    @Override
     public void clear() {
     }
 
-    @Override
     public boolean contains(Object object) {
         return false;
     }
 
-    @Override
     public boolean remove(Object object) {
         return false;
     }
 
-    @Override
     public boolean containsAll(Collection collection) {
         return collection.isEmpty();
     }
 
-    @Override
     public boolean removeAll(Collection collection) {
         return false;
     }
 
-    @Override
     public boolean retainAll(Collection collection) {
         return false;
     }
 
-    @Override
     public Object peek() {
         return null;
     }
 
-    @Override
     public Iterator iterator() {
-        return new SynchronousQueue$EmptyIterator();
+        return new EmptyIterator();
     }
 
-    @Override
     public Object[] toArray() {
         return new Object[0];
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         if (objectArray.length > 0) {
             objectArray[0] = null;
@@ -347,7 +325,6 @@ Serializable {
         return objectArray;
     }
 
-    @Override
     public int drainTo(Collection collection) {
         Object object;
         if (collection == null) {
@@ -364,7 +341,6 @@ Serializable {
         return n;
     }
 
-    @Override
     public int drainTo(Collection collection, int n) {
         Object object;
         int n2;
@@ -378,6 +354,257 @@ Serializable {
             collection.add(object);
         }
         return n2;
+    }
+
+    static final class Node
+    implements Serializable {
+        private static final long serialVersionUID = -3223113410248163686L;
+        private static final int ACK = 1;
+        private static final int CANCEL = -1;
+        int state = 0;
+        Object item;
+        Node next;
+
+        Node(Object object) {
+            this.item = object;
+        }
+
+        Node(Object object, Node node) {
+            this.item = object;
+            this.next = node;
+        }
+
+        private Object extract() {
+            Object object = this.item;
+            this.item = null;
+            return object;
+        }
+
+        private void checkCancellationOnInterrupt(InterruptedException interruptedException) throws InterruptedException {
+            if (this.state == 0) {
+                this.state = -1;
+                this.notify();
+                throw interruptedException;
+            }
+            Thread.currentThread().interrupt();
+        }
+
+        synchronized boolean setItem(Object object) {
+            if (this.state != 0) {
+                return false;
+            }
+            this.item = object;
+            this.state = 1;
+            this.notify();
+            return true;
+        }
+
+        synchronized Object getItem() {
+            if (this.state != 0) {
+                return null;
+            }
+            this.state = 1;
+            this.notify();
+            return this.extract();
+        }
+
+        synchronized void waitForTake() throws InterruptedException {
+            try {
+                while (this.state == 0) {
+                    this.wait();
+                }
+            }
+            catch (InterruptedException interruptedException) {
+                this.checkCancellationOnInterrupt(interruptedException);
+            }
+        }
+
+        synchronized Object waitForPut() throws InterruptedException {
+            try {
+                while (this.state == 0) {
+                    this.wait();
+                }
+            }
+            catch (InterruptedException interruptedException) {
+                this.checkCancellationOnInterrupt(interruptedException);
+            }
+            return this.extract();
+        }
+
+        private boolean attempt(long l) throws InterruptedException {
+            if (this.state != 0) {
+                return true;
+            }
+            if (l <= 0L) {
+                this.state = -1;
+                this.notify();
+                return false;
+            }
+            long l2 = Utils.nanoTime() + l;
+            do {
+                TimeUnit.NANOSECONDS.timedWait(this, l);
+                if (this.state == 0) continue;
+                return true;
+            } while ((l = l2 - Utils.nanoTime()) > 0L);
+            this.state = -1;
+            this.notify();
+            return false;
+        }
+
+        synchronized boolean waitForTake(long l) throws InterruptedException {
+            try {
+                if (!this.attempt(l)) {
+                    return false;
+                }
+            }
+            catch (InterruptedException interruptedException) {
+                this.checkCancellationOnInterrupt(interruptedException);
+            }
+            return true;
+        }
+
+        synchronized Object waitForPut(long l) throws InterruptedException {
+            try {
+                if (!this.attempt(l)) {
+                    return null;
+                }
+            }
+            catch (InterruptedException interruptedException) {
+                this.checkCancellationOnInterrupt(interruptedException);
+            }
+            return this.extract();
+        }
+    }
+
+    static abstract class WaitQueue
+    implements Serializable {
+        WaitQueue() {
+        }
+
+        abstract Node enq(Object var1);
+
+        abstract Node deq();
+
+        abstract void unlink(Node var1);
+
+        abstract boolean shouldUnlink(Node var1);
+    }
+
+    static class EmptyIterator
+    implements Iterator {
+        EmptyIterator() {
+        }
+
+        public boolean hasNext() {
+            return false;
+        }
+
+        public Object next() {
+            throw new NoSuchElementException();
+        }
+
+        public void remove() {
+            throw new IllegalStateException();
+        }
+    }
+
+    static final class FifoWaitQueue
+    extends WaitQueue
+    implements Serializable {
+        private static final long serialVersionUID = -3623113410248163686L;
+        private transient Node head;
+        private transient Node last;
+
+        FifoWaitQueue() {
+        }
+
+        Node enq(Object object) {
+            Node node = new Node(object);
+            this.last = this.last == null ? (this.head = node) : (this.last.next = node);
+            return node;
+        }
+
+        Node deq() {
+            Node node = this.head;
+            if (node != null) {
+                this.head = node.next;
+                if (this.head == null) {
+                    this.last = null;
+                }
+                node.next = null;
+            }
+            return node;
+        }
+
+        boolean shouldUnlink(Node node) {
+            return node == this.last || node.next != null;
+        }
+
+        void unlink(Node node) {
+            Node node2 = this.head;
+            Node node3 = null;
+            while (node2 != null) {
+                if (node2 == node) {
+                    Node node4 = node2.next;
+                    if (node3 == null) {
+                        this.head = node4;
+                    } else {
+                        node3.next = node4;
+                    }
+                    if (this.last != node) break;
+                    this.last = node3;
+                    break;
+                }
+                node3 = node2;
+                node2 = node2.next;
+            }
+        }
+    }
+
+    static final class LifoWaitQueue
+    extends WaitQueue
+    implements Serializable {
+        private static final long serialVersionUID = -3633113410248163686L;
+        private transient Node head;
+
+        LifoWaitQueue() {
+        }
+
+        Node enq(Object object) {
+            this.head = new Node(object, this.head);
+            return this.head;
+        }
+
+        Node deq() {
+            Node node = this.head;
+            if (node != null) {
+                this.head = node.next;
+                node.next = null;
+            }
+            return node;
+        }
+
+        boolean shouldUnlink(Node node) {
+            return node == this.head || node.next != null;
+        }
+
+        void unlink(Node node) {
+            Node node2 = this.head;
+            Node node3 = null;
+            while (node2 != null) {
+                if (node2 == node) {
+                    Node node4 = node2.next;
+                    if (node3 == null) {
+                        this.head = node4;
+                        break;
+                    }
+                    node3.next = node4;
+                    break;
+                }
+                node3 = node2;
+                node2 = node2.next;
+            }
+        }
     }
 }
 

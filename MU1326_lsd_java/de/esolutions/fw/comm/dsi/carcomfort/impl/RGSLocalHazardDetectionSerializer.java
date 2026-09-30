@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RGSLocalHazardDetection;
 
 public class RGSLocalHazardDetectionSerializer {
-    public static void putOptionalRGSLocalHazardDetection(ISerializer iSerializer, RGSLocalHazardDetection rGSLocalHazardDetection) {
+    public static void putOptionalRGSLocalHazardDetection(ISerializer iSerializer, RGSLocalHazardDetection rGSLocalHazardDetection) throws SerializerException {
         boolean bl = rGSLocalHazardDetection == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class RGSLocalHazardDetectionSerializer {
         }
     }
 
-    public static void putOptionalRGSLocalHazardDetectionVarArray(ISerializer iSerializer, RGSLocalHazardDetection[] rGSLocalHazardDetectionArray) {
+    public static void putOptionalRGSLocalHazardDetectionVarArray(ISerializer iSerializer, RGSLocalHazardDetection[] rGSLocalHazardDetectionArray) throws SerializerException {
         boolean bl = rGSLocalHazardDetectionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class RGSLocalHazardDetectionSerializer {
         }
     }
 
-    public static RGSLocalHazardDetection getOptionalRGSLocalHazardDetection(IDeserializer iDeserializer) {
+    public static RGSLocalHazardDetection getOptionalRGSLocalHazardDetection(IDeserializer iDeserializer) throws SerializerException {
         RGSLocalHazardDetection rGSLocalHazardDetection = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class RGSLocalHazardDetectionSerializer {
         return rGSLocalHazardDetection;
     }
 
-    public static RGSLocalHazardDetection[] getOptionalRGSLocalHazardDetectionVarArray(IDeserializer iDeserializer) {
+    public static RGSLocalHazardDetection[] getOptionalRGSLocalHazardDetectionVarArray(IDeserializer iDeserializer) throws SerializerException {
         RGSLocalHazardDetection[] rGSLocalHazardDetectionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

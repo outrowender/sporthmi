@@ -30,6 +30,8 @@ import de.esolutions.fw.util.tracing.protocol.message.TimeSyncMessage;
 import de.esolutions.fw.util.tracing.protocol.message.ToggleEntityMessage;
 import de.esolutions.fw.util.tracing.protocol.message.UpdateTimezoneMessage;
 import de.esolutions.fw.util.transport.ITransport;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class MessageSender {
     protected ITransport transport;
@@ -44,84 +46,84 @@ public class MessageSender {
         this.encoder = new MessageEncoder(iSerializer);
     }
 
-    private AbstractMessage send(AbstractMessage abstractMessage) {
+    private AbstractMessage send(AbstractMessage abstractMessage) throws TransportException, InterruptedException, IOException {
         this.transport.send(this.encoder.encodeWriter(abstractMessage));
         return abstractMessage;
     }
 
-    public AbstractMessage sendInit(byte by, String string, int n) {
+    public AbstractMessage sendInit(byte by, String string, int n) throws TransportException, IOException, InterruptedException {
         return this.send(new InitMessage(by, string, n));
     }
 
-    public AbstractMessage sendExit() {
+    public AbstractMessage sendExit() throws TransportException, IOException, InterruptedException {
         return this.send(new ExitMessage());
     }
 
-    public AbstractMessage sendTimeSync(long l, byte by, byte by2) {
+    public AbstractMessage sendTimeSync(long l, byte by, byte by2) throws TransportException, IOException, InterruptedException {
         return this.send(new TimeSyncMessage(l, by, by2));
     }
 
-    public AbstractMessage sendCreateEntity(IExternalTraceEntity iExternalTraceEntity) {
+    public AbstractMessage sendCreateEntity(IExternalTraceEntity iExternalTraceEntity) throws TransportException, IOException, InterruptedException {
         return this.send(new CreateEntityMessage(iExternalTraceEntity));
     }
 
-    public AbstractMessage sendLogData(ITraceMessage iTraceMessage) {
+    public AbstractMessage sendLogData(ITraceMessage iTraceMessage) throws IOException, TransportException, InterruptedException {
         return this.send(new LogDataMessage(iTraceMessage));
     }
 
-    public AbstractMessage sendExecuteCallback(int n, byte[] byArray) {
+    public AbstractMessage sendExecuteCallback(int n, byte[] byArray) throws IOException, TransportException, InterruptedException {
         return this.send(new ExecuteCallbackMessage(n, byArray));
     }
 
-    public AbstractMessage sendChangeLevel(TraceEntityURI traceEntityURI, short s) {
+    public AbstractMessage sendChangeLevel(TraceEntityURI traceEntityURI, short s) throws IOException, TransportException, InterruptedException {
         return this.send(new ChangeLevelMessage(traceEntityURI, s));
     }
 
-    public AbstractMessage sendDroppedMessages(int n) {
+    public AbstractMessage sendDroppedMessages(int n) throws IOException, TransportException, InterruptedException {
         return this.send(new DroppedDataMessage(n));
     }
 
-    public AbstractMessage sendToggleEntity(TraceEntityURI traceEntityURI, boolean bl) {
+    public AbstractMessage sendToggleEntity(TraceEntityURI traceEntityURI, boolean bl) throws IOException, TransportException, InterruptedException {
         return this.send(new ToggleEntityMessage(traceEntityURI, bl));
     }
 
-    public AbstractMessage sendRegisterTimeZone(int n, int n2, String string) {
+    public AbstractMessage sendRegisterTimeZone(int n, int n2, String string) throws IOException, TransportException, InterruptedException {
         return this.send(new RegisterTimezoneMessage(n, n2, string));
     }
 
-    public AbstractMessage sendUpdateTimeZone(int n, long l, long l2) {
+    public AbstractMessage sendUpdateTimeZone(int n, long l, long l2) throws IOException, TransportException, InterruptedException {
         return this.send(new UpdateTimezoneMessage(n, l, l2));
     }
 
-    public AbstractMessage sendRawMessage(byte by, byte[] byArray) {
+    public AbstractMessage sendRawMessage(byte by, byte[] byArray) throws IOException, TransportException, InterruptedException {
         return this.send(new RawMessage(by, byArray));
     }
 
-    public AbstractMessage sendFileRequest(int n, String string, byte by) {
+    public AbstractMessage sendFileRequest(int n, String string, byte by) throws IOException, TransportException, InterruptedException {
         return this.send(new FileRequestMessage(n, string, by));
     }
 
-    public AbstractMessage sendFileStatus(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
+    public AbstractMessage sendFileStatus(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) throws IOException, TransportException, InterruptedException {
         return this.send(new FileStatusMessage(n, string, by, l, l2, by2, byArray));
     }
 
-    public AbstractMessage sendFileTransfer(int n, int n2, byte by, int n3, byte[] byArray) {
+    public AbstractMessage sendFileTransfer(int n, int n2, byte by, int n3, byte[] byArray) throws IOException, TransportException, InterruptedException {
         return this.send(new FileTransferMessage(n, n2, by, n3, byArray));
     }
 
-    public AbstractMessage sendSyncMarker(int n, long l) {
+    public AbstractMessage sendSyncMarker(int n, long l) throws IOException, TransportException, InterruptedException {
         return this.send(new SyncMarkerMessage(n, l));
     }
 
-    public AbstractMessage sendCreateEntityBulk(IExternalTraceEntity[] iExternalTraceEntityArray) {
+    public AbstractMessage sendCreateEntityBulk(IExternalTraceEntity[] iExternalTraceEntityArray) throws IOException, TransportException, InterruptedException {
         return this.send(new CreateEntityBulkMessage(iExternalTraceEntityArray));
     }
 
-    public AbstractMessage sendChangeLevelBulk(IExternalTraceEntity[] iExternalTraceEntityArray) {
+    public AbstractMessage sendChangeLevelBulk(IExternalTraceEntity[] iExternalTraceEntityArray) throws IOException, TransportException, InterruptedException {
         return this.send(new ChangeLevelBulkMessage(iExternalTraceEntityArray));
     }
 
-    public AbstractMessage sendLogDataBulkd(ITraceMessage[] iTraceMessageArray) {
+    public AbstractMessage sendLogDataBulkd(ITraceMessage[] iTraceMessageArray) throws IOException, TransportException, InterruptedException {
         return this.send(new LogDataBulkMessage(iTraceMessageArray));
     }
 }

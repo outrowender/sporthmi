@@ -7,13 +7,10 @@ import de.vw.mib.bap.functions.BAPOperationState;
 
 public interface FSGOperationState
 extends BAPOperationState {
-    default public void setState(int n) {
-    }
+    public void setState(int var1);
 
-    default public void setHMISystemDependent(boolean bl) {
-    }
+    public void setHMISystemDependent(boolean var1);
 
-    default public boolean isSystemDependent() {
-    }
+    public boolean isSystemDependent();
 }
 

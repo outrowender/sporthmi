@@ -4,13 +4,10 @@
 package org.apache.commons.jexl.util.introspection;
 
 public interface VelPropertySet {
-    default public Object invoke(Object object, Object object2) {
-    }
+    public Object invoke(Object var1, Object var2) throws Exception;
 
-    default public boolean isCacheable() {
-    }
+    public boolean isCacheable();
 
-    default public String getMethodName() {
-    }
+    public String getMethodName();
 }
 

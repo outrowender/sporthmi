@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sSystemTelephoneSoftwareVersion;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sSystemTelephoneSoftwareVersionSerializer {
-    public static void putOptionalsSystemTelephoneSoftwareVersion(ISerializer iSerializer, sSystemTelephoneSoftwareVersion sSystemTelephoneSoftwareVersion2) {
+    public static void putOptionalsSystemTelephoneSoftwareVersion(ISerializer iSerializer, sSystemTelephoneSoftwareVersion sSystemTelephoneSoftwareVersion2) throws SerializerException {
         boolean bl = sSystemTelephoneSoftwareVersion2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sSystemTelephoneSoftwareVersionSerializer {
         }
     }
 
-    public static void putOptionalsSystemTelephoneSoftwareVersionVarArray(ISerializer iSerializer, sSystemTelephoneSoftwareVersion[] sSystemTelephoneSoftwareVersionArray) {
+    public static void putOptionalsSystemTelephoneSoftwareVersionVarArray(ISerializer iSerializer, sSystemTelephoneSoftwareVersion[] sSystemTelephoneSoftwareVersionArray) throws SerializerException {
         boolean bl = sSystemTelephoneSoftwareVersionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sSystemTelephoneSoftwareVersionSerializer {
         }
     }
 
-    public static sSystemTelephoneSoftwareVersion getOptionalsSystemTelephoneSoftwareVersion(IDeserializer iDeserializer) {
+    public static sSystemTelephoneSoftwareVersion getOptionalsSystemTelephoneSoftwareVersion(IDeserializer iDeserializer) throws SerializerException {
         sSystemTelephoneSoftwareVersion sSystemTelephoneSoftwareVersion2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sSystemTelephoneSoftwareVersionSerializer {
         return sSystemTelephoneSoftwareVersion2;
     }
 
-    public static sSystemTelephoneSoftwareVersion[] getOptionalsSystemTelephoneSoftwareVersionVarArray(IDeserializer iDeserializer) {
+    public static sSystemTelephoneSoftwareVersion[] getOptionalsSystemTelephoneSoftwareVersionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sSystemTelephoneSoftwareVersion[] sSystemTelephoneSoftwareVersionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

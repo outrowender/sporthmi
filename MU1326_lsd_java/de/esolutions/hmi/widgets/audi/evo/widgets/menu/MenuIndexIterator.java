@@ -20,7 +20,7 @@ implements Iterator {
     public MenuIndexIterator(MenuController menuController, MenuItemIndex menuItemIndex, MenuItemIndex menuItemIndex2, boolean bl, boolean bl2) {
         boolean bl3;
         if (menuItemIndex2 != null && !menuItemIndex.equals(menuItemIndex2) && (bl3 = menuItemIndex.isBefore(menuItemIndex2)) != bl) {
-            throw new IllegalArgumentException(new StringBuffer().append("Order of start (").append(menuItemIndex).append(") and end (").append(menuItemIndex2).append(") index is incompatible with iteration direction (").append(bl ? "down" : "up").append(")").toString());
+            throw new IllegalArgumentException("Order of start (" + menuItemIndex + ") and end (" + menuItemIndex2 + ") index is incompatible with iteration direction (" + (bl ? "down" : "up") + ")");
         }
         this.menu = menuController;
         this.end = menuItemIndex2;
@@ -45,12 +45,10 @@ implements Iterator {
         return this.findNextMenuItem(menuItemIndex);
     }
 
-    @Override
     public boolean hasNext() {
         return this.next != null;
     }
 
-    @Override
     public Object next() {
         if (this.next == null) {
             throw new NoSuchElementException("There are no more menu items");
@@ -60,7 +58,6 @@ implements Iterator {
         return menuItemIndex;
     }
 
-    @Override
     public void remove() {
         throw new IllegalStateException("Remove menu items is not supported");
     }

@@ -8,8 +8,6 @@ import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController$AnimationTransformation;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController$MutableAnimationTransformation;
 import de.esolutions.hmi.widgets.audi.evo.widgets.DrawerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerOpenCloseController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.anim.AnimUtils;
@@ -19,11 +17,11 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.entdrawer.EntertainmentDrawerS
 
 public class EntertainmentDrawerContentController
 extends DrawerController {
-    public static final int GLASSPLATE_TYPE_NORMAL;
-    public static final int GLASSPLATE_TYPE_SDS;
-    public static final int NO_GLASSPLATE_TYPE;
-    public static final int MIN_WIDTH;
-    public static final int MAX_WIDTH;
+    public static final int GLASSPLATE_TYPE_NORMAL = 0;
+    public static final int GLASSPLATE_TYPE_SDS = 1;
+    public static final int NO_GLASSPLATE_TYPE = 2;
+    public static final int MIN_WIDTH = 0;
+    public static final int MAX_WIDTH = 1;
     protected int glassplateType = 0;
     private int audioSource = -1;
     private boolean autoComputeHideTransformation = false;
@@ -58,7 +56,6 @@ extends DrawerController {
         this.glassplateType = n;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         InitializationContext initializationContext2 = new InitializationContext(initializationContext.getTerminal());
         initializationContext2.setScreen(initializationContext.getScreen());
@@ -76,19 +73,17 @@ extends DrawerController {
             this.main.setAnimationType(58);
         }
         if (this.hasToRequestDrawerState) {
-            logDrawerFocusMain.log(-2137614336, "EntertainmentDrawerContentController#connected: request drawerstate from content, content was not connected before.");
+            logDrawerFocusMain.log(10000000, "EntertainmentDrawerContentController#connected: request drawerstate from content, content was not connected before.");
             this.terminal.getDrawerFocusManager().requestDrawerState(32);
             this.hasToRequestDrawerState = false;
         }
     }
 
-    @Override
-    public void setHideTransformation(ContainerController$AnimationTransformation containerController$AnimationTransformation) {
-        super.setHideTransformation(containerController$AnimationTransformation);
+    public void setHideTransformation(ContainerController.AnimationTransformation animationTransformation) {
+        super.setHideTransformation(animationTransformation);
         this.invalidateParentLayout();
     }
 
-    @Override
     public void setHideTransformation(float f2, float f3, float f4, float f5, float f6) {
         super.setHideTransformation(f2, f3, f4, f5, f6);
         this.invalidateParentLayout();
@@ -110,57 +105,53 @@ extends DrawerController {
         this.autoComputeHideTransformation = bl;
     }
 
-    @Override
-    public ContainerController$AnimationTransformation getHideTransformation(boolean bl) {
-        ContainerController$AnimationTransformation containerController$AnimationTransformation = super.getHideTransformation(bl);
+    public ContainerController.AnimationTransformation getHideTransformation(boolean bl) {
+        ContainerController.AnimationTransformation animationTransformation = super.getHideTransformation(bl);
         AbstractWidgetController abstractWidgetController = this.getMain();
         AbstractWidgetController abstractWidgetController2 = this.getIcon();
         if (this.autoComputeHideTransformation && abstractWidgetController != null && abstractWidgetController2 != null) {
             int n = abstractWidgetController.getPreferredHeight();
             int n2 = abstractWidgetController2.getPreferredHeight();
             if (n != -1 && n2 != -1) {
-                containerController$AnimationTransformation = new ContainerController$MutableAnimationTransformation().setTranslation(0.0f, n - n2, 0.0f);
+                animationTransformation = new ContainerController.MutableAnimationTransformation().setTranslation(0.0f, n - n2, 0.0f);
             }
         }
-        return containerController$AnimationTransformation;
+        return animationTransformation;
     }
 
-    @Override
     public boolean isVerticalLineVisible() {
         return this.isVerticalLineVisible;
     }
 
-    @Override
     public void setVerticalLineVisible(boolean bl) {
         this.isVerticalLineVisible = bl;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append(super.toString()).append(" <").append(this.audioSource).append(">").toString();
+        return super.toString() + " <" + this.audioSource + ">";
     }
 
     public void setEntertainmentDrawerStateRequest(int n) {
         if (n != 7) {
             this.requestedDrawerState = n;
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: cache requested state %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: cache requested state %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
         }
         if (this.getParent() instanceof EntertainmentDrawerOpenCloseController) {
             EntertainmentDrawerState entertainmentDrawerState;
             EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController = (EntertainmentDrawerOpenCloseController)this.getParent();
             int n2 = entertainmentDrawerOpenCloseController.getAudioSourceFromModel();
             if (this.audioSource != n2) {
-                logEntertainmentDrawerEvents.log(10000, new StringBuffer().append("EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest state ").append(AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING)).append(" requested on audioSource ").append(this.audioSource).append(" but audioSourceFromModel is ").append(n2).append(". Reject state request!").toString());
+                logEntertainmentDrawerEvents.log(10000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest state " + AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING) + " requested on audioSource " + this.audioSource + " but audioSourceFromModel is " + n2 + ". Reject state request!");
                 return;
             }
             EntertainmentDrawerAnimationState entertainmentDrawerAnimationState = entertainmentDrawerOpenCloseController.getAnimationStates();
             if (entertainmentDrawerAnimationState != null && (entertainmentDrawerState = entertainmentDrawerAnimationState.getSourceState()) != null) {
                 int n3 = entertainmentDrawerState.getDrawerState();
                 if (entertainmentDrawerOpenCloseController.isBlacklisted() && n == 6) {
-                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
+                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
                     entertainmentDrawerOpenCloseController.setEntertainmentDrawerStateRequest(6, true);
                 } else if (!entertainmentDrawerOpenCloseController.isBlacklisted() || n3 == 6) {
-                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
+                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
                     switch (n) {
                         case 1: {
                             entertainmentDrawerOpenCloseController.setEntertainmentDrawerStateRequest(1, true);
@@ -179,15 +170,15 @@ extends DrawerController {
                             break;
                         }
                         default: {
-                            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-1601830656, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: untreated stateRequest: %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
+                            IWidgetLogChannel.logEntertainmentDrawerEvents.log(100000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: untreated stateRequest: %1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
                             break;
                         }
                     }
                 } else if (entertainmentDrawerOpenCloseController.isBlacklisted() && n == 1) {
-                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state DRAWER_STATE_CLOSED");
+                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state DRAWER_STATE_CLOSED");
                     entertainmentDrawerOpenCloseController.setEntertainmentDrawerStateRequest(1, true);
                 } else {
-                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state %1 was not executed", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
+                    IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerContentController#setEntertainmentDrawerStateRequest: requested state %1 was not executed", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
                 }
             }
         }
@@ -238,12 +229,10 @@ extends DrawerController {
         }
     }
 
-    @Override
     public boolean isSDSAudioSource(int n) {
         return EntertainmentDrawerContentManager.isSDSAudioSource(n);
     }
 
-    @Override
     public boolean isPhoneAudioSource(int n) {
         return EntertainmentDrawerContentManager.isPhoneAudioSource(n);
     }
@@ -269,7 +258,6 @@ extends DrawerController {
         this.hasToRequestDrawerState = bl;
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         ContainerController containerController;
         if (this.isHeaderVisible() && this.title instanceof ContainerController && (containerController = (ContainerController)this.title).getPreferredWidth() != n3) {
@@ -278,16 +266,14 @@ extends DrawerController {
         super.setBounds(n, n2, n3, n4);
     }
 
-    @Override
     public boolean isEntertainmentDrawerContent() {
         return true;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         if (this.hasToRequestDrawerState) {
-            logDrawerFocusMain.log(-2137614336, "EntertainmentDrawerContentController#setVisible: request drawerstate from content, content was not visible before.");
+            logDrawerFocusMain.log(10000000, "EntertainmentDrawerContentController#setVisible: request drawerstate from content, content was not visible before.");
             this.terminal.getDrawerFocusManager().requestDrawerState(32);
             this.hasToRequestDrawerState = false;
         }

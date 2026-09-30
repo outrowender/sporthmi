@@ -9,46 +9,32 @@ import org.dsi.ifc.organizer.DataSet;
 
 public interface DSIAdbEditListener
 extends DSIListener {
-    default public void updateNewEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewEntryAvailable(boolean var1, int var2);
 
-    default public void updateNewPublicProfileEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewPublicProfileEntryAvailable(boolean var1, int var2);
 
-    default public void updateNewTopDestinationEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewTopDestinationEntryAvailable(boolean var1, int var2);
 
-    default public void updateNewPublicProfileTopDestEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewPublicProfileTopDestEntryAvailable(boolean var1, int var2);
 
-    default public void insertEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public void insertEntryResult(int var1, AdbEntry var2);
 
-    default public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-    }
+    public void getEntriesResult(int var1, AdbEntry[] var2);
 
-    default public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) {
-    }
+    public void getEntryDataSetsResult(int var1, DataSet[] var2);
 
-    default public void changeEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public void changeEntryResult(int var1, AdbEntry var2);
 
-    default public void copyEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public void copyEntryResult(int var1, AdbEntry var2);
 
-    default public void deleteEntriesResult(int n) {
-    }
+    public void deleteEntriesResult(int var1);
 
-    default public void setSpeedDialResult(int n) {
-    }
+    public void setSpeedDialResult(int var1);
 
-    default public void deleteSpeedDialResult(int n) {
-    }
+    public void deleteSpeedDialResult(int var1);
 
-    default public void getEntryByReferenceIdResult(int n, AdbEntry adbEntry) {
-    }
+    public void getEntryByReferenceIdResult(int var1, AdbEntry var2);
 
-    default public void updateNewOnlineDestinationEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewOnlineDestinationEntryAvailable(boolean var1, int var2);
 }
 

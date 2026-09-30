@@ -4,58 +4,44 @@
 package de.esolutions.fw.comm.asi.calendar.db.provider;
 
 import de.esolutions.fw.comm.asi.calendar.db.provider.VersionInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.calendar.CalendarConfig;
 import org.dsi.ifc.calendar.VEvent;
 
 public interface VCalendarDbProviderReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "958eeab9-87d2-470a-b62e-bd9bdd6070f6";
+    public static final String IPL_COMM_INTERFACE_KEY = "c499e56b-0fd0-59f4-9181-c70e221b3299";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.0";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.6";
 
-    default public void beginTransactionResult(int n) {
-    }
+    public void beginTransactionResult(int var1) throws MethodException;
 
-    default public void commitTransactionResult(int n) {
-    }
+    public void commitTransactionResult(int var1) throws MethodException;
 
-    default public void addEntriesResult(int n) {
-    }
+    public void addEntriesResult(int var1) throws MethodException;
 
-    default public void removeEntriesResult(int n) {
-    }
+    public void removeEntriesResult(int var1) throws MethodException;
 
-    default public void removeProfileResult(int n) {
-    }
+    public void removeProfileResult(int var1) throws MethodException;
 
-    default public void removeAllResult(int n) {
-    }
+    public void removeAllResult(int var1) throws MethodException;
 
-    default public void getVersionResult(VersionInfo[] versionInfoArray) {
-    }
+    public void getVersionResult(VersionInfo[] var1) throws MethodException;
 
-    default public void setActiveProfilesResult(int n) {
-    }
+    public void setActiveProfilesResult(int var1) throws MethodException;
 
-    default public void forceGetData() {
-    }
+    public void forceGetData() throws MethodException;
 
-    default public void setCalendarConfigResult(int n) {
-    }
+    public void setCalendarConfigResult(int var1) throws MethodException;
 
-    default public void getCalendarConfigResult(int n, CalendarConfig calendarConfig) {
-    }
+    public void getCalendarConfigResult(int var1, CalendarConfig var2) throws MethodException;
 
-    default public void insertProfileResult(int n) {
-    }
+    public void insertProfileResult(int var1) throws MethodException;
 
-    default public void getCalendarEntryResult(int n, VEvent vEvent) {
-    }
+    public void getCalendarEntryResult(int var1, VEvent var2) throws MethodException;
 
-    default public void getCalendarSummariesResult(int n, VEvent[] vEventArray) {
-    }
+    public void getCalendarSummariesResult(int var1, VEvent[] var2) throws MethodException;
 
-    default public void deleteProfileResult(int n) {
-    }
+    public void deleteProfileResult(int var1) throws MethodException;
 }
 

@@ -21,12 +21,10 @@ extends ITexture {
         return iTextureOffscreen == null ? 0L : iTextureOffscreen.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -38,7 +36,6 @@ extends ITexture {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }

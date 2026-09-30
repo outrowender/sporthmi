@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKWheelPressures;
 
 public class RDKWheelPressuresSerializer {
-    public static void putOptionalRDKWheelPressures(ISerializer iSerializer, RDKWheelPressures rDKWheelPressures) {
+    public static void putOptionalRDKWheelPressures(ISerializer iSerializer, RDKWheelPressures rDKWheelPressures) throws SerializerException {
         boolean bl = rDKWheelPressures == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class RDKWheelPressuresSerializer {
         }
     }
 
-    public static void putOptionalRDKWheelPressuresVarArray(ISerializer iSerializer, RDKWheelPressures[] rDKWheelPressuresArray) {
+    public static void putOptionalRDKWheelPressuresVarArray(ISerializer iSerializer, RDKWheelPressures[] rDKWheelPressuresArray) throws SerializerException {
         boolean bl = rDKWheelPressuresArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class RDKWheelPressuresSerializer {
         }
     }
 
-    public static RDKWheelPressures getOptionalRDKWheelPressures(IDeserializer iDeserializer) {
+    public static RDKWheelPressures getOptionalRDKWheelPressures(IDeserializer iDeserializer) throws SerializerException {
         RDKWheelPressures rDKWheelPressures = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class RDKWheelPressuresSerializer {
         return rDKWheelPressures;
     }
 
-    public static RDKWheelPressures[] getOptionalRDKWheelPressuresVarArray(IDeserializer iDeserializer) {
+    public static RDKWheelPressures[] getOptionalRDKWheelPressuresVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKWheelPressures[] rDKWheelPressuresArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

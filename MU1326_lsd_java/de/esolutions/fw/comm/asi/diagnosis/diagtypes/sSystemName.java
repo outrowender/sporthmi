@@ -32,7 +32,7 @@ public class sSystemName {
     }
 
     public String toString() {
-        return new StringBuffer("sSystemName{").append("msg_id=").append(this.msg_id).append(", number=").append(this.number).append("}").toString();
+        return "sSystemName{" + "msg_id=" + this.msg_id + ", number=" + this.number + "}";
     }
 }
 

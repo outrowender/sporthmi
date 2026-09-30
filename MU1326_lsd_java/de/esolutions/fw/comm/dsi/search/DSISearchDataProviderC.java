@@ -3,47 +3,35 @@
  */
 package de.esolutions.fw.comm.dsi.search;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.search.DataSet;
 import org.dsi.ifc.search.RawDataSet;
 
 public interface DSISearchDataProviderC {
-    default public void registerProviderSource(int n) {
-    }
+    public void registerProviderSource(int var1) throws MethodException;
 
-    default public void sourceDataAvailabilityChanged(int n, boolean bl) {
-    }
+    public void sourceDataAvailabilityChanged(int var1, boolean var2) throws MethodException;
 
-    default public void invalidateAllData(int n) {
-    }
+    public void invalidateAllData(int var1) throws MethodException;
 
-    default public void storeDataSets(int n, DataSet[] dataSetArray, int n2) {
-    }
+    public void storeDataSets(int var1, DataSet[] var2, int var3) throws MethodException;
 
-    default public void storeRawDataSets(int n, RawDataSet[] rawDataSetArray, int n2) {
-    }
+    public void storeRawDataSets(int var1, RawDataSet[] var2, int var3) throws MethodException;
 
-    default public void deleteDataSet(int n, long l) {
-    }
+    public void deleteDataSet(int var1, long var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

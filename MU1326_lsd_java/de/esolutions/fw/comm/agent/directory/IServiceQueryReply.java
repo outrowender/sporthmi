@@ -7,14 +7,12 @@ import de.esolutions.fw.comm.agent.directory.DirectoryEntry;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IServiceQueryReply {
-    public static final int OK;
-    public static final int SERVICE_NOT_FOUND;
-    public static final int QUERY_TIME_OUT;
+    public static final int OK = 0;
+    public static final int SERVICE_NOT_FOUND = 1;
+    public static final int QUERY_TIME_OUT = 2;
 
-    default public void serviceQueryResult(ServiceInstanceID serviceInstanceID, DirectoryEntry[] directoryEntryArray) {
-    }
+    public void serviceQueryResult(ServiceInstanceID var1, DirectoryEntry[] var2);
 
-    default public void serviceQueryFailed(ServiceInstanceID serviceInstanceID, int n) {
-    }
+    public void serviceQueryFailed(ServiceInstanceID var1, int var2);
 }
 

@@ -12,7 +12,6 @@ extends Command {
         super("Timer");
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doTimer();
     }

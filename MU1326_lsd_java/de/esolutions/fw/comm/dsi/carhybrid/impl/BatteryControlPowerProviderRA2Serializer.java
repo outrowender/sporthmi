@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlPowerProviderRA2;
 
 public class BatteryControlPowerProviderRA2Serializer {
-    public static void putOptionalBatteryControlPowerProviderRA2(ISerializer iSerializer, BatteryControlPowerProviderRA2 batteryControlPowerProviderRA2) {
+    public static void putOptionalBatteryControlPowerProviderRA2(ISerializer iSerializer, BatteryControlPowerProviderRA2 batteryControlPowerProviderRA2) throws SerializerException {
         boolean bl = batteryControlPowerProviderRA2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BatteryControlPowerProviderRA2Serializer {
         }
     }
 
-    public static void putOptionalBatteryControlPowerProviderRA2VarArray(ISerializer iSerializer, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) {
+    public static void putOptionalBatteryControlPowerProviderRA2VarArray(ISerializer iSerializer, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) throws SerializerException {
         boolean bl = batteryControlPowerProviderRA2Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BatteryControlPowerProviderRA2Serializer {
         }
     }
 
-    public static BatteryControlPowerProviderRA2 getOptionalBatteryControlPowerProviderRA2(IDeserializer iDeserializer) {
+    public static BatteryControlPowerProviderRA2 getOptionalBatteryControlPowerProviderRA2(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlPowerProviderRA2 batteryControlPowerProviderRA2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class BatteryControlPowerProviderRA2Serializer {
         return batteryControlPowerProviderRA2;
     }
 
-    public static BatteryControlPowerProviderRA2[] getOptionalBatteryControlPowerProviderRA2VarArray(IDeserializer iDeserializer) {
+    public static BatteryControlPowerProviderRA2[] getOptionalBatteryControlPowerProviderRA2VarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

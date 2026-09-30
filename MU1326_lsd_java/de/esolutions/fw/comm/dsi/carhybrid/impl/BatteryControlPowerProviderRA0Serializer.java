@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlWeekdaysSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlPowerProviderRA0;
 import org.dsi.ifc.carhybrid.BatteryControlWeekdays;
 
 public class BatteryControlPowerProviderRA0Serializer {
-    public static void putOptionalBatteryControlPowerProviderRA0(ISerializer iSerializer, BatteryControlPowerProviderRA0 batteryControlPowerProviderRA0) {
+    public static void putOptionalBatteryControlPowerProviderRA0(ISerializer iSerializer, BatteryControlPowerProviderRA0 batteryControlPowerProviderRA0) throws SerializerException {
         boolean bl = batteryControlPowerProviderRA0 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class BatteryControlPowerProviderRA0Serializer {
         }
     }
 
-    public static void putOptionalBatteryControlPowerProviderRA0VarArray(ISerializer iSerializer, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) {
+    public static void putOptionalBatteryControlPowerProviderRA0VarArray(ISerializer iSerializer, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) throws SerializerException {
         boolean bl = batteryControlPowerProviderRA0Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class BatteryControlPowerProviderRA0Serializer {
         }
     }
 
-    public static BatteryControlPowerProviderRA0 getOptionalBatteryControlPowerProviderRA0(IDeserializer iDeserializer) {
+    public static BatteryControlPowerProviderRA0 getOptionalBatteryControlPowerProviderRA0(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlPowerProviderRA0 batteryControlPowerProviderRA0 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class BatteryControlPowerProviderRA0Serializer {
         return batteryControlPowerProviderRA0;
     }
 
-    public static BatteryControlPowerProviderRA0[] getOptionalBatteryControlPowerProviderRA0VarArray(IDeserializer iDeserializer) {
+    public static BatteryControlPowerProviderRA0[] getOptionalBatteryControlPowerProviderRA0VarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

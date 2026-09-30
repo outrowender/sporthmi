@@ -22,66 +22,66 @@ import java.util.List;
 
 public abstract class StringUtility
 implements Alignment {
-    public static final int MAX_CHARACTER_PER_LINE;
-    private static final char REPLACE_TOKEN;
-    public static final char AUTO_COUNT_TOKEN;
-    private static final char AUTO_COUNT_ZERO;
-    private static final char AUTO_COUNT_ONE;
-    private static final char AUTO_COUNT_ZERO_ZERO;
-    private static final char AUTO_COUNT_ZERO_ONE;
-    private static final int MAX_CHARS;
-    public static final char ELLIPSIS;
-    public static final char EMPTY_SPACE;
-    public static final String SPACE;
-    public static final char ESO_LTR_SPACE;
-    public static final char ESO_RTL_SPACE;
-    public static final char LA_CHAR_1;
-    public static final char LA_CHAR_2;
-    public static final char LA_CHAR_3;
-    public static final char LA_CHAR_4;
-    public static final String LA_STRING_1;
-    public static final String LA_STRING_2;
-    public static final String LA_STRING_3;
-    public static final String LA_STRING_4;
-    public static final char HYPHEN;
-    public static final char COMMA;
-    public static final char SLASH;
-    public static final char BACKSLASH;
-    public static final char DOT;
-    public static final char COLON;
-    public static final char SEMICOLON;
-    public static final char UNDERLINE;
-    public static final char NEW_LINE;
-    public static final char BACKSPACE;
-    public static final char CARRIAGE_RETURN;
-    public static final char CONDENSED_CHAR_OFFSET;
-    public static final char NULL_CHAR;
-    public static final char BULLET;
-    public static final char FULL_WIDTH_FULL_STOP;
-    public static final int WRAP_MODE_STANDARD;
-    public static final int WRAP_MODE_SDS;
-    public static final int WRAP_MODE_FREETEXT_INPUT;
-    private static final Buffer REUSED_CONCAT_BUFFER;
-    public static final String LTR_MARK;
-    public static final char LTR_MARK_CHAR;
-    public static final String RTL_MARK;
-    public static final char RTL_MARK_CHAR;
-    public static final String RTL_AND_LTR_MARK;
-    public static final int ORIENTATION_HINT_NONE;
-    public static final int ORIENTATION_HINT_LTR;
-    public static final int ORIENTATION_HINT_RTL;
-    public static final int ORIENTATION_HINT_LTR_IN_LTR_CONTEXT;
-    public static final int ORIENTATION_HINT_LTR_IN_RTL_CONTEXT;
-    public static final int ORIENTATION_HINT_RTL_IN_LTR_CONTEXT;
-    public static final int ORIENTATION_HINT_RTL_IN_RTL_CONTEXT;
-    public static final int ORIENTATION_HINT_RTL_IN_RTL_CONTEXT_WITHOUT_REPLACEMENTS;
-    public static final int CONTEXT_TYPE_NONE;
-    public static final int CONTEXT_TYPE_ARABIC;
-    public static final int CONTEXT_TYPE_LATIN;
-    public static final int CONTEXT_TYPE_DIGIT;
-    public static final int ORIENTATION_HINT_CURRENT;
-    public static final int ORIENTATION_HINT_OPPOSITE_TO_CURRENT;
-    public static final int ORIENTATION_HINT_RTL_AND_LTR_IN_RTL_CONTEXT;
+    public static final int MAX_CHARACTER_PER_LINE = 90;
+    private static final char REPLACE_TOKEN = '%';
+    public static final char AUTO_COUNT_TOKEN = 'I';
+    private static final char AUTO_COUNT_ZERO = '0';
+    private static final char AUTO_COUNT_ONE = '1';
+    private static final char AUTO_COUNT_ZERO_ZERO = '2';
+    private static final char AUTO_COUNT_ZERO_ONE = '3';
+    private static final int MAX_CHARS = 256;
+    public static final char ELLIPSIS = '\u2026';
+    public static final char EMPTY_SPACE = ' ';
+    public static final String SPACE = " ";
+    public static final char ESO_LTR_SPACE = '\uf2f2';
+    public static final char ESO_RTL_SPACE = '\u05f0';
+    public static final char LA_CHAR_1 = '\ufefb';
+    public static final char LA_CHAR_2 = '\ufef5';
+    public static final char LA_CHAR_3 = '\ufef7';
+    public static final char LA_CHAR_4 = '\ufef9';
+    public static final String LA_STRING_1 = "\u0644\u0627";
+    public static final String LA_STRING_2 = "\u0644\u0622";
+    public static final String LA_STRING_3 = "\u0644\u0623";
+    public static final String LA_STRING_4 = "\u0644\u0625";
+    public static final char HYPHEN = '-';
+    public static final char COMMA = ',';
+    public static final char SLASH = '/';
+    public static final char BACKSLASH = '\\';
+    public static final char DOT = '.';
+    public static final char COLON = ':';
+    public static final char SEMICOLON = ';';
+    public static final char UNDERLINE = '_';
+    public static final char NEW_LINE = '\n';
+    public static final char BACKSPACE = '\b';
+    public static final char CARRIAGE_RETURN = '\r';
+    public static final char CONDENSED_CHAR_OFFSET = '\ue000';
+    public static final char NULL_CHAR = '\u0000';
+    public static final char BULLET = '\u2022';
+    public static final char FULL_WIDTH_FULL_STOP = '\u3002';
+    public static final int WRAP_MODE_STANDARD = 0;
+    public static final int WRAP_MODE_SDS = 1;
+    public static final int WRAP_MODE_FREETEXT_INPUT = 2;
+    private static final Buffer REUSED_CONCAT_BUFFER = new Buffer();
+    public static final String LTR_MARK = "\u200e";
+    public static final char LTR_MARK_CHAR = '\u200e';
+    public static final String RTL_MARK = "\u200f";
+    public static final char RTL_MARK_CHAR = '\u200f';
+    public static final String RTL_AND_LTR_MARK = "\u200f\u200e";
+    public static final int ORIENTATION_HINT_NONE = 0;
+    public static final int ORIENTATION_HINT_LTR = 1;
+    public static final int ORIENTATION_HINT_RTL = 2;
+    public static final int ORIENTATION_HINT_LTR_IN_LTR_CONTEXT = 3;
+    public static final int ORIENTATION_HINT_LTR_IN_RTL_CONTEXT = 4;
+    public static final int ORIENTATION_HINT_RTL_IN_LTR_CONTEXT = 5;
+    public static final int ORIENTATION_HINT_RTL_IN_RTL_CONTEXT = 6;
+    public static final int ORIENTATION_HINT_RTL_IN_RTL_CONTEXT_WITHOUT_REPLACEMENTS = 7;
+    public static final int CONTEXT_TYPE_NONE = 0;
+    public static final int CONTEXT_TYPE_ARABIC = 1;
+    public static final int CONTEXT_TYPE_LATIN = 2;
+    public static final int CONTEXT_TYPE_DIGIT = 3;
+    public static final int ORIENTATION_HINT_CURRENT = 8;
+    public static final int ORIENTATION_HINT_OPPOSITE_TO_CURRENT = 9;
+    public static final int ORIENTATION_HINT_RTL_AND_LTR_IN_RTL_CONTEXT = 10;
     protected Buffer strBuffer = new Buffer(128);
     private final char[] currentString = new char[257];
     protected HMITerminalImpl terminal;
@@ -165,14 +165,11 @@ implements Alignment {
         return string2;
     }
 
-    public abstract int getCharWidth(char c2) {
-    }
+    public abstract int getCharWidth(char var1);
 
-    public abstract int getStringWidth(String string) {
-    }
+    public abstract int getStringWidth(String var1);
 
-    protected abstract int getStringWidth(char[] cArray, int n, int n2) {
-    }
+    protected abstract int getStringWidth(char[] var1, int var2, int var3);
 
     public String processTextReplacement(String string, HMIService hMIService, int[] nArray, int n) {
         return this.processTextReplacement(string, hMIService, nArray, null, n, null, null, true);
@@ -243,12 +240,12 @@ implements Alignment {
 
     public static boolean isArabicChar(char c2) {
         char c3 = c2;
-        boolean bl = c2 == '\u200f' || c2 == '\u05f0' || c3 >= '\u0600' && c3 <= '\u06ff' || c3 >= '\u50fb0000' && c3 <= '\ufffd0000' || c3 >= '\u70fe0000' && c3 <= '\ufffe0000';
+        boolean bl = c2 == '\u200f' || c2 == '\u05f0' || c3 >= '\u0600' && c3 <= '\u06ff' || c3 >= '\ufb50' && c3 <= '\ufdff' || c3 >= '\ufe70' && c3 <= '\ufeff';
         return bl;
     }
 
     public static boolean isLatinChar(char c2) {
-        return c2 == '\uf2f20000' || Character.isLetter(c2) && !StringUtility.isArabicChar(c2);
+        return c2 == '\uf2f2' || Character.isLetter(c2) && !StringUtility.isArabicChar(c2);
     }
 
     public static int[] getTextContext(String string) {
@@ -305,7 +302,7 @@ implements Alignment {
             if (nArray3 != null && nArray3.length > 0) {
                 int n2 = n - 1;
                 if (nArray3.length == 1 && n2 != 0) {
-                    AbstractWidget.logChannel.log(-1601830656, "StringUtility#processString illegal replacementIndex %1 for single fixed value", (long)n2);
+                    AbstractWidget.logChannel.log(100000, "StringUtility#processString illegal replacementIndex %1 for single fixed value", (long)n2);
                     n2 = 0;
                 }
                 int n3 = nArray3[n2];
@@ -342,11 +339,11 @@ implements Alignment {
                                 this.strBuffer.append(string);
                                 break;
                             }
-                            AbstractWidget.logChannel.log(-1601830656, "StringUtility#processTextReplacement mapped choice model. textID is: %1 replacementText is null", (long)nArray2[n4]);
+                            AbstractWidget.logChannel.log(100000, "StringUtility#processTextReplacement mapped choice model. textID is: %1 replacementText is null", (long)nArray2[n4]);
                             this.strBuffer.append(' ');
                             break;
                         }
-                        AbstractWidget.logChannel.log(-1601830656, "StringUtility#processTextReplacement mapped choice model. index: %1 is out of range: 0..%2", (long)n4, (long)nArray2.length);
+                        AbstractWidget.logChannel.log(100000, "StringUtility#processTextReplacement mapped choice model. index: %1 is out of range: 0..%2", (long)n4, (long)nArray2.length);
                         this.strBuffer.append(' ');
                         break;
                     }
@@ -392,14 +389,14 @@ implements Alignment {
                 int n2 = nArray[n];
                 string = this.abbreviateTextEllipsis(string, n2, false);
             } else if (nArray.length > 0) {
-                AbstractWidget.logChannel.log(-1601830656, "StringUtility#processReplacementMaxWidth replacementMaxWidth array has insufficient length: %1 value for index %2 requested, taking value for index 0 instead", (long)nArray.length, (long)n);
+                AbstractWidget.logChannel.log(100000, "StringUtility#processReplacementMaxWidth replacementMaxWidth array has insufficient length: %1 value for index %2 requested, taking value for index 0 instead", (long)nArray.length, (long)n);
                 int n3 = nArray[0];
                 string = this.abbreviateTextEllipsis(string, n3, false);
             } else {
                 AbstractWidget.logChannel.log(10000, "StringUtility#processReplacementMaxWidth arrayIndex: %1", (long)n);
             }
         } else {
-            AbstractWidget.logChannel.log(1078071040, "StringUtility#processReplacementMaxWidth modelText is null. modelText: %1", (Object)string);
+            AbstractWidget.logChannel.log(1000000, "StringUtility#processReplacementMaxWidth modelText is null. modelText: %1", (Object)string);
         }
         return string;
     }
@@ -534,7 +531,7 @@ implements Alignment {
     }
 
     public static boolean isAsiaCharacter(char c2) {
-        return Character$UnicodeBlock.of(c2) == Character$UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS || Character$UnicodeBlock.of(c2) == Character$UnicodeBlock.HIRAGANA || Character$UnicodeBlock.of(c2) == Character$UnicodeBlock.KATAKANA;
+        return Character.UnicodeBlock.of(c2) == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS || Character.UnicodeBlock.of(c2) == Character.UnicodeBlock.HIRAGANA || Character.UnicodeBlock.of(c2) == Character.UnicodeBlock.KATAKANA;
     }
 
     public static boolean isFullWidthAsiaCharacter(char c2) {
@@ -668,8 +665,7 @@ implements Alignment {
         return n3 - 1;
     }
 
-    protected abstract int getFontBaseline() {
-    }
+    protected abstract int getFontBaseline();
 
     public static String sanitizeCharactersForLogging(String string) {
         Buffer buffer = new Buffer();
@@ -707,7 +703,7 @@ implements Alignment {
         int n = buffer.length();
         for (int i2 = 0; i2 < n; ++i2) {
             char c2 = buffer.charAt(i2);
-            c2 = (char)(c2 + 0xE00000);
+            c2 = (char)(c2 + 57344);
             buffer2.append(c2);
         }
         buffer.clear();
@@ -715,7 +711,7 @@ implements Alignment {
     }
 
     public static boolean isBlankChar(char c2) {
-        return c2 == ' ' || c2 == '\uf2f20000' || c2 == '\u05f0';
+        return c2 == ' ' || c2 == '\uf2f2' || c2 == '\u05f0';
     }
 
     public static String concatenate(char c2, String string) {
@@ -819,50 +815,50 @@ implements Alignment {
                 return null;
             }
             case 1: {
-                return "\u200e";
+                return LTR_MARK;
             }
             case 2: {
-                return "\u200f";
+                return RTL_MARK;
             }
             case 3: {
                 if (bl) {
-                    return "\u200e";
+                    return LTR_MARK;
                 }
                 return null;
             }
             case 4: {
                 if (!bl) {
-                    return "\u200e";
+                    return LTR_MARK;
                 }
                 return null;
             }
             case 5: {
                 if (bl) {
-                    return "\u200f";
+                    return RTL_MARK;
                 }
                 return null;
             }
             case 6: {
                 if (!bl) {
-                    return "\u200f";
+                    return RTL_MARK;
                 }
                 return null;
             }
             case 8: {
                 if (bl) {
-                    return "\u200e";
+                    return LTR_MARK;
                 }
-                return "\u200f";
+                return RTL_MARK;
             }
             case 9: {
                 if (bl) {
-                    return "\u200f";
+                    return RTL_MARK;
                 }
-                return "\u200e";
+                return LTR_MARK;
             }
             case 10: {
                 if (!bl) {
-                    return "\u200f\u200e";
+                    return RTL_AND_LTR_MARK;
                 }
                 return null;
             }
@@ -907,10 +903,10 @@ implements Alignment {
     }
 
     public static String revertTextToArabicBlock(String string) {
-        string = StringUtility.replaceAll(string, String.valueOf('\ufbfe0000'), "\u0644\u0627");
-        string = StringUtility.replaceAll(string, String.valueOf('\uf5fe0000'), "\u0644\u0622");
-        string = StringUtility.replaceAll(string, String.valueOf('\uf7fe0000'), "\u0644\u0623");
-        string = StringUtility.replaceAll(string, String.valueOf('\uf9fe0000'), "\u0644\u0625");
+        string = StringUtility.replaceAll(string, String.valueOf('\ufefb'), LA_STRING_1);
+        string = StringUtility.replaceAll(string, String.valueOf('\ufef5'), LA_STRING_2);
+        string = StringUtility.replaceAll(string, String.valueOf('\ufef7'), LA_STRING_3);
+        string = StringUtility.replaceAll(string, String.valueOf('\ufef9'), LA_STRING_4);
         return string;
     }
 
@@ -931,10 +927,6 @@ implements Alignment {
         }
         stringBuffer.append(cArray, n3, cArray.length - n3);
         return stringBuffer.toString();
-    }
-
-    static {
-        REUSED_CONCAT_BUFFER = new Buffer();
     }
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 import de.esolutions.fw.comm.dsi.cardriverassistance.impl.TSDSignInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.TSDSignFct;
 import org.dsi.ifc.cardriverassistance.TSDSignInfo;
 
 public class TSDSignFctSerializer {
-    public static void putOptionalTSDSignFct(ISerializer iSerializer, TSDSignFct tSDSignFct) {
+    public static void putOptionalTSDSignFct(ISerializer iSerializer, TSDSignFct tSDSignFct) throws SerializerException {
         boolean bl = tSDSignFct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class TSDSignFctSerializer {
         }
     }
 
-    public static void putOptionalTSDSignFctVarArray(ISerializer iSerializer, TSDSignFct[] tSDSignFctArray) {
+    public static void putOptionalTSDSignFctVarArray(ISerializer iSerializer, TSDSignFct[] tSDSignFctArray) throws SerializerException {
         boolean bl = tSDSignFctArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class TSDSignFctSerializer {
         }
     }
 
-    public static TSDSignFct getOptionalTSDSignFct(IDeserializer iDeserializer) {
+    public static TSDSignFct getOptionalTSDSignFct(IDeserializer iDeserializer) throws SerializerException {
         TSDSignFct tSDSignFct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class TSDSignFctSerializer {
         return tSDSignFct;
     }
 
-    public static TSDSignFct[] getOptionalTSDSignFctVarArray(IDeserializer iDeserializer) {
+    public static TSDSignFct[] getOptionalTSDSignFctVarArray(IDeserializer iDeserializer) throws SerializerException {
         TSDSignFct[] tSDSignFctArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

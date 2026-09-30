@@ -3,55 +3,41 @@
  */
 package de.esolutions.fw.comm.dsi.carlife;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carlife.AppState;
 import org.dsi.ifc.carlife.Resource;
 import org.dsi.ifc.carlife.ServiceConfiguration;
 import org.dsi.ifc.carlife.TouchEvent;
 
 public interface DSICarlifeC {
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1) throws MethodException;
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2) throws MethodException;
 
-    default public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2) {
-    }
+    public void postTouchEvent(int var1, TouchEvent[] var2, int var3) throws MethodException;
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1) throws MethodException;
 
-    default public void postCharacterEvent(int n, String[] stringArray) {
-    }
+    public void postCharacterEvent(int var1, String[] var2) throws MethodException;
 
-    default public void setMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void setMode(Resource[] var1, AppState[] var2) throws MethodException;
 
-    default public void requestNightMode(boolean bl) {
-    }
+    public void requestNightMode(boolean var1) throws MethodException;
 
-    default public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseModeChange(Resource[] var1, AppState[] var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

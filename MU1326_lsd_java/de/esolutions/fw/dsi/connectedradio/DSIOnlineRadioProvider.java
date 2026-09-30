@@ -26,28 +26,23 @@ implements DSIOnlineRadio {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$connectedradio$DSIOnlineRadio == null ? (class$org$dsi$ifc$connectedradio$DSIOnlineRadio = DSIOnlineRadioProvider.class$("org.dsi.ifc.connectedradio.DSIOnlineRadio")) : class$org$dsi$ifc$connectedradio$DSIOnlineRadio).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIOnlineRadioProxy(this.instance, (DSIOnlineRadioReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getRadioStationLogo(int n, RadioStation radioStation, int n2) {
         try {
             this.proxy.getRadioStationLogo(n, radioStation, n2);
@@ -57,7 +52,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void getStreamUrl(int n, RadioStation radioStation) {
         try {
             this.proxy.getStreamUrl(n, radioStation);
@@ -67,7 +61,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void getMetaInformation(int n, RadioStation radioStation) {
         try {
             this.proxy.getMetaInformation(n, radioStation);
@@ -77,7 +70,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void downloadDatabase(int n) {
         try {
             this.proxy.downloadDatabase(n);
@@ -87,7 +79,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void cancelDownloadDatabase(int n) {
         try {
             this.proxy.cancelDownloadDatabase(n);
@@ -97,7 +88,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -107,7 +97,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -117,7 +106,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -127,7 +115,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -137,7 +124,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -157,7 +142,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -167,7 +151,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -177,7 +160,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -187,7 +169,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -197,7 +178,6 @@ implements DSIOnlineRadio {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -58,12 +58,10 @@ BAPArrayDataList {
         return bl;
     }
 
-    @Override
     public void reset() {
         this.elements.clear();
     }
 
-    @Override
     public int size() {
         return this.elements.size();
     }
@@ -72,27 +70,22 @@ BAPArrayDataList {
         return this.maxElements;
     }
 
-    @Override
     public BAPArrayElement get(int n) {
         return (BAPArrayElement)this.elements.get(n);
     }
 
-    @Override
     public BAPArrayDataList getElements(int n, int n2) {
         return new BAPArrayData(this.elements.subList(n, n + n2), this.maxSize(), this.arrayHeader);
     }
 
-    @Override
     public BAPArrayElement getLast() {
         return this.get(this.size() - 1);
     }
 
-    @Override
     public BAPArrayElement getFirst() {
         return this.get(0);
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         int n;
         boolean bl;
@@ -111,17 +104,14 @@ BAPArrayDataList {
         return bl;
     }
 
-    @Override
     public int bitSize() {
         throw new UnsupportedOperationException("BAP array's are not support bitSize");
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         throw new UnsupportedOperationException("BAP array's are not deserializeable");
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         int n = this.elements.size();
         for (int i2 = 0; i2 < n; ++i2) {
@@ -133,28 +123,23 @@ BAPArrayDataList {
         }
     }
 
-    @Override
     public String toString() {
         return "BAP array";
     }
 
-    @Override
     public Iterator getIterator() {
         return this.elements.iterator();
     }
 
-    @Override
     public BAPArrayElement[] toArray() {
         Object[] objectArray = new BAPArrayElement[this.elements.size()];
         return (BAPArrayElement[])this.elements.toArray(objectArray);
     }
 
-    @Override
     public boolean addToList(List list) {
         return list.addAll(this.elements);
     }
 
-    @Override
     public boolean addToList(int n, List list) {
         return list.addAll(n, this.elements);
     }

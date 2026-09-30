@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconPureAirSetup;
 
 public class AirconPureAirSetupSerializer {
-    public static void putOptionalAirconPureAirSetup(ISerializer iSerializer, AirconPureAirSetup airconPureAirSetup) {
+    public static void putOptionalAirconPureAirSetup(ISerializer iSerializer, AirconPureAirSetup airconPureAirSetup) throws SerializerException {
         boolean bl = airconPureAirSetup == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class AirconPureAirSetupSerializer {
         }
     }
 
-    public static void putOptionalAirconPureAirSetupVarArray(ISerializer iSerializer, AirconPureAirSetup[] airconPureAirSetupArray) {
+    public static void putOptionalAirconPureAirSetupVarArray(ISerializer iSerializer, AirconPureAirSetup[] airconPureAirSetupArray) throws SerializerException {
         boolean bl = airconPureAirSetupArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class AirconPureAirSetupSerializer {
         }
     }
 
-    public static AirconPureAirSetup getOptionalAirconPureAirSetup(IDeserializer iDeserializer) {
+    public static AirconPureAirSetup getOptionalAirconPureAirSetup(IDeserializer iDeserializer) throws SerializerException {
         AirconPureAirSetup airconPureAirSetup = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class AirconPureAirSetupSerializer {
         return airconPureAirSetup;
     }
 
-    public static AirconPureAirSetup[] getOptionalAirconPureAirSetupVarArray(IDeserializer iDeserializer) {
+    public static AirconPureAirSetup[] getOptionalAirconPureAirSetupVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconPureAirSetup[] airconPureAirSetupArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

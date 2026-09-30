@@ -4,16 +4,12 @@
 package de.vw.mib.asl.api.bap.timer;
 
 public interface Timer {
-    default public void retrigger(int n) {
-    }
+    public void retrigger(int var1);
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public boolean isRunning() {
-    }
+    public boolean isRunning();
 
-    default public void setUserInfo(int n) {
-    }
+    public void setUserInfo(int var1);
 }
 

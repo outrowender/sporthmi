@@ -5,12 +5,11 @@ package de.esolutions.fw.comm.comm.broker.v4;
 
 import de.esolutions.fw.comm.comm.broker.v4.AgentUpdateEvent;
 import de.esolutions.fw.comm.comm.broker.v4.UpdateEvent;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface AgentS {
-    default public void serviceUpdate(UpdateEvent[] updateEventArray) {
-    }
+    public void serviceUpdate(UpdateEvent[] var1) throws MethodException;
 
-    default public void agentUpdate(AgentUpdateEvent[] agentUpdateEventArray) {
-    }
+    public void agentUpdate(AgentUpdateEvent[] var1) throws MethodException;
 }
 

@@ -3,40 +3,30 @@
  */
 package de.esolutions.fw.comm.dsi.has;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.has.HASDataContainer;
 
 public interface DSIHASC {
-    default public void hmiReady() {
-    }
+    public void hmiReady() throws MethodException;
 
-    default public void actionResult(int n, int n2, HASDataContainer[] hASDataContainerArray, int n3) {
-    }
+    public void actionResult(int var1, int var2, HASDataContainer[] var3, int var4) throws MethodException;
 
-    default public void propertyUpdate(int n, HASDataContainer[] hASDataContainerArray, int n2) {
-    }
+    public void propertyUpdate(int var1, HASDataContainer[] var2, int var3) throws MethodException;
 
-    default public void subscribeResult(int n, int n2) {
-    }
+    public void subscribeResult(int var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

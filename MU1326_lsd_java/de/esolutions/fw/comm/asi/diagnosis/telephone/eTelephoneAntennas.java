@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eTelephoneAntennas
 extends IEnum {
-    public static final int TELEPHONE_ANTENNA_1;
-    public static final int TELEPHONE_ANTENNA_2;
+    public static final int TELEPHONE_ANTENNA_1 = 0;
+    public static final int TELEPHONE_ANTENNA_2 = 1;
 }
 

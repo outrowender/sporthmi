@@ -10,10 +10,9 @@ import java.util.Hashtable;
 
 class PermissionsHash
 extends PermissionCollection {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -8491988220802933440L;
     Hashtable perms = new Hashtable(8);
 
-    @Override
     public void add(Permission permission) {
         if (this.isReadOnly()) {
             throw new IllegalStateException();
@@ -21,12 +20,10 @@ extends PermissionCollection {
         this.perms.put(permission, permission);
     }
 
-    @Override
     public Enumeration elements() {
         return this.perms.keys();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         Enumeration enumeration = this.elements();
         while (enumeration.hasMoreElements()) {

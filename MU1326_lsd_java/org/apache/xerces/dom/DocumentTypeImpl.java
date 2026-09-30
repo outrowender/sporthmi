@@ -9,7 +9,7 @@ import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.NamedNodeMapImpl;
 import org.apache.xerces.dom.NodeImpl;
 import org.apache.xerces.dom.ParentNode;
-import org.apache.xerces.dom.ParentNode$UserDataRecord;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -18,7 +18,7 @@ import org.w3c.dom.UserDataHandler;
 public class DocumentTypeImpl
 extends ParentNode
 implements DocumentType {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 7751299192316526485L;
     protected String name;
     protected NamedNodeMapImpl entities;
     protected NamedNodeMapImpl notations;
@@ -43,7 +43,6 @@ implements DocumentType {
         this.systemID = string3;
     }
 
-    @Override
     public String getPublicId() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -51,7 +50,6 @@ implements DocumentType {
         return this.publicID;
     }
 
-    @Override
     public String getSystemId() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -66,7 +64,6 @@ implements DocumentType {
         this.internalSubset = string;
     }
 
-    @Override
     public String getInternalSubset() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -74,12 +71,10 @@ implements DocumentType {
         return this.internalSubset;
     }
 
-    @Override
     public short getNodeType() {
         return 10;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -87,7 +82,6 @@ implements DocumentType {
         return this.name;
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         DocumentTypeImpl documentTypeImpl = (DocumentTypeImpl)super.cloneNode(bl);
         documentTypeImpl.entities = this.entities.cloneMap(documentTypeImpl);
@@ -96,16 +90,13 @@ implements DocumentType {
         return documentTypeImpl;
     }
 
-    @Override
-    public String getTextContent() {
+    public String getTextContent() throws DOMException {
         return null;
     }
 
-    @Override
-    public void setTextContent(String string) {
+    public void setTextContent(String string) throws DOMException {
     }
 
-    @Override
     public boolean isEqualNode(Node node) {
         Node node2;
         if (!super.isEqualNode(node)) {
@@ -165,7 +156,6 @@ implements DocumentType {
         return true;
     }
 
-    @Override
     protected void setOwnerDocument(CoreDocumentImpl coreDocumentImpl) {
         super.setOwnerDocument(coreDocumentImpl);
         this.entities.setOwnerDocument(coreDocumentImpl);
@@ -173,7 +163,6 @@ implements DocumentType {
         this.elements.setOwnerDocument(coreDocumentImpl);
     }
 
-    @Override
     protected int getNodeNumber() {
         if (this.getOwnerDocument() != null) {
             return super.getNodeNumber();
@@ -185,7 +174,6 @@ implements DocumentType {
         return this.doctypeNumber;
     }
 
-    @Override
     public String getName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -193,7 +181,6 @@ implements DocumentType {
         return this.name;
     }
 
-    @Override
     public NamedNodeMap getEntities() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -201,7 +188,6 @@ implements DocumentType {
         return this.entities;
     }
 
-    @Override
     public NamedNodeMap getNotations() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -209,7 +195,6 @@ implements DocumentType {
         return this.notations;
     }
 
-    @Override
     public void setReadOnly(boolean bl, boolean bl2) {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -227,7 +212,6 @@ implements DocumentType {
         return this.elements;
     }
 
-    @Override
     public Object setUserData(String string, Object object, UserDataHandler userDataHandler) {
         if (this.userData == null) {
             this.userData = new Hashtable();
@@ -235,33 +219,31 @@ implements DocumentType {
         if (object == null) {
             Object object2;
             if (this.userData != null && (object2 = this.userData.remove(string)) != null) {
-                ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)object2;
-                return parentNode$UserDataRecord.fData;
+                ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)object2;
+                return userDataRecord.fData;
             }
             return null;
         }
-        Object object3 = this.userData.put(string, new ParentNode$UserDataRecord(this, object, userDataHandler));
+        Object object3 = this.userData.put(string, new ParentNode.UserDataRecord(object, userDataHandler));
         if (object3 != null) {
-            ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)object3;
-            return parentNode$UserDataRecord.fData;
+            ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)object3;
+            return userDataRecord.fData;
         }
         return null;
     }
 
-    @Override
     public Object getUserData(String string) {
         if (this.userData == null) {
             return null;
         }
         Object object = this.userData.get(string);
         if (object != null) {
-            ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)object;
-            return parentNode$UserDataRecord.fData;
+            ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)object;
+            return userDataRecord.fData;
         }
         return null;
     }
 
-    @Override
     protected Hashtable getUserDataRecord() {
         return this.userData;
     }

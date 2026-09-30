@@ -7,118 +7,80 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIStartupListener
 extends DSIListener {
-    default public void updateDomainStatusRoot(int n, int n2) {
-    }
+    public void updateDomainStatusRoot(int var1, int var2);
 
-    default public void updateDomainStatusTuner(int n, int n2) {
-    }
+    public void updateDomainStatusTuner(int var1, int var2);
 
-    default public void updateDomainStatusMedia(int n, int n2) {
-    }
+    public void updateDomainStatusMedia(int var1, int var2);
 
-    default public void updateDomainStatusAddressbook(int n, int n2) {
-    }
+    public void updateDomainStatusAddressbook(int var1, int var2);
 
-    default public void updateDomainStatusPhone(int n, int n2) {
-    }
+    public void updateDomainStatusPhone(int var1, int var2);
 
-    default public void updateDomainStatusNav(int n, int n2) {
-    }
+    public void updateDomainStatusNav(int var1, int var2);
 
-    default public void updateDomainStatusInfo(int n, int n2) {
-    }
+    public void updateDomainStatusInfo(int var1, int var2);
 
-    default public void updateDomainStatusCar(int n, int n2) {
-    }
+    public void updateDomainStatusCar(int var1, int var2);
 
-    default public void updateDomainStatusAudio(int n, int n2) {
-    }
+    public void updateDomainStatusAudio(int var1, int var2);
 
-    default public void updateDomainStatusSDS(int n, int n2) {
-    }
+    public void updateDomainStatusSDS(int var1, int var2);
 
-    default public void updateDomainStatusSWDL(int n, int n2) {
-    }
+    public void updateDomainStatusSWDL(int var1, int var2);
 
-    default public void updateDomainStatusEarlyApps(int n, int n2) {
-    }
+    public void updateDomainStatusEarlyApps(int var1, int var2);
 
-    default public void updateDomainStatusPostStartup(int n, int n2) {
-    }
+    public void updateDomainStatusPostStartup(int var1, int var2);
 
-    default public void updateDomainStatusCommunication(int n, int n2) {
-    }
+    public void updateDomainStatusCommunication(int var1, int var2);
 
-    default public void updateDomainStatusIpServices(int n, int n2) {
-    }
+    public void updateDomainStatusIpServices(int var1, int var2);
 
-    default public void updateDomainStatusGEMMI(int n, int n2) {
-    }
+    public void updateDomainStatusGEMMI(int var1, int var2);
 
-    default public void updateDomainStatusBapkombi(int n, int n2) {
-    }
+    public void updateDomainStatusBapkombi(int var1, int var2);
 
-    default public void updateDomainStatusBluetooth(int n, int n2) {
-    }
+    public void updateDomainStatusBluetooth(int var1, int var2);
 
-    default public void updateDomainStatusBrowser(int n, int n2) {
-    }
+    public void updateDomainStatusBrowser(int var1, int var2);
 
-    default public void updateDomainStatusExplorer(int n, int n2) {
-    }
+    public void updateDomainStatusExplorer(int var1, int var2);
 
-    default public void updateDomainStatusCalendar(int n, int n2) {
-    }
+    public void updateDomainStatusCalendar(int var1, int var2);
 
-    default public void updateDomainStatusPictureStore(int n, int n2) {
-    }
+    public void updateDomainStatusPictureStore(int var1, int var2);
 
-    default public void updateDomainStatusStreetView(int n, int n2) {
-    }
+    public void updateDomainStatusStreetView(int var1, int var2);
 
-    default public void updateDomainStatusMobilityHorizon(int n, int n2) {
-    }
+    public void updateDomainStatusMobilityHorizon(int var1, int var2);
 
-    default public void updateDomainStatusExBoxM(int n, int n2) {
-    }
+    public void updateDomainStatusExBoxM(int var1, int var2);
 
-    default public void updateDomainStatusMirrorLink(int n, int n2) {
-    }
+    public void updateDomainStatusMirrorLink(int var1, int var2);
 
-    default public void updateDomainStatusSFA(int n, int n2) {
-    }
+    public void updateDomainStatusSFA(int var1, int var2);
 
-    default public void updateDomainStatusSearch(int n, int n2) {
-    }
+    public void updateDomainStatusSearch(int var1, int var2);
 
-    default public void updateDomainStatusDiagnosis(int n, int n2) {
-    }
+    public void updateDomainStatusDiagnosis(int var1, int var2);
 
-    default public void updateDomainStatusAsiaLanguageSupport(int n, int n2) {
-    }
+    public void updateDomainStatusAsiaLanguageSupport(int var1, int var2);
 
-    default public void updateDomainStatusExLAP(int n, int n2) {
-    }
+    public void updateDomainStatusExLAP(int var1, int var2);
 
-    default public void updateDomainStatusTVTuner(int n, int n2) {
-    }
+    public void updateDomainStatusTVTuner(int var1, int var2);
 
-    default public void updateDomainStatusMediaOnline(int n, int n2) {
-    }
+    public void updateDomainStatusMediaOnline(int var1, int var2);
 
-    default public void updateDomainStatusMediaRouter(int n, int n2) {
-    }
+    public void updateDomainStatusMediaRouter(int var1, int var2);
 
-    default public void updateDomainStatusRadioDataServer(int n, int n2) {
-    }
+    public void updateDomainStatusRadioDataServer(int var1, int var2);
 
-    default public void updateDomainStatusSmartphoneIntegration(int n, int n2) {
-    }
+    public void updateDomainStatusSmartphoneIntegration(int var1, int var2);
 
-    default public void updateDomainStatusWirelessCharger(int n, int n2) {
-    }
+    public void updateDomainStatusWirelessCharger(int var1, int var2);
 
-    default public void startDomain(int n, int n2) {
-    }
+    public void startDomain(int var1, int var2);
 }
 

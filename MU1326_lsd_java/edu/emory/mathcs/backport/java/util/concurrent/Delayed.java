@@ -7,7 +7,6 @@ import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 
 public interface Delayed
 extends Comparable {
-    default public long getDelay(TimeUnit timeUnit) {
-    }
+    public long getDelay(TimeUnit var1);
 }
 

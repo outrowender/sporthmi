@@ -19,14 +19,14 @@ import java.util.MapEntry;
 
 public class Properties
 extends Hashtable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4112578634029874840L;
     protected Properties defaults;
-    private static final int NONE;
-    private static final int SLASH;
-    private static final int UNICODE;
-    private static final int CONTINUE;
-    private static final int KEY_DONE;
-    private static final int IGNORE;
+    private static final int NONE = 0;
+    private static final int SLASH = 1;
+    private static final int UNICODE = 2;
+    private static final int CONTINUE = 3;
+    private static final int KEY_DONE = 4;
+    private static final int IGNORE = 5;
     private static String lineSeparator;
 
     public Properties() {
@@ -163,7 +163,7 @@ extends Hashtable {
     /*
      * Enabled aggressive block sorting
      */
-    public synchronized void load(InputStream inputStream) {
+    public synchronized void load(InputStream inputStream) throws IOException {
         int n = 0;
         int n2 = 0;
         int n3 = 0;
@@ -349,16 +349,16 @@ extends Hashtable {
         return this.put(string, string2);
     }
 
-    public synchronized void store(OutputStream outputStream, String string) {
+    public synchronized void store(OutputStream outputStream, String string) throws IOException {
         if (lineSeparator == null) {
             lineSeparator = (String)AccessController.doPrivileged(new PriviAction("line.separator"));
         }
         StringBuffer stringBuffer = new StringBuffer(200);
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "ISO8859_1");
         if (string != null) {
-            outputStreamWriter.write(new StringBuffer("#").append(string).append(lineSeparator).toString());
+            outputStreamWriter.write("#" + string + lineSeparator);
         }
-        outputStreamWriter.write(new StringBuffer("#").append(new Date()).append(lineSeparator).toString());
+        outputStreamWriter.write("#" + new Date() + lineSeparator);
         Iterator iterator = this.entrySet().iterator();
         while (iterator.hasNext()) {
             MapEntry mapEntry = (MapEntry)iterator.next();

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.bcf;
 
@@ -10,6 +7,7 @@ import de.esolutions.fw.util.config.bcf.BCFStringPool;
 import de.esolutions.fw.util.config.model.ConfigArray;
 import de.esolutions.fw.util.config.model.ConfigDictionary;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public class BCFConfigWriterCounter
 implements IConfigExporter {
@@ -39,8 +37,7 @@ implements IConfigExporter {
         this.pool.addString(string);
     }
 
-    @Override
-    public void beginDictionary(ConfigDictionary configDictionary, int n) {
+    public void beginDictionary(ConfigDictionary configDictionary, int n) throws WriteConfigException {
         ++this.numElements;
         this.numElementDatas += 2 + n;
         String[] stringArray = configDictionary.getAllDictKeys();
@@ -49,44 +46,35 @@ implements IConfigExporter {
         }
     }
 
-    @Override
-    public void endDictionary() {
+    public void endDictionary() throws WriteConfigException {
     }
 
-    @Override
-    public void beginDictEntry(int n, String string) {
+    public void beginDictEntry(int n, String string) throws WriteConfigException {
     }
 
-    @Override
-    public void endDictEntry(boolean bl) {
+    public void endDictEntry(boolean bl) throws WriteConfigException {
     }
 
-    @Override
-    public void beginArray(ConfigArray configArray, int n) {
+    public void beginArray(ConfigArray configArray, int n) throws WriteConfigException {
         ++this.numElements;
         this.numElementDatas += 2;
     }
 
-    @Override
-    public void endArray() {
+    public void endArray() throws WriteConfigException {
     }
 
-    @Override
-    public void beginArrayEntry(int n) {
+    public void beginArrayEntry(int n) throws WriteConfigException {
     }
 
-    @Override
-    public void endArrayEntry(boolean bl) {
+    public void endArrayEntry(boolean bl) throws WriteConfigException {
     }
 
-    @Override
-    public void writeString(String string) {
+    public void writeString(String string) throws WriteConfigException {
         ++this.numElements;
         this.countString(string);
     }
 
-    @Override
-    public void writeInteger(int n) {
+    public void writeInteger(int n) throws WriteConfigException {
         ++this.numElements;
         if (!(this.bits32 || n >= Short.MIN_VALUE && n <= Short.MAX_VALUE)) {
             String string = Integer.toString(n);
@@ -94,20 +82,17 @@ implements IConfigExporter {
         }
     }
 
-    @Override
-    public void writeDouble(double d2) {
-        String string = Double.toString((double)d2);
+    public void writeDouble(double d2) throws WriteConfigException {
+        String string = Double.toString(d2);
         this.countString(string);
         ++this.numElements;
     }
 
-    @Override
-    public void writeNull() {
+    public void writeNull() throws WriteConfigException {
         ++this.numElements;
     }
 
-    @Override
-    public void writeBoolean(boolean bl) {
+    public void writeBoolean(boolean bl) throws WriteConfigException {
         ++this.numElements;
     }
 }

@@ -30,8 +30,7 @@ AttributesC {
         return this.proxy;
     }
 
-    @Override
-    public void subscribe(long[] lArray, long[] lArray2) {
+    public void subscribe(long[] lArray, long[] lArray2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -43,8 +42,7 @@ AttributesC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void unsubscribe(long[] lArray, long[] lArray2) {
+    public void unsubscribe(long[] lArray, long[] lArray2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -56,13 +54,11 @@ AttributesC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void unsubscribeAll() {
+    public void unsubscribeAll() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void putInts(long[] lArray, long[] lArray2, int[] nArray) {
+    public void putInts(long[] lArray, long[] lArray2, int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -75,8 +71,7 @@ AttributesC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void putStrings(long[] lArray, long[] lArray2, String[] stringArray) {
+    public void putStrings(long[] lArray, long[] lArray2, String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -89,8 +84,7 @@ AttributesC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void putBlobs(long[] lArray, long[] lArray2, short[][] sArray) {
+    public void putBlobs(long[] lArray, long[] lArray2, short[][] sArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);

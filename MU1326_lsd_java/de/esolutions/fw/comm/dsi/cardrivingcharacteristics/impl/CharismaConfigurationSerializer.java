@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.CharismaScreensS
 import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.CharismaTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaOperationMode;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaProfiles;
@@ -16,7 +17,7 @@ import org.dsi.ifc.cardrivingcharacteristics.CharismaScreens;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaTransmittableElements;
 
 public class CharismaConfigurationSerializer {
-    public static void putOptionalCharismaConfiguration(ISerializer iSerializer, CharismaConfiguration charismaConfiguration) {
+    public static void putOptionalCharismaConfiguration(ISerializer iSerializer, CharismaConfiguration charismaConfiguration) throws SerializerException {
         boolean bl = charismaConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class CharismaConfigurationSerializer {
         }
     }
 
-    public static void putOptionalCharismaConfigurationVarArray(ISerializer iSerializer, CharismaConfiguration[] charismaConfigurationArray) {
+    public static void putOptionalCharismaConfigurationVarArray(ISerializer iSerializer, CharismaConfiguration[] charismaConfigurationArray) throws SerializerException {
         boolean bl = charismaConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class CharismaConfigurationSerializer {
         }
     }
 
-    public static CharismaConfiguration getOptionalCharismaConfiguration(IDeserializer iDeserializer) {
+    public static CharismaConfiguration getOptionalCharismaConfiguration(IDeserializer iDeserializer) throws SerializerException {
         CharismaConfiguration charismaConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class CharismaConfigurationSerializer {
         return charismaConfiguration;
     }
 
-    public static CharismaConfiguration[] getOptionalCharismaConfigurationVarArray(IDeserializer iDeserializer) {
+    public static CharismaConfiguration[] getOptionalCharismaConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaConfiguration[] charismaConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,7 +6,7 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.entdrawer;
 import de.esolutions.hmi.widgets.audi.base.IStatusbarGapEventHandler;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController$AnimationTransformation;
+import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerContentController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerOpenCloseController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.entdrawer.EntertainmentDrawerAnimationState;
@@ -20,8 +20,8 @@ implements WidgetConstants {
     private EntertainmentDrawerAnimationState animationStates;
     private int targetState = 1;
     private int screenHeight;
-    public static final int DEFAULT_Y_SCREEN_OFFSET;
-    public static final int EMPTY_GLASS_PLATE_WIDTH;
+    public static final int DEFAULT_Y_SCREEN_OFFSET = 197;
+    public static final int EMPTY_GLASS_PLATE_WIDTH = 300;
 
     public EntertainmentDrawerStateUpdater(EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController, EntertainmentDrawerAnimationState entertainmentDrawerAnimationState, int n) {
         this.entDrawerOpenCloseController = entertainmentDrawerOpenCloseController;
@@ -111,14 +111,14 @@ implements WidgetConstants {
     private void logDifference(EntertainmentDrawerState entertainmentDrawerState, EntertainmentDrawerState entertainmentDrawerState2) {
         String string;
         if (IWidgetLogChannel.logEntertainmentStateUpdater.isDebug() && (string = entertainmentDrawerState.getDifference(entertainmentDrawerState2)).length() > 0) {
-            IWidgetLogChannel.logEntertainmentStateUpdater.log(-2137614336, "EntertainmentDrawerStateUpdater#getTargetDrawState: state has changed:\n%1", (Object)string);
+            IWidgetLogChannel.logEntertainmentStateUpdater.log(10000000, "EntertainmentDrawerStateUpdater#getTargetDrawState: state has changed:\n%1", (Object)string);
         }
     }
 
     private int getDrawerState(int n, EntertainmentDrawerContentController entertainmentDrawerContentController, int n2, List list) {
         if (entertainmentDrawerContentController != null && EntertainmentDrawerContentManager.isPhoneAudioSource(entertainmentDrawerContentController.getAudioSource())) {
             if (n == 2 || n == 1 || n == 6) {
-                IWidgetLogChannel.logEntertainmentStateUpdater.log(-2137614336, "EntertainmentDrawerStateUpdater#getDrawerState: audiosource: phone -> explicitly set drawer state to closed, requested state was: %1", (long)n);
+                IWidgetLogChannel.logEntertainmentStateUpdater.log(10000000, "EntertainmentDrawerStateUpdater#getDrawerState: audiosource: phone -> explicitly set drawer state to closed, requested state was: %1", (long)n);
                 return 1;
             }
             return 0;
@@ -167,7 +167,7 @@ implements WidgetConstants {
         return null;
     }
 
-    private ContainerController$AnimationTransformation getAnimationTransformation(EntertainmentDrawerContentController entertainmentDrawerContentController) {
+    private ContainerController.AnimationTransformation getAnimationTransformation(EntertainmentDrawerContentController entertainmentDrawerContentController) {
         if (entertainmentDrawerContentController != null && entertainmentDrawerContentController.getPreferredHeight() != -1 && entertainmentDrawerContentController.getHideTransformation(true) != null) {
             return entertainmentDrawerContentController.getHideTransformation(true);
         }
@@ -249,11 +249,11 @@ implements WidgetConstants {
         boolean bl2 = n != 0 && n != 3;
         boolean bl3 = bl = entertainmentDrawerContentController != null && entertainmentDrawerContentController.getGlassplateType() == 1;
         if (bl2 || bl) {
-            ContainerController$AnimationTransformation containerController$AnimationTransformation = this.getAnimationTransformation(entertainmentDrawerContentController);
-            float f3 = f2 = containerController$AnimationTransformation != null ? containerController$AnimationTransformation.getTransY() : 0.0f;
+            ContainerController.AnimationTransformation animationTransformation = this.getAnimationTransformation(entertainmentDrawerContentController);
+            float f3 = f2 = animationTransformation != null ? animationTransformation.getTransY() : 0.0f;
         }
         if (entertainmentDrawerContentController != null && entertainmentDrawerContentController.isHeaderVisible() && !EntertainmentDrawerContentManager.isAPSAudioSource(entertainmentDrawerContentController.getAudioSource())) {
-            f2 += 16450;
+            f2 += 48.0f;
         }
         return f2;
     }

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.PAViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class PAViewOptionsSerializer {
-    public static void putOptionalPAViewOptions(ISerializer iSerializer, PAViewOptions pAViewOptions) {
+    public static void putOptionalPAViewOptions(ISerializer iSerializer, PAViewOptions pAViewOptions) throws SerializerException {
         boolean bl = pAViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class PAViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalPAViewOptionsVarArray(ISerializer iSerializer, PAViewOptions[] pAViewOptionsArray) {
+    public static void putOptionalPAViewOptionsVarArray(ISerializer iSerializer, PAViewOptions[] pAViewOptionsArray) throws SerializerException {
         boolean bl = pAViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class PAViewOptionsSerializer {
         }
     }
 
-    public static PAViewOptions getOptionalPAViewOptions(IDeserializer iDeserializer) {
+    public static PAViewOptions getOptionalPAViewOptions(IDeserializer iDeserializer) throws SerializerException {
         PAViewOptions pAViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class PAViewOptionsSerializer {
         return pAViewOptions;
     }
 
-    public static PAViewOptions[] getOptionalPAViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static PAViewOptions[] getOptionalPAViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         PAViewOptions[] pAViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -27,7 +27,6 @@ extends AbstractTraceBackend {
         super("EmergencyRecorder");
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         IConfigQuery iConfigQuery = traceConfigBackend.getQuery();
@@ -39,12 +38,10 @@ extends AbstractTraceBackend {
         this.buffer = new TraceMessageBuffer(n);
     }
 
-    @Override
     public void exit() {
         this.buffer = null;
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         this.buffer.put(iTraceMessage, true);
         return true;
@@ -53,13 +50,12 @@ extends AbstractTraceBackend {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void handleBreak() {
         ITraceMessage[] iTraceMessageArray = this.buffer.getAll();
         if (iTraceMessageArray == null) {
             return;
         }
-        System.out.println(new StringBuffer().append("Dumping ").append(iTraceMessageArray.length).append(" messages").toString());
+        System.out.println("Dumping " + iTraceMessageArray.length + " messages");
         Writer writer = null;
         try {
             writer = new OutputStreamWriter(new FileOutputStream(this.filePath), "UTF-8");
@@ -72,7 +68,7 @@ extends AbstractTraceBackend {
             }
         }
         catch (IOException iOException) {
-            System.out.println(new StringBuffer().append("ERROR writing ER log: ").append(iOException).toString());
+            System.out.println("ERROR writing ER log: " + iOException);
         }
         finally {
             if (writer != null) {

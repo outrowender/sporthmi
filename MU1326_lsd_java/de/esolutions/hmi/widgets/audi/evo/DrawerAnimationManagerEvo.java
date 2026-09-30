@@ -9,7 +9,6 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.audi.tghu.hmi.evo.DrawerAnimationListener;
 import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem;
-import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem$Helper;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractScreenWidget;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
@@ -22,7 +21,6 @@ import de.esolutions.hmi.widgets.audi.base.ScreenMainArea;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation;
 import de.esolutions.hmi.widgets.audi.base.animation.AnimationController;
 import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager;
-import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager$Helper;
 import de.esolutions.hmi.widgets.audi.evo.DrawerFocusManager;
 import de.esolutions.hmi.widgets.audi.evo.HMITerminalEvoImpl;
 import de.esolutions.hmi.widgets.audi.evo.ScreenWidgetEVO;
@@ -44,9 +42,9 @@ DrawerAnimationListener {
     private static final LogChannel LC_DRAWER;
     private static final LogChannel LC_SCREEN;
     private static final boolean ENABLE_MAIN_AREA_DESATURATION_WHEN_PARTIAL_POPUP_OPENS;
-    public static final int DRAWER_COMPONENT_MASK;
-    public static final int ANIMATING_VALUES_MASK;
-    public static final int SCREEN_ANIMATION_MASK;
+    public static final int DRAWER_COMPONENT_MASK = 31;
+    public static final int ANIMATING_VALUES_MASK = 95;
+    public static final int SCREEN_ANIMATION_MASK = 5365;
     private final HMITerminalImpl terminal;
     private final AbstractAnimation[] animations = new AbstractAnimation[14];
     private final float[] currentAnimationValues = new float[14];
@@ -118,18 +116,18 @@ DrawerAnimationListener {
 
     private void setScreenChangeProgress(AbstractScreenWidget abstractScreenWidget, float f2) {
         if (abstractScreenWidget == null) {
-            LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#setScreenChangeProgress screen is NULL");
+            LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#setScreenChangeProgress screen is NULL");
             return;
         }
         this.setScreenChangeProgress(abstractScreenWidget.getMainArea(), f2);
         this.setScreenChangeProgress(abstractScreenWidget.getTitleArea(), f2);
         this.setScreenChangeProgress(abstractScreenWidget.getSpecialAreas(), f2);
-        LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#setScreenChangeProgress called");
+        LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#setScreenChangeProgress called");
     }
 
     private void setScreenChangeProgress(ScreenChangeAnimationItem screenChangeAnimationItem, float f2) {
         if (screenChangeAnimationItem == null) {
-            LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#setScreenChangeProgress screen change animation item is NULL");
+            LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#setScreenChangeProgress screen change animation item is NULL");
             return;
         }
         screenChangeAnimationItem.setScreenChangeProgress(f2);
@@ -201,11 +199,10 @@ DrawerAnimationListener {
         screenChangeAnimationItem.screenChangeFinished();
     }
 
-    @Override
     public void setDrawerState(int n, boolean bl) {
         if (LC_DRAWER.isInfo()) {
             String string = DrawerFocusManager.getStateName(n);
-            LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#setDrawerState state=%1 (%2)", (Object)string, (long)n);
+            LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#setDrawerState state=%1 (%2)", (Object)string, (long)n);
         }
         this.drawerState = n;
         this.newDrawerState = n;
@@ -239,15 +236,15 @@ DrawerAnimationListener {
             if (abstractAnimation != null && abstractAnimation.isAnimating()) {
                 float f5 = abstractAnimation.getTarget();
                 if (f4 != f5) {
-                    LC.log(-1601830656, "DrawerAnimationManagerEvo#updateAnimations target of animation %1 is %2 but should be %3", (double)n, (double)f5, (double)f4);
+                    LC.log(100000, "DrawerAnimationManagerEvo#updateAnimations target of animation %1 is %2 but should be %3", (double)n, (double)f5, (double)f4);
                 }
                 if (f2 == f4) {
-                    LC.log(-2137614336, "DrawerAnimationManagerEvo#updateAnimations target value for running animation %1 has not changed", (Object)DrawerAnimationManager$Helper.getAnimationName(n));
+                    LC.log(10000000, "DrawerAnimationManagerEvo#updateAnimations target value for running animation %1 has not changed", (Object)DrawerAnimationManager.Helper.getAnimationName(n));
                     continue;
                 }
                 if (f2 == f4 && f2 == f5) continue;
-                LC.log(1078071040, "DrawerAnimationManagerEvo#updateAnimations target for running animation %1 changed:", (Object)DrawerAnimationManager$Helper.getAnimationName(n));
-                LC.log(1078071040, "DrawerAnimationManagerEvo#updateAnimations currentTarget=%1, newTarget=%2", (double)f4, (double)f2, 0.0);
+                LC.log(1000000, "DrawerAnimationManagerEvo#updateAnimations target for running animation %1 changed:", (Object)DrawerAnimationManager.Helper.getAnimationName(n));
+                LC.log(1000000, "DrawerAnimationManagerEvo#updateAnimations currentTarget=%1, newTarget=%2", (double)f4, (double)f2, 0.0);
                 this.targetAnimationValues[n] = f2;
                 n2 |= n3;
                 abstractAnimation.setTarget(f2);
@@ -261,7 +258,7 @@ DrawerAnimationListener {
             this.startAnimation(n, f2, f3, f4, abstractAnimation, abstractWidget);
         }
         if (LC.isDebug()) {
-            LC.log(-2137614336, "DrawerAnimationManagerEvo#updateAnimations mask=%1 (%3), targetValues=%2", (Object)Integer.toBinaryString(n2), (Object)Util.arrayToString(this.targetAnimationValues), (Object)DrawerAnimationManager$Helper.getMaskString(n2));
+            LC.log(10000000, "DrawerAnimationManagerEvo#updateAnimations mask=%1 (%3), targetValues=%2", (Object)Integer.toBinaryString(n2), (Object)Util.arrayToString(this.targetAnimationValues), (Object)DrawerAnimationManager.Helper.getMaskString(n2));
         }
         if ((n = this.calculateDesaturation()) != 0) {
             this.fireSetDrawerAnimation(n);
@@ -276,8 +273,8 @@ DrawerAnimationListener {
         }
         if (abstractAnimation != null) {
             if (LC.isInfo()) {
-                LC.log(1078071040, "DrawerAnimationManagerEvo#updateAnimations starting animation %1", (Object)DrawerAnimationManager$Helper.getAnimationName(n));
-                LC.log(1078071040, "DrawerAnimationManagerEvo#updateAnimations from %1 to %2", (double)f4, (double)f2, 0.0);
+                LC.log(1000000, "DrawerAnimationManagerEvo#updateAnimations starting animation %1", (Object)DrawerAnimationManager.Helper.getAnimationName(n));
+                LC.log(1000000, "DrawerAnimationManagerEvo#updateAnimations from %1 to %2", (double)f4, (double)f2, 0.0);
             }
             abstractAnimation.startDynamicAnimation(f3, f2, n2, f2 > 0.0f, abstractWidget);
         }
@@ -301,7 +298,7 @@ DrawerAnimationListener {
                 break;
             }
             default: {
-                LC.log(10000, "DrawerAnimationManagerEvo#getRepaintTarget Cannot get repaintTarget for animation %1", (Object)DrawerAnimationManager$Helper.getAnimationName(n));
+                LC.log(10000, "DrawerAnimationManagerEvo#getRepaintTarget Cannot get repaintTarget for animation %1", (Object)DrawerAnimationManager.Helper.getAnimationName(n));
             }
         }
         return drawerController;
@@ -313,7 +310,7 @@ DrawerAnimationListener {
             if (nArray[0] != n) continue;
             return nArray[1];
         }
-        LC.log(10000, "DrawerAnimationManagerEvo#getAnimationType Cannot get animation type for animation %1", (Object)DrawerAnimationManager$Helper.getAnimationName(n));
+        LC.log(10000, "DrawerAnimationManagerEvo#getAnimationType Cannot get animation type for animation %1", (Object)DrawerAnimationManager.Helper.getAnimationName(n));
         return -1;
     }
 
@@ -400,7 +397,7 @@ DrawerAnimationListener {
             buffer.append(drawerController != null && drawerController.hasRemoteHMIDrawerEntries());
             buffer.append("; mainAreaHasVisibleFocusCursor: ");
             buffer.append(this.mainAreaHasVisibleFocusCursor());
-            LC_DRAWER.log(-2137614336, buffer.toString());
+            LC_DRAWER.log(10000000, buffer.toString());
         }
         return bl;
     }
@@ -430,14 +427,13 @@ DrawerAnimationListener {
         return drawerController != null && !this.selectionDrawerBlocked && this.shouldShowSideDrawerIcons() && drawerController.canOpen();
     }
 
-    @Override
     public void setOptionDrawer(DrawerController drawerController, int n) {
-        LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#setOptionDrawer drawer=%1", (Object)drawerController);
+        LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#setOptionDrawer drawer=%1", (Object)drawerController);
         this.newOptionDrawer = drawerController;
         if (Util.equals(drawerController, this.currentOptionDrawer)) {
             return;
         }
-        LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#setOptionDrawer hiding new drawer %1", (Object)drawerController);
+        LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#setOptionDrawer hiding new drawer %1", (Object)drawerController);
         this.hideDrawer(drawerController);
         if (!this.initialized) {
             this.updateDrawers();
@@ -500,25 +496,22 @@ DrawerAnimationListener {
         }
     }
 
-    @Override
     public void setSelectionDrawer(DrawerController drawerController, int n) {
-        LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#setSelectionDrawer drawer=%1", (Object)drawerController);
+        LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#setSelectionDrawer drawer=%1", (Object)drawerController);
         this.newSelectionDrawer = drawerController;
         if (!this.initialized) {
             this.updateDrawers();
         }
     }
 
-    @Override
     public void setEntertainmentDrawer(DrawerController drawerController, int n) {
         this.currentEntertainmentDrawer = drawerController;
     }
 
-    @Override
     public void setScreen(AbstractScreenWidget abstractScreenWidget, int n) {
-        LC_SCREEN.log(1078071040, "DrawerAnimationManagerEve#setScreen new screen=%1", (Object)abstractScreenWidget);
-        LC_SCREEN.log(1078071040, "DrawerAnimationManagerEve#setScreen current screen=%1", (Object)this.currentScreen);
-        LC_SCREEN.log(1078071040, "DrawerAnimationManagerEve#setScreen old screen=%1", (Object)this.oldScreen);
+        LC_SCREEN.log(1000000, "DrawerAnimationManagerEve#setScreen new screen=%1", (Object)abstractScreenWidget);
+        LC_SCREEN.log(1000000, "DrawerAnimationManagerEve#setScreen current screen=%1", (Object)this.currentScreen);
+        LC_SCREEN.log(1000000, "DrawerAnimationManagerEve#setScreen old screen=%1", (Object)this.oldScreen);
         this.showOptionIcon = abstractScreenWidget.isOptionIconVisible();
         this.optionIconOffsetX = abstractScreenWidget.getOptionIconOffsetX();
         this.optionIconOffsetY = abstractScreenWidget.getOptionIconOffsetY();
@@ -549,22 +542,19 @@ DrawerAnimationListener {
         }
     }
 
-    @Override
     public void registerListener(DrawerAnimationListener drawerAnimationListener) {
         if (!this.listeners.contains(drawerAnimationListener)) {
             this.listeners.add(drawerAnimationListener);
         } else {
-            LC.log(-1601830656, new StringBuffer().append("DrawerAnimationManagerEvo#registerListener : Listener is already registered in the list - %1  ").append(drawerAnimationListener).toString());
+            LC.log(100000, "DrawerAnimationManagerEvo#registerListener : Listener is already registered in the list - %1  " + drawerAnimationListener);
         }
         drawerAnimationListener.initializeDrawerAnimation(this.currentAnimationValues, this.targetAnimationValues);
     }
 
-    @Override
     public void unregisterListener(DrawerAnimationListener drawerAnimationListener) {
         this.listeners.remove(drawerAnimationListener);
     }
 
-    @Override
     public void setViewSize(int n, boolean bl) {
         this.viewSize = n;
         if (!bl) {
@@ -574,7 +564,6 @@ DrawerAnimationListener {
         this.fireDrawerAnimationTargetChanged(this.updateAnimations());
     }
 
-    @Override
     public void setSdsState(float f2, boolean bl) {
         this.targetSdsState = f2;
         if (!bl) {
@@ -600,11 +589,11 @@ DrawerAnimationListener {
             return;
         }
         if (LC.isInfo()) {
-            LC.log(1078071040, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged mask=%1", (Object)Integer.toBinaryString(n));
+            LC.log(1000000, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged mask=%1", (Object)Integer.toBinaryString(n));
             if (LC.isDebug()) {
-                LC.log(-2137614336, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged mask=%1", (Object)DrawerAnimationManager$Helper.getMaskString(n));
-                LC.log(-2137614336, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
-                LC.log(-2137614336, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged target =%1", (Object)Util.arrayToString(this.targetAnimationValues));
+                LC.log(10000000, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged mask=%1", (Object)DrawerAnimationManager.Helper.getMaskString(n));
+                LC.log(10000000, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
+                LC.log(10000000, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged target =%1", (Object)Util.arrayToString(this.targetAnimationValues));
             }
         }
         this.fireDrawerAnimationTargetChanged(16, n);
@@ -637,13 +626,13 @@ DrawerAnimationListener {
         DrawerMain drawerMain = drawerController.getDrawerMain();
         if (drawerMain != null && (drawerMain.getDrawerAnimationMask() & n2) != 0) {
             if (LC_DRAWER.isDebug2()) {
-                LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged main changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
+                LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged main changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
             }
             drawerMain.drawerAnimationTargetChanged(this.currentAnimationValues, this.targetAnimationValues, n2);
         }
         if ((drawerIcon = drawerController.getDrawerIcon()) != null && (drawerIcon.getDrawerAnimationMask() & n2) != 0) {
             if (LC_DRAWER.isDebug2()) {
-                LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged icon changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
+                LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#fireDrawerAnimationTargetChanged icon changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
             }
             drawerIcon.drawerAnimationTargetChanged(this.currentAnimationValues, this.targetAnimationValues, n2);
         }
@@ -669,9 +658,9 @@ DrawerAnimationListener {
             return;
         }
         if (LC.isDebug2()) {
-            LC.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation mask=%1 (%2)", (Object)Integer.toBinaryString(n), (Object)DrawerAnimationManager$Helper.getMaskString(n));
-            LC.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
-            LC.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation target =%1", (Object)Util.arrayToString(this.targetAnimationValues));
+            LC.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation mask=%1 (%2)", (Object)Integer.toBinaryString(n), (Object)DrawerAnimationManager.Helper.getMaskString(n));
+            LC.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
+            LC.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation target =%1", (Object)Util.arrayToString(this.targetAnimationValues));
         }
         this.fireSetDrawerAnimation(16, n);
         this.fireSetDrawerAnimation(8, n);
@@ -691,12 +680,12 @@ DrawerAnimationListener {
             return;
         }
         if (LC.isInfo()) {
-            LC.log(1078071040, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished mask=%1", (Object)Integer.toBinaryString(n));
+            LC.log(1000000, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished mask=%1", (Object)Integer.toBinaryString(n));
         }
         if (LC.isDebug()) {
-            LC.log(-2137614336, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished mask=%1", (Object)DrawerAnimationManager$Helper.getMaskString(n));
-            LC.log(-2137614336, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
-            LC.log(-2137614336, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished target =%1", (Object)Util.arrayToString(this.targetAnimationValues));
+            LC.log(10000000, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished mask=%1", (Object)DrawerAnimationManager.Helper.getMaskString(n));
+            LC.log(10000000, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
+            LC.log(10000000, "DrawerAnimationManagerEvo#fireDrawerAnimationFinished target =%1", (Object)Util.arrayToString(this.targetAnimationValues));
         }
         this.fireDrawerAnimationFinished(16, n);
         this.fireDrawerAnimationFinished(8, n);
@@ -753,11 +742,11 @@ DrawerAnimationListener {
         DrawerIcon drawerIcon;
         if (n == 16) {
             if ((n2 & 0x14F5) != 0 && this.currentScreen != null) {
-                LC_SCREEN.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation setting animation on main screen area");
+                LC_SCREEN.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation setting animation on main screen area");
                 this.fireSetDrawerAnimation(this.currentScreen.getMainArea(), n2);
-                LC_SCREEN.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation setting animation on title screen area");
+                LC_SCREEN.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation setting animation on title screen area");
                 this.fireSetDrawerAnimation(this.currentScreen.getTitleArea(), n2);
-                LC_SCREEN.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation setting animation on special screen areas");
+                LC_SCREEN.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation setting animation on special screen areas");
                 this.fireSetDrawerAnimation(this.currentScreen.getSpecialAreas(), n2);
             }
             return;
@@ -769,13 +758,13 @@ DrawerAnimationListener {
         DrawerMain drawerMain = drawerController.getDrawerMain();
         if (drawerMain != null && (drawerMain.getDrawerAnimationMask() & n2) != 0) {
             if (LC_DRAWER.isDebug2()) {
-                LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation main changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
+                LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation main changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
             }
             drawerMain.setDrawerAnimation(this.currentAnimationValues, this.targetAnimationValues, n2);
         }
         if ((drawerIcon = drawerController.getDrawerIcon()) != null && (drawerIcon.getDrawerAnimationMask() & n2) != 0) {
             if (LC_DRAWER.isDebug2()) {
-                LC_DRAWER.log(14808325, "DrawerAnimationManagerEvo#fireSetDrawerAnimation icon changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
+                LC_DRAWER.log(100000000, "DrawerAnimationManagerEvo#fireSetDrawerAnimation icon changed of drawer %1", (Object)DrawerFocusManager.getStateName(n));
             }
             if (DrawerAnimationManagerEvo.isG24MMIKombi() && this.isMapScreen) {
                 int n3 = 5;
@@ -807,7 +796,6 @@ DrawerAnimationListener {
         }
     }
 
-    @Override
     public void setDesaturationRequest(float f2, int n) {
         float f3;
         int n2 = 0;
@@ -830,21 +818,20 @@ DrawerAnimationListener {
         boolean bl;
         boolean bl2 = bl = this.viewSize != 1 && this.drawerState != 4 && this.drawerState != 8;
         if (!bl) {
-            LC_DRAWER.log(-2137614336, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons small view size or opened side drawers -> hiding icons");
+            LC_DRAWER.log(10000000, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons small view size or opened side drawers -> hiding icons");
             return false;
         }
         if (this.currentScreen == null) {
-            LC_DRAWER.log(-2137614336, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons no screen -> showing icons");
+            LC_DRAWER.log(10000000, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons no screen -> showing icons");
             return true;
         }
         int n = this.currentScreen.getDrawerVisibility();
-        LC_DRAWER.log(-2137614336, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons screen drawerVisibility flag: %1", (long)n);
+        LC_DRAWER.log(10000000, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons screen drawerVisibility flag: %1", (long)n);
         boolean bl3 = n == 0 || n == 2;
-        LC_DRAWER.log(-2137614336, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons returning %1", bl3);
+        LC_DRAWER.log(10000000, "DrawerAnimationManagerEvo#shouldShowSideDrawerIcons returning %1", bl3);
         return bl3;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         int n3 = this.getAnimationIndex(n);
         if (n3 < 0) {
@@ -852,8 +839,8 @@ DrawerAnimationListener {
             return;
         }
         if (LC.isDebug2()) {
-            LC.log(14808325, "DrawerAnimationManagerEvo#animate animationIndex=%2 (%1)", (Object)DrawerAnimationManager$Helper.getAnimationName(n3), (long)n3);
-            LC.log(14808325, "DrawerAnimationManagerEvo#animate value=%1", (double)f2);
+            LC.log(100000000, "DrawerAnimationManagerEvo#animate animationIndex=%2 (%1)", (Object)DrawerAnimationManager.Helper.getAnimationName(n3), (long)n3);
+            LC.log(100000000, "DrawerAnimationManagerEvo#animate value=%1", (double)f2);
         }
         this.currentAnimationValues[n3] = f2;
         int n4 = 1 << n3;
@@ -861,11 +848,9 @@ DrawerAnimationListener {
         this.fireDrawerAnimationTargetChanged(this.updateAnimations());
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         int n3 = this.getAnimationIndex(n);
         if (n3 < 0) {
@@ -874,8 +859,8 @@ DrawerAnimationListener {
         }
         float f2 = this.targetAnimationValues[n3];
         if (LC.isDebug()) {
-            LC.log(-2137614336, "DrawerAnimationManagerEvo#animationFinished animationIndex=%2 (%1)", (Object)DrawerAnimationManager$Helper.getAnimationName(n3), (long)n3);
-            LC.log(-2137614336, "DrawerAnimationManagerEvo#animationFinished target value=%1", (double)f2);
+            LC.log(10000000, "DrawerAnimationManagerEvo#animationFinished animationIndex=%2 (%1)", (Object)DrawerAnimationManager.Helper.getAnimationName(n3), (long)n3);
+            LC.log(10000000, "DrawerAnimationManagerEvo#animationFinished target value=%1", (double)f2);
         }
         this.currentAnimationValues[n3] = f2;
         this.fireDrawerAnimationFinished(1 << n3);
@@ -931,12 +916,12 @@ DrawerAnimationListener {
         }
         this.currentAnimationValues[11] = this.drawerDesaturationValue;
         if (LC.isDebug2()) {
-            LC.log(14808325, "DrawerAnimationManagerEvo#calculateDesaturation current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
-            LC.log(14808325, "DrawerAnimationManagerEvo#calculateDesaturation target=%1", (Object)Util.arrayToString(this.targetAnimationValues));
+            LC.log(100000000, "DrawerAnimationManagerEvo#calculateDesaturation current=%1", (Object)Util.arrayToString(this.currentAnimationValues));
+            LC.log(100000000, "DrawerAnimationManagerEvo#calculateDesaturation target=%1", (Object)Util.arrayToString(this.targetAnimationValues));
         }
         int n = 0;
         if (this.drawerDesaturationValue != f2) {
-            LC.log(1078071040, "DrawerAnimationManagerEvo#calculateDesaturation main area desaturation changed to %1", (double)this.drawerDesaturationValue);
+            LC.log(1000000, "DrawerAnimationManagerEvo#calculateDesaturation main area desaturation changed to %1", (double)this.drawerDesaturationValue);
             n |= 0x800;
         }
         if (n != 0 && this.currentScreen != null) {
@@ -945,19 +930,16 @@ DrawerAnimationListener {
         return n;
     }
 
-    @Override
     public void setViewSize(float f2, float[] fArray, float[] fArray2) {
         this.currentAnimationValues[7] = fArray[0];
         this.fireSetDrawerAnimation(0x80 | this.updateAnimations());
     }
 
-    @Override
     public void viewSizeChanged(float[] fArray, float[] fArray2) {
         this.targetAnimationValues[7] = fArray2[0];
         this.fireDrawerAnimationTargetChanged(0x80 | this.updateAnimations());
     }
 
-    @Override
     public void closeCurrentOptionDrawer() {
         if (this.closingOptionDrawer == null) {
             this.closingOptionDrawer = this.currentOptionDrawer;
@@ -966,28 +948,25 @@ DrawerAnimationListener {
         this.fireDrawerAnimationTargetChanged(this.updateAnimations());
     }
 
-    @Override
     public void initializeDrawerAnimation(DrawerAnimationListener drawerAnimationListener) {
         drawerAnimationListener.initializeDrawerAnimation(this.currentAnimationValues, this.targetAnimationValues);
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
         float f3;
         this.currentAnimationValues[12] = f3 = this.screenChangeFadeIn ? 1.0f - f2 : f2;
         if (LC_SCREEN.isDebug2()) {
-            LC_SCREEN.log(14808325, "DrawerAnimationManagerEvo#setScreenChangeProgress progress=%1", (double)f2);
+            LC_SCREEN.log(100000000, "DrawerAnimationManagerEvo#setScreenChangeProgress progress=%1", (double)f2);
         }
         this.fireSetDrawerAnimation(4096);
         this.fireDrawerAnimationTargetChanged(this.updateAnimations());
     }
 
-    @Override
     public void setScreenChangeTarget(int n) {
         float f2;
-        LC.log(1078071040, "DrawerAnimationManagerEvo#setScreenChangeTarget target=%1", (long)n);
+        LC.log(1000000, "DrawerAnimationManagerEvo#setScreenChangeTarget target=%1", (long)n);
         this.initialized = true;
-        this.screenChangeFadeIn = ScreenChangeAnimationItem$Helper.isFade(n, 1);
+        this.screenChangeFadeIn = ScreenChangeAnimationItem.Helper.isFade(n, 1);
         if (this.screenChangeFadeIn) {
             f2 = 0.0f;
             this.drawerState = this.newDrawerState;
@@ -1000,15 +979,15 @@ DrawerAnimationListener {
     }
 
     private void updateDrawers() {
-        LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#updateDrawers");
+        LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#updateDrawers");
         if (!Util.equals(this.currentOptionDrawer, this.newOptionDrawer)) {
-            LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#updateDrawers option drawer has changed %1 -> %2", (Object)this.currentOptionDrawer, (Object)this.newOptionDrawer);
+            LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#updateDrawers option drawer has changed %1 -> %2", (Object)this.currentOptionDrawer, (Object)this.newOptionDrawer);
             this.hideDrawer(this.currentOptionDrawer);
             this.currentOptionDrawer = this.newOptionDrawer;
             this.initializeDrawer(this.currentOptionDrawer);
         }
         if (!Util.equals(this.currentSelectionDrawer, this.newSelectionDrawer)) {
-            LC_DRAWER.log(1078071040, "DrawerAnimationManagerEvo#updateDrawers selection drawer has changed %1 -> %2", (Object)this.currentSelectionDrawer, (Object)this.newSelectionDrawer);
+            LC_DRAWER.log(1000000, "DrawerAnimationManagerEvo#updateDrawers selection drawer has changed %1 -> %2", (Object)this.currentSelectionDrawer, (Object)this.newSelectionDrawer);
             this.hideDrawer(this.currentSelectionDrawer);
             this.currentSelectionDrawer = this.newSelectionDrawer;
             this.initializeDrawer(this.currentSelectionDrawer);
@@ -1026,9 +1005,8 @@ DrawerAnimationListener {
         }
     }
 
-    @Override
     public void screenChangeFinished() {
-        LC.log(1078071040, "DrawerAnimationManagerEvo#screenChangeFinished");
+        LC.log(1000000, "DrawerAnimationManagerEvo#screenChangeFinished");
         this.updateDrawers();
         this.screenChangeFadeIn = true;
         this.setScreenChangeProgress(1.0f);
@@ -1036,29 +1014,23 @@ DrawerAnimationListener {
         this.calculateDesaturation();
     }
 
-    @Override
     public void showSideOptionIcon(boolean bl) {
         this.showOptionIcon = bl;
         this.fireDrawerAnimationTargetChanged(this.updateAnimations());
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 0;
     }
@@ -1068,7 +1040,6 @@ DrawerAnimationListener {
         this.optionIconOffsetY = n2;
     }
 
-    @Override
     public void updateClosedDrawerIconVisibility() {
         if (this.currentScreen instanceof ScreenWidgetEVO && this.terminal instanceof HMITerminalEvoImpl) {
             ScreenWidgetEVO screenWidgetEVO = (ScreenWidgetEVO)this.currentScreen;
@@ -1104,7 +1075,6 @@ DrawerAnimationListener {
         return false;
     }
 
-    @Override
     public void setIsEntertainmentDrawerVisible(boolean bl) {
         this.isEntertainmentDrawerVisible = bl;
     }

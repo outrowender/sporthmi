@@ -7,10 +7,10 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface BluetoothSmartphoneMode
 extends IEnum {
-    public static final int NOTHING;
-    public static final int ANDROID_AUTO;
-    public static final int CARPLAY;
-    public static final int MIRRORLINK;
-    public static final int CARLIFE;
+    public static final int NOTHING = 0;
+    public static final int ANDROID_AUTO = 1;
+    public static final int CARPLAY = 2;
+    public static final int MIRRORLINK = 3;
+    public static final int CARLIFE = 4;
 }
 

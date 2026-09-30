@@ -62,7 +62,7 @@ public class RouteProviderSetting {
     }
 
     public String toString() {
-        return new StringBuffer("RouteProviderSetting{").append("clientID=").append(this.clientID).append(", resolutionInMeter=").append(this.resolutionInMeter).append(", maxRangeInMeter=").append(this.maxRangeInMeter).append(", offsetInMeter=").append(this.offsetInMeter).append(", includeStopOvers=").append(this.includeStopOvers).append("}").toString();
+        return "RouteProviderSetting{" + "clientID=" + this.clientID + ", resolutionInMeter=" + this.resolutionInMeter + ", maxRangeInMeter=" + this.maxRangeInMeter + ", offsetInMeter=" + this.offsetInMeter + ", includeStopOvers=" + this.includeStopOvers + "}";
     }
 }
 

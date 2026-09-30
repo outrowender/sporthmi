@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.online.impl.OSRDeviceSerializer;
 import de.esolutions.fw.comm.dsi.online.impl.OSRPersonalIdentifierSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRDevice;
 import org.dsi.ifc.online.OSRPersonalIdentifier;
 import org.dsi.ifc.online.OSRUser;
 
 public class OSRUserSerializer {
-    public static void putOptionalOSRUser(ISerializer iSerializer, OSRUser oSRUser) {
+    public static void putOptionalOSRUser(ISerializer iSerializer, OSRUser oSRUser) throws SerializerException {
         boolean bl = oSRUser == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class OSRUserSerializer {
         }
     }
 
-    public static void putOptionalOSRUserVarArray(ISerializer iSerializer, OSRUser[] oSRUserArray) {
+    public static void putOptionalOSRUserVarArray(ISerializer iSerializer, OSRUser[] oSRUserArray) throws SerializerException {
         boolean bl = oSRUserArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class OSRUserSerializer {
         }
     }
 
-    public static OSRUser getOptionalOSRUser(IDeserializer iDeserializer) {
+    public static OSRUser getOptionalOSRUser(IDeserializer iDeserializer) throws SerializerException {
         OSRUser oSRUser = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class OSRUserSerializer {
         return oSRUser;
     }
 
-    public static OSRUser[] getOptionalOSRUserVarArray(IDeserializer iDeserializer) {
+    public static OSRUser[] getOptionalOSRUserVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRUser[] oSRUserArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

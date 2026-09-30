@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
-import java.util.jar.Attributes$Name;
 
 class InitManifest {
     private static final boolean useNative = VM.useNatives();
@@ -33,7 +32,7 @@ class InitManifest {
     private CharacterConverter converter;
     private Map attributeNames = new HashMap();
 
-    InitManifest(InputStream inputStream, Attributes attributes, Map map, Map map2, String string) {
+    InitManifest(InputStream inputStream, Attributes attributes, Map map, Map map2, String string) throws IOException {
         this.encoding = (String)AccessController.doPrivileged(new PriviAction("manifest.read.encoding"));
         if ("".equals(this.encoding)) {
             this.encoding = null;
@@ -69,7 +68,7 @@ class InitManifest {
         }
     }
 
-    private void addLine(int n, List list) {
+    private void addLine(int n, List list) throws IOException {
         if (this.encoding != null) {
             list.add(new String(this.buffer, 0, n, this.encoding));
         } else {
@@ -98,7 +97,7 @@ class InitManifest {
         }
     }
 
-    private byte[] nextChunk(InputStream inputStream, List list) {
+    private byte[] nextChunk(InputStream inputStream, List list) throws IOException {
         if (this.inbufCount == -1) {
             return null;
         }
@@ -163,7 +162,7 @@ class InitManifest {
         }
     }
 
-    private boolean readLines(InputStream inputStream, List list) {
+    private boolean readLines(InputStream inputStream, List list) throws IOException {
         if (this.inbufCount == -1) {
             return false;
         }
@@ -217,26 +216,26 @@ class InitManifest {
         }
     }
 
-    private void addAttribute(String string, Attributes attributes) {
+    private void addAttribute(String string, Attributes attributes) throws IOException {
         int n = string.indexOf(58);
         if (n < 1) {
             throw new IOException(Msg.getString("K000b", string));
         }
         String string2 = string.substring(0, n);
-        Attributes$Name attributes$Name = (Attributes$Name)this.attributeNames.get(string2);
-        if (attributes$Name == null) {
+        Attributes.Name name = (Attributes.Name)this.attributeNames.get(string2);
+        if (name == null) {
             try {
-                attributes$Name = new Attributes$Name(string2);
+                name = new Attributes.Name(string2);
             }
             catch (IllegalArgumentException illegalArgumentException) {
                 throw new IOException(illegalArgumentException.toString());
             }
-            this.attributeNames.put(string2, attributes$Name);
+            this.attributeNames.put(string2, name);
         }
         if (n + 1 >= string.length() || string.charAt(n + 1) != ' ') {
             throw new IOException(Msg.getString("K000b", string));
         }
-        attributes.put(attributes$Name, string.substring(n + 2, string.length()));
+        attributes.put(name, string.substring(n + 2, string.length()));
     }
 }
 

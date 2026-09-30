@@ -3,64 +3,48 @@
  */
 package de.esolutions.fw.comm.dsi.keypanel;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKeyPanelReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "5ff7918a-abb4-545e-9661-bdbeef142ed1";
+    public static final String IPL_COMM_INTERFACE_KEY = "633a3b39-3b09-57ba-bc39-eebaf5ef6848";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.33";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.33";
 
-    default public void updateKey2(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateKey2(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void updateEncoder2(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateEncoder2(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void updateDisplayTurnMechStatus(int n, int n2) {
-    }
+    public void updateDisplayTurnMechStatus(int var1, int var2) throws MethodException;
 
-    default public void updateRecognizerLanguage2(int n, String string, int n2, int n3) {
-    }
+    public void updateRecognizerLanguage2(int var1, String var2, int var3, int var4) throws MethodException;
 
-    default public void updateRecognizerMode(int n, int n2, int n3) {
-    }
+    public void updateRecognizerMode(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray, int n2) {
-    }
+    public void updateCharacterEvent2(int var1, String[] var2, int[] var3, int var4) throws MethodException;
 
-    default public void updateGesture2(int n, int n2, int n3, boolean bl, int n4, int n5, int n6, int n7, int n8, int n9) {
-    }
+    public void updateGesture2(int var1, int var2, int var3, boolean var4, int var5, int var6, int var7, int var8, int var9, int var10) throws MethodException;
 
-    default public void genericSettingResponse(int n, int n2, int n3) {
-    }
+    public void genericSettingResponse(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateProximity(int n, int n2, int n3) {
-    }
+    public void updateProximity(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAdvancedProximity(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void updateAdvancedProximity(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10) throws MethodException;
 
-    default public void lastKey(int n, int n2, int n3) {
-    }
+    public void lastKey(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateKeyboardType(int n, int n2) {
-    }
+    public void updateKeyboardType(int var1, int var2) throws MethodException;
 
-    default public void updateTouchSensitiveArea(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void updateTouchSensitiveArea(int var1, int var2, int var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void getVersionInfo(int n, int n2, String string) {
-    }
+    public void getVersionInfo(int var1, int var2, String var3) throws MethodException;
 
-    default public void updateInputPanelReady(int n, int n2, int n3) {
-    }
+    public void updateInputPanelReady(int var1, int var2, int var3) throws MethodException;
 
-    default public void getProperty(int n, int n2, int n3, int n4, byte[] byArray) {
-    }
+    public void getProperty(int var1, int var2, int var3, int var4, byte[] var5) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

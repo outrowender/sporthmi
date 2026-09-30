@@ -3,67 +3,49 @@
  */
 package de.esolutions.fw.comm.dsi.radiodata;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radiodata.RadioStationData;
 import org.dsi.ifc.radiodata.RadioStationDataRequest;
 import org.dsi.ifc.radiodata.RadioStationLogoRequest;
 
 public interface DSIRadioDataC {
-    default public void requestRadioStationData(RadioStationDataRequest[] radioStationDataRequestArray, int n) {
-    }
+    public void requestRadioStationData(RadioStationDataRequest[] var1, int var2) throws MethodException;
 
-    default public void requestRadioStationLogos(RadioStationLogoRequest[] radioStationLogoRequestArray, int n) {
-    }
+    public void requestRadioStationLogos(RadioStationLogoRequest[] var1, int var2) throws MethodException;
 
-    default public void requestDynamicDatabaseAlteration(RadioStationData radioStationData, ResourceLocator resourceLocator, int n, int n2) {
-    }
+    public void requestDynamicDatabaseAlteration(RadioStationData var1, ResourceLocator var2, int var3, int var4) throws MethodException;
 
-    default public void requestCountryListUpdate(int n) {
-    }
+    public void requestCountryListUpdate(int var1) throws MethodException;
 
-    default public void requestDatabaseVersionInfo(int n) {
-    }
+    public void requestDatabaseVersionInfo(int var1) throws MethodException;
 
-    default public void requestPersistStationLogos(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
-    }
+    public void requestPersistStationLogos(RadioStationData[] var1, ResourceLocator[] var2, int var3, int var4) throws MethodException;
 
-    default public void requestCountryRegionData(int n) {
-    }
+    public void requestCountryRegionData(int var1) throws MethodException;
 
-    default public void requestCountryRegionTranslationData(int n, String string, int n2) {
-    }
+    public void requestCountryRegionTranslationData(int var1, String var2, int var3) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

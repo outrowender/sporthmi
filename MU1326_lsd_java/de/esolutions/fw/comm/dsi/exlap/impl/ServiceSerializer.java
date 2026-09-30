@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.exlap.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.exlap.Service;
 
 public class ServiceSerializer {
-    public static void putOptionalService(ISerializer iSerializer, Service service) {
+    public static void putOptionalService(ISerializer iSerializer, Service service) throws SerializerException {
         boolean bl = service == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ServiceSerializer {
         }
     }
 
-    public static void putOptionalServiceVarArray(ISerializer iSerializer, Service[] serviceArray) {
+    public static void putOptionalServiceVarArray(ISerializer iSerializer, Service[] serviceArray) throws SerializerException {
         boolean bl = serviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ServiceSerializer {
         }
     }
 
-    public static Service getOptionalService(IDeserializer iDeserializer) {
+    public static Service getOptionalService(IDeserializer iDeserializer) throws SerializerException {
         Service service = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ServiceSerializer {
         return service;
     }
 
-    public static Service[] getOptionalServiceVarArray(IDeserializer iDeserializer) {
+    public static Service[] getOptionalServiceVarArray(IDeserializer iDeserializer) throws SerializerException {
         Service[] serviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

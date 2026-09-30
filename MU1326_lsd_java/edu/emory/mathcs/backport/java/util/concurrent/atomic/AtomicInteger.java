@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class AtomicInteger
 extends Number
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 6214790243416807050L;
     private volatile int value;
 
     public AtomicInteger(int n) {
@@ -82,22 +82,18 @@ implements Serializable {
         return Integer.toString(this.get());
     }
 
-    @Override
     public int intValue() {
         return this.get();
     }
 
-    @Override
     public long longValue() {
         return this.get();
     }
 
-    @Override
     public float floatValue() {
         return this.get();
     }
 
-    @Override
     public double doubleValue() {
         return this.get();
     }

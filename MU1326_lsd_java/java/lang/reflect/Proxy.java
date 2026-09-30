@@ -16,18 +16,12 @@ import java.util.WeakHashMap;
 
 public class Proxy
 implements Serializable {
-    private static final long serialVersionUID;
-    private static Map loaderCache;
-    private static Map proxyCache;
-    private static int NextClassNameIndex;
+    private static final long serialVersionUID = -2222568056686623797L;
+    private static Map loaderCache = new WeakHashMap();
+    private static Map proxyCache = new WeakHashMap();
+    private static int NextClassNameIndex = 0;
     protected InvocationHandler h;
     static /* synthetic */ Class class$0;
-
-    static {
-        loaderCache = new WeakHashMap();
-        proxyCache = new WeakHashMap();
-        NextClassNameIndex = 0;
-    }
 
     private Proxy() {
     }
@@ -39,7 +33,7 @@ implements Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public static Class getProxyClass(ClassLoader classLoader, Class[] classArray) {
+    public static Class getProxyClass(ClassLoader classLoader, Class[] classArray) throws IllegalArgumentException {
         int n;
         Object object;
         Object object2;
@@ -131,7 +125,7 @@ implements Serializable {
         }
     }
 
-    public static Object newProxyInstance(ClassLoader classLoader, Class[] classArray, InvocationHandler invocationHandler) {
+    public static Object newProxyInstance(ClassLoader classLoader, Class[] classArray, InvocationHandler invocationHandler) throws IllegalArgumentException {
         if (invocationHandler != null) {
             try {
                 Class clazz = Proxy.getProxyClass(classLoader, classArray);
@@ -177,14 +171,13 @@ implements Serializable {
         throw new NullPointerException();
     }
 
-    public static InvocationHandler getInvocationHandler(Object object) {
+    public static InvocationHandler getInvocationHandler(Object object) throws IllegalArgumentException {
         if (Proxy.isProxyClass(object.getClass())) {
             return ((Proxy)object).h;
         }
         throw new IllegalArgumentException(Msg.getString("K00f1"));
     }
 
-    private static native Class defineClassImpl(ClassLoader classLoader, String string, byte[] byArray) {
-    }
+    private static native Class defineClassImpl(ClassLoader var0, String var1, byte[] var2);
 }
 

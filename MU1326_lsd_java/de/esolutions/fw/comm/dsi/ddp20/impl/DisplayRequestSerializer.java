@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 import de.esolutions.fw.comm.dsi.ddp20.impl.FrameRequestSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.DisplayRequest;
 import org.dsi.ifc.ddp20.FrameRequest;
 
 public class DisplayRequestSerializer {
-    public static void putOptionalDisplayRequest(ISerializer iSerializer, DisplayRequest displayRequest) {
+    public static void putOptionalDisplayRequest(ISerializer iSerializer, DisplayRequest displayRequest) throws SerializerException {
         boolean bl = displayRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class DisplayRequestSerializer {
         }
     }
 
-    public static void putOptionalDisplayRequestVarArray(ISerializer iSerializer, DisplayRequest[] displayRequestArray) {
+    public static void putOptionalDisplayRequestVarArray(ISerializer iSerializer, DisplayRequest[] displayRequestArray) throws SerializerException {
         boolean bl = displayRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class DisplayRequestSerializer {
         }
     }
 
-    public static DisplayRequest getOptionalDisplayRequest(IDeserializer iDeserializer) {
+    public static DisplayRequest getOptionalDisplayRequest(IDeserializer iDeserializer) throws SerializerException {
         DisplayRequest displayRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class DisplayRequestSerializer {
         return displayRequest;
     }
 
-    public static DisplayRequest[] getOptionalDisplayRequestVarArray(IDeserializer iDeserializer) {
+    public static DisplayRequest[] getOptionalDisplayRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayRequest[] displayRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

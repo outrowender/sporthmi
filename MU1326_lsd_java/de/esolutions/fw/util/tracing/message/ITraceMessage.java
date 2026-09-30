@@ -4,61 +4,42 @@
 package de.esolutions.fw.util.tracing.message;
 
 public interface ITraceMessage {
-    default public long getTimeStamp() {
-    }
+    public long getTimeStamp();
 
-    default public short getLevel() {
-    }
+    public short getLevel();
 
-    default public short getModifiers() {
-    }
+    public short getModifiers();
 
-    default public int getChannelID() {
-    }
+    public int getChannelID();
 
-    default public int getThreadID() {
-    }
+    public int getThreadID();
 
-    default public short getMessageType() {
-    }
+    public short getMessageType();
 
-    default public String[] getDecodedMessage() {
-    }
+    public String[] getDecodedMessage();
 
-    default public String getMessageString() {
-    }
+    public String getMessageString();
 
-    default public int getMessageSize() {
-    }
+    public int getMessageSize();
 
-    default public byte[] getMessageData() {
-    }
+    public byte[] getMessageData();
 
-    default public void setEpoch(int n) {
-    }
+    public void setEpoch(int var1);
 
-    default public int getEpoch() {
-    }
+    public int getEpoch();
 
-    default public void setSeqNum(int n) {
-    }
+    public void setSeqNum(int var1);
 
-    default public int getSeqNum() {
-    }
+    public int getSeqNum();
 
-    default public void expandNow() {
-    }
+    public void expandNow();
 
-    default public void setChannelID(int n) {
-    }
+    public void setChannelID(int var1);
 
-    default public void setThreadID(int n) {
-    }
+    public void setThreadID(int var1);
 
-    default public void setDecodedMessage(String[] stringArray) {
-    }
+    public void setDecodedMessage(String[] var1);
 
-    default public void setTimeStamp(long l) {
-    }
+    public void setTimeStamp(long var1);
 }
 

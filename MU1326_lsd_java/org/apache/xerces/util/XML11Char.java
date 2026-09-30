@@ -7,23 +7,23 @@ import java.util.Arrays;
 import org.apache.xerces.util.XMLChar;
 
 public class XML11Char {
-    private static final byte[] XML11CHARS = new byte[256];
-    public static final int MASK_XML11_VALID;
-    public static final int MASK_XML11_SPACE;
-    public static final int MASK_XML11_NAME_START;
-    public static final int MASK_XML11_NAME;
-    public static final int MASK_XML11_CONTROL;
-    public static final int MASK_XML11_CONTENT;
-    public static final int MASK_XML11_NCNAME_START;
-    public static final int MASK_XML11_NCNAME;
-    public static final int MASK_XML11_CONTENT_INTERNAL;
+    private static final byte[] XML11CHARS = new byte[65536];
+    public static final int MASK_XML11_VALID = 1;
+    public static final int MASK_XML11_SPACE = 2;
+    public static final int MASK_XML11_NAME_START = 4;
+    public static final int MASK_XML11_NAME = 8;
+    public static final int MASK_XML11_CONTROL = 16;
+    public static final int MASK_XML11_CONTENT = 32;
+    public static final int MASK_XML11_NCNAME_START = 64;
+    public static final int MASK_XML11_NCNAME = 128;
+    public static final int MASK_XML11_CONTENT_INTERNAL = 48;
 
     public static boolean isXML11Space(int n) {
-        return n < 256 && (XML11CHARS[n] & 2) != 0;
+        return n < 65536 && (XML11CHARS[n] & 2) != 0;
     }
 
     public static boolean isXML11Valid(int n) {
-        return n < 256 && (XML11CHARS[n] & 1) != 0 || 256 <= n && n <= -61440;
+        return n < 65536 && (XML11CHARS[n] & 1) != 0 || 65536 <= n && n <= 0x10FFFF;
     }
 
     public static boolean isXML11Invalid(int n) {
@@ -31,35 +31,35 @@ public class XML11Char {
     }
 
     public static boolean isXML11ValidLiteral(int n) {
-        return n < 256 && (XML11CHARS[n] & 1) != 0 && (XML11CHARS[n] & 0x10) == 0 || 256 <= n && n <= -61440;
+        return n < 65536 && (XML11CHARS[n] & 1) != 0 && (XML11CHARS[n] & 0x10) == 0 || 65536 <= n && n <= 0x10FFFF;
     }
 
     public static boolean isXML11Content(int n) {
-        return n < 256 && (XML11CHARS[n] & 0x20) != 0 || 256 <= n && n <= -61440;
+        return n < 65536 && (XML11CHARS[n] & 0x20) != 0 || 65536 <= n && n <= 0x10FFFF;
     }
 
     public static boolean isXML11InternalEntityContent(int n) {
-        return n < 256 && (XML11CHARS[n] & 0x30) != 0 || 256 <= n && n <= -61440;
+        return n < 65536 && (XML11CHARS[n] & 0x30) != 0 || 65536 <= n && n <= 0x10FFFF;
     }
 
     public static boolean isXML11NameStart(int n) {
-        return n < 256 && (XML11CHARS[n] & 4) != 0 || 256 <= n && n < 3840;
+        return n < 65536 && (XML11CHARS[n] & 4) != 0 || 65536 <= n && n < 983040;
     }
 
     public static boolean isXML11Name(int n) {
-        return n < 256 && (XML11CHARS[n] & 8) != 0 || n >= 256 && n < 3840;
+        return n < 65536 && (XML11CHARS[n] & 8) != 0 || n >= 65536 && n < 983040;
     }
 
     public static boolean isXML11NCNameStart(int n) {
-        return n < 256 && (XML11CHARS[n] & 0x40) != 0 || 256 <= n && n < 3840;
+        return n < 65536 && (XML11CHARS[n] & 0x40) != 0 || 65536 <= n && n < 983040;
     }
 
     public static boolean isXML11NCName(int n) {
-        return n < 256 && (XML11CHARS[n] & 0x80) != 0 || 256 <= n && n < 3840;
+        return n < 65536 && (XML11CHARS[n] & 0x80) != 0 || 65536 <= n && n < 983040;
     }
 
     public static boolean isXML11NameHighSurrogate(int n) {
-        return 0xD80000 <= n && n <= 2145058816;
+        return 55296 <= n && n <= 56191;
     }
 
     public static boolean isXML11ValidName(String string) {
@@ -204,11 +204,11 @@ public class XML11Char {
         Arrays.fill(XML11CHARS, 8592, 11264, (byte)33);
         Arrays.fill(XML11CHARS, 11264, 12272, (byte)-19);
         Arrays.fill(XML11CHARS, 12272, 12289, (byte)33);
-        Arrays.fill(XML11CHARS, 12289, 0xD80000, (byte)-19);
-        Arrays.fill(XML11CHARS, 0xE00000, 0xF90000, (byte)33);
-        Arrays.fill(XML11CHARS, 0xF90000, -788725760, (byte)-19);
-        Arrays.fill(XML11CHARS, -788725760, -251854848, (byte)33);
-        Arrays.fill(XML11CHARS, -251854848, -16842752, (byte)-19);
+        Arrays.fill(XML11CHARS, 12289, 55296, (byte)-19);
+        Arrays.fill(XML11CHARS, 57344, 63744, (byte)33);
+        Arrays.fill(XML11CHARS, 63744, 64976, (byte)-19);
+        Arrays.fill(XML11CHARS, 64976, 65008, (byte)33);
+        Arrays.fill(XML11CHARS, 65008, 65534, (byte)-19);
     }
 }
 

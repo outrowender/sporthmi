@@ -19,23 +19,23 @@ import de.esolutions.hmi.widgets.audi.base.eal.TextureDescription;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractRendererHigh;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallCache$CachedTexture;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallCache;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallController;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallIconController;
 
 public class PictureWallIconRenderer
 extends AbstractRendererHigh {
-    private static final String PROPERTY_NAME_HUE;
-    private static final String PROPERTY_NAME_SATURATION;
+    private static final String PROPERTY_NAME_HUE = "brightness";
+    private static final String PROPERTY_NAME_SATURATION = "saturation";
     private static boolean isMaterialValid;
     private boolean isMaterialPropertyValid;
     private boolean singleMode;
     private static IMaterial materialHueSat;
     private IProperty hue;
     private IProperty sat;
-    private static final int STATE_OK;
-    private static final int STATE_ERROR;
-    private static final int STATE_LISTENING;
+    private static final int STATE_OK = 1;
+    private static final int STATE_ERROR = 2;
+    private static final int STATE_LISTENING = 3;
     private int renderState = -1;
     private boolean isEmpty = true;
     private float scaleY = 1.0f;
@@ -86,7 +86,7 @@ extends AbstractRendererHigh {
         if (this.overlayLarge != null) {
             fArray = this.calculateScaling(n, n2, this.overlayLarge.getUnscaledWidth(), this.overlayLarge.getUnscaledHeight());
             this.overlayLarge.setScale(fArray[0], fArray[1], 1.0f);
-            this.overlayLarge.setPosition(8257, 63681, 0.0f);
+            this.overlayLarge.setPosition(10.0f, -31.0f, 0.0f);
         }
     }
 
@@ -119,11 +119,10 @@ extends AbstractRendererHigh {
                 return new float[]{f7, f7};
             }
         }
-        logChannel.log(-1601830656, "IconRendererHigh#calculateScaling: unknown scaleMode: %1", (long)this.scaleMode);
+        logChannel.log(100000, "IconRendererHigh#calculateScaling: unknown scaleMode: %1", (long)this.scaleMode);
         return new float[]{f4, f5};
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         if (materialHueSat == null) {
@@ -190,9 +189,8 @@ extends AbstractRendererHigh {
         this.isMaterialPropertyValid = false;
     }
 
-    @Override
     public void disconnect() {
-        pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#disconnect", (Object)this.displayData);
+        pictureWallLogCh.log(10000000, "PictureWallIconRenderer#disconnect", (Object)this.displayData);
         this.destroyProperties();
         this.destroyNode();
         this.destroyOtherNodes();
@@ -203,7 +201,6 @@ extends AbstractRendererHigh {
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -214,10 +211,10 @@ extends AbstractRendererHigh {
 
     public void imageLoaded(String string) {
         if (this.renderState == 3 && string.equals(this.displayData.getPath())) {
-            pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#imageLoaded %1", (Object)string);
+            pictureWallLogCh.log(10000000, "PictureWallIconRenderer#imageLoaded %1", (Object)string);
             this.getAbstractController().setCompositesDirty(true);
         } else {
-            pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#imageLoaded %1, renderState = %2", (Object)string, (long)this.renderState);
+            pictureWallLogCh.log(10000000, "PictureWallIconRenderer#imageLoaded %1, renderState = %2", (Object)string, (long)this.renderState);
         }
     }
 
@@ -229,11 +226,9 @@ extends AbstractRendererHigh {
         this.controller = pictureWallIconController;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -246,7 +241,7 @@ extends AbstractRendererHigh {
         }
         HMIImage hMIImage = this.calculateDisplayData(this.controller.getModel());
         if (!Util.equals(this.displayData, hMIImage) || this.renderState == 3) {
-            pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#render oldValue = %1, newValue = %2", (Object)this.displayData, (Object)hMIImage);
+            pictureWallLogCh.log(10000000, "PictureWallIconRenderer#render oldValue = %1, newValue = %2", (Object)this.displayData, (Object)hMIImage);
             this.destroyNode();
             this.displayData = hMIImage;
             this.renderNode(this.nodeGroup1);
@@ -273,43 +268,43 @@ extends AbstractRendererHigh {
         this.renderState = 1;
         EALManager eALManager = this.getEALManager();
         PictureWallController pictureWallController = this.controller.getParentController().getParentController();
-        PictureWallCache$CachedTexture pictureWallCache$CachedTexture = pictureWallController.getTexture(this.displayData.getPath());
-        if (pictureWallCache$CachedTexture == null) {
+        PictureWallCache.CachedTexture cachedTexture = pictureWallController.getTexture(this.displayData.getPath());
+        if (cachedTexture == null) {
             pictureWallController.requestTexture(this.displayData.getPath(), this.controller.getModelRow(), this);
             this.renderState = 3;
-            pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#renderNode Texture %1 not in cache.", (Object)this.displayData);
+            pictureWallLogCh.log(10000000, "PictureWallIconRenderer#renderNode Texture %1 not in cache.", (Object)this.displayData);
             return;
         }
-        IWrappedTexture iWrappedTexture = pictureWallCache$CachedTexture.data;
-        if (iWrappedTexture == null && !pictureWallCache$CachedTexture.loadingError) {
+        IWrappedTexture iWrappedTexture = cachedTexture.data;
+        if (iWrappedTexture == null && !cachedTexture.loadingError) {
             pictureWallController.requestTexture(this.displayData.getPath(), this.controller.getModelRow(), this);
             this.renderState = 3;
-            pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#renderNode Texture %1 in cache, but not loaded.", (Object)this.displayData);
+            pictureWallLogCh.log(10000000, "PictureWallIconRenderer#renderNode Texture %1 in cache, but not loaded.", (Object)this.displayData);
             return;
         }
-        if (pictureWallCache$CachedTexture.loadingError) {
+        if (cachedTexture.loadingError) {
             eALManager.destroy(iWrappedTexture);
             this.renderState = 2;
-            pictureWallLogCh.log(1078071040, "PictureWallIconRenderer#renderNode Texture not valid.");
+            pictureWallLogCh.log(1000000, "PictureWallIconRenderer#renderNode Texture not valid.");
             return;
         }
         if (this.picture == null) {
             this.picture = eALManager.createImage3D(iWrappedNode3D, EALManager.createNodeName("picWallIcon", this), iWrappedTexture, 0, true, (Object)this);
         }
         if (this.picture == null) {
-            pictureWallLogCh.log(1078071040, "PictureWallIconRenderer#renderNode node is null. Can not render %1", (Object)this.displayData);
+            pictureWallLogCh.log(1000000, "PictureWallIconRenderer#renderNode node is null. Can not render %1", (Object)this.displayData);
             this.renderState = 2;
             return;
         }
         this.picture.setTexture(iWrappedTexture, false, this);
         this.applyMaterialTo3DImageNode(this.picture, materialHueSat);
         this.destroyProperties();
-        this.hue = this.picture.getNode().getProperty("brightness");
-        this.sat = this.picture.getNode().getProperty("saturation");
+        this.hue = this.picture.getNode().getProperty(PROPERTY_NAME_HUE);
+        this.sat = this.picture.getNode().getProperty(PROPERTY_NAME_SATURATION);
         this.isMaterialPropertyValid = this.hue.isValid() && this.sat.isValid();
         this.setHueAndSaturation();
-        pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#renderNode width = %1", (double)this.picture.getUnscaledWidth());
-        pictureWallLogCh.log(-2137614336, "PictureWallIconRenderer#renderNode height = %1", (double)this.picture.getUnscaledHeight());
+        pictureWallLogCh.log(10000000, "PictureWallIconRenderer#renderNode width = %1", (double)this.picture.getUnscaledWidth());
+        pictureWallLogCh.log(10000000, "PictureWallIconRenderer#renderNode height = %1", (double)this.picture.getUnscaledHeight());
     }
 
     public void setHueAndSaturation(boolean bl) {
@@ -320,12 +315,12 @@ extends AbstractRendererHigh {
     private void setHueAndSaturation() {
         if (isMaterialValid && this.isMaterialPropertyValid) {
             if (this.singleMode) {
-                this.hue.set((float)-842249154);
-                this.sat.set((float)63);
-                this.overlaySmall.setOpacity(63);
-                this.overlaySmallFrame.setOpacity(63);
+                this.hue.set(0.2f);
+                this.sat.set(0.5f);
+                this.overlaySmall.setOpacity(0.5f);
+                this.overlaySmallFrame.setOpacity(0.5f);
             } else {
-                this.hue.set((float)63);
+                this.hue.set(0.5f);
                 this.sat.set(1.0f);
                 this.overlaySmall.setOpacity(1.0f);
                 this.overlaySmallFrame.setOpacity(1.0f);

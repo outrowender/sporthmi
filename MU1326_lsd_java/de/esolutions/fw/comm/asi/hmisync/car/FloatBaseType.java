@@ -42,7 +42,7 @@ public class FloatBaseType {
     }
 
     public String toString() {
-        return new StringBuffer("FloatBaseType{").append("value=").append(this.value).append(", unit=").append(this.unit).append(", status=").append(this.status).append("}").toString();
+        return "FloatBaseType{" + "value=" + this.value + ", unit=" + this.unit + ", status=" + this.status + "}";
     }
 }
 

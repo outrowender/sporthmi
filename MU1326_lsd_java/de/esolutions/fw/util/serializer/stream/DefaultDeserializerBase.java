@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.serializer.stream;
 
@@ -10,6 +7,7 @@ import de.esolutions.fw.util.commons.miniser.IMiniIntDeserializer;
 import de.esolutions.fw.util.serializer.IStreamDeserializer;
 import de.esolutions.fw.util.serializer.IStreamSerializer;
 import de.esolutions.fw.util.serializer.exception.SerializerBufferUnderrunException;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.serializer.stream.DefaultSerializerBase;
 import de.esolutions.fw.util.transport.IReadable;
 
@@ -27,7 +25,6 @@ Cloneable {
         this.id = by;
     }
 
-    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -37,37 +34,31 @@ Cloneable {
         }
     }
 
-    @Override
     public boolean canHandleSerializerId(byte by) {
         return by == this.id;
     }
 
-    @Override
     public void attachBuffer(IReadable iReadable) {
         this.readable = iReadable;
         this.dpos = iReadable.getDirectOffset();
         this.ddata = iReadable.getDirectData();
     }
 
-    @Override
     public IReadable getAttachedBuffer() {
         return this.readable;
     }
 
-    @Override
     public int getDirectPos() {
         return this.dpos;
     }
 
-    @Override
     public int detachBuffer() {
         this.ddata = null;
         this.readable = null;
         return this.dpos;
     }
 
-    @Override
-    public boolean getBool() {
+    public boolean getBool() throws SerializerBufferUnderrunException {
         try {
             byte by = this.ddata[this.dpos];
             ++this.dpos;
@@ -78,8 +69,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getBoolArray(boolean[] blArray) {
+    public void getBoolArray(boolean[] blArray) throws SerializerBufferUnderrunException {
         try {
             int n = blArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
@@ -92,24 +82,22 @@ Cloneable {
         }
     }
 
-    @Override
-    public double getDouble() {
+    public double getDouble() throws SerializerBufferUnderrunException {
         try {
             long l = this.intDeser.retrieveLong(this.ddata, this.dpos);
             this.dpos += 8;
-            return Double.longBitsToDouble((long)l);
+            return Double.longBitsToDouble(l);
         }
         catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new SerializerBufferUnderrunException(indexOutOfBoundsException.toString());
         }
     }
 
-    @Override
-    public void getDoubleArray(double[] dArray) {
+    public void getDoubleArray(double[] dArray) throws SerializerBufferUnderrunException {
         try {
             int n = dArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
-                dArray[i2] = Double.longBitsToDouble((long)this.intDeser.retrieveLong(this.ddata, this.dpos));
+                dArray[i2] = Double.longBitsToDouble(this.intDeser.retrieveLong(this.ddata, this.dpos));
                 this.dpos += 8;
             }
         }
@@ -118,8 +106,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public int getFlags(byte by) {
+    public int getFlags(byte by) throws SerializerBufferUnderrunException {
         int[] nArray = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4};
         try {
             int n = nArray[by - 1];
@@ -136,8 +123,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public float getFloat() {
+    public float getFloat() throws SerializerBufferUnderrunException {
         try {
             float f2 = Float.intBitsToFloat(this.intDeser.retrieveInt(this.ddata, this.dpos));
             this.dpos += 4;
@@ -148,8 +134,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getFloatArray(float[] fArray) {
+    public void getFloatArray(float[] fArray) throws SerializerBufferUnderrunException {
         try {
             int n = fArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
@@ -162,8 +147,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public short getInt16() {
+    public short getInt16() throws SerializerBufferUnderrunException {
         try {
             short s = this.intDeser.retrieveShort(this.ddata, this.dpos);
             this.dpos += 2;
@@ -174,8 +158,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getInt16Array(short[] sArray) {
+    public void getInt16Array(short[] sArray) throws SerializerBufferUnderrunException {
         try {
             int n = sArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
@@ -188,8 +171,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public char getUChar16() {
+    public char getUChar16() throws SerializerBufferUnderrunException {
         try {
             short s = this.intDeser.retrieveShort(this.ddata, this.dpos);
             this.dpos += 2;
@@ -200,8 +182,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getUChar16Array(char[] cArray) {
+    public void getUChar16Array(char[] cArray) throws SerializerBufferUnderrunException {
         try {
             int n = cArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
@@ -214,8 +195,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public int getInt32() {
+    public int getInt32() throws SerializerBufferUnderrunException {
         try {
             int n = this.intDeser.retrieveInt(this.ddata, this.dpos);
             this.dpos += 4;
@@ -226,8 +206,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getInt32Array(int[] nArray) {
+    public void getInt32Array(int[] nArray) throws SerializerBufferUnderrunException {
         try {
             int n = nArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
@@ -240,8 +219,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public long getInt64() {
+    public long getInt64() throws SerializerBufferUnderrunException {
         try {
             long l = this.intDeser.retrieveLong(this.ddata, this.dpos);
             this.dpos += 8;
@@ -252,8 +230,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getInt64Array(long[] lArray) {
+    public void getInt64Array(long[] lArray) throws SerializerBufferUnderrunException {
         try {
             int n = lArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
@@ -266,8 +243,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public byte getInt8() {
+    public byte getInt8() throws SerializerBufferUnderrunException {
         try {
             byte by = this.ddata[this.dpos];
             ++this.dpos;
@@ -278,8 +254,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getInt8Array(byte[] byArray) {
+    public void getInt8Array(byte[] byArray) throws SerializerBufferUnderrunException {
         try {
             int n = byArray.length;
             System.arraycopy((Object)this.ddata, this.dpos, (Object)byArray, 0, n);
@@ -290,10 +265,9 @@ Cloneable {
         }
     }
 
-    @Override
-    public int getUInt16() {
+    public int getUInt16() throws SerializerBufferUnderrunException {
         try {
-            int n = this.intDeser.retrieveUnsignedShort(this.ddata, this.dpos) & 0xFFFF0000;
+            int n = this.intDeser.retrieveUnsignedShort(this.ddata, this.dpos) & 0xFFFF;
             this.dpos += 2;
             return n;
         }
@@ -302,12 +276,11 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getUInt16Array(int[] nArray) {
+    public void getUInt16Array(int[] nArray) throws SerializerBufferUnderrunException {
         try {
             int n = nArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
-                nArray[i2] = this.intDeser.retrieveUnsignedShort(this.ddata, this.dpos) & 0xFFFF0000;
+                nArray[i2] = this.intDeser.retrieveUnsignedShort(this.ddata, this.dpos) & 0xFFFF;
                 this.dpos += 2;
             }
         }
@@ -316,10 +289,9 @@ Cloneable {
         }
     }
 
-    @Override
-    public long getUInt32() {
+    public long getUInt32() throws SerializerBufferUnderrunException {
         try {
-            long l = this.intDeser.retrieveUnsignedInt(this.ddata, this.dpos) & 0;
+            long l = this.intDeser.retrieveUnsignedInt(this.ddata, this.dpos) & 0xFFFFFFFFL;
             this.dpos += 4;
             return l;
         }
@@ -328,12 +300,11 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getUInt32Array(long[] lArray) {
+    public void getUInt32Array(long[] lArray) throws SerializerBufferUnderrunException {
         try {
             int n = lArray.length;
             for (int i2 = 0; i2 < n; ++i2) {
-                lArray[i2] = this.intDeser.retrieveUnsignedInt(this.ddata, this.dpos) & 0;
+                lArray[i2] = this.intDeser.retrieveUnsignedInt(this.ddata, this.dpos) & 0xFFFFFFFFL;
                 this.dpos += 4;
             }
         }
@@ -342,18 +313,15 @@ Cloneable {
         }
     }
 
-    @Override
-    public long getUInt64() {
+    public long getUInt64() throws SerializerBufferUnderrunException {
         return this.getInt64();
     }
 
-    @Override
-    public void getUInt64Array(long[] lArray) {
+    public void getUInt64Array(long[] lArray) throws SerializerBufferUnderrunException {
         this.getInt64Array(lArray);
     }
 
-    @Override
-    public short getUInt8() {
+    public short getUInt8() throws SerializerBufferUnderrunException {
         try {
             short s = (short)(this.ddata[this.dpos] & 0xFF);
             ++this.dpos;
@@ -364,8 +332,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getUInt8Array(short[] sArray) {
+    public void getUInt8Array(short[] sArray) throws SerializerBufferUnderrunException {
         try {
             for (int i2 = 0; i2 < sArray.length; ++i2) {
                 sArray[i2] = (short)(this.ddata[this.dpos] & 0xFF);
@@ -377,8 +344,7 @@ Cloneable {
         }
     }
 
-    @Override
-    public void getRawBytes(byte[] byArray) {
+    public void getRawBytes(byte[] byArray) throws SerializerException {
         try {
             for (int i2 = 0; i2 < byArray.length; ++i2) {
                 byArray[i2] = this.ddata[this.dpos];
@@ -390,27 +356,22 @@ Cloneable {
         }
     }
 
-    @Override
     public int bytesLeft() {
         return this.ddata.length - this.dpos;
     }
 
-    @Override
     public String getDescription() {
         return this.intDeser.getDescription();
     }
 
-    @Override
     public byte getId() {
         return this.id;
     }
 
-    @Override
     public IStreamSerializer createCompatibleStreamSerializer() {
         return new DefaultSerializerBase(this.intDeser.createCompatibleSerializer(), this.id);
     }
 
-    @Override
     public IStreamDeserializer createCompatibleStreamDeserializer() {
         return new DefaultDeserializerBase(this.intDeser.createCompatibleDeserializer(), this.id);
     }

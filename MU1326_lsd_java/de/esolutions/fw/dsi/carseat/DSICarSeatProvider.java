@@ -32,28 +32,23 @@ implements DSICarSeat {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$carseat$DSICarSeat == null ? (class$org$dsi$ifc$carseat$DSICarSeat = DSICarSeatProvider.class$("org.dsi.ifc.carseat.DSICarSeat")) : class$org$dsi$ifc$carseat$DSICarSeat).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarSeatProxy(this.instance, (DSICarSeatReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setSeatRadioKeyAutomatic(boolean bl) {
         try {
             this.proxy.setSeatRadioKeyAutomatic(bl);
@@ -63,7 +58,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatCodriverSettingsFromRear(boolean bl) {
         try {
             this.proxy.setSeatCodriverSettingsFromRear(bl);
@@ -73,7 +67,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatCodriverSettingsFromDriver(boolean bl) {
         try {
             this.proxy.setSeatCodriverSettingsFromDriver(bl);
@@ -83,7 +76,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatEasyEntryFrontLeft(boolean bl) {
         try {
             this.proxy.setSeatEasyEntryFrontLeft(bl);
@@ -93,7 +85,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatEasyEntryFrontRight(boolean bl) {
         try {
             this.proxy.setSeatEasyEntryFrontRight(bl);
@@ -103,7 +94,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatEasyEntryRearLeft(boolean bl) {
         try {
             this.proxy.setSeatEasyEntryRearLeft(bl);
@@ -113,7 +103,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatEasyEntryRearRight(boolean bl) {
         try {
             this.proxy.setSeatEasyEntryRearRight(bl);
@@ -123,7 +112,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition) {
         try {
             this.proxy.setSeatSpecialPosition(seatSpecialPosition);
@@ -133,7 +121,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSpecialPositionRearCoDriver(SeatSpecialPosition seatSpecialPosition) {
         try {
             this.proxy.setSeatSpecialPositionRearCoDriver(seatSpecialPosition);
@@ -143,7 +130,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void showSeatPopup(SeatContent seatContent) {
         try {
             this.proxy.showSeatPopup(seatContent);
@@ -153,7 +139,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void cancelSeatPopup(SeatContent seatContent, int n) {
         try {
             this.proxy.cancelSeatPopup(seatContent, n);
@@ -163,7 +148,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatHMIIsReady(boolean bl) {
         try {
             this.proxy.setSeatHMIIsReady(bl);
@@ -173,7 +157,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatPneumaticCodriverSettingsFromDriver(boolean bl) {
         try {
             this.proxy.setSeatPneumaticCodriverSettingsFromDriver(bl);
@@ -183,7 +166,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void showSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
         try {
             this.proxy.showSeatPneumaticPopup(seatPneumaticContent);
@@ -193,7 +175,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void cancelSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent, int n) {
         try {
             this.proxy.cancelSeatPneumaticPopup(seatPneumaticContent, n);
@@ -203,7 +184,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSetFactoryDefault() {
         try {
             this.proxy.setSeatSetFactoryDefault();
@@ -213,7 +193,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatPneumaticSetFactoryDefault() {
         try {
             this.proxy.setSeatPneumaticSetFactoryDefault();
@@ -223,7 +202,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void startSeatMoveRearSeatDisplay() {
         try {
             this.proxy.startSeatMoveRearSeatDisplay();
@@ -233,7 +211,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void abortSeatMoveRearSeatDisplay() {
         try {
             this.proxy.abortSeatMoveRearSeatDisplay();
@@ -243,7 +220,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatMassageData(int n, MassageData massageData) {
         try {
             this.proxy.setSeatMassageData(n, massageData);
@@ -253,7 +229,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSwitcherDataUp(int n, SwitcherDataUpDown switcherDataUpDown) {
         try {
             this.proxy.setSeatSwitcherDataUp(n, switcherDataUpDown);
@@ -263,7 +238,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSwitcherDataDown(int n, SwitcherDataUpDown switcherDataUpDown) {
         try {
             this.proxy.setSeatSwitcherDataDown(n, switcherDataUpDown);
@@ -273,7 +247,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSwitcherDataForward(int n, SwitcherDataBackForward switcherDataBackForward) {
         try {
             this.proxy.setSeatSwitcherDataForward(n, switcherDataBackForward);
@@ -283,7 +256,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatSwitcherDataBack(int n, SwitcherDataBackForward switcherDataBackForward) {
         try {
             this.proxy.setSeatSwitcherDataBack(n, switcherDataBackForward);
@@ -293,7 +265,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatAdjustment(int n, SeatAdjustment seatAdjustment) {
         try {
             this.proxy.setSeatAdjustment(n, seatAdjustment);
@@ -303,7 +274,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void startSeatDeleteSpecialPosition(boolean bl, boolean bl2) {
         try {
             this.proxy.startSeatDeleteSpecialPosition(bl, bl2);
@@ -313,7 +283,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatCoDriverSettingsFromRearActivation(boolean bl) {
         try {
             this.proxy.setSeatCoDriverSettingsFromRearActivation(bl);
@@ -323,7 +292,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatFoldHeadRestRearDriver(boolean bl) {
         try {
             this.proxy.setSeatFoldHeadRestRearDriver(bl);
@@ -333,7 +301,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatFoldHeadRestRearCoDriver(boolean bl) {
         try {
             this.proxy.setSeatFoldHeadRestRearCoDriver(bl);
@@ -343,7 +310,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatStopButton(int n, boolean bl) {
         try {
             this.proxy.setSeatStopButton(n, bl);
@@ -353,7 +319,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatPremiumMassageData(int n, MassageData massageData) {
         try {
             this.proxy.setSeatPremiumMassageData(n, massageData);
@@ -363,7 +328,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatPremiumMassageSwitcher(int n, boolean bl) {
         try {
             this.proxy.setSeatPremiumMassageSwitcher(n, bl);
@@ -373,7 +337,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setSeatMassageSwitcher(int n, boolean bl) {
         try {
             this.proxy.setSeatMassageSwitcher(n, bl);
@@ -383,7 +346,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -393,7 +355,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -403,7 +364,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -413,7 +373,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -423,7 +382,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -433,7 +391,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -443,7 +400,6 @@ implements DSICarSeat {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -7,82 +7,56 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIMessagingServiceConfigurationListener
 extends DSIListener {
-    default public void setSMSCNumberResponse(int n) {
-    }
+    public void setSMSCNumberResponse(int var1);
 
-    default public void activateStoreSmsOnSentResponse(int n) {
-    }
+    public void activateStoreSmsOnSentResponse(int var1);
 
-    default public void setShortMessageValidityPeriodResponse(int n) {
-    }
+    public void setShortMessageValidityPeriodResponse(int var1);
 
-    default public void activateSMSDeliveryReportResponse(int n) {
-    }
+    public void activateSMSDeliveryReportResponse(int var1);
 
-    default public void updateSMSCNumber(String string, int n) {
-    }
+    public void updateSMSCNumber(String var1, int var2);
 
-    default public void setPhoneSystemRingingVolumeResponse(int n) {
-    }
+    public void setPhoneSystemRingingVolumeResponse(int var1);
 
-    default public void setPhoneSystemRingingTypeResponse(int n) {
-    }
+    public void setPhoneSystemRingingTypeResponse(int var1);
 
-    default public void activateEmailIncludeOldMailInReplyResponse(int n) {
-    }
+    public void activateEmailIncludeOldMailInReplyResponse(int var1);
 
-    default public void activateEmailEmptySubjectNotificationResponse(int n) {
-    }
+    public void activateEmailEmptySubjectNotificationResponse(int var1);
 
-    default public void changeFolderViewModeResponse(int n) {
-    }
+    public void changeFolderViewModeResponse(int var1);
 
-    default public void restoreFactorySettingsResponse(int n) {
-    }
+    public void restoreFactorySettingsResponse(int var1);
 
-    default public void responseSetSmsIndications(int n) {
-    }
+    public void responseSetSmsIndications(int var1);
 
-    default public void responseSetEmailIndications(int n) {
-    }
+    public void responseSetEmailIndications(int var1);
 
-    default public void responseSetPushSms(int n) {
-    }
+    public void responseSetPushSms(int var1);
 
-    default public void updateSmsDeliveryReport(boolean bl, int n) {
-    }
+    public void updateSmsDeliveryReport(boolean var1, int var2);
 
-    default public void updateStoreSmsOnSent(boolean bl, int n) {
-    }
+    public void updateStoreSmsOnSent(boolean var1, int var2);
 
-    default public void updateShortMessageValidityPeriod(int n, int n2) {
-    }
+    public void updateShortMessageValidityPeriod(int var1, int var2);
 
-    default public void updatePhoneSystemRingingVolume(int n, int n2) {
-    }
+    public void updatePhoneSystemRingingVolume(int var1, int var2);
 
-    default public void updatePhoneSystemRingingType(int n, int n2) {
-    }
+    public void updatePhoneSystemRingingType(int var1, int var2);
 
-    default public void updateEmailIncludeOldMailInReply(boolean bl, int n) {
-    }
+    public void updateEmailIncludeOldMailInReply(boolean var1, int var2);
 
-    default public void updateEmailEmptySubjectNotification(boolean bl, int n) {
-    }
+    public void updateEmailEmptySubjectNotification(boolean var1, int var2);
 
-    default public void updateFolderViewMode(int n, int n2) {
-    }
+    public void updateFolderViewMode(int var1, int var2);
 
-    default public void updateAccountPreferences(int n, String string, int n2) {
-    }
+    public void updateAccountPreferences(int var1, String var2, int var3);
 
-    default public void updateSmsIndications(boolean bl, int n) {
-    }
+    public void updateSmsIndications(boolean var1, int var2);
 
-    default public void updateEmailIndications(boolean bl, int n) {
-    }
+    public void updateEmailIndications(boolean var1, int var2);
 
-    default public void updatePushSms(boolean bl, int n) {
-    }
+    public void updatePushSms(boolean var1, int var2);
 }
 

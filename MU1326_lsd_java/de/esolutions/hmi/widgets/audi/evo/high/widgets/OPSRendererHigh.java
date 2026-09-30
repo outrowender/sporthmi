@@ -29,13 +29,13 @@ public class OPSRendererHigh
 extends AbstractRendererHigh
 implements IKanziTemplateRenderer,
 IOPSRenderer {
-    private static final String OPS_SPLITSCREEN_FBO;
-    private static final String OPS_SPLITSCREEN_OFFSCREEN;
-    private static final String OPS_LIEGEND_FBO;
-    private static final String OPS_LIEGEND_OFFSCREEN;
-    private static final String OPS_PERSPECTIVE_OFFSCREEN;
-    private static final String OPS_PERSPECTIVE_FBO;
-    private static final int VPS_VIEW_TOPVIEW;
+    private static final String OPS_SPLITSCREEN_FBO = "ops_splitscreen_FBO";
+    private static final String OPS_SPLITSCREEN_OFFSCREEN = "ops_splitscreen_offscreen";
+    private static final String OPS_LIEGEND_FBO = "ops_liegend_FBO";
+    private static final String OPS_LIEGEND_OFFSCREEN = "ops_liegend_offscreen";
+    private static final String OPS_PERSPECTIVE_OFFSCREEN = "ops_perspective_offscreen";
+    private static final String OPS_PERSPECTIVE_FBO = "ops_perspective_FBO";
+    private static final int VPS_VIEW_TOPVIEW = 4;
     private final OPSController controller;
     private static IWrappedNode3DImage opsNode;
     private static IWrappedNode3DImage opsLiegendNode;
@@ -94,7 +94,6 @@ IOPSRenderer {
         this.controller = oPSController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         if (ealManager == null) {
@@ -120,8 +119,8 @@ IOPSRenderer {
         propertySectorValues = new IProperty[16];
         propertySectorColors = new IProperty[16];
         for (int i2 = 0; i2 < 16; ++i2) {
-            OPSRendererHigh.propertySectorValues[i2] = this.getProperty(propertyHolderNode, new StringBuffer().append("ops_seg").append(i2).toString());
-            OPSRendererHigh.propertySectorColors[i2] = this.getProperty(propertyHolderNode, new StringBuffer().append("ops_segColor").append(i2).toString());
+            OPSRendererHigh.propertySectorValues[i2] = this.getProperty(propertyHolderNode, "ops_seg" + i2);
+            OPSRendererHigh.propertySectorColors[i2] = this.getProperty(propertyHolderNode, "ops_segColor" + i2);
         }
         propertyRCTALeft = this.getProperty(propertyHolderNode, "ops_rcta_left");
         propertyRCTARight = this.getProperty(propertyHolderNode, "ops_rcta_right");
@@ -170,7 +169,7 @@ IOPSRenderer {
             if (!this.mergeKZB()) return;
             ealManager.setOpsKzbMergeStarted(true);
         } else if (!ealManager.isOpsKzbMerged() && !asyncMergeFinalized) {
-            logChannelParking.log(1078071040, "OPSRendererHigh#loadResources: async loading is running");
+            logChannelParking.log(1000000, "OPSRendererHigh#loadResources: async loading is running");
             return;
         }
         IMaterial iMaterial = this.getEALManager().createMaterial("Prefabs/MaterialLibrary", "Materials/PremultipliedAlpha/PremultipliedAlpha", 10, -1);
@@ -200,14 +199,14 @@ IOPSRenderer {
         iNode2D.dispose();
         ealManager.setOpsKzbMerged(true);
         asyncMergeFinalized = true;
-        logChannelParking.log(1078071040, "OPSRendererHigh#mergeKZB: synchronous merge finished");
+        logChannelParking.log(1000000, "OPSRendererHigh#mergeKZB: synchronous merge finished");
         return true;
     }
 
     private void loadOPSResources(IMaterial iMaterial) {
         if (opsNode == null) {
-            ops2DNode = ealManager.getShortcutNode2D("ops_splitscreen_offscreen");
-            offscreenTextureOPS = ealManager.getProject().getTexture("ops_splitscreen_FBO");
+            ops2DNode = ealManager.getShortcutNode2D(OPS_SPLITSCREEN_OFFSCREEN);
+            offscreenTextureOPS = ealManager.getProject().getTexture(OPS_SPLITSCREEN_FBO);
             IWrappedTexture iWrappedTexture = this.getEALManager().getWrappedTexture(offscreenTextureOPS);
             opsNode = this.getEALManager().createImage3D(null, EALManager.createNodeName("ops3DNode", this), iWrappedTexture, 1, true, (Object)this);
             opsNode.getImageNode().setMaterial(iMaterial);
@@ -215,30 +214,30 @@ IOPSRenderer {
             speedUnitOPSNode2D = ealManager.getShortcutNode2D("pla_splitscreen_speedUnit_anchor");
             unitsOPS2DText = new INode2DText(ealManager.getProject(), "pla_splitscreen_speedUnit", 10, this.formatUnitsText());
             unitsOPS2DText.setVisible(true);
-            unitsOPS2DText.setColor(EALManager.createColorCode(255));
-            unitsOPS2DText.setTranslation(8257, 55361);
+            unitsOPS2DText.setColor(EALManager.createColorCode(-16777216));
+            unitsOPS2DText.setTranslation(10.0f, 27.0f);
             speedUnitOPSNode2D.add(unitsOPS2DText);
-            logChannelParking.log(1078071040, "OPSRendererHigh#loadOPSResources: OPS resources loaded");
+            logChannelParking.log(1000000, "OPSRendererHigh#loadOPSResources: OPS resources loaded");
         }
     }
 
     private void loadOPSHorizontalResources(IMaterial iMaterial) {
         EALManager eALManager = this.getEALManager();
         if (opsLiegendNode == null && this.horizontalOrientation) {
-            opsLiegend2DNode = eALManager.getShortcutNode2D("ops_liegend_offscreen");
-            offscreenTextureOPSLiegend = eALManager.getProject().getTexture("ops_liegend_FBO");
+            opsLiegend2DNode = eALManager.getShortcutNode2D(OPS_LIEGEND_OFFSCREEN);
+            offscreenTextureOPSLiegend = eALManager.getProject().getTexture(OPS_LIEGEND_FBO);
             IWrappedTexture iWrappedTexture = this.getEALManager().getWrappedTexture(offscreenTextureOPSLiegend);
             opsLiegendNode = this.getEALManager().createImage3D(null, EALManager.createNodeName("opsLiegend3DNode", this), iWrappedTexture, 1, true, (Object)this);
             opsLiegendNode.getImageNode().setMaterial(iMaterial);
             opsLiegend2DNode.setVisible(true);
-            logChannelParking.log(1078071040, "OPSRendererHigh#loadOPSHorizontalResources: OPS horizontal resources loaded");
+            logChannelParking.log(1000000, "OPSRendererHigh#loadOPSHorizontalResources: OPS horizontal resources loaded");
         }
     }
 
     private void loadPLAResources(IMaterial iMaterial) {
         if (plaNode == null && this.controller.isPLAModeActive()) {
-            pla2DNode = ealManager.getShortcutNode2D("ops_perspective_offscreen");
-            offscreenTexturePLA = ealManager.getProject().getTexture("ops_perspective_FBO");
+            pla2DNode = ealManager.getShortcutNode2D(OPS_PERSPECTIVE_OFFSCREEN);
+            offscreenTexturePLA = ealManager.getProject().getTexture(OPS_PERSPECTIVE_FBO);
             IWrappedTexture iWrappedTexture = this.getEALManager().getWrappedTexture(offscreenTexturePLA);
             plaNode = this.getEALManager().createImage3D(null, EALManager.createNodeName("pla3DNode", this), iWrappedTexture, 0, true, (Object)this);
             plaNode.getImageNode().setMaterial(iMaterial);
@@ -246,18 +245,17 @@ IOPSRenderer {
             speedUnitPLANode2D = ealManager.getShortcutNode2D("pla_perspective_speedUnit_anchor");
             unitsPLA2DText = new INode2DText(ealManager.getProject(), "pla_perspective_speedUnit", 10, this.formatUnitsText());
             unitsPLA2DText.setVisible(true);
-            unitsPLA2DText.setColor(EALManager.createColorCode(255));
-            unitsPLA2DText.setTranslation(8257, 55361);
+            unitsPLA2DText.setColor(EALManager.createColorCode(-16777216));
+            unitsPLA2DText.setTranslation(10.0f, 27.0f);
             speedUnitPLANode2D.add(unitsPLA2DText);
-            logChannelParking.log(1078071040, "OPSRendererHigh#loadPLAResources: PLA resources loaded");
+            logChannelParking.log(1000000, "OPSRendererHigh#loadPLAResources: PLA resources loaded");
         }
     }
 
     private String formatUnitsText() {
-        return Speed.getSystemUnit() == 1 ? speedMetric.getFormattedMetricUnit() : new StringBuffer().append(" ").append(speedMetric.getFormattedMetricUnit()).toString();
+        return Speed.getSystemUnit() == 1 ? speedMetric.getFormattedMetricUnit() : " " + speedMetric.getFormattedMetricUnit();
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.controller.isPLAModeActive()) {
             if (pla2DNode != null) {
@@ -344,12 +342,12 @@ IOPSRenderer {
             this.setProperty(propertyParkingHoseRearWheelRadius, this.controller.getParkingHoseData().rearWheelRadius);
             this.setProperty(propertyParkingHoseTrackDisplay, this.convertTrackDisplay(this.controller.getParkingHoseData().trackDisplay));
             this.setProperty(propertyParkingHoseWheelBase, this.controller.getParkingHoseData().wheelBase / 100);
-            logChannelParking.log(1078071040, "OPSControllerHigh#applyProperties %1", (Object)this.controller.getParkingHoseData());
+            logChannelParking.log(1000000, "OPSControllerHigh#applyProperties %1", (Object)this.controller.getParkingHoseData());
         } else {
             this.setProperty(propertyOPSVisible, 0.0f);
             this.setProperty(propertySectorBackgroundsVisible, 0.0f);
             for (int i4 = 0; i4 < propertySectorValues.length; ++i4) {
-                this.setProperty(propertySectorValues[i4], 32959);
+                this.setProperty(propertySectorValues[i4], -1.0f);
             }
             this.setProperty(propertyTopviewErrorLeft, 0.0f);
             this.setProperty(propertyTopviewErrorRight, 0.0f);
@@ -389,7 +387,7 @@ IOPSRenderer {
             this.setProperty(propertyTopviewErrorRightCause_liegend, this.controller.getTopViewErrorRight() == 1 ? 0.0f : 1.0f);
             this.setProperty(propertyTopviewErrorRear_liegend, this.controller.isTopViewErrorRear() ? 1.0f : 0.0f);
         }
-        logChannelParking.log(-2137614336, "OPSRendererHigh#applyProperties VPS_VIEW_TOPVIEW = %1", this.controller.getViewMode() == 4);
+        logChannelParking.log(10000000, "OPSRendererHigh#applyProperties VPS_VIEW_TOPVIEW = %1", this.controller.getViewMode() == 4);
         if (this.controller.getViewMode() == 4) {
             this.setProperty(propertyParkingHoseTrackDisplay, 0.0f);
         }
@@ -427,7 +425,6 @@ IOPSRenderer {
         pla2DNode.invalidateObject();
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (AbstractWidget.isScreenResolution1440()) {
             return;
@@ -442,26 +439,26 @@ IOPSRenderer {
         this.loadResources(redrawContextHigh);
         if (this.controller.isPLAModeActive()) {
             if (plaNode == null) {
-                logChannelParking.log(-1601830656, "OPSRendererHigh#render: plaNode == null");
+                logChannelParking.log(100000, "OPSRendererHigh#render: plaNode == null");
                 return;
             }
             this.controller.setBounds(0, 0, 100, 100);
             this.current3DNode = plaNode;
-            logChannelParking.log(-2137614336, "OPSRendererHigh#render: current3DNode == plaNode");
+            logChannelParking.log(10000000, "OPSRendererHigh#render: current3DNode == plaNode");
         } else if (this.horizontalOrientation) {
             if (opsLiegendNode == null) {
-                logChannelParking.log(-1601830656, "OPSRendererHigh#render: opsLiegendNode == null");
+                logChannelParking.log(100000, "OPSRendererHigh#render: opsLiegendNode == null");
                 return;
             }
             this.current3DNode = opsLiegendNode;
-            logChannelParking.log(-2137614336, "OPSRendererHigh#render: current3DNode == opsLiegendNode");
+            logChannelParking.log(10000000, "OPSRendererHigh#render: current3DNode == opsLiegendNode");
         } else {
             if (opsNode == null) {
-                logChannelParking.log(-1601830656, "OPSRendererHigh#render: opsNode == null");
+                logChannelParking.log(100000, "OPSRendererHigh#render: opsNode == null");
                 return;
             }
             this.current3DNode = opsNode;
-            logChannelParking.log(-2137614336, "OPSRendererHigh#render: current3DNode == opsNode");
+            logChannelParking.log(10000000, "OPSRendererHigh#render: current3DNode == opsNode");
         }
         if (this.current3DNode != null && this.current3DNode.getParent() != null) {
             this.current3DNode.getParent().remove(this.current3DNode);
@@ -470,11 +467,9 @@ IOPSRenderer {
         this.applyProperties();
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -485,7 +480,6 @@ IOPSRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.clearResources();
@@ -495,7 +489,6 @@ IOPSRenderer {
         this.horizontalOrientation = bl;
     }
 
-    @Override
     public void finalizeAsyncMerge(String string) {
         EALManager eALManager = this.getEALManager();
         INode2D iNode2D = eALManager.getShortcutNode2D(string);
@@ -506,7 +499,7 @@ IOPSRenderer {
         eALManager.getMasterRoot().addAuto(iNode2D, -30);
         iNode2D.dispose();
         asyncMergeFinalized = true;
-        logChannelParking.log(1078071040, "OPSRendererHigh#finalizeAsyncMerge: asynchronous merge finalized");
+        logChannelParking.log(1000000, "OPSRendererHigh#finalizeAsyncMerge: asynchronous merge finalized");
     }
 
     static {

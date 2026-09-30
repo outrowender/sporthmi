@@ -16,6 +16,7 @@ import de.esolutions.fw.comm.core.IStub;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.message.ICallMethodSerializeCallback;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializable;
@@ -47,58 +48,47 @@ implements IClientHandler {
         this.lastConnectTimeStamp = iTimeSource.getCurrentTime();
     }
 
-    @Override
     public short getPeerAgentID() {
         return this.myAgentID;
     }
 
-    @Override
     public byte getProtocolVersion() {
         return 0;
     }
 
-    @Override
     public short getPeerAgentEpoch() {
         return this.myAgentEpoch;
     }
 
-    @Override
     public short getMyAssignedAgentID() {
         return this.myAgentID;
     }
 
-    @Override
     public short getMyAssignedAgentEpoch() {
         return this.myAgentEpoch;
     }
 
-    @Override
     public ServiceInstanceID getBrokerServiceInstanceID() {
         return null;
     }
 
-    @Override
     public void shutdown() {
         CommAgentTracing.CLIENT.log((short)1, "shutdown local handler");
         this.lastDisconnectTimeStamp = this.monoTime.getCurrentTime();
     }
 
-    @Override
     public boolean isConnected() {
         return true;
     }
 
-    @Override
     public boolean isDeadOrError() {
         return false;
     }
 
-    @Override
     public boolean isAvailable() {
         return true;
     }
 
-    @Override
     public boolean connectProxy(Proxy proxy) {
         CommAgentTracing.CLIENT.log((short)1, "< local: connectProxy");
         short s = this.proxyStubPools.addProxy(proxy, this);
@@ -159,7 +149,6 @@ implements IClientHandler {
         return true;
     }
 
-    @Override
     public void proxyAliveDone(Proxy proxy) {
         boolean bl = proxy.setNotifyProxyBackend();
         if (bl) {
@@ -167,8 +156,7 @@ implements IClientHandler {
         }
     }
 
-    @Override
-    public void remoteCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) {
+    public void remoteCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) throws MethodException {
         CommAgentTracing.CLIENT.log((short)1, "< local: remoteCallMethod stub=#%1 method=#%2", new Short(s), (Object)new Short(s2));
         Stub stub = this.proxyStubPools.getStubForID(s);
         if (stub == null) {
@@ -208,7 +196,6 @@ implements IClientHandler {
         CommAgentTracing.CLIENT.log((short)1, "> local: remoteCallMethod stub=#%1 method=#%2", new Short(s), (Object)new Short(s2));
     }
 
-    @Override
     public void disconnectProxy(Proxy proxy) {
         Proxy proxy2;
         short s = proxy.getProxyID();
@@ -234,7 +221,6 @@ implements IClientHandler {
         CommAgentTracing.CLIENT.log((short)1, "> local: disconnectProxy proxy=#%1 stub=#%2 instance=%3", new Short(s), (Object)new Short(s2), (Object)proxy.getInstanceID());
     }
 
-    @Override
     public void dropStub(IStub iStub) {
         short s = iStub.getRemoteProxyID();
         CommAgentTracing.CLIENT.log((short)1, "= local: removeStub: proxy=#%1 stub=#%2 instance=#%3", new Short(s), (Object)new Short(iStub.getStubID()), (Object)iStub.getService().getInstanceID());
@@ -248,9 +234,8 @@ implements IClientHandler {
         }
     }
 
-    @Override
     public ClientInfo createInfo() {
-        return new ClientInfo(-1, -1, 0, super.getClass().getName(), "local", null, -1, -1, 0, "ok", this.lastConnectTimeStamp, this.lastDisconnectTimeStamp, null, null);
+        return new ClientInfo(-1, -1, 0, this.getClass().getName(), "local", null, -1, -1, 0, "ok", this.lastConnectTimeStamp, this.lastDisconnectTimeStamp, null, null);
     }
 }
 

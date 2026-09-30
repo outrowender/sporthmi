@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.RDKSpeedLimitSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKSpeedLimit;
 import org.dsi.ifc.carcomfort.RDKTireInfo;
 
 public class RDKTireInfoSerializer {
-    public static void putOptionalRDKTireInfo(ISerializer iSerializer, RDKTireInfo rDKTireInfo) {
+    public static void putOptionalRDKTireInfo(ISerializer iSerializer, RDKTireInfo rDKTireInfo) throws SerializerException {
         boolean bl = rDKTireInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class RDKTireInfoSerializer {
         }
     }
 
-    public static void putOptionalRDKTireInfoVarArray(ISerializer iSerializer, RDKTireInfo[] rDKTireInfoArray) {
+    public static void putOptionalRDKTireInfoVarArray(ISerializer iSerializer, RDKTireInfo[] rDKTireInfoArray) throws SerializerException {
         boolean bl = rDKTireInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class RDKTireInfoSerializer {
         }
     }
 
-    public static RDKTireInfo getOptionalRDKTireInfo(IDeserializer iDeserializer) {
+    public static RDKTireInfo getOptionalRDKTireInfo(IDeserializer iDeserializer) throws SerializerException {
         RDKTireInfo rDKTireInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -105,7 +106,7 @@ public class RDKTireInfoSerializer {
         return rDKTireInfo;
     }
 
-    public static RDKTireInfo[] getOptionalRDKTireInfoVarArray(IDeserializer iDeserializer) {
+    public static RDKTireInfo[] getOptionalRDKTireInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKTireInfo[] rDKTireInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 import de.esolutions.fw.comm.dsi.carhybrid.impl.HybridSinkStateSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.HybridEnergyFlowState;
 import org.dsi.ifc.carhybrid.HybridSinkState;
 
 public class HybridEnergyFlowStateSerializer {
-    public static void putOptionalHybridEnergyFlowState(ISerializer iSerializer, HybridEnergyFlowState hybridEnergyFlowState) {
+    public static void putOptionalHybridEnergyFlowState(ISerializer iSerializer, HybridEnergyFlowState hybridEnergyFlowState) throws SerializerException {
         boolean bl = hybridEnergyFlowState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class HybridEnergyFlowStateSerializer {
         }
     }
 
-    public static void putOptionalHybridEnergyFlowStateVarArray(ISerializer iSerializer, HybridEnergyFlowState[] hybridEnergyFlowStateArray) {
+    public static void putOptionalHybridEnergyFlowStateVarArray(ISerializer iSerializer, HybridEnergyFlowState[] hybridEnergyFlowStateArray) throws SerializerException {
         boolean bl = hybridEnergyFlowStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class HybridEnergyFlowStateSerializer {
         }
     }
 
-    public static HybridEnergyFlowState getOptionalHybridEnergyFlowState(IDeserializer iDeserializer) {
+    public static HybridEnergyFlowState getOptionalHybridEnergyFlowState(IDeserializer iDeserializer) throws SerializerException {
         HybridEnergyFlowState hybridEnergyFlowState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class HybridEnergyFlowStateSerializer {
         return hybridEnergyFlowState;
     }
 
-    public static HybridEnergyFlowState[] getOptionalHybridEnergyFlowStateVarArray(IDeserializer iDeserializer) {
+    public static HybridEnergyFlowState[] getOptionalHybridEnergyFlowStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         HybridEnergyFlowState[] hybridEnergyFlowStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

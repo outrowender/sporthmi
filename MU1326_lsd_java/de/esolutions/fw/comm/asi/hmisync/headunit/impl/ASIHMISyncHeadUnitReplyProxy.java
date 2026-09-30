@@ -7,32 +7,23 @@ import de.esolutions.fw.comm.asi.hmisync.headunit.ASIHMISyncHeadUnitReply;
 import de.esolutions.fw.comm.asi.hmisync.headunit.CarConfiguration;
 import de.esolutions.fw.comm.asi.hmisync.headunit.ClockDate;
 import de.esolutions.fw.comm.asi.hmisync.headunit.ClockTime;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$10;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$11;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$12;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$13;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$14;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$15;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$16;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$2;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$3;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$4;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$5;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$6;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$7;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$8;
-import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy$9;
+import de.esolutions.fw.comm.asi.hmisync.headunit.impl.CarConfigurationSerializer;
+import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ClockDateSerializer;
+import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ClockTimeSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ASIHMISyncHeadUnitReplyProxy
 implements ASIHMISyncHeadUnitReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.hmisync.headunit.ASIHMISyncHeadUnit");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ASIHMISyncHeadUnitReplyProxy() {
@@ -40,105 +31,184 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void resetLanguage(int n, String string) {
-        ASIHMISyncHeadUnitReplyProxy$1 aSIHMISyncHeadUnitReplyProxy$1 = new ASIHMISyncHeadUnitReplyProxy$1(this, n, string);
-        this.proxy.remoteCallMethod((short)3, aSIHMISyncHeadUnitReplyProxy$1);
+    public void resetLanguage(final int n, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$2 aSIHMISyncHeadUnitReplyProxy$2 = new ASIHMISyncHeadUnitReplyProxy$2(this, string, bl);
-        this.proxy.remoteCallMethod((short)7, aSIHMISyncHeadUnitReplyProxy$2);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$3 aSIHMISyncHeadUnitReplyProxy$3 = new ASIHMISyncHeadUnitReplyProxy$3(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)18, aSIHMISyncHeadUnitReplyProxy$3);
+    public void updateRequestIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$4 aSIHMISyncHeadUnitReplyProxy$4 = new ASIHMISyncHeadUnitReplyProxy$4(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)17, aSIHMISyncHeadUnitReplyProxy$4);
+    public void updateReplyIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void updateClockTime(ClockTime clockTime, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$5 aSIHMISyncHeadUnitReplyProxy$5 = new ASIHMISyncHeadUnitReplyProxy$5(this, clockTime, bl);
-        this.proxy.remoteCallMethod((short)9, aSIHMISyncHeadUnitReplyProxy$5);
+    public void updateClockTime(final ClockTime clockTime, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ClockTimeSerializer.putOptionalClockTime(iSerializer, clockTime);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void updateClockDate(ClockDate clockDate, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$6 aSIHMISyncHeadUnitReplyProxy$6 = new ASIHMISyncHeadUnitReplyProxy$6(this, clockDate, bl);
-        this.proxy.remoteCallMethod((short)8, aSIHMISyncHeadUnitReplyProxy$6);
+    public void updateClockDate(final ClockDate clockDate, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ClockDateSerializer.putOptionalClockDate(iSerializer, clockDate);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void updateLanguage1(int n, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$7 aSIHMISyncHeadUnitReplyProxy$7 = new ASIHMISyncHeadUnitReplyProxy$7(this, n, bl);
-        this.proxy.remoteCallMethod((short)11, aSIHMISyncHeadUnitReplyProxy$7);
+    public void updateLanguage1(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void updateLanguage2(String string, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$8 aSIHMISyncHeadUnitReplyProxy$8 = new ASIHMISyncHeadUnitReplyProxy$8(this, string, bl);
-        this.proxy.remoteCallMethod((short)12, aSIHMISyncHeadUnitReplyProxy$8);
+    public void updateLanguage2(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void updateTemperatureUnit(int n, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$9 aSIHMISyncHeadUnitReplyProxy$9 = new ASIHMISyncHeadUnitReplyProxy$9(this, n, bl);
-        this.proxy.remoteCallMethod((short)15, aSIHMISyncHeadUnitReplyProxy$9);
+    public void updateTemperatureUnit(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void updateSpeedUnit(int n, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$10 aSIHMISyncHeadUnitReplyProxy$10 = new ASIHMISyncHeadUnitReplyProxy$10(this, n, bl);
-        this.proxy.remoteCallMethod((short)14, aSIHMISyncHeadUnitReplyProxy$10);
+    public void updateSpeedUnit(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void updateDistanceUnit(int n, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$11 aSIHMISyncHeadUnitReplyProxy$11 = new ASIHMISyncHeadUnitReplyProxy$11(this, n, bl);
-        this.proxy.remoteCallMethod((short)10, aSIHMISyncHeadUnitReplyProxy$11);
+    public void updateDistanceUnit(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void updatePressureUnit(int n, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$12 aSIHMISyncHeadUnitReplyProxy$12 = new ASIHMISyncHeadUnitReplyProxy$12(this, n, bl);
-        this.proxy.remoteCallMethod((short)13, aSIHMISyncHeadUnitReplyProxy$12);
+    public void updatePressureUnit(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void updateCarConfiguration(CarConfiguration carConfiguration, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$13 aSIHMISyncHeadUnitReplyProxy$13 = new ASIHMISyncHeadUnitReplyProxy$13(this, carConfiguration, bl);
-        this.proxy.remoteCallMethod((short)16, aSIHMISyncHeadUnitReplyProxy$13);
+    public void updateCarConfiguration(final CarConfiguration carConfiguration, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarConfigurationSerializer.putOptionalCarConfiguration(iSerializer, carConfiguration);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void updateRegion(int n, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$14 aSIHMISyncHeadUnitReplyProxy$14 = new ASIHMISyncHeadUnitReplyProxy$14(this, n, bl);
-        this.proxy.remoteCallMethod((short)19, aSIHMISyncHeadUnitReplyProxy$14);
+    public void updateRegion(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void updateExtCarConfiguration(int[] nArray, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$15 aSIHMISyncHeadUnitReplyProxy$15 = new ASIHMISyncHeadUnitReplyProxy$15(this, nArray, bl);
-        this.proxy.remoteCallMethod((short)20, aSIHMISyncHeadUnitReplyProxy$15);
+    public void updateExtCarConfiguration(final int[] nArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void updateSplashScreenCoding(short s, boolean bl) {
-        ASIHMISyncHeadUnitReplyProxy$16 aSIHMISyncHeadUnitReplyProxy$16 = new ASIHMISyncHeadUnitReplyProxy$16(this, s, bl);
-        this.proxy.remoteCallMethod((short)21, aSIHMISyncHeadUnitReplyProxy$16);
+    public void updateSplashScreenCoding(final short s, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt16(s);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 }
 

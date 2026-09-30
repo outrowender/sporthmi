@@ -6,10 +6,8 @@ package de.esolutions.fw.util.config.query;
 import de.esolutions.fw.util.config.ConfigValue;
 
 public interface IConfigValueResolver {
-    default public ConfigValue getInArray(ConfigValue configValue, String string) {
-    }
+    public ConfigValue getInArray(ConfigValue var1, String var2);
 
-    default public ConfigValue getInDictionary(ConfigValue configValue, String string) {
-    }
+    public ConfigValue getInDictionary(ConfigValue var1, String var2);
 }
 

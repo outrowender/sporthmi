@@ -62,7 +62,7 @@ public class WlanDevice {
     }
 
     public String toString() {
-        return new StringBuffer("WlanDevice{").append("hwaddr=").append(this.hwaddr).append(", name=").append(this.name).append(", state=").append(this.state).append(", wlantype=").append(this.wlantype).append(", knownAtStartUp=").append(this.knownAtStartUp).append("}").toString();
+        return "WlanDevice{" + "hwaddr=" + this.hwaddr + ", name=" + this.name + ", state=" + this.state + ", wlantype=" + this.wlantype + ", knownAtStartUp=" + this.knownAtStartUp + "}";
     }
 }
 

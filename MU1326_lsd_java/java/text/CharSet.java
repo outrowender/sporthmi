@@ -4,7 +4,6 @@
 package java.text;
 
 import com.ibm.oti.util.Msg;
-import java.text.CharSet$Enumeration;
 import java.util.Hashtable;
 
 class CharSet
@@ -345,13 +344,13 @@ lbl30:
             if (this.chars.charAt(n) != '\u0000') {
                 stringBuffer.append((char)(this.chars.charAt(n) - '\u0001'));
             }
-            if (this.chars.charAt(n + 1) != '\uffff0000') {
+            if (this.chars.charAt(n + 1) != '\uffff') {
                 stringBuffer.append((char)(this.chars.charAt(n + 1) + '\u0001'));
             }
             n += 2;
         }
-        if (this.chars.charAt(this.chars.length() - 1) != '\uffff0000') {
-            stringBuffer.append('\uffff0000');
+        if (this.chars.charAt(this.chars.length() - 1) != '\uffff') {
+            stringBuffer.append('\uffff');
         }
         return stringBuffer;
     }
@@ -399,12 +398,29 @@ lbl30:
         return this.chars;
     }
 
-    public CharSet$Enumeration getChars() {
-        return new CharSet$Enumeration(this, this);
+    public Enumeration getChars() {
+        return new Enumeration(this);
     }
 
-    static /* synthetic */ String access$0(CharSet charSet) {
-        return charSet.chars;
+    class Enumeration
+    implements java.util.Enumeration {
+        int p;
+        String chars;
+
+        Enumeration(CharSet charSet2) {
+            this.chars = charSet2.chars;
+            this.p = 0;
+        }
+
+        public boolean hasMoreElements() {
+            return this.p < this.chars.length();
+        }
+
+        public Object nextElement() {
+            char[] cArray = new char[]{this.chars.charAt(this.p), this.chars.charAt(this.p + 1)};
+            this.p += 2;
+            return cArray;
+        }
     }
 }
 

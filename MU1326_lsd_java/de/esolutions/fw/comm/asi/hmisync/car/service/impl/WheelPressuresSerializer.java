@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.service.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelPressures;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class WheelPressuresSerializer {
-    public static void putOptionalWheelPressures(ISerializer iSerializer, WheelPressures wheelPressures) {
+    public static void putOptionalWheelPressures(ISerializer iSerializer, WheelPressures wheelPressures) throws SerializerException {
         boolean bl = wheelPressures == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class WheelPressuresSerializer {
         }
     }
 
-    public static void putOptionalWheelPressuresVarArray(ISerializer iSerializer, WheelPressures[] wheelPressuresArray) {
+    public static void putOptionalWheelPressuresVarArray(ISerializer iSerializer, WheelPressures[] wheelPressuresArray) throws SerializerException {
         boolean bl = wheelPressuresArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class WheelPressuresSerializer {
         }
     }
 
-    public static WheelPressures getOptionalWheelPressures(IDeserializer iDeserializer) {
+    public static WheelPressures getOptionalWheelPressures(IDeserializer iDeserializer) throws SerializerException {
         WheelPressures wheelPressures = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class WheelPressuresSerializer {
         return wheelPressures;
     }
 
-    public static WheelPressures[] getOptionalWheelPressuresVarArray(IDeserializer iDeserializer) {
+    public static WheelPressures[] getOptionalWheelPressuresVarArray(IDeserializer iDeserializer) throws SerializerException {
         WheelPressures[] wheelPressuresArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

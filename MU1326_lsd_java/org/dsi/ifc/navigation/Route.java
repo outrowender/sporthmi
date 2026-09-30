@@ -41,7 +41,7 @@ public class Route {
         return this.routename;
     }
 
-    public void setIndexOfCurrentDestination(long l) {
+    public void setIndexOfCurrentDestination(long l) throws ArrayIndexOutOfBoundsException {
         if (this.routelist == null || l < 0L || l >= (long)this.routelist.length) {
             throw new ArrayIndexOutOfBoundsException((int)l);
         }

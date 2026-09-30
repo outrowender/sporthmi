@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.media.impl;
 import de.esolutions.fw.comm.asi.diagnosis.media.sMediaDBVersion;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sMediaDBVersionSerializer {
-    public static void putOptionalsMediaDBVersion(ISerializer iSerializer, sMediaDBVersion sMediaDBVersion2) {
+    public static void putOptionalsMediaDBVersion(ISerializer iSerializer, sMediaDBVersion sMediaDBVersion2) throws SerializerException {
         boolean bl = sMediaDBVersion2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sMediaDBVersionSerializer {
         }
     }
 
-    public static void putOptionalsMediaDBVersionVarArray(ISerializer iSerializer, sMediaDBVersion[] sMediaDBVersionArray) {
+    public static void putOptionalsMediaDBVersionVarArray(ISerializer iSerializer, sMediaDBVersion[] sMediaDBVersionArray) throws SerializerException {
         boolean bl = sMediaDBVersionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sMediaDBVersionSerializer {
         }
     }
 
-    public static sMediaDBVersion getOptionalsMediaDBVersion(IDeserializer iDeserializer) {
+    public static sMediaDBVersion getOptionalsMediaDBVersion(IDeserializer iDeserializer) throws SerializerException {
         sMediaDBVersion sMediaDBVersion2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sMediaDBVersionSerializer {
         return sMediaDBVersion2;
     }
 
-    public static sMediaDBVersion[] getOptionalsMediaDBVersionVarArray(IDeserializer iDeserializer) {
+    public static sMediaDBVersion[] getOptionalsMediaDBVersionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sMediaDBVersion[] sMediaDBVersionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

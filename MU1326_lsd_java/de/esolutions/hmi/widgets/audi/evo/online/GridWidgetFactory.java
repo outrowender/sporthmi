@@ -17,7 +17,6 @@ import de.audi.atip.hmi.view.HMIView;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.RemoteHMIGuideIcon;
 import de.audi.remotehmi.ui.mib2.grid.IGrid;
-import de.audi.remotehmi.ui.mib2.grid.IGrid$ExpandMode;
 import de.audi.remotehmi.ui.mib2.grid.IGridCell;
 import de.audi.remotehmi.ui.mib2.grid.IGridColumn;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
@@ -33,8 +32,6 @@ import de.esolutions.hmi.widgets.audi.evo.gridlayout.GridLayout;
 import de.esolutions.hmi.widgets.audi.evo.gridlayout.GridLayoutHints;
 import de.esolutions.hmi.widgets.audi.evo.gridlayout.IGridLayoutHints;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListItemFactory;
-import de.esolutions.hmi.widgets.audi.evo.online.GridWidgetFactory$1;
-import de.esolutions.hmi.widgets.audi.evo.online.GridWidgetFactory$2;
 import de.esolutions.hmi.widgets.audi.evo.online.IGridImageLocker;
 import de.esolutions.hmi.widgets.audi.evo.online.IInfiniteListModelAccess;
 import de.esolutions.hmi.widgets.audi.evo.online.WidgetUtilities;
@@ -67,26 +64,26 @@ public class GridWidgetFactory {
     protected final AbstractScreenFactory factory;
     protected final int terminalId;
     protected static final LogChannel log = AbstractWidget.framework.getLogChannel("App.Online.RemoteHMI");
-    public static final int LAYOUT_MAIN;
-    public static final int LAYOUT_MEDIA;
-    public static final int LAYOUT_DETAIL;
-    public static final int LAYOUT_ARTIFICIAL;
-    public static final int LAYOUT_COUNT;
-    public static int SPELLER_INPUT_TYPE_GENERIC;
-    public static int SPELLER_INPUT_TYPE_PIN;
-    public static int COLOR_WHITE;
-    public static int COLOR_BLACK;
-    public static int COLOR_ENABLED_ANNOTATION;
-    public static int COLOR_DISABLED;
-    public static int COLOR_CURSOR;
-    public static int COLOR_HIGHLIGHT;
-    public static int COLOR_INDEX_BACKGROUND;
-    public static int COLOR_INDEX_ENABLED;
-    public static int COLOR_INDEX_DISABLED;
-    public static int COLOR_INDEX_HIGHLIGHT;
-    public static int COLOR_INDEX_CURSOR;
-    public static int COLOR_INDEX_DROPDOWN_BACKGROUND;
-    private static int DEFAULT_HORIZONTAL_GAP_SIZE;
+    public static final int LAYOUT_MAIN = 0;
+    public static final int LAYOUT_MEDIA = 1;
+    public static final int LAYOUT_DETAIL = 2;
+    public static final int LAYOUT_ARTIFICIAL = 3;
+    public static final int LAYOUT_COUNT = 4;
+    public static int SPELLER_INPUT_TYPE_GENERIC = 0;
+    public static int SPELLER_INPUT_TYPE_PIN = 1;
+    public static int COLOR_WHITE = 0;
+    public static int COLOR_BLACK = 1;
+    public static int COLOR_ENABLED_ANNOTATION = 7;
+    public static int COLOR_DISABLED = 4;
+    public static int COLOR_CURSOR = 3;
+    public static int COLOR_HIGHLIGHT = 3;
+    public static int COLOR_INDEX_BACKGROUND = 0;
+    public static int COLOR_INDEX_ENABLED = 1;
+    public static int COLOR_INDEX_DISABLED = 2;
+    public static int COLOR_INDEX_HIGHLIGHT = 3;
+    public static int COLOR_INDEX_CURSOR = 4;
+    public static int COLOR_INDEX_DROPDOWN_BACKGROUND = 5;
+    private static int DEFAULT_HORIZONTAL_GAP_SIZE = 10;
     private static final Map systemImageGuideIcons;
     protected IGridImageLocker lockController;
     public static List MULTI_LINE_LABLE_LINEHEIGHT_FONTS_TT;
@@ -146,8 +143,8 @@ public class GridWidgetFactory {
                 nArray[i2 + 1] = object4.getGapAfter();
             }
             if ((object3 = (Object)object4.getWidthMode()) != null) {
-                fArray2[i2] = ((IGrid$ExpandMode)object3).isShrinkable() ? 1.0f : 0.0f;
-                fArray[i2] = ((IGrid$ExpandMode)object3).isGrowable() ? 1.0f : 0.0f;
+                fArray2[i2] = ((IGrid.ExpandMode)object3).isShrinkable() ? 1.0f : 0.0f;
+                fArray[i2] = ((IGrid.ExpandMode)object3).isGrowable() ? 1.0f : 0.0f;
             }
             n2 = object4.getGapAfter();
         }
@@ -167,8 +164,8 @@ public class GridWidgetFactory {
                 object4[i3 + 1] = iGridRow.getGapAfter();
             }
             if ((object2 = iGridRow.getHeightMode()) != null) {
-                fArray3[i3] = ((IGrid$ExpandMode)object2).isShrinkable() ? 1.0f : 0.0f;
-                object3[i3] = ((IGrid$ExpandMode)object2).isGrowable() ? 1.0f : 0.0f;
+                fArray3[i3] = ((IGrid.ExpandMode)object2).isShrinkable() ? 1.0f : 0.0f;
+                object3[i3] = ((IGrid.ExpandMode)object2).isGrowable() ? 1.0f : 0.0f;
             }
             n5 = iGridRow.getGapAfter();
         }
@@ -229,7 +226,7 @@ public class GridWidgetFactory {
                 widgetConstants = (GridLayout)object5;
                 objectArray[n8] = widgetConstants;
             } else {
-                throw new IllegalStateException(new StringBuffer().append("Widget must be either a widget controller or a subgrid! widget=").append(object5).toString());
+                throw new IllegalStateException("Widget must be either a widget controller or a subgrid! widget=" + object5);
             }
             widgetConstants = new GridLayoutHints(n10, n11, iGridCell.getColumnSpan(), iGridCell.getRowSpan());
             ((GridLayoutHints)widgetConstants).setWidthMax(iGridCell.getMaxWidth());
@@ -245,7 +242,7 @@ public class GridWidgetFactory {
             n9 = iGridCell.getMarginTop();
             ((GridLayoutHints)widgetConstants).setAfterEffects(n12, n9, -iGridCell.getMarginRight() - n12, -iGridCell.getMarginBottom() - n9);
             boolean bl2 = iGridCell.isBlocking();
-            log.log(-2137614336, "GridWidgetFactory#createLayoutWithWidgets: type=%1, blocking=%2.", (Object)Integer.toString(iGridCell.getType()), (Object)Boolean.toString(bl2));
+            log.log(10000000, "GridWidgetFactory#createLayoutWithWidgets: type=%1, blocking=%2.", (Object)Integer.toString(iGridCell.getType()), (Object)Boolean.toString(bl2));
             iGridLayoutHintsArray[n8] = widgetConstants;
             ++n8;
         }
@@ -286,7 +283,7 @@ public class GridWidgetFactory {
                     return 21;
                 }
             }
-            throw new IllegalArgumentException(new StringBuffer().append("Type = ").append(n).append(" of font with highlight is unknown! Add it to case-statement above!").toString());
+            throw new IllegalArgumentException("Type = " + n + " of font with highlight is unknown! Add it to case-statement above!");
         }
         if (bl2) {
             switch (n) {
@@ -321,7 +318,7 @@ public class GridWidgetFactory {
                     return 21;
                 }
             }
-            throw new IllegalArgumentException(new StringBuffer().append("Type = ").append(n).append(" of font is unknown! Add it to case-statement above!").toString());
+            throw new IllegalArgumentException("Type = " + n + " of font is unknown! Add it to case-statement above!");
         }
         switch (n) {
             case 0: {
@@ -355,7 +352,7 @@ public class GridWidgetFactory {
                 return 21;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Type = ").append(n).append(" of font is unknown! Add it to case-statement above!").toString());
+        throw new IllegalArgumentException("Type = " + n + " of font is unknown! Add it to case-statement above!");
     }
 
     private Object createWidget(IGridCell iGridCell, Object object, int n, SpellerListener spellerListener, LayoutContainerController layoutContainerController, boolean bl) {
@@ -412,7 +409,7 @@ public class GridWidgetFactory {
                 return this.createLayoutWithWidgets(iGridCell.getGridValue(), object, layoutContainerController, n, spellerListener, bl);
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Type = ").append(iGridCell.getType()).append(" of grid cell is unknown! Add it to case-statement above! Column=").append(iGridCell.getGridColumn()).append(", row=").append(iGridCell.getGridRow()).toString());
+        throw new IllegalArgumentException("Type = " + iGridCell.getType() + " of grid cell is unknown! Add it to case-statement above! Column=" + iGridCell.getGridColumn() + ", row=" + iGridCell.getGridRow());
     }
 
     private AbstractWidgetController createInputWidget(String string, int n, boolean bl, int n2, SpellerListener spellerListener) {
@@ -424,7 +421,7 @@ public class GridWidgetFactory {
         } else if (n2 == SPELLER_INPUT_TYPE_PIN) {
             n3 = 42;
         } else {
-            throw new IllegalArgumentException(new StringBuffer().append("GridWidgetFactory#createInputWidget()type unknown= ").append(n2).toString());
+            throw new IllegalArgumentException("GridWidgetFactory#createInputWidget()type unknown= " + n2);
         }
         TouchController touchController = (TouchController)this.getWidgetTemplate(n3);
         touchController.setInitialText(string);
@@ -460,7 +457,7 @@ public class GridWidgetFactory {
             throw new IllegalStateException("The ref widget for empty system image is missing in the translation map !");
         }
         IconController iconController = (IconController)this.getWidgetTemplate(n);
-        log.log(14808325, "GridMenuChanger#createSystemImageWidget sysIcon %1", (Object)iconController);
+        log.log(100000000, "GridMenuChanger#createSystemImageWidget sysIcon %1", (Object)iconController);
         if (this.lockController != null) {
             this.lockController.addLockImage(iconController);
         }
@@ -479,7 +476,7 @@ public class GridWidgetFactory {
     private AbstractWidgetController createSeparatingLineWidget() {
         IconController iconController = (IconController)this.getWidgetTemplate(32);
         IconRenderer iconRenderer = (IconRenderer)iconController.getRenderer();
-        iconRenderer.setScaleFactor(-842249152, 32832);
+        iconRenderer.setScaleFactor(3.2f, 4.0f);
         return iconController;
     }
 
@@ -511,7 +508,7 @@ public class GridWidgetFactory {
         iGridList.calculateDisplayedRows();
         int n3 = iGridList.getCurrentCursor().getSelection().getIndex();
         if (n3 == -1) {
-            log.log(-2137614336, "GridMenuChanger#createDropDownListWidget: no visible rows available!");
+            log.log(10000000, "GridMenuChanger#createDropDownListWidget: no visible rows available!");
             n2 = 0;
         } else {
             object = (IGrid)iGridList.get(n3);
@@ -601,19 +598,19 @@ public class GridWidgetFactory {
             int n4 = AbstractWidget.framework.getScreenRes();
             List list = (List)RESOLUTION_FONT_LIST.get(n4);
             if (list == null) {
-                log.log(-2137614336, "GridWigetFactory#setGapBetweenLines: height not defined for screen resolution %1. Keeping default line height.", (long)n4);
+                log.log(10000000, "GridWigetFactory#setGapBetweenLines: height not defined for screen resolution %1. Keeping default line height.", (long)n4);
                 return;
             }
             Integer n5 = (Integer)list.get(n2);
             if (n5 == null) {
-                log.log(-2137614336, "GridWigetFactory#setGapBetweenLines: height not defined for font %1. Keeping default line height.", (long)n2);
+                log.log(10000000, "GridWigetFactory#setGapBetweenLines: height not defined for font %1. Keeping default line height.", (long)n2);
                 return;
             }
             n3 = n5;
         } else {
             n3 = n;
         }
-        log.log(-2137614336, "GridWigetFactory#setGapBetweenLines: setting line height to %1 !", (long)n3);
+        log.log(10000000, "GridWigetFactory#setGapBetweenLines: setting line height to %1 !", (long)n3);
         labelRenderer.setLineHeight(n3);
     }
 
@@ -702,12 +699,12 @@ public class GridWidgetFactory {
     }
 
     protected MenuItemController createMenuItem(int n) {
-        log.log(-2137614336, "GridWidgetFactory#createMenuItem: called for widgetId '%1'", (long)n);
+        log.log(10000000, "GridWidgetFactory#createMenuItem: called for widgetId '%1'", (long)n);
         MenuItemController menuItemController = (MenuItemController)this.getWidgetTemplate(33);
         menuItemController.setWidgetID(n);
         menuItemController.setAutoLayoutSetup(false);
         menuItemController.setType(16);
-        menuItemController.setModelID(-48749824);
+        menuItemController.setModelID(2300157);
         menuItemController.setAutoConfigureChaining(false);
         FocusedPropertyConfig focusedPropertyConfig = new FocusedPropertyConfig();
         menuItemController.add(focusedPropertyConfig);
@@ -747,21 +744,6 @@ public class GridWidgetFactory {
     }
 
     static {
-        SPELLER_INPUT_TYPE_GENERIC = 0;
-        SPELLER_INPUT_TYPE_PIN = 1;
-        COLOR_WHITE = 0;
-        COLOR_BLACK = 1;
-        COLOR_ENABLED_ANNOTATION = 7;
-        COLOR_DISABLED = 4;
-        COLOR_CURSOR = 3;
-        COLOR_HIGHLIGHT = 3;
-        COLOR_INDEX_BACKGROUND = 0;
-        COLOR_INDEX_ENABLED = 1;
-        COLOR_INDEX_DISABLED = 2;
-        COLOR_INDEX_HIGHLIGHT = 3;
-        COLOR_INDEX_CURSOR = 4;
-        COLOR_INDEX_DROPDOWN_BACKGROUND = 5;
-        DEFAULT_HORIZONTAL_GAP_SIZE = 10;
         HashMap hashMap = new HashMap();
         hashMap.put(RemoteHMIGuideIcon.EMPTY.getName(), new Integer(71));
         hashMap.put(RemoteHMIGuideIcon.TOP_WIZARD_BACKGROUND.getName(), new Integer(54));
@@ -782,8 +764,20 @@ public class GridWidgetFactory {
         hashMap.put(RemoteHMIGuideIcon.MAP_CARE.getName(), new Integer(64));
         hashMap.put(RemoteHMIGuideIcon.SPECIAL_DEST.getName(), new Integer(67));
         systemImageGuideIcons = Collections.unmodifiableMap(hashMap);
-        MULTI_LINE_LABLE_LINEHEIGHT_FONTS_TT = Collections.unmodifiableList(new GridWidgetFactory$1());
-        RESOLUTION_FONT_LIST = Collections.unmodifiableList(new GridWidgetFactory$2());
+        MULTI_LINE_LABLE_LINEHEIGHT_FONTS_TT = Collections.unmodifiableList(new ArrayList(){
+            private static final long serialVersionUID = 1L;
+            {
+                this.addAll(Collections.nCopies(10, null));
+                this.set(4, new Integer(31));
+            }
+        });
+        RESOLUTION_FONT_LIST = Collections.unmodifiableList(new ArrayList(){
+            private static final long serialVersionUID = 1L;
+            {
+                this.addAll(Collections.nCopies(7, null));
+                this.set(4, MULTI_LINE_LABLE_LINEHEIGHT_FONTS_TT);
+            }
+        });
     }
 }
 

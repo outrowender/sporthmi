@@ -21,6 +21,7 @@ import de.audi.atip.util.Util;
 import de.audi.tghu.hmi.evo.IHMIServiceEvo;
 import de.audi.tghu.hmi.evo.IKzbMappingHelper;
 import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 import de.esolutions.graphics.eal.FlagEvent;
 import de.esolutions.graphics.eal.FlagImage;
 import de.esolutions.graphics.eal.FlagTexture;
@@ -75,12 +76,6 @@ import de.esolutions.hmi.widgets.audi.base.eal.AbstractWrappedNode3DText;
 import de.esolutions.hmi.widgets.audi.base.eal.Car3DResourceHandler;
 import de.esolutions.hmi.widgets.audi.base.eal.EALEventListener;
 import de.esolutions.hmi.widgets.audi.base.eal.EALException;
-import de.esolutions.hmi.widgets.audi.base.eal.EALManager$1;
-import de.esolutions.hmi.widgets.audi.base.eal.EALManager$2;
-import de.esolutions.hmi.widgets.audi.base.eal.EALManager$DestroyJob;
-import de.esolutions.hmi.widgets.audi.base.eal.EALManager$EALManagerInfoProvider;
-import de.esolutions.hmi.widgets.audi.base.eal.EALManager$IdleDestroying;
-import de.esolutions.hmi.widgets.audi.base.eal.EALManager$IdleRendering;
 import de.esolutions.hmi.widgets.audi.base.eal.EALStatistics;
 import de.esolutions.hmi.widgets.audi.base.eal.EALViewportsAndLayers;
 import de.esolutions.hmi.widgets.audi.base.eal.IBaseWrappedNode3DText;
@@ -118,6 +113,7 @@ import de.esolutions.hmi.widgets.audi.base.eal.WrappedTexture;
 import de.esolutions.hmi.widgets.audi.base.eal.WrappedViewport;
 import de.esolutions.hmi.widgets.audi.base.eal.async.TextureDescriptionManager;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,7 +121,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -137,61 +133,61 @@ EALViewportsAndLayers {
     public static final boolean FONT_LAYOUT_WORKAROUND = SystemProperties.getBoolean("EALEnableFontLayoutWorkaround", true);
     public static final boolean IGNORE_INVALID_EAL_NODES = Boolean.getBoolean("ignoreInvalidEALNodes");
     public static final boolean RTL_ENABLED = SystemProperties.getBoolean("enableRTL", true);
-    public static final int CACHE_INDEX_NONE;
-    public static final int CACHE_INDEX_GUIDE;
-    public static final int CACHE_INDEX_FILES;
-    public static final int CACHE_INDEX_STANDARD_CAR;
-    public static final int CACHE_INDEX_ASYNC;
-    public static final int MAX_STATIC_BITMAPS;
-    public static final long TRUNCATION_HEIGHT_MAX;
-    public static final long TRUNCATION_WIDTH_MAX;
-    public static final String DUMMY_THROWABLE_DESCRIPTION;
-    public static final String GLOBAL_PROPERTY_KEY_RTL;
+    public static final int CACHE_INDEX_NONE = -1;
+    public static final int CACHE_INDEX_GUIDE = 0;
+    public static final int CACHE_INDEX_FILES = 1;
+    public static final int CACHE_INDEX_STANDARD_CAR = 2;
+    public static final int CACHE_INDEX_ASYNC = 3;
+    public static final int MAX_STATIC_BITMAPS = 3;
+    public static final long TRUNCATION_HEIGHT_MAX = Integer.MAX_VALUE;
+    public static final long TRUNCATION_WIDTH_MAX = Integer.MAX_VALUE;
+    public static final String DUMMY_THROWABLE_DESCRIPTION = "Dummy_LogStackTrace_usually_NOT_an_exception";
+    public static final String GLOBAL_PROPERTY_KEY_RTL = "global_arabic";
     protected AbstractScreenWidget currentScreen;
     protected HMIService hmiService = null;
-    private static final boolean VARIANT_HIGH;
-    private static final boolean IGNORE_EAL_STARTUP_ERRORS;
-    private static final boolean USE_LONG_NODE_NAMES;
-    private static final boolean ACTIVATE_IDLE_DESTROYING;
-    private static final boolean SHOW_MEMORY_USAGE;
-    private static final boolean SHOW_EVENT_QUEUE_STATISTIC;
-    private static final boolean SHOW_SCREEN_INFO;
-    private static final boolean SHOW_DRAW_TIME_STATISTIC;
-    private static final boolean TEXT_NODE_CACHE_DISABLED;
-    private static final boolean TEXTURE_CACHE_DISABLED;
-    private static final boolean EAL_OBJECT_TRACER_ENABLED;
-    private static final boolean DUMP_EAL_OBJECTS_ON_SCREEN_CHANGE;
-    private static final boolean EAL_REGISTRY_ENABLED;
-    private static final int MAX_TIME_NODE_DESTROYING;
-    private static final int IDLE_DESTROYING_START;
-    private static final int MAX_NO_OF_NODES_TO_DESTROY;
-    private static final int MEMORY_USAGE_UNIT;
-    private static final int[] TEXTURE_CACHE_SIZES_DEFAULTS;
-    private static final int[] TEXTURE_CACHE_SIZES;
-    private static final int[] TEXTURE_CACHE_TYPES;
-    private static final int ICON_LABEL_CACHE_FREE_LEVEL;
-    private static final int ICON_LABEL_CACHE_ERROR_LEVEL;
-    private static final int MAIN_AREA_DESATURATION_DISABLED;
-    private static final int MAIN_AREA_DESATURATION_OFFSCREEN;
-    private static final int MAIN_AREA_DESATURATION;
-    private static final int ERROR_CORRECTION_DEFAULT;
-    private static final int ERROR_CORRECTION_ENABLED;
-    private static final int ERROR_CORRECTION;
-    private static final int MAX_RECURSIVE_DEPTH_ADDING_CHECK;
-    private static final int MAX_NUMBER_OF_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE;
-    private static final int CRITICAL_IMAGE_LOADING_TIME;
-    private static final int fontSizesPtFirst;
-    private static final int[] FONT_SIZES_PIXEL_H;
-    private static final int DUMP_EAL_INFO_EVERY_N_SECONDS;
-    private static final int LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL;
-    private static final int CACHE_COUNT;
-    private static final int DEFAULT_TEXT_COLOR;
-    private static final long DELAY_TIME_FOR_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE;
-    private static final float FOV;
-    private static final float MAP_DESATURATION_PERCENTAGE;
-    private static final float MAP_BRIGHTNESS_PERCENTAGE;
-    private static final String GLOBAL_PROPERTIES_SHORTCUT;
-    private static final String PROPERTY_NAME_LAYER_MATERIAL;
+    private static final boolean VARIANT_HIGH = System.getProperty("variant.skin", "EvoHigh").indexOf("EvoHigh") >= 0;
+    private static final boolean IGNORE_EAL_STARTUP_ERRORS = Boolean.getBoolean("ignoreEALStartupErrors");
+    private static final boolean USE_LONG_NODE_NAMES = Boolean.getBoolean("useLongNodeNames");
+    private static final boolean ACTIVATE_IDLE_DESTROYING = SystemProperties.getBoolean("ActivateIdleDestroying", true);
+    private static final boolean SHOW_MEMORY_USAGE = System.getProperty("showMemoryUsage") != null;
+    private static final boolean SHOW_EVENT_QUEUE_STATISTIC = Boolean.getBoolean("showEventQueueStatistic");
+    private static final boolean SHOW_SCREEN_INFO = Boolean.getBoolean("showScreenInfo");
+    private static final boolean SHOW_DRAW_TIME_STATISTIC = System.getProperty("showDrawTimeStatistic") != null;
+    private static final boolean TEXT_NODE_CACHE_DISABLED = SystemProperties.getBoolean("disableTextNodeCache", true);
+    private static final boolean TEXTURE_CACHE_DISABLED = SystemProperties.getBoolean("disableTextureCache", false);
+    private static final boolean EAL_OBJECT_TRACER_ENABLED = Boolean.getBoolean("EALEnableObjectTracer");
+    private static final boolean DUMP_EAL_OBJECTS_ON_SCREEN_CHANGE = Boolean.getBoolean("EALEnableObjectTracingOnScreenChange");
+    private static final boolean EAL_REGISTRY_ENABLED = Boolean.getBoolean("EALEnableRegistry");
+    private static final int MAX_TIME_NODE_DESTROYING = Integer.getInteger("maxTimeNodeDestroying", 100);
+    private static final int IDLE_DESTROYING_START = Integer.getInteger("idleDestroyingStart", 200);
+    private static final int MAX_NO_OF_NODES_TO_DESTROY = Integer.getInteger("maxNoOfNodesToDestroy", 500);
+    private static final int MEMORY_USAGE_UNIT = Integer.getInteger("memoryUsageUnit", 2);
+    private static final int[] TEXTURE_CACHE_SIZES_DEFAULTS = new int[]{Integer.getInteger("textureCacheSize0", 20000000), Integer.getInteger("textureCacheSize1", 3000000), Integer.getInteger("textureCacheCarViewerStandardSize", 5), Integer.getInteger("textureCacheAsyncSize", 3000000)};
+    private static final int[] TEXTURE_CACHE_SIZES = SystemProperties.getIntArray("textureCacheSizes", TEXTURE_CACHE_SIZES_DEFAULTS);
+    private static final int[] TEXTURE_CACHE_TYPES = SystemProperties.getIntArray("textureCacheTypes", new int[]{1, 1, 0, 1});
+    private static final int ICON_LABEL_CACHE_FREE_LEVEL = 32;
+    private static final int ICON_LABEL_CACHE_ERROR_LEVEL = 64;
+    private static final int MAIN_AREA_DESATURATION_DISABLED = 0;
+    private static final int MAIN_AREA_DESATURATION_OFFSCREEN = 2;
+    private static final int MAIN_AREA_DESATURATION = Integer.getInteger("mainAreaDesaturation", 2);
+    private static final int ERROR_CORRECTION_DEFAULT = 0;
+    private static final int ERROR_CORRECTION_ENABLED = 1;
+    private static final int ERROR_CORRECTION = Integer.getInteger("annotationErrorCorrection", 1);
+    private static final int MAX_RECURSIVE_DEPTH_ADDING_CHECK = Integer.getInteger("maxRecursiveDepthAddingCheck", 10);
+    private static final int MAX_NUMBER_OF_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE = Integer.getInteger("maxNumberOfIdleRenderStepsForOpsAsyncMerge", 50);
+    private static final int CRITICAL_IMAGE_LOADING_TIME = 1000;
+    private static final int fontSizesPtFirst = 10;
+    private static final int[] FONT_SIZES_PIXEL_H = new int[]{7, 8, 9, 10, 10, 11, 12, 13, 13, 15, 15, 16, 17, 18, 18, 19, 20, 21, 21, 22, 23, 24, 24, 25, 26, 26, 27, 28, 29, 29, 30, 31, 32, 32, 33, 35, 36, 36, 37, 38, 39, 39, 40, 41, 41, 43, 43, 44, 45, 46, 47};
+    private static final int DUMP_EAL_INFO_EVERY_N_SECONDS = Integer.getInteger("EALEnableDumpEveryNSeconds", 0);
+    private static final int LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL = Integer.getInteger("LowMemoryDumpWhileTracingLevel", 0);
+    private static final int CACHE_COUNT = 4;
+    private static final int DEFAULT_TEXT_COLOR = EALManager.createColorCode(-16711681);
+    private static final long DELAY_TIME_FOR_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE = Integer.getInteger("delayTimeForIdleRenderStepsForOpsAsyncMerge", 50).intValue();
+    private static final float FOV = 45.0f;
+    private static final float MAP_DESATURATION_PERCENTAGE = 0.4f;
+    private static final float MAP_BRIGHTNESS_PERCENTAGE = 0.718f;
+    private static final String GLOBAL_PROPERTIES_SHORTCUT = "global_properties";
+    private static final String PROPERTY_NAME_LAYER_MATERIAL = "LayerMaterial";
     private static boolean annotationsEnabled;
     private static boolean partialRenderingEnabled;
     private static boolean partialOffscreenRenderingEnabled;
@@ -205,7 +201,7 @@ EALViewportsAndLayers {
     private static Map flagImageMap;
     private static Map flagTextureMap;
     private static Map kzbMergeListener;
-    private final EALManager$EALManagerInfoProvider dumpInfoProvider;
+    private final EALManagerInfoProvider dumpInfoProvider;
     private final HMITerminalImpl terminal;
     private final List textNodeCache = new ArrayList();
     private final Map cacheMap = new HashMap();
@@ -292,16 +288,16 @@ EALViewportsAndLayers {
         this.screenHeight = hMITerminalImpl.getLayout().getDistance(2);
         if (VARIANT_HIGH) {
             this.car3DResourceHandler = new Car3DResourceHandler(hMITerminalImpl, this);
-            logBenchmark.log(-2137614336, "EALManager#<init>: after creating car 3D resource handler");
+            logBenchmark.log(10000000, "EALManager#<init>: after creating car 3D resource handler");
         }
         this.kzbMergeManager = new KzbMergeManager(this);
         if (IStatisticsManager.INSTRUMENTATION_ENABLED && !IStatisticsManager.INSTRUMENT_RES_LOADING_ON_DEMAND) {
             StatisticsManager.createInstance(hMITerminalImpl.getFramework());
         }
-        this.dumpInfoProvider = new EALManager$EALManagerInfoProvider(null);
+        this.dumpInfoProvider = new EALManagerInfoProvider();
         AbstractWidget.framework.getErrorMgr().registerDumpInfoProvider(this.dumpInfoProvider);
-        logChannel3DEngine.log(-2137614336, "EALManager#<init>: eal texture cache disabled: %1", TEXTURE_CACHE_DISABLED);
-        int n = CHECK_SCENEGRAPH_CONSISTENCY ? 10000 : -2137614336;
+        logChannel3DEngine.log(10000000, "EALManager#<init>: eal texture cache disabled: %1", TEXTURE_CACHE_DISABLED);
+        int n = CHECK_SCENEGRAPH_CONSISTENCY ? 10000 : 10000000;
         logChannel3DEngine.log(n, "EALManager#<init>: CHECK_SCENEGRAPH_CONSISTENCY = %1", CHECK_SCENEGRAPH_CONSISTENCY);
         this.createIconLabelCache();
     }
@@ -312,23 +308,36 @@ EALViewportsAndLayers {
             if (cacheIconLabel == null) {
                 iconLabelLogCh.log(10000, "EALManager#createIconLabelCache Error creating cache.");
             } else {
-                iconLabelLogCh.log(-1601830656, "EALManager#createIconLabelCache Texture cache created.");
+                iconLabelLogCh.log(100000, "EALManager#createIconLabelCache Texture cache created.");
             }
         }
     }
 
     public void initializeAnimationSyncTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.terminal.getFramework().getBundleCxt(), (class$de$audi$atip$mmicombi$IMMICombiAnimationSyncer == null ? (class$de$audi$atip$mmicombi$IMMICombiAnimationSyncer = EALManager.class$("de.audi.atip.mmicombi.IMMICombiAnimationSyncer")) : class$de$audi$atip$mmicombi$IMMICombiAnimationSyncer).getName(), (ServiceTrackerCustomizer)new EALManager$1(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.terminal.getFramework().getBundleCxt(), (class$de$audi$atip$mmicombi$IMMICombiAnimationSyncer == null ? (class$de$audi$atip$mmicombi$IMMICombiAnimationSyncer = EALManager.class$("de.audi.atip.mmicombi.IMMICombiAnimationSyncer")) : class$de$audi$atip$mmicombi$IMMICombiAnimationSyncer).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                EALManager.this.animationSyncer = (IMMICombiAnimationSyncer)EALManager.this.terminal.getFramework().getBundleCxt().getService(serviceReference);
+                return EALManager.this.animationSyncer;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                EALManager.this.animationSyncer = null;
+            }
+        });
         serviceTracker.open();
     }
 
     public void loadLibrary() {
         System.loadLibrary("ealswig");
-        logBenchmark.log(-2137614336, "EALManager#loadLibrary after loading library ealswig");
+        logBenchmark.log(10000000, "EALManager#loadLibrary after loading library ealswig");
     }
 
     public static void printTraceOptions() {
-        logChannel3DEngine.log(1078071040, "EALManager#printTraceOptions");
+        logChannel3DEngine.log(1000000, "EALManager#printTraceOptions");
         System.out.println("EAL trace options:");
         System.out.print("EALEnableObjectTracer");
         System.out.print('=');
@@ -349,58 +358,58 @@ EALViewportsAndLayers {
 
     public void createManager() {
         if (manager != null) {
-            logChannel3DEngine.log(1078071040, "EALManager#createManager(): manager already exists");
+            logChannel3DEngine.log(1000000, "EALManager#createManager(): manager already exists");
             return;
         }
         if (EAL_REGISTRY_ENABLED || EAL_OBJECT_TRACER_ENABLED) {
             EALManager.printTraceOptions();
         } else {
-            logChannel3DEngine.log(-2137614336, "EALManager#printActivatedTraceOptions object tracer and registry disabled");
+            logChannel3DEngine.log(10000000, "EALManager#printActivatedTraceOptions object tracer and registry disabled");
         }
         manager = new IManager();
         this.initializeManager();
-        logBenchmark.log(-2137614336, "EALManager#createManager manager created");
+        logBenchmark.log(10000000, "EALManager#createManager manager created");
     }
 
     protected void initializeManager() {
         int n = Integer.getInteger("ealObjectWarnLimit", 1500);
         if (logChannel3DEngine.isInfo()) {
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager ealObjectWarnLimit: %1", (long)n);
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager ACTIVATE_IDLE_DESTROYING: %1", ACTIVATE_IDLE_DESTROYING);
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager MAX_TIME_NODE_DESTROYING: %1", (long)MAX_TIME_NODE_DESTROYING);
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager IDLE_DESTROYING_START: %1", (long)IDLE_DESTROYING_START);
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager MAX_NO_OF_NODES_TO_DESTROY: %1", (long)MAX_NO_OF_NODES_TO_DESTROY);
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager FONT_LAYOUT_WORKAROUND: %1", FONT_LAYOUT_WORKAROUND);
-            logChannel3DEngine.log(1078071040, "EALManager#initializeManager LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL: %1 KB", (long)LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL);
-            logChannel3DEngineCache.log(1078071040, "EALManager#initializeManager TEXTURE_CACHE_SIZES: %1", (Object)TEXTURE_CACHE_SIZES);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager ealObjectWarnLimit: %1", (long)n);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager ACTIVATE_IDLE_DESTROYING: %1", ACTIVATE_IDLE_DESTROYING);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager MAX_TIME_NODE_DESTROYING: %1", (long)MAX_TIME_NODE_DESTROYING);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager IDLE_DESTROYING_START: %1", (long)IDLE_DESTROYING_START);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager MAX_NO_OF_NODES_TO_DESTROY: %1", (long)MAX_NO_OF_NODES_TO_DESTROY);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager FONT_LAYOUT_WORKAROUND: %1", FONT_LAYOUT_WORKAROUND);
+            logChannel3DEngine.log(1000000, "EALManager#initializeManager LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL: %1 KB", (long)LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL);
+            logChannel3DEngineCache.log(1000000, "EALManager#initializeManager TEXTURE_CACHE_SIZES: %1", (Object)TEXTURE_CACHE_SIZES);
         }
         manager.setObjectWarnLimit(n);
-        int n2 = -2137614336;
+        int n2 = 10000000;
         if (EAL_OBJECT_TRACER_ENABLED) {
-            n2 = -1601830656;
+            n2 = 100000;
             manager.setObjectTracer(true);
         }
         logChannel3DEngine.log(n2, "EALManager#initializeManager EAL_OBJECT_TRACER_ENABLED: %1", EAL_OBJECT_TRACER_ENABLED);
-        n2 = -2137614336;
+        n2 = 10000000;
         if (EAL_REGISTRY_ENABLED) {
-            n2 = -1601830656;
+            n2 = 100000;
             manager.setRegistry(true);
         }
         logChannel3DEngine.log(n2, "EALManager#initializeManager EAL_REGISTRY_ENABLED: %1", EAL_REGISTRY_ENABLED);
         int n3 = this.terminal.getLayout().getIntegerConstant(64);
         ealMemorySize = Integer.getInteger("ealMemorySize", n3);
         manager.setMemorySize(ealMemorySize * 1024 * 1024);
-        logBenchmark.log(-2137614336, "EALManager#initializeManager ealMemorySize: %1 MB", (long)ealMemorySize);
+        logBenchmark.log(10000000, "EALManager#initializeManager ealMemorySize: %1 MB", (long)ealMemorySize);
         this.updateContext();
         this.setDefaultTextureOptions();
     }
 
     private void updateContext() {
         IContext iContext = manager.getContext();
-        logBenchmark.log(-2137614336, "EALManager#updateContext: after getting context");
+        logBenchmark.log(10000000, "EALManager#updateContext: after getting context");
         iContext.setWidth(this.screenWidth);
         iContext.setHeight(this.screenHeight + (annotationsEnabled ? 2 : 0));
-        iContext.setDisplayId(0);
+        iContext.setDisplayId(16L);
         iContext.disableDepthBuffer();
         if (annotationsEnabled && !iContext.setAnnotation(true)) {
             this.handleEALStartupError("Enabling annotations failed");
@@ -423,9 +432,9 @@ EALViewportsAndLayers {
         this.annotationRenderer = new IRendererAnnotation(this.renderer);
         if (ERROR_CORRECTION != 0) {
             boolean bl = annotationsEnabled && ERROR_CORRECTION == 1;
-            logChannel3DEngine.log(1078071040, "EALManager#startRendering Setting error correction to %1, annotationsEnabled=%2", bl, annotationsEnabled);
+            logChannel3DEngine.log(1000000, "EALManager#startRendering Setting error correction to %1, annotationsEnabled=%2", bl, annotationsEnabled);
             if (!this.annotationRenderer.setErrorCorrection(bl)) {
-                logChannel3DEngine.log(-1601830656, "EALManager#startRendering Failed setting error correction");
+                logChannel3DEngine.log(100000, "EALManager#startRendering Failed setting error correction");
             }
         }
     }
@@ -434,7 +443,7 @@ EALViewportsAndLayers {
         if (!manager.start()) {
             this.handleEALStartupError("Starting the 3D-Engine failed");
         } else {
-            logBenchmark.log(-2137614336, "EALManager#startManager after starting manager");
+            logBenchmark.log(10000000, "EALManager#startManager after starting manager");
         }
     }
 
@@ -467,7 +476,7 @@ EALViewportsAndLayers {
 
     public void createMasterRoot() {
         this.project = manager.getDefaultProject();
-        logBenchmark.log(-2137614336, "EALManager#createMasterRoot after getting default project");
+        logBenchmark.log(10000000, "EALManager#createMasterRoot after getting default project");
         if (!this.project.isValid()) {
             this.handleEALStartupError("Default project is invalid");
         }
@@ -479,12 +488,12 @@ EALViewportsAndLayers {
                 return;
             }
             this.project.setScreenMain(iNode2DManaged);
-            logChannel3DEngine.log(1078071040, "EALManager#createMasterRoot partialRenderingEnabled: %1", partialRenderingEnabled);
-            logChannel3DEngine.log(1078071040, "EALManager#createMasterRoot partialOffscreenRenderingEnabled: %1", partialOffscreenRenderingEnabled);
+            logChannel3DEngine.log(1000000, "EALManager#createMasterRoot partialRenderingEnabled: %1", partialRenderingEnabled);
+            logChannel3DEngine.log(1000000, "EALManager#createMasterRoot partialOffscreenRenderingEnabled: %1", partialOffscreenRenderingEnabled);
             iNode2DManaged.setPartialRendering(partialRenderingEnabled);
             this.masterRoot = new WrappedManagedNode(iNode2DManaged);
         }
-        logBenchmark.log(-2137614336, "EALManager#createMasterRoot masterRoot created");
+        logBenchmark.log(10000000, "EALManager#createMasterRoot masterRoot created");
     }
 
     public void updateGlobalProperties() {
@@ -494,13 +503,13 @@ EALViewportsAndLayers {
     }
 
     private void createGlobalProperties(INode iNode) {
-        this.registerNodeShortcut(iNode, "global_properties");
+        this.registerNodeShortcut(iNode, GLOBAL_PROPERTIES_SHORTCUT);
         boolean bl = this.isLTR();
-        IProperty iProperty = this.createBooleanProperty(iNode, "global_arabic");
+        IProperty iProperty = this.createBooleanProperty(iNode, GLOBAL_PROPERTY_KEY_RTL);
         if (iProperty != null) {
             iProperty.dispose();
         }
-        this.setGlobalPropertyFlag("global_arabic", !bl);
+        this.setGlobalPropertyFlag(GLOBAL_PROPERTY_KEY_RTL, !bl);
     }
 
     private IProperty createBooleanProperty(INode iNode, String string) {
@@ -514,7 +523,7 @@ EALViewportsAndLayers {
     private IProperty createProperty(INode iNode, String string, ealPropertyType_t ealPropertyType_t2) {
         IProperty iProperty = iNode.getProperty(string, ealPropertyType_t2);
         boolean bl = iProperty.isValid();
-        logChannel3DEngine.log(bl ? 1078071040 : 10000, "EALManager#createProperty propertyKey='%1', valid=%2", (Object)string, (Object)bl);
+        logChannel3DEngine.log(bl ? 1000000 : 10000, "EALManager#createProperty propertyKey='%1', valid=%2", (Object)string, (Object)bl);
         if (!bl) {
             iProperty.dispose();
             return null;
@@ -524,19 +533,19 @@ EALViewportsAndLayers {
 
     private boolean registerNodeShortcut(INode iNode, String string) {
         boolean bl = this.project.registerNode(iNode, string);
-        logChannel3DEngine.log(bl ? 1078071040 : 10000, "EALManager#registerNodeShortcut register shortcut: '%1': %2", (Object)string, (Object)(bl ? "OK" : "FAILED"));
+        logChannel3DEngine.log(bl ? 1000000 : 10000, "EALManager#registerNodeShortcut register shortcut: '%1': %2", (Object)string, (Object)(bl ? "OK" : "FAILED"));
         return bl;
     }
 
     public void setGlobalPropertyFlag(String string, boolean bl) {
-        logChannel3DEngine.log(1078071040, "EALManager#setGlobalPropertyFlag: setting property %1 to %2", (Object)string, (Object)bl);
-        INode2D iNode2D = this.getShortcutNode2D("global_properties");
+        logChannel3DEngine.log(1000000, "EALManager#setGlobalPropertyFlag: setting property %1 to %2", (Object)string, (Object)bl);
+        INode2D iNode2D = this.getShortcutNode2D(GLOBAL_PROPERTIES_SHORTCUT);
         if (iNode2D == null) {
             return;
         }
         IProperty iProperty = iNode2D.getProperty(string);
         if (!iProperty.isValid()) {
-            logChannel3DEngine.log(-1601830656, "EALManager#setGlobalPropertyFlag: property %1 not found", (Object)string);
+            logChannel3DEngine.log(100000, "EALManager#setGlobalPropertyFlag: property %1 not found", (Object)string);
             iProperty.dispose();
             iNode2D.dispose();
             return;
@@ -551,7 +560,7 @@ EALViewportsAndLayers {
     public void createLayers(Object object) {
         int n = event_t.EVENTTYPE_MERGE_LOADED.swigValue() | event_t.EVENTTYPE_MERGE_MERGED.swigValue();
         this.ealEventListener = new EALEventListener(EALManager.getManager(), new FlagEvent(n));
-        logChannel3DEngine.log(-2137614336, "EALManager#createLayers created ealEventListener: %1", (Object)this.ealEventListener.getName());
+        logChannel3DEngine.log(10000000, "EALManager#createLayers created ealEventListener: %1", (Object)this.ealEventListener.getName());
         boolean bl = false;
         this.screensViewport = this.createViewport("screens", 130, this.screenWidth, this.screenHeight, true, bl);
         this.screensLayer = this.createLayer(this.screensViewport, "screens", 0);
@@ -567,13 +576,13 @@ EALViewportsAndLayers {
         this.entertainmentDrawerLayer = this.createLayer(this.mainViewport, "entertainmentDrawer", 50);
         this.unboundPresetPopupLayer = this.createLayer(this.mainViewport, "presetPopup", 70);
         this.popupsFrontLayer = this.createLayer(this.mainViewport, "popupsUnboundFront", 60);
-        logBenchmark.log(-2137614336, "EALManager#createLayers layer nodes instanciated");
+        logBenchmark.log(10000000, "EALManager#createLayers layer nodes instanciated");
         boolean bl2 = this.isLTR();
         this.setLayersLayout(bl2);
         this.updateTransparentImageNode(object);
         this.updateBlackImageNode(object);
         this.updateBackgroundImageNode(object);
-        logBenchmark.log(-2137614336, "EALManager#createLayers: after setting up initial nodes");
+        logBenchmark.log(10000000, "EALManager#createLayers: after setting up initial nodes");
     }
 
     public void setLayersLayout(boolean bl) {
@@ -587,7 +596,7 @@ EALViewportsAndLayers {
         this.popupsBetweenLayer.setLayoutDirectionLeftToRight(bl);
         this.unboundPresetPopupLayer.setLayoutDirectionLeftToRight(bl);
         this.screenPartialPopupsLayer.setLayoutDirectionLeftToRight(bl);
-        logBenchmark.log(-2137614336, "EALManager#setLayersLayout Layout applied to layers");
+        logBenchmark.log(10000000, "EALManager#setLayersLayout Layout applied to layers");
     }
 
     public int getScreenWidth() {
@@ -605,7 +614,7 @@ EALViewportsAndLayers {
     public void setPermanentRenderingEnabled(boolean bl) {
         if (bl && !this.permanentRenderingEnabled) {
             this.permanentRenderingEnabled = bl;
-            this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new EALManager$IdleRendering(this)));
+            this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new IdleRendering()));
         }
         this.permanentRenderingEnabled = bl;
     }
@@ -627,7 +636,7 @@ EALViewportsAndLayers {
     private IWrappedLayer createLayer(IWrappedViewport iWrappedViewport, String string, int n, int n2, int n3) {
         String string2 = StringUtility.concatenate(string, "Layer");
         String string3 = StringUtility.concatenate(string, "LTRNode");
-        logChannel3DEngineLayersAndViewports.log(-2137614336, "EALManager#createLayer: Creating layer '%1' at index %2", (Object)string2, (long)n);
+        logChannel3DEngineLayersAndViewports.log(10000000, "EALManager#createLayer: Creating layer '%1' at index %2", (Object)string2, (long)n);
         IWrappedNode3D iWrappedNode3D = this.createNode3D(null, string2, n2, n3);
         IWrappedNode3D iWrappedNode3D2 = this.createNode3D(iWrappedNode3D, string3, n2, n3, 0, iWrappedViewport, true);
         iWrappedNode3D.setScreenSize(n2, n3);
@@ -643,17 +652,17 @@ EALViewportsAndLayers {
 
     private IWrappedViewport createViewport(String string, int n, int n2, int n3, boolean bl, boolean bl2) {
         String string2 = StringUtility.concatenate(string, "Viewport");
-        logChannel3DEngineLayersAndViewports.log(-2137614336, "EALManager#createViewport: Creating viewport '%1' at index %2", (Object)string2, (long)n);
+        logChannel3DEngineLayersAndViewports.log(10000000, "EALManager#createViewport: Creating viewport '%1' at index %2", (Object)string2, (long)n);
         INode3DScene iNode3DScene = new INode3DScene(manager, EALManager.createNodeName("scene", string2));
         INode2DLink iNode2DLink = new INode2DLink(this.project, string2);
         iNode2DLink.setPixelFormat(ealLayerPixelFormat_t.EAL_LAYER_PIXEL_FORMAT_RGBA);
         INode3DCamera iNode3DCamera = new INode3DCamera(manager, EALManager.createNodeName("camera", string2));
-        float f2 = -EALManager.getPixelPerfectZ(n2, 13378);
-        iNode3DCamera.setPerspective(1.0f, Math.abs(f2 * 2.0f), 13378, ealFovType_t.EAL_FOV_TYPE_VERTICAL);
+        float f2 = -EALManager.getPixelPerfectZ(n2, 45.0f);
+        iNode3DCamera.setPerspective(1.0f, Math.abs(f2 * 2.0f), 45.0f, ealFovType_t.EAL_FOV_TYPE_VERTICAL);
         int n4 = bl ? 0 : (annotationsEnabled ? 2 : 0);
         Vec3f vec3f = new Vec3f(n2 / 2, (n3 + n4) / 2, f2);
         Vec3f vec3f2 = new Vec3f(n2 / 2, (n3 + n4) / 2, 0.0f);
-        Vec3f vec3f3 = new Vec3f(0.0f, 32959, 0.0f);
+        Vec3f vec3f3 = new Vec3f(0.0f, -1.0f, 0.0f);
         iNode3DCamera.lookAt(vec3f, vec3f2, vec3f3);
         iNode3DCamera.setAspectRatio((float)n2 / (float)n3);
         iNode3DScene.add(iNode3DCamera);
@@ -684,9 +693,9 @@ EALViewportsAndLayers {
     }
 
     public void setupDesaturation(int n) {
-        logChannel3DEngine.log(-2137614336, "EALManager#setupDesaturation, mode=%1", (long)MAIN_AREA_DESATURATION);
+        logChannel3DEngine.log(10000000, "EALManager#setupDesaturation, mode=%1", (long)MAIN_AREA_DESATURATION);
         if (MAIN_AREA_DESATURATION == 0) {
-            logChannel3DEngine.log(1078071040, "EALManager#setupDesaturation desaturation disabled");
+            logChannel3DEngine.log(1000000, "EALManager#setupDesaturation desaturation disabled");
             return;
         }
         if (MAIN_AREA_DESATURATION != 2) {
@@ -706,7 +715,7 @@ EALViewportsAndLayers {
             return;
         }
         this.masterRoot.addToScreen(this.desaturationImage, 140);
-        this.mainAreaMaterialProperty = this.desaturationImage.getProperty("LayerMaterial");
+        this.mainAreaMaterialProperty = this.desaturationImage.getProperty(PROPERTY_NAME_LAYER_MATERIAL);
         if (!this.mainAreaMaterialProperty.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#setupDesaturation: property LayerMaterial not found");
             this.setDesaturationEnabled(false);
@@ -750,14 +759,13 @@ EALViewportsAndLayers {
         }
         this.mainAreaDesaturateProperty.set(0.0f);
         this.setMainAreaMaterial(this.desaturateMaterial);
-        logChannel3DEngine.log(-2137614336, "EALManager#setupDesaturation desaturation created");
+        logChannel3DEngine.log(10000000, "EALManager#setupDesaturation desaturation created");
     }
 
-    @Override
     public void draw() {
         long l = AbstractWidget.framework.getMonotonicTime();
         if (AbstractWidget.framework.isAsia()) {
-            this.setGlobalPropertyFlag("global_arabic", !this.isLTR());
+            this.setGlobalPropertyFlag(GLOBAL_PROPERTY_KEY_RTL, !this.isLTR());
         }
         if (!this.renderer.isValid()) {
             throw new EALException("Renderer is invalid");
@@ -774,9 +782,9 @@ EALViewportsAndLayers {
             this.handleContextSwitch();
         }
         this.invalidateOffscreenImage();
-        logChannel3DEngine.log(-2137614336, "EALManager#draw before draw");
+        logChannel3DEngine.log(10000000, "EALManager#draw before draw");
         boolean bl2 = this.renderer.render(this.project);
-        logChannel3DEngine.log(-2137614336, "EALManager#draw after draw");
+        logChannel3DEngine.log(10000000, "EALManager#draw after draw");
         if (bl) {
             this.hmiService.getDisplayManager().unlockDisplay(this.terminal.getTerminalID());
         }
@@ -789,7 +797,7 @@ EALViewportsAndLayers {
         }
         this.dumpEALInfo();
         long l2 = AbstractWidget.framework.getMonotonicTime();
-        IWidgetLogChannel.logWidgetPerformance.log(1078071040, "EALManager#draw took %1 ms", l2 - l);
+        IWidgetLogChannel.logWidgetPerformance.log(1000000, "EALManager#draw took %1 ms", l2 - l);
     }
 
     private void dumpEALInfo() {
@@ -821,7 +829,7 @@ EALViewportsAndLayers {
                 long l;
                 ++this.dumpStep;
                 if (LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL <= 0 || (l = manager.getMemoryRAMFree()) >= (long)(LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL * 1024)) break;
-                logChannel3DEngine.log(-1601830656, "EALManager#dumpEALObjects free RAM: %1 Byte", l);
+                logChannel3DEngine.log(100000, "EALManager#dumpEALObjects free RAM: %1 Byte", l);
                 EALManager.dumpEALMemory();
                 return;
             }
@@ -830,8 +838,15 @@ EALViewportsAndLayers {
     }
 
     public void fireRenderEvent() {
-        EALManager$2 eALManager$2 = new EALManager$2(this);
-        this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, eALManager$2));
+        Runnable runnable = new Runnable(){
+
+            public void run() {
+                IWidgetLogChannel.logChannel3DEngine.log(10000000, "EALManager#fireRenderEvent before render");
+                boolean bl = EALManager.this.renderer.render(EALManager.this.project);
+                IWidgetLogChannel.logChannel3DEngine.log(10000000, "EALManager#fireRenderEvent after render, success=%1", bl);
+            }
+        };
+        this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, runnable));
     }
 
     private boolean ealDumpNeeded() {
@@ -840,7 +855,7 @@ EALViewportsAndLayers {
             return false;
         }
         this.nextDumpTime = l + (long)(DUMP_EAL_INFO_EVERY_N_SECONDS * 1000);
-        logChannel3DEngine.log(1078071040, "EALManager#ealInfoDumpNeeded");
+        logChannel3DEngine.log(1000000, "EALManager#ealInfoDumpNeeded");
         return true;
     }
 
@@ -885,7 +900,7 @@ EALViewportsAndLayers {
             string = this.animationSyncer.getSyncAnnotation(1);
             this.annotation = this.assembleAnnotation(l, n2, n, string);
             this.annotationRenderer.setData(this.combiInternalApplicationID, this.annotation);
-            logChannel3DEngine.log(-2137614336, "EALManager#draw annotation version %2: %1", (Object)this.annotation, 1L);
+            logChannel3DEngine.log(10000000, "EALManager#draw annotation version %2: %1", (Object)this.annotation, 1L);
         }
     }
 
@@ -902,7 +917,6 @@ EALViewportsAndLayers {
         return buffer.toString();
     }
 
-    @Override
     public void swapBuffers() {
     }
 
@@ -930,13 +944,12 @@ EALViewportsAndLayers {
         }
         if (this.isPermanentRenderingEnabled() && !this.permanentRenderingStarted) {
             this.permanentRenderingStarted = true;
-            this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new EALManager$IdleRendering(this)));
+            this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new IdleRendering()));
         }
         this.currentScreen = abstractScreenWidget;
         this.screenPainted = false;
     }
 
-    @Override
     public void readPixels(int[] nArray) {
         IContext iContext = manager.getContext();
         IImage iImage = iContext.getScreenData();
@@ -952,7 +965,7 @@ EALViewportsAndLayers {
         } else {
             int n3 = 0;
             while (n3 < Math.min(nArray.length, n2 / 4)) {
-                nArray[n3] = 255;
+                nArray[n3] = -16777216;
                 int n4 = n3;
                 nArray[n4] = nArray[n4] | (byteBuffer.get() & 0xFF) << 16;
                 int n5 = n3;
@@ -967,11 +980,9 @@ EALViewportsAndLayers {
         iImage.dispose();
     }
 
-    @Override
     public void setUnsupportedDevelopmentBuild(boolean bl) {
     }
 
-    @Override
     public void doErrorHandling(Exception exception, int n) {
         exception.printStackTrace();
     }
@@ -988,7 +999,7 @@ EALViewportsAndLayers {
         long l = System.currentTimeMillis();
         Object object = this.terminal.getFramework().getHMIService().getImage(n, this.terminal.getTerminalID(), 0, n2);
         long l2 = System.currentTimeMillis();
-        if (l2 - l > 0) {
+        if (l2 - l > 1000L) {
             logChannel.log(1000, "EALManager#getHMIImage(id) took %1ms, screenID = %2", l2 - l, (long)n2);
         }
         return this.convertToHmiImage(object);
@@ -999,7 +1010,7 @@ EALViewportsAndLayers {
             return (HMIImage)object;
         }
         if (object instanceof String) {
-            logChannel.log(-1601830656, "EALManager#convertToHmiImage returned a string object instead of a HMIImage, using format RGBA");
+            logChannel.log(100000, "EALManager#convertToHmiImage returned a string object instead of a HMIImage, using format RGBA");
             return new HMIImage((String)object, 6);
         }
         return null;
@@ -1009,7 +1020,7 @@ EALViewportsAndLayers {
         long l = System.currentTimeMillis();
         Object object = this.terminal.getImageLoader().loadImage(hMIResourceLocator, bl, n, this.terminal.getTerminalID());
         long l2 = System.currentTimeMillis();
-        if (l2 - l > 0) {
+        if (l2 - l > 1000L) {
             logChannel.log(1000, "EALManager#getHMIImage(resourceLocator) took %1ms, screenID = %2", l2 - l, (long)n);
         }
         return this.convertToHmiImage(object);
@@ -1030,15 +1041,15 @@ EALViewportsAndLayers {
         if (ACTIVATE_IDLE_DESTROYING) {
             iNode.setVisible(false);
             if (this.nodesToDestroy.size() > MAX_NO_OF_NODES_TO_DESTROY) {
-                EALManager$DestroyJob eALManager$DestroyJob = (EALManager$DestroyJob)this.nodesToDestroy.removeFirst();
-                this.destroyNodeIndeed(eALManager$DestroyJob.getNode(), eALManager$DestroyJob.isRecursive());
-                this.nodesToDestroy.addLast(new EALManager$DestroyJob(iNode, bl));
+                DestroyJob destroyJob = (DestroyJob)this.nodesToDestroy.removeFirst();
+                this.destroyNodeIndeed(destroyJob.getNode(), destroyJob.isRecursive());
+                this.nodesToDestroy.addLast(new DestroyJob(iNode, bl));
                 return;
             }
-            this.nodesToDestroy.addLast(new EALManager$DestroyJob(iNode, bl));
+            this.nodesToDestroy.addLast(new DestroyJob(iNode, bl));
             if (this.nodesToDestroy.size() > IDLE_DESTROYING_START && !this.idleDestroyingEventPosted) {
                 this.idleDestroyingEventPosted = true;
-                this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new EALManager$IdleDestroying(this, null)));
+                this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new IdleDestroying()));
             }
         } else {
             this.destroyNodeIndeed(iNode, bl);
@@ -1049,7 +1060,7 @@ EALViewportsAndLayers {
         if (iNode.isValid()) {
             boolean bl2;
             if (logChannel3DEngine.isDebug()) {
-                logChannel3DEngine.log(-2137614336, "EALManager#destroyNode: Destroying node '%1', recursive=%2", (Object)iNode.getName(), (Object)bl);
+                logChannel3DEngine.log(10000000, "EALManager#destroyNode: Destroying node '%1', recursive=%2", (Object)iNode.getName(), (Object)bl);
             }
             if (logChannel3DEngineDestroy.isInfo()) {
                 String string = iNode.getName();
@@ -1057,12 +1068,12 @@ EALViewportsAndLayers {
                 bl2 = IFactory.destroy(iNode, bl);
                 long l2 = AbstractWidget.framework.getMonotonicTime();
                 long l3 = l2 - l;
-                logChannel3DEngineDestroy.log(1078071040, "EALManager#destroyNode time to destroy node: time=%3ms, recursive=%2, name=%1", (Object)string, (Object)bl, l3);
+                logChannel3DEngineDestroy.log(1000000, "EALManager#destroyNode time to destroy node: time=%3ms, recursive=%2, name=%1", (Object)string, (Object)bl, l3);
             } else {
                 bl2 = IFactory.destroy(iNode, bl);
             }
             if (!bl2) {
-                logChannel3DEngine.log(10000, "EALManager#destroyNode: Could not destroy node", new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngine.log(10000, "EALManager#destroyNode: Could not destroy node", new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             }
             iNode.dispose();
         } else {
@@ -1076,14 +1087,14 @@ EALViewportsAndLayers {
             if (this.nodesToDestroy.size() < MAX_NO_OF_NODES_TO_DESTROY && ((AbstractAnimationController)this.terminal.getIAnimationController()).isAnimationRunning()) {
                 return;
             }
-            EALManager$DestroyJob eALManager$DestroyJob = (EALManager$DestroyJob)this.nodesToDestroy.removeFirst();
-            this.destroyNodeIndeed(eALManager$DestroyJob.getNode(), eALManager$DestroyJob.isRecursive());
+            DestroyJob destroyJob = (DestroyJob)this.nodesToDestroy.removeFirst();
+            this.destroyNodeIndeed(destroyJob.getNode(), destroyJob.isRecursive());
             if (System.currentTimeMillis() - l <= (long)MAX_TIME_NODE_DESTROYING) continue;
             if (((AbstractAnimationController)this.terminal.getIAnimationController()).isAnimationRunning() || this.hmiService.getEventDispatcher().peekEvent() != null) {
                 return;
             }
             try {
-                Thread.sleep(0);
+                Thread.sleep(10L);
             }
             catch (InterruptedException interruptedException) {
                 interruptedException.printStackTrace();
@@ -1132,7 +1143,7 @@ EALViewportsAndLayers {
         if (iWrappedTexture == null) {
             return;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#destroy: destroying texture %1", (Object)iWrappedTexture);
+        logChannel3DEngine.log(10000000, "EALManager#destroy: destroying texture %1", (Object)iWrappedTexture);
         TextureDescriptionManager.getInstance().removeTextureDescription(iWrappedTexture.getDescription());
         ITexture iTexture = iWrappedTexture.getTexture();
         this.destroy(iTexture);
@@ -1143,14 +1154,14 @@ EALViewportsAndLayers {
             return;
         }
         if (logChannel3DEngineLayersAndViewports.isDebug()) {
-            logChannel3DEngineLayersAndViewports.log(-2137614336, "EALManager#destroy: destroying layer %1", (Object)iWrappedLayer);
+            logChannel3DEngineLayersAndViewports.log(10000000, "EALManager#destroy: destroying layer %1", (Object)iWrappedLayer);
         }
         this.destroy(iWrappedLayer.getNode());
         this.destroy(iWrappedLayer.getMainNode());
         IWrappedViewport iWrappedViewport = iWrappedLayer.getViewport();
         iWrappedViewport.removeLayer(iWrappedLayer);
         if (iWrappedViewport.getLayerCount() == 0 && iWrappedViewport.isAutomaticallyCreated()) {
-            logChannel3DEngineLayersAndViewports.log(-2137614336, "EALManager#destroy: last layer of viewport destroyed, destroying viewport %1", (Object)iWrappedViewport);
+            logChannel3DEngineLayersAndViewports.log(10000000, "EALManager#destroy: last layer of viewport destroyed, destroying viewport %1", (Object)iWrappedViewport);
             this.destroy(iWrappedViewport);
         }
     }
@@ -1160,7 +1171,7 @@ EALViewportsAndLayers {
             return;
         }
         if (logChannel3DEngineLayersAndViewports.isDebug()) {
-            logChannel3DEngineLayersAndViewports.log(-2137614336, "EALManager#destroy: destroying viewport %1", (Object)iWrappedViewport);
+            logChannel3DEngineLayersAndViewports.log(10000000, "EALManager#destroy: destroying viewport %1", (Object)iWrappedViewport);
         }
         iWrappedViewport.disableOffscreen();
         iWrappedViewport.destroyTexture();
@@ -1193,39 +1204,39 @@ EALViewportsAndLayers {
             return;
         }
         if (iObject.isDeleted()) {
-            logChannel3DEngine.log(10000, "EALManager#destroyIObject: already deleted: %1", (Object)super.getClass(), new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+            logChannel3DEngine.log(10000, "EALManager#destroyIObject: already deleted: %1", (Object)iObject.getClass(), new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             return;
         }
         if (iObject.isDisposed()) {
-            logChannel3DEngine.log(10000, "EALManager#destroyIObject: already disposed: %1", (Object)super.getClass(), new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+            logChannel3DEngine.log(10000, "EALManager#destroyIObject: already disposed: %1", (Object)iObject.getClass(), new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             return;
         }
         if (!iObject.isValid()) {
-            logChannel3DEngine.log(10000, "EALManager#destroyIObject: already invalid: %1", (Object)super.getClass(), new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+            logChannel3DEngine.log(10000, "EALManager#destroyIObject: already invalid: %1", (Object)iObject.getClass(), new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             return;
         }
         if (iObject instanceof ITexture) {
             ITexture iTexture = (ITexture)iObject;
             boolean bl = false;
             if (IWidgetLogChannel.logChannel3DEngineTextureDestroyCheck.isDebug() && iTexture.testIfReferenced()) {
-                logChannel3DEngineTextureDestroyCheck.log(10000, "EALManager#destroyIObject not destroying texture because it is still referenced: %1", (Object)iTexture, new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngineTextureDestroyCheck.log(10000, "EALManager#destroyIObject not destroying texture because it is still referenced: %1", (Object)iTexture, new Throwable(DUMMY_THROWABLE_DESCRIPTION));
                 bl = true;
             }
-            logChannel3DEngine.log(-2137614336, "EALManager#destroyIObject: destroy texture %1", (Object)iTexture);
+            logChannel3DEngine.log(10000000, "EALManager#destroyIObject: destroy texture %1", (Object)iTexture);
             if (!(bl || iTexture.destroy() || iTexture instanceof ITextureShared)) {
-                logChannel3DEngine.log(10000, "EALManager#destroyIObject: texture %1 could not be destroyed", (Object)iTexture, new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngine.log(10000, "EALManager#destroyIObject: texture %1 could not be destroyed", (Object)iTexture, new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             }
         } else if (iObject instanceof IImage) {
             IImage iImage = (IImage)iObject;
-            logChannel3DEngine.log(-2137614336, "EALManager#destroyIObject: destroy image %1", (Object)iImage);
+            logChannel3DEngine.log(10000000, "EALManager#destroyIObject: destroy image %1", (Object)iImage);
             if (!iImage.destroy()) {
-                logChannel3DEngine.log(10000, "EALManager#destroyIObject: image %1 could not be destroyed", (Object)iImage, new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngine.log(10000, "EALManager#destroyIObject: image %1 could not be destroyed", (Object)iImage, new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             }
         } else if (iObject instanceof ITextLayout) {
             ITextLayout iTextLayout = (ITextLayout)iObject;
-            logChannel3DEngine.log(-2137614336, "EALManager#destroyIObject: destroy text-layout %1", (Object)iTextLayout);
+            logChannel3DEngine.log(10000000, "EALManager#destroyIObject: destroy text-layout %1", (Object)iTextLayout);
             if (!iTextLayout.destroy()) {
-                logChannel3DEngine.log(10000, "EALManager#destroyIObject: text-layout %1 could not be destroyed", (Object)iTextLayout, new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngine.log(10000, "EALManager#destroyIObject: text-layout %1 could not be destroyed", (Object)iTextLayout, new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             }
         } else {
             if (iObject instanceof INode) {
@@ -1233,10 +1244,10 @@ EALViewportsAndLayers {
                 return;
             }
             if (!(iObject instanceof IProperty)) {
-                logChannel3DEngine.log(10000, "EALManager#destroyIObject: unknown object type; %1 will not be destroyed", (Object)iObject, new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngine.log(10000, "EALManager#destroyIObject: unknown object type; %1 will not be destroyed", (Object)iObject, new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             }
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#destroyIObject: dispose object %1", (Object)iObject);
+        logChannel3DEngine.log(10000000, "EALManager#destroyIObject: dispose object %1", (Object)iObject);
         iObject.dispose();
     }
 
@@ -1254,17 +1265,17 @@ EALViewportsAndLayers {
 
     private IBaseWrappedNode3DText createText3D(boolean bl, IWrappedNode3D iWrappedNode3D, String string, String string2, IWrappedFont iWrappedFont, int n) {
         long l = this.terminal.getFramework().getMonotonicTime();
-        logChannel3DEngine.log(-2137614336, "EALManager#createText3D: nodeName: '%1', text: %2", (Object)string, (Object)string2);
+        logChannel3DEngine.log(10000000, "EALManager#createText3D: nodeName: '%1', text: %2", (Object)string, (Object)string2);
         if (iWrappedNode3D != null && !iWrappedNode3D.isValid()) {
-            logChannel3DEngine.log(10000, "EALManager#createText3D: parent node is invalid for new text node '%1', text: %2", (Object)string, (Object)string2, (Object)new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+            logChannel3DEngine.log(10000, "EALManager#createText3D: parent node is invalid for new text node '%1', text: %2", (Object)string, (Object)string2, (Object)new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             return null;
         }
         if (string == null) {
-            logChannel3DEngine.log(10000, "EALManager#createText3D: Name must not be null for text node with text: %1", (Object)string2, new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+            logChannel3DEngine.log(10000, "EALManager#createText3D: Name must not be null for text node with text: %1", (Object)string2, new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             return null;
         }
         if (iWrappedFont == null) {
-            logChannel3DEngine.log(10000, "EALManager#createText3D: Font must not be null for text node '%1' with text: %2", (Object)string, (Object)string2, (Object)new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+            logChannel3DEngine.log(10000, "EALManager#createText3D: Font must not be null for text node '%1' with text: %2", (Object)string, (Object)string2, (Object)new Throwable(DUMMY_THROWABLE_DESCRIPTION));
         }
         if (string2 == null) {
             string2 = "";
@@ -1275,7 +1286,7 @@ EALViewportsAndLayers {
         }
         if (logChannel3DEngine.isDebug()) {
             long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-            logChannel3DEngine.log(-2137614336, "EALManager#createText3D: returning text node, time: %1ms", l2);
+            logChannel3DEngine.log(10000000, "EALManager#createText3D: returning text node, time: %1ms", l2);
         }
         return iBaseWrappedNode3DText;
     }
@@ -1289,7 +1300,7 @@ EALViewportsAndLayers {
                 logChannel3DEngine.log(10000, "EALManager#createText3D: project is invalid for new text node '%1', text: %2", (Object)string, (Object)string2);
                 return null;
             }
-            logChannel3DEngine.log(-2137614336, "EALManager#createText3D: create new text node '%1'", (Object)string);
+            logChannel3DEngine.log(10000000, "EALManager#createText3D: create new text node '%1'", (Object)string);
             iBaseWrappedNode3DText = this.createNewIWrappedNode3DText(bl, string, string2, iWrappedFont, n);
         } else {
             iWrappedNode3DText.setNodeName(string);
@@ -1299,7 +1310,7 @@ EALViewportsAndLayers {
             iWrappedNode3DText.setNodeIndex(n);
             iBaseWrappedNode3DText = iWrappedNode3DText;
             if (logChannel3DEngine.isDebug()) {
-                logChannel3DEngine.log(-2137614336, "EALManager#createText3D: returning cached text node '%1'", (Object)iBaseWrappedNode3DText.getNode().getName());
+                logChannel3DEngine.log(10000000, "EALManager#createText3D: returning cached text node '%1'", (Object)iBaseWrappedNode3DText.getNode().getName());
             }
         }
         return iBaseWrappedNode3DText;
@@ -1320,7 +1331,7 @@ EALViewportsAndLayers {
 
     public IWrappedNode3DQuickDraw createQuickDrawNode3D(IWrappedNode3D iWrappedNode3D, String string, int n, int n2, int n3) {
         long l = this.terminal.getFramework().getMonotonicTime();
-        logChannel3DEngine.log(-2137614336, "EALManager#createQuickDrawNode3D: nodeName '%1'", (Object)string);
+        logChannel3DEngine.log(10000000, "EALManager#createQuickDrawNode3D: nodeName '%1'", (Object)string);
         if (iWrappedNode3D != null && !iWrappedNode3D.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createQuickDrawNode3D: Parent node is invalid for new image node '%1'", (Object)string);
             return null;
@@ -1332,7 +1343,7 @@ EALViewportsAndLayers {
         long l2 = this.terminal.getFramework().getMonotonicTime();
         INode3DQuickDraw iNode3DQuickDraw = new INode3DQuickDraw(this.project, string, n, n2);
         long l3 = this.terminal.getFramework().getMonotonicTime() - l2;
-        logChannel3DEngine.log(-2137614336, "Time to create image node: %1ms", l3);
+        logChannel3DEngine.log(10000000, "Time to create image node: %1ms", l3);
         if (!iNode3DQuickDraw.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createQuickDrawNode3D: Could not create image node '%1'", (Object)string);
             iNode3DQuickDraw.dispose();
@@ -1344,13 +1355,13 @@ EALViewportsAndLayers {
             iWrappedNode3D.add(wrappedNode3DQuickDraw);
         }
         wrappedNode3DQuickDraw.setPosition(0.0f, 0.0f, 0.0f);
-        logChannel3DEngine.log(-2137614336, "EALManager#createQuickDrawNode3D: Returning image node '%1', time: %2ms", (Object)string, this.terminal.getFramework().getMonotonicTime() - l);
+        logChannel3DEngine.log(10000000, "EALManager#createQuickDrawNode3D: Returning image node '%1', time: %2ms", (Object)string, this.terminal.getFramework().getMonotonicTime() - l);
         return wrappedNode3DQuickDraw;
     }
 
     public IWrappedNode3DImage createImage3D(IWrappedNode3D iWrappedNode3D, String string, TextureDescription textureDescription, int n, boolean bl, Object object) {
         if (textureDescription == null) {
-            logChannel3DEngine.log(1078071040, "EALManager#createImage3D: description is null");
+            logChannel3DEngine.log(1000000, "EALManager#createImage3D: description is null");
             return null;
         }
         long l = this.terminal.getFramework().getMonotonicTime();
@@ -1361,7 +1372,7 @@ EALViewportsAndLayers {
         }
         INode3DImage iNode3DImage = new INode3DImage(this.project, string, iWrappedTexture.getTexture());
         long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-        logChannel3DEngine.log(-2137614336, "EALManager#createImage3D: Time to create image node: %1ms", l2);
+        logChannel3DEngine.log(10000000, "EALManager#createImage3D: Time to create image node: %1ms", l2);
         if (!iNode3DImage.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createImage3D: Could not create image node '%1', texture description '%2'", (Object)string, (Object)textureDescription);
             iNode3DImage.dispose();
@@ -1379,7 +1390,7 @@ EALViewportsAndLayers {
         long l = this.terminal.getFramework().getMonotonicTime();
         INode3DImage iNode3DImage = new INode3DImage(this.project, string, iWrappedTexture.getTexture());
         long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-        logChannel3DEngine.log(-2137614336, "EALManager#createImage3D: Time to create image node: %1ms", l2);
+        logChannel3DEngine.log(10000000, "EALManager#createImage3D: Time to create image node: %1ms", l2);
         if (!iNode3DImage.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createImage3D: Could not create image node '%1', texture '%2'", (Object)string, (Object)iWrappedTexture);
             iNode3DImage.dispose();
@@ -1493,7 +1504,7 @@ EALViewportsAndLayers {
         if (textureDescription == null) {
             return null;
         }
-        logChannel3DEngineCache.log(1078071040, "EALManager#getTexture: description='%1'", (Object)textureDescription);
+        logChannel3DEngineCache.log(1000000, "EALManager#getTexture: description='%1'", (Object)textureDescription);
         ITextureCache iTextureCache = textureDescription.getCache();
         if (iTextureCache == null) {
             return textureDescription.createTexture();
@@ -1501,7 +1512,6 @@ EALViewportsAndLayers {
         return iTextureCache.getTexture(textureDescription, object);
     }
 
-    @Override
     public int[] getImageHeaderInformation(String string) {
         int[] nArray = new int[2];
         ealSize_t ealSize_t2 = IImage.getImageInfo(string);
@@ -1524,7 +1534,7 @@ EALViewportsAndLayers {
         if (iWrappedTexture == null) {
             return -1;
         }
-        logChannel3DEngineCache.log(1078071040, "EALManager#releaseTexture: texture='%1'", (Object)iWrappedTexture);
+        logChannel3DEngineCache.log(1000000, "EALManager#releaseTexture: texture='%1'", (Object)iWrappedTexture);
         TextureDescription textureDescription = iWrappedTexture.getDescription();
         ITextureCache iTextureCache = textureDescription.getCache();
         if (iTextureCache == null) {
@@ -1546,7 +1556,7 @@ EALViewportsAndLayers {
     }
 
     public IImage createEALImage(HMIImage hMIImage, int n, int n2) {
-        logChannel3DEngine.log(-2137614336, "EALManager#createEALImage: image path: '%1'", (Object)hMIImage);
+        logChannel3DEngine.log(10000000, "EALManager#createEALImage: image path: '%1'", (Object)hMIImage);
         if (hMIImage == null || hMIImage.getPath() == null) {
             logChannel3DEngine.log(10000, "EALManager#createEALImage: Image path may not be null");
             return null;
@@ -1556,18 +1566,18 @@ EALViewportsAndLayers {
         IImage iImage = null;
         iImage = n < 1 || n2 < 1 ? new IImage(manager, hMIImage.getPath(), flagImage) : new IImage(manager, hMIImage.getPath(), flagImage, (long)n, n2);
         long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-        logChannel3DEngine.log(-2137614336, "Time to create image: %1ms", l2);
+        logChannel3DEngine.log(10000000, "Time to create image: %1ms", l2);
         if (!iImage.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createEALImage: Could not create image, image path '%1'", (Object)hMIImage);
             iImage.dispose();
             return null;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#createEALImage: New IImage '%1' created", (Object)hMIImage);
+        logChannel3DEngine.log(10000000, "EALManager#createEALImage: New IImage '%1' created", (Object)hMIImage);
         return iImage;
     }
 
     IImage createEALImage(ByteBuffer byteBuffer, int n, int n2, int n3) {
-        logChannel3DEngine.log(-2137614336, "EALManager#createEALImage: via nioBuffer, width = %1, height = %2", (long)n2, (long)n3);
+        logChannel3DEngine.log(10000000, "EALManager#createEALImage: via nioBuffer, width = %1, height = %2", (long)n2, (long)n3);
         if (byteBuffer == null) {
             logChannel3DEngine.log(10000, "EALManager#createEALImage: nioBuffer may not be null");
             return null;
@@ -1580,29 +1590,29 @@ EALViewportsAndLayers {
         FlagImage flagImage = EALManager.getImageFlags(n);
         IImage iImage = new IImage(manager, byteBuffer, n2, (long)n3, flagImage);
         long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-        logChannel3DEngine.log(-2137614336, "Time to create image from nioBuffer: %1ms", l2);
+        logChannel3DEngine.log(10000000, "Time to create image from nioBuffer: %1ms", l2);
         if (!iImage.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createEALImage: Could not create image via nioBuffer");
             iImage.dispose();
             return null;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#createEALImage: New IImage from nioBuffer created");
+        logChannel3DEngine.log(10000000, "EALManager#createEALImage: New IImage from nioBuffer created");
         return iImage;
     }
 
     ITexture createEALTexture(IImage iImage, HMIImage hMIImage, boolean bl) {
-        logChannel3DEngine.log(-2137614336, "EALManager#createEALTexture: image path: '%1', ealAtlas: %2", (Object)hMIImage, (Object)bl);
+        logChannel3DEngine.log(10000000, "EALManager#createEALTexture: image path: '%1', ealAtlas: %2", (Object)hMIImage, (Object)bl);
         long l = this.terminal.getFramework().getMonotonicTime();
         long l2 = this.terminal.getFramework().getMonotonicTime() - l;
         FlagTexture flagTexture = EALManager.getTextureFlags(hMIImage.getFormat(), bl);
         ITexture iTexture = new ITexture(this.project, iImage, flagTexture);
-        logChannel3DEngine.log(-2137614336, "Time to create texture: %1ms", l2);
+        logChannel3DEngine.log(10000000, "Time to create texture: %1ms", l2);
         if (!iTexture.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createEALTexture: Could not create texture, image path '%1'", (Object)hMIImage);
             iTexture.dispose();
             return null;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#createEALTexture: New ITexture '%1' created", (Object)hMIImage);
+        logChannel3DEngine.log(10000000, "EALManager#createEALTexture: New ITexture '%1' created", (Object)hMIImage);
         return iTexture;
     }
 
@@ -1619,7 +1629,7 @@ EALViewportsAndLayers {
 
     private void insertTextNodeInCache(IWrappedNode3DText iWrappedNode3DText) {
         this.textNodeCache.add(iWrappedNode3DText);
-        logChannel3DEngine.log(-2137614336, "EALManager#insertTextNodeInCache: store text node in cache, text cache size: %1", (long)this.textNodeCache.size());
+        logChannel3DEngine.log(10000000, "EALManager#insertTextNodeInCache: store text node in cache, text cache size: %1", (long)this.textNodeCache.size());
     }
 
     public IWrappedNode3D createNode3D(IWrappedNode3D iWrappedNode3D, String string, float f2, float f3) {
@@ -1635,7 +1645,7 @@ EALViewportsAndLayers {
         long l = this.terminal.getFramework().getMonotonicTime();
         if (logChannel3DEngine.isDebug()) {
             object = iWrappedNode3D == null ? null : iWrappedNode3D.getNode().getName();
-            logChannel3DEngine.log(-2137614336, "EALManager#createNode3D: nodeName: %1 parentNode: %2", (Object)string, object);
+            logChannel3DEngine.log(10000000, "EALManager#createNode3D: nodeName: %1 parentNode: %2", (Object)string, object);
         }
         if (iWrappedNode3D != null && !iWrappedNode3D.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#createNode3D: parent node is invalid for new node '%1'", (Object)string);
@@ -1659,12 +1669,12 @@ EALViewportsAndLayers {
         if (iWrappedNode3D != null) {
             iWrappedNode3D.add(wrappedNode3D);
         } else {
-            logChannel3DEngine.log(-2137614336, "EALManager#createNode3D: parent node is null for new node '%1'", (Object)string);
+            logChannel3DEngine.log(10000000, "EALManager#createNode3D: parent node is null for new node '%1'", (Object)string);
         }
         wrappedNode3D.setPosition(0.0f, 0.0f, 0.0f);
         if (logChannel3DEngine.isDebug()) {
             long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-            logChannel3DEngine.log(-2137614336, "EALManager#createNode3D: return node %1, time: %2ms", (Object)string, l2);
+            logChannel3DEngine.log(10000000, "EALManager#createNode3D: return node %1, time: %2ms", (Object)string, l2);
         }
         return wrappedNode3D;
     }
@@ -1677,10 +1687,10 @@ EALViewportsAndLayers {
         long l = this.terminal.getFramework().getMonotonicTime();
         String string3 = this.getKzbName(n);
         if (string3.equals(this.getKzbName(0))) {
-            logChannel3DEngine.log(-1601830656, "EALManager#createTemplateInstanceNode: templateName: '%1', kzbFileName: '%2', nodeName: '%3'. Return dummy 3D node for EMPTY_KZB!", (Object)string2, (Object)string3, (Object)string);
+            logChannel3DEngine.log(100000, "EALManager#createTemplateInstanceNode: templateName: '%1', kzbFileName: '%2', nodeName: '%3'. Return dummy 3D node for EMPTY_KZB!", (Object)string2, (Object)string3, (Object)string);
             return this.createNode3D(iWrappedNode3D, string, f2, f3, n3);
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#createTemplateInstanceNode: templateName: '%1', kzbFileName: '%2', nodeName: '%3'", (Object)string2, (Object)string3, (Object)string);
+        logChannel3DEngine.log(10000000, "EALManager#createTemplateInstanceNode: templateName: '%1', kzbFileName: '%2', nodeName: '%3'", (Object)string2, (Object)string3, (Object)string);
         ITemplateNode3D iTemplateNode3D = (ITemplateNode3D)this.getHMIService().getKanziResource(string3, string2, 1, this.terminal.getTerminalID(), n2);
         if (iTemplateNode3D == null) {
             logChannel3DEngine.log(10000, "EALManager#createTemplateInstanceNode: Could not get template '%1'", (Object)string2);
@@ -1700,7 +1710,7 @@ EALViewportsAndLayers {
         }
         if (logChannel3DEngine.isDebug()) {
             long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-            logChannel3DEngine.log(-2137614336, "EALManager#createTemplateInstanceNode: Instance of '%1' in '%2'-KZB created, nodeName: %3, time: %4", (Object)string2, (Object)string3, (Object)string, l2);
+            logChannel3DEngine.log(10000000, "EALManager#createTemplateInstanceNode: Instance of '%1' in '%2'-KZB created, nodeName: %3, time: %4", (Object)string2, (Object)string3, (Object)string, l2);
         }
         return wrappedNode3D;
     }
@@ -1714,7 +1724,7 @@ EALViewportsAndLayers {
     public IMaterial createMaterial(String string, String string2, int n, int n2) {
         long l = this.terminal.getFramework().getMonotonicTime();
         String string3 = this.getKzbName(n);
-        logChannel3DEngine.log(-2137614336, "EALManager#createMaterial: material path: '%1', kzbFileName: %2", (Object)string2, (Object)string3);
+        logChannel3DEngine.log(10000000, "EALManager#createMaterial: material path: '%1', kzbFileName: %2", (Object)string2, (Object)string3);
         IMaterial iMaterial = (IMaterial)this.getHMIService().getKanziResource(string3, new String[]{string, string2}, 4, this.terminal.getTerminalID(), n2);
         if (iMaterial == null) {
             logChannel3DEngine.log(10000, "EALManager#createMaterial: Could not get material '%1', template '%2'", (Object)string2, (Object)string);
@@ -1722,7 +1732,7 @@ EALViewportsAndLayers {
         }
         if (logChannel3DEngine.isDebug()) {
             long l2 = this.terminal.getFramework().getMonotonicTime() - l;
-            logChannel3DEngine.log(-2137614336, "EALManager#createMaterial: Created material '%1', time: %2", (Object)string2, l2);
+            logChannel3DEngine.log(10000000, "EALManager#createMaterial: Created material '%1', time: %2", (Object)string2, l2);
         }
         return iMaterial;
     }
@@ -1750,7 +1760,7 @@ EALViewportsAndLayers {
             ((INode)iNode2D3).dispose();
             return;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#moveToParent: move node %1 from old parent %2 to new parent %3", (Object)iNode2D, (Object)iNode2D3, (Object)iNode2D2);
+        logChannel3DEngine.log(10000000, "EALManager#moveToParent: move node %1 from old parent %2 to new parent %3", (Object)iNode2D, (Object)iNode2D3, (Object)iNode2D2);
         iNode2D3.remove(iNode2D);
         if (!iNode2D.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#moveToParent: node is invalid after remove");
@@ -1781,15 +1791,15 @@ EALViewportsAndLayers {
             return;
         }
         if (EALManager.isDescendant(iWrappedNode3D2, iWrappedNode3D, MAX_RECURSIVE_DEPTH_ADDING_CHECK)) {
-            int n = iWrappedNode3D2.equals(iWrappedNode3D) ? -2137614336 : 10000;
+            int n = iWrappedNode3D2.equals(iWrappedNode3D) ? 10000000 : 10000;
             if (logChannel3DEngine.isDebug() || n == 10000) {
                 logChannel3DEngine.log(n, "EALManager#moveToParent recursion check failed. child=%1", (Object)EALManager.getAncestors(iWrappedNode3D));
                 logChannel3DEngine.log(n, "EALManager#moveToParent new parent=%1", (Object)EALManager.getAncestors(iWrappedNode3D2));
-                logChannel3DEngine.log(n, "EALManager#moveToParent", new Throwable("Dummy_LogStackTrace_usually_NOT_an_exception"));
+                logChannel3DEngine.log(n, "EALManager#moveToParent", new Throwable(DUMMY_THROWABLE_DESCRIPTION));
             }
             return;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#moveToParent3D: move node %1 from old parent %2 to new parent %3", (Object)iWrappedNode3D, (Object)iWrappedNode3D3, (Object)iWrappedNode3D2);
+        logChannel3DEngine.log(10000000, "EALManager#moveToParent3D: move node %1 from old parent %2 to new parent %3", (Object)iWrappedNode3D, (Object)iWrappedNode3D3, (Object)iWrappedNode3D2);
         iWrappedNode3D3.remove(iWrappedNode3D);
         iWrappedNode3D2.add(iWrappedNode3D);
     }
@@ -1817,11 +1827,11 @@ EALViewportsAndLayers {
     }
 
     public int getTextWidth(String string, IWrappedFont iWrappedFont) {
-        int n;
+        long l;
         if (iWrappedFont == null) {
             throw new IllegalArgumentException(new StringBuffer().append("Font must not be null for text: ").append(string).toString());
         }
-        long l = this.terminal.getFramework().getMonotonicTime();
+        long l2 = this.terminal.getFramework().getMonotonicTime();
         if (string == null) {
             string = "";
         }
@@ -1834,45 +1844,43 @@ EALViewportsAndLayers {
         }
         iWrappedFont.getFontGroup().activate();
         ITextLayout iTextLayout = FONT_LAYOUT_WORKAROUND ? new ITextLayout(iWrappedFont.getSize()) : iWrappedFont.getLayout();
-        iTextLayout.setMaximumSize(0, 0);
+        iTextLayout.setMaximumSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
         ITextLayoutResult iTextLayoutResult = manager.layout(iTextLayout, string);
-        long l2 = iTextLayoutResult.getWidth();
+        long l3 = iTextLayoutResult.getWidth();
         iTextLayoutResult.destroy();
         iTextLayoutResult.dispose();
         if (FONT_LAYOUT_WORKAROUND) {
             this.destroy(iTextLayout);
         }
-        if (l2 > (n = 0)) {
-            logChannel3DEngine.log(10000, "EALManager#getTextWidth: text width is too big for int: %2. text: '%1'", (Object)string, l2);
+        if (l3 > (l = Integer.MAX_VALUE)) {
+            logChannel3DEngine.log(10000, "EALManager#getTextWidth: text width is too big for int: %2. text: '%1'", (Object)string, l3);
         }
-        int n2 = (int)l2;
+        int n = (int)l3;
         if (logChannel3DEngine.isDebug()) {
-            long l3 = this.terminal.getFramework().getMonotonicTime() - l;
-            logChannel3DEngine.log(-2137614336, "EALManager#getTextWidth: return width %2 for text '%1', time: %3ms", (Object)string, (long)n2, l3);
+            long l4 = this.terminal.getFramework().getMonotonicTime() - l2;
+            logChannel3DEngine.log(10000000, "EALManager#getTextWidth: return width %2 for text '%1', time: %3ms", (Object)string, (long)n, l4);
         }
-        return n2;
+        return n;
     }
 
     public static int getFontHeightUppercase(IWrappedFont iWrappedFont) {
         int n = iWrappedFont.getSize();
         int n2 = n - 10;
         if (n2 < 0) {
-            logChannel3DEngine.log(-1601830656, "EALManager#getFontHeightUppercase: no static size stored for %1 pt font. First stored font: %2 pt", (long)n, (long)0);
+            logChannel3DEngine.log(100000, "EALManager#getFontHeightUppercase: no static size stored for %1 pt font. First stored font: %2 pt", (long)n, 10L);
             return FONT_SIZES_PIXEL_H[0];
         }
         if (n2 >= FONT_SIZES_PIXEL_H.length) {
-            logChannel3DEngine.log(-1601830656, "EALManager#getFontHeightUppercase: no static size stored for %1 pt font. Last stored font: %2 pt", (long)n, (long)(10 + FONT_SIZES_PIXEL_H.length));
+            logChannel3DEngine.log(100000, "EALManager#getFontHeightUppercase: no static size stored for %1 pt font. Last stored font: %2 pt", (long)n, (long)(10 + FONT_SIZES_PIXEL_H.length));
             return FONT_SIZES_PIXEL_H[FONT_SIZES_PIXEL_H.length - 1];
         }
         return FONT_SIZES_PIXEL_H[n2];
     }
 
-    @Override
     public boolean isDrawMissing() {
         return this.drawMissing;
     }
 
-    @Override
     public void setDrawMissing(boolean bl) {
         this.drawMissing = bl;
     }
@@ -1917,13 +1925,13 @@ EALViewportsAndLayers {
                 if (this.backgroundTexture != null) {
                     INode2DImage iNode2DImage = this.createImage2DTex(this.backgroundTexture.getTexture(), "backgroundImage");
                     if (iNode2DImage != null) {
-                        if (iNode2DImage.getWidth() > 0) {
+                        if (iNode2DImage.getWidth() > 1024L) {
                             int n = this.terminal.getLayout().getIntegerConstant(111);
                             iNode2DImage.setTranslation(n, 0.0f);
                         }
                         this.masterRoot.addToScreen(iNode2DImage, 0);
                         this.backgroundImageNode = iNode2DImage;
-                        IProperty iProperty = iNode2DImage.getProperty("LayerMaterial");
+                        IProperty iProperty = iNode2DImage.getProperty(PROPERTY_NAME_LAYER_MATERIAL);
                         if (!iProperty.isValid()) {
                             logChannel3DEngine.log(10000, "EALManager#updateBackgroundImageNode: property LayerMaterial not found");
                             iProperty.dispose();
@@ -1977,7 +1985,7 @@ EALViewportsAndLayers {
                     iNode2DImage2.scale((float)this.screenWidth / f2, (float)this.screenHeight / f3);
                     iNode2DImage2.setVisible(false);
                     this.masterRoot.addToScreen(iNode2DImage2, 0);
-                    IProperty iProperty = iNode2DImage2.getProperty("LayerMaterial");
+                    IProperty iProperty = iNode2DImage2.getProperty(PROPERTY_NAME_LAYER_MATERIAL);
                     if (!iProperty.isValid()) {
                         logChannel3DEngine.log(10000, "EALManager#updateImageNode: property LayerMaterial not found");
                         iNode2DImage2.dispose();
@@ -2072,7 +2080,6 @@ EALViewportsAndLayers {
         return this.statisticsNode.getNode();
     }
 
-    @Override
     public void setMMICombiContextID(int n) {
         this.mmiCombiContextID = n;
     }
@@ -2081,7 +2088,6 @@ EALViewportsAndLayers {
         this.statistics = eALStatistics;
     }
 
-    @Override
     public String getRAMStatus() {
         long l = manager.getMemoryRAM();
         long l2 = manager.getMemoryRAMFree();
@@ -2096,23 +2102,22 @@ EALViewportsAndLayers {
                 break;
             }
             case 1: {
-                buffer.append(l / 0);
+                buffer.append(l / 1024L);
                 buffer.append(" KB allocated, ");
-                buffer.append(l2 / 0);
+                buffer.append(l2 / 1024L);
                 buffer.append(" KB free");
                 break;
             }
             default: {
-                buffer.append(l / 0 / 0);
+                buffer.append(l / 1024L / 1024L);
                 buffer.append(" MB allocated, ");
-                buffer.append(l2 / 0 / 0);
+                buffer.append(l2 / 1024L / 1024L);
                 buffer.append(" MB free");
             }
         }
         return buffer.toString();
     }
 
-    @Override
     public String getVRAMStatus() {
         long l = manager.getMemoryVRAM();
         Buffer buffer = new Buffer();
@@ -2124,12 +2129,12 @@ EALViewportsAndLayers {
                 break;
             }
             case 1: {
-                buffer.append(l / 0);
+                buffer.append(l / 1024L);
                 buffer.append(" KB");
                 break;
             }
             default: {
-                buffer.append(l / 0 / 0);
+                buffer.append(l / 1024L / 1024L);
                 buffer.append(" MB");
             }
         }
@@ -2185,7 +2190,7 @@ EALViewportsAndLayers {
             return;
         }
         this.clearMethod = n;
-        logChannel3DEngine.log(-2137614336, "EALManager#setClearMethod: change clear method to %1", (long)n);
+        logChannel3DEngine.log(10000000, "EALManager#setClearMethod: change clear method to %1", (long)n);
         if (!this.project.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#setClearMethod: project is invalid");
             return;
@@ -2194,15 +2199,15 @@ EALViewportsAndLayers {
         boolean bl3 = n == 1;
         boolean bl4 = bl = n == 2;
         if (this.transparentImageNode != null && this.transparentImageNode.isValid()) {
-            logChannel3DEngine.log(1078071040, "EALManager#setClearColor: Setting visibility of transparentImageNode to %1", bl2);
+            logChannel3DEngine.log(1000000, "EALManager#setClearColor: Setting visibility of transparentImageNode to %1", bl2);
             this.transparentImageNode.setVisible(bl2);
         }
         if (this.blackImageNode != null && this.blackImageNode.isValid()) {
-            logChannel3DEngine.log(1078071040, "EALManager#setClearColor: Setting visibility of blackImageNode to %1", bl3);
+            logChannel3DEngine.log(1000000, "EALManager#setClearColor: Setting visibility of blackImageNode to %1", bl3);
             this.blackImageNode.setVisible(bl3);
         }
         if (this.backgroundImageNode != null && this.backgroundImageNode.isValid()) {
-            logChannel3DEngine.log(1078071040, "EALManager#setClearColor: Setting visibility of backgroundImageNode to %1", bl);
+            logChannel3DEngine.log(1000000, "EALManager#setClearColor: Setting visibility of backgroundImageNode to %1", bl);
             this.backgroundImageNode.setVisible(bl);
         }
     }
@@ -2219,8 +2224,8 @@ EALViewportsAndLayers {
             return null;
         }
         long l2 = this.getMonotonicTime() - l;
-        logBenchmark.log(-2137614336, "EALManager#mergeProject: Merged project in '%1'-KZB, time: %2", (Object)string, l2);
-        logChannel3DEngine.log(-2137614336, "EALManager#mergeProject: Merged project in '%1'-KZB, time: %2", (Object)string, l2);
+        logBenchmark.log(10000000, "EALManager#mergeProject: Merged project in '%1'-KZB, time: %2", (Object)string, l2);
+        logChannel3DEngine.log(10000000, "EALManager#mergeProject: Merged project in '%1'-KZB, time: %2", (Object)string, l2);
         return iNode2D;
     }
 
@@ -2259,7 +2264,7 @@ EALViewportsAndLayers {
                 logChannel3DEngine.log(10000, "EALManager#isProjectMergedInternal failed to resolve a path for '%1'-KZB", (Object)string);
             }
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#isProjectMergedInternal '%2'-KZB has already been merged into the main project: %1", bl, (Object)string);
+        logChannel3DEngine.log(10000000, "EALManager#isProjectMergedInternal '%2'-KZB has already been merged into the main project: %1", bl, (Object)string);
         return bl;
     }
 
@@ -2271,8 +2276,8 @@ EALViewportsAndLayers {
             logChannel3DEngine.log(10000, "EALManager#mergeKzb: Could not merge '%1'-KZB", (Object)string);
         }
         long l2 = this.getMonotonicTime() - l;
-        logBenchmark.log(-2137614336, "EALManager#mergeKzb: Merged merge '%1'-KZB, time: %2", (Object)string, l2);
-        logChannel3DEngine.log(-2137614336, "EALManager#mergeKzb: Merged merge '%1'-KZB, time: %2", (Object)string, l2);
+        logBenchmark.log(10000000, "EALManager#mergeKzb: Merged merge '%1'-KZB, time: %2", (Object)string, l2);
+        logChannel3DEngine.log(10000000, "EALManager#mergeKzb: Merged merge '%1'-KZB, time: %2", (Object)string, l2);
     }
 
     public boolean mergeProjectAsync(int n, int n2, int n3) {
@@ -2280,11 +2285,10 @@ EALViewportsAndLayers {
         if (object instanceof Boolean) {
             return (Boolean)object;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#mergeProjectAsync: something went wrong, return value isn't a Boolean");
+        logChannel3DEngine.log(10000000, "EALManager#mergeProjectAsync: something went wrong, return value isn't a Boolean");
         return false;
     }
 
-    @Override
     public void dumpGlyphCache(String string) {
         System.err.println("not yet supported by EAL");
     }
@@ -2309,9 +2313,9 @@ EALViewportsAndLayers {
     }
 
     public boolean setDesaturationEnabled(boolean bl) {
-        logChannel3DEngine.log(1078071040, "EALManager#setDesaturationEnabled set enabled=%1", bl);
+        logChannel3DEngine.log(1000000, "EALManager#setDesaturationEnabled set enabled=%1", bl);
         if (MAIN_AREA_DESATURATION == 0) {
-            logChannel3DEngine.log(1078071040, "EALManager#setDesaturationEnabled desaturation not enabled");
+            logChannel3DEngine.log(1000000, "EALManager#setDesaturationEnabled desaturation not enabled");
             return true;
         }
         if (null == this.desaturationImage) {
@@ -2320,7 +2324,7 @@ EALViewportsAndLayers {
         }
         boolean bl2 = this.desaturationImage.isVisible();
         if (bl == bl2) {
-            logChannel3DEngine.log(1078071040, "EALManager#setDesaturationEnabled desaturation already %1", bl);
+            logChannel3DEngine.log(1000000, "EALManager#setDesaturationEnabled desaturation already %1", bl);
             return true;
         }
         if (bl) {
@@ -2343,10 +2347,6 @@ EALViewportsAndLayers {
         }
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
-    @Override
     public void setMainAreaMaterialProperties(boolean bl, float f2, float f3) {
         this.setDesaturationEnabled(f2 > 0.0f || bl && f3 > 0.0f);
         if (this.wasMapScreen != bl) {
@@ -2356,15 +2356,15 @@ EALViewportsAndLayers {
         if (bl) {
             this.desaturationImage.setOpacity(1.0f);
             if (this.mainAreaMapDesaturateProperty != null) {
-                this.mainAreaMapDesaturateProperty.set(f2 * -842216386);
+                this.mainAreaMapDesaturateProperty.set(f2 * 0.4f);
             }
             if (this.mainAreaMapBrightnessProperty != null) {
-                this.mainAreaMapBrightnessProperty.set(1.0f - f3 * -640796865);
+                this.mainAreaMapBrightnessProperty.set(1.0f - f3 * 0.718f);
             }
         } else if (this.mainAreaDesaturateProperty != null) {
             this.mainAreaDesaturateProperty.set(f2);
-            int n = 1.0f - f3 < 63 ? 63 : (int)(1.0f - f3);
-            this.desaturationImage.setOpacity(n);
+            float f4 = 1.0f - f3 < 0.5f ? 0.5f : 1.0f - f3;
+            this.desaturationImage.setOpacity(f4);
         }
     }
 
@@ -2376,7 +2376,6 @@ EALViewportsAndLayers {
         return (IHMIServiceEvo)this.terminal.getFramework().getHMIService();
     }
 
-    @Override
     public void processEvent(EALMergeEvent eALMergeEvent) {
         String string = eALMergeEvent.getNodeName();
         if (string.equals("Layers/w140_root")) {
@@ -2384,15 +2383,15 @@ EALViewportsAndLayers {
         } else if (string.indexOf("Layers/ops_root") >= 0) {
             this.opsKzbMerged = true;
             this.notifyKzbListener(12, string);
-            logChannel3DEngine.log(-2137614336, "EALManager#processEvent: OPS-KZB-Listeners are notified");
+            logChannel3DEngine.log(10000000, "EALManager#processEvent: OPS-KZB-Listeners are notified");
         } else if (string.indexOf("Layers/carMenu") >= 0) {
             this.car3DResourceHandler.asyncMergeFinished(eALMergeEvent.getNodeName());
             this.notifyKzbListener(3, string);
-            logChannel3DEngine.log(-2137614336, "EALManager#processEvent: carviewer-KZB-Listeners are notified");
+            logChannel3DEngine.log(10000000, "EALManager#processEvent: carviewer-KZB-Listeners are notified");
         } else if (string.indexOf("Layers/ds_root") >= 0) {
             selectionDrawerMerged = true;
             this.notifyKzbListener(8, string);
-            logChannel3DEngine.log(-2137614336, "EALManager#processEvent: selectionDrawer-KZB-Listeners are notified");
+            logChannel3DEngine.log(10000000, "EALManager#processEvent: selectionDrawer-KZB-Listeners are notified");
         } else {
             logChannel3DEngine.log(10000, "EALManager#processEvent: unknown nodeName: %1", (Object)string);
         }
@@ -2411,7 +2410,7 @@ EALViewportsAndLayers {
             arrayList.add(iKzbMergeListener);
             return;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#registerAsKzbListener: listener %1 is already registered", (Object)iKzbMergeListener);
+        logChannel3DEngine.log(10000000, "EALManager#registerAsKzbListener: listener %1 is already registered", (Object)iKzbMergeListener);
     }
 
     public void unregisterAsKzbListener(IKzbMergeListener iKzbMergeListener) {
@@ -2421,18 +2420,18 @@ EALViewportsAndLayers {
         Iterator iterator = kzbMergeListener.entrySet().iterator();
         while (iterator.hasNext()) {
             ArrayList arrayList;
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry == null || (arrayList = (ArrayList)kzbMergeListener.get(map$Entry.getValue())) == null) continue;
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry == null || (arrayList = (ArrayList)kzbMergeListener.get(entry.getValue())) == null) continue;
             Iterator iterator2 = arrayList.iterator();
             while (iterator2.hasNext()) {
                 Object object = iterator2.next();
                 if (!(object instanceof IKzbMergeListener)) continue;
                 if (object.equals(iKzbMergeListener)) {
                     arrayList.remove(object);
-                    logChannel3DEngine.log(-2137614336, "EALManager#unregisterAsKzbListener: uregister Listener %1 from kzbConstant %2", (Object)iKzbMergeListener.getWidgetName(), (Object)((Integer)map$Entry.getValue()).toString());
+                    logChannel3DEngine.log(10000000, "EALManager#unregisterAsKzbListener: uregister Listener %1 from kzbConstant %2", (Object)iKzbMergeListener.getWidgetName(), (Object)((Integer)entry.getValue()).toString());
                     continue;
                 }
-                logChannel3DEngine.log(-2137614336, "EALManager#unregisterAsKzbListener: Listener %1 not in list. Nothing to do.", (Object)iKzbMergeListener.getWidgetName());
+                logChannel3DEngine.log(10000000, "EALManager#unregisterAsKzbListener: Listener %1 not in list. Nothing to do.", (Object)iKzbMergeListener.getWidgetName());
             }
         }
     }
@@ -2452,7 +2451,6 @@ EALViewportsAndLayers {
         }
     }
 
-    @Override
     public void processEvent(MergeKZBAsyncEvent mergeKZBAsyncEvent) {
         MixedListKZBMerger.mergeKZBAsync(mergeKZBAsyncEvent.getKzbConstant(), -1, this);
     }
@@ -2472,7 +2470,7 @@ EALViewportsAndLayers {
 
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent instanceof VRAMEvent) {
-            logChannel3DEngine.log(-1601830656, "EAL reported memory %1", manager.getMemoryRAM());
+            logChannel3DEngine.log(100000, "EAL reported memory %1", manager.getMemoryRAM());
         }
     }
 
@@ -2512,7 +2510,7 @@ EALViewportsAndLayers {
                 stringBuilder.append("_").append(abstractWidgetController.getClassName());
                 stringBuilder.append("[").append(abstractWidgetController.getModelID()).append(",").append(abstractWidgetController.getScreenId()).append("]");
             } else {
-                stringBuilder.append("_").append(super.getClass().getName());
+                stringBuilder.append("_").append(abstractRenderer.getClass().getName());
             }
         }
         stringBuilder.append(nodeCounter++);
@@ -2524,7 +2522,7 @@ EALViewportsAndLayers {
     }
 
     public INode3D getShortcutNode3D(String string) {
-        logChannel3DEngine.log(-2137614336, "EALManager#getShortcutNode3D: getting node '%1'", (Object)string);
+        logChannel3DEngine.log(10000000, "EALManager#getShortcutNode3D: getting node '%1'", (Object)string);
         INode3D iNode3D = this.project.getNode3D(string);
         if (!iNode3D.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#getShortcutNode3D: Could not get node '%1'", (Object)string);
@@ -2535,7 +2533,7 @@ EALViewportsAndLayers {
     }
 
     public ITexture getShortcutTexture(String string) {
-        logChannel3DEngine.log(-2137614336, "EALManager#getShortcutTexture: getting texture '%1'", (Object)string);
+        logChannel3DEngine.log(10000000, "EALManager#getShortcutTexture: getting texture '%1'", (Object)string);
         ITexture iTexture = this.project.getTexture(string);
         if (!iTexture.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#getShortcutTexture: Could not get texture '%1'", (Object)string);
@@ -2546,7 +2544,7 @@ EALViewportsAndLayers {
     }
 
     public INode2D getShortcutNode2D(String string) {
-        logChannel3DEngine.log(-2137614336, "EALManager#getShortcutNode2D: getting node '%1'", (Object)string);
+        logChannel3DEngine.log(10000000, "EALManager#getShortcutNode2D: getting node '%1'", (Object)string);
         INode2D iNode2D = this.project.getNode2D(string);
         if (!iNode2D.isValid()) {
             logChannel3DEngine.log(10000, "EALManager#getShortcutNode2D: Could not get node '%1'", (Object)string);
@@ -2560,7 +2558,7 @@ EALViewportsAndLayers {
         if (this.offscreenHelper != null) {
             return this.offscreenHelper;
         }
-        logChannel3DEngine.log(-2137614336, "EALManager#getOffscreenHelper creating offscreenHelper");
+        logChannel3DEngine.log(10000000, "EALManager#getOffscreenHelper creating offscreenHelper");
         this.offscreenHelper = new COffscreenHelper(this.project, this.masterRoot.getNode());
         return this.offscreenHelper;
     }
@@ -2675,10 +2673,10 @@ EALViewportsAndLayers {
 
     public void setPartialRenderingModeEnabled(boolean bl) {
         if (partialRenderingEnabled == bl) {
-            logChannel3DEngine.log(1078071040, "EALManager#setPartialRenderingModeEnabled not changing partial rendering mode");
+            logChannel3DEngine.log(1000000, "EALManager#setPartialRenderingModeEnabled not changing partial rendering mode");
             return;
         }
-        logChannel3DEngine.log(1078071040, "EALManager#setPartialRenderingModeEnabled setting partial rendering to %1", bl);
+        logChannel3DEngine.log(1000000, "EALManager#setPartialRenderingModeEnabled setting partial rendering to %1", bl);
         partialRenderingEnabled = bl;
         if (!this.masterRoot.getNode().setPartialRendering(bl)) {
             logChannel3DEngine.log(10000, "EALManager#setPartialRenderingModeEnabled could not set partial rendering to %1", bl);
@@ -2686,31 +2684,29 @@ EALViewportsAndLayers {
     }
 
     public void setRemoveNodesBeforeDestroy(boolean bl) {
-        logChannel3DEngine.log(1078071040, "EALManager#setRemoveNodesBeforeDestroy removeNodeBeforeDestroy=%1", bl);
+        logChannel3DEngine.log(1000000, "EALManager#setRemoveNodesBeforeDestroy removeNodeBeforeDestroy=%1", bl);
         this.removeNodeBeforeDestroy = bl;
     }
 
     public static void dumpEALObjects() {
-        logChannel3DEngine.log(1078071040, "EALManager#dumpEALObjects");
+        logChannel3DEngine.log(1000000, "EALManager#dumpEALObjects");
         manager.dumpObjects();
     }
 
     public static void dumpEALMemory() {
-        logChannel3DEngine.log(1078071040, "EALManager#dumpMemory");
+        logChannel3DEngine.log(1000000, "EALManager#dumpMemory");
         manager.dumpMemory();
     }
 
     public static void dumpEALRegistry() {
-        logChannel3DEngine.log(1078071040, "EALManager#dumpEALRegistry");
+        logChannel3DEngine.log(1000000, "EALManager#dumpEALRegistry");
         manager.dumpRegistry();
     }
 
-    @Override
     public boolean isPartialRenderingEnabled() {
         return partialRenderingEnabled;
     }
 
-    @Override
     public boolean isOffscreenPartialRenderingEnabled() {
         return partialOffscreenRenderingEnabled;
     }
@@ -2794,14 +2790,14 @@ EALViewportsAndLayers {
     }
 
     public void setOpsKzbMerged(boolean bl) {
-        logChannel3DEngine.log(-2137614336, "EALManager#setOpsKzbMerged disable idleRendering %1", bl);
+        logChannel3DEngine.log(10000000, "EALManager#setOpsKzbMerged disable idleRendering %1", bl);
         this.opsKzbMerged = bl;
     }
 
     public void setOpsKzbMergeStarted(boolean bl) {
         this.opsKzbMergeStarted = bl;
-        logChannel3DEngine.log(-2137614336, "EALManager#setOpsKzbMergeStarted trigger idleRendering");
-        this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new EALManager$IdleRendering(this, true)));
+        logChannel3DEngine.log(10000000, "EALManager#setOpsKzbMergeStarted trigger idleRendering");
+        this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new IdleRendering(true)));
     }
 
     public boolean isOpsKzbMergeStarted() {
@@ -2819,16 +2815,15 @@ EALViewportsAndLayers {
     private void clearIconLabelCache() {
         if (cacheIconLabel != null) {
             ((LRUTextureCache)cacheIconLabel).clearBufferIfPossible();
-            iconLabelLogCh.log(-2137614336, "EALManager#clearIconLabelCache Cache cleared:");
+            iconLabelLogCh.log(10000000, "EALManager#clearIconLabelCache Cache cleared:");
             cacheIconLabel.dump(iconLabelLogCh);
         } else {
             iconLabelLogCh.log(10000, "EALManager#clearIconLabelCache Cache has not been created.");
         }
     }
 
-    @Override
     public void processEvent(PersonalPoiDatabaseUpdateEvent personalPoiDatabaseUpdateEvent) {
-        iconLabelLogCh.log(-1601830656, "EALManager#processEvent PersonalPoiDatabaseUpdateEvent received.");
+        iconLabelLogCh.log(100000, "EALManager#processEvent PersonalPoiDatabaseUpdateEvent received.");
         this.clearIconLabelCache();
     }
 
@@ -2836,29 +2831,8 @@ EALViewportsAndLayers {
         return selectionDrawerMerged;
     }
 
-    public EALManager$EALManagerInfoProvider getEalManagerInfoProvider() {
+    public EALManagerInfoProvider getEalManagerInfoProvider() {
         return this.dumpInfoProvider;
-    }
-
-    static /* synthetic */ int access$000() {
-        return MAX_NUMBER_OF_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE;
-    }
-
-    static /* synthetic */ void access$100(EALManager eALManager) {
-        eALManager.processAsyncKzbLoading();
-    }
-
-    static /* synthetic */ long access$200() {
-        return DELAY_TIME_FOR_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE;
-    }
-
-    static /* synthetic */ boolean access$302(EALManager eALManager, boolean bl) {
-        eALManager.idleDestroyingEventPosted = bl;
-        return eALManager.idleDestroyingEventPosted;
-    }
-
-    static /* synthetic */ LinkedList access$400(EALManager eALManager) {
-        return eALManager.nodesToDestroy;
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -2870,71 +2844,108 @@ EALViewportsAndLayers {
         }
     }
 
-    static /* synthetic */ IMMICombiAnimationSyncer access$602(EALManager eALManager, IMMICombiAnimationSyncer iMMICombiAnimationSyncer) {
-        eALManager.animationSyncer = iMMICombiAnimationSyncer;
-        return eALManager.animationSyncer;
-    }
-
-    static /* synthetic */ HMITerminalImpl access$700(EALManager eALManager) {
-        return eALManager.terminal;
-    }
-
-    static /* synthetic */ IMMICombiAnimationSyncer access$600(EALManager eALManager) {
-        return eALManager.animationSyncer;
-    }
-
-    static /* synthetic */ IProject access$800(EALManager eALManager) {
-        return eALManager.project;
-    }
-
-    static /* synthetic */ IRenderer access$900(EALManager eALManager) {
-        return eALManager.renderer;
-    }
-
-    static /* synthetic */ boolean access$1100() {
-        return partialRenderingEnabled;
-    }
-
-    static /* synthetic */ boolean access$1200() {
-        return annotationsEnabled;
-    }
-
     static {
-        VARIANT_HIGH = System.getProperty("variant.skin", "EvoHigh").indexOf("EvoHigh") >= 0;
-        IGNORE_EAL_STARTUP_ERRORS = Boolean.getBoolean("ignoreEALStartupErrors");
-        USE_LONG_NODE_NAMES = Boolean.getBoolean("useLongNodeNames");
-        ACTIVATE_IDLE_DESTROYING = SystemProperties.getBoolean("ActivateIdleDestroying", true);
-        SHOW_MEMORY_USAGE = System.getProperty("showMemoryUsage") != null;
-        SHOW_EVENT_QUEUE_STATISTIC = Boolean.getBoolean("showEventQueueStatistic");
-        SHOW_SCREEN_INFO = Boolean.getBoolean("showScreenInfo");
-        SHOW_DRAW_TIME_STATISTIC = System.getProperty("showDrawTimeStatistic") != null;
-        TEXT_NODE_CACHE_DISABLED = SystemProperties.getBoolean("disableTextNodeCache", true);
-        TEXTURE_CACHE_DISABLED = SystemProperties.getBoolean("disableTextureCache", false);
-        EAL_OBJECT_TRACER_ENABLED = Boolean.getBoolean("EALEnableObjectTracer");
-        DUMP_EAL_OBJECTS_ON_SCREEN_CHANGE = Boolean.getBoolean("EALEnableObjectTracingOnScreenChange");
-        EAL_REGISTRY_ENABLED = Boolean.getBoolean("EALEnableRegistry");
-        MAX_TIME_NODE_DESTROYING = Integer.getInteger("maxTimeNodeDestroying", 100);
-        IDLE_DESTROYING_START = Integer.getInteger("idleDestroyingStart", 200);
-        MAX_NO_OF_NODES_TO_DESTROY = Integer.getInteger("maxNoOfNodesToDestroy", 500);
-        MEMORY_USAGE_UNIT = Integer.getInteger("memoryUsageUnit", 2);
-        TEXTURE_CACHE_SIZES_DEFAULTS = new int[]{Integer.getInteger("textureCacheSize0", 2961665), Integer.getInteger("textureCacheSize1", -1060754176), Integer.getInteger("textureCacheCarViewerStandardSize", 5), Integer.getInteger("textureCacheAsyncSize", -1060754176)};
-        TEXTURE_CACHE_SIZES = SystemProperties.getIntArray("textureCacheSizes", TEXTURE_CACHE_SIZES_DEFAULTS);
-        TEXTURE_CACHE_TYPES = SystemProperties.getIntArray("textureCacheTypes", new int[]{1, 1, 0, 1});
-        MAIN_AREA_DESATURATION = Integer.getInteger("mainAreaDesaturation", 2);
-        ERROR_CORRECTION = Integer.getInteger("annotationErrorCorrection", 1);
-        MAX_RECURSIVE_DEPTH_ADDING_CHECK = Integer.getInteger("maxRecursiveDepthAddingCheck", 10);
-        MAX_NUMBER_OF_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE = Integer.getInteger("maxNumberOfIdleRenderStepsForOpsAsyncMerge", 50);
-        FONT_SIZES_PIXEL_H = new int[]{7, 8, 9, 10, 10, 11, 12, 13, 13, 15, 15, 16, 17, 18, 18, 19, 20, 21, 21, 22, 23, 24, 24, 25, 26, 26, 27, 28, 29, 29, 30, 31, 32, 32, 33, 35, 36, 36, 37, 38, 39, 39, 40, 41, 41, 43, 43, 44, 45, 46, 47};
-        DUMP_EAL_INFO_EVERY_N_SECONDS = Integer.getInteger("EALEnableDumpEveryNSeconds", 0);
-        LOW_MEMORY_DUMP_WHILE_TRACING_LEVEL = Integer.getInteger("LowMemoryDumpWhileTracingLevel", 0);
-        DEFAULT_TEXT_COLOR = EALManager.createColorCode(-65281);
-        DELAY_TIME_FOR_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE = Integer.getInteger("delayTimeForIdleRenderStepsForOpsAsyncMerge", 50).intValue();
         partialRenderingEnabled = SystemProperties.getBoolean("partialRenderingEnabled", VARIANT_HIGH);
         partialOffscreenRenderingEnabled = partialRenderingEnabled && SystemProperties.getBoolean("partialOffscreenRenderingEnabled", partialRenderingEnabled);
         stringBuilder = new Buffer();
         flagImageMap = new HashMap();
         flagTextureMap = new HashMap();
         kzbMergeListener = new HashMap();
+    }
+
+    private static class DestroyJob {
+        private INode node;
+        private boolean recursive;
+
+        public DestroyJob(INode iNode, boolean bl) {
+            this.node = iNode;
+            this.recursive = bl;
+        }
+
+        public INode getNode() {
+            return this.node;
+        }
+
+        public boolean isRecursive() {
+            return this.recursive;
+        }
+    }
+
+    private class IdleRendering
+    implements Runnable {
+        private final boolean asyncLoading;
+        private int asyncLoadingCounter;
+
+        public IdleRendering() {
+            this.asyncLoading = false;
+        }
+
+        public IdleRendering(boolean bl) {
+            this.asyncLoading = bl;
+            if (bl) {
+                this.asyncLoadingCounter = MAX_NUMBER_OF_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE;
+            }
+        }
+
+        public void run() {
+            if (this.asyncLoading) {
+                EALManager.this.processAsyncKzbLoading();
+            } else {
+                EALManager.this.draw();
+            }
+            if (EALManager.this.isPermanentRenderingEnabled() || this.asyncLoading && this.asyncLoadingCounter > 0 && EALManager.this.isOpsKzbMergeStarted() && !EALManager.this.isOpsKzbMerged()) {
+                boolean bl;
+                boolean bl2 = bl = !EALManager.this.isPermanentRenderingEnabled() && this.asyncLoading;
+                if (bl) {
+                    --this.asyncLoadingCounter;
+                    if (IWidgetLogChannel.logChannel3DEngine.isDebug() && this.asyncLoadingCounter % 5 == 0) {
+                        IWidgetLogChannel.logChannel3DEngine.log(10000000, "EALManage.IdleRendering#run asyncLoadingCounter = %1", (long)this.asyncLoadingCounter);
+                    }
+                    long l = DELAY_TIME_FOR_IDLE_RENDER_STEPS_FOR_OPS_ASYNC_MERGE;
+                    EALManager.this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, this), l);
+                } else {
+                    EALManager.this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, this));
+                }
+            }
+        }
+    }
+
+    private class IdleDestroying
+    implements Runnable {
+        private IdleDestroying() {
+        }
+
+        public void run() {
+            EALManager.this.idleDestroyingEventPosted = false;
+            long l = System.currentTimeMillis();
+            int n = EALManager.this.nodesToDestroy.size();
+            IWidgetLogChannel.logWidgetPerformance.log(10000000, "EALManager.IdleDestroying#run start idle destroying");
+            EALManager.this.processIdleDestroying();
+            if (IWidgetLogChannel.logWidgetPerformance.isDebug()) {
+                int n2 = n - EALManager.this.nodesToDestroy.size();
+                long l2 = System.currentTimeMillis() - l;
+                IWidgetLogChannel.logWidgetPerformance.log(10000000, "EALManager.IdleDestroying#run finished idle destroying; destroyed %1: took %2", (long)n2, l2);
+            }
+            if (!EALManager.this.nodesToDestroy.isEmpty()) {
+                EALManager.this.idleDestroyingEventPosted = true;
+                EALManager.this.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, this), 500L);
+            }
+        }
+    }
+
+    private static class EALManagerInfoProvider
+    implements DumpInfoProvider {
+        private EALManagerInfoProvider() {
+        }
+
+        public String getName() {
+            return "EALManager";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            printStream.println(new StringBuffer().append("PartianRendering enabled: ").append(partialRenderingEnabled).toString());
+            printStream.println(new StringBuffer().append("Annotatione enabled: ").append(annotationsEnabled).toString());
+        }
     }
 }
 

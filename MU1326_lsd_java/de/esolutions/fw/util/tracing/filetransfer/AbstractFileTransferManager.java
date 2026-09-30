@@ -20,19 +20,16 @@ implements IFileTransferReceiver {
     protected IFileFactory fileFactory = null;
     protected ArrayList listeners = new ArrayList();
 
-    @Override
     public String getDownloadDirectory() {
         return this.downloadDirectory;
     }
 
-    @Override
     public void registerListener(IFileTransferListener iFileTransferListener) {
         if (!this.listeners.contains(iFileTransferListener)) {
             this.listeners.add(iFileTransferListener);
         }
     }
 
-    @Override
     public void unregisterListener(IFileTransferListener iFileTransferListener) {
         if (this.listeners.contains(iFileTransferListener)) {
             this.listeners.remove(iFileTransferListener);
@@ -85,38 +82,24 @@ implements IFileTransferReceiver {
         return bl;
     }
 
-    @Override
     public void setFileTransferSender(IFileTransferSender iFileTransferSender) {
         this.fileTransferSender = iFileTransferSender;
     }
 
-    @Override
     public void setFileFactory(IFileFactory iFileFactory) {
         this.fileFactory = iFileFactory;
     }
 
-    @Override
-    public abstract boolean uploadFile(IFile iFile) {
-    }
+    public abstract boolean uploadFile(IFile var1);
 
-    @Override
-    public abstract boolean requestFileStatus(String string, IFile iFile) {
-    }
+    public abstract boolean requestFileStatus(String var1, IFile var2);
 
-    @Override
-    public abstract boolean requestFileDownload(String string, IFile iFile) {
-    }
+    public abstract boolean requestFileDownload(String var1, IFile var2);
 
-    @Override
-    public abstract boolean handleFileRequestMessage(int n, String string, byte by) {
-    }
+    public abstract boolean handleFileRequestMessage(int var1, String var2, byte var3);
 
-    @Override
-    public abstract boolean handleFileStatusMessage(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
-    }
+    public abstract boolean handleFileStatusMessage(int var1, String var2, byte var3, long var4, long var6, byte var8, byte[] var9);
 
-    @Override
-    public abstract boolean handleFileTransferMessage(int n, int n2, byte by, int n3, byte[] byArray) {
-    }
+    public abstract boolean handleFileTransferMessage(int var1, int var2, byte var3, int var4, byte[] var5);
 }
 

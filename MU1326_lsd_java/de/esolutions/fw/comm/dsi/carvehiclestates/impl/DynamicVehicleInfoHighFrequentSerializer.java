@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCSpeedSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequent;
 import org.dsi.ifc.global.CarBCSpeed;
 
 public class DynamicVehicleInfoHighFrequentSerializer {
-    public static void putOptionalDynamicVehicleInfoHighFrequent(ISerializer iSerializer, DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent) {
+    public static void putOptionalDynamicVehicleInfoHighFrequent(ISerializer iSerializer, DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent) throws SerializerException {
         boolean bl = dynamicVehicleInfoHighFrequent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -73,7 +74,7 @@ public class DynamicVehicleInfoHighFrequentSerializer {
         }
     }
 
-    public static void putOptionalDynamicVehicleInfoHighFrequentVarArray(ISerializer iSerializer, DynamicVehicleInfoHighFrequent[] dynamicVehicleInfoHighFrequentArray) {
+    public static void putOptionalDynamicVehicleInfoHighFrequentVarArray(ISerializer iSerializer, DynamicVehicleInfoHighFrequent[] dynamicVehicleInfoHighFrequentArray) throws SerializerException {
         boolean bl = dynamicVehicleInfoHighFrequentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -84,7 +85,7 @@ public class DynamicVehicleInfoHighFrequentSerializer {
         }
     }
 
-    public static DynamicVehicleInfoHighFrequent getOptionalDynamicVehicleInfoHighFrequent(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoHighFrequent getOptionalDynamicVehicleInfoHighFrequent(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -149,7 +150,7 @@ public class DynamicVehicleInfoHighFrequentSerializer {
         return dynamicVehicleInfoHighFrequent;
     }
 
-    public static DynamicVehicleInfoHighFrequent[] getOptionalDynamicVehicleInfoHighFrequentVarArray(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoHighFrequent[] getOptionalDynamicVehicleInfoHighFrequentVarArray(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoHighFrequent[] dynamicVehicleInfoHighFrequentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

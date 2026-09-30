@@ -3,49 +3,38 @@
  */
 package de.esolutions.fw.comm.dsi.swdlprogress;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.swdlprogress.DeviceOverviewProgress;
 import org.dsi.ifc.swdlprogress.GeneralProgress;
 
 public interface DSISwdlProgressReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "3503d547-697f-53c6-9dc6-9aa9d8c5e20a";
+    public static final String IPL_COMM_INTERFACE_KEY = "672abe51-3beb-5644-9610-3ea590ee4d91";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.6";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.6";
 
-    default public void updateGeneralProgress(GeneralProgress generalProgress, int n) {
-    }
+    public void updateGeneralProgress(GeneralProgress var1, int var2) throws MethodException;
 
-    default public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray, int n) {
-    }
+    public void updateDevicesOverviewProgress(DeviceOverviewProgress[] var1, int var2) throws MethodException;
 
-    default public void updateTriggerPanel(int n, int n2) {
-    }
+    public void updateTriggerPanel(int var1, int var2) throws MethodException;
 
-    default public void updateLostDevices(String[] stringArray, int n) {
-    }
+    public void updateLostDevices(String[] var1, int var2) throws MethodException;
 
-    default public void updateOverviewStatus(int n, int n2) {
-    }
+    public void updateOverviewStatus(int var1, int var2) throws MethodException;
 
-    default public void updateActiveDevices(String[] stringArray, int n) {
-    }
+    public void updateActiveDevices(String[] var1, int var2) throws MethodException;
 
-    default public void getStaticProgressDetails(int n, int n2, short s, String string) {
-    }
+    public void getStaticProgressDetails(int var1, int var2, short var3, String var4) throws MethodException;
 
-    default public void getDynamicProgressDetails(int n, byte by, String string) {
-    }
+    public void getDynamicProgressDetails(int var1, byte var2, String var3) throws MethodException;
 
-    default public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) {
-    }
+    public void indicatePopUp(int var1, String var2, byte var3, int var4, int var5, String var6) throws MethodException;
 
-    default public void indicateDismissPopUp(int n, String string) {
-    }
+    public void indicateDismissPopUp(int var1, String var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

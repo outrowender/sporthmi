@@ -25,28 +25,23 @@ implements DSIDABTuner {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$radio$DSIDABTuner == null ? (class$org$dsi$ifc$radio$DSIDABTuner = DSIDABTunerProvider.class$("org.dsi.ifc.radio.DSIDABTuner")) : class$org$dsi$ifc$radio$DSIDABTuner).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDABTunerProxy(this.instance, (DSIDABTunerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void selectService(int n, long l, int n2, int n3, int n4, int n5, long l2) {
         try {
             this.proxy.selectService(n, l, n2, n3, n4, n5, l2);
@@ -56,7 +51,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void seekService(int n) {
         try {
             this.proxy.seekService(n);
@@ -66,7 +60,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void tuneEnsemble(int n, int n2, int n3, long l) {
         try {
             this.proxy.tuneEnsemble(n, n2, n3, l);
@@ -76,7 +69,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void selectDataService(int n, int n2, long l, int n3) {
         try {
             this.proxy.selectDataService(n, n2, l, n3);
@@ -86,7 +78,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void switchDRC(boolean bl) {
         try {
             this.proxy.switchDRC(bl);
@@ -96,7 +87,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void switchLinking(int n) {
         try {
             this.proxy.switchLinking(n);
@@ -106,7 +96,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void switchLinkingDeviceUsage(int n) {
         try {
             this.proxy.switchLinkingDeviceUsage(n);
@@ -116,7 +105,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void switchFrequencyTable(int n) {
         try {
             this.proxy.switchFrequencyTable(n);
@@ -126,7 +114,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void reset(int n) {
         try {
             this.proxy.reset(n);
@@ -136,7 +123,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void forceLMUpdate(int n) {
         try {
             this.proxy.forceLMUpdate(n);
@@ -146,7 +132,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void prepareTuning(int n, long l, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.prepareTuning(n, l, n2, n3, n4, n5);
@@ -156,7 +141,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void enableRadioTextPlus(int[] nArray) {
         try {
             this.proxy.enableRadioTextPlus(nArray);
@@ -166,7 +150,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void setEpgMode(int n) {
         try {
             this.proxy.setEpgMode(n);
@@ -176,7 +159,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void setSlideShowMode(int n) {
         try {
             this.proxy.setSlideShowMode(n);
@@ -186,7 +168,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void setIntellitextMode(int n) {
         try {
             this.proxy.setIntellitextMode(n);
@@ -196,7 +177,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void getEPGDetailData(int n, int n2, long l, int n3) {
         try {
             this.proxy.getEPGDetailData(n, n2, l, n3);
@@ -206,7 +186,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -216,7 +195,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -226,7 +204,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -236,7 +213,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -246,7 +222,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -256,7 +231,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -266,7 +240,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -276,7 +249,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -286,7 +258,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -296,7 +267,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -306,7 +276,6 @@ implements DSIDABTuner {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

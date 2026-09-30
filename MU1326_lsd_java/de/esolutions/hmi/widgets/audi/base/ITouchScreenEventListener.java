@@ -6,25 +6,18 @@ package de.esolutions.hmi.widgets.audi.base;
 import de.audi.atip.hmi.event.GestureEvent;
 
 public interface ITouchScreenEventListener {
-    default public void touchScreenReleased(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenReleased(GestureEvent var1, int var2, int var3);
 
-    default public void touchScreenFlicked(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenFlicked(GestureEvent var1, int var2, int var3);
 
-    default public void touchScreenPressed(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenPressed(GestureEvent var1, int var2, int var3);
 
-    default public void touchScreenZoom(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenZoom(GestureEvent var1, int var2, int var3);
 
-    default public void touchScreenMoved(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenMoved(GestureEvent var1, int var2, int var3);
 
-    default public void touchScreenRotate(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenRotate(GestureEvent var1, int var2, int var3);
 
-    default public void touchScreenPress2(GestureEvent gestureEvent, int n, int n2) {
-    }
+    public void touchScreenPress2(GestureEvent var1, int var2, int var3);
 }
 

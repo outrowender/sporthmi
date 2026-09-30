@@ -3,97 +3,69 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.map.Point;
 import org.dsi.ifc.map.Rect;
 import org.dsi.ifc.map.StreetViewThumbnail;
 
 public interface DSIMapViewerStreetViewCtrlC {
-    default public void streetViewEnabled(boolean bl) {
-    }
+    public void streetViewEnabled(boolean var1) throws MethodException;
 
-    default public void streetViewVisible(boolean bl) {
-    }
+    public void streetViewVisible(boolean var1) throws MethodException;
 
-    default public void streetViewFreeze(boolean bl) {
-    }
+    public void streetViewFreeze(boolean var1) throws MethodException;
 
-    default public void goToView() {
-    }
+    public void goToView() throws MethodException;
 
-    default public void setStreetViewZoomIndex(int n) {
-    }
+    public void setStreetViewZoomIndex(int var1) throws MethodException;
 
-    default public void streetViewThumbnails(StreetViewThumbnail[] streetViewThumbnailArray) {
-    }
+    public void streetViewThumbnails(StreetViewThumbnail[] var1) throws MethodException;
 
-    default public void loadStreetView(boolean bl) {
-    }
+    public void loadStreetView(boolean var1) throws MethodException;
 
-    default public void rotateView(short s, short s2) {
-    }
+    public void rotateView(short var1, short var2) throws MethodException;
 
-    default public void rotateViewByPolarCoordinates(int n, int n2) {
-    }
+    public void rotateViewByPolarCoordinates(int var1, int var2) throws MethodException;
 
-    default public void setAzimuth(int n) {
-    }
+    public void setAzimuth(int var1) throws MethodException;
 
-    default public void setInclination(int n) {
-    }
+    public void setInclination(int var1) throws MethodException;
 
-    default public void getInfoForScreenPosition(short s, short s2) {
-    }
+    public void getInfoForScreenPosition(short var1, short var2) throws MethodException;
 
-    default public void setPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void setPosition(NavLocationWgs84 var1) throws MethodException;
 
-    default public void setCrossHairsVisibility(boolean bl) {
-    }
+    public void setCrossHairsVisibility(boolean var1) throws MethodException;
 
-    default public void setDayNightView(boolean bl) {
-    }
+    public void setDayNightView(boolean var1) throws MethodException;
 
-    default public void snapshot() {
-    }
+    public void snapshot() throws MethodException;
 
-    default public void setViewRotationByPolarCoordinates(float f2, float f3) {
-    }
+    public void setViewRotationByPolarCoordinates(float var1, float var2) throws MethodException;
 
-    default public void startViewRotationByPolarCoordinates(float f2, float f3) {
-    }
+    public void startViewRotationByPolarCoordinates(float var1, float var2) throws MethodException;
 
-    default public void stopViewRotationByPolarCoordinates() {
-    }
+    public void stopViewRotationByPolarCoordinates() throws MethodException;
 
-    default public void setScreenViewport(Rect rect) {
-    }
+    public void setScreenViewport(Rect var1) throws MethodException;
 
-    default public void setCrossHairsPosition(Point point) {
-    }
+    public void setCrossHairsPosition(Point var1) throws MethodException;
 
-    default public void setStreetViewZoomLevel(float f2) {
-    }
+    public void setStreetViewZoomLevel(float var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

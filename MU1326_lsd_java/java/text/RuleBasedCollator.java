@@ -4,20 +4,20 @@
 package java.text;
 
 import com.ibm.oti.text.Normalizer;
-import com.ibm.oti.text.Normalizer$Mode;
 import java.text.CharacterIterator;
 import java.text.CollationElementIterator;
 import java.text.CollationKey;
 import java.text.Collator;
+import java.text.ParseException;
 import java.text.RBCollationTables;
 
 public class RuleBasedCollator
 extends Collator {
-    static final int CHARINDEX;
-    static final int EXPANDCHARINDEX;
-    static final int CONTRACTCHARINDEX;
-    static final int UNMAPPED;
-    private static final int COLLATIONKEYOFFSET;
+    static final int CHARINDEX = 0x70000000;
+    static final int EXPANDCHARINDEX = 0x7E000000;
+    static final int CONTRACTCHARINDEX = 0x7F000000;
+    static final int UNMAPPED = -1;
+    private static final int COLLATIONKEYOFFSET = 1;
     private RBCollationTables tables = null;
     private StringBuffer primResult = null;
     private StringBuffer secResult = null;
@@ -26,11 +26,11 @@ extends Collator {
     private CollationElementIterator targetCursor = null;
     static /* synthetic */ Class class$0;
 
-    public RuleBasedCollator(String string) {
+    public RuleBasedCollator(String string) throws ParseException {
         this(string, 1);
     }
 
-    RuleBasedCollator(String string, int n) {
+    RuleBasedCollator(String string, int n) throws ParseException {
         this.setStrength(2);
         this.setDecomposition(n);
         this.tables = new RBCollationTables(string, n);
@@ -54,7 +54,6 @@ extends Collator {
         return new CollationElementIterator(characterIterator, this);
     }
 
-    @Override
     public synchronized int compare(String string, String string2) {
         boolean bl;
         int n = 0;
@@ -158,15 +157,14 @@ extends Collator {
             } while ((n3 = this.targetCursor.next()) != -1);
         }
         if (n == 0 && this.getStrength() == 3) {
-            Normalizer$Mode normalizer$Mode = Normalizer.getMode(this.getDecomposition());
-            String string3 = Normalizer.normalize(string, normalizer$Mode, 0);
-            String string4 = Normalizer.normalize(string2, normalizer$Mode, 0);
+            Normalizer.Mode mode = Normalizer.getMode(this.getDecomposition());
+            String string3 = Normalizer.normalize(string, mode, 0);
+            String string4 = Normalizer.normalize(string2, mode, 0);
             n = string3.compareTo(string4);
         }
         return n;
     }
 
-    @Override
     public synchronized CollationKey getCollationKey(String string) {
         if (string == null) {
             return null;
@@ -225,15 +223,14 @@ extends Collator {
         this.primResult.append(this.secResult.toString());
         if (this.getStrength() == 3) {
             this.primResult.append('\u0000');
-            Normalizer$Mode normalizer$Mode = Normalizer.getMode(this.getDecomposition());
-            this.primResult.append(Normalizer.normalize(string, normalizer$Mode, 0));
+            Normalizer.Mode mode = Normalizer.getMode(this.getDecomposition());
+            this.primResult.append(Normalizer.normalize(string, mode, 0));
         }
         return new CollationKey(string, this.primResult.toString());
     }
 
-    @Override
     public Object clone() {
-        Class clazz = super.getClass();
+        Class clazz = this.getClass();
         Class clazz2 = class$0;
         if (clazz2 == null) {
             try {
@@ -255,7 +252,6 @@ extends Collator {
         return ruleBasedCollator;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == null) {
             return false;
@@ -267,7 +263,6 @@ extends Collator {
         return this.getRules().equals(ruleBasedCollator.getRules());
     }
 
-    @Override
     public int hashCode() {
         return this.getRules().hashCode();
     }

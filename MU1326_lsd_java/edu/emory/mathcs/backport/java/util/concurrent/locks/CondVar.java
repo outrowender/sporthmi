@@ -5,8 +5,8 @@ package edu.emory.mathcs.backport.java.util.concurrent.locks;
 
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.CondVar$ExclusiveLock;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
+import edu.emory.mathcs.backport.java.util.concurrent.locks.Lock;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -14,16 +14,15 @@ import java.util.Date;
 class CondVar
 implements Condition,
 Serializable {
-    protected final CondVar$ExclusiveLock lock;
+    protected final ExclusiveLock lock;
 
-    CondVar(CondVar$ExclusiveLock exclusiveLock) {
+    CondVar(ExclusiveLock exclusiveLock) {
         this.lock = exclusiveLock;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void awaitUninterruptibly() {
         int n = this.lock.getHoldCount();
         if (n == 0) {
@@ -37,7 +36,7 @@ Serializable {
                     this.lock.unlock();
                 }
                 try {
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {
                     bl = true;
@@ -57,8 +56,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void await() {
+    public void await() throws InterruptedException {
         int n = this.lock.getHoldCount();
         if (n == 0) {
             throw new IllegalMonitorStateException();
@@ -73,10 +71,10 @@ Serializable {
                     this.lock.unlock();
                 }
                 try {
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {
-                    super.notify();
+                    this.notify();
                     throw interruptedException;
                 }
             }
@@ -91,8 +89,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public boolean await(long l, TimeUnit timeUnit) {
+    public boolean await(long l, TimeUnit timeUnit) throws InterruptedException {
         int n = this.lock.getHoldCount();
         if (n == 0) {
             throw new IllegalMonitorStateException();
@@ -116,7 +113,7 @@ Serializable {
                     }
                 }
                 catch (InterruptedException interruptedException) {
-                    super.notify();
+                    this.notify();
                     throw interruptedException;
                 }
             }
@@ -132,8 +129,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public boolean awaitUntil(Date date) {
+    public boolean awaitUntil(Date date) throws InterruptedException {
         if (date == null) {
             throw new NullPointerException();
         }
@@ -156,12 +152,12 @@ Serializable {
                     long l2 = System.currentTimeMillis();
                     long l3 = l - l2;
                     if (l3 > 0L) {
-                        super.wait(l3);
+                        this.wait(l3);
                         bl = System.currentTimeMillis() - l2 < l3;
                     }
                 }
                 catch (InterruptedException interruptedException) {
-                    super.notify();
+                    this.notify();
                     throw interruptedException;
                 }
             }
@@ -174,23 +170,21 @@ Serializable {
         return bl;
     }
 
-    @Override
     public synchronized void signal() {
         if (!this.lock.isHeldByCurrentThread()) {
             throw new IllegalMonitorStateException();
         }
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public synchronized void signalAll() {
         if (!this.lock.isHeldByCurrentThread()) {
             throw new IllegalMonitorStateException();
         }
-        super.notifyAll();
+        this.notifyAll();
     }
 
-    protected CondVar$ExclusiveLock getLock() {
+    protected ExclusiveLock getLock() {
         return this.lock;
     }
 
@@ -204,6 +198,13 @@ Serializable {
 
     protected Collection getWaitingThreads() {
         throw new UnsupportedOperationException("Use FAIR version");
+    }
+
+    static interface ExclusiveLock
+    extends Lock {
+        public boolean isHeldByCurrentThread();
+
+        public int getHoldCount();
     }
 }
 

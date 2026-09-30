@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSDefaultMode;
 
 public class VPSDefaultModeSerializer {
-    public static void putOptionalVPSDefaultMode(ISerializer iSerializer, VPSDefaultMode vPSDefaultMode) {
+    public static void putOptionalVPSDefaultMode(ISerializer iSerializer, VPSDefaultMode vPSDefaultMode) throws SerializerException {
         boolean bl = vPSDefaultMode == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class VPSDefaultModeSerializer {
         }
     }
 
-    public static void putOptionalVPSDefaultModeVarArray(ISerializer iSerializer, VPSDefaultMode[] vPSDefaultModeArray) {
+    public static void putOptionalVPSDefaultModeVarArray(ISerializer iSerializer, VPSDefaultMode[] vPSDefaultModeArray) throws SerializerException {
         boolean bl = vPSDefaultModeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class VPSDefaultModeSerializer {
         }
     }
 
-    public static VPSDefaultMode getOptionalVPSDefaultMode(IDeserializer iDeserializer) {
+    public static VPSDefaultMode getOptionalVPSDefaultMode(IDeserializer iDeserializer) throws SerializerException {
         VPSDefaultMode vPSDefaultMode = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class VPSDefaultModeSerializer {
         return vPSDefaultMode;
     }
 
-    public static VPSDefaultMode[] getOptionalVPSDefaultModeVarArray(IDeserializer iDeserializer) {
+    public static VPSDefaultMode[] getOptionalVPSDefaultModeVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSDefaultMode[] vPSDefaultModeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

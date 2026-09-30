@@ -10,7 +10,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SignalQuality_Status
 implements StatusProperty {
     public int quality;
-    public static final int QUALITY_MIN;
+    public static final int QUALITY_MIN = 0;
 
     public SignalQuality_Status() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements StatusProperty {
         this.quality = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SignalQuality_Status signalQuality_Status = (SignalQuality_Status)bAPEntity;
         return this.quality == signalQuality_Status.quality;
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SignalQuality_Status");
@@ -48,17 +45,14 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.quality);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.quality = bitStream.popFrontByte();
     }
@@ -67,7 +61,6 @@ implements StatusProperty {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return SignalQuality_Status.functionId();
     }

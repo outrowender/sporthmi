@@ -7,149 +7,134 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSITVTuner
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_TUNERSTATE;
-    public static final int ATTR_SELECTEDSOURCE;
-    public static final int ATTR_SERVICELIST;
-    public static final int ATTR_SELECTEDSERVICE;
-    public static final int ATTR_MUTESTATE;
-    public static final int ATTR_INFOTEXTSTATE;
-    public static final int ATTR_AUDIOCHANNEL;
-    public static final int ATTR_SERVICELINKING;
-    public static final int ATTR_SUBTITLE;
-    public static final int ATTR_AVNORM;
-    public static final int ATTR_TVNORMAREA;
-    public static final int ATTR_TVNORMLIST;
-    public static final int ATTR_TVNORMAREASUBLIST;
-    public static final int ATTR_TERMINALMODE;
-    public static final int ATTR_EWSINFOLIST;
-    public static final int ATTR_STARTUPMUCONFIG;
-    public static final int ATTR_MESSAGESERVICE;
-    public static final int ATTR_TUNESTATUS;
-    public static final int ATTR_CASINFO;
-    public static final int ATTR_TMTVKEYPANEL;
-    public static final int ATTR_LOGOLIST;
-    public static final int ATTR_BROWSERLISTSORT;
-    public static final int TUNERSTATE_INACTIVE;
-    public static final int TUNERSTATE_ACTIVE;
-    public static final int RESPONSERESULT_FAILURE;
-    public static final int RESPONSERESULT_SUCCESS;
-    public static final int SOURCETYPE_TV;
-    public static final int SOURCETYPE_AV;
-    public static final int SEEKDIRECTION_UP;
-    public static final int SEEKDIRECTION_DOWN;
-    public static final int SEEKMODE_CHANNEL;
-    public static final int SEEKMODE_AUTO;
-    public static final int STYPE_UNKNOWN;
-    public static final int STYPE_DTV;
-    public static final int STYPE_DTV_HDTV;
-    public static final int STYPE_AUDIO;
-    public static final int STYPE_DATA;
-    public static final int STYPE_CAS_PAYTV;
-    public static final int STYPE_VISUAL_AUDIO;
-    public static final int STYPE_ISDB_SUBSERVICE_1;
-    public static final int STYPE_ISDB_SUBSERVICE_2;
-    public static final int STYPE_CMMB;
-    public static final int STYPE_CMMB_AUDIO;
-    public static final int STYPE_DTV_SUBSERVICE_2;
-    public static final int STYPE_DTV_SUBSERVICE_3;
-    public static final int STYPE_DTV_SUBSERVICE_4;
-    public static final int STYPE_DTV_SUBSERVICE_5;
-    public static final int STYPE_DUMMY;
-    public static final int MUTESTATE_AUDIO_GOOD;
-    public static final int MUTESTATE_DROP_OUT;
-    public static final int MUTESTATE_NO_RECEPTION;
-    public static final int MUTESTATE_NO_AUDIO_SERVICE;
-    public static final int SERVICEFLAG_NOT_AVAILABLE;
-    public static final int SERVICEFLAG_LOADING;
-    public static final int SERVICEFLAG_FULL_AVAILABLE;
-    public static final int AVNORM_AUTO;
-    public static final int AVNORM_PAL;
-    public static final int AVNORM_NTSC;
-    public static final int TERMINALMODE_OFF_TV_AV_MODE;
-    public static final int TERMINALMODE_TELETEXT;
-    public static final int TERMINALMODE_DB_DVB;
-    public static final int TERMINALMODE_DB_ISDB;
-    public static final int TERMINALMODE_DB_DTMB_CMMB;
-    public static final int TERMINALMODE_DB_DMB;
-    public static final int TERMINALMODE_DB_ATSC;
-    public static final int TERMINALMODE_DB1;
-    public static final int TERMINALMODE_DB2;
-    public static final int TERMINALMODE_BWS;
-    public static final int TERMINALMODE_SLS_DLS;
-    public static final int TERMINALMODE_TXT;
-    public static final int TERMINALMODE_CAS;
-    public static final int TERMINALMODE_EPG;
-    public static final int TERMINALMODE_VISUAL_AUDIO;
-    public static final int TERMINALMODE_TV_ENGINEERING;
-    public static final int SCREENMODE_MU_SPEED_DISCLAIMER_OFF;
-    public static final int SCREENMODE_MU_SPEED_DISCLAIMER_ON;
-    public static final int TMTOUCHPADBEHAVIOUR_NO_COORD;
-    public static final int TMTOUCHPADBEHAVIOUR_COORD;
-    public static final int TMTOUCHPADBEHAVIOUR_MAP_TO_JOYSTICK;
-    public static final int RT_SWITCHSOURCE;
-    public static final int RT_SELECTNEXTSERVICE;
-    public static final int RT_SELECTSERVICE;
-    public static final int RT_SETAUDIOCHANNEL;
-    public static final int RT_ENABLESERVICELINKING;
-    public static final int RT_ENABLESUBTITLE;
-    public static final int RT_SETAVNORM;
-    public static final int RT_SETNORMAREA;
-    public static final int RT_SETNORMAREASUBLIST;
-    public static final int RT_SETTERMINALMODE;
-    public static final int RT_INCMOVED;
-    public static final int RT_SETCOORDINATEREL;
-    public static final int RT_SETTMTVKEYPANEL;
-    public static final int RT_ABORTSEEK;
-    public static final int RT_SETBROWSERLISTSORT;
-    public static final int RP_SWITCHSOURCE;
-    public static final int RP_SELECTNEXTSERVICE;
-    public static final int RP_SELECTSERVICE;
-    public static final int RP_ABORTSEEK;
+    public static final String VERSION = "2.11.9";
+    public static final int ATTR_TUNERSTATE = 1;
+    public static final int ATTR_SELECTEDSOURCE = 2;
+    public static final int ATTR_SERVICELIST = 3;
+    public static final int ATTR_SELECTEDSERVICE = 4;
+    public static final int ATTR_MUTESTATE = 5;
+    public static final int ATTR_INFOTEXTSTATE = 6;
+    public static final int ATTR_AUDIOCHANNEL = 7;
+    public static final int ATTR_SERVICELINKING = 8;
+    public static final int ATTR_SUBTITLE = 9;
+    public static final int ATTR_AVNORM = 10;
+    public static final int ATTR_TVNORMAREA = 11;
+    public static final int ATTR_TVNORMLIST = 12;
+    public static final int ATTR_TVNORMAREASUBLIST = 13;
+    public static final int ATTR_TERMINALMODE = 14;
+    public static final int ATTR_EWSINFOLIST = 15;
+    public static final int ATTR_STARTUPMUCONFIG = 16;
+    public static final int ATTR_MESSAGESERVICE = 17;
+    public static final int ATTR_TUNESTATUS = 18;
+    public static final int ATTR_CASINFO = 19;
+    public static final int ATTR_TMTVKEYPANEL = 20;
+    public static final int ATTR_LOGOLIST = 21;
+    public static final int ATTR_BROWSERLISTSORT = 22;
+    public static final int TUNERSTATE_INACTIVE = 0;
+    public static final int TUNERSTATE_ACTIVE = 1;
+    public static final int RESPONSERESULT_FAILURE = 0;
+    public static final int RESPONSERESULT_SUCCESS = 1;
+    public static final int SOURCETYPE_TV = 0;
+    public static final int SOURCETYPE_AV = 1;
+    public static final int SEEKDIRECTION_UP = 1;
+    public static final int SEEKDIRECTION_DOWN = 2;
+    public static final int SEEKMODE_CHANNEL = 1;
+    public static final int SEEKMODE_AUTO = 2;
+    public static final int STYPE_UNKNOWN = 0;
+    public static final int STYPE_DTV = 1;
+    public static final int STYPE_DTV_HDTV = 2;
+    public static final int STYPE_AUDIO = 3;
+    public static final int STYPE_DATA = 4;
+    public static final int STYPE_CAS_PAYTV = 5;
+    public static final int STYPE_VISUAL_AUDIO = 6;
+    public static final int STYPE_ISDB_SUBSERVICE_1 = 7;
+    public static final int STYPE_ISDB_SUBSERVICE_2 = 8;
+    public static final int STYPE_CMMB = 9;
+    public static final int STYPE_CMMB_AUDIO = 10;
+    public static final int STYPE_DTV_SUBSERVICE_2 = 11;
+    public static final int STYPE_DTV_SUBSERVICE_3 = 12;
+    public static final int STYPE_DTV_SUBSERVICE_4 = 13;
+    public static final int STYPE_DTV_SUBSERVICE_5 = 14;
+    public static final int STYPE_DUMMY = 15;
+    public static final int MUTESTATE_AUDIO_GOOD = 0;
+    public static final int MUTESTATE_DROP_OUT = 1;
+    public static final int MUTESTATE_NO_RECEPTION = 2;
+    public static final int MUTESTATE_NO_AUDIO_SERVICE = 3;
+    public static final int SERVICEFLAG_NOT_AVAILABLE = 0;
+    public static final int SERVICEFLAG_LOADING = 1;
+    public static final int SERVICEFLAG_FULL_AVAILABLE = 2;
+    public static final int AVNORM_AUTO = 0;
+    public static final int AVNORM_PAL = 1;
+    public static final int AVNORM_NTSC = 2;
+    public static final int TERMINALMODE_OFF_TV_AV_MODE = 0;
+    public static final int TERMINALMODE_TELETEXT = 1;
+    public static final int TERMINALMODE_DB_DVB = 2;
+    public static final int TERMINALMODE_DB_ISDB = 3;
+    public static final int TERMINALMODE_DB_DTMB_CMMB = 4;
+    public static final int TERMINALMODE_DB_DMB = 5;
+    public static final int TERMINALMODE_DB_ATSC = 6;
+    public static final int TERMINALMODE_DB1 = 7;
+    public static final int TERMINALMODE_DB2 = 8;
+    public static final int TERMINALMODE_BWS = 9;
+    public static final int TERMINALMODE_SLS_DLS = 10;
+    public static final int TERMINALMODE_TXT = 11;
+    public static final int TERMINALMODE_CAS = 12;
+    public static final int TERMINALMODE_EPG = 13;
+    public static final int TERMINALMODE_VISUAL_AUDIO = 14;
+    public static final int TERMINALMODE_TV_ENGINEERING = 15;
+    public static final int SCREENMODE_MU_SPEED_DISCLAIMER_OFF = 0;
+    public static final int SCREENMODE_MU_SPEED_DISCLAIMER_ON = 1;
+    public static final int TMTOUCHPADBEHAVIOUR_NO_COORD = 0;
+    public static final int TMTOUCHPADBEHAVIOUR_COORD = 1;
+    public static final int TMTOUCHPADBEHAVIOUR_MAP_TO_JOYSTICK = 2;
+    public static final int RT_SWITCHSOURCE = 1000;
+    public static final int RT_SELECTNEXTSERVICE = 1001;
+    public static final int RT_SELECTSERVICE = 1002;
+    public static final int RT_SETAUDIOCHANNEL = 1003;
+    public static final int RT_ENABLESERVICELINKING = 1004;
+    public static final int RT_ENABLESUBTITLE = 1005;
+    public static final int RT_SETAVNORM = 1006;
+    public static final int RT_SETNORMAREA = 1007;
+    public static final int RT_SETNORMAREASUBLIST = 1008;
+    public static final int RT_SETTERMINALMODE = 1009;
+    public static final int RT_INCMOVED = 1010;
+    public static final int RT_SETCOORDINATEREL = 1011;
+    public static final int RT_SETTMTVKEYPANEL = 1012;
+    public static final int RT_ABORTSEEK = 1013;
+    public static final int RT_SETBROWSERLISTSORT = 1014;
+    public static final int RP_SWITCHSOURCE = 2000;
+    public static final int RP_SELECTNEXTSERVICE = 2001;
+    public static final int RP_SELECTSERVICE = 2002;
+    public static final int RP_ABORTSEEK = 2003;
 
-    default public void selectService(long l, int n, int n2) {
-    }
+    public void selectService(long var1, int var3, int var4);
 
-    default public void selectNextService(int n, int n2) {
-    }
+    public void selectNextService(int var1, int var2);
 
-    default public void abortSeek() {
-    }
+    public void abortSeek();
 
-    default public void switchSource(int n) {
-    }
+    public void switchSource(int var1);
 
-    default public void setAudioChannel(int n) {
-    }
+    public void setAudioChannel(int var1);
 
-    default public void setNormArea(int n) {
-    }
+    public void setNormArea(int var1);
 
-    default public void enableServiceLinking(boolean bl) {
-    }
+    public void enableServiceLinking(boolean var1);
 
-    default public void setTerminalMode(int n, int n2) {
-    }
+    public void setTerminalMode(int var1, int var2);
 
-    default public void setNormAreaSubList(int[] nArray) {
-    }
+    public void setNormAreaSubList(int[] var1);
 
-    default public void setAVNorm(int n) {
-    }
+    public void setAVNorm(int var1);
 
-    default public void incMoved(byte by) {
-    }
+    public void incMoved(byte var1);
 
-    default public void setCoordinateRel(short s, short s2, short s3) {
-    }
+    public void setCoordinateRel(short var1, short var2, short var3);
 
-    default public void setTMTVKeyPanel(short s, short s2) {
-    }
+    public void setTMTVKeyPanel(short var1, short var2);
 
-    default public void enableSubtitle(boolean bl) {
-    }
+    public void enableSubtitle(boolean var1);
 
-    default public void setBrowserListSort(int n) {
-    }
+    public void setBrowserListSort(int var1);
 }
 

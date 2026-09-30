@@ -10,12 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.connectedradio.DSIHybridRadio;
 import de.esolutions.fw.comm.dsi.connectedradio.DSIHybridRadioC;
 import de.esolutions.fw.comm.dsi.connectedradio.DSIHybridRadioReply;
-import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioProxy$1;
-import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioProxy$2;
-import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioProxy$3;
-import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioProxy$4;
-import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioProxy$5;
 import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioReplyService;
+import de.esolutions.fw.comm.dsi.connectedradio.impl.RadioStationSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.connectedradio.RadioStation;
@@ -36,20 +34,30 @@ DSIHybridRadioC {
         return this.proxy;
     }
 
-    @Override
-    public void getOnlineRadioAvailability(int n, RadioStation[] radioStationArray) {
-        DSIHybridRadioProxy$1 dSIHybridRadioProxy$1 = new DSIHybridRadioProxy$1(this, n, radioStationArray);
-        this.proxy.remoteCallMethod((short)6, dSIHybridRadioProxy$1);
+    public void getOnlineRadioAvailability(final int n, final RadioStation[] radioStationArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RadioStationSerializer.putOptionalRadioStationVarArray(iSerializer, radioStationArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void getRadioStationLogo(int n, RadioStation[] radioStationArray, int n2) {
-        DSIHybridRadioProxy$2 dSIHybridRadioProxy$2 = new DSIHybridRadioProxy$2(this, n, radioStationArray, n2);
-        this.proxy.remoteCallMethod((short)8, dSIHybridRadioProxy$2);
+    public void getRadioStationLogo(final int n, final RadioStation[] radioStationArray, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RadioStationSerializer.putOptionalRadioStationVarArray(iSerializer, radioStationArray);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void cancelGetRadioStationLogo(int n) {
+    public void cancelGetRadioStationLogo(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -60,26 +68,42 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void getStream(int n, RadioStation radioStation) {
-        DSIHybridRadioProxy$3 dSIHybridRadioProxy$3 = new DSIHybridRadioProxy$3(this, n, radioStation);
-        this.proxy.remoteCallMethod((short)10, dSIHybridRadioProxy$3);
+    public void getStream(final int n, final RadioStation radioStation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RadioStationSerializer.putOptionalRadioStation(iSerializer, radioStation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void startSlideshow(int n, RadioStation radioStation, int n2, int n3) {
-        DSIHybridRadioProxy$4 dSIHybridRadioProxy$4 = new DSIHybridRadioProxy$4(this, n, radioStation, n2, n3);
-        this.proxy.remoteCallMethod((short)16, dSIHybridRadioProxy$4);
+    public void startSlideshow(final int n, final RadioStation radioStation, final int n2, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RadioStationSerializer.putOptionalRadioStation(iSerializer, radioStation);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void stopSlideshow(int n, RadioStation radioStation) {
-        DSIHybridRadioProxy$5 dSIHybridRadioProxy$5 = new DSIHybridRadioProxy$5(this, n, radioStation);
-        this.proxy.remoteCallMethod((short)18, dSIHybridRadioProxy$5);
+    public void stopSlideshow(final int n, final RadioStation radioStation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RadioStationSerializer.putOptionalRadioStation(iSerializer, radioStation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -90,8 +114,7 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -103,8 +126,7 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -115,13 +137,11 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)30, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -132,8 +152,7 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -144,13 +163,11 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -161,8 +178,7 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -173,13 +189,11 @@ DSIHybridRadioC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

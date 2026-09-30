@@ -5,379 +5,377 @@ package de.vw.mib.bap.generated.audiosd.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
 import de.vw.mib.bap.datatypes.BAPString;
-import de.vw.mib.bap.generated.audiosd.serializer.CurrentStationInfo_Status$StationInfoSwitches;
-import de.vw.mib.bap.generated.audiosd.serializer.CurrentStationInfo_Status$StationProperties;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class CurrentStationInfo_Status
 implements StatusProperty {
     public final BAPString primaryInformation = new BAPString(73);
-    private static final int MAX_PRIMARY_INFORMATION_LENGTH;
+    private static final int MAX_PRIMARY_INFORMATION_LENGTH = 73;
     public int pi_Type;
-    private static final int PI_TYPE_BITSIZE;
-    public static final int PI_TYPE_ANY_TYPE_UNKNOWN;
-    public static final int PI_TYPE_FOLDER;
-    public static final int PI_TYPE_TRACK;
-    public static final int PI_TYPE_PLAYLIST;
-    public static final int PI_TYPE_PLAYLIST_FOLDER;
-    public static final int PI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY;
-    public static final int PI_TYPE_AUDIO_FILE;
-    public static final int PI_TYPE_VIDEO_FILE;
-    public static final int PI_TYPE_LEGACY_AUDIO_TRACK_CD;
-    public static final int PI_TYPE_CD_AUDIO_TRACK_CD_TEXT;
-    public static final int PI_TYPE_VOICEMEMO_FILE;
-    public static final int PI_TYPE_IMAGE_FILE;
-    public static final int PI_TYPE_AUDIO_FOLDER;
-    public static final int PI_TYPE_VIDEO_FOLDER;
-    public static final int PI_TYPE_IMAGE_FOLDER;
-    public static final int PI_TYPE_VOICEMEMO_FOLDER;
-    public static final int PI_TYPE_CATEGORY_GENRE;
-    public static final int PI_TYPE_CATEGORY_GENRES;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_GENRE;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_GENRES;
-    public static final int PI_TYPE_CATEGORY_ARTIST;
-    public static final int PI_TYPE_CATEGORY_ARTISTS;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_ARTIST;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_ARTISTS;
-    public static final int PI_TYPE_CATEGORY_COMPOSER;
-    public static final int PI_TYPE_CATEGORY_COMPOSERS;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_COMPOSER;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_COMPOSERS;
-    public static final int PI_TYPE_CATEGORY_YEAR;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_YEAR;
-    public static final int PI_TYPE_CATEGORY_COMMENT;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_COMMENT;
-    public static final int PI_TYPE_CATEGORY_ALBUM;
-    public static final int PI_TYPE_CATEGORY_ALBUMS;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_ALBUM;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_ALBUMS;
-    public static final int PI_TYPE_CATEGORY_SONG;
-    public static final int PI_TYPE_CATEGORY_SONGS;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_SONG;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_SONGS;
-    public static final int PI_TYPE_CATEGORY_AUDIOBOOK;
-    public static final int PI_TYPE_CATEGORY_AUDIOBOOKS;
-    public static final int PI_TYPE_CATEGORY_ALL;
-    public static final int PI_TYPE_CATEGORY_PODCAST;
-    public static final int PI_TYPE_CATEGORY_PODCASTS;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO;
-    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS;
-    public static final int PI_TYPE_CATEGORY_MOVIES_DF4_1;
-    public static final int PI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1;
-    public static final int PI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1;
-    public static final int PI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1;
-    public static final int PI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1;
-    public static final int PI_TYPE_CATEGORY_FAVORITES_DF4_1;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1;
-    public static final int PI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1;
-    public static final int PI_TYPE_DVD_MAIN_MENUE;
-    public static final int PI_TYPE_DVD_CHAPTER;
-    public static final int PI_TYPE_DVD_TITLE;
-    public static final int PI_TYPE_CHANNEL;
-    public static final int PI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW;
-    public static final int PI_TYPE_SDARS_STATION;
-    public static final int PI_TYPE_DAB_SERVICE;
-    public static final int PI_TYPE_DVB_SERVICE_TV_STATION;
-    public static final int PI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD;
-    public static final int PI_TYPE_ARTIST;
-    public static final int PI_TYPE_ALBUM;
-    public static final int PI_TYPE_DAB_ENSEMBLE_DF_4_1;
-    public static final int PI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1;
-    public static final int PI_TYPE_MODERATOR_DF_4_1;
-    public static final int PI_TYPE_CONDUCTOR_DF_4_1;
-    public static final int PI_TYPE_COMPOSER_DF_4_1;
-    public static final int PI_TYPE_PROGRAM_NOW_DF_4_1;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1;
-    public static final int PI_TYPE_CATEGORY_MOOD_DF4_1;
-    public static final int PI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1;
-    public static final int PI_TYPE_ONLINE_RADIO_STATION_DF4_2;
+    private static final int PI_TYPE_BITSIZE = 8;
+    public static final int PI_TYPE_ANY_TYPE_UNKNOWN = 0;
+    public static final int PI_TYPE_FOLDER = 1;
+    public static final int PI_TYPE_TRACK = 2;
+    public static final int PI_TYPE_PLAYLIST = 3;
+    public static final int PI_TYPE_PLAYLIST_FOLDER = 4;
+    public static final int PI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY = 5;
+    public static final int PI_TYPE_AUDIO_FILE = 6;
+    public static final int PI_TYPE_VIDEO_FILE = 7;
+    public static final int PI_TYPE_LEGACY_AUDIO_TRACK_CD = 8;
+    public static final int PI_TYPE_CD_AUDIO_TRACK_CD_TEXT = 9;
+    public static final int PI_TYPE_VOICEMEMO_FILE = 10;
+    public static final int PI_TYPE_IMAGE_FILE = 11;
+    public static final int PI_TYPE_AUDIO_FOLDER = 12;
+    public static final int PI_TYPE_VIDEO_FOLDER = 13;
+    public static final int PI_TYPE_IMAGE_FOLDER = 14;
+    public static final int PI_TYPE_VOICEMEMO_FOLDER = 15;
+    public static final int PI_TYPE_CATEGORY_GENRE = 16;
+    public static final int PI_TYPE_CATEGORY_GENRES = 17;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_GENRE = 18;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_GENRES = 19;
+    public static final int PI_TYPE_CATEGORY_ARTIST = 20;
+    public static final int PI_TYPE_CATEGORY_ARTISTS = 21;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_ARTIST = 22;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_ARTISTS = 23;
+    public static final int PI_TYPE_CATEGORY_COMPOSER = 24;
+    public static final int PI_TYPE_CATEGORY_COMPOSERS = 25;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_COMPOSER = 26;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_COMPOSERS = 27;
+    public static final int PI_TYPE_CATEGORY_YEAR = 28;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_YEAR = 29;
+    public static final int PI_TYPE_CATEGORY_COMMENT = 30;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_COMMENT = 31;
+    public static final int PI_TYPE_CATEGORY_ALBUM = 32;
+    public static final int PI_TYPE_CATEGORY_ALBUMS = 33;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_ALBUM = 34;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_ALBUMS = 35;
+    public static final int PI_TYPE_CATEGORY_SONG = 36;
+    public static final int PI_TYPE_CATEGORY_SONGS = 37;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_SONG = 38;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_SONGS = 39;
+    public static final int PI_TYPE_CATEGORY_AUDIOBOOK = 40;
+    public static final int PI_TYPE_CATEGORY_AUDIOBOOKS = 41;
+    public static final int PI_TYPE_CATEGORY_ALL = 42;
+    public static final int PI_TYPE_CATEGORY_PODCAST = 43;
+    public static final int PI_TYPE_CATEGORY_PODCASTS = 44;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED = 45;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR = 46;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS = 47;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS = 48;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS = 49;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS = 50;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED = 51;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED = 52;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO = 53;
+    public static final int PI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS = 54;
+    public static final int PI_TYPE_CATEGORY_MOVIES_DF4_1 = 55;
+    public static final int PI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1 = 56;
+    public static final int PI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1 = 57;
+    public static final int PI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1 = 58;
+    public static final int PI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1 = 59;
+    public static final int PI_TYPE_CATEGORY_FAVORITES_DF4_1 = 60;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1 = 61;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1 = 62;
+    public static final int PI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1 = 63;
+    public static final int PI_TYPE_DVD_MAIN_MENUE = 64;
+    public static final int PI_TYPE_DVD_CHAPTER = 65;
+    public static final int PI_TYPE_DVD_TITLE = 66;
+    public static final int PI_TYPE_CHANNEL = 67;
+    public static final int PI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW = 68;
+    public static final int PI_TYPE_SDARS_STATION = 69;
+    public static final int PI_TYPE_DAB_SERVICE = 70;
+    public static final int PI_TYPE_DVB_SERVICE_TV_STATION = 71;
+    public static final int PI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD = 72;
+    public static final int PI_TYPE_ARTIST = 73;
+    public static final int PI_TYPE_ALBUM = 74;
+    public static final int PI_TYPE_DAB_ENSEMBLE_DF_4_1 = 75;
+    public static final int PI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1 = 76;
+    public static final int PI_TYPE_MODERATOR_DF_4_1 = 77;
+    public static final int PI_TYPE_CONDUCTOR_DF_4_1 = 78;
+    public static final int PI_TYPE_COMPOSER_DF_4_1 = 79;
+    public static final int PI_TYPE_PROGRAM_NOW_DF_4_1 = 80;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1 = 81;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1 = 82;
+    public static final int PI_TYPE_CATEGORY_MOOD_DF4_1 = 83;
+    public static final int PI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1 = 84;
+    public static final int PI_TYPE_ONLINE_RADIO_STATION_DF4_2 = 96;
     public int pi_Id;
-    private static final int PI_ID_BITSIZE;
+    private static final int PI_ID_BITSIZE = 16;
     public final BAPString secondaryInformation = new BAPString(73);
-    private static final int MAX_SECONDARY_INFORMATION_LENGTH;
+    private static final int MAX_SECONDARY_INFORMATION_LENGTH = 73;
     public int si_Type;
-    private static final int SI_TYPE_BITSIZE;
-    public static final int SI_TYPE_ANY_TYPE_UNKNOWN;
-    public static final int SI_TYPE_FOLDER;
-    public static final int SI_TYPE_TRACK;
-    public static final int SI_TYPE_PLAYLIST;
-    public static final int SI_TYPE_PLAYLIST_FOLDER;
-    public static final int SI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY;
-    public static final int SI_TYPE_AUDIO_FILE;
-    public static final int SI_TYPE_VIDEO_FILE;
-    public static final int SI_TYPE_LEGACY_AUDIO_TRACK_CD;
-    public static final int SI_TYPE_CD_AUDIO_TRACK_CD_TEXT;
-    public static final int SI_TYPE_VOICEMEMO_FILE;
-    public static final int SI_TYPE_IMAGE_FILE;
-    public static final int SI_TYPE_AUDIO_FOLDER;
-    public static final int SI_TYPE_VIDEO_FOLDER;
-    public static final int SI_TYPE_IMAGE_FOLDER;
-    public static final int SI_TYPE_VOICEMEMO_FOLDER;
-    public static final int SI_TYPE_CATEGORY_GENRE;
-    public static final int SI_TYPE_CATEGORY_GENRES;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_GENRE;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_GENRES;
-    public static final int SI_TYPE_CATEGORY_ARTIST;
-    public static final int SI_TYPE_CATEGORY_ARTISTS;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_ARTIST;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_ARTISTS;
-    public static final int SI_TYPE_CATEGORY_COMPOSER;
-    public static final int SI_TYPE_CATEGORY_COMPOSERS;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_COMPOSER;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_COMPOSERS;
-    public static final int SI_TYPE_CATEGORY_YEAR;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_YEAR;
-    public static final int SI_TYPE_CATEGORY_COMMENT;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_COMMENT;
-    public static final int SI_TYPE_CATEGORY_ALBUM;
-    public static final int SI_TYPE_CATEGORY_ALBUMS;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_ALBUM;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_ALBUMS;
-    public static final int SI_TYPE_CATEGORY_SONG;
-    public static final int SI_TYPE_CATEGORY_SONGS;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_SONG;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_SONGS;
-    public static final int SI_TYPE_CATEGORY_AUDIOBOOK;
-    public static final int SI_TYPE_CATEGORY_AUDIOBOOKS;
-    public static final int SI_TYPE_CATEGORY_ALL;
-    public static final int SI_TYPE_CATEGORY_PODCAST;
-    public static final int SI_TYPE_CATEGORY_PODCASTS;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO;
-    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS;
-    public static final int SI_TYPE_CATEGORY_MOVIES_DF4_1;
-    public static final int SI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1;
-    public static final int SI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1;
-    public static final int SI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1;
-    public static final int SI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1;
-    public static final int SI_TYPE_CATEGORY_FAVORITES_DF4_1;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1;
-    public static final int SI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1;
-    public static final int SI_TYPE_DVD_MAIN_MENUE;
-    public static final int SI_TYPE_DVD_CHAPTER;
-    public static final int SI_TYPE_DVD_TITLE;
-    public static final int SI_TYPE_CHANNEL;
-    public static final int SI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW;
-    public static final int SI_TYPE_SDARS_STATION;
-    public static final int SI_TYPE_DAB_SERVICE;
-    public static final int SI_TYPE_DVB_SERVICE_TV_STATION;
-    public static final int SI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD;
-    public static final int SI_TYPE_ARTIST;
-    public static final int SI_TYPE_ALBUM;
-    public static final int SI_TYPE_DAB_ENSEMBLE_DF_4_1;
-    public static final int SI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1;
-    public static final int SI_TYPE_MODERATOR_DF_4_1;
-    public static final int SI_TYPE_CONDUCTOR_DF_4_1;
-    public static final int SI_TYPE_COMPOSER_DF_4_1;
-    public static final int SI_TYPE_PROGRAM_NOW_DF_4_1;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1;
-    public static final int SI_TYPE_CATEGORY_MOOD_DF4_1;
-    public static final int SI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1;
-    public static final int SI_TYPE_ONLINE_RADIO_STATION_DF4_2;
+    private static final int SI_TYPE_BITSIZE = 8;
+    public static final int SI_TYPE_ANY_TYPE_UNKNOWN = 0;
+    public static final int SI_TYPE_FOLDER = 1;
+    public static final int SI_TYPE_TRACK = 2;
+    public static final int SI_TYPE_PLAYLIST = 3;
+    public static final int SI_TYPE_PLAYLIST_FOLDER = 4;
+    public static final int SI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY = 5;
+    public static final int SI_TYPE_AUDIO_FILE = 6;
+    public static final int SI_TYPE_VIDEO_FILE = 7;
+    public static final int SI_TYPE_LEGACY_AUDIO_TRACK_CD = 8;
+    public static final int SI_TYPE_CD_AUDIO_TRACK_CD_TEXT = 9;
+    public static final int SI_TYPE_VOICEMEMO_FILE = 10;
+    public static final int SI_TYPE_IMAGE_FILE = 11;
+    public static final int SI_TYPE_AUDIO_FOLDER = 12;
+    public static final int SI_TYPE_VIDEO_FOLDER = 13;
+    public static final int SI_TYPE_IMAGE_FOLDER = 14;
+    public static final int SI_TYPE_VOICEMEMO_FOLDER = 15;
+    public static final int SI_TYPE_CATEGORY_GENRE = 16;
+    public static final int SI_TYPE_CATEGORY_GENRES = 17;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_GENRE = 18;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_GENRES = 19;
+    public static final int SI_TYPE_CATEGORY_ARTIST = 20;
+    public static final int SI_TYPE_CATEGORY_ARTISTS = 21;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_ARTIST = 22;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_ARTISTS = 23;
+    public static final int SI_TYPE_CATEGORY_COMPOSER = 24;
+    public static final int SI_TYPE_CATEGORY_COMPOSERS = 25;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_COMPOSER = 26;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_COMPOSERS = 27;
+    public static final int SI_TYPE_CATEGORY_YEAR = 28;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_YEAR = 29;
+    public static final int SI_TYPE_CATEGORY_COMMENT = 30;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_COMMENT = 31;
+    public static final int SI_TYPE_CATEGORY_ALBUM = 32;
+    public static final int SI_TYPE_CATEGORY_ALBUMS = 33;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_ALBUM = 34;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_ALBUMS = 35;
+    public static final int SI_TYPE_CATEGORY_SONG = 36;
+    public static final int SI_TYPE_CATEGORY_SONGS = 37;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_SONG = 38;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_SONGS = 39;
+    public static final int SI_TYPE_CATEGORY_AUDIOBOOK = 40;
+    public static final int SI_TYPE_CATEGORY_AUDIOBOOKS = 41;
+    public static final int SI_TYPE_CATEGORY_ALL = 42;
+    public static final int SI_TYPE_CATEGORY_PODCAST = 43;
+    public static final int SI_TYPE_CATEGORY_PODCASTS = 44;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED = 45;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR = 46;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS = 47;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS = 48;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS = 49;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS = 50;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED = 51;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED = 52;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO = 53;
+    public static final int SI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS = 54;
+    public static final int SI_TYPE_CATEGORY_MOVIES_DF4_1 = 55;
+    public static final int SI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1 = 56;
+    public static final int SI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1 = 57;
+    public static final int SI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1 = 58;
+    public static final int SI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1 = 59;
+    public static final int SI_TYPE_CATEGORY_FAVORITES_DF4_1 = 60;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1 = 61;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1 = 62;
+    public static final int SI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1 = 63;
+    public static final int SI_TYPE_DVD_MAIN_MENUE = 64;
+    public static final int SI_TYPE_DVD_CHAPTER = 65;
+    public static final int SI_TYPE_DVD_TITLE = 66;
+    public static final int SI_TYPE_CHANNEL = 67;
+    public static final int SI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW = 68;
+    public static final int SI_TYPE_SDARS_STATION = 69;
+    public static final int SI_TYPE_DAB_SERVICE = 70;
+    public static final int SI_TYPE_DVB_SERVICE_TV_STATION = 71;
+    public static final int SI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD = 72;
+    public static final int SI_TYPE_ARTIST = 73;
+    public static final int SI_TYPE_ALBUM = 74;
+    public static final int SI_TYPE_DAB_ENSEMBLE_DF_4_1 = 75;
+    public static final int SI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1 = 76;
+    public static final int SI_TYPE_MODERATOR_DF_4_1 = 77;
+    public static final int SI_TYPE_CONDUCTOR_DF_4_1 = 78;
+    public static final int SI_TYPE_COMPOSER_DF_4_1 = 79;
+    public static final int SI_TYPE_PROGRAM_NOW_DF_4_1 = 80;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1 = 81;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1 = 82;
+    public static final int SI_TYPE_CATEGORY_MOOD_DF4_1 = 83;
+    public static final int SI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1 = 84;
+    public static final int SI_TYPE_ONLINE_RADIO_STATION_DF4_2 = 96;
     public final BAPString tertiaryInformation = new BAPString(73);
-    private static final int MAX_TERTIARY_INFORMATION_LENGTH;
+    private static final int MAX_TERTIARY_INFORMATION_LENGTH = 73;
     public int ti_Type;
-    private static final int TI_TYPE_BITSIZE;
-    public static final int TI_TYPE_ANY_TYPE_UNKNOWN;
-    public static final int TI_TYPE_FOLDER;
-    public static final int TI_TYPE_TRACK;
-    public static final int TI_TYPE_PLAYLIST;
-    public static final int TI_TYPE_PLAYLIST_FOLDER;
-    public static final int TI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY;
-    public static final int TI_TYPE_AUDIO_FILE;
-    public static final int TI_TYPE_VIDEO_FILE;
-    public static final int TI_TYPE_LEGACY_AUDIO_TRACK_CD;
-    public static final int TI_TYPE_CD_AUDIO_TRACK_CD_TEXT;
-    public static final int TI_TYPE_VOICEMEMO_FILE;
-    public static final int TI_TYPE_IMAGE_FILE;
-    public static final int TI_TYPE_AUDIO_FOLDER;
-    public static final int TI_TYPE_VIDEO_FOLDER;
-    public static final int TI_TYPE_IMAGE_FOLDER;
-    public static final int TI_TYPE_VOICEMEMO_FOLDER;
-    public static final int TI_TYPE_CATEGORY_GENRE;
-    public static final int TI_TYPE_CATEGORY_GENRES;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_GENRE;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_GENRES;
-    public static final int TI_TYPE_CATEGORY_ARTIST;
-    public static final int TI_TYPE_CATEGORY_ARTISTS;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_ARTIST;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_ARTISTS;
-    public static final int TI_TYPE_CATEGORY_COMPOSER;
-    public static final int TI_TYPE_CATEGORY_COMPOSERS;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_COMPOSER;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_COMPOSERS;
-    public static final int TI_TYPE_CATEGORY_YEAR;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_YEAR;
-    public static final int TI_TYPE_CATEGORY_COMMENT;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_COMMENT;
-    public static final int TI_TYPE_CATEGORY_ALBUM;
-    public static final int TI_TYPE_CATEGORY_ALBUMS;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_ALBUM;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_ALBUMS;
-    public static final int TI_TYPE_CATEGORY_SONG;
-    public static final int TI_TYPE_CATEGORY_SONGS;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_SONG;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_SONGS;
-    public static final int TI_TYPE_CATEGORY_AUDIOBOOK;
-    public static final int TI_TYPE_CATEGORY_AUDIOBOOKS;
-    public static final int TI_TYPE_CATEGORY_ALL;
-    public static final int TI_TYPE_CATEGORY_PODCAST;
-    public static final int TI_TYPE_CATEGORY_PODCASTS;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO;
-    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS;
-    public static final int TI_TYPE_CATEGORY_MOVIES_DF4_1;
-    public static final int TI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1;
-    public static final int TI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1;
-    public static final int TI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1;
-    public static final int TI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1;
-    public static final int TI_TYPE_CATEGORY_FAVORITES_DF4_1;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1;
-    public static final int TI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1;
-    public static final int TI_TYPE_DVD_MAIN_MENUE;
-    public static final int TI_TYPE_DVD_CHAPTER;
-    public static final int TI_TYPE_DVD_TITLE;
-    public static final int TI_TYPE_CHANNEL;
-    public static final int TI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW;
-    public static final int TI_TYPE_SDARS_STATION;
-    public static final int TI_TYPE_DAB_SERVICE;
-    public static final int TI_TYPE_DVB_SERVICE_TV_STATION;
-    public static final int TI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD;
-    public static final int TI_TYPE_ARTIST;
-    public static final int TI_TYPE_ALBUM;
-    public static final int TI_TYPE_DAB_ENSEMBLE_DF_4_1;
-    public static final int TI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1;
-    public static final int TI_TYPE_MODERATOR_DF_4_1;
-    public static final int TI_TYPE_CONDUCTOR_DF_4_1;
-    public static final int TI_TYPE_COMPOSER_DF_4_1;
-    public static final int TI_TYPE_PROGRAM_NOW_DF_4_1;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1;
-    public static final int TI_TYPE_CATEGORY_MOOD_DF4_1;
-    public static final int TI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1;
-    public static final int TI_TYPE_ONLINE_RADIO_STATION_DF4_2;
+    private static final int TI_TYPE_BITSIZE = 8;
+    public static final int TI_TYPE_ANY_TYPE_UNKNOWN = 0;
+    public static final int TI_TYPE_FOLDER = 1;
+    public static final int TI_TYPE_TRACK = 2;
+    public static final int TI_TYPE_PLAYLIST = 3;
+    public static final int TI_TYPE_PLAYLIST_FOLDER = 4;
+    public static final int TI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY = 5;
+    public static final int TI_TYPE_AUDIO_FILE = 6;
+    public static final int TI_TYPE_VIDEO_FILE = 7;
+    public static final int TI_TYPE_LEGACY_AUDIO_TRACK_CD = 8;
+    public static final int TI_TYPE_CD_AUDIO_TRACK_CD_TEXT = 9;
+    public static final int TI_TYPE_VOICEMEMO_FILE = 10;
+    public static final int TI_TYPE_IMAGE_FILE = 11;
+    public static final int TI_TYPE_AUDIO_FOLDER = 12;
+    public static final int TI_TYPE_VIDEO_FOLDER = 13;
+    public static final int TI_TYPE_IMAGE_FOLDER = 14;
+    public static final int TI_TYPE_VOICEMEMO_FOLDER = 15;
+    public static final int TI_TYPE_CATEGORY_GENRE = 16;
+    public static final int TI_TYPE_CATEGORY_GENRES = 17;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_GENRE = 18;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_GENRES = 19;
+    public static final int TI_TYPE_CATEGORY_ARTIST = 20;
+    public static final int TI_TYPE_CATEGORY_ARTISTS = 21;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_ARTIST = 22;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_ARTISTS = 23;
+    public static final int TI_TYPE_CATEGORY_COMPOSER = 24;
+    public static final int TI_TYPE_CATEGORY_COMPOSERS = 25;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_COMPOSER = 26;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_COMPOSERS = 27;
+    public static final int TI_TYPE_CATEGORY_YEAR = 28;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_YEAR = 29;
+    public static final int TI_TYPE_CATEGORY_COMMENT = 30;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_COMMENT = 31;
+    public static final int TI_TYPE_CATEGORY_ALBUM = 32;
+    public static final int TI_TYPE_CATEGORY_ALBUMS = 33;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_ALBUM = 34;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_ALBUMS = 35;
+    public static final int TI_TYPE_CATEGORY_SONG = 36;
+    public static final int TI_TYPE_CATEGORY_SONGS = 37;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_SONG = 38;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_SONGS = 39;
+    public static final int TI_TYPE_CATEGORY_AUDIOBOOK = 40;
+    public static final int TI_TYPE_CATEGORY_AUDIOBOOKS = 41;
+    public static final int TI_TYPE_CATEGORY_ALL = 42;
+    public static final int TI_TYPE_CATEGORY_PODCAST = 43;
+    public static final int TI_TYPE_CATEGORY_PODCASTS = 44;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED = 45;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR = 46;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS = 47;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS = 48;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS = 49;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS = 50;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED = 51;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED = 52;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO = 53;
+    public static final int TI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS = 54;
+    public static final int TI_TYPE_CATEGORY_MOVIES_DF4_1 = 55;
+    public static final int TI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1 = 56;
+    public static final int TI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1 = 57;
+    public static final int TI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1 = 58;
+    public static final int TI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1 = 59;
+    public static final int TI_TYPE_CATEGORY_FAVORITES_DF4_1 = 60;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1 = 61;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1 = 62;
+    public static final int TI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1 = 63;
+    public static final int TI_TYPE_DVD_MAIN_MENUE = 64;
+    public static final int TI_TYPE_DVD_CHAPTER = 65;
+    public static final int TI_TYPE_DVD_TITLE = 66;
+    public static final int TI_TYPE_CHANNEL = 67;
+    public static final int TI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW = 68;
+    public static final int TI_TYPE_SDARS_STATION = 69;
+    public static final int TI_TYPE_DAB_SERVICE = 70;
+    public static final int TI_TYPE_DVB_SERVICE_TV_STATION = 71;
+    public static final int TI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD = 72;
+    public static final int TI_TYPE_ARTIST = 73;
+    public static final int TI_TYPE_ALBUM = 74;
+    public static final int TI_TYPE_DAB_ENSEMBLE_DF_4_1 = 75;
+    public static final int TI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1 = 76;
+    public static final int TI_TYPE_MODERATOR_DF_4_1 = 77;
+    public static final int TI_TYPE_CONDUCTOR_DF_4_1 = 78;
+    public static final int TI_TYPE_COMPOSER_DF_4_1 = 79;
+    public static final int TI_TYPE_PROGRAM_NOW_DF_4_1 = 80;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1 = 81;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1 = 82;
+    public static final int TI_TYPE_CATEGORY_MOOD_DF4_1 = 83;
+    public static final int TI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1 = 84;
+    public static final int TI_TYPE_ONLINE_RADIO_STATION_DF4_2 = 96;
     public final BAPString quaternaryInformation = new BAPString(73);
-    private static final int MAX_QUATERNARY_INFORMATION_LENGTH;
+    private static final int MAX_QUATERNARY_INFORMATION_LENGTH = 73;
     public int qi_Type;
-    private static final int QI_TYPE_BITSIZE;
-    public static final int QI_TYPE_ANY_TYPE_UNKNOWN;
-    public static final int QI_TYPE_FOLDER;
-    public static final int QI_TYPE_TRACK;
-    public static final int QI_TYPE_PLAYLIST;
-    public static final int QI_TYPE_PLAYLIST_FOLDER;
-    public static final int QI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY;
-    public static final int QI_TYPE_AUDIO_FILE;
-    public static final int QI_TYPE_VIDEO_FILE;
-    public static final int QI_TYPE_LEGACY_AUDIO_TRACK_CD;
-    public static final int QI_TYPE_CD_AUDIO_TRACK_CD_TEXT;
-    public static final int QI_TYPE_VOICEMEMO_FILE;
-    public static final int QI_TYPE_IMAGE_FILE;
-    public static final int QI_TYPE_AUDIO_FOLDER;
-    public static final int QI_TYPE_VIDEO_FOLDER;
-    public static final int QI_TYPE_IMAGE_FOLDER;
-    public static final int QI_TYPE_VOICEMEMO_FOLDER;
-    public static final int QI_TYPE_CATEGORY_GENRE;
-    public static final int QI_TYPE_CATEGORY_GENRES;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_GENRE;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_GENRES;
-    public static final int QI_TYPE_CATEGORY_ARTIST;
-    public static final int QI_TYPE_CATEGORY_ARTISTS;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_ARTIST;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_ARTISTS;
-    public static final int QI_TYPE_CATEGORY_COMPOSER;
-    public static final int QI_TYPE_CATEGORY_COMPOSERS;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_COMPOSER;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_COMPOSERS;
-    public static final int QI_TYPE_CATEGORY_YEAR;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_YEAR;
-    public static final int QI_TYPE_CATEGORY_COMMENT;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_COMMENT;
-    public static final int QI_TYPE_CATEGORY_ALBUM;
-    public static final int QI_TYPE_CATEGORY_ALBUMS;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_ALBUM;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_ALBUMS;
-    public static final int QI_TYPE_CATEGORY_SONG;
-    public static final int QI_TYPE_CATEGORY_SONGS;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_SONG;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_SONGS;
-    public static final int QI_TYPE_CATEGORY_AUDIOBOOK;
-    public static final int QI_TYPE_CATEGORY_AUDIOBOOKS;
-    public static final int QI_TYPE_CATEGORY_ALL;
-    public static final int QI_TYPE_CATEGORY_PODCAST;
-    public static final int QI_TYPE_CATEGORY_PODCASTS;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO;
-    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS;
-    public static final int QI_TYPE_CATEGORY_MOVIES_DF4_1;
-    public static final int QI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1;
-    public static final int QI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1;
-    public static final int QI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1;
-    public static final int QI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1;
-    public static final int QI_TYPE_CATEGORY_FAVORITES_DF4_1;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1;
-    public static final int QI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1;
-    public static final int QI_TYPE_DVD_MAIN_MENUE;
-    public static final int QI_TYPE_DVD_CHAPTER;
-    public static final int QI_TYPE_DVD_TITLE;
-    public static final int QI_TYPE_CHANNEL;
-    public static final int QI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW;
-    public static final int QI_TYPE_SDARS_STATION;
-    public static final int QI_TYPE_DAB_SERVICE;
-    public static final int QI_TYPE_DVB_SERVICE_TV_STATION;
-    public static final int QI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD;
-    public static final int QI_TYPE_ARTIST;
-    public static final int QI_TYPE_ALBUM;
-    public static final int QI_TYPE_DAB_ENSEMBLE_DF_4_1;
-    public static final int QI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1;
-    public static final int QI_TYPE_MODERATOR_DF_4_1;
-    public static final int QI_TYPE_CONDUCTOR_DF_4_1;
-    public static final int QI_TYPE_COMPOSER_DF_4_1;
-    public static final int QI_TYPE_PROGRAM_NOW_DF_4_1;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1;
-    public static final int QI_TYPE_CATEGORY_MOOD_DF4_1;
-    public static final int QI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1;
-    public static final int QI_TYPE_ONLINE_RADIO_STATION_DF4_2;
-    public final CurrentStationInfo_Status$StationInfoSwitches stationInfoSwitches = new CurrentStationInfo_Status$StationInfoSwitches();
-    public final CurrentStationInfo_Status$StationProperties stationProperties = new CurrentStationInfo_Status$StationProperties();
+    private static final int QI_TYPE_BITSIZE = 8;
+    public static final int QI_TYPE_ANY_TYPE_UNKNOWN = 0;
+    public static final int QI_TYPE_FOLDER = 1;
+    public static final int QI_TYPE_TRACK = 2;
+    public static final int QI_TYPE_PLAYLIST = 3;
+    public static final int QI_TYPE_PLAYLIST_FOLDER = 4;
+    public static final int QI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY = 5;
+    public static final int QI_TYPE_AUDIO_FILE = 6;
+    public static final int QI_TYPE_VIDEO_FILE = 7;
+    public static final int QI_TYPE_LEGACY_AUDIO_TRACK_CD = 8;
+    public static final int QI_TYPE_CD_AUDIO_TRACK_CD_TEXT = 9;
+    public static final int QI_TYPE_VOICEMEMO_FILE = 10;
+    public static final int QI_TYPE_IMAGE_FILE = 11;
+    public static final int QI_TYPE_AUDIO_FOLDER = 12;
+    public static final int QI_TYPE_VIDEO_FOLDER = 13;
+    public static final int QI_TYPE_IMAGE_FOLDER = 14;
+    public static final int QI_TYPE_VOICEMEMO_FOLDER = 15;
+    public static final int QI_TYPE_CATEGORY_GENRE = 16;
+    public static final int QI_TYPE_CATEGORY_GENRES = 17;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_GENRE = 18;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_GENRES = 19;
+    public static final int QI_TYPE_CATEGORY_ARTIST = 20;
+    public static final int QI_TYPE_CATEGORY_ARTISTS = 21;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_ARTIST = 22;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_ARTISTS = 23;
+    public static final int QI_TYPE_CATEGORY_COMPOSER = 24;
+    public static final int QI_TYPE_CATEGORY_COMPOSERS = 25;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_COMPOSER = 26;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_COMPOSERS = 27;
+    public static final int QI_TYPE_CATEGORY_YEAR = 28;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_YEAR = 29;
+    public static final int QI_TYPE_CATEGORY_COMMENT = 30;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_COMMENT = 31;
+    public static final int QI_TYPE_CATEGORY_ALBUM = 32;
+    public static final int QI_TYPE_CATEGORY_ALBUMS = 33;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_ALBUM = 34;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_ALBUMS = 35;
+    public static final int QI_TYPE_CATEGORY_SONG = 36;
+    public static final int QI_TYPE_CATEGORY_SONGS = 37;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_SONG = 38;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_SONGS = 39;
+    public static final int QI_TYPE_CATEGORY_AUDIOBOOK = 40;
+    public static final int QI_TYPE_CATEGORY_AUDIOBOOKS = 41;
+    public static final int QI_TYPE_CATEGORY_ALL = 42;
+    public static final int QI_TYPE_CATEGORY_PODCAST = 43;
+    public static final int QI_TYPE_CATEGORY_PODCASTS = 44;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED = 45;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR = 46;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS = 47;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS = 48;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS = 49;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS = 50;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED = 51;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED = 52;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO = 53;
+    public static final int QI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS = 54;
+    public static final int QI_TYPE_CATEGORY_MOVIES_DF4_1 = 55;
+    public static final int QI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1 = 56;
+    public static final int QI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1 = 57;
+    public static final int QI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1 = 58;
+    public static final int QI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1 = 59;
+    public static final int QI_TYPE_CATEGORY_FAVORITES_DF4_1 = 60;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1 = 61;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1 = 62;
+    public static final int QI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1 = 63;
+    public static final int QI_TYPE_DVD_MAIN_MENUE = 64;
+    public static final int QI_TYPE_DVD_CHAPTER = 65;
+    public static final int QI_TYPE_DVD_TITLE = 66;
+    public static final int QI_TYPE_CHANNEL = 67;
+    public static final int QI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW = 68;
+    public static final int QI_TYPE_SDARS_STATION = 69;
+    public static final int QI_TYPE_DAB_SERVICE = 70;
+    public static final int QI_TYPE_DVB_SERVICE_TV_STATION = 71;
+    public static final int QI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD = 72;
+    public static final int QI_TYPE_ARTIST = 73;
+    public static final int QI_TYPE_ALBUM = 74;
+    public static final int QI_TYPE_DAB_ENSEMBLE_DF_4_1 = 75;
+    public static final int QI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1 = 76;
+    public static final int QI_TYPE_MODERATOR_DF_4_1 = 77;
+    public static final int QI_TYPE_CONDUCTOR_DF_4_1 = 78;
+    public static final int QI_TYPE_COMPOSER_DF_4_1 = 79;
+    public static final int QI_TYPE_PROGRAM_NOW_DF_4_1 = 80;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1 = 81;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1 = 82;
+    public static final int QI_TYPE_CATEGORY_MOOD_DF4_1 = 83;
+    public static final int QI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1 = 84;
+    public static final int QI_TYPE_ONLINE_RADIO_STATION_DF4_2 = 96;
+    public final StationInfoSwitches stationInfoSwitches = new StationInfoSwitches();
+    public final StationProperties stationProperties = new StationProperties();
     public int channel_Id;
-    private static final int CHANNEL_ID_BITSIZE;
+    private static final int CHANNEL_ID_BITSIZE = 16;
 
     public CurrentStationInfo_Status() {
         this.internalReset();
@@ -398,7 +396,6 @@ implements StatusProperty {
         this.channel_Id = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.primaryInformation.reset();
@@ -409,7 +406,6 @@ implements StatusProperty {
         this.stationProperties.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentStationInfo_Status currentStationInfo_Status = (CurrentStationInfo_Status)bAPEntity;
         return this.primaryInformation.equalTo(currentStationInfo_Status.primaryInformation) && this.pi_Type == currentStationInfo_Status.pi_Type && this.pi_Id == currentStationInfo_Status.pi_Id && this.secondaryInformation.equalTo(currentStationInfo_Status.secondaryInformation) && this.si_Type == currentStationInfo_Status.si_Type && this.tertiaryInformation.equalTo(currentStationInfo_Status.tertiaryInformation) && this.ti_Type == currentStationInfo_Status.ti_Type && this.quaternaryInformation.equalTo(currentStationInfo_Status.quaternaryInformation) && this.qi_Type == currentStationInfo_Status.qi_Type && this.stationInfoSwitches.equalTo(currentStationInfo_Status.stationInfoSwitches) && this.stationProperties.equalTo(currentStationInfo_Status.stationProperties) && this.channel_Id == currentStationInfo_Status.channel_Id;
@@ -418,7 +414,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentStationInfo_Status:");
@@ -1841,7 +1836,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.primaryInformation.bitSize();
@@ -1858,7 +1852,6 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.primaryInformation.serialize(bitStream);
         bitStream.pushByte((byte)this.pi_Type);
@@ -1874,7 +1867,6 @@ implements StatusProperty {
         bitStream.pushShort((short)this.channel_Id);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.primaryInformation.deserialize(bitStream);
         this.pi_Type = bitStream.popFrontByte();
@@ -1894,9 +1886,188 @@ implements StatusProperty {
         return 21;
     }
 
-    @Override
     public int getFunctionId() {
         return CurrentStationInfo_Status.functionId();
+    }
+
+    public static final class StationProperties
+    implements BAPEntity {
+        private static final int RESERVED_BIT_4__7_BITSIZE = 4;
+        public boolean stationLinkedToOnlineRadio;
+        public boolean dabServiceDoesNotContainAnyAudioSignal;
+        public boolean ibocLiveTransmissionActive;
+        public boolean dabServiceLinkedToFm;
+        private static final int STATION_PROPERTIES_BITSIZE = 8;
+
+        public StationProperties() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public StationProperties(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.stationLinkedToOnlineRadio = false;
+            this.dabServiceDoesNotContainAnyAudioSignal = false;
+            this.ibocLiveTransmissionActive = false;
+            this.dabServiceLinkedToFm = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            StationProperties stationProperties = (StationProperties)bAPEntity;
+            return this.stationLinkedToOnlineRadio == stationProperties.stationLinkedToOnlineRadio && this.dabServiceDoesNotContainAnyAudioSignal == stationProperties.dabServiceDoesNotContainAnyAudioSignal && this.ibocLiveTransmissionActive == stationProperties.ibocLiveTransmissionActive && this.dabServiceLinkedToFm == stationProperties.dabServiceLinkedToFm;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("StationProperties:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.stationLinkedToOnlineRadio) {
+                stringBuffer.append("true  (station linked to online radio (DF 4.1)");
+            } else {
+                stringBuffer.append("false  (station not linked to online radio (DF 4.1)");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.dabServiceDoesNotContainAnyAudioSignal) {
+                stringBuffer.append("true  (DAB service does not contain any audio signal (DF 4.1)");
+            } else {
+                stringBuffer.append("false  (no DAB service or DAB service contains audio signal (DF 4.1)");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.ibocLiveTransmissionActive) {
+                stringBuffer.append("true  (IBOC live transmission active (HD live mode)");
+            } else {
+                stringBuffer.append("false  (no IBOC live transmission or not applicable");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.dabServiceLinkedToFm) {
+                stringBuffer.append("true  (DAB service linked to FM");
+            } else {
+                stringBuffer.append("false  (DAB service not linked to FM or not applicable");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(4);
+            bitStream.pushBoolean(this.stationLinkedToOnlineRadio);
+            bitStream.pushBoolean(this.dabServiceDoesNotContainAnyAudioSignal);
+            bitStream.pushBoolean(this.ibocLiveTransmissionActive);
+            bitStream.pushBoolean(this.dabServiceLinkedToFm);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(4);
+            this.stationLinkedToOnlineRadio = bitStream.popFrontBoolean();
+            this.dabServiceDoesNotContainAnyAudioSignal = bitStream.popFrontBoolean();
+            this.ibocLiveTransmissionActive = bitStream.popFrontBoolean();
+            this.dabServiceLinkedToFm = bitStream.popFrontBoolean();
+        }
+    }
+
+    public static final class StationInfoSwitches
+    implements BAPEntity {
+        private static final int RESERVED_BIT_4__7_BITSIZE = 4;
+        public boolean ibocHdRadioAvailable;
+        public boolean vicsAvailable;
+        public boolean tmcAvailable;
+        public boolean taTpAvailable;
+        private static final int STATION_INFO_SWITCHES_BITSIZE = 8;
+
+        public StationInfoSwitches() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public StationInfoSwitches(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.ibocHdRadioAvailable = false;
+            this.vicsAvailable = false;
+            this.tmcAvailable = false;
+            this.taTpAvailable = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            StationInfoSwitches stationInfoSwitches = (StationInfoSwitches)bAPEntity;
+            return this.ibocHdRadioAvailable == stationInfoSwitches.ibocHdRadioAvailable && this.vicsAvailable == stationInfoSwitches.vicsAvailable && this.tmcAvailable == stationInfoSwitches.tmcAvailable && this.taTpAvailable == stationInfoSwitches.taTpAvailable;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("StationInfoSwitches:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.ibocHdRadioAvailable) {
+                stringBuffer.append("true  (IBOC/HD-radio available");
+            } else {
+                stringBuffer.append("false  (IBOC/HD-radio not available");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.vicsAvailable) {
+                stringBuffer.append("true  (VICS available (JAPAN market only)");
+            } else {
+                stringBuffer.append("false  (VICS not available");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.tmcAvailable) {
+                stringBuffer.append("true  (TMC available");
+            } else {
+                stringBuffer.append("false  (TMC not available");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.taTpAvailable) {
+                stringBuffer.append("true  (TA / TP available");
+            } else {
+                stringBuffer.append("false  (TA / TP not available");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(4);
+            bitStream.pushBoolean(this.ibocHdRadioAvailable);
+            bitStream.pushBoolean(this.vicsAvailable);
+            bitStream.pushBoolean(this.tmcAvailable);
+            bitStream.pushBoolean(this.taTpAvailable);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(4);
+            this.ibocHdRadioAvailable = bitStream.popFrontBoolean();
+            this.vicsAvailable = bitStream.popFrontBoolean();
+            this.tmcAvailable = bitStream.popFrontBoolean();
+            this.taTpAvailable = bitStream.popFrontBoolean();
+        }
     }
 }
 

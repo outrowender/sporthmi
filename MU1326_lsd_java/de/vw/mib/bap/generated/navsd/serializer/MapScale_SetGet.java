@@ -11,20 +11,20 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MapScale_SetGet
 implements SetGetProperty {
     public int steps;
-    private static final int STEPS_BITSIZE;
+    private static final int STEPS_BITSIZE = 8;
     public int autoZoom;
-    private static final int AUTO_ZOOM_BITSIZE;
-    public static final int AUTO_ZOOM_AUTO_ZOOM_OFF;
-    public static final int AUTO_ZOOM_AUTO_ZOOM_ON;
-    public static final int AUTO_ZOOM_AUTO_ZOOM_ON_FOR_INTERSECTION;
-    public static final int AUTO_ZOOM_AUTO_ZOOM_SETTING_NOT_SUPPORTED;
+    private static final int AUTO_ZOOM_BITSIZE = 4;
+    public static final int AUTO_ZOOM_AUTO_ZOOM_OFF = 0;
+    public static final int AUTO_ZOOM_AUTO_ZOOM_ON = 1;
+    public static final int AUTO_ZOOM_AUTO_ZOOM_ON_FOR_INTERSECTION = 2;
+    public static final int AUTO_ZOOM_AUTO_ZOOM_SETTING_NOT_SUPPORTED = 15;
     public final MapScale_AutoZoomState autoZoomState = new MapScale_AutoZoomState();
     public int reserve2;
-    private static final int RESERVE2_BITSIZE;
+    private static final int RESERVE2_BITSIZE = 16;
     public int reserve3;
-    private static final int RESERVE3_BITSIZE;
+    private static final int RESERVE3_BITSIZE = 8;
     public int reserve4;
-    private static final int RESERVE4_BITSIZE;
+    private static final int RESERVE4_BITSIZE = 8;
 
     public MapScale_SetGet() {
         this.internalReset();
@@ -44,13 +44,11 @@ implements SetGetProperty {
         this.reserve4 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.autoZoomState.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MapScale_SetGet mapScale_SetGet = (MapScale_SetGet)bAPEntity;
         return this.steps == mapScale_SetGet.steps && this.autoZoom == mapScale_SetGet.autoZoom && this.autoZoomState.equalTo(mapScale_SetGet.autoZoomState) && this.reserve2 == mapScale_SetGet.reserve2 && this.reserve3 == mapScale_SetGet.reserve3 && this.reserve4 == mapScale_SetGet.reserve4;
@@ -59,7 +57,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MapScale_SetGet:");
@@ -98,7 +95,6 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -109,7 +105,6 @@ implements SetGetProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.steps);
         bitStream.pushBits(4, this.autoZoom);
@@ -119,7 +114,6 @@ implements SetGetProperty {
         bitStream.pushByte((byte)this.reserve4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.steps = (byte)bitStream.popFrontByte();
         this.autoZoom = bitStream.popFrontBits(4);
@@ -133,7 +127,6 @@ implements SetGetProperty {
         return 45;
     }
 
-    @Override
     public int getFunctionId() {
         return MapScale_SetGet.functionId();
     }

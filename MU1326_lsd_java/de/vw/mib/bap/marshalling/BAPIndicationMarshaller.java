@@ -6,19 +6,14 @@ package de.vw.mib.bap.marshalling;
 import de.vw.mib.bap.datatypes.BAPEntity;
 
 public interface BAPIndicationMarshaller {
-    default public void resultEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void resultEntity(int var1, BAPEntity var2);
 
-    default public void statusEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void statusEntity(int var1, BAPEntity var2);
 
-    default public void changedEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void changedEntity(int var1, BAPEntity var2);
 
-    default public void statusAckEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void statusAckEntity(int var1, BAPEntity var2);
 
-    default public void error(int n, int n2) {
-    }
+    public void error(int var1, int var2);
 }
 

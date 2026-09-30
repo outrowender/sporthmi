@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.HUDDisplaySection3Serializer;
 import de.esolutions.fw.comm.dsi.carkombi.impl.HUDDisplaySection4Serializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.HUDDisplaySection1;
 import org.dsi.ifc.carkombi.HUDDisplaySection2;
 import org.dsi.ifc.carkombi.HUDDisplaySection3;
@@ -16,7 +17,7 @@ import org.dsi.ifc.carkombi.HUDDisplaySection4;
 import org.dsi.ifc.carkombi.HUDSectionConfigListRecord;
 
 public class HUDSectionConfigListRecordSerializer {
-    public static void putOptionalHUDSectionConfigListRecord(ISerializer iSerializer, HUDSectionConfigListRecord hUDSectionConfigListRecord) {
+    public static void putOptionalHUDSectionConfigListRecord(ISerializer iSerializer, HUDSectionConfigListRecord hUDSectionConfigListRecord) throws SerializerException {
         boolean bl = hUDSectionConfigListRecord == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class HUDSectionConfigListRecordSerializer {
         }
     }
 
-    public static void putOptionalHUDSectionConfigListRecordVarArray(ISerializer iSerializer, HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) {
+    public static void putOptionalHUDSectionConfigListRecordVarArray(ISerializer iSerializer, HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) throws SerializerException {
         boolean bl = hUDSectionConfigListRecordArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class HUDSectionConfigListRecordSerializer {
         }
     }
 
-    public static HUDSectionConfigListRecord getOptionalHUDSectionConfigListRecord(IDeserializer iDeserializer) {
+    public static HUDSectionConfigListRecord getOptionalHUDSectionConfigListRecord(IDeserializer iDeserializer) throws SerializerException {
         HUDSectionConfigListRecord hUDSectionConfigListRecord = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class HUDSectionConfigListRecordSerializer {
         return hUDSectionConfigListRecord;
     }
 
-    public static HUDSectionConfigListRecord[] getOptionalHUDSectionConfigListRecordVarArray(IDeserializer iDeserializer) {
+    public static HUDSectionConfigListRecord[] getOptionalHUDSectionConfigListRecordVarArray(IDeserializer iDeserializer) throws SerializerException {
         HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

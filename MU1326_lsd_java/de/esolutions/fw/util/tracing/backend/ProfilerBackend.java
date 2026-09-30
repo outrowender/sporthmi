@@ -25,7 +25,6 @@ extends AbstractTraceBackend {
         super("Profiling");
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         System.out.println("Enabled trace profiling...");
@@ -45,33 +44,28 @@ extends AbstractTraceBackend {
         this.profiler.reset();
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.endTime = System.currentTimeMillis();
         this.dumpStats();
     }
 
-    @Override
     public void handleBreak() {
         super.handleBreak();
         this.dumpStats();
     }
 
-    @Override
     public boolean connect() {
         boolean bl = super.connect();
         ++this.connects;
         return bl;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         ++this.disconnects;
     }
 
-    @Override
     public boolean createEntity(ITraceEntity iTraceEntity) {
         boolean bl = super.createEntity(iTraceEntity);
         ++this.numEntities;
@@ -83,23 +77,21 @@ extends AbstractTraceBackend {
     private void dumpStats() {
         System.out.println("--- Profiling Results ---");
         long l = this.endTime - this.beginTime;
-        System.out.println(new StringBuffer().append("Duration:  ").append(l).append(" ms").toString());
-        System.out.println(new StringBuffer().append("Connect:   got=").append(this.connects).append(", lost=").append(this.disconnects).toString());
-        System.out.print(new StringBuffer().append("Entities:  created=").append(this.numEntities).toString());
+        System.out.println("Duration:  " + l + " ms");
+        System.out.println("Connect:   got=" + this.connects + ", lost=" + this.disconnects);
+        System.out.print("Entities:  created=" + this.numEntities);
         for (int i2 = 0; i2 < 6; ++i2) {
-            System.out.print(new StringBuffer().append(", ").append(TraceEntityType.names[i2]).append(": ").append(this.numEntitiesPerType[i2]).toString());
+            System.out.print(", " + TraceEntityType.names[i2] + ": " + this.numEntitiesPerType[i2]);
         }
         System.out.println();
         this.profiler.report(System.out);
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         this.profiler.accountMessage(iTraceMessage);
         return true;
     }
 
-    @Override
     public boolean droppedMessages(int n) {
         this.profiler.accountDrop(n);
         return true;

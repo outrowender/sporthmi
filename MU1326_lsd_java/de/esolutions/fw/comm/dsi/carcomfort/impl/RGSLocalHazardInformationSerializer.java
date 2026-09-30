@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCDistanceSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RGSLocalHazardInformation;
 import org.dsi.ifc.global.CarBCDistance;
 
 public class RGSLocalHazardInformationSerializer {
-    public static void putOptionalRGSLocalHazardInformation(ISerializer iSerializer, RGSLocalHazardInformation rGSLocalHazardInformation) {
+    public static void putOptionalRGSLocalHazardInformation(ISerializer iSerializer, RGSLocalHazardInformation rGSLocalHazardInformation) throws SerializerException {
         boolean bl = rGSLocalHazardInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RGSLocalHazardInformationSerializer {
         }
     }
 
-    public static void putOptionalRGSLocalHazardInformationVarArray(ISerializer iSerializer, RGSLocalHazardInformation[] rGSLocalHazardInformationArray) {
+    public static void putOptionalRGSLocalHazardInformationVarArray(ISerializer iSerializer, RGSLocalHazardInformation[] rGSLocalHazardInformationArray) throws SerializerException {
         boolean bl = rGSLocalHazardInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RGSLocalHazardInformationSerializer {
         }
     }
 
-    public static RGSLocalHazardInformation getOptionalRGSLocalHazardInformation(IDeserializer iDeserializer) {
+    public static RGSLocalHazardInformation getOptionalRGSLocalHazardInformation(IDeserializer iDeserializer) throws SerializerException {
         RGSLocalHazardInformation rGSLocalHazardInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class RGSLocalHazardInformationSerializer {
         return rGSLocalHazardInformation;
     }
 
-    public static RGSLocalHazardInformation[] getOptionalRGSLocalHazardInformationVarArray(IDeserializer iDeserializer) {
+    public static RGSLocalHazardInformation[] getOptionalRGSLocalHazardInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RGSLocalHazardInformation[] rGSLocalHazardInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

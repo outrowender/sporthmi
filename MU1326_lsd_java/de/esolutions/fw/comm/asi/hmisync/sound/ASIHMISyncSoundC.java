@@ -3,56 +3,41 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.sound;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncSoundC {
-    default public void setBassValue(int n) {
-    }
+    public void setBassValue(int var1) throws MethodException;
 
-    default public void setTrebleValue(int n) {
-    }
+    public void setTrebleValue(int var1) throws MethodException;
 
-    default public void setBalanceValue(int n) {
-    }
+    public void setBalanceValue(int var1) throws MethodException;
 
-    default public void setFaderValue(int n) {
-    }
+    public void setFaderValue(int var1) throws MethodException;
 
-    default public void setSubwooferValue(int n) {
-    }
+    public void setSubwooferValue(int var1) throws MethodException;
 
-    default public void setSurroundValue(int n) {
-    }
+    public void setSurroundValue(int var1) throws MethodException;
 
-    default public void setNoiseCompensationValue(int n) {
-    }
+    public void setNoiseCompensationValue(int var1) throws MethodException;
 
-    default public void setThreeDModeValue(int n) {
-    }
+    public void setThreeDModeValue(int var1) throws MethodException;
 
-    default public void setSoundShape(int n, int n2, int n3) {
-    }
+    public void setSoundShape(int var1, int var2, int var3) throws MethodException;
 
-    default public void setPresetPosition(int n) {
-    }
+    public void setPresetPosition(int var1) throws MethodException;
 
-    default public void setPresetEQ(int n) {
-    }
+    public void setPresetEQ(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

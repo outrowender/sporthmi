@@ -6,10 +6,8 @@ package de.esolutions.fw.util.transport.factory;
 import de.esolutions.fw.util.transport.ITransport;
 
 public interface ISingleTransportFactory {
-    default public ITransport createTransport() {
-    }
+    public ITransport createTransport();
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 }
 

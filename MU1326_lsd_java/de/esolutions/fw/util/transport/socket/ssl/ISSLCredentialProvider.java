@@ -3,17 +3,16 @@
  */
 package de.esolutions.fw.util.transport.socket.ssl;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 public interface ISSLCredentialProvider {
-    default public void init() {
-    }
+    public void init() throws IOException, GeneralSecurityException;
 
-    default public KeyManagerFactory getKeyManagerFactory() {
-    }
+    public KeyManagerFactory getKeyManagerFactory();
 
-    default public TrustManagerFactory getTrustManagerFactory() {
-    }
+    public TrustManagerFactory getTrustManagerFactory();
 }
 

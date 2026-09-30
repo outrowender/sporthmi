@@ -43,12 +43,10 @@ implements IDispatcherManager {
         this.bc = bundleContext;
     }
 
-    @Override
     public ITimeSource getTimeSource() {
         return this.timeSource;
     }
 
-    @Override
     public DispatcherBase createDispatcher(String string, IJobLogger iJobLogger) {
         DispatcherConfig dispatcherConfig = DispatcherConfig.createConfig(this.config, string);
         DispatcherBase dispatcherBase = dispatcherConfig.createDispatcher(string, this.timeSource, iJobLogger, this.threadPoolMngr);
@@ -56,7 +54,6 @@ implements IDispatcherManager {
         return dispatcherBase;
     }
 
-    @Override
     public DispatcherBase createDispatcher(String string, IJobLogger iJobLogger, JobQueue jobQueue) {
         DispatcherConfig dispatcherConfig = DispatcherConfig.createConfig(this.config, string);
         DispatcherBase dispatcherBase = dispatcherConfig.createDispatcher(string, this.timeSource, iJobLogger, jobQueue, this.threadPoolMngr);
@@ -64,7 +61,6 @@ implements IDispatcherManager {
         return dispatcherBase;
     }
 
-    @Override
     public DispatcherBase createDispatcher(String string, IJobLogger iJobLogger, JobQueue jobQueue, IInterceptor iInterceptor, Job job) {
         DispatcherConfig dispatcherConfig = DispatcherConfig.createConfig(this.config, string);
         DispatcherBase dispatcherBase = dispatcherConfig.createDispatcher(string, this.timeSource, iJobLogger, jobQueue, iInterceptor, job, this.threadPoolMngr);
@@ -72,7 +68,6 @@ implements IDispatcherManager {
         return dispatcherBase;
     }
 
-    @Override
     public void destroyDispatcher(String string) {
         DispatcherBase dispatcherBase = (DispatcherBase)this.dispatchers.remove(string);
         if (dispatcherBase != null) {

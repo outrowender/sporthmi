@@ -9,16 +9,12 @@ import de.audi.atip.hmi.event.WheelButtonEvent;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 
 public interface IWidgetKeyHandler {
-    default public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
-    }
+    public void keyPressed(AbstractWidgetController var1, KeyEvent var2);
 
-    default public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
-    }
+    public void keyReleased(AbstractWidgetController var1, KeyEvent var2);
 
-    default public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
-    }
+    public void keyTurned(AbstractWidgetController var1, WheelButtonEvent var2);
 
-    default public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
-    }
+    public void keyMoved(AbstractWidgetController var1, JoystickEvent var2);
 }
 

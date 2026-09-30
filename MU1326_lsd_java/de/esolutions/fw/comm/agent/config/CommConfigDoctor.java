@@ -41,7 +41,6 @@ implements IConfigValueTracer {
         return this.port;
     }
 
-    @Override
     public void traceValues() {
         CommAgentTracing.CONFIG.log((short)2, "doctor.enabled     = %1 ms", new Boolean(this.enabled));
         CommAgentTracing.CONFIG.log((short)2, "doctor.host        = %1", (Object)this.host);

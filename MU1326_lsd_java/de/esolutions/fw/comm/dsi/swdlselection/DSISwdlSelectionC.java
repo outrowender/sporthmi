@@ -3,107 +3,75 @@
  */
 package de.esolutions.fw.comm.dsi.swdlselection;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISwdlSelectionC {
-    default public void setUserSwdl(boolean bl) {
-    }
+    public void setUserSwdl(boolean var1) throws MethodException;
 
-    default public void setGotFocus(boolean bl) {
-    }
+    public void setGotFocus(boolean var1) throws MethodException;
 
-    default public void getMedia() {
-    }
+    public void getMedia() throws MethodException;
 
-    default public void storeNfsIpAddress(String string) {
-    }
+    public void storeNfsIpAddress(String var1) throws MethodException;
 
-    default public void storeNfsPath(String string) {
-    }
+    public void storeNfsPath(String var1) throws MethodException;
 
-    default public void setMedium(int n) {
-    }
+    public void setMedium(int var1) throws MethodException;
 
-    default public void setRelease(long l) {
-    }
+    public void setRelease(long var1) throws MethodException;
 
-    default public void getUserDefinedAllowed() {
-    }
+    public void getUserDefinedAllowed() throws MethodException;
 
-    default public void setInstallationType(boolean bl) {
-    }
+    public void setInstallationType(boolean var1) throws MethodException;
 
-    default public void setTargetLanguage(short s) {
-    }
+    public void setTargetLanguage(short var1) throws MethodException;
 
-    default public void getIncompatibleDevices() {
-    }
+    public void getIncompatibleDevices() throws MethodException;
 
-    default public void startDownload() {
-    }
+    public void startDownload() throws MethodException;
 
-    default public void createCriticalUnlock() {
-    }
+    public void createCriticalUnlock() throws MethodException;
 
-    default public void startVersionUpload() {
-    }
+    public void startVersionUpload() throws MethodException;
 
-    default public void abortVersionUpload() {
-    }
+    public void abortVersionUpload() throws MethodException;
 
-    default public void endVersionUpload() {
-    }
+    public void endVersionUpload() throws MethodException;
 
-    default public void storeCifsServer(String string) {
-    }
+    public void storeCifsServer(String var1) throws MethodException;
 
-    default public void storeCifsPath(String string) {
-    }
+    public void storeCifsPath(String var1) throws MethodException;
 
-    default public void storeCifsUser(String string) {
-    }
+    public void storeCifsUser(String var1) throws MethodException;
 
-    default public void storeCifsPassword(String string) {
-    }
+    public void storeCifsPassword(String var1) throws MethodException;
 
-    default public void storeFsPath(String string) {
-    }
+    public void storeFsPath(String var1) throws MethodException;
 
-    default public void checkConsistency() {
-    }
+    public void checkConsistency() throws MethodException;
 
-    default public void abortSetMedium() {
-    }
+    public void abortSetMedium() throws MethodException;
 
-    default public void abortSetRelease() {
-    }
+    public void abortSetRelease() throws MethodException;
 
-    default public void getFinalizeTargets() {
-    }
+    public void getFinalizeTargets() throws MethodException;
 
-    default public void setFinalizeTarget(int n) {
-    }
+    public void setFinalizeTarget(int var1) throws MethodException;
 
-    default public void enterComponentUpdateConfirmation(boolean bl) {
-    }
+    public void enterComponentUpdateConfirmation(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

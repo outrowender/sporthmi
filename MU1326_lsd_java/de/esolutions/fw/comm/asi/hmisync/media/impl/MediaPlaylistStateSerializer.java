@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.media.impl;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaPlaylistState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MediaPlaylistStateSerializer {
-    public static void putOptionalMediaPlaylistState(ISerializer iSerializer, MediaPlaylistState mediaPlaylistState) {
+    public static void putOptionalMediaPlaylistState(ISerializer iSerializer, MediaPlaylistState mediaPlaylistState) throws SerializerException {
         boolean bl = mediaPlaylistState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MediaPlaylistStateSerializer {
         }
     }
 
-    public static void putOptionalMediaPlaylistStateVarArray(ISerializer iSerializer, MediaPlaylistState[] mediaPlaylistStateArray) {
+    public static void putOptionalMediaPlaylistStateVarArray(ISerializer iSerializer, MediaPlaylistState[] mediaPlaylistStateArray) throws SerializerException {
         boolean bl = mediaPlaylistStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MediaPlaylistStateSerializer {
         }
     }
 
-    public static MediaPlaylistState getOptionalMediaPlaylistState(IDeserializer iDeserializer) {
+    public static MediaPlaylistState getOptionalMediaPlaylistState(IDeserializer iDeserializer) throws SerializerException {
         MediaPlaylistState mediaPlaylistState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class MediaPlaylistStateSerializer {
         return mediaPlaylistState;
     }
 
-    public static MediaPlaylistState[] getOptionalMediaPlaylistStateVarArray(IDeserializer iDeserializer) {
+    public static MediaPlaylistState[] getOptionalMediaPlaylistStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaPlaylistState[] mediaPlaylistStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

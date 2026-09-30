@@ -18,7 +18,7 @@ implements ISpawnedConnectionListener {
     private TraceFrontend frontend;
     private IRemoteListenNotifier notifier;
     private boolean forceActive;
-    private static final String chn;
+    private static final String chn = "RemoteListenBackendManager";
 
     public RemoteListenBackendManager(ISpawnConnectionFactory iSpawnConnectionFactory, TraceFrontend traceFrontend, IRemoteListenNotifier iRemoteListenNotifier) {
         this.factory = iSpawnConnectionFactory;
@@ -45,32 +45,28 @@ implements ISpawnedConnectionListener {
         this.factory.disableSpawning();
     }
 
-    @Override
     public void spawnedConnection(Connection connection) {
         RemoteListenBackend remoteListenBackend = new RemoteListenBackend(this, connection, this.notifier);
         remoteListenBackend.setForceActive(this.forceActive);
-        TraceMe.msg(TraceMe.INFO, "RemoteListenBackendManager", "register backend for %1", connection);
+        TraceMe.msg(TraceMe.INFO, chn, "register backend for %1", connection);
         this.frontend.registerBackend(remoteListenBackend, "RemoteListen");
     }
 
-    @Override
     public boolean spawningRetry(ISpawnConnectionFactory iSpawnConnectionFactory, IOException iOException, int n) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenBackendManager", "%1 retry spawning: %2", iSpawnConnectionFactory.getDescription(), iOException);
+        TraceMe.msg(TraceMe.INFO, chn, "%1 retry spawning: %2", iSpawnConnectionFactory.getDescription(), iOException);
         return true;
     }
 
-    @Override
     public void spawningEnabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenBackendManager", "%1 enabeld", iSpawnConnectionFactory.getDescription());
+        TraceMe.msg(TraceMe.INFO, chn, "%1 enabeld", iSpawnConnectionFactory.getDescription());
     }
 
-    @Override
     public void spawningDisabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenBackendManager", "%1 disabled", iSpawnConnectionFactory.getDescription());
+        TraceMe.msg(TraceMe.INFO, chn, "%1 disabled", iSpawnConnectionFactory.getDescription());
     }
 
     public void removeBackend(RemoteListenBackend remoteListenBackend) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenBackendManager", "unregister backend for %1", remoteListenBackend.getConnection());
+        TraceMe.msg(TraceMe.INFO, chn, "unregister backend for %1", remoteListenBackend.getConnection());
         this.frontend.unregisterBackend(remoteListenBackend);
     }
 }

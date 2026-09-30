@@ -30,13 +30,11 @@ implements NodeList {
         this.enableNS = true;
     }
 
-    @Override
     public int getLength() {
-        this.item(-129);
+        this.item(Integer.MAX_VALUE);
         return this.nodes.size();
     }
 
-    @Override
     public Node item(int n) {
         if (this.rootNode.changes() != this.changes) {
             this.nodes = new Vector();

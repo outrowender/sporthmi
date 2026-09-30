@@ -26,28 +26,23 @@ implements DSIGeneralVehicleStates {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates == null ? (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates = DSIGeneralVehicleStatesProvider.class$("org.dsi.ifc.generalvehiclestates.DSIGeneralVehicleStates")) : class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIGeneralVehicleStatesProxy(this.instance, (DSIGeneralVehicleStatesReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setDSSSKombiWarning(int n) {
         try {
             this.proxy.setDSSSKombiWarning(n);
@@ -57,7 +52,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void setTLOData(int n, int n2, TLOInfoElement[] tLOInfoElementArray) {
         try {
             this.proxy.setTLOData(n, n2, tLOInfoElementArray);
@@ -67,7 +61,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void setAppConnectState(boolean bl) {
         try {
             this.proxy.setAppConnectState(bl);
@@ -77,7 +70,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -87,7 +79,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -97,7 +88,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -107,7 +97,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -127,7 +115,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -137,7 +124,6 @@ implements DSIGeneralVehicleStates {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

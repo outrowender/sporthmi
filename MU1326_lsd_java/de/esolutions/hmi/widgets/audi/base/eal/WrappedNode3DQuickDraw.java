@@ -20,17 +20,14 @@ implements IWrappedNode3DQuickDraw {
         this.node = iNode3DQuickDraw;
     }
 
-    @Override
     public INode3DQuickDraw getQuickDrawNode() {
         return this.node;
     }
 
-    @Override
     public void resetTransformation() {
         super.resetTransformation();
     }
 
-    @Override
     public void add(float f2, float f3) {
         if (f2 == 0.0f && f3 == 0.0f) {
             return;
@@ -41,7 +38,6 @@ implements IWrappedNode3DQuickDraw {
         }
     }
 
-    @Override
     public void setLineWidth(float f2) {
         if (this.lineWidth == f2) {
             return;
@@ -52,7 +48,6 @@ implements IWrappedNode3DQuickDraw {
         }
     }
 
-    @Override
     public void setLineColor(int n) {
         if (this.sameColor(n)) {
             return;
@@ -71,7 +66,6 @@ implements IWrappedNode3DQuickDraw {
         return this.color == n;
     }
 
-    @Override
     public void clearArea() {
         if (this.node != null) {
             this.node.clearArea();

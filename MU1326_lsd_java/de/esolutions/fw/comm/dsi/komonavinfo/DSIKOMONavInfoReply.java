@@ -3,43 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.komonavinfo;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKOMONavInfoReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "65a2a4f0-a422-567d-8fee-74f7e2b92299";
+    public static final String IPL_COMM_INTERFACE_KEY = "7cb05421-362d-5bf6-9822-c67715a04a9b";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.10";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.10";
 
-    default public void setCurrentStreetResult(int n) {
-    }
+    public void setCurrentStreetResult(int var1) throws MethodException;
 
-    default public void setTurnToStreetResult(int n) {
-    }
+    public void setTurnToStreetResult(int var1) throws MethodException;
 
-    default public void setCityNameResult(int n) {
-    }
+    public void setCityNameResult(int var1) throws MethodException;
 
-    default public void setSemiDynRouteResult(int n) {
-    }
+    public void setSemiDynRouteResult(int var1) throws MethodException;
 
-    default public void setTrafficOffsetResult(int n) {
-    }
+    public void setTrafficOffsetResult(int var1) throws MethodException;
 
-    default public void setRgSelectResult(int n) {
-    }
+    public void setRgSelectResult(int var1) throws MethodException;
 
-    default public void setCapabilitiesResult(int n) {
-    }
+    public void setCapabilitiesResult(int var1) throws MethodException;
 
-    default public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
-    }
+    public void setMapScaleResult(int var1, int var2, boolean[] var3, int var4, int var5, boolean[] var6, boolean var7) throws MethodException;
 
-    default public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
-    }
+    public void setMapScale(int var1, int var2, boolean[] var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

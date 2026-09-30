@@ -8,7 +8,6 @@ import java.lang.ref.ReferenceQueue;
 
 public class PhantomReference
 extends Reference {
-    @Override
     public Object get() {
         return null;
     }

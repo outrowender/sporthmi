@@ -9,13 +9,10 @@ import org.apache.xerces.xs.XSObjectList;
 
 public interface XSMultiValueFacet
 extends XSObject {
-    default public short getFacetKind() {
-    }
+    public short getFacetKind();
 
-    default public StringList getLexicalFacetValues() {
-    }
+    public StringList getLexicalFacetValues();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

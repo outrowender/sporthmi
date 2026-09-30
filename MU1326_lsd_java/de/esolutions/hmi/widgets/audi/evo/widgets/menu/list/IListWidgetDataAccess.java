@@ -10,55 +10,38 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuViewport;
 
 public interface IListWidgetDataAccess {
-    default public void setModel(HMIModelGUI hMIModelGUI) {
-    }
+    public void setModel(HMIModelGUI var1);
 
-    default public void setListWidgetIndex(int n) {
-    }
+    public void setListWidgetIndex(int var1);
 
-    default public void setListWidgetVisible(boolean bl) {
-    }
+    public void setListWidgetVisible(boolean var1);
 
-    default public void connect(InitializationContext initializationContext) {
-    }
+    public void connect(InitializationContext var1);
 
-    default public void disconnect() {
-    }
+    public void disconnect();
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public Object getRow(int n) {
-    }
+    public Object getRow(int var1);
 
-    default public Object getCell(Object object, int n) {
-    }
+    public Object getCell(Object var1, int var2);
 
-    default public long getRowId(Object object) {
-    }
+    public long getRowId(Object var1);
 
-    default public int getItemIndexForUniqueID(long l) {
-    }
+    public int getItemIndexForUniqueID(long var1);
 
-    default public Long getUniqueIDForItemIndex(int n) {
-    }
+    public Long getUniqueIDForItemIndex(int var1);
 
-    default public int getSelectedIndex() {
-    }
+    public int getSelectedIndex();
 
-    default public void itemSelected(long l, int n) {
-    }
+    public void itemSelected(long var1, int var3);
 
-    default public void itemReleased(long l, int n) {
-    }
+    public void itemReleased(long var1, int var3);
 
-    default public void viewportChanged(MenuViewport menuViewport) {
-    }
+    public void viewportChanged(MenuViewport var1);
 
-    default public void rendered(MenuItemIndex menuItemIndex, MenuItemIndex menuItemIndex2) {
-    }
+    public void rendered(MenuItemIndex var1, MenuItemIndex var2);
 
-    default public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processModelUpdateEvent(ModelUpdateEvent var1);
 }
 

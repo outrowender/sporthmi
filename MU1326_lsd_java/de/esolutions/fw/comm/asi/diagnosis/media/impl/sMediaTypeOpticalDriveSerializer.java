@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.media.impl;
 import de.esolutions.fw.comm.asi.diagnosis.media.sMediaTypeOpticalDrive;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sMediaTypeOpticalDriveSerializer {
-    public static void putOptionalsMediaTypeOpticalDrive(ISerializer iSerializer, sMediaTypeOpticalDrive sMediaTypeOpticalDrive2) {
+    public static void putOptionalsMediaTypeOpticalDrive(ISerializer iSerializer, sMediaTypeOpticalDrive sMediaTypeOpticalDrive2) throws SerializerException {
         boolean bl = sMediaTypeOpticalDrive2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sMediaTypeOpticalDriveSerializer {
         }
     }
 
-    public static void putOptionalsMediaTypeOpticalDriveVarArray(ISerializer iSerializer, sMediaTypeOpticalDrive[] sMediaTypeOpticalDriveArray) {
+    public static void putOptionalsMediaTypeOpticalDriveVarArray(ISerializer iSerializer, sMediaTypeOpticalDrive[] sMediaTypeOpticalDriveArray) throws SerializerException {
         boolean bl = sMediaTypeOpticalDriveArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sMediaTypeOpticalDriveSerializer {
         }
     }
 
-    public static sMediaTypeOpticalDrive getOptionalsMediaTypeOpticalDrive(IDeserializer iDeserializer) {
+    public static sMediaTypeOpticalDrive getOptionalsMediaTypeOpticalDrive(IDeserializer iDeserializer) throws SerializerException {
         sMediaTypeOpticalDrive sMediaTypeOpticalDrive2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sMediaTypeOpticalDriveSerializer {
         return sMediaTypeOpticalDrive2;
     }
 
-    public static sMediaTypeOpticalDrive[] getOptionalsMediaTypeOpticalDriveVarArray(IDeserializer iDeserializer) {
+    public static sMediaTypeOpticalDrive[] getOptionalsMediaTypeOpticalDriveVarArray(IDeserializer iDeserializer) throws SerializerException {
         sMediaTypeOpticalDrive[] sMediaTypeOpticalDriveArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

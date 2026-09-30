@@ -28,7 +28,6 @@ implements InstructionTextRenderer {
         super(instructionTextContoller);
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         super.renderNode(redrawContextHigh);
         if (this.hasGlassplate()) {
@@ -49,7 +48,6 @@ implements InstructionTextRenderer {
         return ((InstructionTextContoller)this.controller).getGlassPlate() != null;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         if (this.glassplateLayer != null) {
@@ -62,7 +60,6 @@ implements InstructionTextRenderer {
         }
     }
 
-    @Override
     public RedrawContext createRedrawContext(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = new RedrawContextHigh();
         this.copyRedrawContextFields((RedrawContextHigh)redrawContext, redrawContextHigh);
@@ -70,7 +67,6 @@ implements InstructionTextRenderer {
         return redrawContextHigh;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         if (abstractWidget instanceof GlassplateController || abstractWidget instanceof PartialPopupGlassplateController) {
             if (this.glassplateLayer != null && this.controller.isInvalid()) {
@@ -98,7 +94,6 @@ implements InstructionTextRenderer {
         return this.foregroundNode;
     }
 
-    @Override
     public void disconnect() {
         this.getEALManager().destroy(this.contentNode);
         this.getEALManager().destroy(this.foregroundNode);

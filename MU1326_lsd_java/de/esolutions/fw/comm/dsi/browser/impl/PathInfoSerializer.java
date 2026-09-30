@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.PathInfo;
 
 public class PathInfoSerializer {
-    public static void putOptionalPathInfo(ISerializer iSerializer, PathInfo pathInfo) {
+    public static void putOptionalPathInfo(ISerializer iSerializer, PathInfo pathInfo) throws SerializerException {
         boolean bl = pathInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PathInfoSerializer {
         }
     }
 
-    public static void putOptionalPathInfoVarArray(ISerializer iSerializer, PathInfo[] pathInfoArray) {
+    public static void putOptionalPathInfoVarArray(ISerializer iSerializer, PathInfo[] pathInfoArray) throws SerializerException {
         boolean bl = pathInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PathInfoSerializer {
         }
     }
 
-    public static PathInfo getOptionalPathInfo(IDeserializer iDeserializer) {
+    public static PathInfo getOptionalPathInfo(IDeserializer iDeserializer) throws SerializerException {
         PathInfo pathInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PathInfoSerializer {
         return pathInfo;
     }
 
-    public static PathInfo[] getOptionalPathInfoVarArray(IDeserializer iDeserializer) {
+    public static PathInfo[] getOptionalPathInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PathInfo[] pathInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.ACCAvailableDrivingPrograms;
 
 public class ACCAvailableDrivingProgramsSerializer {
-    public static void putOptionalACCAvailableDrivingPrograms(ISerializer iSerializer, ACCAvailableDrivingPrograms aCCAvailableDrivingPrograms) {
+    public static void putOptionalACCAvailableDrivingPrograms(ISerializer iSerializer, ACCAvailableDrivingPrograms aCCAvailableDrivingPrograms) throws SerializerException {
         boolean bl = aCCAvailableDrivingPrograms == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ACCAvailableDrivingProgramsSerializer {
         }
     }
 
-    public static void putOptionalACCAvailableDrivingProgramsVarArray(ISerializer iSerializer, ACCAvailableDrivingPrograms[] aCCAvailableDrivingProgramsArray) {
+    public static void putOptionalACCAvailableDrivingProgramsVarArray(ISerializer iSerializer, ACCAvailableDrivingPrograms[] aCCAvailableDrivingProgramsArray) throws SerializerException {
         boolean bl = aCCAvailableDrivingProgramsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ACCAvailableDrivingProgramsSerializer {
         }
     }
 
-    public static ACCAvailableDrivingPrograms getOptionalACCAvailableDrivingPrograms(IDeserializer iDeserializer) {
+    public static ACCAvailableDrivingPrograms getOptionalACCAvailableDrivingPrograms(IDeserializer iDeserializer) throws SerializerException {
         ACCAvailableDrivingPrograms aCCAvailableDrivingPrograms = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ACCAvailableDrivingProgramsSerializer {
         return aCCAvailableDrivingPrograms;
     }
 
-    public static ACCAvailableDrivingPrograms[] getOptionalACCAvailableDrivingProgramsVarArray(IDeserializer iDeserializer) {
+    public static ACCAvailableDrivingPrograms[] getOptionalACCAvailableDrivingProgramsVarArray(IDeserializer iDeserializer) throws SerializerException {
         ACCAvailableDrivingPrograms[] aCCAvailableDrivingProgramsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

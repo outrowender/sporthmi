@@ -3,23 +3,50 @@
  */
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework;
 
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework.ICharacterRegister$1;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework.ICharacterRegister$2;
-
 public interface ICharacterRegister {
-    public static final ICharacterRegister BLACKLIST_ALLOWING_EVERYTHING = new ICharacterRegister$1();
-    public static final ICharacterRegister WHITELIST_ALLOWING_EVERYTHING = new ICharacterRegister$2();
+    public static final ICharacterRegister BLACKLIST_ALLOWING_EVERYTHING = new ICharacterRegister(){
 
-    default public int getSize() {
-    }
+        public boolean contains(char c2) {
+            return false;
+        }
 
-    default public String getName() {
-    }
+        public String getName() {
+            return "";
+        }
 
-    default public boolean contains(char c2) {
-    }
+        public int getSize() {
+            return 0;
+        }
 
-    default public boolean containsIgnoreCase(char c2) {
-    }
+        public boolean containsIgnoreCase(char c2) {
+            return false;
+        }
+    };
+    public static final ICharacterRegister WHITELIST_ALLOWING_EVERYTHING = new ICharacterRegister(){
+
+        public boolean contains(char c2) {
+            return true;
+        }
+
+        public String getName() {
+            return "";
+        }
+
+        public int getSize() {
+            return 0;
+        }
+
+        public boolean containsIgnoreCase(char c2) {
+            return true;
+        }
+    };
+
+    public int getSize();
+
+    public String getName();
+
+    public boolean contains(char var1);
+
+    public boolean containsIgnoreCase(char var1);
 }
 

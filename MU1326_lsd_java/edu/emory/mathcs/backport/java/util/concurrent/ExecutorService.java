@@ -4,48 +4,38 @@
 package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.concurrent.Callable;
+import edu.emory.mathcs.backport.java.util.concurrent.ExecutionException;
 import edu.emory.mathcs.backport.java.util.concurrent.Executor;
 import edu.emory.mathcs.backport.java.util.concurrent.Future;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
+import edu.emory.mathcs.backport.java.util.concurrent.TimeoutException;
 import java.util.Collection;
 import java.util.List;
 
 public interface ExecutorService
 extends Executor {
-    default public void shutdown() {
-    }
+    public void shutdown();
 
-    default public List shutdownNow() {
-    }
+    public List shutdownNow();
 
-    default public boolean isShutdown() {
-    }
+    public boolean isShutdown();
 
-    default public boolean isTerminated() {
-    }
+    public boolean isTerminated();
 
-    default public boolean awaitTermination(long l, TimeUnit timeUnit) {
-    }
+    public boolean awaitTermination(long var1, TimeUnit var3) throws InterruptedException;
 
-    default public Future submit(Callable callable) {
-    }
+    public Future submit(Callable var1);
 
-    default public Future submit(Runnable runnable, Object object) {
-    }
+    public Future submit(Runnable var1, Object var2);
 
-    default public Future submit(Runnable runnable) {
-    }
+    public Future submit(Runnable var1);
 
-    default public List invokeAll(Collection collection) {
-    }
+    public List invokeAll(Collection var1) throws InterruptedException;
 
-    default public List invokeAll(Collection collection, long l, TimeUnit timeUnit) {
-    }
+    public List invokeAll(Collection var1, long var2, TimeUnit var4) throws InterruptedException;
 
-    default public Object invokeAny(Collection collection) {
-    }
+    public Object invokeAny(Collection var1) throws InterruptedException, ExecutionException;
 
-    default public Object invokeAny(Collection collection, long l, TimeUnit timeUnit) {
-    }
+    public Object invokeAny(Collection var1, long var2, TimeUnit var4) throws InterruptedException, ExecutionException, TimeoutException;
 }
 

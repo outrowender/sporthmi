@@ -3,53 +3,41 @@
  */
 package de.esolutions.fw.comm.dsi.calendar;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.calendar.CalendarConfig;
 import org.dsi.ifc.calendar.CalendarEntry;
 import org.dsi.ifc.calendar.CalendarSummary;
 
 public interface DSICalendarReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "b0c956ce-2978-5f05-a1c0-1c800024a427";
+    public static final String IPL_COMM_INTERFACE_KEY = "6a609309-2671-5e07-ae85-f93f7f5634b3";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void getCalendarSummariesResult(int n, CalendarSummary[] calendarSummaryArray) {
-    }
+    public void getCalendarSummariesResult(int var1, CalendarSummary[] var2) throws MethodException;
 
-    default public void getCalendarEntryResult(int n, CalendarEntry calendarEntry) {
-    }
+    public void getCalendarEntryResult(int var1, CalendarEntry var2) throws MethodException;
 
-    default public void indicateAlarm(long l) {
-    }
+    public void indicateAlarm(long var1) throws MethodException;
 
-    default public void setCalendarConfigResult(int n) {
-    }
+    public void setCalendarConfigResult(int var1) throws MethodException;
 
-    default public void getCalendarConfigResult(int n, CalendarConfig calendarConfig) {
-    }
+    public void getCalendarConfigResult(int var1, CalendarConfig var2) throws MethodException;
 
-    default public void setAlarmRepeatResult(int n) {
-    }
+    public void setAlarmRepeatResult(int var1) throws MethodException;
 
-    default public void getAlarmRepeatResult(int n, long l) {
-    }
+    public void getAlarmRepeatResult(int var1, long var2) throws MethodException;
 
-    default public void getEmailAddressesResult(int n, String[] stringArray) {
-    }
+    public void getEmailAddressesResult(int var1, String[] var2) throws MethodException;
 
-    default public void getTelephoneNumbersResult(int n, String[] stringArray) {
-    }
+    public void getTelephoneNumbersResult(int var1, String[] var2) throws MethodException;
 
-    default public void insertProfileResult(int n) {
-    }
+    public void insertProfileResult(int var1) throws MethodException;
 
-    default public void deleteProfileResult(int n) {
-    }
+    public void deleteProfileResult(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

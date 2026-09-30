@@ -3,19 +3,19 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections$SynchronizedRandomAccessList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
-import java.util.Vector$1;
 
 public class Vector
 extends AbstractList
@@ -23,11 +23,11 @@ implements List,
 RandomAccess,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2767605614048989439L;
     protected int elementCount = 0;
     protected Object[] elementData;
     protected int capacityIncrement;
-    private static final int DEFAULT_SIZE;
+    private static final int DEFAULT_SIZE = 10;
 
     public Vector() {
         this(10, 0);
@@ -55,18 +55,15 @@ Serializable {
         }
     }
 
-    @Override
     public void add(int n, Object object) {
         this.insertElementAt(object, n);
     }
 
-    @Override
     public boolean add(Object object) {
         this.addElement(object);
         return true;
     }
 
-    @Override
     public synchronized boolean addAll(int n, Collection collection) {
         if (n >= 0 && n <= this.elementCount) {
             int n2;
@@ -92,7 +89,6 @@ Serializable {
         throw new ArrayIndexOutOfBoundsException(n);
     }
 
-    @Override
     public synchronized boolean addAll(Collection collection) {
         return this.addAll(this.elementCount, collection);
     }
@@ -109,7 +105,6 @@ Serializable {
         return this.elementData.length;
     }
 
-    @Override
     public void clear() {
         this.removeAllElements();
     }
@@ -125,12 +120,10 @@ Serializable {
         }
     }
 
-    @Override
     public boolean contains(Object object) {
         return this.indexOf(object, 0) != -1;
     }
 
-    @Override
     public synchronized boolean containsAll(Collection collection) {
         return super.containsAll(collection);
     }
@@ -147,7 +140,26 @@ Serializable {
     }
 
     public Enumeration elements() {
-        return new Vector$1(this);
+        return new Enumeration(){
+            int pos = 0;
+
+            public boolean hasMoreElements() {
+                return this.pos < Vector.this.elementCount;
+            }
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public Object nextElement() {
+                Vector vector = Vector.this;
+                synchronized (vector) {
+                    if (this.pos < Vector.this.elementCount) {
+                        return Vector.this.elementData[this.pos++];
+                    }
+                }
+                throw new NoSuchElementException();
+            }
+        };
     }
 
     public synchronized void ensureCapacity(int n) {
@@ -157,7 +169,6 @@ Serializable {
         }
     }
 
-    @Override
     public synchronized boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -187,7 +198,6 @@ Serializable {
         throw new NoSuchElementException();
     }
 
-    @Override
     public Object get(int n) {
         return this.elementAt(n);
     }
@@ -234,7 +244,6 @@ Serializable {
         this.elementData = objectArray;
     }
 
-    @Override
     public synchronized int hashCode() {
         int n = 1;
         int n2 = 0;
@@ -245,7 +254,6 @@ Serializable {
         return n;
     }
 
-    @Override
     public int indexOf(Object object) {
         return this.indexOf(object, 0);
     }
@@ -288,7 +296,6 @@ Serializable {
         }
     }
 
-    @Override
     public synchronized boolean isEmpty() {
         return this.elementCount == 0;
     }
@@ -302,7 +309,6 @@ Serializable {
         }
     }
 
-    @Override
     public synchronized int lastIndexOf(Object object) {
         return this.lastIndexOf(object, this.elementCount - 1);
     }
@@ -331,7 +337,6 @@ Serializable {
         throw new ArrayIndexOutOfBoundsException(n);
     }
 
-    @Override
     public synchronized Object remove(int n) {
         if (n < this.elementCount) {
             Object object = this.elementData[n];
@@ -347,12 +352,10 @@ Serializable {
         throw new ArrayIndexOutOfBoundsException(n);
     }
 
-    @Override
     public boolean remove(Object object) {
         return this.removeElement(object);
     }
 
-    @Override
     public synchronized boolean removeAll(Collection collection) {
         return super.removeAll(collection);
     }
@@ -386,7 +389,6 @@ Serializable {
         }
     }
 
-    @Override
     protected void removeRange(int n, int n2) {
         if (n >= 0 && n <= n2 && n2 <= this.size()) {
             if (n == n2) {
@@ -407,12 +409,10 @@ Serializable {
         }
     }
 
-    @Override
     public synchronized boolean retainAll(Collection collection) {
         return super.retainAll(collection);
     }
 
-    @Override
     public synchronized Object set(int n, Object object) {
         if (n < this.elementCount) {
             Object object2 = this.elementData[n];
@@ -441,27 +441,23 @@ Serializable {
         ++this.modCount;
     }
 
-    @Override
     public synchronized int size() {
         return this.elementCount;
     }
 
-    @Override
     public synchronized List subList(int n, int n2) {
-        return new Collections$SynchronizedRandomAccessList(super.subList(n, n2), (Object)this);
+        return new Collections.SynchronizedRandomAccessList(super.subList(n, n2), (Object)this);
     }
 
-    @Override
     public synchronized Object[] toArray() {
         Object[] objectArray = new Object[this.elementCount];
         System.arraycopy((Object)this.elementData, 0, (Object)objectArray, 0, this.elementCount);
         return objectArray;
     }
 
-    @Override
     public synchronized Object[] toArray(Object[] objectArray) {
         if (this.elementCount > objectArray.length) {
-            objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), this.elementCount);
+            objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), this.elementCount);
         }
         System.arraycopy((Object)this.elementData, 0, (Object)objectArray, 0, this.elementCount);
         if (this.elementCount < objectArray.length) {
@@ -470,7 +466,6 @@ Serializable {
         return objectArray;
     }
 
-    @Override
     public synchronized String toString() {
         if (this.elementCount == 0) {
             return "[]";
@@ -503,7 +498,7 @@ Serializable {
         }
     }
 
-    private synchronized void writeObject(ObjectOutputStream objectOutputStream) {
+    private synchronized void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
     }
 }

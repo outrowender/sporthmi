@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.media.impl;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaPlayTime;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MediaPlayTimeSerializer {
-    public static void putOptionalMediaPlayTime(ISerializer iSerializer, MediaPlayTime mediaPlayTime) {
+    public static void putOptionalMediaPlayTime(ISerializer iSerializer, MediaPlayTime mediaPlayTime) throws SerializerException {
         boolean bl = mediaPlayTime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MediaPlayTimeSerializer {
         }
     }
 
-    public static void putOptionalMediaPlayTimeVarArray(ISerializer iSerializer, MediaPlayTime[] mediaPlayTimeArray) {
+    public static void putOptionalMediaPlayTimeVarArray(ISerializer iSerializer, MediaPlayTime[] mediaPlayTimeArray) throws SerializerException {
         boolean bl = mediaPlayTimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MediaPlayTimeSerializer {
         }
     }
 
-    public static MediaPlayTime getOptionalMediaPlayTime(IDeserializer iDeserializer) {
+    public static MediaPlayTime getOptionalMediaPlayTime(IDeserializer iDeserializer) throws SerializerException {
         MediaPlayTime mediaPlayTime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class MediaPlayTimeSerializer {
         return mediaPlayTime;
     }
 
-    public static MediaPlayTime[] getOptionalMediaPlayTimeVarArray(IDeserializer iDeserializer) {
+    public static MediaPlayTime[] getOptionalMediaPlayTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaPlayTime[] mediaPlayTimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

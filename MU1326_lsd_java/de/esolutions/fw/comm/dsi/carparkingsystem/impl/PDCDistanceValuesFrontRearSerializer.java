@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCDistanceValuesFrontRear;
 
 public class PDCDistanceValuesFrontRearSerializer {
-    public static void putOptionalPDCDistanceValuesFrontRear(ISerializer iSerializer, PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) {
+    public static void putOptionalPDCDistanceValuesFrontRear(ISerializer iSerializer, PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) throws SerializerException {
         boolean bl = pDCDistanceValuesFrontRear == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCDistanceValuesFrontRearSerializer {
         }
     }
 
-    public static void putOptionalPDCDistanceValuesFrontRearVarArray(ISerializer iSerializer, PDCDistanceValuesFrontRear[] pDCDistanceValuesFrontRearArray) {
+    public static void putOptionalPDCDistanceValuesFrontRearVarArray(ISerializer iSerializer, PDCDistanceValuesFrontRear[] pDCDistanceValuesFrontRearArray) throws SerializerException {
         boolean bl = pDCDistanceValuesFrontRearArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCDistanceValuesFrontRearSerializer {
         }
     }
 
-    public static PDCDistanceValuesFrontRear getOptionalPDCDistanceValuesFrontRear(IDeserializer iDeserializer) {
+    public static PDCDistanceValuesFrontRear getOptionalPDCDistanceValuesFrontRear(IDeserializer iDeserializer) throws SerializerException {
         PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCDistanceValuesFrontRearSerializer {
         return pDCDistanceValuesFrontRear;
     }
 
-    public static PDCDistanceValuesFrontRear[] getOptionalPDCDistanceValuesFrontRearVarArray(IDeserializer iDeserializer) {
+    public static PDCDistanceValuesFrontRear[] getOptionalPDCDistanceValuesFrontRearVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCDistanceValuesFrontRear[] pDCDistanceValuesFrontRearArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

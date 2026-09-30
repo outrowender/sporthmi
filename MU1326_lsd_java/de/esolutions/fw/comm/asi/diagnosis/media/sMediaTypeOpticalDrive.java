@@ -32,7 +32,7 @@ public class sMediaTypeOpticalDrive {
     }
 
     public String toString() {
-        return new StringBuffer("sMediaTypeOpticalDrive{").append("msg_id=").append(this.msg_id).append(", type=").append(this.type).append("}").toString();
+        return "sMediaTypeOpticalDrive{" + "msg_id=" + this.msg_id + ", type=" + this.type + "}";
     }
 }
 

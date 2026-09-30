@@ -25,16 +25,15 @@ implements ISerializerFactoryProvider {
 
     public void addConnection(String string, String string2, String string3, boolean bl) {
         Boolean bl2 = new Boolean(bl);
-        this.procMap.put(new StringBuffer().append(string).append(":").append(string2).toString(), bl2);
-        this.nodeMap.put(new StringBuffer().append(string).append(":").append(string3).append(":").append(string2).toString(), bl2);
+        this.procMap.put(string + ":" + string2, bl2);
+        this.nodeMap.put(string + ":" + string3 + ":" + string2, bl2);
     }
 
-    @Override
-    public ISerializerFactory createSerializerFactory(String string, String string2) {
-        String string3 = new StringBuffer().append(string).append(":").append(string2).toString();
+    public ISerializerFactory createSerializerFactory(String string, String string2) throws SerializerFactoryException {
+        String string3 = string + ":" + string2;
         Boolean bl = (Boolean)this.procMap.get(string3);
         if (bl == null) {
-            throw new SerializerFactoryException(new StringBuffer().append("no serializer found for proc ").append(string3).toString());
+            throw new SerializerFactoryException("no serializer found for proc " + string3);
         }
         if (bl.booleanValue()) {
             return new LEDefaultSerializerFactory();
@@ -42,12 +41,11 @@ implements ISerializerFactoryProvider {
         return new BEDefaultSerializerFactory();
     }
 
-    @Override
-    public ISerializerFactory createMySerializerFactory(String string, String string2) {
-        String string3 = new StringBuffer().append(string).append(":").append(string2).append(":").append(this.myProcName).toString();
+    public ISerializerFactory createMySerializerFactory(String string, String string2) throws SerializerFactoryException {
+        String string3 = string + ":" + string2 + ":" + this.myProcName;
         Boolean bl = (Boolean)this.nodeMap.get(string3);
         if (bl == null) {
-            throw new SerializerFactoryException(new StringBuffer().append("no serializer found for node ").append(string3).toString());
+            throw new SerializerFactoryException("no serializer found for node " + string3);
         }
         if (bl.booleanValue()) {
             return new LEDefaultSerializerFactory();

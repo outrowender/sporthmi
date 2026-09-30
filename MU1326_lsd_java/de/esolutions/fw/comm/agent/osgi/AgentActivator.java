@@ -42,8 +42,7 @@ ILifecycleListener {
     static /* synthetic */ Class class$de$esolutions$fw$util$commons$error$DumpInfoProvider;
     static /* synthetic */ Class class$de$esolutions$fw$comm$agent$Agent;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(BundleContext bundleContext) throws Exception {
         Object object;
         this.bundleContext = bundleContext;
         TraceClient.init("hmi");
@@ -95,8 +94,7 @@ ILifecycleListener {
         trace.log((short)2, "- start comm Agent bundle");
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
         trace.log((short)2, "+ stop comm Agent bundle");
         this.callbacks.unregister();
         this.callbacks = null;
@@ -141,7 +139,6 @@ ILifecycleListener {
         TraceClient.exit();
     }
 
-    @Override
     public void lifecycleChanged(Lifecycle lifecycle, Object object) {
         if (lifecycle.isAlive()) {
             trace.log((short)2, "+ registering agent service");

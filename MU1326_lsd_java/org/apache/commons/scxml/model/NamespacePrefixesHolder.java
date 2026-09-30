@@ -6,10 +6,8 @@ package org.apache.commons.scxml.model;
 import java.util.Map;
 
 public interface NamespacePrefixesHolder {
-    default public void setNamespaces(Map map) {
-    }
+    public void setNamespaces(Map var1);
 
-    default public Map getNamespaces() {
-    }
+    public Map getNamespaces();
 }
 

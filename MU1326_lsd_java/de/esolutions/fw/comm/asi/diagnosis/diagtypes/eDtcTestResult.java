@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eDtcTestResult
 extends IEnum {
-    public static final int TEST_PASSED;
-    public static final int TEST_FAILED;
+    public static final int TEST_PASSED = 0;
+    public static final int TEST_FAILED = 1;
 }
 

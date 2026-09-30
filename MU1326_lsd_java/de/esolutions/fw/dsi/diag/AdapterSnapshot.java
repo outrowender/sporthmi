@@ -42,17 +42,14 @@ implements IAdapterSnapshot {
         this.timestamp = System.currentTimeMillis();
     }
 
-    @Override
     public ProviderInfo[] getAllProviders() {
         return this.providers;
     }
 
-    @Override
     public DispatcherInfo[] getAllDispatchers() {
         return this.dispatchers;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timestamp;
     }

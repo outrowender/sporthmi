@@ -18,7 +18,7 @@ FastDeleteHelper {
     private boolean isSystemLanguageArabic = true;
     private boolean isDeleteWithTouchPad = false;
     private boolean rightToLeft = true;
-    private static final String SPECIAL_CHARS;
+    private static final String SPECIAL_CHARS = "\u060c\u061b\u061f.,?!'-/_:;()\u20ac$&@\"#%*+<=>[\\]~\u00a1\u00a2\u00a3\u00a7\u00bf^{|}";
 
     public TouchInputDataArabia() {
     }
@@ -27,13 +27,12 @@ FastDeleteHelper {
         super(iCaseBalancingStrategy);
     }
 
-    @Override
     public char insertString(String string, String[] stringArray, boolean bl) {
         if (string == null) {
             return this.insertString("", stringArray, bl);
         }
         if (this.isPasswordMode) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchController#stringEntered: hide already entered characters (if it's a Password field)");
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchController#stringEntered: hide already entered characters (if it's a Password field)");
             this.hideCharacters();
         }
         this.deleteIntoWordState = 1;
@@ -114,20 +113,18 @@ FastDeleteHelper {
         }
     }
 
-    @Override
     public boolean isArabicSpecialChar(char c2) {
         return this.isSpecialChar(c2) && this.isSystemLanguageArabic && !TouchControllerArabia.isLatinOnlyField();
     }
 
     private boolean isSpecialChar(char c2) {
-        return "\u060c\u061b\u061f.,?!'-/_:;()\u20ac$&@\"#%*+<=>[\\]~\u00a1\u00a2\u00a3\u00a7\u00bf^{|}".indexOf(c2) != -1;
+        return SPECIAL_CHARS.indexOf(c2) != -1;
     }
 
     private boolean isArabicChar(char c2) {
         return StringUtility.isArabicChar(c2);
     }
 
-    @Override
     public void insertAutoCompletion(String string) {
         int n;
         int n2 = this.getTextLength();
@@ -152,7 +149,6 @@ FastDeleteHelper {
         this.notifyDataChange();
     }
 
-    @Override
     public boolean deleteOneChar() {
         int n;
         this.cursorPos = Math.max(this.cursorPos - 1, 0);
@@ -202,7 +198,6 @@ FastDeleteHelper {
         return this.refreshStartOfWord();
     }
 
-    @Override
     public boolean isRTL() {
         return this.rightToLeft;
     }
@@ -212,12 +207,10 @@ FastDeleteHelper {
         this.switchDirectionIfNeeded(c2, true);
     }
 
-    @Override
     public String toString() {
         return "TouchInputDataArabia";
     }
 
-    @Override
     public boolean isDeleteDirectionFromRightToLeft() {
         return this.isRTL();
     }
@@ -230,7 +223,6 @@ FastDeleteHelper {
         this.isDeleteWithTouchPad = bl;
     }
 
-    @Override
     public void setSystemLanguageArabic(boolean bl) {
         this.isSystemLanguageArabic = bl;
     }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOSynchronisation;
 
 public class UGDOSynchronisationSerializer {
-    public static void putOptionalUGDOSynchronisation(ISerializer iSerializer, UGDOSynchronisation uGDOSynchronisation) {
+    public static void putOptionalUGDOSynchronisation(ISerializer iSerializer, UGDOSynchronisation uGDOSynchronisation) throws SerializerException {
         boolean bl = uGDOSynchronisation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class UGDOSynchronisationSerializer {
         }
     }
 
-    public static void putOptionalUGDOSynchronisationVarArray(ISerializer iSerializer, UGDOSynchronisation[] uGDOSynchronisationArray) {
+    public static void putOptionalUGDOSynchronisationVarArray(ISerializer iSerializer, UGDOSynchronisation[] uGDOSynchronisationArray) throws SerializerException {
         boolean bl = uGDOSynchronisationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class UGDOSynchronisationSerializer {
         }
     }
 
-    public static UGDOSynchronisation getOptionalUGDOSynchronisation(IDeserializer iDeserializer) {
+    public static UGDOSynchronisation getOptionalUGDOSynchronisation(IDeserializer iDeserializer) throws SerializerException {
         UGDOSynchronisation uGDOSynchronisation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class UGDOSynchronisationSerializer {
         return uGDOSynchronisation;
     }
 
-    public static UGDOSynchronisation[] getOptionalUGDOSynchronisationVarArray(IDeserializer iDeserializer) {
+    public static UGDOSynchronisation[] getOptionalUGDOSynchronisationVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOSynchronisation[] uGDOSynchronisationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

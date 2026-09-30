@@ -4,16 +4,12 @@
 package org.apache.commons.jexl.util.introspection;
 
 public interface VelMethod {
-    default public Object invoke(Object object, Object[] objectArray) {
-    }
+    public Object invoke(Object var1, Object[] var2) throws Exception;
 
-    default public boolean isCacheable() {
-    }
+    public boolean isCacheable();
 
-    default public String getMethodName() {
-    }
+    public String getMethodName();
 
-    default public Class getReturnType() {
-    }
+    public Class getReturnType();
 }
 

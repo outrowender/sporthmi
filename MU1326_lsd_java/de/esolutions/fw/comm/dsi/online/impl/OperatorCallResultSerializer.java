@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
 import de.esolutions.fw.comm.dsi.online.impl.OperatorCallAddressEntrySerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.online.OperatorCallAddressEntry;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public class OperatorCallResultSerializer {
-    public static void putOptionalOperatorCallResult(ISerializer iSerializer, OperatorCallResult operatorCallResult) {
+    public static void putOptionalOperatorCallResult(ISerializer iSerializer, OperatorCallResult operatorCallResult) throws SerializerException {
         boolean bl = operatorCallResult == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class OperatorCallResultSerializer {
         }
     }
 
-    public static void putOptionalOperatorCallResultVarArray(ISerializer iSerializer, OperatorCallResult[] operatorCallResultArray) {
+    public static void putOptionalOperatorCallResultVarArray(ISerializer iSerializer, OperatorCallResult[] operatorCallResultArray) throws SerializerException {
         boolean bl = operatorCallResultArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class OperatorCallResultSerializer {
         }
     }
 
-    public static OperatorCallResult getOptionalOperatorCallResult(IDeserializer iDeserializer) {
+    public static OperatorCallResult getOptionalOperatorCallResult(IDeserializer iDeserializer) throws SerializerException {
         OperatorCallResult operatorCallResult = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class OperatorCallResultSerializer {
         return operatorCallResult;
     }
 
-    public static OperatorCallResult[] getOptionalOperatorCallResultVarArray(IDeserializer iDeserializer) {
+    public static OperatorCallResult[] getOptionalOperatorCallResultVarArray(IDeserializer iDeserializer) throws SerializerException {
         OperatorCallResult[] operatorCallResultArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

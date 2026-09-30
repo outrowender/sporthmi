@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface NetworkingProfile
 extends IEnum {
-    public static final int NETWORKING_PROFILE_DUN;
-    public static final int NETWORKING_PROFILE_PAN;
+    public static final int NETWORKING_PROFILE_DUN = 1;
+    public static final int NETWORKING_PROFILE_PAN = 2;
 }
 

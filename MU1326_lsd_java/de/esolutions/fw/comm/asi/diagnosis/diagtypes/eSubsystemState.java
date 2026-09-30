@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eSubsystemState
 extends IEnum {
-    public static final int SUBSYSTEM_NOT_DETECTED;
-    public static final int SUBSYSTEM_DETECTED;
-    public static final int SUBSYSTEM_NOT_BUILD_IN;
+    public static final int SUBSYSTEM_NOT_DETECTED = 0;
+    public static final int SUBSYSTEM_DETECTED = 1;
+    public static final int SUBSYSTEM_NOT_BUILD_IN = 65535;
 }
 

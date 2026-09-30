@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.startup;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.startup.DSIStartupReply;
 import de.esolutions.fw.comm.dsi.startup.impl.DSIStartupReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIStartupReply {
         super(n, (class$org$dsi$ifc$startup$DSIStartupListener == null ? (class$org$dsi$ifc$startup$DSIStartupListener = DSIStartupDispatcher.class$("org.dsi.ifc.startup.DSIStartupListener")) : class$org$dsi$ifc$startup$DSIStartupListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateDomainStatusRoot(int n, int n2) {
+    public void updateDomainStatusRoot(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusTuner(int n, int n2) {
+    public void updateDomainStatusTuner(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusMedia(int n, int n2) {
+    public void updateDomainStatusMedia(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -114,8 +111,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusAddressbook(int n, int n2) {
+    public void updateDomainStatusAddressbook(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -143,8 +139,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusPhone(int n, int n2) {
+    public void updateDomainStatusPhone(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -172,8 +167,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusNav(int n, int n2) {
+    public void updateDomainStatusNav(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -201,8 +195,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusInfo(int n, int n2) {
+    public void updateDomainStatusInfo(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -230,8 +223,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusCar(int n, int n2) {
+    public void updateDomainStatusCar(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -259,8 +251,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusAudio(int n, int n2) {
+    public void updateDomainStatusAudio(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -288,8 +279,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusSDS(int n, int n2) {
+    public void updateDomainStatusSDS(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -317,8 +307,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusSWDL(int n, int n2) {
+    public void updateDomainStatusSWDL(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -346,8 +335,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusEarlyApps(int n, int n2) {
+    public void updateDomainStatusEarlyApps(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -375,8 +363,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusPostStartup(int n, int n2) {
+    public void updateDomainStatusPostStartup(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -404,8 +391,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusCommunication(int n, int n2) {
+    public void updateDomainStatusCommunication(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -433,8 +419,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusIpServices(int n, int n2) {
+    public void updateDomainStatusIpServices(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -462,8 +447,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusGEMMI(int n, int n2) {
+    public void updateDomainStatusGEMMI(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -491,8 +475,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusBapkombi(int n, int n2) {
+    public void updateDomainStatusBapkombi(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -520,8 +503,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusBluetooth(int n, int n2) {
+    public void updateDomainStatusBluetooth(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -549,8 +531,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusBrowser(int n, int n2) {
+    public void updateDomainStatusBrowser(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -578,8 +559,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusExplorer(int n, int n2) {
+    public void updateDomainStatusExplorer(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -607,8 +587,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusCalendar(int n, int n2) {
+    public void updateDomainStatusCalendar(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -636,8 +615,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusPictureStore(int n, int n2) {
+    public void updateDomainStatusPictureStore(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -665,8 +643,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusStreetView(int n, int n2) {
+    public void updateDomainStatusStreetView(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -694,8 +671,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusMobilityHorizon(int n, int n2) {
+    public void updateDomainStatusMobilityHorizon(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -723,8 +699,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusExBoxM(int n, int n2) {
+    public void updateDomainStatusExBoxM(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -752,8 +727,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusMirrorLink(int n, int n2) {
+    public void updateDomainStatusMirrorLink(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -781,8 +755,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusSFA(int n, int n2) {
+    public void updateDomainStatusSFA(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -810,8 +783,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusSearch(int n, int n2) {
+    public void updateDomainStatusSearch(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -839,8 +811,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusDiagnosis(int n, int n2) {
+    public void updateDomainStatusDiagnosis(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -868,8 +839,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusAsiaLanguageSupport(int n, int n2) {
+    public void updateDomainStatusAsiaLanguageSupport(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -897,8 +867,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusExLAP(int n, int n2) {
+    public void updateDomainStatusExLAP(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -926,8 +895,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusTVTuner(int n, int n2) {
+    public void updateDomainStatusTVTuner(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -955,8 +923,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusMediaOnline(int n, int n2) {
+    public void updateDomainStatusMediaOnline(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -984,8 +951,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusMediaRouter(int n, int n2) {
+    public void updateDomainStatusMediaRouter(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -1013,8 +979,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusRadioDataServer(int n, int n2) {
+    public void updateDomainStatusRadioDataServer(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1042,8 +1007,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusSmartphoneIntegration(int n, int n2) {
+    public void updateDomainStatusSmartphoneIntegration(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1071,8 +1035,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void updateDomainStatusWirelessCharger(int n, int n2) {
+    public void updateDomainStatusWirelessCharger(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1100,8 +1063,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void startDomain(int n, int n2) {
+    public void startDomain(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1117,8 +1079,7 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1134,14 +1095,13 @@ implements DSIStartupReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIStartupListener dSIStartupListener = (DSIStartupListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIStartupDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIStartupDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIStartupListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIStartupDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIStartupDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIStartupListener, new Object[]{string, string2});
                     continue;
                 }

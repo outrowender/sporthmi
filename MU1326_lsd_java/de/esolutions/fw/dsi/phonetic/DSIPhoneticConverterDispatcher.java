@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.phonetic;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.phonetic.DSIPhoneticConverterReply;
 import de.esolutions.fw.comm.dsi.phonetic.impl.DSIPhoneticConverterReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIPhoneticConverterReply {
         super(n, (class$org$dsi$ifc$phonetic$DSIPhoneticConverterListener == null ? (class$org$dsi$ifc$phonetic$DSIPhoneticConverterListener = DSIPhoneticConverterDispatcher.class$("org.dsi.ifc.phonetic.DSIPhoneticConverterListener")) : class$org$dsi$ifc$phonetic$DSIPhoneticConverterListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void hanziToPinYinResult(String string, String string2, String string3, String string4) {
+    public void hanziToPinYinResult(String string, String string2, String string3, String string4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIPhoneticConverterReply {
         }
     }
 
-    @Override
-    public void hanziToZhuYinResult(String string, String string2, String string3, String string4) {
+    public void hanziToZhuYinResult(String string, String string2, String string3, String string4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIPhoneticConverterReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,14 +74,13 @@ implements DSIPhoneticConverterReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPhoneticConverterListener dSIPhoneticConverterListener = (DSIPhoneticConverterListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPhoneticConverterDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPhoneticConverterDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPhoneticConverterListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPhoneticConverterDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPhoneticConverterDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPhoneticConverterListener, new Object[]{string, string2});
                     continue;
                 }

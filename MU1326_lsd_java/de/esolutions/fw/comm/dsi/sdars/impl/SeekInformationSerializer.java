@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.SeekInformation;
 
 public class SeekInformationSerializer {
-    public static void putOptionalSeekInformation(ISerializer iSerializer, SeekInformation seekInformation) {
+    public static void putOptionalSeekInformation(ISerializer iSerializer, SeekInformation seekInformation) throws SerializerException {
         boolean bl = seekInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SeekInformationSerializer {
         }
     }
 
-    public static void putOptionalSeekInformationVarArray(ISerializer iSerializer, SeekInformation[] seekInformationArray) {
+    public static void putOptionalSeekInformationVarArray(ISerializer iSerializer, SeekInformation[] seekInformationArray) throws SerializerException {
         boolean bl = seekInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SeekInformationSerializer {
         }
     }
 
-    public static SeekInformation getOptionalSeekInformation(IDeserializer iDeserializer) {
+    public static SeekInformation getOptionalSeekInformation(IDeserializer iDeserializer) throws SerializerException {
         SeekInformation seekInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SeekInformationSerializer {
         return seekInformation;
     }
 
-    public static SeekInformation[] getOptionalSeekInformationVarArray(IDeserializer iDeserializer) {
+    public static SeekInformation[] getOptionalSeekInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeekInformation[] seekInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

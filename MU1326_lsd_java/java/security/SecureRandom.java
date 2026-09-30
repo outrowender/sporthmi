@@ -3,8 +3,8 @@
  */
 package java.security;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,10 +16,10 @@ import java.util.Random;
 
 public class SecureRandom
 extends Random {
-    private static final long serialVersionUID;
-    private static final String DEFAULT_ALGORITHM_NAME;
-    private static final String KEY_PREFIX;
-    private static SecureRandom DEFAULT;
+    private static final long serialVersionUID = 4940670005562187L;
+    private static final String DEFAULT_ALGORITHM_NAME = "SHA1PRNG";
+    private static final String KEY_PREFIX = "SecureRandom.";
+    private static SecureRandom DEFAULT = null;
     private Provider provider;
     private SecureRandomSpi secureRandomSpi;
     private byte[] state;
@@ -34,7 +34,6 @@ extends Random {
     static /* synthetic */ Class class$3;
 
     static {
-        DEFAULT = null;
         ObjectStreamField[] objectStreamFieldArray = new ObjectStreamField[7];
         Class clazz = class$0;
         if (clazz == null) {
@@ -93,7 +92,7 @@ extends Random {
 
     public SecureRandom() {
         try {
-            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+            SecureRandom secureRandom = SecureRandom.getInstance(DEFAULT_ALGORITHM_NAME);
             this.secureRandomSpi = secureRandom.secureRandomSpi;
             this.provider = secureRandom.provider;
         }
@@ -112,7 +111,7 @@ extends Random {
         this.secureRandomSpi = secureRandomSpi;
     }
 
-    private static SecureRandom createSecureRandom(Provider provider, Class clazz, String string) {
+    private static SecureRandom createSecureRandom(Provider provider, Class clazz, String string) throws NoSuchAlgorithmException {
         try {
             SecureRandomSpi secureRandomSpi = (SecureRandomSpi)clazz.newInstance();
             SecureRandom secureRandom = new SecureRandom(secureRandomSpi, provider);
@@ -128,14 +127,14 @@ extends Random {
         return this.secureRandomSpi.engineGenerateSeed(n);
     }
 
-    public static SecureRandom getInstance(String string) {
+    public static SecureRandom getInstance(String string) throws NoSuchAlgorithmException {
         if (string == null) {
             throw new IllegalArgumentException();
         }
         return SecureRandom.toSecureRandomImplementation(string);
     }
 
-    public static SecureRandom getInstance(String string, String string2) {
+    public static SecureRandom getInstance(String string, String string2) throws NoSuchAlgorithmException, NoSuchProviderException {
         if (string2 == null) {
             throw new IllegalArgumentException();
         }
@@ -149,7 +148,7 @@ extends Random {
         return SecureRandom.toSecureRandomImplementation(string, provider);
     }
 
-    public static SecureRandom getInstance(String string, Provider provider) {
+    public static SecureRandom getInstance(String string, Provider provider) throws NoSuchAlgorithmException {
         if (string == null || provider == null) {
             throw new IllegalArgumentException();
         }
@@ -169,7 +168,6 @@ extends Random {
         return byArray;
     }
 
-    @Override
     protected final int next(int n) {
         if (n == 0) {
             return 0;
@@ -193,7 +191,6 @@ extends Random {
         return n4;
     }
 
-    @Override
     public void nextBytes(byte[] byArray) {
         this.secureRandomSpi.engineNextBytes(byArray);
     }
@@ -202,7 +199,6 @@ extends Random {
         this.secureRandomSpi.engineSetSeed(byArray);
     }
 
-    @Override
     public void setSeed(long l) {
         if (this.secureRandomSpi == null) {
             return;
@@ -210,14 +206,14 @@ extends Random {
         byte[] byArray = new byte[8];
         int n = 7;
         while (n >= 0) {
-            byArray[n] = (byte)(l & 0);
+            byArray[n] = (byte)(l & 0xFFL);
             l >>>= 8;
             --n;
         }
         this.setSeed(byArray);
     }
 
-    private static SecureRandom toSecureRandomImplementation(String string) {
+    private static SecureRandom toSecureRandomImplementation(String string) throws NoSuchAlgorithmException {
         Provider[] providerArray = Security.getProviders();
         int n = 0;
         while (n < providerArray.length) {
@@ -232,10 +228,10 @@ extends Random {
         throw new NoSuchAlgorithmException(string);
     }
 
-    private static SecureRandom toSecureRandomImplementation(String string, Provider provider) {
+    private static SecureRandom toSecureRandomImplementation(String string, Provider provider) throws NoSuchAlgorithmException {
         String string2;
         try {
-            string2 = provider.getProperty(new StringBuffer("SecureRandom.").append(string).toString());
+            string2 = provider.getProperty(new StringBuffer(KEY_PREFIX).append(string).toString());
         }
         catch (ClassCastException classCastException) {
             throw new NoSuchAlgorithmException(string);
@@ -244,7 +240,7 @@ extends Random {
             throw new NoSuchAlgorithmException(string);
         }
         try {
-            Class clazz = Class.forName(string2, true, super.getClass().getClassLoader());
+            Class clazz = Class.forName(string2, true, provider.getClass().getClassLoader());
             return SecureRandom.createSecureRandom(provider, clazz, string);
         }
         catch (ClassNotFoundException classNotFoundException) {
@@ -252,10 +248,10 @@ extends Random {
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("provider", this.provider);
-        objectOutputStream$PutField.put("secureRandomSpi", this.secureRandomSpi);
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("provider", this.provider);
+        putField.put("secureRandomSpi", this.secureRandomSpi);
         objectOutputStream.writeFields();
     }
 }

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.tmc;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tmc.DSITmcReply;
 import de.esolutions.fw.comm.dsi.tmc.impl.DSITmcReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -27,13 +28,11 @@ implements DSITmcReply {
         super(n, (class$org$dsi$ifc$tmc$DSITmcListener == null ? (class$org$dsi$ifc$tmc$DSITmcListener = DSITmcDispatcher.class$("org.dsi.ifc.tmc.DSITmcListener")) : class$org$dsi$ifc$tmc$DSITmcListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateEventsOnRoute(long l, int n) {
+    public void updateEventsOnRoute(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -61,8 +60,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateEventsTotal(int n, long l, long l2, int n2) {
+    public void updateEventsTotal(int n, long l, long l2, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -90,8 +88,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateTmcState(int n, int n2) {
+    public void updateTmcState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -119,8 +116,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateActiveTrafficSources(int[] nArray, int n) {
+    public void updateActiveTrafficSources(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -148,8 +144,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateIsEngineeringMode(boolean bl, int n) {
+    public void updateIsEngineeringMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -177,8 +172,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateCurrentLanguage(String string, int n) {
+    public void updateCurrentLanguage(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -206,8 +200,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateIsTmcProAvailable(boolean bl, int n) {
+    public void updateIsTmcProAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -235,8 +228,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void windowChange(int n) {
+    public void windowChange(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -252,8 +244,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void tmcWindowResult(int n, int n2, TmcListElement[] tmcListElementArray) {
+    public void tmcWindowResult(int n, int n2, TmcListElement[] tmcListElementArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -269,8 +260,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void setMessageFilterResult(int n, int n2) {
+    public void setMessageFilterResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -286,8 +276,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void getMessageIdsForListElementResult(long[] lArray) {
+    public void getMessageIdsForListElementResult(long[] lArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -303,8 +292,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) {
+    public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -320,8 +308,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateAreaWarning(AreaWarningInfo areaWarningInfo, int n) {
+    public void updateAreaWarning(AreaWarningInfo areaWarningInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -349,8 +336,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateAreaWarnings(AreaWarningInfo[] areaWarningInfoArray, int n) {
+    public void updateAreaWarnings(AreaWarningInfo[] areaWarningInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -378,8 +364,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray, int n) {
+    public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -407,8 +392,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateTrafficFlowStatisticsStatus(boolean bl, int n) {
+    public void updateTrafficFlowStatisticsStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -436,8 +420,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void updateTrafficSourceInformation(TrafficSource[] trafficSourceArray, int n) {
+    public void updateTrafficSourceInformation(TrafficSource[] trafficSourceArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -465,8 +448,7 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -482,14 +464,13 @@ implements DSITmcReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITmcListener dSITmcListener = (DSITmcListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITmcDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITmcDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITmcListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITmcDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITmcDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITmcListener, new Object[]{string, string2});
                     continue;
                 }

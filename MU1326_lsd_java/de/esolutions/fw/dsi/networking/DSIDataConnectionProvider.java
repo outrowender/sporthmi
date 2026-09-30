@@ -25,28 +25,23 @@ implements DSIDataConnection {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$networking$DSIDataConnection == null ? (class$org$dsi$ifc$networking$DSIDataConnection = DSIDataConnectionProvider.class$("org.dsi.ifc.networking.DSIDataConnection")) : class$org$dsi$ifc$networking$DSIDataConnection).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDataConnectionProxy(this.instance, (DSIDataConnectionReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void forceDisconnectRequest() {
         try {
             this.proxy.forceDisconnectRequest();
@@ -56,7 +51,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -66,7 +60,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -76,7 +69,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -86,7 +78,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -96,7 +87,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -106,7 +96,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -116,7 +105,6 @@ implements DSIDataConnection {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -7,61 +7,52 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAdbUserProfile
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_DOWNLOADTOPROFILE;
-    public static final int RT_RESTARTDOWNLOAD;
-    public static final int RT_SETPROFILENAME;
-    public static final int RT_DELETEPROFILES;
-    public static final int RT_COMMONENTRYCOUNT;
-    public static final int RT_ENTRYMETER;
-    public static final int RT_SETPAIRINGCODE;
-    public static final int RT_SETHOMEID;
-    public static final int RT_SETSOSBUTTON;
-    public static final int ATTR_PROFILEINFO;
-    public static final int ATTR_DEVICECONNECTED;
-    public static final int ATTR_DOWNLOADCOUNTSIM;
-    public static final int ATTR_DOWNLOADCOUNTME;
-    public static final int ATTR_DOWNLOADCOUNTOPP;
-    public static final int ATTR_DOWNLOADSTATE;
-    public static final int ATTR_DOWNLOADSTATE2NDPHONE;
-    public static final int ATTR_SOSBUTTON;
-    public static final int RP_DOWNLOADTOPROFILERESULT;
-    public static final int RP_RESTARTDOWNLOADRESULT;
-    public static final int RP_SETPROFILENAMERESULT;
-    public static final int RP_DELETEPROFILESRESULT;
-    public static final int RP_COMMONENTRYCOUNTRESULT;
-    public static final int RP_ENTRYMETERRESULT;
-    public static final int RP_SETPAIRINGCODERESULT;
-    public static final int RP_SETHOMEIDRESULT;
-    public static final int RP_SETSOSBUTTONRESULT;
-    public static final int IN_NEWDEVICECONNECTED;
-    public static final int IN_PROFILEDELETED;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_DOWNLOADTOPROFILE = 1000;
+    public static final int RT_RESTARTDOWNLOAD = 1001;
+    public static final int RT_SETPROFILENAME = 1002;
+    public static final int RT_DELETEPROFILES = 1003;
+    public static final int RT_COMMONENTRYCOUNT = 1004;
+    public static final int RT_ENTRYMETER = 1005;
+    public static final int RT_SETPAIRINGCODE = 1006;
+    public static final int RT_SETHOMEID = 1007;
+    public static final int RT_SETSOSBUTTON = 1008;
+    public static final int ATTR_PROFILEINFO = 2;
+    public static final int ATTR_DEVICECONNECTED = 3;
+    public static final int ATTR_DOWNLOADCOUNTSIM = 5;
+    public static final int ATTR_DOWNLOADCOUNTME = 6;
+    public static final int ATTR_DOWNLOADCOUNTOPP = 7;
+    public static final int ATTR_DOWNLOADSTATE = 8;
+    public static final int ATTR_DOWNLOADSTATE2NDPHONE = 9;
+    public static final int ATTR_SOSBUTTON = 10;
+    public static final int RP_DOWNLOADTOPROFILERESULT = 2001;
+    public static final int RP_RESTARTDOWNLOADRESULT = 2002;
+    public static final int RP_SETPROFILENAMERESULT = 2004;
+    public static final int RP_DELETEPROFILESRESULT = 2005;
+    public static final int RP_COMMONENTRYCOUNTRESULT = 2006;
+    public static final int RP_ENTRYMETERRESULT = 2007;
+    public static final int RP_SETPAIRINGCODERESULT = 2008;
+    public static final int RP_SETHOMEIDRESULT = 2009;
+    public static final int RP_SETSOSBUTTONRESULT = 2010;
+    public static final int IN_NEWDEVICECONNECTED = 3000;
+    public static final int IN_PROFILEDELETED = 3002;
 
-    default public void downloadToProfile(int n) {
-    }
+    public void downloadToProfile(int var1);
 
-    default public void restartDownload() {
-    }
+    public void restartDownload();
 
-    default public void setProfileName(String string) {
-    }
+    public void setProfileName(String var1);
 
-    default public void deleteProfiles(int[] nArray) {
-    }
+    public void deleteProfiles(int[] var1);
 
-    default public void commonEntryCount() {
-    }
+    public void commonEntryCount();
 
-    default public void entryMeter() {
-    }
+    public void entryMeter();
 
-    default public void setPairingCode(String string) {
-    }
+    public void setPairingCode(String var1);
 
-    default public void setHomeId(long l) {
-    }
+    public void setHomeId(long var1);
 
-    default public void setSOSButton(boolean bl) {
-    }
+    public void setSOSButton(boolean var1);
 }
 

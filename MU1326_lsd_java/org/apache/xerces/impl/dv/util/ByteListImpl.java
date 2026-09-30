@@ -15,12 +15,10 @@ implements ByteList {
         this.data = byArray;
     }
 
-    @Override
     public int getLength() {
         return this.data.length;
     }
 
-    @Override
     public boolean contains(byte by) {
         for (int i2 = 0; i2 < this.data.length; ++i2) {
             if (this.data[i2] != by) continue;
@@ -29,8 +27,7 @@ implements ByteList {
         return false;
     }
 
-    @Override
-    public byte item(int n) {
+    public byte item(int n) throws XSException {
         if (n < 0 || n > this.data.length - 1) {
             throw new XSException(2, null);
         }

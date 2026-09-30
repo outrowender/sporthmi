@@ -7,16 +7,14 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAdbSds
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_GETALLVOICETAGS;
-    public static final int RT_DELETEVOICETAGS;
-    public static final int RP_GETALLVOICETAGSRESULT;
-    public static final int RP_DELETEVOICETAGSRESULT;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_GETALLVOICETAGS = 1000;
+    public static final int RT_DELETEVOICETAGS = 1001;
+    public static final int RP_GETALLVOICETAGSRESULT = 2000;
+    public static final int RP_DELETEVOICETAGSRESULT = 2001;
 
-    default public void getAllVoiceTags() {
-    }
+    public void getAllVoiceTags();
 
-    default public void deleteVoiceTags(int[] nArray) {
-    }
+    public void deleteVoiceTags(int[] var1);
 }
 

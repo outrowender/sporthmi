@@ -17,12 +17,14 @@ import java.net.URL;
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.CodeSource;
+import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 import java.security.cert.Certificate;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 
 public abstract class ClassLoader {
@@ -31,12 +33,12 @@ public abstract class ClassLoader {
     private static boolean initSystemClassLoader;
     private long vmRef;
     ClassLoader parent;
-    private Object assertionLock = new ClassLoader$AssertionLock();
+    private Object assertionLock = new AssertionLock();
     private boolean defaultAssertionStatus;
     private Map packageAssertionStatus;
     private Map classAssertionStatus;
     private Hashtable packages = new Hashtable();
-    private Object lazyInitLock = new ClassLoader$LazyInitLock();
+    private Object lazyInitLock = new LazyInitLock();
     private Hashtable classSigners = null;
     private Hashtable packageSigners = new Hashtable();
     private static Certificate[] emptyCertificates;
@@ -116,7 +118,7 @@ public abstract class ClassLoader {
         this.initializeClassLoaderAssertStatus();
     }
 
-    protected final Class defineClass(String string, byte[] byArray, int n, int n2) {
+    protected final Class defineClass(String string, byte[] byArray, int n, int n2) throws ClassFormatError {
         return this.defineClass(string, byArray, n, n2, null);
     }
 
@@ -132,7 +134,7 @@ public abstract class ClassLoader {
         return "";
     }
 
-    protected final Class defineClass(String string, byte[] byArray, int n, int n2, ProtectionDomain protectionDomain) {
+    protected final Class defineClass(final String string, final byte[] byArray, final int n, final int n2, ProtectionDomain protectionDomain) throws ClassFormatError {
         Object object;
         Object[] objectArray = null;
         if (protectionDomain != null && (object = protectionDomain.getCodeSource()) != null) {
@@ -149,7 +151,16 @@ public abstract class ClassLoader {
             protectionDomain = this.getDefaultProtectionDomain();
         }
         object = protectionDomain;
-        Class clazz = System.getSecurityManager() == null ? this.defineClassImpl(string, byArray, n, n2, object) : (Class)AccessController.doPrivileged(new ClassLoader$1(this, string, byArray, n, n2, (ProtectionDomain)object), new AccessControlContext(new ProtectionDomain[]{object}));
+        Class clazz = System.getSecurityManager() == null ? this.defineClassImpl(string, byArray, n, n2, object) : (Class)AccessController.doPrivileged(new PrivilegedAction((ProtectionDomain)object){
+            private final /* synthetic */ ProtectionDomain val$pd;
+            {
+                this.val$pd = protectionDomain;
+            }
+
+            public Object run() {
+                return ClassLoader.this.defineClassImpl(string, byArray, n, n2, this.val$pd);
+            }
+        }, new AccessControlContext(new ProtectionDomain[]{object}));
         if (this.isVerboseImpl()) {
             URL uRL;
             CodeSource codeSource;
@@ -165,8 +176,7 @@ public abstract class ClassLoader {
         return clazz;
     }
 
-    private native boolean isVerboseImpl() {
-    }
+    private native boolean isVerboseImpl();
 
     private void checkPackageSigners(String string, String string2, Certificate[] certificateArray) {
         Certificate[] certificateArray2 = (Certificate[])this.packageSigners.get(string);
@@ -216,10 +226,9 @@ public abstract class ClassLoader {
         return this.defaultProtectionDomain;
     }
 
-    private final native Class defineClassImpl(String string, byte[] byArray, int n, int n2, Object object) {
-    }
+    private final native Class defineClassImpl(String var1, byte[] var2, int var3, int var4, Object var5);
 
-    protected Class findClass(String string) {
+    protected Class findClass(String string) throws ClassNotFoundException {
         throw new ClassNotFoundException();
     }
 
@@ -230,10 +239,9 @@ public abstract class ClassLoader {
         return this.findLoadedClassImpl(string);
     }
 
-    private native Class findLoadedClassImpl(String string) {
-    }
+    private native Class findLoadedClassImpl(String var1);
 
-    protected final Class findSystemClass(String string) {
+    protected final Class findSystemClass(String string) throws ClassNotFoundException {
         return applicationClassLoader.loadClass(string);
     }
 
@@ -255,9 +263,9 @@ public abstract class ClassLoader {
         return this.findResource(string);
     }
 
-    public final Enumeration getResources(String string) {
+    public final Enumeration getResources(String string) throws IOException {
         ClassLoader classLoader = this;
-        Vector vector = new Vector();
+        final Vector vector = new Vector();
         while (true) {
             Enumeration enumeration;
             if ((enumeration = classLoader.findResources(string)) != null && enumeration.hasMoreElements()) {
@@ -268,7 +276,33 @@ public abstract class ClassLoader {
             if (classLoader != null) continue;
             classLoader = systemClassLoader;
         }
-        return new ClassLoader$2(this, vector);
+        return new Enumeration(){
+            int index;
+            {
+                this.index = vector2.size() - 1;
+            }
+
+            public boolean hasMoreElements() {
+                while (this.index >= 0) {
+                    if (((Enumeration)vector.elementAt(this.index)).hasMoreElements()) {
+                        return true;
+                    }
+                    --this.index;
+                }
+                return false;
+            }
+
+            public Object nextElement() {
+                while (this.index >= 0) {
+                    Enumeration enumeration = (Enumeration)vector.elementAt(this.index);
+                    if (enumeration.hasMoreElements()) {
+                        return (URL)enumeration.nextElement();
+                    }
+                    --this.index;
+                }
+                throw new NoSuchElementException();
+            }
+        };
     }
 
     public InputStream getResourceAsStream(String string) {
@@ -330,7 +364,7 @@ public abstract class ClassLoader {
         return ClassLoader.getSystemClassLoader().getResource(string);
     }
 
-    public static Enumeration getSystemResources(String string) {
+    public static Enumeration getSystemResources(String string) throws IOException {
         return ClassLoader.getSystemClassLoader().getResources(string);
     }
 
@@ -338,11 +372,11 @@ public abstract class ClassLoader {
         return ClassLoader.getSystemClassLoader().getResourceAsStream(string);
     }
 
-    public Class loadClass(String string) {
+    public Class loadClass(String string) throws ClassNotFoundException {
         return this.loadClass(string, false);
     }
 
-    protected synchronized Class loadClass(String string, boolean bl) {
+    protected synchronized Class loadClass(String string, boolean bl) throws ClassNotFoundException {
         Class clazz = this.findLoadedClass(string);
         if (clazz == null) {
             try {
@@ -405,7 +439,7 @@ public abstract class ClassLoader {
         return null;
     }
 
-    protected Enumeration findResources(String string) {
+    protected Enumeration findResources(String string) throws IOException {
         return new Vector().elements();
     }
 
@@ -455,7 +489,7 @@ public abstract class ClassLoader {
         return packageArray2;
     }
 
-    protected Package definePackage(String string, String string2, String string3, String string4, String string5, String string6, String string7, URL uRL) {
+    protected Package definePackage(String string, String string2, String string3, String string4, String string5, String string6, String string7, URL uRL) throws IllegalArgumentException {
         Hashtable hashtable = this.packages;
         synchronized (hashtable) {
             if (this.getPackage(string) == null) {
@@ -514,8 +548,7 @@ public abstract class ClassLoader {
         }
     }
 
-    static final native ClassLoader getStackClassLoader(int n) {
-    }
+    static final native ClassLoader getStackClassLoader(int var0);
 
     static ClassLoader callerClassLoader() {
         ClassLoader classLoader = ClassLoader.getStackClassLoader(2);
@@ -552,8 +585,7 @@ public abstract class ClassLoader {
         }
     }
 
-    private static native byte[] loadLibraryWithPath(byte[] byArray, ClassLoader classLoader, byte[] byArray2) {
-    }
+    private static native byte[] loadLibraryWithPath(byte[] var0, ClassLoader var1, byte[] var2);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -710,8 +742,14 @@ public abstract class ClassLoader {
         return this.bundleCache;
     }
 
-    static /* synthetic */ Class access$0(ClassLoader classLoader, String string, byte[] byArray, int n, int n2, Object object) {
-        return classLoader.defineClassImpl(string, byArray, n, n2, object);
+    private static class LazyInitLock {
+        LazyInitLock() {
+        }
+    }
+
+    private static class AssertionLock {
+        AssertionLock() {
+        }
     }
 }
 

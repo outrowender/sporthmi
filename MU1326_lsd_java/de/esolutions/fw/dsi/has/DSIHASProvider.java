@@ -26,28 +26,23 @@ implements DSIHAS {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$has$DSIHAS == null ? (class$org$dsi$ifc$has$DSIHAS = DSIHASProvider.class$("org.dsi.ifc.has.DSIHAS")) : class$org$dsi$ifc$has$DSIHAS).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIHASProxy(this.instance, (DSIHASReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void hmiReady() {
         try {
             this.proxy.hmiReady();
@@ -57,7 +52,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void actionResult(int n, int n2, HASDataContainer[] hASDataContainerArray, int n3) {
         try {
             this.proxy.actionResult(n, n2, hASDataContainerArray, n3);
@@ -67,7 +61,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void propertyUpdate(int n, HASDataContainer[] hASDataContainerArray, int n2) {
         try {
             this.proxy.propertyUpdate(n, hASDataContainerArray, n2);
@@ -77,7 +70,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void subscribeResult(int n, int n2) {
         try {
             this.proxy.subscribeResult(n, n2);
@@ -87,7 +79,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -97,7 +88,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -107,7 +97,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -117,7 +106,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -127,7 +115,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -137,7 +124,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -147,7 +133,6 @@ implements DSIHAS {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

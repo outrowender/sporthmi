@@ -26,7 +26,7 @@ public class sRectangleSetReference {
     }
 
     public String toString() {
-        return new StringBuffer("sRectangleSetReference{").append("rectangle=").append("[").append(this.rectangle == null ? "null" : Arrays.asList(this.rectangle).toString()).append("]").append("}").toString();
+        return "sRectangleSetReference{" + "rectangle=" + "[" + (this.rectangle == null ? "null" : Arrays.asList(this.rectangle).toString()) + "]" + "}";
     }
 }
 

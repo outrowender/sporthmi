@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tpegservices.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.tpegservices.News;
 
 public class NewsSerializer {
-    public static void putOptionalNews(ISerializer iSerializer, News news) {
+    public static void putOptionalNews(ISerializer iSerializer, News news) throws SerializerException {
         boolean bl = news == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class NewsSerializer {
         }
     }
 
-    public static void putOptionalNewsVarArray(ISerializer iSerializer, News[] newsArray) {
+    public static void putOptionalNewsVarArray(ISerializer iSerializer, News[] newsArray) throws SerializerException {
         boolean bl = newsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class NewsSerializer {
         }
     }
 
-    public static News getOptionalNews(IDeserializer iDeserializer) {
+    public static News getOptionalNews(IDeserializer iDeserializer) throws SerializerException {
         News news = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class NewsSerializer {
         return news;
     }
 
-    public static News[] getOptionalNewsVarArray(IDeserializer iDeserializer) {
+    public static News[] getOptionalNewsVarArray(IDeserializer iDeserializer) throws SerializerException {
         News[] newsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

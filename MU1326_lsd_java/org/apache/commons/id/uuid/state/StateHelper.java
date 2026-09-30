@@ -6,6 +6,7 @@
  */
 package org.apache.commons.id.uuid.state;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Iterator;
@@ -25,22 +26,22 @@ public final class StateHelper
 implements Constants {
     public static final String UUID_CLOCK_IMPL_PROPERTY_KEY = (class$org$apache$commons$id$uuid$clock$Clock == null ? (class$org$apache$commons$id$uuid$clock$Clock = StateHelper.class$("org.apache.commons.id.uuid.clock.Clock")) : class$org$apache$commons$id$uuid$clock$Clock).getName();
     public static final String UUID_STATE_IMPL_PROPERTY_KEY = (class$org$apache$commons$id$uuid$state$State == null ? (class$org$apache$commons$id$uuid$state$State = StateHelper.class$("org.apache.commons.id.uuid.state.State")) : class$org$apache$commons$id$uuid$state$State).getName();
-    public static final int NODE_ID_BYTE_LENGTH;
-    public static final short BYTES_IN_SHORT;
-    public static final short SHIFT_BY_BYTE;
-    public static final short HOSTNAME_MAX_CHAR_LEN;
-    private static final int MULTICAST_BIT_SET;
-    private static final short LONG_CHAR_LEN;
-    private static final int BUF_PAGE_SZ;
-    protected static final String XML_DOC_START;
-    protected static final String XML_DOC_START_END;
-    protected static final String XML_NODE_TAG_START;
-    protected static final String XML_NODE_TAG_AFTER_ID;
-    protected static final String XML_NODE_TAG_AFTER_CSEQ;
-    protected static final String XML_NODE_TAG_END;
-    protected static final String XML_DOC_END;
-    private static final short MAC_ADDRESS_TOKEN_COUNT;
-    private static final short MAC_ADDRESS_CHAR_LENGTH;
+    public static final int NODE_ID_BYTE_LENGTH = 6;
+    public static final short BYTES_IN_SHORT = 2;
+    public static final short SHIFT_BY_BYTE = 8;
+    public static final short HOSTNAME_MAX_CHAR_LEN = 255;
+    private static final int MULTICAST_BIT_SET = 128;
+    private static final short LONG_CHAR_LEN = 19;
+    private static final int BUF_PAGE_SZ = 1024;
+    protected static final String XML_DOC_START = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE uuidstate [\n   <!ELEMENT uuidstate (node*)>\n   <!ELEMENT node EMPTY>\n   <!ATTLIST node id ID #REQUIRED>\n   <!ATTLIST node clocksequence CDATA #IMPLIED>\n   <!ATTLIST node lasttimestamp CDATA #IMPLIED>\n]>\n<uuidstate synchInterval=\"";
+    protected static final String XML_DOC_START_END = "\">";
+    protected static final String XML_NODE_TAG_START = "\n\t<node id=\"";
+    protected static final String XML_NODE_TAG_AFTER_ID = "\" clocksequence=\"";
+    protected static final String XML_NODE_TAG_AFTER_CSEQ = "\" timestamp=\"";
+    protected static final String XML_NODE_TAG_END = "\" />";
+    protected static final String XML_DOC_END = "\n</uuidstate>";
+    private static final short MAC_ADDRESS_TOKEN_COUNT = 6;
+    private static final short MAC_ADDRESS_CHAR_LENGTH = 17;
     static /* synthetic */ Class class$org$apache$commons$id$uuid$clock$Clock;
     static /* synthetic */ Class class$org$apache$commons$id$uuid$state$State;
 
@@ -130,7 +131,7 @@ implements Constants {
         }
     }
 
-    public static String encodeMACAddress(byte[] byArray) {
+    public static String encodeMACAddress(byte[] byArray) throws IOException {
         char[] cArray = Hex.encodeHex(byArray);
         StringBuffer stringBuffer = new StringBuffer(17);
         for (int i2 = 0; i2 < cArray.length; ++i2) {

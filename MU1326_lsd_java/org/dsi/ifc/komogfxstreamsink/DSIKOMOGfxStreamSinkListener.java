@@ -7,22 +7,16 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIKOMOGfxStreamSinkListener
 extends DSIListener {
-    default public void updateGfxState(int n, int n2) {
-    }
+    public void updateGfxState(int var1, int var2);
 
-    default public void updateRequestSync(int n, int n2) {
-    }
+    public void updateRequestSync(int var1, int var2);
 
-    default public void updateDataRate(int n, int n2) {
-    }
+    public void updateDataRate(int var1, int var2);
 
-    default public void setFGLayerResult(int n) {
-    }
+    public void setFGLayerResult(int var1);
 
-    default public void fadeInResult() {
-    }
+    public void fadeInResult();
 
-    default public void fadeOutResult() {
-    }
+    public void fadeOutResult();
 }
 

@@ -6,7 +6,6 @@ package java.net;
 import java.net.URLStreamHandler;
 
 public interface URLStreamHandlerFactory {
-    default public URLStreamHandler createURLStreamHandler(String string) {
-    }
+    public URLStreamHandler createURLStreamHandler(String var1);
 }
 

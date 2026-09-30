@@ -8,52 +8,43 @@ import org.dsi.ifc.connectedradio.RadioStation;
 
 public interface DSIOnlineRadio
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_PROFILESTATE;
-    public static final int RP_GETSTREAMURLRESULT;
-    public static final int RP_GETRADIOSTATIONLOGORESULT;
-    public static final int RP_GETMETAINFORMATIONRESULT;
-    public static final int RP_CANCELDOWNLOADDATABASERESULT;
-    public static final int RP_DOWNLOADDATABASERESULT;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
-    public static final int RT_GETRADIOSTATIONLOGO;
-    public static final int RT_GETSTREAMURL;
-    public static final int RT_GETMETAINFORMATION;
-    public static final int RT_DOWNLOADDATABASE;
-    public static final int RT_CANCELDOWNLOADDATABASE;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
+    public static final String VERSION = "2.11.2";
+    public static final int ATTR_PROFILESTATE = 1;
+    public static final int RP_GETSTREAMURLRESULT = 2002;
+    public static final int RP_GETRADIOSTATIONLOGORESULT = 2003;
+    public static final int RP_GETMETAINFORMATIONRESULT = 2004;
+    public static final int RP_CANCELDOWNLOADDATABASERESULT = 2005;
+    public static final int RP_DOWNLOADDATABASERESULT = 2007;
+    public static final int RP_PROFILECHANGED = 2008;
+    public static final int RP_PROFILECOPIED = 2009;
+    public static final int RP_PROFILERESET = 2010;
+    public static final int RP_PROFILERESETALL = 2011;
+    public static final int RT_GETRADIOSTATIONLOGO = 1000;
+    public static final int RT_GETSTREAMURL = 1001;
+    public static final int RT_GETMETAINFORMATION = 1002;
+    public static final int RT_DOWNLOADDATABASE = 1003;
+    public static final int RT_CANCELDOWNLOADDATABASE = 1004;
+    public static final int RT_PROFILECHANGE = 1005;
+    public static final int RT_PROFILECOPY = 1006;
+    public static final int RT_PROFILERESET = 1007;
+    public static final int RT_PROFILERESETALL = 1008;
 
-    default public void getRadioStationLogo(int n, RadioStation radioStation, int n2) {
-    }
+    public void getRadioStationLogo(int var1, RadioStation var2, int var3);
 
-    default public void getStreamUrl(int n, RadioStation radioStation) {
-    }
+    public void getStreamUrl(int var1, RadioStation var2);
 
-    default public void getMetaInformation(int n, RadioStation radioStation) {
-    }
+    public void getMetaInformation(int var1, RadioStation var2);
 
-    default public void downloadDatabase(int n) {
-    }
+    public void downloadDatabase(int var1);
 
-    default public void cancelDownloadDatabase(int n) {
-    }
+    public void cancelDownloadDatabase(int var1);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

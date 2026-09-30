@@ -42,7 +42,7 @@ public class sNavCalibrationState {
     }
 
     public String toString() {
-        return new StringBuffer("sNavCalibrationState{").append("msg_id=").append(this.msg_id).append(", calibrationState=").append(this.calibrationState).append(", mileageCalibrationValue=").append(this.mileageCalibrationValue).append("}").toString();
+        return "sNavCalibrationState{" + "msg_id=" + this.msg_id + ", calibrationState=" + this.calibrationState + ", mileageCalibrationValue=" + this.mileageCalibrationValue + "}";
     }
 }
 

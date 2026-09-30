@@ -7,108 +7,91 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIIconExtractor
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ICONSIZE_SMALL;
-    public static final int ICONSIZE_MEDIUM;
-    public static final int ICONSIZE_LARGE;
-    public static final int ICONSIZE_VERY_SMALL;
-    public static final int ICONSIZE_VERY_LARGE;
-    public static final int ICONRESULT_OK;
-    public static final int ICONRESULT_ERROR;
-    public static final int TMCICONSUBINDEX_NORMAL;
-    public static final int TMCICONSUBINDEX_GRAYED_OUT;
-    public static final int TMCICONSUBINDEX_BYPASSED;
-    public static final int TMCICONSUBINDEX_BYPASSED_DISAPPEARS;
-    public static final int TRAFFICREGULATIONICONSUBINDEX_NORMAL;
-    public static final int TRAFFICREGULATIONICONSUBINDEX_GRAYED_OUT;
-    public static final int TRAFFICREGULATIONICONSUBINDEX_CROSSED_OUT;
-    public static final int BRANDICONSTYLE_ACTUALBRANDICON;
-    public static final int BRANDICONSTYLE_GENERIC;
-    public static final int RT_RESOURCEIDFORTMCEVENTICON;
-    public static final int RT_RESOURCEIDFORPOIICON;
-    public static final int RT_RENDERINGINFORMATIONFORROADICON;
-    public static final int RT_RESOURCEIDFORTARGETICON;
-    public static final int RT_RESOURCEIDFORROADCLASSICON;
-    public static final int RT_RESOURCEIDFORTRAFFICREGULATIONICON;
-    public static final int RT_RENDERINGINFORMATIONFOREXITICON;
-    public static final int RT_RESOURCEIDFORADDITIONALICON;
-    public static final int RT_RESOURCEIDFORCOUNTRYICON;
-    public static final int RT_RESOURCEIDFORTRAFFICREGULATIONICONWITHSUBINDEX;
-    public static final int RT_RENDERINGINFORMATIONFOREXITICONWITHVARIANT;
-    public static final int RT_SETBRANDICONSTYLE;
-    public static final int RT_RESOURCEIDFORADDITIONALTURNLISTICON;
-    public static final int RT_RESOURCEIDFORTRAFFICSOURCEICON;
-    public static final int RT_RESOURCEIDFORAREAWARNINGICON;
-    public static final int RT_RESOURCEIDFORCOMPOSEDPOIICON;
-    public static final int RT_RESOURCEIDFORPOIICONFROMRAWDATA;
-    public static final int RP_RESOURCEIDFORTMCEVENTICON;
-    public static final int RP_RESOURCEIDFORPOIICON;
-    public static final int RP_RENDERINGINFORMATIONFORROADICON;
-    public static final int RP_RESOURCEIDFORTARGETICON;
-    public static final int RP_RESOURCEIDFORROADCLASSICON;
-    public static final int RP_RESOURCEIDFORTRAFFICREGULATIONICON;
-    public static final int RP_RENDERINGINFORMATIONFOREXITICON;
-    public static final int RP_ICONRESULT;
-    public static final int RP_RESOURCEIDFORADDITIONALICON;
-    public static final int RP_RESOURCEIDFORCOUNTRYICON;
-    public static final int RP_RESOURCEIDFORTRAFFICREGULATIONICONWITHSUBINDEX;
-    public static final int RP_RENDERINGINFORMATIONFOREXITICONWITHVARIANT;
-    public static final int RP_SETBRANDICONSTYLERESULT;
-    public static final int RP_RESOURCEIDFORTRAFFICSOURCEICONRESULT;
-    public static final int RP_RESOURCEIDFORAREAWARNINGICONRESULT;
-    public static final int RP_RESOURCEIDFORADDITIONALTURNLISTICONRESULT;
-    public static final int RP_RESOURCEIDFORCOMPOSEDPOIICONRESULT;
-    public static final int RP_RESOURCEIDFORPOIICONFROMRAWDATARESULT;
+    public static final String VERSION = "2.11.16";
+    public static final int ICONSIZE_SMALL = 0;
+    public static final int ICONSIZE_MEDIUM = 1;
+    public static final int ICONSIZE_LARGE = 2;
+    public static final int ICONSIZE_VERY_SMALL = 3;
+    public static final int ICONSIZE_VERY_LARGE = 4;
+    public static final int ICONRESULT_OK = 0;
+    public static final int ICONRESULT_ERROR = 1;
+    public static final int TMCICONSUBINDEX_NORMAL = 0;
+    public static final int TMCICONSUBINDEX_GRAYED_OUT = 1;
+    public static final int TMCICONSUBINDEX_BYPASSED = 2;
+    public static final int TMCICONSUBINDEX_BYPASSED_DISAPPEARS = 3;
+    public static final int TRAFFICREGULATIONICONSUBINDEX_NORMAL = 0;
+    public static final int TRAFFICREGULATIONICONSUBINDEX_GRAYED_OUT = 1;
+    public static final int TRAFFICREGULATIONICONSUBINDEX_CROSSED_OUT = 2;
+    public static final int BRANDICONSTYLE_ACTUALBRANDICON = 0;
+    public static final int BRANDICONSTYLE_GENERIC = 1;
+    public static final int RT_RESOURCEIDFORTMCEVENTICON = 1000;
+    public static final int RT_RESOURCEIDFORPOIICON = 1001;
+    public static final int RT_RENDERINGINFORMATIONFORROADICON = 1002;
+    public static final int RT_RESOURCEIDFORTARGETICON = 1003;
+    public static final int RT_RESOURCEIDFORROADCLASSICON = 1004;
+    public static final int RT_RESOURCEIDFORTRAFFICREGULATIONICON = 1005;
+    public static final int RT_RENDERINGINFORMATIONFOREXITICON = 1006;
+    public static final int RT_RESOURCEIDFORADDITIONALICON = 1007;
+    public static final int RT_RESOURCEIDFORCOUNTRYICON = 1008;
+    public static final int RT_RESOURCEIDFORTRAFFICREGULATIONICONWITHSUBINDEX = 1009;
+    public static final int RT_RENDERINGINFORMATIONFOREXITICONWITHVARIANT = 1010;
+    public static final int RT_SETBRANDICONSTYLE = 1011;
+    public static final int RT_RESOURCEIDFORADDITIONALTURNLISTICON = 1021;
+    public static final int RT_RESOURCEIDFORTRAFFICSOURCEICON = 1022;
+    public static final int RT_RESOURCEIDFORAREAWARNINGICON = 1023;
+    public static final int RT_RESOURCEIDFORCOMPOSEDPOIICON = 1024;
+    public static final int RT_RESOURCEIDFORPOIICONFROMRAWDATA = 1025;
+    public static final int RP_RESOURCEIDFORTMCEVENTICON = 2000;
+    public static final int RP_RESOURCEIDFORPOIICON = 2001;
+    public static final int RP_RENDERINGINFORMATIONFORROADICON = 2002;
+    public static final int RP_RESOURCEIDFORTARGETICON = 2003;
+    public static final int RP_RESOURCEIDFORROADCLASSICON = 2004;
+    public static final int RP_RESOURCEIDFORTRAFFICREGULATIONICON = 2005;
+    public static final int RP_RENDERINGINFORMATIONFOREXITICON = 2006;
+    public static final int RP_ICONRESULT = 2007;
+    public static final int RP_RESOURCEIDFORADDITIONALICON = 2008;
+    public static final int RP_RESOURCEIDFORCOUNTRYICON = 2009;
+    public static final int RP_RESOURCEIDFORTRAFFICREGULATIONICONWITHSUBINDEX = 2010;
+    public static final int RP_RENDERINGINFORMATIONFOREXITICONWITHVARIANT = 2011;
+    public static final int RP_SETBRANDICONSTYLERESULT = 2012;
+    public static final int RP_RESOURCEIDFORTRAFFICSOURCEICONRESULT = 2022;
+    public static final int RP_RESOURCEIDFORAREAWARNINGICONRESULT = 2023;
+    public static final int RP_RESOURCEIDFORADDITIONALTURNLISTICONRESULT = 2024;
+    public static final int RP_RESOURCEIDFORCOMPOSEDPOIICONRESULT = 2025;
+    public static final int RP_RESOURCEIDFORPOIICONFROMRAWDATARESULT = 2026;
 
-    default public void resourceIdForTMCEventIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForTMCEventIcon(int var1, int var2, int var3);
 
-    default public void resourceIdForPOIIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForPOIIcon(int var1, int var2, int var3);
 
-    default public void renderingInformationForRoadIcon(int n, int n2, int n3) {
-    }
+    public void renderingInformationForRoadIcon(int var1, int var2, int var3);
 
-    default public void resourceIdForTargetIcon(int n, int n2) {
-    }
+    public void resourceIdForTargetIcon(int var1, int var2);
 
-    default public void resourceIdForRoadClassIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForRoadClassIcon(int var1, int var2, int var3);
 
-    default public void resourceIdForTrafficRegulationIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForTrafficRegulationIcon(int var1, int var2, int var3);
 
-    default public void renderingInformationForExitIcon(int n, int n2, int n3) {
-    }
+    public void renderingInformationForExitIcon(int var1, int var2, int var3);
 
-    default public void resourceIdForAdditionalIcon(int n, int n2, int n3) {
-    }
+    public void resourceIdForAdditionalIcon(int var1, int var2, int var3);
 
-    default public void resourceIdForCountryIcon(int n, int n2) {
-    }
+    public void resourceIdForCountryIcon(int var1, int var2);
 
-    default public void resourceIdForTrafficRegulationIconWithSubindex(int n, int n2, int n3, int n4) {
-    }
+    public void resourceIdForTrafficRegulationIconWithSubindex(int var1, int var2, int var3, int var4);
 
-    default public void renderingInformationForExitIconWithVariant(int n, int n2, int n3, int n4) {
-    }
+    public void renderingInformationForExitIconWithVariant(int var1, int var2, int var3, int var4);
 
-    default public void setBrandIconStyle(int[] nArray, int n) {
-    }
+    public void setBrandIconStyle(int[] var1, int var2);
 
-    default public void resourceIdForAdditionalTurnListIcon(int n, int n2, int n3, int n4) {
-    }
+    public void resourceIdForAdditionalTurnListIcon(int var1, int var2, int var3, int var4);
 
-    default public void resourceIdForTrafficSourceIcon(int n, int n2) {
-    }
+    public void resourceIdForTrafficSourceIcon(int var1, int var2);
 
-    default public void resourceIdForAreaWarningIcon(int n, int n2) {
-    }
+    public void resourceIdForAreaWarningIcon(int var1, int var2);
 
-    default public void resourceIdForComposedPOIIcon(int n, int n2, int n3, int[] nArray) {
-    }
+    public void resourceIdForComposedPOIIcon(int var1, int var2, int var3, int[] var4);
 
-    default public void resourceIdForPOIIconFromRawData(int n, int n2, int n3) {
-    }
+    public void resourceIdForPOIIconFromRawData(int var1, int var2, int var3);
 }
 

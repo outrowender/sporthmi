@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.TourImportStatus;
 
 public class TourImportStatusSerializer {
-    public static void putOptionalTourImportStatus(ISerializer iSerializer, TourImportStatus tourImportStatus) {
+    public static void putOptionalTourImportStatus(ISerializer iSerializer, TourImportStatus tourImportStatus) throws SerializerException {
         boolean bl = tourImportStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TourImportStatusSerializer {
         }
     }
 
-    public static void putOptionalTourImportStatusVarArray(ISerializer iSerializer, TourImportStatus[] tourImportStatusArray) {
+    public static void putOptionalTourImportStatusVarArray(ISerializer iSerializer, TourImportStatus[] tourImportStatusArray) throws SerializerException {
         boolean bl = tourImportStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TourImportStatusSerializer {
         }
     }
 
-    public static TourImportStatus getOptionalTourImportStatus(IDeserializer iDeserializer) {
+    public static TourImportStatus getOptionalTourImportStatus(IDeserializer iDeserializer) throws SerializerException {
         TourImportStatus tourImportStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class TourImportStatusSerializer {
         return tourImportStatus;
     }
 
-    public static TourImportStatus[] getOptionalTourImportStatusVarArray(IDeserializer iDeserializer) {
+    public static TourImportStatus[] getOptionalTourImportStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         TourImportStatus[] tourImportStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

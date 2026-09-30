@@ -61,7 +61,6 @@ implements AnimationListener {
         this.animationCycle = n4;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         long l = System.currentTimeMillis();
         long l2 = l - this.timeSinceLastAnimationStep;
@@ -82,11 +81,9 @@ implements AnimationListener {
         this.timeSinceLastAnimationStep = l;
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
@@ -105,7 +102,7 @@ implements AnimationListener {
         float f3 = this.pCurrent;
         float f4 = Math.abs(this.pDest - this.pCurrent);
         if (f4 != 0.0f) {
-            float f5 = f2 / 18498;
+            float f5 = f2 / 50.0f;
             float f6 = f5 * f4 * this.param_factor + this.param_baseSpeed * Math.min(1.0f, f4 / (float)this.lineHeight);
             f6 = Math.min(Math.min(f6, f4), f5 * this.param_maxSpeed);
             if (this.pDest > this.pCurrent) {
@@ -126,21 +123,19 @@ implements AnimationListener {
                     n = -1;
                 }
                 this.pCurrent = f3 + (float)(n * this.maxStepLength);
-                this.logCh.log(-1601830656, "ListScrollingController#calculateCurrentP Maximum scrolling step size exceeded!");
+                this.logCh.log(100000, "ListScrollingController#calculateCurrentP Maximum scrolling step size exceeded!");
             }
             this.pCurrentLineCount = this.isDynamicLineHeight() ? this.calculateCurrentLineCountForDynamicLineHeight(this.pCurrent) : (int)((this.pCurrent - (float)this.offset) / (float)this.lineHeight);
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
-        this.logCh.log(-2137614336, "ListScrollingController#connected");
+        this.logCh.log(10000000, "ListScrollingController#connected");
         this.initParamAnimationType1();
         this.initParamAnimationType2();
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.stopAnimation();
@@ -188,36 +183,35 @@ implements AnimationListener {
         return this.lineHeight;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
     private void initParamAnimationType1() {
-        this.param_baseSpeed = 8257;
-        this.param_factor = -1883048644;
-        this.param_maxSpeed = 51266;
-        this.param_maxAccel_typ1 = 16448;
+        this.param_baseSpeed = 10.0f;
+        this.param_factor = 0.03f;
+        this.param_maxSpeed = 100.0f;
+        this.param_maxAccel_typ1 = 3.0f;
         this.pCurrent = this.offset;
         this.pDest = this.offset;
         this.vCurrent = 0.0f;
     }
 
     private void initParamAnimationType2() {
-        this.param_minDistance = 16448;
-        this.param_accumulationTime = 31299;
-        this.param_minTicks = 32832;
-        this.param_minTime = 41025;
-        this.param_maxTime = 64067;
-        this.param_minAccel = 63;
-        this.param_maxAccel_typ2 = 24640;
-        this.param_totalTicks = 32833;
-        this.param_tAccel = 41024;
-        this.param_tConst = 41024;
-        this.param_tDecel = 5699;
-        this.param_minAverageSpeed = 8256;
+        this.param_minDistance = 3.0f;
+        this.param_accumulationTime = 250.0f;
+        this.param_minTicks = 4.0f;
+        this.param_minTime = 20.0f;
+        this.param_maxTime = 500.0f;
+        this.param_minAccel = 0.5f;
+        this.param_maxAccel_typ2 = 3.5f;
+        this.param_totalTicks = 16.0f;
+        this.param_tAccel = 5.0f;
+        this.param_tConst = 5.0f;
+        this.param_tDecel = 150.0f;
+        this.param_minAverageSpeed = 2.5f;
         int n = this.getTerminal().getKbdService().getCurrentKeyboardType();
-        this.logCh.log(1078071040, "ListScrollingController#initParamAnimationType2 current keyboard type is %1", (long)n);
+        this.logCh.log(1000000, "ListScrollingController#initParamAnimationType2 current keyboard type is %1", (long)n);
     }
 
     public boolean isCurrentlyScrolling() {
@@ -236,11 +230,10 @@ implements AnimationListener {
         this.keyTurned(new WheelButtonEvent(null, -1, l, -1, n2, n, -1));
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         WheelButtonEvent wheelButtonEvent2;
         super.keyTurned(wheelButtonEvent);
-        this.logCh.log(-2137614336, "ListScrollingController#keyTurned");
+        this.logCh.log(10000000, "ListScrollingController#keyTurned");
         int n = wheelButtonEvent.getClickCount();
         int n2 = wheelButtonEvent.getDirection();
         long l = wheelButtonEvent.getWhen();
@@ -287,7 +280,7 @@ implements AnimationListener {
             this.pDest = this.pDestLineCount * this.lineHeight;
         }
         if (this.prevTick.size() > 0 && (wheelButtonEvent2 = (WheelButtonEvent)this.prevTick.peek()).getDirection() != n2) {
-            this.logCh.log(-2137614336, "ListScrollingController#keyTurned Direction changed. Clear stack.");
+            this.logCh.log(10000000, "ListScrollingController#keyTurned Direction changed. Clear stack.");
             this.prevTick.clear();
             if (this.isFastScrollActive) {
                 this.stopFastScroll();
@@ -301,18 +294,17 @@ implements AnimationListener {
             }
         }
         this.prevTick.push(new WheelButtonEvent(null, -1, l, -1, n2, n, -1));
-        this.logCh.log(-2137614336, "ListScrollingController#keyTurned pDest = %1", (double)this.pDest);
+        this.logCh.log(10000000, "ListScrollingController#keyTurned pDest = %1", (double)this.pDest);
         if (this.isFastScrollAvailable && this.fastScrollStartConditionFullfilled()) {
             this.startFastScroll();
         }
     }
 
-    abstract void positionElements(float f2) {
-    }
+    abstract void positionElements(float var1);
 
     private void printWheelEvent(WheelButtonEvent wheelButtonEvent) {
         String string = StringUtilities.formatMessage("ListScrollingController#printWheelEvent keyCode = %1, direction = %2, clickCount = %3, subClickCount = %4, when = %5, time = %6", new int[]{wheelButtonEvent.getKeyCode(), wheelButtonEvent.getDirection(), wheelButtonEvent.getClickCount(), wheelButtonEvent.getSubClickCount(), (int)wheelButtonEvent.getWhen(), (int)System.currentTimeMillis()});
-        this.logCh.log(-2137614336, string);
+        this.logCh.log(10000000, string);
     }
 
     public void resetPosition() {
@@ -325,12 +317,11 @@ implements AnimationListener {
         this.positionElements(this.pCurrent);
     }
 
-    public abstract void scrollingStopped() {
-    }
+    public abstract void scrollingStopped();
 
     public void setCurrentPosition(int n) {
         if (this.isCurrentlyScrolling()) {
-            this.logCh.log(-2137614336, "ListScrollingController#setDestination List is currrently scrolling.");
+            this.logCh.log(10000000, "ListScrollingController#setDestination List is currrently scrolling.");
         }
         this.pDest = this.isDynamicLineHeight() ? (float)(this.offset + this.sumLineHeights(0, n)) : (float)(this.offset + n * this.lineHeight);
         this.pDestLineCount = n;
@@ -343,7 +334,7 @@ implements AnimationListener {
     }
 
     public void setLineHeight(int n) {
-        this.logCh.log(-2137614336, "ListScrollingController#setLineHeight line height = %1", (long)n);
+        this.logCh.log(10000000, "ListScrollingController#setLineHeight line height = %1", (long)n);
         this.lineHeight = n;
     }
 
@@ -390,7 +381,7 @@ implements AnimationListener {
     }
 
     private void startFastScroll() {
-        this.logCh.log(-2137614336, "ListScrollingController#startFastScroll");
+        this.logCh.log(10000000, "ListScrollingController#startFastScroll");
         this.isFastScrollActive = true;
     }
 
@@ -401,7 +392,7 @@ implements AnimationListener {
     }
 
     private void stopFastScroll() {
-        this.logCh.log(-2137614336, "ListScrollingController#stopFastScroll");
+        this.logCh.log(10000000, "ListScrollingController#stopFastScroll");
         this.isFastScrollActive = false;
     }
 

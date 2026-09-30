@@ -4,10 +4,8 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface PreferredSize {
-    default public int getPreferredWidth() {
-    }
+    public int getPreferredWidth();
 
-    default public int getPreferredHeight() {
-    }
+    public int getPreferredHeight();
 }
 

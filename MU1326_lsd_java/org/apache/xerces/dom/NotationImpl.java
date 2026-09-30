@@ -7,14 +7,13 @@ import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.dom.NodeImpl;
 import org.apache.xerces.util.URI;
-import org.apache.xerces.util.URI$MalformedURIException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Notation;
 
 public class NotationImpl
 extends NodeImpl
 implements Notation {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -764632195890658402L;
     protected String name;
     protected String publicId;
     protected String systemId;
@@ -25,12 +24,10 @@ implements Notation {
         this.name = string;
     }
 
-    @Override
     public short getNodeType() {
         return 12;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -38,7 +35,6 @@ implements Notation {
         return this.name;
     }
 
-    @Override
     public String getPublicId() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -46,7 +42,6 @@ implements Notation {
         return this.publicId;
     }
 
-    @Override
     public String getSystemId() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -74,7 +69,6 @@ implements Notation {
         this.systemId = string;
     }
 
-    @Override
     public String getBaseURI() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -83,7 +77,7 @@ implements Notation {
             try {
                 return new URI(this.baseURI).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 return null;
             }
         }

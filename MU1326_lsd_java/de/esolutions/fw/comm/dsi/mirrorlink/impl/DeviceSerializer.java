@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.Device;
 
 public class DeviceSerializer {
-    public static void putOptionalDevice(ISerializer iSerializer, Device device) {
+    public static void putOptionalDevice(ISerializer iSerializer, Device device) throws SerializerException {
         boolean bl = device == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DeviceSerializer {
         }
     }
 
-    public static void putOptionalDeviceVarArray(ISerializer iSerializer, Device[] deviceArray) {
+    public static void putOptionalDeviceVarArray(ISerializer iSerializer, Device[] deviceArray) throws SerializerException {
         boolean bl = deviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DeviceSerializer {
         }
     }
 
-    public static Device getOptionalDevice(IDeserializer iDeserializer) {
+    public static Device getOptionalDevice(IDeserializer iDeserializer) throws SerializerException {
         Device device = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DeviceSerializer {
         return device;
     }
 
-    public static Device[] getOptionalDeviceVarArray(IDeserializer iDeserializer) {
+    public static Device[] getOptionalDeviceVarArray(IDeserializer iDeserializer) throws SerializerException {
         Device[] deviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

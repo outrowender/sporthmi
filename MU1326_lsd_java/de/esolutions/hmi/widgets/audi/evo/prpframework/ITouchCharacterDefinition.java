@@ -6,10 +6,8 @@ package de.esolutions.hmi.widgets.audi.evo.prpframework;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework.ICharacterRegister;
 
 public interface ITouchCharacterDefinition {
-    default public ICharacterRegister getHWRSymbols(int n, int n2, int n3) {
-    }
+    public ICharacterRegister getHWRSymbols(int var1, int var2, int var3);
 
-    default public ICharacterRegister getBlackList(int n, boolean bl) {
-    }
+    public ICharacterRegister getBlackList(int var1, boolean var2);
 }
 

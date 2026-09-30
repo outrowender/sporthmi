@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.mobilityhorizon.impl;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.ValueUnitPairSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mobilityhorizon.ConsumptionInfo;
 import org.dsi.ifc.mobilityhorizon.ValueUnitPair;
 
 public class ConsumptionInfoSerializer {
-    public static void putOptionalConsumptionInfo(ISerializer iSerializer, ConsumptionInfo consumptionInfo) {
+    public static void putOptionalConsumptionInfo(ISerializer iSerializer, ConsumptionInfo consumptionInfo) throws SerializerException {
         boolean bl = consumptionInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class ConsumptionInfoSerializer {
         }
     }
 
-    public static void putOptionalConsumptionInfoVarArray(ISerializer iSerializer, ConsumptionInfo[] consumptionInfoArray) {
+    public static void putOptionalConsumptionInfoVarArray(ISerializer iSerializer, ConsumptionInfo[] consumptionInfoArray) throws SerializerException {
         boolean bl = consumptionInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class ConsumptionInfoSerializer {
         }
     }
 
-    public static ConsumptionInfo getOptionalConsumptionInfo(IDeserializer iDeserializer) {
+    public static ConsumptionInfo getOptionalConsumptionInfo(IDeserializer iDeserializer) throws SerializerException {
         ConsumptionInfo consumptionInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class ConsumptionInfoSerializer {
         return consumptionInfo;
     }
 
-    public static ConsumptionInfo[] getOptionalConsumptionInfoVarArray(IDeserializer iDeserializer) {
+    public static ConsumptionInfo[] getOptionalConsumptionInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ConsumptionInfo[] consumptionInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

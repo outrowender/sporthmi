@@ -4,18 +4,15 @@
 package de.esolutions.fw.comm.asi.navigation.rdvdataprovider;
 
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RouteProviderSetting;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface RdvDataProviderC {
-    default public void registerForDataUpdate() {
-    }
+    public void registerForDataUpdate() throws MethodException;
 
-    default public void unregisterForDataUpdate() {
-    }
+    public void unregisterForDataUpdate() throws MethodException;
 
-    default public void setRouteProviderSetting(RouteProviderSetting routeProviderSetting) {
-    }
+    public void setRouteProviderSetting(RouteProviderSetting var1) throws MethodException;
 
-    default public void getCurrentPosition() {
-    }
+    public void getCurrentPosition() throws MethodException;
 }
 

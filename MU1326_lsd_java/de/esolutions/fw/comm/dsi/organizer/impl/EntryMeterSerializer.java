@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.EntryMeter;
 
 public class EntryMeterSerializer {
-    public static void putOptionalEntryMeter(ISerializer iSerializer, EntryMeter entryMeter) {
+    public static void putOptionalEntryMeter(ISerializer iSerializer, EntryMeter entryMeter) throws SerializerException {
         boolean bl = entryMeter == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class EntryMeterSerializer {
         }
     }
 
-    public static void putOptionalEntryMeterVarArray(ISerializer iSerializer, EntryMeter[] entryMeterArray) {
+    public static void putOptionalEntryMeterVarArray(ISerializer iSerializer, EntryMeter[] entryMeterArray) throws SerializerException {
         boolean bl = entryMeterArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class EntryMeterSerializer {
         }
     }
 
-    public static EntryMeter getOptionalEntryMeter(IDeserializer iDeserializer) {
+    public static EntryMeter getOptionalEntryMeter(IDeserializer iDeserializer) throws SerializerException {
         EntryMeter entryMeter = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class EntryMeterSerializer {
         return entryMeter;
     }
 
-    public static EntryMeter[] getOptionalEntryMeterVarArray(IDeserializer iDeserializer) {
+    public static EntryMeter[] getOptionalEntryMeterVarArray(IDeserializer iDeserializer) throws SerializerException {
         EntryMeter[] entryMeterArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

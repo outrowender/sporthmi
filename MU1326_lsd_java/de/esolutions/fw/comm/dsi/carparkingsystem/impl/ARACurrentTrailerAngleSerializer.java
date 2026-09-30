@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.ARACurrentTrailerAngle;
 
 public class ARACurrentTrailerAngleSerializer {
-    public static void putOptionalARACurrentTrailerAngle(ISerializer iSerializer, ARACurrentTrailerAngle aRACurrentTrailerAngle) {
+    public static void putOptionalARACurrentTrailerAngle(ISerializer iSerializer, ARACurrentTrailerAngle aRACurrentTrailerAngle) throws SerializerException {
         boolean bl = aRACurrentTrailerAngle == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ARACurrentTrailerAngleSerializer {
         }
     }
 
-    public static void putOptionalARACurrentTrailerAngleVarArray(ISerializer iSerializer, ARACurrentTrailerAngle[] aRACurrentTrailerAngleArray) {
+    public static void putOptionalARACurrentTrailerAngleVarArray(ISerializer iSerializer, ARACurrentTrailerAngle[] aRACurrentTrailerAngleArray) throws SerializerException {
         boolean bl = aRACurrentTrailerAngleArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ARACurrentTrailerAngleSerializer {
         }
     }
 
-    public static ARACurrentTrailerAngle getOptionalARACurrentTrailerAngle(IDeserializer iDeserializer) {
+    public static ARACurrentTrailerAngle getOptionalARACurrentTrailerAngle(IDeserializer iDeserializer) throws SerializerException {
         ARACurrentTrailerAngle aRACurrentTrailerAngle = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ARACurrentTrailerAngleSerializer {
         return aRACurrentTrailerAngle;
     }
 
-    public static ARACurrentTrailerAngle[] getOptionalARACurrentTrailerAngleVarArray(IDeserializer iDeserializer) {
+    public static ARACurrentTrailerAngle[] getOptionalARACurrentTrailerAngleVarArray(IDeserializer iDeserializer) throws SerializerException {
         ARACurrentTrailerAngle[] aRACurrentTrailerAngleArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

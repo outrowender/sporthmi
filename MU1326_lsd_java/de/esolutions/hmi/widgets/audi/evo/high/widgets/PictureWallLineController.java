@@ -36,7 +36,6 @@ extends LayoutContainerController {
         iWrappedNode3D2.add(iWrappedNode3D);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.setUpWidget();
@@ -70,11 +69,11 @@ extends LayoutContainerController {
             if (this.data == null) {
                 this.data = new HMIResourceLocator[4];
             }
-            float f2 = (float)(this.getWidth() - 420) / 16448;
+            float f2 = (float)(this.getWidth() - 420) / 3.0f;
             for (int i3 = 0; i3 < this.icons.length; ++i3) {
                 this.icons[i3].setWidth(105);
                 this.icons[i3].setHeight(74);
-                this.icons[i3].setX((int)((float)i3 * (53826 + f2)));
+                this.icons[i3].setX((int)((float)i3 * (105.0f + f2)));
             }
         }
     }
@@ -112,8 +111,8 @@ extends LayoutContainerController {
             HMIResourceLocator hMIResourceLocator3 = hMIResourceLocator;
             boolean bl2 = bl = !Util.equals(hMIResourceLocator2, hMIResourceLocator3);
             if (bl) {
-                pictureWallLogCh.log(-2137614336, "PictureWallLineController#setPictureAt row = %1, column = %2", (long)this.visibleRow, (long)n);
-                pictureWallLogCh.log(-2137614336, "PictureWallLineController#setPictureAt oldData = %1, newData = %2", (Object)hMIResourceLocator2, (Object)hMIResourceLocator3);
+                pictureWallLogCh.log(10000000, "PictureWallLineController#setPictureAt row = %1, column = %2", (long)this.visibleRow, (long)n);
+                pictureWallLogCh.log(10000000, "PictureWallLineController#setPictureAt oldData = %1, newData = %2", (Object)hMIResourceLocator2, (Object)hMIResourceLocator3);
                 this.data[n] = hMIResourceLocator3;
                 this.icons[n].setModel(hMIResourceLocator3);
                 this.icons[n].setCompositesDirty(true);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.VAlarm;
 
 public class VAlarmSerializer {
-    public static void putOptionalVAlarm(ISerializer iSerializer, VAlarm vAlarm) {
+    public static void putOptionalVAlarm(ISerializer iSerializer, VAlarm vAlarm) throws SerializerException {
         boolean bl = vAlarm == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class VAlarmSerializer {
         }
     }
 
-    public static void putOptionalVAlarmVarArray(ISerializer iSerializer, VAlarm[] vAlarmArray) {
+    public static void putOptionalVAlarmVarArray(ISerializer iSerializer, VAlarm[] vAlarmArray) throws SerializerException {
         boolean bl = vAlarmArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class VAlarmSerializer {
         }
     }
 
-    public static VAlarm getOptionalVAlarm(IDeserializer iDeserializer) {
+    public static VAlarm getOptionalVAlarm(IDeserializer iDeserializer) throws SerializerException {
         VAlarm vAlarm = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class VAlarmSerializer {
         return vAlarm;
     }
 
-    public static VAlarm[] getOptionalVAlarmVarArray(IDeserializer iDeserializer) {
+    public static VAlarm[] getOptionalVAlarmVarArray(IDeserializer iDeserializer) throws SerializerException {
         VAlarm[] vAlarmArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

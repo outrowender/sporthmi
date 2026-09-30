@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCCounter;
 
 public class BCCounterSerializer {
-    public static void putOptionalBCCounter(ISerializer iSerializer, BCCounter bCCounter) {
+    public static void putOptionalBCCounter(ISerializer iSerializer, BCCounter bCCounter) throws SerializerException {
         boolean bl = bCCounter == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCCounterSerializer {
         }
     }
 
-    public static void putOptionalBCCounterVarArray(ISerializer iSerializer, BCCounter[] bCCounterArray) {
+    public static void putOptionalBCCounterVarArray(ISerializer iSerializer, BCCounter[] bCCounterArray) throws SerializerException {
         boolean bl = bCCounterArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCCounterSerializer {
         }
     }
 
-    public static BCCounter getOptionalBCCounter(IDeserializer iDeserializer) {
+    public static BCCounter getOptionalBCCounter(IDeserializer iDeserializer) throws SerializerException {
         BCCounter bCCounter = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCCounterSerializer {
         return bCCounter;
     }
 
-    public static BCCounter[] getOptionalBCCounterVarArray(IDeserializer iDeserializer) {
+    public static BCCounter[] getOptionalBCCounterVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCCounter[] bCCounterArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

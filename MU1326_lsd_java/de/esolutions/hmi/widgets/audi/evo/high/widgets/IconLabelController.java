@@ -11,7 +11,6 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelGUI;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.eso.IconExtractor.IconExtractor;
-import de.eso.IconExtractor.IconExtractor$Bitmap;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
@@ -26,8 +25,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ByteBufferBackedInputStream;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLoader;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLoader$IIconLoadedCallBack;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLoader$IconLoadedEvent;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IEmptyableWidget;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListItemWidget;
 import java.nio.ByteBuffer;
@@ -40,9 +37,9 @@ public class IconLabelController
 extends AbstractWidgetController
 implements ListItemWidget,
 IEmptyableWidget,
-IconLoader$IIconLoadedCallBack {
-    private static final int DEFAULT_WAIT_FOR_ICON_TIME;
-    private static Map textureRecorder;
+IconLoader.IIconLoadedCallBack {
+    private static final int DEFAULT_WAIT_FOR_ICON_TIME = 50;
+    private static Map textureRecorder = new HashMap();
     private IconLabelRendererHigh renderer;
     private IconCell iconCell;
     private HMIResourceLocator resourceLocator;
@@ -54,15 +51,13 @@ IconLoader$IIconLoadedCallBack {
     private boolean dataChanged = false;
     private IconLoader iconLoader;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateContent();
     }
 
-    @Override
     public void disconnecting() {
-        iconLabelLogCh.log(-2137614336, "IconLabelController#disconnecting");
+        iconLabelLogCh.log(10000000, "IconLabelController#disconnecting");
         if (!this.hasContent() && this.iconLoader != null) {
             this.iconLoader.cancelLoad(this.getID(), this);
         }
@@ -104,9 +99,8 @@ IconLoader$IIconLoadedCallBack {
         return -1;
     }
 
-    @Override
     public int getPreferredWidth() {
-        iconLabelLogCh.log(1078071040, "IconLabelController#getPreferredWidth Bitmap with width %1. preferred width: %2", (long)this.bitmapWidth, (long)this.preferredWidth);
+        iconLabelLogCh.log(1000000, "IconLabelController#getPreferredWidth Bitmap with width %1. preferred width: %2", (long)this.bitmapWidth, (long)this.preferredWidth);
         if (this.preferredWidth != -1) {
             return this.preferredWidth;
         }
@@ -119,9 +113,8 @@ IconLoader$IIconLoadedCallBack {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
-        iconLabelLogCh.log(1078071040, "IconLabelController#getPreferredHeight Bitmap with heigth %1. preferred height: %2", (long)this.bitmapHeight, (long)this.preferredHeight);
+        iconLabelLogCh.log(1000000, "IconLabelController#getPreferredHeight Bitmap with heigth %1. preferred height: %2", (long)this.bitmapHeight, (long)this.preferredHeight);
         if (this.preferredHeight != -1) {
             return this.preferredHeight;
         }
@@ -134,7 +127,6 @@ IconLoader$IIconLoadedCallBack {
         return 0;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -164,15 +156,15 @@ IconLoader$IIconLoadedCallBack {
                 logChannel.log(n, "EAL Path %1", (Object)eALManager.getHMIImage(hMIResourceLocator.getResourceID(), n2));
                 if (hMIResourceLocator.getResourceID() < 0) break block5;
                 try {
-                    IconExtractor$Bitmap iconExtractor$Bitmap = IconExtractor.getImage(hMIResourceLocator.getResourceID(), (long)0);
-                    if (iconExtractor$Bitmap != null) {
-                        int n3 = iconExtractor$Bitmap.getFormat();
-                        int n4 = iconExtractor$Bitmap.getWidth();
-                        int n5 = iconExtractor$Bitmap.getHeight();
+                    IconExtractor.Bitmap bitmap = IconExtractor.getImage(hMIResourceLocator.getResourceID(), 50L);
+                    if (bitmap != null) {
+                        int n3 = bitmap.getFormat();
+                        int n4 = bitmap.getWidth();
+                        int n5 = bitmap.getHeight();
                         logChannel.log(n, "width %1", (long)n4);
                         logChannel.log(n, "height %1", (long)n5);
                         logChannel.log(n, "format %1", (long)n3);
-                        logChannel.log(n, "info %1", (Object)iconExtractor$Bitmap.getData().toString());
+                        logChannel.log(n, "info %1", (Object)bitmap.getData().toString());
                         break block5;
                     }
                     logChannel.log(n, "Bitmap is null.");
@@ -182,7 +174,7 @@ IconLoader$IIconLoadedCallBack {
                 }
             }
             catch (Exception exception) {
-                logChannel.log(-1601830656, "IconLabelController#logIconCellInfo Caught exception %1", (Object)exception.getMessage());
+                logChannel.log(100000, "IconLabelController#logIconCellInfo Caught exception %1", (Object)exception.getMessage());
             }
         }
     }
@@ -195,11 +187,10 @@ IconLoader$IIconLoadedCallBack {
         return bl2;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        iconLabelLogCh.log(-2137614336, "IconCellController#processModelUpdateEvent model = %1", this.model);
+        iconLabelLogCh.log(10000000, "IconCellController#processModelUpdateEvent model = %1", this.model);
         if (!this.isConnected()) {
-            iconLabelLogCh.log(-2137614336, "IconCellController#processModelUpdateEvent Widget is not connected. Return.");
+            iconLabelLogCh.log(10000000, "IconCellController#processModelUpdateEvent Widget is not connected. Return.");
             return;
         }
         this.updateContent();
@@ -209,7 +200,6 @@ IconLoader$IIconLoadedCallBack {
         this.modelColumn = n;
     }
 
-    @Override
     public int getModelColumn() {
         return this.modelColumn;
     }
@@ -231,7 +221,7 @@ IconLoader$IIconLoadedCallBack {
             long l = System.currentTimeMillis();
             IconExtractor.initialize();
             long l2 = System.currentTimeMillis();
-            mapOverlayLogCh.log(1078071040, "IconLabelController#updateContent IconExtractor initialization took %1 milliseconds", l2 - l);
+            mapOverlayLogCh.log(1000000, "IconLabelController#updateContent IconExtractor initialization took %1 milliseconds", l2 - l);
             MixedListKZBMerger.isIconExtractorInitialized = true;
         }
         if (this.model instanceof ChoiceModelGUI) {
@@ -256,13 +246,13 @@ IconLoader$IIconLoadedCallBack {
         this.bitmapWidth = -1;
         this.bitmapHeight = -1;
         int n = this.getID();
-        iconLabelLogCh.log(-2137614336, "IconLabelController#updateContent Resource ID = %1", (long)n);
+        iconLabelLogCh.log(10000000, "IconLabelController#updateContent Resource ID = %1", (long)n);
         if (n >= 0) {
             Integer n2 = Util.createInteger(n);
             IWrappedTexture iWrappedTexture = null;
             ITextureCache iTextureCache = this.getCache();
             if (iTextureCache == null) {
-                iconLabelLogCh.log(-1601830656, "IconLabelController#updateContent The cache has not been created yet!");
+                iconLabelLogCh.log(100000, "IconLabelController#updateContent The cache has not been created yet!");
                 return;
             }
             ITextureCache iTextureCache2 = iTextureCache;
@@ -272,12 +262,12 @@ IconLoader$IIconLoadedCallBack {
                     iWrappedTexture = textureDescription.getTexture(this);
                     this.bitmapWidth = iWrappedTexture.getWidth();
                     this.bitmapHeight = iWrappedTexture.getHeight();
-                    iconLabelLogCh.log(-2137614336, "IconLabelController#updateContent Texture with id = %1 found in cache. Width = %2, height = %3.", (long)n, (long)this.bitmapWidth, (long)this.bitmapHeight);
+                    iconLabelLogCh.log(10000000, "IconLabelController#updateContent Texture with id = %1 found in cache. Width = %2, height = %3.", (long)n, (long)this.bitmapWidth, (long)this.bitmapHeight);
                 } else if (this.shouldUseAsychronouseLoading()) {
-                    iconLabelLogCh.log(-2137614336, "IconLabelController#updateContent Load icon %1 asynchronously", (long)n);
+                    iconLabelLogCh.log(10000000, "IconLabelController#updateContent Load icon %1 asynchronously", (long)n);
                     this.loadAsyncIcon(n, n2);
                 } else {
-                    iconLabelLogCh.log(-2137614336, "IconLabelController#updateContent Load icon %1 synchronously", (long)n);
+                    iconLabelLogCh.log(10000000, "IconLabelController#updateContent Load icon %1 synchronously", (long)n);
                     iWrappedTexture = this.loadIcon(n, n2, iTextureCache);
                 }
             }
@@ -309,8 +299,8 @@ IconLoader$IIconLoadedCallBack {
     private IWrappedTexture loadIcon(int n, Integer n2, ITextureCache iTextureCache) {
         try {
             if (framework.isTarget()) {
-                IconExtractor$Bitmap iconExtractor$Bitmap = IconLoader.getImage(n, 50);
-                return this.createTextureDescription(n, n2, iconExtractor$Bitmap, iTextureCache);
+                IconExtractor.Bitmap bitmap = IconLoader.getImage(n, 50);
+                return this.createTextureDescription(n, n2, bitmap, iTextureCache);
             }
         }
         catch (Exception exception) {
@@ -319,27 +309,24 @@ IconLoader$IIconLoadedCallBack {
         return null;
     }
 
-    @Override
     public List getDiagnosisChildren() {
         return null;
     }
 
-    @Override
     public boolean hasContent() {
         return this.content != null;
     }
 
-    @Override
-    public void onIconLoaded(int n, Integer n2, IconExtractor$Bitmap iconExtractor$Bitmap) {
-        iconLabelLogCh.log(-2137614336, "IconLabelController#onIconLoaded Bitmap with id %1 is coming in for widget %2.", (long)n, (long)this.hashCode());
+    public void onIconLoaded(int n, Integer n2, IconExtractor.Bitmap bitmap) {
+        iconLabelLogCh.log(10000000, "IconLabelController#onIconLoaded Bitmap with id %1 is coming in for widget %2.", (long)n, (long)this.hashCode());
         ITextureCache iTextureCache = this.getCache();
         if (iTextureCache.getTextureDescriptionByKey(n2) != null) {
-            iconLabelLogCh.log(1078071040, "IconLabelController#onIconLoaded Bitmap with id %1 is existing in cache.", (long)n);
+            iconLabelLogCh.log(1000000, "IconLabelController#onIconLoaded Bitmap with id %1 is existing in cache.", (long)n);
         }
         if (this.content != null) {
             this.content.releaseTexture(true, this);
         }
-        this.content = this.createTextureDescription(n, n2, iconExtractor$Bitmap, iTextureCache);
+        this.content = this.createTextureDescription(n, n2, bitmap, iTextureCache);
         this.logTextureInformation(n2, this.content);
         this.refreshLayout();
     }
@@ -347,14 +334,14 @@ IconLoader$IIconLoadedCallBack {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private IWrappedTexture createTextureDescription(int n, Integer n2, IconExtractor$Bitmap iconExtractor$Bitmap, ITextureCache iTextureCache) {
-        if (iconExtractor$Bitmap != null) {
-            this.bitmapWidth = iconExtractor$Bitmap.getWidth();
-            this.bitmapHeight = iconExtractor$Bitmap.getHeight();
-            ByteBuffer byteBuffer = iconExtractor$Bitmap.getData();
+    private IWrappedTexture createTextureDescription(int n, Integer n2, IconExtractor.Bitmap bitmap, ITextureCache iTextureCache) {
+        if (bitmap != null) {
+            this.bitmapWidth = bitmap.getWidth();
+            this.bitmapHeight = bitmap.getHeight();
+            ByteBuffer byteBuffer = bitmap.getData();
             if (byteBuffer != null) {
-                int n3 = iconExtractor$Bitmap.getWidth();
-                int n4 = iconExtractor$Bitmap.getHeight();
+                int n3 = bitmap.getWidth();
+                int n4 = bitmap.getHeight();
                 TextureDescription textureDescription = this.renderer.getEALManager().createTextureDescription(byteBuffer, 6, n3, n4, iTextureCache, n2);
                 ITextureCache iTextureCache2 = iTextureCache;
                 synchronized (iTextureCache2) {
@@ -373,14 +360,13 @@ IconLoader$IIconLoadedCallBack {
         this.invalidateParentLayout();
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
-        if (aTIPEvent instanceof IconLoader$IconLoadedEvent && this.isVisible()) {
-            IconLoader$IconLoadedEvent iconLoader$IconLoadedEvent = (IconLoader$IconLoadedEvent)aTIPEvent;
-            if (iconLoader$IconLoadedEvent.getImage() != null && iconLoader$IconLoadedEvent.getIconID() == this.getID()) {
-                this.onIconLoaded(iconLoader$IconLoadedEvent.getIconID(), iconLoader$IconLoadedEvent.getIDInt(), iconLoader$IconLoadedEvent.getImage());
+        if (aTIPEvent instanceof IconLoader.IconLoadedEvent && this.isVisible()) {
+            IconLoader.IconLoadedEvent iconLoadedEvent = (IconLoader.IconLoadedEvent)aTIPEvent;
+            if (iconLoadedEvent.getImage() != null && iconLoadedEvent.getIconID() == this.getID()) {
+                this.onIconLoaded(iconLoadedEvent.getIconID(), iconLoadedEvent.getIDInt(), iconLoadedEvent.getImage());
             } else {
-                iconLabelLogCh.log(10000, "IconLabelController#processEvent Unmatched event coming in, epect %1 but back with %2", (long)this.getID(), (long)iconLoader$IconLoadedEvent.getIconID());
+                iconLabelLogCh.log(10000, "IconLabelController#processEvent Unmatched event coming in, epect %1 but back with %2", (long)this.getID(), (long)iconLoadedEvent.getIconID());
             }
             aTIPEvent.consume();
             this.triggerRepaint();
@@ -414,15 +400,11 @@ IconLoader$IIconLoadedCallBack {
             stringBuffer.append("}\r\n");
         }
         stringBuffer.append(']');
-        IWidgetLogChannel.iconLabelLogCh.log(-2137614336, stringBuffer.toString());
+        IWidgetLogChannel.iconLabelLogCh.log(10000000, stringBuffer.toString());
     }
 
     public boolean hasPlaceholderSettings() {
         return this.getPreferredWidth() > 0 && this.getPreferredHeight() > 0;
-    }
-
-    static {
-        textureRecorder = new HashMap();
     }
 }
 

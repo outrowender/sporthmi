@@ -32,7 +32,7 @@ import org.apache.commons.scxml.semantics.SCXMLSemanticsImpl;
 
 public class SCXMLExecutor
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Log log = LogFactory.getLog(class$org$apache$commons$scxml$SCXMLExecutor == null ? (class$org$apache$commons$scxml$SCXMLExecutor = SCXMLExecutor.class$("org.apache.commons.scxml.SCXMLExecutor")) : class$org$apache$commons$scxml$SCXMLExecutor);
     private volatile SCXML stateMachine;
     private Status currentStatus;
@@ -42,12 +42,12 @@ implements Serializable {
     private SCXMLSemantics semantics;
     private SCInstance scInstance;
     private boolean terminated = false;
-    private static final String EVENT_DATA;
-    private static final String EVENT_DATA_MAP;
-    private static final String ERR_NO_STATE_MACHINE;
+    private static final String EVENT_DATA = "_eventdata";
+    private static final String EVENT_DATA_MAP = "_eventdatamap";
+    private static final String ERR_NO_STATE_MACHINE = "SCXMLExecutor: State machine not set";
     static /* synthetic */ Class class$org$apache$commons$scxml$SCXMLExecutor;
 
-    public synchronized void triggerEvents(TriggerEvent[] triggerEventArray) {
+    public synchronized void triggerEvents(TriggerEvent[] triggerEventArray) throws ModelException {
         Object[] objectArray = this.setEventData(triggerEventArray);
         if (this.terminated) {
             this.log.warn("SCXMLExecutor#triggerEvents: executor is terminated");
@@ -72,7 +72,7 @@ implements Serializable {
         this.logState();
     }
 
-    public void triggerEvent(TriggerEvent triggerEvent) {
+    public void triggerEvent(TriggerEvent triggerEvent) throws ModelException {
         this.triggerEvents(new TriggerEvent[]{triggerEvent});
     }
 
@@ -94,11 +94,11 @@ implements Serializable {
         this.scInstance.setEvaluator(evaluator);
     }
 
-    public synchronized void reset() {
+    public synchronized void reset() throws ModelException {
         Context context = this.scInstance.getRootContext();
         if (this.stateMachine == null) {
-            this.log.error("SCXMLExecutor: State machine not set");
-            throw new ModelException("SCXMLExecutor: State machine not set");
+            this.log.error(ERR_NO_STATE_MACHINE);
+            throw new ModelException(ERR_NO_STATE_MACHINE);
         }
         Object object = this.stateMachine.getDatamodel();
         SCXMLHelper.cloneDatamodel((Datamodel)object, context, this.scInstance.getEvaluator(), this.log);
@@ -159,7 +159,7 @@ implements Serializable {
         this.stateMachine = sCXML2 = this.semantics.normalizeStateMachine(sCXML, this.errorReporter);
     }
 
-    public void go() {
+    public void go() throws ModelException {
         this.reset();
     }
 
@@ -252,7 +252,7 @@ implements Serializable {
 
     private Object[] setEventData(TriggerEvent[] triggerEventArray) {
         Context context = this.scInstance.getRootContext();
-        Object[] objectArray = new Object[]{context.get("_eventdata"), context.get("_eventdatamap")};
+        Object[] objectArray = new Object[]{context.get(EVENT_DATA), context.get(EVENT_DATA_MAP)};
         int n = triggerEventArray.length;
         if (n > 0) {
             Object object = null;
@@ -264,8 +264,8 @@ implements Serializable {
             if (n == 1) {
                 object = triggerEventArray[0].getPayload();
             }
-            context.setLocal("_eventdata", object);
-            context.setLocal("_eventdatamap", hashMap);
+            context.setLocal(EVENT_DATA, object);
+            context.setLocal(EVENT_DATA_MAP, hashMap);
         }
         return objectArray;
     }
@@ -275,8 +275,8 @@ implements Serializable {
     }
 
     private void restoreEventData(Object[] objectArray) {
-        this.scInstance.getRootContext().setLocal("_eventdata", objectArray[0]);
-        this.scInstance.getRootContext().setLocal("_eventdatamap", objectArray[1]);
+        this.scInstance.getRootContext().setLocal(EVENT_DATA, objectArray[0]);
+        this.scInstance.getRootContext().setLocal(EVENT_DATA_MAP, objectArray[1]);
     }
 
     static /* synthetic */ Class class$(String string) {

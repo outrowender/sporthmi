@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.calendar.impl.VEventSerializer;
 import de.esolutions.fw.comm.dsi.calendar.impl.VTimeZoneSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.VCalendar;
 import org.dsi.ifc.calendar.VEvent;
 import org.dsi.ifc.calendar.VTimeZone;
 
 public class VCalendarSerializer {
-    public static void putOptionalVCalendar(ISerializer iSerializer, VCalendar vCalendar) {
+    public static void putOptionalVCalendar(ISerializer iSerializer, VCalendar vCalendar) throws SerializerException {
         boolean bl = vCalendar == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class VCalendarSerializer {
         }
     }
 
-    public static void putOptionalVCalendarVarArray(ISerializer iSerializer, VCalendar[] vCalendarArray) {
+    public static void putOptionalVCalendarVarArray(ISerializer iSerializer, VCalendar[] vCalendarArray) throws SerializerException {
         boolean bl = vCalendarArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class VCalendarSerializer {
         }
     }
 
-    public static VCalendar getOptionalVCalendar(IDeserializer iDeserializer) {
+    public static VCalendar getOptionalVCalendar(IDeserializer iDeserializer) throws SerializerException {
         VCalendar vCalendar = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -91,7 +92,7 @@ public class VCalendarSerializer {
         return vCalendar;
     }
 
-    public static VCalendar[] getOptionalVCalendarVarArray(IDeserializer iDeserializer) {
+    public static VCalendar[] getOptionalVCalendarVarArray(IDeserializer iDeserializer) throws SerializerException {
         VCalendar[] vCalendarArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

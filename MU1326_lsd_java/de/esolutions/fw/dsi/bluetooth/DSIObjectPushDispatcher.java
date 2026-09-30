@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.bluetooth;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.bluetooth.DSIObjectPushReply;
 import de.esolutions.fw.comm.dsi.bluetooth.impl.DSIObjectPushReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIObjectPushReply {
         super(n, (class$org$dsi$ifc$bluetooth$DSIObjectPushListener == null ? (class$org$dsi$ifc$bluetooth$DSIObjectPushListener = DSIObjectPushDispatcher.class$("org.dsi.ifc.bluetooth.DSIObjectPushListener")) : class$org$dsi$ifc$bluetooth$DSIObjectPushListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateOPPIncomingObject(String string, String string2, int n, int n2) {
+    public void updateOPPIncomingObject(String string, String string2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void responseOPPAbortSending(int n) {
+    public void responseOPPAbortSending(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -73,8 +71,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void responseOPPAcceptObject(int n) {
+    public void responseOPPAcceptObject(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -90,8 +87,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void responseOPPSendContacts(int n) {
+    public void responseOPPSendContacts(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -107,8 +103,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void responseOPPSendMessages(int n) {
+    public void responseOPPSendMessages(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -124,8 +119,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void responseOPPSendBinary(int n) {
+    public void responseOPPSendBinary(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -141,8 +135,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void updateVCardsReceived(String string, int n) {
+    public void updateVCardsReceived(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -170,8 +163,7 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -187,14 +179,13 @@ implements DSIObjectPushReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIObjectPushListener dSIObjectPushListener = (DSIObjectPushListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIObjectPushDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIObjectPushDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIObjectPushListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIObjectPushDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIObjectPushDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIObjectPushListener, new Object[]{string, string2});
                     continue;
                 }

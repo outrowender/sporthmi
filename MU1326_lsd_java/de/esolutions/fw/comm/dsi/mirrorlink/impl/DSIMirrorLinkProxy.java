@@ -10,9 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.mirrorlink.DSIMirrorLink;
 import de.esolutions.fw.comm.dsi.mirrorlink.DSIMirrorLinkC;
 import de.esolutions.fw.comm.dsi.mirrorlink.DSIMirrorLinkReply;
-import de.esolutions.fw.comm.dsi.mirrorlink.impl.DSIMirrorLinkProxy$1;
-import de.esolutions.fw.comm.dsi.mirrorlink.impl.DSIMirrorLinkProxy$2;
+import de.esolutions.fw.comm.dsi.mirrorlink.impl.ClientCapabilitiesSerializer;
 import de.esolutions.fw.comm.dsi.mirrorlink.impl.DSIMirrorLinkReplyService;
+import de.esolutions.fw.comm.dsi.mirrorlink.impl.EventSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.ClientCapabilities;
@@ -34,14 +36,17 @@ DSIMirrorLinkC {
         return this.proxy;
     }
 
-    @Override
-    public void requestClientCapabilities(ClientCapabilities clientCapabilities) {
-        DSIMirrorLinkProxy$1 dSIMirrorLinkProxy$1 = new DSIMirrorLinkProxy$1(this, clientCapabilities);
-        this.proxy.remoteCallMethod((short)79, dSIMirrorLinkProxy$1);
+    public void requestClientCapabilities(final ClientCapabilities clientCapabilities) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ClientCapabilitiesSerializer.putOptionalClientCapabilities(iSerializer, clientCapabilities);
+            }
+        };
+        this.proxy.remoteCallMethod((short)79, iSerializable);
     }
 
-    @Override
-    public void requestAccessMode(int n) {
+    public void requestAccessMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -52,8 +57,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void requestDayNightMode(int n) {
+    public void requestDayNightMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -64,8 +68,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void requestUsableViewport(int n, int n2, int n3, int n4) {
+    public void requestUsableViewport(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -79,8 +82,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void requestContextVisible(boolean bl) {
+    public void requestContextVisible(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -91,8 +93,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void requestConnectDevice(int n) {
+    public void requestConnectDevice(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -103,8 +104,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void requestDisconnectDevice(int n) {
+    public void requestDisconnectDevice(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -115,8 +115,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void requestRotateScreen(int n) {
+    public void requestRotateScreen(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -127,8 +126,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void requestChangeOrientation(int n) {
+    public void requestChangeOrientation(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -139,8 +137,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void requestSoftKeyEvent(int n, int n2) {
+    public void requestSoftKeyEvent(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -152,8 +149,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void requestLaunchApp(int n) {
+    public void requestLaunchApp(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -164,8 +160,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void requestTerminateApp(int n) {
+    public void requestTerminateApp(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -176,8 +171,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void requestStartSpeller(String string) {
+    public void requestStartSpeller(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -188,8 +182,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void requestAddSpellerChars(String string) {
+    public void requestAddSpellerChars(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -200,18 +193,15 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void requestRemoveSpellerChar() {
+    public void requestRemoveSpellerChar() throws MethodException {
         this.proxy.remoteCallMethod((short)16, null);
     }
 
-    @Override
-    public void requestClearSpeller() {
+    public void requestClearSpeller() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void requestSendString(String string) {
+    public void requestSendString(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -222,8 +212,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void requestAudioOption(int n) {
+    public void requestAudioOption(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -234,8 +223,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void requestAudioConnectionAudible(int n, boolean bl) {
+    public void requestAudioConnectionAudible(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -247,14 +235,18 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void requestSendTouchEvents(Event[] eventArray, int n) {
-        DSIMirrorLinkProxy$2 dSIMirrorLinkProxy$2 = new DSIMirrorLinkProxy$2(this, eventArray, n);
-        this.proxy.remoteCallMethod((short)76, dSIMirrorLinkProxy$2);
+    public void requestSendTouchEvents(final Event[] eventArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                EventSerializer.putOptionalEventVarArray(iSerializer, eventArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)76, iSerializable);
     }
 
-    @Override
-    public void requestKeyboardMode(int n) {
+    public void requestKeyboardMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -265,8 +257,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void requestAvailableApplicationsWindow(int n, int n2) {
+    public void requestAvailableApplicationsWindow(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -278,28 +269,23 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)57, genericSerializable);
     }
 
-    @Override
-    public void requestDisplayKeyboard() {
+    public void requestDisplayKeyboard() throws MethodException {
         this.proxy.remoteCallMethod((short)59, null);
     }
 
-    @Override
-    public void requestDismissHMIKeyboard() {
+    public void requestDismissHMIKeyboard() throws MethodException {
         this.proxy.remoteCallMethod((short)58, null);
     }
 
-    @Override
-    public void requestFactorySettings() {
+    public void requestFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)60, null);
     }
 
-    @Override
-    public void requestPhoneView() {
+    public void requestPhoneView() throws MethodException {
         this.proxy.remoteCallMethod((short)62, null);
     }
 
-    @Override
-    public void requestContextSwitched(boolean bl) {
+    public void requestContextSwitched(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -310,8 +296,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)80, genericSerializable);
     }
 
-    @Override
-    public void invokeNotiAction(int n, int n2) {
+    public void invokeNotiAction(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -323,8 +308,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)82, genericSerializable);
     }
 
-    @Override
-    public void requestNotificationServiceEnabled(boolean bl, int n, int n2, int n3, int n4) {
+    public void requestNotificationServiceEnabled(boolean bl, int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -339,8 +323,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)84, genericSerializable);
     }
 
-    @Override
-    public void requestLocationDataServicesEnabled(boolean bl) {
+    public void requestLocationDataServicesEnabled(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -351,8 +334,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)83, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -363,8 +345,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -375,13 +356,11 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)42, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -392,8 +371,7 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -404,13 +382,11 @@ DSIMirrorLinkC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

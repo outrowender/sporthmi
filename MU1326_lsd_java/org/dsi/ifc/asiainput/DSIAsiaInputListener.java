@@ -7,61 +7,42 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIAsiaInputListener
 extends DSIListener {
-    default public void initialized(int n) {
-    }
+    public void initialized(int var1);
 
-    default public void getVersionInfo(String string, String string2) {
-    }
+    public void getVersionInfo(String var1, String var2);
 
-    default public void builtCandidates(int n) {
-    }
+    public void builtCandidates(int var1);
 
-    default public void getSpelling(String string) {
-    }
+    public void getSpelling(String var1);
 
-    default public void getCandidates(String[] stringArray) {
-    }
+    public void getCandidates(String[] var1);
 
-    default public void selectedCandidate(int n, int n2) {
-    }
+    public void selectedCandidate(int var1, int var2);
 
-    default public void indicateErrorStatus(int n) {
-    }
+    public void indicateErrorStatus(int var1);
 
-    default public void indicateDataInvalidated(int n) {
-    }
+    public void indicateDataInvalidated(int var1);
 
-    default public void getIntParameter(int n, int n2) {
-    }
+    public void getIntParameter(int var1, int var2);
 
-    default public void getBooleanParameter(int n, boolean bl) {
-    }
+    public void getBooleanParameter(int var1, boolean var2);
 
-    default public void setIntParameterResult(int n, int n2, int n3) {
-    }
+    public void setIntParameterResult(int var1, int var2, int var3);
 
-    default public void setBooleanParameterResult(int n, boolean bl, int n2) {
-    }
+    public void setBooleanParameterResult(int var1, boolean var2, int var3);
 
-    default public void setStringParameterResult(int n, String string, int n2) {
-    }
+    public void setStringParameterResult(int var1, String var2, int var3);
 
-    default public void getStringParameter(int n, String string) {
-    }
+    public void getStringParameter(int var1, String var2);
 
-    default public void setAdditionalWordDatabasesResult(int n) {
-    }
+    public void setAdditionalWordDatabasesResult(int var1);
 
-    default public void setUserDatabaseStateResult(int n, int n2, int n3) {
-    }
+    public void setUserDatabaseStateResult(int var1, int var2, int var3);
 
-    default public void resetToFactorySettingsResult(int n) {
-    }
+    public void resetToFactorySettingsResult(int var1);
 
-    default public void getSegmentation(String string) {
-    }
+    public void getSegmentation(String var1);
 
-    default public void responseSegmentationForTruffles(String string) {
-    }
+    public void responseSegmentationForTruffles(String var1);
 }
 

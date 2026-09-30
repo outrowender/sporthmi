@@ -11,25 +11,18 @@ import org.dsi.ifc.upnp.PlaybackMode;
 
 public interface DSIUPNPPlayerListener
 extends DSIListener {
-    default public void updatePlaybackModeList(String string, PlaybackMode[] playbackModeArray, int n) {
-    }
+    public void updatePlaybackModeList(String var1, PlaybackMode[] var2, int var3);
 
-    default public void updatePlaybackMode(String string, int n, int n2) {
-    }
+    public void updatePlaybackMode(String var1, int var2, int var3);
 
-    default public void updatePlaybackState(String string, int n, int n2) {
-    }
+    public void updatePlaybackState(String var1, int var2, int var3);
 
-    default public void updatePlayPosition(String string, String string2, int n, int n2, int n3) {
-    }
+    public void updatePlayPosition(String var1, String var2, int var3, int var4, int var5);
 
-    default public void updateDetailInfo(String string, EntryInfo entryInfo, ResourceLocator resourceLocator, int n) {
-    }
+    public void updateDetailInfo(String var1, EntryInfo var2, ResourceLocator var3, int var4);
 
-    default public void updateDeviceList(DeviceInfo[] deviceInfoArray, int n) {
-    }
+    public void updateDeviceList(DeviceInfo[] var1, int var2);
 
-    default public void updateVolume(String string, int n, int n2) {
-    }
+    public void updateVolume(String var1, int var2, int var3);
 }
 

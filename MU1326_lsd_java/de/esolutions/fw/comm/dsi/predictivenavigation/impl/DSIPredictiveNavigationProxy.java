@@ -7,11 +7,13 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.comm.dsi.predictivenavigation.DSIPredictiveNavigation;
 import de.esolutions.fw.comm.dsi.predictivenavigation.DSIPredictiveNavigationC;
 import de.esolutions.fw.comm.dsi.predictivenavigation.DSIPredictiveNavigationReply;
-import de.esolutions.fw.comm.dsi.predictivenavigation.impl.DSIPredictiveNavigationProxy$1;
 import de.esolutions.fw.comm.dsi.predictivenavigation.impl.DSIPredictiveNavigationReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
@@ -32,8 +34,7 @@ DSIPredictiveNavigationC {
         return this.proxy;
     }
 
-    @Override
-    public void setOperationMode(int n) {
+    public void setOperationMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -44,8 +45,7 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setMaxPredictions(int n) {
+    public void setMaxPredictions(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -56,19 +56,22 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearCache() {
+    public void clearCache() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void clearCacheByDestination(NavLocation navLocation, int n) {
-        DSIPredictiveNavigationProxy$1 dSIPredictiveNavigationProxy$1 = new DSIPredictiveNavigationProxy$1(this, navLocation, n);
-        this.proxy.remoteCallMethod((short)17, dSIPredictiveNavigationProxy$1);
+    public void clearCacheByDestination(final NavLocation navLocation, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void clearCacheByAge(long l) {
+    public void clearCacheByAge(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -79,8 +82,7 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -91,8 +93,7 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -103,13 +104,11 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -120,8 +119,7 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -132,13 +130,11 @@ DSIPredictiveNavigationC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

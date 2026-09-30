@@ -32,7 +32,7 @@ public class sAntennaStateDSRC {
     }
 
     public String toString() {
-        return new StringBuffer("sAntennaStateDSRC{").append("msg_id=").append(this.msg_id).append(", antennaState=").append(this.antennaState).append("}").toString();
+        return "sAntennaStateDSRC{" + "msg_id=" + this.msg_id + ", antennaState=" + this.antennaState + "}";
     }
 }
 

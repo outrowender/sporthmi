@@ -6,16 +6,12 @@ package de.esolutions.hmi.widgets.audi.base;
 import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
 
 public interface IDisplayControllerWidget {
-    default public void prepareAndSwitchToTargetContext() {
-    }
+    public void prepareAndSwitchToTargetContext();
 
-    default public void setOpacityOnBackgroundLayers(float f2, boolean bl) {
-    }
+    public void setOpacityOnBackgroundLayers(float var1, boolean var2);
 
-    default public int getTargetContextID() {
-    }
+    public int getTargetContextID();
 
-    default public void setTerminal(HMITerminalImpl hMITerminalImpl) {
-    }
+    public void setTerminal(HMITerminalImpl var1);
 }
 

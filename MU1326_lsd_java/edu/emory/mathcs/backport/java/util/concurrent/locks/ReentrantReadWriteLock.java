@@ -3,28 +3,29 @@
  */
 package edu.emory.mathcs.backport.java.util.concurrent.locks;
 
+import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
+import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
+import edu.emory.mathcs.backport.java.util.concurrent.locks.CondVar;
+import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Lock;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReadWriteLock;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantReadWriteLock$NonfairSync;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantReadWriteLock$ReadLock;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantReadWriteLock$Sync;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantReadWriteLock$WriteLock;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class ReentrantReadWriteLock
 implements ReadWriteLock,
 Serializable {
-    private static final long serialVersionUID;
-    final ReentrantReadWriteLock$ReadLock readerLock_ = new ReentrantReadWriteLock$ReadLock(this);
-    final ReentrantReadWriteLock$WriteLock writerLock_ = new ReentrantReadWriteLock$WriteLock(this);
-    final ReentrantReadWriteLock$Sync sync = new ReentrantReadWriteLock$NonfairSync();
+    private static final long serialVersionUID = -3463448656717690166L;
+    final ReadLock readerLock_ = new ReadLock(this);
+    final WriteLock writerLock_ = new WriteLock(this);
+    final Sync sync = new NonfairSync();
 
-    @Override
     public Lock writeLock() {
         return this.writerLock_;
     }
 
-    @Override
     public Lock readLock() {
         return this.readerLock_;
     }
@@ -66,7 +67,499 @@ Serializable {
     }
 
     public String toString() {
-        return new StringBuffer().append(super.toString()).append("[Write locks = ").append(this.getWriteHoldCount()).append(", Read locks = ").append(this.getReadLockCount()).append("]").toString();
+        return super.toString() + "[Write locks = " + this.getWriteHoldCount() + ", Read locks = " + this.getReadLockCount() + "]";
+    }
+
+    private static abstract class Sync
+    implements Serializable {
+        private static final int NONE = 0;
+        private static final int READER = 1;
+        private static final int WRITER = 2;
+        transient int activeReaders_ = 0;
+        transient Thread activeWriter_ = null;
+        transient int waitingReaders_ = 0;
+        transient int waitingWriters_ = 0;
+        transient int writeHolds_ = 0;
+        transient HashMap readers_ = new HashMap();
+        static final Integer IONE = new Integer(1);
+
+        Sync() {
+        }
+
+        synchronized boolean startReadFromNewReader() {
+            boolean bl = this.startRead();
+            if (!bl) {
+                ++this.waitingReaders_;
+            }
+            return bl;
+        }
+
+        synchronized boolean startWriteFromNewWriter() {
+            boolean bl = this.startWrite();
+            if (!bl) {
+                ++this.waitingWriters_;
+            }
+            return bl;
+        }
+
+        synchronized boolean startReadFromWaitingReader() {
+            boolean bl = this.startRead();
+            if (bl) {
+                --this.waitingReaders_;
+            }
+            return bl;
+        }
+
+        synchronized boolean startWriteFromWaitingWriter() {
+            boolean bl = this.startWrite();
+            if (bl) {
+                --this.waitingWriters_;
+            }
+            return bl;
+        }
+
+        synchronized void cancelledWaitingReader() {
+            --this.waitingReaders_;
+        }
+
+        synchronized void cancelledWaitingWriter() {
+            --this.waitingWriters_;
+        }
+
+        boolean allowReader() {
+            return this.activeWriter_ == null && this.waitingWriters_ == 0 || this.activeWriter_ == Thread.currentThread();
+        }
+
+        synchronized boolean startRead() {
+            Thread thread = Thread.currentThread();
+            Object object = this.readers_.get(thread);
+            if (object != null) {
+                this.readers_.put(thread, new Integer((Integer)object + 1));
+                ++this.activeReaders_;
+                return true;
+            }
+            if (this.allowReader()) {
+                this.readers_.put(thread, IONE);
+                ++this.activeReaders_;
+                return true;
+            }
+            return false;
+        }
+
+        synchronized boolean startWrite() {
+            if (this.activeWriter_ == Thread.currentThread()) {
+                ++this.writeHolds_;
+                return true;
+            }
+            if (this.writeHolds_ == 0) {
+                if (this.activeReaders_ == 0 || this.readers_.size() == 1 && this.readers_.get(Thread.currentThread()) != null) {
+                    this.activeWriter_ = Thread.currentThread();
+                    this.writeHolds_ = 1;
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        synchronized int endRead() {
+            Thread thread = Thread.currentThread();
+            Object object = this.readers_.get(thread);
+            if (object == null) {
+                throw new IllegalMonitorStateException();
+            }
+            --this.activeReaders_;
+            if (object != IONE) {
+                int n = (Integer)object - 1;
+                Integer n2 = n == 1 ? IONE : new Integer(n);
+                this.readers_.put(thread, n2);
+                return 0;
+            }
+            this.readers_.remove(thread);
+            if (this.writeHolds_ > 0) {
+                return 0;
+            }
+            if (this.activeReaders_ == 0 && this.waitingWriters_ > 0) {
+                return 2;
+            }
+            return 0;
+        }
+
+        synchronized int endWrite() {
+            if (this.activeWriter_ != Thread.currentThread()) {
+                throw new IllegalMonitorStateException();
+            }
+            --this.writeHolds_;
+            if (this.writeHolds_ > 0) {
+                return 0;
+            }
+            this.activeWriter_ = null;
+            if (this.waitingReaders_ > 0 && this.allowReader()) {
+                return 1;
+            }
+            if (this.waitingWriters_ > 0) {
+                return 2;
+            }
+            return 0;
+        }
+
+        synchronized Thread getOwner() {
+            return this.activeWriter_;
+        }
+
+        synchronized int getReadLockCount() {
+            return this.activeReaders_;
+        }
+
+        synchronized boolean isWriteLocked() {
+            return this.activeWriter_ != null;
+        }
+
+        synchronized boolean isWriteLockedByCurrentThread() {
+            return this.activeWriter_ == Thread.currentThread();
+        }
+
+        synchronized int getWriteHoldCount() {
+            return this.isWriteLockedByCurrentThread() ? this.writeHolds_ : 0;
+        }
+
+        synchronized int getReadHoldCount() {
+            if (this.activeReaders_ == 0) {
+                return 0;
+            }
+            Thread thread = Thread.currentThread();
+            Integer n = (Integer)this.readers_.get(thread);
+            return n == null ? 0 : n;
+        }
+
+        final synchronized boolean hasQueuedThreads() {
+            return this.waitingWriters_ > 0 || this.waitingReaders_ > 0;
+        }
+
+        final synchronized int getQueueLength() {
+            return this.waitingWriters_ + this.waitingReaders_;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            objectInputStream.defaultReadObject();
+            Sync sync = this;
+            synchronized (sync) {
+                this.readers_ = new HashMap();
+            }
+        }
+    }
+
+    public static class ReadLock
+    implements Lock,
+    Serializable {
+        private static final long serialVersionUID = -5992448646407690164L;
+        final ReentrantReadWriteLock lock;
+
+        protected ReadLock(ReentrantReadWriteLock reentrantReadWriteLock) {
+            if (reentrantReadWriteLock == null) {
+                throw new NullPointerException();
+            }
+            this.lock = reentrantReadWriteLock;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void lock() {
+            ReadLock readLock = this;
+            synchronized (readLock) {
+                if (this.lock.sync.startReadFromNewReader()) {
+                    return;
+                }
+                boolean bl = Thread.interrupted();
+                try {
+                    do {
+                        try {
+                            this.wait();
+                        }
+                        catch (InterruptedException interruptedException) {
+                            bl = true;
+                        }
+                    } while (!this.lock.sync.startReadFromWaitingReader());
+                    return;
+                }
+                finally {
+                    if (bl) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void lockInterruptibly() throws InterruptedException {
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+            InterruptedException interruptedException = null;
+            ReadLock readLock = this;
+            synchronized (readLock) {
+                if (!this.lock.sync.startReadFromNewReader()) {
+                    try {
+                        do {
+                            this.wait();
+                        } while (!this.lock.sync.startReadFromWaitingReader());
+                        return;
+                    }
+                    catch (InterruptedException interruptedException2) {
+                        this.lock.sync.cancelledWaitingReader();
+                        interruptedException = interruptedException2;
+                    }
+                }
+            }
+            if (interruptedException != null) {
+                this.lock.writerLock_.signalWaiters();
+                throw interruptedException;
+            }
+        }
+
+        public boolean tryLock() {
+            return this.lock.sync.startRead();
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public boolean tryLock(long l, TimeUnit timeUnit) throws InterruptedException {
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+            InterruptedException interruptedException = null;
+            long l2 = timeUnit.toNanos(l);
+            ReadLock readLock = this;
+            synchronized (readLock) {
+                block10: {
+                    if (l2 <= 0L) {
+                        return this.lock.sync.startRead();
+                    }
+                    if (this.lock.sync.startReadFromNewReader()) {
+                        return true;
+                    }
+                    long l3 = Utils.nanoTime() + l2;
+                    do {
+                        try {
+                            TimeUnit.NANOSECONDS.timedWait(this, l2);
+                        }
+                        catch (InterruptedException interruptedException2) {
+                            this.lock.sync.cancelledWaitingReader();
+                            interruptedException = interruptedException2;
+                            break block10;
+                        }
+                        if (!this.lock.sync.startReadFromWaitingReader()) continue;
+                        return true;
+                    } while ((l2 = l3 - Utils.nanoTime()) > 0L);
+                    this.lock.sync.cancelledWaitingReader();
+                }
+            }
+            this.lock.writerLock_.signalWaiters();
+            if (interruptedException != null) {
+                throw interruptedException;
+            }
+            return false;
+        }
+
+        public void unlock() {
+            switch (this.lock.sync.endRead()) {
+                case 0: {
+                    return;
+                }
+                case 1: {
+                    this.lock.readerLock_.signalWaiters();
+                    return;
+                }
+                case 2: {
+                    this.lock.writerLock_.signalWaiters();
+                    return;
+                }
+            }
+        }
+
+        public Condition newCondition() {
+            throw new UnsupportedOperationException();
+        }
+
+        synchronized void signalWaiters() {
+            this.notifyAll();
+        }
+
+        public String toString() {
+            int n = this.lock.getReadLockCount();
+            return super.toString() + "[Read locks = " + n + "]";
+        }
+    }
+
+    public static class WriteLock
+    implements Lock,
+    CondVar.ExclusiveLock,
+    Serializable {
+        private static final long serialVersionUID = -4992448646407690164L;
+        final ReentrantReadWriteLock lock;
+
+        protected WriteLock(ReentrantReadWriteLock reentrantReadWriteLock) {
+            if (reentrantReadWriteLock == null) {
+                throw new NullPointerException();
+            }
+            this.lock = reentrantReadWriteLock;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void lock() {
+            WriteLock writeLock = this;
+            synchronized (writeLock) {
+                if (this.lock.sync.startWriteFromNewWriter()) {
+                    return;
+                }
+                boolean bl = Thread.interrupted();
+                try {
+                    do {
+                        try {
+                            this.wait();
+                        }
+                        catch (InterruptedException interruptedException) {
+                            bl = true;
+                        }
+                    } while (!this.lock.sync.startWriteFromWaitingWriter());
+                    return;
+                }
+                finally {
+                    if (bl) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void lockInterruptibly() throws InterruptedException {
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+            InterruptedException interruptedException = null;
+            WriteLock writeLock = this;
+            synchronized (writeLock) {
+                if (!this.lock.sync.startWriteFromNewWriter()) {
+                    try {
+                        do {
+                            this.wait();
+                        } while (!this.lock.sync.startWriteFromWaitingWriter());
+                        return;
+                    }
+                    catch (InterruptedException interruptedException2) {
+                        this.lock.sync.cancelledWaitingWriter();
+                        this.notify();
+                        interruptedException = interruptedException2;
+                    }
+                }
+            }
+            if (interruptedException != null) {
+                this.lock.readerLock_.signalWaiters();
+                throw interruptedException;
+            }
+        }
+
+        public boolean tryLock() {
+            return this.lock.sync.startWrite();
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public boolean tryLock(long l, TimeUnit timeUnit) throws InterruptedException {
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+            InterruptedException interruptedException = null;
+            long l2 = timeUnit.toNanos(l);
+            WriteLock writeLock = this;
+            synchronized (writeLock) {
+                block10: {
+                    if (l2 <= 0L) {
+                        return this.lock.sync.startWrite();
+                    }
+                    if (this.lock.sync.startWriteFromNewWriter()) {
+                        return true;
+                    }
+                    long l3 = Utils.nanoTime() + l2;
+                    do {
+                        try {
+                            TimeUnit.NANOSECONDS.timedWait(this, l2);
+                        }
+                        catch (InterruptedException interruptedException2) {
+                            this.lock.sync.cancelledWaitingWriter();
+                            this.notify();
+                            interruptedException = interruptedException2;
+                            break block10;
+                        }
+                        if (!this.lock.sync.startWriteFromWaitingWriter()) continue;
+                        return true;
+                    } while ((l2 = l3 - Utils.nanoTime()) > 0L);
+                    this.lock.sync.cancelledWaitingWriter();
+                    this.notify();
+                }
+            }
+            this.lock.readerLock_.signalWaiters();
+            if (interruptedException != null) {
+                throw interruptedException;
+            }
+            return false;
+        }
+
+        public void unlock() {
+            switch (this.lock.sync.endWrite()) {
+                case 0: {
+                    return;
+                }
+                case 1: {
+                    this.lock.readerLock_.signalWaiters();
+                    return;
+                }
+                case 2: {
+                    this.lock.writerLock_.signalWaiters();
+                    return;
+                }
+            }
+        }
+
+        public Condition newCondition() {
+            return new CondVar(this);
+        }
+
+        synchronized void signalWaiters() {
+            this.notify();
+        }
+
+        public String toString() {
+            Thread thread = this.lock.getOwner();
+            return super.toString() + (thread == null ? "[Unlocked]" : "[Locked by thread " + thread.getName() + "]");
+        }
+
+        public boolean isHeldByCurrentThread() {
+            return this.lock.sync.isWriteLockedByCurrentThread();
+        }
+
+        public int getHoldCount() {
+            return this.lock.sync.getWriteHoldCount();
+        }
+    }
+
+    private static class NonfairSync
+    extends Sync {
+        NonfairSync() {
+        }
     }
 }
 

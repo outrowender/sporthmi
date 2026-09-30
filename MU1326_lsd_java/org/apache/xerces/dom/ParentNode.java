@@ -3,23 +3,25 @@
  */
 package org.apache.xerces.dom;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import org.apache.xerces.dom.ChildNode;
 import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.dom.NodeImpl;
 import org.apache.xerces.dom.NodeListCache;
-import org.apache.xerces.dom.ParentNode$1;
 import org.apache.xerces.dom.TextImpl;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.UserDataHandler;
 
 public abstract class ParentNode
 extends ChildNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 2815829867152120872L;
     protected CoreDocumentImpl ownerDocument;
     protected ChildNode firstChild = null;
     protected transient NodeListCache fNodeListCache = null;
@@ -32,7 +34,6 @@ extends ChildNode {
     public ParentNode() {
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -51,17 +52,14 @@ extends ChildNode {
         return parentNode;
     }
 
-    @Override
     public Document getOwnerDocument() {
         return this.ownerDocument;
     }
 
-    @Override
     CoreDocumentImpl ownerDocument() {
         return this.ownerDocument;
     }
 
-    @Override
     protected void setOwnerDocument(CoreDocumentImpl coreDocumentImpl) {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -75,7 +73,6 @@ extends ChildNode {
         }
     }
 
-    @Override
     public boolean hasChildNodes() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -83,7 +80,6 @@ extends ChildNode {
         return this.firstChild != null;
     }
 
-    @Override
     public NodeList getChildNodes() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -91,7 +87,6 @@ extends ChildNode {
         return this;
     }
 
-    @Override
     public Node getFirstChild() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -99,7 +94,6 @@ extends ChildNode {
         return this.firstChild;
     }
 
-    @Override
     public Node getLastChild() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -117,12 +111,11 @@ extends ChildNode {
         }
     }
 
-    @Override
-    public Node insertBefore(Node node, Node node2) {
+    public Node insertBefore(Node node, Node node2) throws DOMException {
         return this.internalInsertBefore(node, node2, false);
     }
 
-    Node internalInsertBefore(Node node, Node node2, boolean bl) {
+    Node internalInsertBefore(Node node, Node node2, boolean bl) throws DOMException {
         NodeImpl nodeImpl;
         boolean bl2 = this.ownerDocument.errorChecking;
         if (node.getNodeType() == 11) {
@@ -217,12 +210,11 @@ extends ChildNode {
         return node;
     }
 
-    @Override
-    public Node removeChild(Node node) {
+    public Node removeChild(Node node) throws DOMException {
         return this.internalRemoveChild(node, false);
     }
 
-    Node internalRemoveChild(Node node, boolean bl) {
+    Node internalRemoveChild(Node node, boolean bl) throws DOMException {
         ChildNode childNode;
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         if (coreDocumentImpl.errorChecking) {
@@ -276,8 +268,7 @@ extends ChildNode {
         return childNode2;
     }
 
-    @Override
-    public Node replaceChild(Node node, Node node2) {
+    public Node replaceChild(Node node, Node node2) throws DOMException {
         this.ownerDocument.replacingNode(this);
         this.internalInsertBefore(node, node2, true);
         if (node != node2) {
@@ -287,8 +278,7 @@ extends ChildNode {
         return node2;
     }
 
-    @Override
-    public String getTextContent() {
+    public String getTextContent() throws DOMException {
         Node node = this.getFirstChild();
         if (node != null) {
             Node node2 = node.getNextSibling();
@@ -302,8 +292,7 @@ extends ChildNode {
         return "";
     }
 
-    @Override
-    void getTextContent(StringBuffer stringBuffer) {
+    void getTextContent(StringBuffer stringBuffer) throws DOMException {
         for (Node node = this.getFirstChild(); node != null; node = node.getNextSibling()) {
             if (!this.hasTextContent(node)) continue;
             ((NodeImpl)node).getTextContent(stringBuffer);
@@ -314,8 +303,7 @@ extends ChildNode {
         return node.getNodeType() != 8 && node.getNodeType() != 7 && (node.getNodeType() != 3 || !((TextImpl)node).isIgnorableWhitespace());
     }
 
-    @Override
-    public void setTextContent(String string) {
+    public void setTextContent(String string) throws DOMException {
         Node node;
         while ((node = this.getFirstChild()) != null) {
             this.removeChild(node);
@@ -357,7 +345,6 @@ extends ChildNode {
         return this.fNodeListCache.fLength;
     }
 
-    @Override
     public int getLength() {
         return this.nodeListGetLength();
     }
@@ -405,7 +392,6 @@ extends ChildNode {
         return childNode;
     }
 
-    @Override
     public Node item(int n) {
         return this.nodeListItem(n);
     }
@@ -414,10 +400,18 @@ extends ChildNode {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
         }
-        return new ParentNode$1(this);
+        return new NodeList(){
+
+            public int getLength() {
+                return ParentNode.this.nodeListGetLength();
+            }
+
+            public Node item(int n) {
+                return ParentNode.this.nodeListItem(n);
+            }
+        };
     }
 
-    @Override
     public void normalize() {
         if (this.isNormalized()) {
             return;
@@ -433,7 +427,6 @@ extends ChildNode {
         this.isNormalized(true);
     }
 
-    @Override
     public boolean isEqualNode(Node node) {
         Node node2;
         if (!super.isEqualNode(node)) {
@@ -447,7 +440,6 @@ extends ChildNode {
         return node3 == node2;
     }
 
-    @Override
     public void setReadOnly(boolean bl, boolean bl2) {
         super.setReadOnly(bl, bl2);
         if (bl2) {
@@ -487,24 +479,28 @@ extends ChildNode {
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
         }
         objectOutputStream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
         objectInputStream.defaultReadObject();
         this.needsSyncChildren(false);
     }
 
-    static /* synthetic */ int access$000(ParentNode parentNode) {
-        return parentNode.nodeListGetLength();
-    }
+    class UserDataRecord
+    implements Serializable {
+        private static final long serialVersionUID = 3258126977134310455L;
+        Object fData;
+        UserDataHandler fHandler;
 
-    static /* synthetic */ Node access$100(ParentNode parentNode, int n) {
-        return parentNode.nodeListItem(n);
+        UserDataRecord(Object object, UserDataHandler userDataHandler) {
+            this.fData = object;
+            this.fHandler = userDataHandler;
+        }
     }
 }
 

@@ -14,10 +14,10 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.MapCrosshairRenderer;
 
 public class MapCrosshairController
 extends AbstractWidgetController {
-    public static final String KZB_NAME_MODE_CROSSHAIR;
-    public static final String KZB_NAME_ANGLE_CROSSHAIR;
-    public static final String KZB_NAME_ACTIVE_PASSIVE_CROSSHAIR;
-    public static final String KZB_NAME_COLOR;
+    public static final String KZB_NAME_MODE_CROSSHAIR = "crosshair_mode";
+    public static final String KZB_NAME_ANGLE_CROSSHAIR = "crosshair_angle";
+    public static final String KZB_NAME_ACTIVE_PASSIVE_CROSSHAIR = "passive";
+    public static final String KZB_NAME_COLOR = "color";
     boolean isCrosshairFunctionEnabled = false;
     protected int currentCrosshairMode = 0;
     protected boolean hasCrosshairChanged = false;
@@ -25,14 +25,12 @@ extends AbstractWidgetController {
     protected boolean active;
     protected MapCrosshairRenderer renderer;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.enableCrosshair();
         this.processModelUpdateEvent(null);
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.disableCrosshair();
@@ -62,10 +60,9 @@ extends AbstractWidgetController {
         return this.active;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         ListModelGUI listModelGUI;
-        sideBarLogChannel.log(-2137614336, "MapCrosshairController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
+        sideBarLogChannel.log(10000000, "MapCrosshairController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
         if (this.model instanceof ListModelGUI && (listModelGUI = (ListModelGUI)this.model).getLength() > 0 && listModelGUI.getMaxColumns() > 0) {
             int n = listModelGUI.getMaxColumns();
             ListCell[] listCellArray = new ListCell[n];
@@ -89,11 +86,10 @@ extends AbstractWidgetController {
             this.setY(n3);
             this.setVisible(bl);
             this.hasCrosshairChanged = true;
-            sideBarLogChannel.log(-2137614336, "MapCrosshairController#processModelUpdateEvent x = %1, y = %2, visible = %3", (long)n2, (long)n3, bl);
+            sideBarLogChannel.log(10000000, "MapCrosshairController#processModelUpdateEvent x = %1, y = %2, visible = %3", (long)n2, (long)n3, bl);
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

@@ -4,6 +4,7 @@
 package java.security;
 
 import java.io.FilterOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 
@@ -44,13 +45,11 @@ extends FilterOutputStream {
         return stringBuffer.toString();
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         super.write(byArray, n, n2);
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         super.write(n);
         if (this.on) {
             this.digest.engineUpdate((byte)n);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.MessagingAccount;
 
 public class MessagingAccountSerializer {
-    public static void putOptionalMessagingAccount(ISerializer iSerializer, MessagingAccount messagingAccount) {
+    public static void putOptionalMessagingAccount(ISerializer iSerializer, MessagingAccount messagingAccount) throws SerializerException {
         boolean bl = messagingAccount == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class MessagingAccountSerializer {
         }
     }
 
-    public static void putOptionalMessagingAccountVarArray(ISerializer iSerializer, MessagingAccount[] messagingAccountArray) {
+    public static void putOptionalMessagingAccountVarArray(ISerializer iSerializer, MessagingAccount[] messagingAccountArray) throws SerializerException {
         boolean bl = messagingAccountArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class MessagingAccountSerializer {
         }
     }
 
-    public static MessagingAccount getOptionalMessagingAccount(IDeserializer iDeserializer) {
+    public static MessagingAccount getOptionalMessagingAccount(IDeserializer iDeserializer) throws SerializerException {
         MessagingAccount messagingAccount = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class MessagingAccountSerializer {
         return messagingAccount;
     }
 
-    public static MessagingAccount[] getOptionalMessagingAccountVarArray(IDeserializer iDeserializer) {
+    public static MessagingAccount[] getOptionalMessagingAccountVarArray(IDeserializer iDeserializer) throws SerializerException {
         MessagingAccount[] messagingAccountArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

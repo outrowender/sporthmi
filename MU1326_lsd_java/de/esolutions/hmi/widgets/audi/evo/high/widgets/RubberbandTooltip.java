@@ -30,13 +30,13 @@ import java.util.Date;
 public class RubberbandTooltip
 extends LayoutContainerController
 implements RubberbandConstants {
-    private static final int INDEX_FONT_TEXT;
-    private static final int INDEX_FONT_UNITS;
-    private static final int INDEX_FONT_AM_PM;
-    private static final int MAX_WIDTH_LABEL;
-    private static final int HEIGHT;
-    private static final int WIDTH_ETA_LABEL;
-    private static final int WIDTH_DTA_LABEL;
+    private static final int INDEX_FONT_TEXT = 0;
+    private static final int INDEX_FONT_UNITS = 1;
+    private static final int INDEX_FONT_AM_PM = 2;
+    private static final int MAX_WIDTH_LABEL = 180;
+    private static final int HEIGHT = 40;
+    private static final int WIDTH_ETA_LABEL = 110;
+    private static final int WIDTH_DTA_LABEL = 99;
     private LabelController labelOriginalRoute;
     private LabelController labelDTA;
     private LabelController labelETA;
@@ -46,7 +46,6 @@ implements RubberbandConstants {
     private DateMetric etaOriginalRoute;
     private Distance dtaOriginalRoute;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         if (!this.isSetUp) {
             this.initializeMetrics();
@@ -62,9 +61,8 @@ implements RubberbandConstants {
         this.etaOriginalRoute = new DateMetric(new Date(0L), 1);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        mapOverlayLogCh.log(-2137614336, "RubberbandTooltip#processModelUpdateEvent Model-ID %1, Typ %2", (long)modelUpdateEvent.getModelId(), (long)modelUpdateEvent.getUpdateType());
+        mapOverlayLogCh.log(10000000, "RubberbandTooltip#processModelUpdateEvent Model-ID %1, Typ %2", (long)modelUpdateEvent.getModelId(), (long)modelUpdateEvent.getUpdateType());
         this.readDataFromModel();
         this.updateContent();
     }

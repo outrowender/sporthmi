@@ -16,14 +16,12 @@ extends AbstractConversionDataFetcher
 implements IConversionDataFetcher {
     private AsianInputMethod inputMethod = AsianInputMethod.NO_CONVERSION;
 
-    @Override
     public final void touchInputDataChanged(int n, boolean bl, String string, String string2) {
         if (n == 3) {
             this.requestConversions(string2, TouchControllerListenerFactory.calculateLastInputChar(string, string2), 0, 36);
         }
     }
 
-    @Override
     public void setInputMethod(AsianInputMethod asianInputMethod) {
         this.inputMethod = asianInputMethod;
     }
@@ -32,7 +30,6 @@ implements IConversionDataFetcher {
         this.requestConversions(string, c2, n, n2, false);
     }
 
-    @Override
     public void requestConversions(String string, char c2, int n, int n2, boolean bl) {
         Object object;
         this.notifyNextValidCharactersChanged(string, null);
@@ -54,7 +51,6 @@ implements IConversionDataFetcher {
         }
     }
 
-    @Override
     public void requestInitialValidCharacters() {
         this.requestConversions("", '\u0000', 0, 0, false);
     }

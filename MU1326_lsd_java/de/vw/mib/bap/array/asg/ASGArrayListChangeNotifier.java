@@ -7,16 +7,12 @@ import de.vw.mib.bap.array.asg.ASGArrayList;
 import de.vw.mib.bap.datatypes.BAPArrayDataList;
 
 public interface ASGArrayListChangeNotifier {
-    default public void elementsInserted(ASGArrayList aSGArrayList, int n, BAPArrayDataList bAPArrayDataList) {
-    }
+    public void elementsInserted(ASGArrayList var1, int var2, BAPArrayDataList var3);
 
-    default public void elementsDeleted(ASGArrayList aSGArrayList, int n, BAPArrayDataList bAPArrayDataList) {
-    }
+    public void elementsDeleted(ASGArrayList var1, int var2, BAPArrayDataList var3);
 
-    default public void elementsUpdated(ASGArrayList aSGArrayList, int n, BAPArrayDataList bAPArrayDataList) {
-    }
+    public void elementsUpdated(ASGArrayList var1, int var2, BAPArrayDataList var3);
 
-    default public void reloaded(ASGArrayList aSGArrayList) {
-    }
+    public void reloaded(ASGArrayList var1);
 }
 

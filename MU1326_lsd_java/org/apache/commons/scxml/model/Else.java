@@ -7,7 +7,7 @@ import org.apache.commons.scxml.model.ElseIf;
 
 public class Else
 extends ElseIf {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public Else() {
         this.setCond("true");

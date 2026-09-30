@@ -3,19 +3,18 @@
  */
 package de.esolutions.fw.comm.dsi.infotainmentrecorder;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIInfotainmentRecorderReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "b7c0adff-d9c2-57cd-9bc6-fcd6ec0a9162";
+    public static final String IPL_COMM_INTERFACE_KEY = "c3f2ee01-f399-56d7-9269-5fc24f1e45db";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.0";
 
-    default public void updateEnabledTriggers(boolean[] blArray, int n) {
-    }
+    public void updateEnabledTriggers(boolean[] var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.navigation.rdvtypes.RdvPointList;
 import de.esolutions.fw.comm.asi.navigation.rdvtypes.impl.RdvPointListSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RangeZoneInfoSerializer {
-    public static void putOptionalRangeZoneInfo(ISerializer iSerializer, RangeZoneInfo rangeZoneInfo) {
+    public static void putOptionalRangeZoneInfo(ISerializer iSerializer, RangeZoneInfo rangeZoneInfo) throws SerializerException {
         boolean bl = rangeZoneInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RangeZoneInfoSerializer {
         }
     }
 
-    public static void putOptionalRangeZoneInfoVarArray(ISerializer iSerializer, RangeZoneInfo[] rangeZoneInfoArray) {
+    public static void putOptionalRangeZoneInfoVarArray(ISerializer iSerializer, RangeZoneInfo[] rangeZoneInfoArray) throws SerializerException {
         boolean bl = rangeZoneInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RangeZoneInfoSerializer {
         }
     }
 
-    public static RangeZoneInfo getOptionalRangeZoneInfo(IDeserializer iDeserializer) {
+    public static RangeZoneInfo getOptionalRangeZoneInfo(IDeserializer iDeserializer) throws SerializerException {
         RangeZoneInfo rangeZoneInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class RangeZoneInfoSerializer {
         return rangeZoneInfo;
     }
 
-    public static RangeZoneInfo[] getOptionalRangeZoneInfoVarArray(IDeserializer iDeserializer) {
+    public static RangeZoneInfo[] getOptionalRangeZoneInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RangeZoneInfo[] rangeZoneInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

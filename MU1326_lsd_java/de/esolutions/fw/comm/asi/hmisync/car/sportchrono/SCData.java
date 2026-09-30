@@ -32,7 +32,7 @@ public class SCData {
     }
 
     public String toString() {
-        return new StringBuffer("SCData{").append("uid=").append(this.uid).append(", data=").append("[").append(this.data == null ? "null" : new StringBuffer().append("size=").append(this.data.length).toString()).append("]").append("}").toString();
+        return "SCData{" + "uid=" + this.uid + ", data=" + "[" + (this.data == null ? "null" : "size=" + this.data.length) + "]" + "}";
     }
 }
 

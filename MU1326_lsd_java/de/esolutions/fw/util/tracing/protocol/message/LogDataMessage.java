@@ -7,6 +7,7 @@ import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.StringConverter;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.TraceLevels;
 import de.esolutions.fw.util.tracing.TraceMessageTypes;
 import de.esolutions.fw.util.tracing.message.ITraceMessage;
@@ -65,8 +66,7 @@ implements ILogDataMessage {
         super(MessageType.LOG_DATA);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt64(this.timeStamp);
         iSerializer.putInt16(this.level);
         iSerializer.putInt16(this.modifiers);
@@ -76,8 +76,7 @@ implements ILogDataMessage {
         iSerializer.putInt8VarArray(this.messageData);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.timeStamp = iDeserializer.getInt64();
         this.level = iDeserializer.getInt16();
         this.modifiers = iDeserializer.getInt16();
@@ -91,37 +90,30 @@ implements ILogDataMessage {
         return new TraceMessage(this.timeStamp, this.channelID, this.sourceID, this.level, this.modifiers, this.messageType, this.messageData);
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timeStamp;
     }
 
-    @Override
     public short getLevel() {
         return this.level;
     }
 
-    @Override
     public short getModifiers() {
         return this.modifiers;
     }
 
-    @Override
     public int getChannelID() {
         return this.channelID;
     }
 
-    @Override
     public int getSourceID() {
         return this.sourceID;
     }
 
-    @Override
     public short getLogType() {
         return this.messageType;
     }
 
-    @Override
     public byte[] getLogData() {
         return this.messageData;
     }
@@ -148,7 +140,6 @@ implements ILogDataMessage {
         return null;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("LogData: ts=");
         buffer.append(this.timeStamp);
@@ -172,7 +163,6 @@ implements ILogDataMessage {
         buffer.append(this.messageData.length);
     }
 
-    @Override
     public byte[] getRawDataPortion() {
         return this.messageData;
     }

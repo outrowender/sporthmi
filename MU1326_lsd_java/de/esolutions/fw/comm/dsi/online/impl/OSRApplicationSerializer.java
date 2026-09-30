@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.online.impl.OSRApplicationPropertiesSerializer;
 import de.esolutions.fw.comm.dsi.online.impl.OSRLicenseSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRApplication;
 import org.dsi.ifc.online.OSRApplicationProperties;
 import org.dsi.ifc.online.OSRLicense;
 
 public class OSRApplicationSerializer {
-    public static void putOptionalOSRApplication(ISerializer iSerializer, OSRApplication oSRApplication) {
+    public static void putOptionalOSRApplication(ISerializer iSerializer, OSRApplication oSRApplication) throws SerializerException {
         boolean bl = oSRApplication == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class OSRApplicationSerializer {
         }
     }
 
-    public static void putOptionalOSRApplicationVarArray(ISerializer iSerializer, OSRApplication[] oSRApplicationArray) {
+    public static void putOptionalOSRApplicationVarArray(ISerializer iSerializer, OSRApplication[] oSRApplicationArray) throws SerializerException {
         boolean bl = oSRApplicationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class OSRApplicationSerializer {
         }
     }
 
-    public static OSRApplication getOptionalOSRApplication(IDeserializer iDeserializer) {
+    public static OSRApplication getOptionalOSRApplication(IDeserializer iDeserializer) throws SerializerException {
         OSRApplication oSRApplication = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class OSRApplicationSerializer {
         return oSRApplication;
     }
 
-    public static OSRApplication[] getOptionalOSRApplicationVarArray(IDeserializer iDeserializer) {
+    public static OSRApplication[] getOptionalOSRApplicationVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRApplication[] oSRApplicationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

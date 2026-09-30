@@ -3,10 +3,10 @@
  */
 package org.apache.xerces.impl.dv;
 
+import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.ValidationContext;
 
 public interface DatatypeValidator {
-    default public void validate(String string, ValidationContext validationContext) {
-    }
+    public void validate(String var1, ValidationContext var2) throws InvalidDatatypeValueException;
 }
 

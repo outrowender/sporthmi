@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ActiveMonitorings_GeneralMonitoringStatus
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean personalDataBasedServicesActive;
     public boolean positioningDataBasedServicesActive;
 
@@ -27,12 +27,10 @@ implements BAPEntity {
         this.positioningDataBasedServicesActive = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveMonitorings_GeneralMonitoringStatus activeMonitorings_GeneralMonitoringStatus = (ActiveMonitorings_GeneralMonitoringStatus)bAPEntity;
         return this.personalDataBasedServicesActive == activeMonitorings_GeneralMonitoringStatus.personalDataBasedServicesActive && this.positioningDataBasedServicesActive == activeMonitorings_GeneralMonitoringStatus.positioningDataBasedServicesActive;
@@ -41,28 +39,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveMonitorings_GeneralMonitoringStatus");
-        stringBuffer.append(new StringBuffer().append("\n - personalDataBasedServicesActive:").append(this.personalDataBasedServicesActive).toString());
-        stringBuffer.append(new StringBuffer().append("\n - positioningDataBasedServicesActive:").append(this.positioningDataBasedServicesActive).toString());
+        stringBuffer.append("\n - personalDataBasedServicesActive:" + this.personalDataBasedServicesActive);
+        stringBuffer.append("\n - positioningDataBasedServicesActive:" + this.positioningDataBasedServicesActive);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.personalDataBasedServicesActive);
         bitStream.pushBoolean(this.positioningDataBasedServicesActive);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.personalDataBasedServicesActive = bitStream.popFrontBoolean();

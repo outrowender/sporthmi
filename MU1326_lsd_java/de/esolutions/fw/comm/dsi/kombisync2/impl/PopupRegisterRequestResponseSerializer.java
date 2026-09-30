@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.kombisync2.impl.MenuContextSerializer;
 import de.esolutions.fw.comm.dsi.kombisync2.impl.PopupStatusFlagsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.MenuContext;
 import org.dsi.ifc.kombisync2.PopupRegisterRequestResponse;
 import org.dsi.ifc.kombisync2.PopupStatusFlags;
 
 public class PopupRegisterRequestResponseSerializer {
-    public static void putOptionalPopupRegisterRequestResponse(ISerializer iSerializer, PopupRegisterRequestResponse popupRegisterRequestResponse) {
+    public static void putOptionalPopupRegisterRequestResponse(ISerializer iSerializer, PopupRegisterRequestResponse popupRegisterRequestResponse) throws SerializerException {
         boolean bl = popupRegisterRequestResponse == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class PopupRegisterRequestResponseSerializer {
         }
     }
 
-    public static void putOptionalPopupRegisterRequestResponseVarArray(ISerializer iSerializer, PopupRegisterRequestResponse[] popupRegisterRequestResponseArray) {
+    public static void putOptionalPopupRegisterRequestResponseVarArray(ISerializer iSerializer, PopupRegisterRequestResponse[] popupRegisterRequestResponseArray) throws SerializerException {
         boolean bl = popupRegisterRequestResponseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class PopupRegisterRequestResponseSerializer {
         }
     }
 
-    public static PopupRegisterRequestResponse getOptionalPopupRegisterRequestResponse(IDeserializer iDeserializer) {
+    public static PopupRegisterRequestResponse getOptionalPopupRegisterRequestResponse(IDeserializer iDeserializer) throws SerializerException {
         PopupRegisterRequestResponse popupRegisterRequestResponse = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class PopupRegisterRequestResponseSerializer {
         return popupRegisterRequestResponse;
     }
 
-    public static PopupRegisterRequestResponse[] getOptionalPopupRegisterRequestResponseVarArray(IDeserializer iDeserializer) {
+    public static PopupRegisterRequestResponse[] getOptionalPopupRegisterRequestResponseVarArray(IDeserializer iDeserializer) throws SerializerException {
         PopupRegisterRequestResponse[] popupRegisterRequestResponseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

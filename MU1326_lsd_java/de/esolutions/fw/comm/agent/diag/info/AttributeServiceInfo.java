@@ -19,13 +19,12 @@ extends AbstractInfoBase {
         this.instance = string2;
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return null;
     }
 
     public String toString() {
-        return new StringBuffer().append("AttributeServiceInfo::mapSize=").append(this.mapSize).append(";name=").append(this.name).toString();
+        return "AttributeServiceInfo::mapSize=" + this.mapSize + ";name=" + this.name;
     }
 }
 

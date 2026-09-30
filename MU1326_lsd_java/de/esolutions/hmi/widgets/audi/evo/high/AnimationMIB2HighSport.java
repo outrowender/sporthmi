@@ -27,15 +27,14 @@ extends AnimationMIB2High {
         super(abstractAnimationController);
     }
 
-    @Override
     protected void doSpecializedAnimation() {
         switch (this.type) {
             case 57: {
                 float f2 = this.getValue();
                 float f3 = this.fadeIn ? 1.0f - f2 : f2;
-                logAnimationSport.log(-2137614336, "AnimationMIB2HighSport#doSpecializedAnimation viewSizeProgress=%1", (double)f3);
-                logAnimationSport.log(-2137614336, "AnimationMIB2HighSport#doSpecializedAnimation value=%1", (double)f2);
-                logAnimationSport.log(-2137614336, "AnimationMIB2HighSport#doSpecializedAnimation fadIn=%1", this.fadeIn);
+                logAnimationSport.log(10000000, "AnimationMIB2HighSport#doSpecializedAnimation viewSizeProgress=%1", (double)f3);
+                logAnimationSport.log(10000000, "AnimationMIB2HighSport#doSpecializedAnimation value=%1", (double)f2);
+                logAnimationSport.log(10000000, "AnimationMIB2HighSport#doSpecializedAnimation fadIn=%1", this.fadeIn);
                 if (this.isMapScreen()) {
                     DisplayControllerEvo displayControllerEvo;
                     this.setViewSizeOpacity(f3);
@@ -50,35 +49,35 @@ extends AnimationMIB2High {
                         }
                     }
                     if ((displayControllerEvo = (DisplayControllerEvo)((AbstractScreenWidget)this.animatedScreen).getDisplayController()) != null) {
-                        float f5 = Math.abs((f2 - 63) / 63);
+                        float f5 = Math.abs((f2 - 0.5f) / 0.5f);
                         displayControllerEvo.setOpacityOnBackgroundLayers(f5, false);
                     }
-                    if (f2 < 63) {
+                    if (f2 < 0.5f) {
                         this.setViewSizeSmallStage(false);
                         if (this.animatedScreen != null && displayControllerEvo != null) {
                             Layout layout = this.getLayout();
-                            logAnimationSport.log(14808325, "AnimationMIB2HighSport#doSpecializedAnimation LayoutClass: %1", (Object)layout);
+                            logAnimationSport.log(100000000, "AnimationMIB2HighSport#doSpecializedAnimation LayoutClass: %1", (Object)layout);
                             int n = layout.getIntegerConstant(82);
                             int n2 = layout.getIntegerConstant(83);
-                            logAnimationSport.log(-2137614336, "AnimationMIB2HighSport#doSpecializedAnimation offsetX= %1, offsetY= %2", (long)n, (long)n2);
+                            logAnimationSport.log(10000000, "AnimationMIB2HighSport#doSpecializedAnimation offsetX= %1, offsetY= %2", (long)n, (long)n2);
                             displayControllerEvo.setPositionOnBackgroundLayers(n, n2, false);
                         }
                     } else {
                         this.setViewSizeSmallStage(true);
                         if (this.animatedScreen != null && displayControllerEvo != null) {
                             Layout layout = this.getLayout();
-                            logAnimationSport.log(14808325, "AnimationMIB2HighSport#doSpecializedAnimation LayoutClass: %1", (Object)layout);
+                            logAnimationSport.log(100000000, "AnimationMIB2HighSport#doSpecializedAnimation LayoutClass: %1", (Object)layout);
                             int n = layout.getIntegerConstant(80);
                             int n3 = layout.getIntegerConstant(81);
-                            logAnimationSport.log(-2137614336, "AnimationMIB2HighSport#doSpecializedAnimation offsetX= %1, offsetY= %2", (long)n, (long)n3);
+                            logAnimationSport.log(10000000, "AnimationMIB2HighSport#doSpecializedAnimation offsetX= %1, offsetY= %2", (long)n, (long)n3);
                             displayControllerEvo.setPositionOnBackgroundLayers(n, n3, false);
                         }
                     }
                 } else {
                     float f6 = 1.0f;
-                    if (this.fadeIn && f2 < 63 || !this.fadeIn && f2 > 63) {
+                    if (this.fadeIn && f2 < 0.5f || !this.fadeIn && f2 > 0.5f) {
                         this.setViewSizeSmallStage(!this.fadeIn);
-                        f6 = 32959 + 2.0f * f3;
+                        f6 = -1.0f + 2.0f * f3;
                     } else {
                         f6 = 1.0f - 2.0f * f3;
                     }
@@ -151,7 +150,7 @@ extends AnimationMIB2High {
         int n7;
         int n8;
         if (eALManager == null || layout == null || layout.getDistance(1) != 1440) {
-            logAnimationSport.log(14808325, "AnimationMIB2HighSport#setViewSize ignoring invocation as either the environment is not configured or the system is not G24");
+            logAnimationSport.log(100000000, "AnimationMIB2HighSport#setViewSize ignoring invocation as either the environment is not configured or the system is not G24");
             return;
         }
         if (bl) {
@@ -234,12 +233,11 @@ extends AnimationMIB2High {
         }
     }
 
-    @Override
     protected void stopSpecializedAnimation() {
         switch (this.type) {
             case 56: {
                 if (this.fadeIn) {
-                    IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2HighSport#stopSpecializedAnimation adjsut small stage type on drawers");
+                    IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2HighSport#stopSpecializedAnimation adjsut small stage type on drawers");
                     boolean bl = this.controller.getTerminal().getViewSizeManager().getCurrentViewSize() == 1;
                     this.setViewSizeSmallStage(bl);
                 }
@@ -252,12 +250,10 @@ extends AnimationMIB2High {
         }
     }
 
-    @Override
     protected boolean startSpezializedAnimation() {
         return super.startSpezializedAnimation();
     }
 
-    @Override
     protected int getKDKBackgroundImage(boolean bl) {
         if (bl) {
             return HMIImageConstantsSystem.kdk_background_default;
@@ -270,7 +266,6 @@ extends AnimationMIB2High {
         return n;
     }
 
-    @Override
     protected IAnimationParametersMIB2 getAnimationParameters() {
         return AnimationParamtersEvoHighSportskin.getAnimationParametersEvoHighSportskin();
     }

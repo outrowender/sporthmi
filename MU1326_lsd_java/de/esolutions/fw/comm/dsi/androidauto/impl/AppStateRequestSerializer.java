@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.androidauto.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto.AppStateRequest;
 
 public class AppStateRequestSerializer {
-    public static void putOptionalAppStateRequest(ISerializer iSerializer, AppStateRequest appStateRequest) {
+    public static void putOptionalAppStateRequest(ISerializer iSerializer, AppStateRequest appStateRequest) throws SerializerException {
         boolean bl = appStateRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AppStateRequestSerializer {
         }
     }
 
-    public static void putOptionalAppStateRequestVarArray(ISerializer iSerializer, AppStateRequest[] appStateRequestArray) {
+    public static void putOptionalAppStateRequestVarArray(ISerializer iSerializer, AppStateRequest[] appStateRequestArray) throws SerializerException {
         boolean bl = appStateRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AppStateRequestSerializer {
         }
     }
 
-    public static AppStateRequest getOptionalAppStateRequest(IDeserializer iDeserializer) {
+    public static AppStateRequest getOptionalAppStateRequest(IDeserializer iDeserializer) throws SerializerException {
         AppStateRequest appStateRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AppStateRequestSerializer {
         return appStateRequest;
     }
 
-    public static AppStateRequest[] getOptionalAppStateRequestVarArray(IDeserializer iDeserializer) {
+    public static AppStateRequest[] getOptionalAppStateRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         AppStateRequest[] appStateRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -7,16 +7,12 @@ import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.remote.ConnectionFrontendHandler;
 
 public interface IConnectionFrontendListener {
-    default public void configureHandler(ConnectionFrontendHandler connectionFrontendHandler) {
-    }
+    public void configureHandler(ConnectionFrontendHandler var1);
 
-    default public void registerConnection(ConnectionFrontendHandler connectionFrontendHandler) {
-    }
+    public void registerConnection(ConnectionFrontendHandler var1);
 
-    default public void unregisterConnection(ConnectionFrontendHandler connectionFrontendHandler) {
-    }
+    public void unregisterConnection(ConnectionFrontendHandler var1);
 
-    default public void handleMessage(ConnectionFrontendHandler connectionFrontendHandler, AbstractMessage abstractMessage) {
-    }
+    public void handleMessage(ConnectionFrontendHandler var1, AbstractMessage var2);
 }
 

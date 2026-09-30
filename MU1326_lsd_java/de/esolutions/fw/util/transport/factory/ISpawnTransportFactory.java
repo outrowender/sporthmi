@@ -4,18 +4,15 @@
 package de.esolutions.fw.util.transport.factory;
 
 import de.esolutions.fw.util.transport.factory.ISpawnedTransportListener;
+import java.io.IOException;
 
 public interface ISpawnTransportFactory {
-    default public void setListener(ISpawnedTransportListener iSpawnedTransportListener) {
-    }
+    public void setListener(ISpawnedTransportListener var1);
 
-    default public void enableSpawning() {
-    }
+    public void enableSpawning() throws IOException;
 
-    default public void disableSpawning() {
-    }
+    public void disableSpawning();
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 }
 

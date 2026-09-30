@@ -30,8 +30,7 @@ BluetoothSmartphoneIntegrationC {
         return this.proxy;
     }
 
-    @Override
-    public void updateSmartphoneMode(int n, String[] stringArray) {
+    public void updateSmartphoneMode(int n, String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -43,13 +42,11 @@ BluetoothSmartphoneIntegrationC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void requestLocalBluetoothAddress() {
+    public void requestLocalBluetoothAddress() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void requestPrepareConnect(String string) {
+    public void requestPrepareConnect(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

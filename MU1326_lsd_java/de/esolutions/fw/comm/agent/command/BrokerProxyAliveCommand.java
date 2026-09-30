@@ -12,7 +12,6 @@ extends Command {
         super("BrokerProxyAlive");
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doBrokerProxyAlive();
     }

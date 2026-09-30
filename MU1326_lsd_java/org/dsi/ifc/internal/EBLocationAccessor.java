@@ -14,7 +14,7 @@ import org.dsi.ifc.navigation.util.ILocationAccessor;
 
 public class EBLocationAccessor
 implements ILocationAccessor {
-    private static final String VERSION;
+    private static final String VERSION = "EB-MIBHigh-20130924";
     private ChargingStation m_ChargingStation = null;
     private LocationHelper m_Helper = null;
     private PhonemeParser m_PhonemeParser = null;
@@ -54,7 +54,6 @@ implements ILocationAccessor {
         this.setLocation(navLocation);
     }
 
-    @Override
     public void setLocation(NavLocation navLocation) {
         if (navLocation == null) {
             navLocation = new NavLocation();
@@ -84,7 +83,6 @@ implements ILocationAccessor {
         return null;
     }
 
-    @Override
     public final int getAdditionalFlags() {
         int n = this.m_Helper.getValueForInternalType(1);
         if (n == -1) {
@@ -93,32 +91,26 @@ implements ILocationAccessor {
         return n;
     }
 
-    @Override
     public final String getCountry() {
         return this.getLocation().getCountry();
     }
 
-    @Override
     public final String getCountryAbbreviation() {
         return this.getLocation().getCountryAbbreviation();
     }
 
-    @Override
     public final String getHousenumber() {
         return this.getLocation().getHousenumber();
     }
 
-    @Override
     public final int getIconIndex() {
         return this.m_Helper.getValueOfSelectionCriterion(520);
     }
 
-    @Override
     public final String getJunction() {
         return this.getLocation().getJunction();
     }
 
-    @Override
     public final int getLatitude() {
         if (this.getLocation().isPositionValid()) {
             return this.getLocation().getLatitude();
@@ -126,7 +118,6 @@ implements ILocationAccessor {
         return 0;
     }
 
-    @Override
     public final int getLongitude() {
         if (this.getLocation().isPositionValid()) {
             return this.getLocation().getLongitude();
@@ -134,72 +125,58 @@ implements ILocationAccessor {
         return 0;
     }
 
-    @Override
     public final String getMmiInternalData() {
         return this.m_Helper.getDataOfSelectionCriterion(768);
     }
 
-    @Override
     public final String getMotorWayExit() {
         return "";
     }
 
-    @Override
     public final String getPhonenumber() {
         return this.m_Helper.getDataOfSelectionCriterion(8);
     }
 
-    @Override
     public final String getPoiCategory() {
-        return this.m_Helper.getDataOfSelectionCriterion(0x2800000);
+        return this.m_Helper.getDataOfSelectionCriterion(32770);
     }
 
-    @Override
     public final int getPoiCategoryNumber() {
         return this.m_Helper.getValueOfSelectionCriterion(4096);
     }
 
-    @Override
     public final String getPoiClass() {
-        return this.m_Helper.getDataOfSelectionCriterion(0x1800000);
+        return this.m_Helper.getDataOfSelectionCriterion(32769);
     }
 
-    @Override
     public final String getPoiName() {
         return this.m_Helper.getDataOfSelectionCriterion(4097);
     }
 
-    @Override
     public final String getStreet() {
         return this.getLocation().getStreet();
     }
 
-    @Override
     public final String getStreetRefinement() {
         return this.getLocation().getStreetRefinement();
     }
 
-    @Override
     public final int getSubIconIndex() {
         return this.m_Helper.getValueOfSelectionCriterion(282);
     }
 
-    @Override
     public final String getTown() {
         return this.getLocation().getTown();
     }
 
-    @Override
     public final String getTowncenter() {
         return this.getLocation().getTowncenter();
     }
 
-    @Override
     public final String getTownRefinement() {
         return this.getLocation().getTownRefinement();
     }
 
-    @Override
     public final int getType() {
         if (this.getPoiName().length() > 0) {
             return 1;
@@ -210,37 +187,30 @@ implements ILocationAccessor {
         return 0;
     }
 
-    @Override
     public final String getURLAddress() {
         return this.m_Helper.getDataOfSelectionCriterion(128);
     }
 
-    @Override
     public final String getZipCode() {
         return this.getLocation().getZipCode();
     }
 
-    @Override
     public final boolean isNavigable() {
         return this.getLocation().isPositionValid();
     }
 
-    @Override
     public final void removeAll() {
         this.m_Helper.clearLocation();
     }
 
-    @Override
-    public void setMmiInternalData(String string) {
+    public void setMmiInternalData(String string) throws IllegalArgumentException {
         this.m_Helper.addProprietaryData(768, string);
     }
 
-    @Override
     public boolean isParentOfPOIs() {
         return this.m_Helper.isFlagSet(1001);
     }
 
-    @Override
     public String getTownOriginalName() {
         boolean bl;
         String string = "";
@@ -257,24 +227,20 @@ implements ILocationAccessor {
         return string;
     }
 
-    @Override
     public boolean isTownOrder9() {
-        return (this.getAdditionalFlags() & 0x80) == 128;
+        return (this.getAdditionalFlags() & Integer.MIN_VALUE) == Integer.MIN_VALUE;
     }
 
-    @Override
     public boolean isTownRefinementNeededForRefinement() {
-        return (this.getAdditionalFlags() & 0x10) == 16;
+        return (this.getAdditionalFlags() & 0x10000000) == 0x10000000;
     }
 
-    @Override
     public boolean isZipCodeNeededForRefinement() {
-        return (this.getAdditionalFlags() & 0x20) == 32;
+        return (this.getAdditionalFlags() & 0x20000000) == 0x20000000;
     }
 
-    @Override
     public boolean isZipCodeSpelled() {
-        return (this.getAdditionalFlags() & 0x40) == 64;
+        return (this.getAdditionalFlags() & 0x40000000) == 0x40000000;
     }
 
     public boolean isPOI24h() {
@@ -285,37 +251,30 @@ implements ILocationAccessor {
         return (this.getAdditionalFlags() & 8) == 8;
     }
 
-    @Override
     public String getState() {
         return this.m_Helper.getDataForInternalType(2002);
     }
 
-    @Override
     public String getStateAbbreviation() {
         return this.m_Helper.getDataForInternalType(2003);
     }
 
-    @Override
     public String getStreetNearby() {
         return "";
     }
 
-    @Override
     public boolean isFullPostalCode() {
-        return (this.getAdditionalFlags() & 8) == 8;
+        return (this.getAdditionalFlags() & 0x8000000) == 0x8000000;
     }
 
-    @Override
     public boolean isStateSpelled() {
-        return (this.getAdditionalFlags() & 4) == 4;
+        return (this.getAdditionalFlags() & 0x4000000) == 0x4000000;
     }
 
-    @Override
     public boolean isStreetBasename() {
         return (this.getAdditionalFlags() & 0x10) == 16;
     }
 
-    @Override
     public int getCountryIconIndex() {
         int n = this.m_Helper.getValueForInternalType(2005);
         if (n < 0) {
@@ -324,7 +283,6 @@ implements ILocationAccessor {
         return n;
     }
 
-    @Override
     public int getAdditionalPoiAttributeBoolean(int n) {
         int n2 = -1;
         try {
@@ -346,7 +304,7 @@ implements ILocationAccessor {
                     break;
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("getAdditionalPoiAttributeBoolean invalid key: ").append(n).toString());
+                    System.out.println("getAdditionalPoiAttributeBoolean invalid key: " + n);
                     break;
                 }
             }
@@ -357,7 +315,6 @@ implements ILocationAccessor {
         return n2;
     }
 
-    @Override
     public String getAdditionalPoiAttributeString(int n) {
         String string = "";
         try {
@@ -371,7 +328,7 @@ implements ILocationAccessor {
                     break;
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("getAdditionalPoiAttributeString invalid key: ").append(n).toString());
+                    System.out.println("getAdditionalPoiAttributeString invalid key: " + n);
                     break;
                 }
             }
@@ -382,7 +339,6 @@ implements ILocationAccessor {
         return string;
     }
 
-    @Override
     public int getAdditionalPoiAttributeInt(int n) {
         int n2 = -1;
         try {
@@ -396,7 +352,7 @@ implements ILocationAccessor {
                     break;
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("getAdditionalPoiAttributeInt invalid key: ").append(n).toString());
+                    System.out.println("getAdditionalPoiAttributeInt invalid key: " + n);
                     break;
                 }
             }
@@ -407,22 +363,20 @@ implements ILocationAccessor {
         return n2;
     }
 
-    @Override
     public float getAdditionalPoiAttributeFloat(int n) {
-        int n2 = 32959;
+        float f2 = -1.0f;
         try {
             switch (n) {
                 default: 
             }
-            System.out.println(new StringBuffer().append("getAdditionalPoiAttributeFloat invalid key: ").append(n).toString());
+            System.out.println("getAdditionalPoiAttributeFloat invalid key: " + n);
         }
         catch (Exception exception) {
             System.out.print(exception);
         }
-        return n2;
+        return f2;
     }
 
-    @Override
     public int getConnectorCount() {
         int n = -1;
         try {
@@ -434,32 +388,30 @@ implements ILocationAccessor {
         return n;
     }
 
-    @Override
     public int getConnectorAttributeBoolean(int n, int n2) {
         int n3 = -1;
         try {
             switch (n) {
                 default: 
             }
-            System.out.println(new StringBuffer().append("getConnectorAttributeFloat invalid key: ").append(n).toString());
+            System.out.println("getConnectorAttributeFloat invalid key: " + n);
         }
         catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-            System.out.println(new StringBuffer().append("ConnectorType Index invalid: ").append(indexOutOfBoundsException.getMessage()).toString());
+            System.out.println("ConnectorType Index invalid: " + indexOutOfBoundsException.getMessage());
         }
         return n3;
     }
 
-    @Override
     public float getConnectorAttributeFloat(int n, int n2) {
-        int n3 = 32959;
+        float f2 = -1.0f;
         try {
             switch (n) {
                 case 5: {
-                    n3 = (int)this.m_ChargingStation.getConnector((int)n2).powerOutput;
+                    f2 = this.m_ChargingStation.getConnector((int)n2).powerOutput;
                     break;
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("getConnectorAttributeFloat invalid key: ").append(n).toString());
+                    System.out.println("getConnectorAttributeFloat invalid key: " + n);
                     break;
                 }
             }
@@ -467,10 +419,9 @@ implements ILocationAccessor {
         catch (Exception exception) {
             System.out.print(exception);
         }
-        return n3;
+        return f2;
     }
 
-    @Override
     public String getConnectorAttributeString(int n, int n2) {
         String string = "";
         try {
@@ -492,7 +443,7 @@ implements ILocationAccessor {
                     break;
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("getConnectorAttributeString invalid key: ").append(n).toString());
+                    System.out.println("getConnectorAttributeString invalid key: " + n);
                     break;
                 }
             }
@@ -503,7 +454,6 @@ implements ILocationAccessor {
         return string;
     }
 
-    @Override
     public int getConnectorAttributeInt(int n, int n2) {
         int n3 = -1;
         try {
@@ -517,7 +467,7 @@ implements ILocationAccessor {
                     break;
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("getConnectorAttributeInt invalid key: ").append(n).toString());
+                    System.out.println("getConnectorAttributeInt invalid key: " + n);
                     break;
                 }
             }
@@ -528,12 +478,10 @@ implements ILocationAccessor {
         return n3;
     }
 
-    @Override
     public boolean getIsPicNavLocation() {
         return false;
     }
 
-    @Override
     public PhonemeData getPhoneme(int n) {
         PhonemeData phonemeData = null;
         boolean bl = this.isTownOrder9();
@@ -583,61 +531,49 @@ implements ILocationAccessor {
         return phonemeData;
     }
 
-    @Override
     public void setIsPicNavLocation(boolean bl) {
     }
 
-    @Override
     public String getCountryCode() {
         return this.m_Helper.getDataForInternalType(2072);
     }
 
-    @Override
     public int[] getIconDecoratorInformation() {
         return null;
     }
 
-    @Override
     public int getStreetIconId() {
         return 0;
     }
 
-    @Override
     public String getStreetIconText() {
         return null;
     }
 
-    @Override
     public String getChome() {
         return null;
     }
 
-    @Override
     public String getDistrict() {
         return null;
     }
 
-    @Override
     public String getMapCode() {
         return null;
     }
 
-    @Override
     public boolean isLocationDisambiguationPossible() {
         return false;
     }
 
-    @Override
     public boolean isLocationInCityState() {
         return false;
     }
 
-    @Override
     public String getGpxName() {
         return this.m_Helper.getDataForInternalType(2073);
     }
 
-    @Override
     public String getAdditionalLocationInformation(int n) {
         String string = "";
         switch (n) {
@@ -655,32 +591,26 @@ implements ILocationAccessor {
         return string;
     }
 
-    @Override
     public String getVillage() {
         return null;
     }
 
-    @Override
     public String getSubmunicipalTown() {
         return null;
     }
 
-    @Override
     public String getPlaceName() {
         return null;
     }
 
-    @Override
     public String getWard() {
         return null;
     }
 
-    @Override
     public boolean getAdditionalFlagStatus(int n) {
         return false;
     }
 
-    @Override
     public NavSegmentID getTraceID() {
         return null;
     }

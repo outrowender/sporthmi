@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tts.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tts.DynamicTTSPromptPart;
 
 public class DynamicTTSPromptPartSerializer {
-    public static void putOptionalDynamicTTSPromptPart(ISerializer iSerializer, DynamicTTSPromptPart dynamicTTSPromptPart) {
+    public static void putOptionalDynamicTTSPromptPart(ISerializer iSerializer, DynamicTTSPromptPart dynamicTTSPromptPart) throws SerializerException {
         boolean bl = dynamicTTSPromptPart == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class DynamicTTSPromptPartSerializer {
         }
     }
 
-    public static void putOptionalDynamicTTSPromptPartVarArray(ISerializer iSerializer, DynamicTTSPromptPart[] dynamicTTSPromptPartArray) {
+    public static void putOptionalDynamicTTSPromptPartVarArray(ISerializer iSerializer, DynamicTTSPromptPart[] dynamicTTSPromptPartArray) throws SerializerException {
         boolean bl = dynamicTTSPromptPartArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class DynamicTTSPromptPartSerializer {
         }
     }
 
-    public static DynamicTTSPromptPart getOptionalDynamicTTSPromptPart(IDeserializer iDeserializer) {
+    public static DynamicTTSPromptPart getOptionalDynamicTTSPromptPart(IDeserializer iDeserializer) throws SerializerException {
         DynamicTTSPromptPart dynamicTTSPromptPart = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class DynamicTTSPromptPartSerializer {
         return dynamicTTSPromptPart;
     }
 
-    public static DynamicTTSPromptPart[] getOptionalDynamicTTSPromptPartVarArray(IDeserializer iDeserializer) {
+    public static DynamicTTSPromptPart[] getOptionalDynamicTTSPromptPartVarArray(IDeserializer iDeserializer) throws SerializerException {
         DynamicTTSPromptPart[] dynamicTTSPromptPartArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

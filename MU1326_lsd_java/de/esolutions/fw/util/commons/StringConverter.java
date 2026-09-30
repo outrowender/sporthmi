@@ -3,19 +3,20 @@
  */
 package de.esolutions.fw.util.commons;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 
 public class StringConverter {
-    private static final int SYS_UNKNOWN;
-    private static final int SYS_J9;
+    private static final int SYS_UNKNOWN = 0;
+    private static final int SYS_J9 = 1;
     private final String encoding;
     private Object sysConv;
     private Method sysConvGetBytesMethod;
     private Method sysConvGetCharsMethod;
     private int sysType;
-    private static final String j9VMClassName;
-    private static final String j9CharConvClassName;
-    public static final StringConverter UTF8;
+    private static final String j9VMClassName = "com.ibm.oti.vm.VM";
+    private static final String j9CharConvClassName = "com.ibm.oti.io.CharacterConverter";
+    public static final StringConverter UTF8 = new StringConverter("UTF-8");
     static /* synthetic */ Class class$java$lang$String;
     static /* synthetic */ Class array$C;
     static /* synthetic */ Class array$B;
@@ -23,10 +24,10 @@ public class StringConverter {
     public StringConverter(String string) {
         this.encoding = string;
         try {
-            Class clazz = Class.forName("com.ibm.oti.vm.VM");
+            Class clazz = Class.forName(j9VMClassName);
             Method method = clazz.getDeclaredMethod("useNatives", new Class[0]);
             method.invoke(null, new Object[0]);
-            Class clazz2 = Class.forName("com.ibm.oti.io.CharacterConverter");
+            Class clazz2 = Class.forName(j9CharConvClassName);
             Class[] classArray = new Class[]{class$java$lang$String == null ? (class$java$lang$String = StringConverter.class$("java.lang.String")) : class$java$lang$String};
             Method method2 = clazz2.getDeclaredMethod("getConverter", classArray);
             Object[] objectArray = new Object[]{string};
@@ -46,7 +47,7 @@ public class StringConverter {
         }
     }
 
-    public String getString(byte[] byArray) {
+    public String getString(byte[] byArray) throws UnsupportedEncodingException {
         if (byArray == null) {
             return null;
         }
@@ -67,7 +68,7 @@ public class StringConverter {
         }
     }
 
-    public byte[] getBytes(String string) {
+    public byte[] getBytes(String string) throws UnsupportedEncodingException {
         if (string == null) {
             return null;
         }
@@ -95,10 +96,6 @@ public class StringConverter {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        UTF8 = new StringConverter("UTF-8");
     }
 }
 

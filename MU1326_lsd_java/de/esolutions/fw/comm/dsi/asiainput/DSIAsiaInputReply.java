@@ -3,73 +3,54 @@
  */
 package de.esolutions.fw.comm.dsi.asiainput;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAsiaInputReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "fbfa7ec2-cf7e-5410-bf3b-2435ecaa2283";
+    public static final String IPL_COMM_INTERFACE_KEY = "5629fd5e-f29a-577a-b6bd-f10203c96186";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.11";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.11";
 
-    default public void initialized(int n) {
-    }
+    public void initialized(int var1) throws MethodException;
 
-    default public void getVersionInfo(String string, String string2) {
-    }
+    public void getVersionInfo(String var1, String var2) throws MethodException;
 
-    default public void builtCandidates(int n) {
-    }
+    public void builtCandidates(int var1) throws MethodException;
 
-    default public void getSpelling(String string) {
-    }
+    public void getSpelling(String var1) throws MethodException;
 
-    default public void getCandidates(String[] stringArray) {
-    }
+    public void getCandidates(String[] var1) throws MethodException;
 
-    default public void selectedCandidate(int n, int n2) {
-    }
+    public void selectedCandidate(int var1, int var2) throws MethodException;
 
-    default public void indicateErrorStatus(int n) {
-    }
+    public void indicateErrorStatus(int var1) throws MethodException;
 
-    default public void indicateDataInvalidated(int n) {
-    }
+    public void indicateDataInvalidated(int var1) throws MethodException;
 
-    default public void getIntParameter(int n, int n2) {
-    }
+    public void getIntParameter(int var1, int var2) throws MethodException;
 
-    default public void getBooleanParameter(int n, boolean bl) {
-    }
+    public void getBooleanParameter(int var1, boolean var2) throws MethodException;
 
-    default public void setIntParameterResult(int n, int n2, int n3) {
-    }
+    public void setIntParameterResult(int var1, int var2, int var3) throws MethodException;
 
-    default public void setBooleanParameterResult(int n, boolean bl, int n2) {
-    }
+    public void setBooleanParameterResult(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void setStringParameterResult(int n, String string, int n2) {
-    }
+    public void setStringParameterResult(int var1, String var2, int var3) throws MethodException;
 
-    default public void getStringParameter(int n, String string) {
-    }
+    public void getStringParameter(int var1, String var2) throws MethodException;
 
-    default public void setAdditionalWordDatabasesResult(int n) {
-    }
+    public void setAdditionalWordDatabasesResult(int var1) throws MethodException;
 
-    default public void setUserDatabaseStateResult(int n, int n2, int n3) {
-    }
+    public void setUserDatabaseStateResult(int var1, int var2, int var3) throws MethodException;
 
-    default public void resetToFactorySettingsResult(int n) {
-    }
+    public void resetToFactorySettingsResult(int var1) throws MethodException;
 
-    default public void getSegmentation(String string) {
-    }
+    public void getSegmentation(String var1) throws MethodException;
 
-    default public void responseSegmentationForTruffles(String string) {
-    }
+    public void responseSegmentationForTruffles(String var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

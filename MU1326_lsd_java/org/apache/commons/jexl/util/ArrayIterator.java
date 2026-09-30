@@ -22,20 +22,17 @@ implements Iterator {
         this.size = Array.getLength(this.array);
     }
 
-    @Override
     public Object next() {
         if (this.pos < this.size) {
             return Array.get(this.array, this.pos++);
         }
-        throw new NoSuchElementException(new StringBuffer().append("No more elements: ").append(this.pos).append(" / ").append(this.size).toString());
+        throw new NoSuchElementException("No more elements: " + this.pos + " / " + this.size);
     }
 
-    @Override
     public boolean hasNext() {
         return this.pos < this.size;
     }
 
-    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

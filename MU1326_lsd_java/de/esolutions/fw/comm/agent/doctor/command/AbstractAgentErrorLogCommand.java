@@ -16,7 +16,6 @@ extends AbstractAgentDiagnosisCommand {
         return this.errorLog;
     }
 
-    @Override
     protected void handleWithAgentDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         this.errorLog = this.getDiagnosis().getErrorLog();
         if (this.errorLog != null) {
@@ -27,7 +26,6 @@ extends AbstractAgentDiagnosisCommand {
         }
     }
 
-    protected abstract void handleWithAgentErrorLog(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    protected abstract void handleWithAgentErrorLog(DoctorShell var1, String[] var2, PrintStream var3);
 }
 

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.zeroemission.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.zeroemission.ZeroEmissionEntry;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ZeroEmissionEntrySerializer {
-    public static void putOptionalZeroEmissionEntry(ISerializer iSerializer, ZeroEmissionEntry zeroEmissionEntry) {
+    public static void putOptionalZeroEmissionEntry(ISerializer iSerializer, ZeroEmissionEntry zeroEmissionEntry) throws SerializerException {
         boolean bl = zeroEmissionEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ZeroEmissionEntrySerializer {
         }
     }
 
-    public static void putOptionalZeroEmissionEntryVarArray(ISerializer iSerializer, ZeroEmissionEntry[] zeroEmissionEntryArray) {
+    public static void putOptionalZeroEmissionEntryVarArray(ISerializer iSerializer, ZeroEmissionEntry[] zeroEmissionEntryArray) throws SerializerException {
         boolean bl = zeroEmissionEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ZeroEmissionEntrySerializer {
         }
     }
 
-    public static ZeroEmissionEntry getOptionalZeroEmissionEntry(IDeserializer iDeserializer) {
+    public static ZeroEmissionEntry getOptionalZeroEmissionEntry(IDeserializer iDeserializer) throws SerializerException {
         ZeroEmissionEntry zeroEmissionEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ZeroEmissionEntrySerializer {
         return zeroEmissionEntry;
     }
 
-    public static ZeroEmissionEntry[] getOptionalZeroEmissionEntryVarArray(IDeserializer iDeserializer) {
+    public static ZeroEmissionEntry[] getOptionalZeroEmissionEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         ZeroEmissionEntry[] zeroEmissionEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

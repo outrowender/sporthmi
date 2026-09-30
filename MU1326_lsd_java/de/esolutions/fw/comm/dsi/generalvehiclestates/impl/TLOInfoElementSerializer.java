@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.generalvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.generalvehiclestates.TLOInfoElement;
 
 public class TLOInfoElementSerializer {
-    public static void putOptionalTLOInfoElement(ISerializer iSerializer, TLOInfoElement tLOInfoElement) {
+    public static void putOptionalTLOInfoElement(ISerializer iSerializer, TLOInfoElement tLOInfoElement) throws SerializerException {
         boolean bl = tLOInfoElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class TLOInfoElementSerializer {
         }
     }
 
-    public static void putOptionalTLOInfoElementVarArray(ISerializer iSerializer, TLOInfoElement[] tLOInfoElementArray) {
+    public static void putOptionalTLOInfoElementVarArray(ISerializer iSerializer, TLOInfoElement[] tLOInfoElementArray) throws SerializerException {
         boolean bl = tLOInfoElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class TLOInfoElementSerializer {
         }
     }
 
-    public static TLOInfoElement getOptionalTLOInfoElement(IDeserializer iDeserializer) {
+    public static TLOInfoElement getOptionalTLOInfoElement(IDeserializer iDeserializer) throws SerializerException {
         TLOInfoElement tLOInfoElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class TLOInfoElementSerializer {
         return tLOInfoElement;
     }
 
-    public static TLOInfoElement[] getOptionalTLOInfoElementVarArray(IDeserializer iDeserializer) {
+    public static TLOInfoElement[] getOptionalTLOInfoElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         TLOInfoElement[] tLOInfoElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

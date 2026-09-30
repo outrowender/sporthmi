@@ -9,43 +9,30 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 public interface LabelRenderer
 extends IRenderer,
 PreferredSize {
-    default public String calculateDisplayData(String string, boolean bl) {
-    }
+    public String calculateDisplayData(String var1, boolean var2);
 
-    default public int getNumberOfRows(int n) {
-    }
+    public int getNumberOfRows(int var1);
 
-    default public String getText() {
-    }
+    public String getText();
 
-    default public void setAlignment(int n, int n2) {
-    }
+    public void setAlignment(int var1, int var2);
 
-    default public void setFirstVisibleLine(int n) {
-    }
+    public void setFirstVisibleLine(int var1);
 
-    default public int getPreferredLineHeight() {
-    }
+    public int getPreferredLineHeight();
 
-    default public int getFontHeight() {
-    }
+    public int getFontHeight();
 
-    default public int getBaseline() {
-    }
+    public int getBaseline();
 
-    default public boolean hasContent() {
-    }
+    public boolean hasContent();
 
-    default public boolean isTextDescriptorSupported() {
-    }
+    public boolean isTextDescriptorSupported();
 
-    default public void setAutoWrap(int n) {
-    }
+    public void setAutoWrap(int var1);
 
-    default public void setLineHeight(int n) {
-    }
+    public void setLineHeight(int var1);
 
-    default public int getLineHeight() {
-    }
+    public int getLineHeight();
 }
 

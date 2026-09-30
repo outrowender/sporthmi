@@ -6,10 +6,8 @@ package org.osgi.framework;
 import org.osgi.framework.BundleContext;
 
 public interface BundleActivator {
-    default public void start(BundleContext bundleContext) {
-    }
+    public void start(BundleContext var1) throws Exception;
 
-    default public void stop(BundleContext bundleContext) {
-    }
+    public void stop(BundleContext var1) throws Exception;
 }
 

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardriverassistance.impl.AWVConfigurationSerial
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.AWVConfiguration;
 import org.dsi.ifc.cardriverassistance.AWVViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class AWVViewOptionsSerializer {
-    public static void putOptionalAWVViewOptions(ISerializer iSerializer, AWVViewOptions aWVViewOptions) {
+    public static void putOptionalAWVViewOptions(ISerializer iSerializer, AWVViewOptions aWVViewOptions) throws SerializerException {
         boolean bl = aWVViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class AWVViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalAWVViewOptionsVarArray(ISerializer iSerializer, AWVViewOptions[] aWVViewOptionsArray) {
+    public static void putOptionalAWVViewOptionsVarArray(ISerializer iSerializer, AWVViewOptions[] aWVViewOptionsArray) throws SerializerException {
         boolean bl = aWVViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class AWVViewOptionsSerializer {
         }
     }
 
-    public static AWVViewOptions getOptionalAWVViewOptions(IDeserializer iDeserializer) {
+    public static AWVViewOptions getOptionalAWVViewOptions(IDeserializer iDeserializer) throws SerializerException {
         AWVViewOptions aWVViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class AWVViewOptionsSerializer {
         return aWVViewOptions;
     }
 
-    public static AWVViewOptions[] getOptionalAWVViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static AWVViewOptions[] getOptionalAWVViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         AWVViewOptions[] aWVViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

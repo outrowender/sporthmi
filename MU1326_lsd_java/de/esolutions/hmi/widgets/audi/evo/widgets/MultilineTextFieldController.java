@@ -25,7 +25,6 @@ import de.audi.tghu.hmi.evo.IMultilineTextFiledController;
 import de.esolutions.fw.util.commons.IntList;
 import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
-import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.WidgetRegistry;
@@ -35,19 +34,16 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 import de.esolutions.hmi.widgets.audi.base.widgets.ModelStubController;
 import de.esolutions.hmi.widgets.audi.evo.FocusedPropertyObject;
+import de.esolutions.hmi.widgets.audi.evo.HMITerminalEvoImpl;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.IPRPEngine;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.PRPEngineEurope;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IMultilineTextFiledRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ISpellerListener;
+import de.esolutions.hmi.widgets.audi.evo.widgets.ISpellerRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LabelController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.MultilineTextFieldController$IntArrCompare;
-import de.esolutions.hmi.widgets.audi.evo.widgets.MultilineTextFieldController$WordReplacer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerButtonArgument;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler$CharsetListener;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.anim.AnimUtils;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuItemSingle;
@@ -65,7 +61,9 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.MultilineTextFieldRi
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.SChar;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.TouchPadController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.ViewPort;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,31 +76,31 @@ IMenuItemSingle,
 ATIPEventListener,
 AnimationListener,
 ISpellerListener,
-TouchCharSetAndTTSHandler$CharsetListener {
-    private static final int ALTERNATIVES_Y_OFFSET;
-    private MultilineTextFieldController$WordReplacer wordReplacer;
+TouchCharSetAndTTSHandler.CharsetListener {
+    private static final int ALTERNATIVES_Y_OFFSET = 16;
+    private WordReplacer wordReplacer;
     private TouchCharSetAndTTSHandler touchUtil;
     private int widgetID = -1;
-    private static final int ANIMATION_TYPE;
-    private static final float ANIMATION_TARGET;
+    private static final int ANIMATION_TYPE = 76;
+    private static final float ANIMATION_TARGET = 1000.0f;
     public AnimatedState sourceAnim = null;
     public AnimatedState currentAnim = null;
     public AnimatedState targetAnim = null;
     public AbstractAnimation animationContainer = null;
     private boolean isInitialForAnimation = true;
-    public static final int DEFAULT_MIN_NO_LINES;
-    public static final int DEFAULT_MAX_NO_LINES;
+    public static final int DEFAULT_MIN_NO_LINES = 3;
+    public static final int DEFAULT_MAX_NO_LINES = 8;
     private FocusedPropertyObject focusPropertyObject = null;
     private MultilineTextFieldRightDrawerHandler cbkHndlr = new MultilineTextFieldRightDrawerHandler(this);
     private BckSpaceGestureHandler bckSpcTouchHandler = null;
     private long lastTouchDeleteGestureTime = -1L;
-    private static final MultilineTextFieldController$IntArrCompare IARRCMPINSTANCE;
+    private static final IntArrCompare IARRCMPINSTANCE = new IntArrCompare();
     private IMultilineTextFiledRenderer renderer;
     private SpellerController speller = null;
     private TouchPadController touchPad = null;
     private MultilineString multilineString = null;
     private int sdsItemSelectedAction = 3;
-    public static final int MAX_SPACE_WORDS_PASSED;
+    public static final int MAX_SPACE_WORDS_PASSED = 1;
     private List passedSpaceWords = new LinkedList();
     private MLDisplayData displayData = null;
     private DeleteKeyInputHandler cbcDelete = null;
@@ -112,35 +110,35 @@ TouchCharSetAndTTSHandler$CharsetListener {
     private boolean disableInput = false;
     public int minNoVisibleLines = 3;
     public int maxNoVisibleLines = 8;
-    public static final int SPELLER_X_OFFSET;
-    public static final int SPELLER_Y_OFFSET;
-    public static final int SPELLER_H;
-    public static final int SPELLER_W_DELTA;
-    private static final int SPELLER_H_EXTRA;
-    private static final int[] MENU_ITEM_INSETS;
-    private static int layoutMenuItemInsets;
-    private static int layoutConfigIdx;
+    public static final int SPELLER_X_OFFSET = 0;
+    public static final int SPELLER_Y_OFFSET = 0;
+    public static final int SPELLER_H = 55;
+    public static final int SPELLER_W_DELTA = -10;
+    private static final int SPELLER_H_EXTRA = 17;
+    private static final int[] MENU_ITEM_INSETS = new int[]{0, 0};
+    private static int layoutMenuItemInsets = MENU_ITEM_INSETS[0];
+    private static int layoutConfigIdx = 0;
     private LabelController label = null;
     private boolean searchLabel = true;
     private int lastCursorPos = 0;
     private int onFirstDeleteClicks = 0;
     private long lastFastScrollTime = 0L;
-    private static final long FASTSCROLL_INTERVAL;
-    private static final int FASTSCROLL_CLICKS_ACTIVATE;
+    private static final long FASTSCROLL_INTERVAL = 250L;
+    private static final int FASTSCROLL_CLICKS_ACTIVATE = 3;
     private int factor = 2;
-    private static final int MAX_FACTOR;
+    private static final int MAX_FACTOR = 7;
     int oldCursorDirection = 0;
     private boolean blinkCursorVisible = true;
     private AbstractAnimation cursorBlinkAnimation;
     private Job catchJob;
     private TimerEvent catchTimerEvent;
     private boolean catchTimerRunning = false;
-    public static boolean useGostChars;
+    public static boolean useGostChars = true;
     private int optionIconYOffset = 0;
     private int descriptiveTextID = -1;
     private int descriptiveTextLength = 0;
-    private static final int TRUE;
-    private static final int FALSE;
+    private static final int TRUE = 1;
+    private static final int FALSE = 0;
     private ModelStubController modelStub;
     private ChoiceModelApp isInsideSpellerOrAlternatives;
     private String descriptiveText2 = null;
@@ -153,12 +151,11 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.eventDispatcher = eventDispatcher;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateCharsetForPRPandSpeller();
         if (this.wordReplacer == null) {
-            this.wordReplacer = new MultilineTextFieldController$WordReplacer(this, (TextEditorModelDDApp)this.model, this.getSpeller());
+            this.wordReplacer = new WordReplacer((TextEditorModelDDApp)this.model, this.getSpeller());
             this.wordReplacer.updateBounds();
             this.wordReplacer.getSpeller().registerSpellerListener(this);
             this.add(this.wordReplacer.getSpeller());
@@ -170,25 +167,21 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.isInitialForAnimation = true;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.touchUtil.addCharsetListener(this);
     }
 
-    @Override
     public void disconnecting() {
         this.touchUtil.removeCharsetListener(this);
         super.disconnecting();
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
-        logMessagingMultilineAnimations.log(-2137614336, "MultilineTextFieldController#animate type:%1   value:%2   id:%3", (double)n, (double)f2, (double)n2);
+        logMessagingMultilineAnimations.log(10000000, "MultilineTextFieldController#animate type:%1   value:%2   id:%3", (double)n, (double)f2, (double)n2);
         if (n == 1) {
             this.toggleBlinkCursor();
             return;
@@ -200,14 +193,13 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.currentAnim.viewPort.vpY = AnimUtils.lerp1(this.sourceAnim.viewPort.vpY, this.targetAnim.viewPort.vpY, this.animationContainer.getProgress());
         this.currentAnim.viewPort.h = AnimUtils.lerp1(this.sourceAnim.viewPort.h, this.targetAnim.viewPort.h, this.animationContainer.getProgress());
         this.currentAnim.spellerOpeningProgress = AnimUtils.lerp1(this.sourceAnim.spellerOpeningProgress, this.targetAnim.spellerOpeningProgress, this.animationContainer.getProgress());
-        this.optionIconYOffset = (int)(this.currentAnim.spellerOpeningProgress * 23618 / 2.0f);
+        this.optionIconYOffset = (int)(this.currentAnim.spellerOpeningProgress * 55.0f / 2.0f);
         this.currentAnim.widgetH = (int)AnimUtils.lerp1(this.sourceAnim.widgetH, this.targetAnim.widgetH, this.animationContainer.getProgress());
         this.invalidateAndApplyProps();
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        logMessagingMultilineAnimations.log(-2137614336, "MultilineTextFieldController#animationFinished");
+        logMessagingMultilineAnimations.log(10000000, "MultilineTextFieldController#animationFinished");
         if (this.targetAnim != null && this.displayData != null) {
             this.currentAnim = new AnimatedState(this.targetAnim);
             this.displayData.setLinesNeedRepos(true);
@@ -223,7 +215,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.currentAnim.viewPort.vpLastVisibleLine = Math.max(this.currentAnim.viewPort.vpLastVisibleLine, this.targetAnim.viewPort.vpLastVisibleLine);
         this.currentAnim.viewPort.vpNoVisibleLines = this.targetAnim.viewPort.vpNoVisibleLines;
         if (this.animationContainer != null && this.animationContainer.isAnimating()) {
-            this.animationContainer.setTarget(this.animationContainer.getTarget() + 31300);
+            this.animationContainer.setTarget(this.animationContainer.getTarget() + 1000.0f);
         } else {
             if (this.animationContainer == null) {
                 this.animationContainer = ((AnimationController)this.getTerminal().getIAnimationController()).getAnimation(76);
@@ -232,14 +224,14 @@ TouchCharSetAndTTSHandler$CharsetListener {
             float f2 = 0.0f;
             if (this.isInitialForAnimation) {
                 this.isInitialForAnimation = false;
-                f2 = 31300;
+                f2 = 1000.0f;
             }
-            this.animationContainer.startDynamicAnimation(f2, 31300, 76, false, this);
+            this.animationContainer.startDynamicAnimation(f2, 1000.0f, 76, false, this);
         }
     }
 
     public void setDisableInput(boolean bl) {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#setDisableInput disable:%1", bl);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#setDisableInput disable:%1", bl);
         this.disableInput = bl;
         if (this.disableInput) {
             this.closeSpeller(true);
@@ -249,12 +241,12 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public boolean isDisableInput() {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#getDisableInput disableinput:%1", this.disableInput);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#getDisableInput disableinput:%1", this.disableInput);
         return this.disableInput;
     }
 
     public void setMinNoVisibleLines(int n) {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#setMinNoVisibleLines type:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#setMinNoVisibleLines type:%1", (long)n);
         if (this.minNoVisibleLines > -1 && this.minNoVisibleLines != n) {
             this.minNoVisibleLines = n;
             this.maxNoVisibleLines = Math.max(this.minNoVisibleLines, this.maxNoVisibleLines);
@@ -267,7 +259,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public void setMaxNoVisibleLines(int n) {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#setMaxNoVisibleLines type:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#setMaxNoVisibleLines type:%1", (long)n);
         int n2 = Math.max(n, this.minNoVisibleLines);
         if (n2 != this.maxNoVisibleLines) {
             this.maxNoVisibleLines = n2;
@@ -283,21 +275,18 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return layoutConfigIdx;
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         if (!this.disableInput) {
             super.touchPadPressed(touchEvent);
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (!this.disableInput) {
             super.touchPadReleased(touchEvent);
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (!this.disableInput) {
             super.touchPadPositionMoved(touchEvent);
@@ -305,7 +294,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         if (this.disableInput) {
             return;
@@ -313,7 +301,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
         touchEvent.setSdsAction(3);
         String string = touchEvent.getRecognizedCharacters();
         if (string != null) {
-            logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#touchpadCharactersRecognized recognizedChars=%1", (Object)string);
+            logMessagingMultiline.log(10000000, "MultiLineTextFieldController#touchpadCharactersRecognized recognizedChars=%1", (Object)string);
         }
         super.touchPadCharactersRecognized(touchEvent);
     }
@@ -331,14 +319,13 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     private void onModelContentChanged() {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#onModelContentChanged");
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#onModelContentChanged");
         if (this.multilineString.getCursor().length() <= 0 && this.wordReplacer.isVisible()) {
-            logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#onModelContentChanged - closing wordReplacer");
+            logMessagingMultiline.log(10000000, "MultilineTextFieldController#onModelContentChanged - closing wordReplacer");
             this.wordReplacer.close();
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         super.processModelUpdateEvent(modelUpdateEvent);
         switch (modelUpdateEvent.getUpdateType()) {
@@ -351,7 +338,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
                 break;
             }
             default: {
-                logMessagingMultiline.log(-1601830656, "MultilineTextFieldController#processModelUpdateEvent: ignore model update event (%1) here", (Object)modelUpdateEvent);
+                logMessagingMultiline.log(100000, "MultilineTextFieldController#processModelUpdateEvent: ignore model update event (%1) here", (Object)modelUpdateEvent);
             }
         }
     }
@@ -360,9 +347,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return this.currentAnim.viewPort;
     }
 
-    @Override
     protected void initConnect(InitializationContext initializationContext) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#initConnect");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#initConnect");
         super.initConnect(initializationContext);
         layoutConfigIdx = 0;
         layoutMenuItemInsets = MENU_ITEM_INSETS[layoutConfigIdx];
@@ -403,7 +389,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public void changeCharset(int n) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#changeCharset charset:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#changeCharset charset:%1", (long)n);
         this.touchUtil.setCharSet(n);
         this.updateCharsetForPRPandSpeller();
     }
@@ -422,7 +408,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
         if (this.speller == null) {
             return;
         }
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#setLanguage InternalLanguage:%1", (long)touchCharSetAndTTSHandler.getInternalLanguage());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#setLanguage InternalLanguage:%1", (long)touchCharSetAndTTSHandler.getInternalLanguage());
         this.speller.setSpellerBandLanguage(touchCharSetAndTTSHandler);
         this.setCompositesDirty(true);
     }
@@ -430,7 +416,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     private void invalidateAndApplyProps() {
         this.setPreferredHeight(this.currentAnim.widgetH);
         if (this.speller != null) {
-            this.speller.setVisible(this.currentAnim.spellerOpeningProgress > 0x6666663F);
+            this.speller.setVisible(this.currentAnim.spellerOpeningProgress > 0.9f);
             this.speller.setCompositesDirty(true);
         }
         this.displayData.setLinesNeedRepos(true);
@@ -440,7 +426,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
 
     public void updateCurrentLine(boolean bl, boolean bl2) {
         SChar sChar;
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#updateCurrentLine init:%1  upToDate:%2", bl, bl2);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#updateCurrentLine init:%1  upToDate:%2", bl, bl2);
         DoubleCursor doubleCursor = this.multilineString.getCursor();
         int n = doubleCursor.getCursorPos();
         boolean bl3 = n > this.lastCursorPos;
@@ -490,7 +476,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return this.label != null ? this.label.getWidth() : 0;
     }
 
-    @Override
     protected void destroyWidget() {
         this.stopBlinkTimer();
         this.bckSpcTouchHandler = null;
@@ -509,7 +494,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.targetAnim = null;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -518,9 +502,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.renderer = iMultilineTextFiledRenderer;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#keyPressed evt:%1", (long)keyEvent.getKeyCode());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#keyPressed evt:%1", (long)keyEvent.getKeyCode());
         this.hideFingerTrace();
         if (this.disableInput) {
             return;
@@ -542,9 +525,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#keyReleased evt:%1", (long)keyEvent.getKeyCode());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#keyReleased evt:%1", (long)keyEvent.getKeyCode());
         if (this.disableInput) {
             return;
         }
@@ -559,12 +541,12 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     private boolean handleHKBack(boolean bl) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleHKBack pressed:%1", bl);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleHKBack pressed:%1", bl);
         this.hideFingerTrace();
         if (bl && this.multilineString.getCursor().length() <= 0) {
             this.onFirstDeleteClicks = 0;
             if (this.isSpellerActive()) {
-                logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleHKBack closing speller");
+                logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleHKBack closing speller");
                 this.closeSpeller(true);
                 return true;
             }
@@ -608,11 +590,11 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.lastFastScrollTime = l;
         int n4 = n2;
         int n5 = n3 = n == 1 ? 0 : 1;
-        if (l2 <= 0 && n2 >= 3) {
+        if (l2 <= 250L && n2 >= 3) {
             this.factor = Math.max(this.factor + 1, 7);
             n4 = n2 * this.factor;
             this.oldCursorDirection = n3;
-        } else if (l2 >= 0 || n3 != this.oldCursorDirection) {
+        } else if (l2 >= 500L || n3 != this.oldCursorDirection) {
             this.factor = 2;
             this.oldCursorDirection = 0;
         }
@@ -636,9 +618,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#keyTurned direction:%1   ticks:%2", (long)wheelButtonEvent.getDirection(), (long)wheelButtonEvent.getClickCount());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#keyTurned direction:%1   ticks:%2", (long)wheelButtonEvent.getDirection(), (long)wheelButtonEvent.getClickCount());
         this.hideFingerTrace();
         int n = wheelButtonEvent.getDirection();
         int n2 = wheelButtonEvent.getClickCount();
@@ -666,10 +647,9 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return this.speller != null ? this.speller.isVisible() : false;
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         boolean bl;
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#keyTurned direction:%1", (long)joystickEvent.getDirection());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#keyTurned direction:%1", (long)joystickEvent.getDirection());
         this.hideFingerTrace();
         if (this.disableInput) {
             return;
@@ -711,7 +691,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void setX(int n) {
         super.setX(n);
         if (this.speller != null) {
@@ -725,7 +704,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void setY(int n) {
         super.setY(n);
         if (this.speller != null) {
@@ -739,7 +717,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void setWidth(int n) {
         int n2 = this.width;
         super.setWidth(n);
@@ -756,7 +733,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void setHeight(int n) {
         super.setHeight(n);
         if (this.speller != null) {
@@ -767,7 +743,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         this.setX(n);
         this.setY(n2);
@@ -775,10 +750,9 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.setHeight(n4);
     }
 
-    @Override
     public void setPreferredHeight(int n) {
         int n2 = n + 10;
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#processEvent PreferredHeight:%1", (long)n2);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#processEvent PreferredHeight:%1", (long)n2);
         if (n2 != this.preferredHeight) {
             super.setPreferredHeight(n2);
         }
@@ -796,14 +770,14 @@ TouchCharSetAndTTSHandler$CharsetListener {
             this.cursorBlinkAnimation.addListener(this);
         }
         if (!this.cursorBlinkAnimation.isAnimating()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchControllerAsAnimationListenerImp#startCursorBlinkAnimation: animation will be started");
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchControllerAsAnimationListenerImp#startCursorBlinkAnimation: animation will be started");
             this.cursorBlinkAnimation.startEndlessAnimation(500, this);
         }
     }
 
     private void stopBlinkTimer() {
         if (this.cursorBlinkAnimation != null && this.cursorBlinkAnimation.isAnimating()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "stopBlinkTimer#stopAnimation: an animation will be stoppped (animationType=%1)", (long)this.cursorBlinkAnimation.getType());
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "stopBlinkTimer#stopAnimation: an animation will be stoppped (animationType=%1)", (long)this.cursorBlinkAnimation.getType());
             this.cursorBlinkAnimation.stopAnimation();
             this.blinkCursorVisible = false;
         }
@@ -835,11 +809,10 @@ TouchCharSetAndTTSHandler$CharsetListener {
     private void startCatchTimer() {
         this.resetCatchTimer();
         this.catchTimerEvent = new TimerEvent(this);
-        this.catchJob = AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(this.catchTimerEvent, 0);
+        this.catchJob = AbstractWidget.framework.getHMIService().getEventDispatcher().postEvent(this.catchTimerEvent, 250L);
         this.catchTimerRunning = true;
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.catchTimerEvent)) {
             this.catchTimerRunning = false;
@@ -884,7 +857,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public MLDisplayData getLinifiedData() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#getLinifiedData");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#getLinifiedData");
         if (this.displayData != null) {
             this.displayData.ghostCursor.setCursorMode((this.displayData.ghostCursor.getCursorMode() + 1) % 2);
             this.displayData.ghostCursor.setCursorMode((this.displayData.ghostCursor.getCursorMode() + 1) % 2);
@@ -919,11 +892,11 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     private void handleCursorModeSwitch(GhostCursor ghostCursor) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleCursorModeSwitch actualMode:%1", (long)ghostCursor.getCursorMode());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleCursorModeSwitch actualMode:%1", (long)ghostCursor.getCursorMode());
         int n = ghostCursor.getCursorMode();
         if (n == 1) {
             int n2;
-            logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleCursorModeSwitch CHAR to WORD");
+            logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleCursorModeSwitch CHAR to WORD");
             if (!this.isSpellerActive() && (n2 = ghostCursor.currentIdx()[0]) != -1) {
                 int n3 = MLUtils.getCharType(ghostCursor.getCharArray()[n2]);
                 if (n3 == 0 && Collections.binarySearch(this.passedSpaceWords, ghostCursor.currentWordIdx(), IARRCMPINSTANCE) < 0) {
@@ -935,7 +908,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
                 }
             }
         } else {
-            logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleCursorModeSwitch WORD to CHAR");
+            logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleCursorModeSwitch WORD to CHAR");
             if (ghostCursor.length() == 0) {
                 ghostCursor.setCursorMode(1);
                 this.displayData.setNeedsRendering(true);
@@ -945,11 +918,11 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     private void handleCursorModeSwitch(DoubleCursor doubleCursor) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleCursorModeSwitch actualMode:%1", (long)doubleCursor.getCursorMode());
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleCursorModeSwitch actualMode:%1", (long)doubleCursor.getCursorMode());
         int n = doubleCursor.getCursorMode();
         if (n == 1) {
             int n2;
-            logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleCursorModeSwitch CHAR to WORD");
+            logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleCursorModeSwitch CHAR to WORD");
             if (!this.isSpellerActive() && (n2 = doubleCursor.currentIdx()[0]) != -1) {
                 int n3 = MLUtils.getCharType(doubleCursor.getCharArray()[n2]);
                 if (n3 == 0 && Collections.binarySearch(this.passedSpaceWords, doubleCursor.currentWordIdx(), IARRCMPINSTANCE) < 0) {
@@ -961,7 +934,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
                 }
             }
         } else {
-            logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#handleCursorModeSwitch WORD to CHAR");
+            logMessagingMultiline.log(10000000, "MultiLineTextFieldController#handleCursorModeSwitch WORD to CHAR");
             if (doubleCursor.length() == 0) {
                 doubleCursor.setCursorMode(1);
             }
@@ -981,7 +954,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public void openSpeller(boolean bl) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#openSpeller  animate:%1", bl);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#openSpeller  animate:%1", bl);
         if (this.disableInput) {
             return;
         }
@@ -1004,7 +977,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public void closeSpeller(boolean bl) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#closeSpeller  animate:%1", bl);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#closeSpeller  animate:%1", bl);
         if (this.speller != null && this.isSpellerActive()) {
             if (this.targetAnim != null) {
                 AnimatedState animatedState = new AnimatedState(this.targetAnim);
@@ -1023,7 +996,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     public void repaintWidgetOnHMIThread() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#repaintWidgetOnHMIThread");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#repaintWidgetOnHMIThread");
         if (this.displayData != null) {
             this.displayData.setNeedsRendering(true);
             this.setCompositesDirty(true);
@@ -1032,14 +1005,14 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     private void insertWordPriv(String string) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#insertWordPriv  word:%1", (Object)string);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#insertWordPriv  word:%1", (Object)string);
         this.multilineString.getCursor().insertWord(string);
         this.updatePreferredHeight();
         this.repaintWidgetOnHMIThread();
     }
 
     private int[] replaceWordPriv(String string) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#replaceWordPriv  word:%1", (Object)string);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#replaceWordPriv  word:%1", (Object)string);
         int[] nArray = new int[]{-1, -1};
         nArray = this.multilineString.getCursor().currentWordIdx();
         if (nArray[0] != -1) {
@@ -1052,20 +1025,19 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return nArray;
     }
 
-    @Override
     public void delete() {
         this.deletePriv();
     }
 
     private void deletePriv() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#deletePriv");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#deletePriv");
         this.multilineString.getCursor().remove();
         this.updatePreferredHeight();
         this.repaintWidgetOnHMIThread();
     }
 
     public void clear() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#clear");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#clear");
         this.multilineString.getCursor().clear();
         this.updatePreferredHeight();
         this.repaintWidgetOnHMIThread();
@@ -1116,7 +1088,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return bl;
     }
 
-    @Override
     public void moveCursor(int n) {
         this.moveCursorPriv(n);
     }
@@ -1127,7 +1098,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
     }
 
     private void setCursorModePriv(int n) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#setCursorModePriv   mode:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#setCursorModePriv   mode:%1", (long)n);
         this.passedSpaceWords.clear();
         DoubleCursor doubleCursor = this.multilineString.getCursor();
         if (n == 1) {
@@ -1160,28 +1131,25 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.repaintWidgetOnHMIThread();
     }
 
-    @Override
     public int charWidth(char c2) {
         int n = this.renderer != null && this.isConnected() ? this.renderer.getCharWidth(c2) : 1;
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#charWidth   charWidth:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#charWidth   charWidth:%1", (long)n);
         return n;
     }
 
-    @Override
     public int stringWidth(String string) {
         int n = this.renderer != null && this.isConnected() ? this.renderer.getStringW(string) : (string != null ? string.length() : 0);
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#stringWidth   charWidth:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#stringWidth   charWidth:%1", (long)n);
         return n;
     }
 
-    @Override
     public void setCursorMode(int n) {
-        logMessagingMultilineEvents.log(-2137614336, "MultiLineTextFieldController#setCursorMode   mode:%1", (long)n);
+        logMessagingMultilineEvents.log(10000000, "MultiLineTextFieldController#setCursorMode   mode:%1", (long)n);
         this.setCursorModePriv(n);
     }
 
     public void touchDelete() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#touchDelete");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#touchDelete");
         if (!this.isConnected()) {
             return;
         }
@@ -1202,7 +1170,7 @@ TouchCharSetAndTTSHandler$CharsetListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void replInsChar(char c2) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#replInsChar");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#replInsChar");
         if (!this.isConnected()) {
             return;
         }
@@ -1258,9 +1226,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.repaintWidgetOnHMIThread();
     }
 
-    @Override
     public void insertChar(char c2) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#insertChar  char:%1", c2);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#insertChar  char:%1", c2);
         if (c2 != '\b') {
             this.multilineString.getCursor().setCursorMode(1);
         }
@@ -1269,17 +1236,15 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.repaintWidgetOnHMIThread();
     }
 
-    @Override
     public void insertStr(String string) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#insertStr  word:%1", (Object)string);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#insertStr  word:%1", (Object)string);
         this.multilineString.getCursor().insertWord(string);
         this.updatePreferredHeight();
         this.repaintWidgetOnHMIThread();
     }
 
-    @Override
     public void replaceStr(String string) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#replaceStr  word:%1", (Object)string);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#replaceStr  word:%1", (Object)string);
         int[] nArray = new int[]{-1, -1};
         nArray = this.multilineString.getCursor().currentWordIdx();
         if (nArray[0] != -1) {
@@ -1291,12 +1256,10 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.repaintWidgetOnHMIThread();
     }
 
-    @Override
     public int getSizeForTabulator(int n) {
         return -1;
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
@@ -1305,45 +1268,38 @@ TouchCharSetAndTTSHandler$CharsetListener {
         this.widgetID = n;
     }
 
-    @Override
     public int getLineOffsetX() {
         return 15;
     }
 
-    @Override
     public int getLineWidth() {
         int n = this.getDescriptiveText() != null ? 25 : 0;
         int n2 = this.getInputFieldWidth() - n - 40;
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#getLineWidth   width:%1", (long)n2);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#getLineWidth   width:%1", (long)n2);
         return n2;
     }
 
-    @Override
     public int getSdsItemSelectedAction() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#getSdsItemSelectedAction   sds:%1", (long)this.sdsItemSelectedAction);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#getSdsItemSelectedAction   sds:%1", (long)this.sdsItemSelectedAction);
         return this.sdsItemSelectedAction;
     }
 
     public void setSdsItemSelectedAction(int n) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#setSdsItemSelectedAction   sds_new:%1  sds_old:%2", (long)n, (long)this.sdsItemSelectedAction);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#setSdsItemSelectedAction   sds_new:%1  sds_old:%2", (long)n, (long)this.sdsItemSelectedAction);
         this.sdsItemSelectedAction = n;
     }
 
-    @Override
     public void showExtended(boolean bl) {
     }
 
-    @Override
     public int getPreferredHeight(boolean bl, int n) {
         return this.getPreferredHeight();
     }
 
-    @Override
     public boolean isSelected() {
         return false;
     }
 
-    @Override
     public int getMargin(boolean bl) {
         if (AbstractWidget.isScreenResolution1440()) {
             return bl ? 1 : 3;
@@ -1351,22 +1307,18 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return 0;
     }
 
-    @Override
     public int getGlassplateInsets(boolean bl) {
         return layoutMenuItemInsets;
     }
 
-    @Override
     public boolean hasInfolineText() {
         return false;
     }
 
-    @Override
     public String getInfolineText() {
         return null;
     }
 
-    @Override
     public boolean isFocusable() {
         return true;
     }
@@ -1380,9 +1332,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void setFocused(boolean bl) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#setFocused   focused:%1", bl);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#setFocused   focused:%1", bl);
         if (bl) {
             this.setCursorModePriv(0);
             this.displayData.setLinesNeedRepos(true);
@@ -1401,12 +1352,10 @@ TouchCharSetAndTTSHandler$CharsetListener {
         super.setFocused(bl);
     }
 
-    @Override
     public int getOptionIconYOffset() {
         return this.optionIconYOffset;
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
         switch (n) {
             case 1: {
@@ -1423,9 +1372,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public IFocusedPropertyObject getProperty() {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#getProperty");
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#getProperty");
         this.hideFingerTrace();
         if (this.disableInput) {
             return null;
@@ -1434,15 +1382,15 @@ TouchCharSetAndTTSHandler$CharsetListener {
             return null;
         }
         if (this.focusPropertyObject == null) {
-            this.focusPropertyObject = new FocusedPropertyObject(-657864606, null);
+            this.focusPropertyObject = new FocusedPropertyObject(1657326040, null);
         }
         IntList intList = new IntList(5);
         int n = this.multilineString.getCursor().length();
         if (n > 0) {
-            intList.add(144238384);
+            intList.add(820484104);
         }
         if (this.isSpellerActive()) {
-            intList.add(-28217558);
+            intList.add(711938558);
         }
         intList.add(this.touchUtil.getFocusPropertyForCurrentCharset());
         this.focusPropertyObject.setProperties(intList.toArray());
@@ -1451,9 +1399,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return this.focusPropertyObject;
     }
 
-    @Override
     public synchronized void setMultilineMinVisLines(int n) {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#setMinNoVisibleLines type:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#setMinNoVisibleLines type:%1", (long)n);
         if (this.minNoVisibleLines > -1 && this.minNoVisibleLines != n) {
             this.minNoVisibleLines = n;
             this.maxNoVisibleLines = Math.max(this.minNoVisibleLines, this.maxNoVisibleLines);
@@ -1461,9 +1408,8 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public synchronized void setMultilineMaxVisLines(int n) {
-        logMessagingMultiline.log(-2137614336, "MultilineTextFieldController#setMaxNoVisibleLines type:%1", (long)n);
+        logMessagingMultiline.log(10000000, "MultilineTextFieldController#setMaxNoVisibleLines type:%1", (long)n);
         int n2 = Math.max(n, this.minNoVisibleLines);
         if (n2 != this.maxNoVisibleLines) {
             this.maxNoVisibleLines = n2;
@@ -1471,12 +1417,11 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
-    public void buttonPressed(SpellerController$SpellerButtonType spellerController$SpellerButtonType, SpellerButtonArgument spellerButtonArgument) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#buttonPressed   button:%1", (Object)spellerController$SpellerButtonType);
-        if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.DELETE) {
+    public void buttonPressed(SpellerController.SpellerButtonType spellerButtonType, SpellerButtonArgument spellerButtonArgument) {
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#buttonPressed   button:%1", (Object)spellerButtonType);
+        if (spellerButtonType == SpellerController.SpellerButtonType.DELETE) {
             this.handleDeleteKey(true);
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.CLOSE) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.CLOSE) {
             if (this.wordReplacer.isFocused()) {
                 this.wordReplacer.close();
                 this.openSpeller(true);
@@ -1484,40 +1429,37 @@ TouchCharSetAndTTSHandler$CharsetListener {
                 this.closeSpeller(true);
                 this.setCursorModePriv(0);
             }
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.OK) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.OK) {
             this.closeSpeller(true);
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.RIGHT) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.RIGHT) {
             this.moveCursorPriv(1);
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.LEFT) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.LEFT) {
             this.moveCursorPriv(0);
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.NEWLINE) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.NEWLINE) {
             this.insertChar('\n');
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.SMILEY_SMILING) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.SMILEY_SMILING) {
             this.insertStr(":-)");
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.SMILEY_LAUGHING) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.SMILEY_LAUGHING) {
             this.insertStr(":-D");
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.SMILEY_WINKING) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.SMILEY_WINKING) {
             this.insertStr(";-)");
-        } else if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.SMILEY_DISAPPOINTED) {
+        } else if (spellerButtonType == SpellerController.SpellerButtonType.SMILEY_DISAPPOINTED) {
             this.insertStr(":-(");
         }
     }
 
-    @Override
-    public void buttonLongPressed(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
+    public void buttonLongPressed(SpellerController.SpellerButtonType spellerButtonType) {
     }
 
-    @Override
-    public void buttonReleased(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
-        if (spellerController$SpellerButtonType == SpellerController$SpellerButtonType.DELETE) {
+    public void buttonReleased(SpellerController.SpellerButtonType spellerButtonType) {
+        if (spellerButtonType == SpellerController.SpellerButtonType.DELETE) {
             this.handleDeleteKey(false);
         }
     }
 
-    @Override
     public void characterPressed(String string, boolean bl, boolean bl2) {
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#characterPressed   string:%1", (Object)string);
-        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#characterPressed   LongPress:%1    Expandable:%2", bl2, bl2);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#characterPressed   string:%1", (Object)string);
+        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#characterPressed   LongPress:%1    Expandable:%2", bl2, bl2);
         if (this.wordReplacer != null && this.wordReplacer.isFocused()) {
             this.replaceWordPriv(string);
             this.touchUtil.speak(string);
@@ -1540,15 +1482,12 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return 0;
     }
 
-    @Override
     public void focusedCharacterChanged(String string) {
     }
 
-    @Override
     public void setOptionsIconSpace(int n) {
     }
 
-    @Override
     public int getNoCursorArea(boolean bl) {
         return 0;
     }
@@ -1626,7 +1565,6 @@ TouchCharSetAndTTSHandler$CharsetListener {
         }
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof ModelStubController) {
             this.modelStub = (ModelStubController)abstractWidget;
@@ -1660,45 +1598,248 @@ TouchCharSetAndTTSHandler$CharsetListener {
         return bl3;
     }
 
-    @Override
-    public void focusChanged(SpellerController$ISpellerItem spellerController$ISpellerItem, int n) {
+    public void focusChanged(SpellerController.ISpellerItem iSpellerItem, int n) {
     }
 
-    @Override
     public void userCharsetChanged(int n) {
         this.setCompositesDirty(true);
     }
 
-    static /* synthetic */ HMITerminalImpl access$000(MultilineTextFieldController multilineTextFieldController) {
-        return multilineTextFieldController.terminal;
+    static final class OpEvent
+    extends ATIPEvent {
+        final int iValue;
+        final char cValue;
+        final String sValue;
+        final int type;
+
+        OpEvent(ATIPEventListener aTIPEventListener, int n, int n2) {
+            super(aTIPEventListener, 19901);
+            this.iValue = n;
+            this.cValue = '\u0000';
+            this.sValue = null;
+            this.type = n2;
+        }
+
+        OpEvent(ATIPEventListener aTIPEventListener, char c2, int n) {
+            super(aTIPEventListener, 19901);
+            this.iValue = 0;
+            this.cValue = c2;
+            this.sValue = null;
+            this.type = n;
+        }
+
+        OpEvent(ATIPEventListener aTIPEventListener, String string, int n) {
+            super(aTIPEventListener, 19901);
+            this.iValue = 0;
+            this.cValue = '\u0000';
+            this.sValue = string;
+            this.type = n;
+        }
+
+        public String toString() {
+            return "OpEvent [iValue=" + this.iValue + ", cValue=" + this.cValue + ", sValue=" + this.sValue + ", type=" + this.type + "]";
+        }
     }
 
-    static /* synthetic */ SpellerController access$100(MultilineTextFieldController multilineTextFieldController) {
-        return multilineTextFieldController.speller;
+    private class WordReplacer {
+        private static final float CURSOR_MOVE_SPEED = 150.0f;
+        TextEditorModelDDApp model;
+        SpellerController alternativeSpeller;
+        boolean focused;
+
+        public WordReplacer(TextEditorModelDDApp textEditorModelDDApp, SpellerController spellerController) {
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#WordReplacer");
+            this.focused = false;
+            this.model = textEditorModelDDApp;
+            this.alternativeSpeller = new SpellerController();
+            this.alternativeSpeller.setCursorDuration(150.0f);
+            this.alternativeSpeller.setBitmaps(spellerController.getBitmapIndices());
+            this.alternativeSpeller.setColorIndices(spellerController.getColorIndices());
+            this.alternativeSpeller.setSpellerMode(4);
+            this.alternativeSpeller.setShowBoxNode(false);
+            this.alternativeSpeller.setVisible(false);
+            this.alternativeSpeller.setMultilineAlternative(true);
+            ISpellerRenderer iSpellerRenderer = ((HMITerminalEvoImpl)MultilineTextFieldController.this.terminal).getRendererFactory().createSpellerRendererEuropeHigh(this.alternativeSpeller, spellerController);
+            this.alternativeSpeller.setRenderer(iSpellerRenderer);
+        }
+
+        public void updateAlternatives() {
+            SpellerController.ISpellerItem iSpellerItem;
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#updateAlternatives");
+            String[] stringArray = this.model.getCursor().getAlternatives();
+            if (stringArray == null) {
+                this.close();
+                return;
+            }
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultilineTextFieldController#Wordreplacer#updateAlternatives alternatives found:%1", (long)stringArray.length);
+            ArrayList arrayList = new ArrayList();
+            for (int i2 = 1; i2 < stringArray.length; ++i2) {
+                iSpellerItem = SpellerController.SingleCharItem.createInstance(stringArray[i2]);
+                arrayList.add(iSpellerItem);
+            }
+            if (arrayList.isEmpty()) {
+                this.close();
+                return;
+            }
+            SpellerController spellerController = this.alternativeSpeller;
+            spellerController.getClass();
+            SpellerController.SpellerBandImpl spellerBandImpl = spellerController.new SpellerController.SpellerBandImpl(arrayList, false, false, false);
+            this.alternativeSpeller.changeSpellerBand(spellerBandImpl);
+            this.alternativeSpeller.setHighlighted(false);
+            if (this.alternativeSpeller.getCurrentSpellerBand() == null || this.alternativeSpeller.getCurrentSpellerBand().getSpellerItems() == null || this.alternativeSpeller.getCurrentSpellerBand().getSpellerItems().get(1) == null) {
+                return;
+            }
+            iSpellerItem = (SpellerController.ISpellerItem)this.alternativeSpeller.getCurrentSpellerBand().getSpellerItems().get(1);
+            this.alternativeSpeller.setCursorPosition(iSpellerItem);
+            if (MultilineTextFieldController.this.speller == null) {
+                return;
+            }
+            this.updateBounds();
+        }
+
+        private int computeX() {
+            return MultilineTextFieldController.this.speller.getX() - MultilineTextFieldController.this.getDescriptiveTextLength();
+        }
+
+        private int computeY() {
+            return MultilineTextFieldController.this.getY() - this.computeHeight() - 16;
+        }
+
+        private int computeWidth() {
+            return MultilineTextFieldController.this.getWidth() + -10 - MultilineTextFieldController.this.getOffsetBecauseOfLabel();
+        }
+
+        private int computeHeight() {
+            return 38;
+        }
+
+        public void updateX() {
+            int n = this.computeX();
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#updateX: %1", (long)n);
+            this.alternativeSpeller.setX(n);
+        }
+
+        public void updateY() {
+            int n = this.computeY();
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#updateY: %1", (long)n);
+            this.alternativeSpeller.setY(n);
+        }
+
+        public void updateHeight() {
+            int n = this.computeHeight();
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#updateHeight: %1", (long)n);
+            this.alternativeSpeller.setHeight(n);
+        }
+
+        public void updateBounds() {
+            int n = this.computeX();
+            int n2 = this.computeY();
+            int n3 = this.computeWidth();
+            int n4 = this.computeHeight();
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, new StringBuffer().append("MultiLineTextFieldController#WordReplacer#updateBounds: ").append(n).append(" ").append(n2).append(" ").append(n3).append(" ").append(n4).toString());
+            this.alternativeSpeller.setBounds(n, n2, n3, n4);
+        }
+
+        public boolean areAlternativesAvailable() {
+            boolean bl = !this.alternativeSpeller.getCurrentSpellerBand().getSpellerItems().isEmpty();
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#areAlternativesAvailable available:%1", bl);
+            return bl;
+        }
+
+        public boolean isVisible() {
+            boolean bl = this.alternativeSpeller != null ? this.alternativeSpeller.isVisible() : false;
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#isVisible visible:%1", bl);
+            return bl;
+        }
+
+        public void open() {
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#open bounds:%1", (Object)this.boundsToString());
+            this.setFocused(false);
+            this.alternativeSpeller.setVisible(true);
+        }
+
+        public void close() {
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#close");
+            SpellerController.ISpellerBand iSpellerBand = this.alternativeSpeller.getCurrentSpellerBand();
+            if (iSpellerBand != null) {
+                iSpellerBand.free(true);
+            }
+            this.alternativeSpeller.setVisible(false);
+            this.setFocused(false);
+        }
+
+        public SpellerController getSpeller() {
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#getSpeller");
+            return this.alternativeSpeller;
+        }
+
+        public boolean isFocused() {
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#isFocused  isfocused:%1", this.focused);
+            return this.focused;
+        }
+
+        public void setFocused(boolean bl) {
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#setFocused  value:%1", bl);
+            this.focused = bl;
+            this.alternativeSpeller.setAlternativeArrowDown(bl);
+            this.alternativeSpeller.setFocused(bl);
+            this.alternativeSpeller.setCompositesDirty(true);
+        }
+
+        private String boundsToString() {
+            return new StringBuffer().append("[").append(MultilineTextFieldController.this.x).append(" ").append(MultilineTextFieldController.this.y).append(" ").append(MultilineTextFieldController.this.width).append(" ").append(MultilineTextFieldController.this.height).append("]").toString();
+        }
+
+        public void showIfAvailable() {
+            this.updateAlternatives();
+            boolean bl = this.areAlternativesAvailable();
+            IWidgetLogChannel.logMessagingMultiline.log(10000000, "MultiLineTextFieldController#WordReplacer#showIfAvailable  show:%1 bounds:%2", bl, (Object)this.boundsToString());
+            if (bl) {
+                this.open();
+                this.alternativeSpeller.setCompositesDirty(true);
+            }
+        }
     }
 
-    static /* synthetic */ int access$200(MultilineTextFieldController multilineTextFieldController) {
-        return multilineTextFieldController.x;
-    }
+    private static final class IntArrCompare
+    implements Comparator {
+        private IntArrCompare() {
+        }
 
-    static /* synthetic */ int access$300(MultilineTextFieldController multilineTextFieldController) {
-        return multilineTextFieldController.y;
-    }
-
-    static /* synthetic */ int access$400(MultilineTextFieldController multilineTextFieldController) {
-        return multilineTextFieldController.width;
-    }
-
-    static /* synthetic */ int access$500(MultilineTextFieldController multilineTextFieldController) {
-        return multilineTextFieldController.height;
-    }
-
-    static {
-        IARRCMPINSTANCE = new MultilineTextFieldController$IntArrCompare(null);
-        MENU_ITEM_INSETS = new int[]{0, 0};
-        layoutMenuItemInsets = MENU_ITEM_INSETS[0];
-        layoutConfigIdx = 0;
-        useGostChars = true;
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        public int compare(Object object, Object object2) {
+            if (object == object2) {
+                return 0;
+            }
+            if (object == null) {
+                return 1;
+            }
+            if (object2 == null) {
+                return -1;
+            }
+            if (object instanceof int[] && object2 instanceof int[]) {
+                int[] nArray = (int[])object;
+                int[] nArray2 = (int[])object2;
+                if (nArray.length == nArray2.length) {
+                    int n = 0;
+                    while (n < nArray.length) {
+                        if (nArray[n] != nArray2[n]) {
+                            if (nArray[n] >= nArray2[n]) return 1;
+                            return -1;
+                        }
+                        ++n;
+                    }
+                    return 0;
+                }
+                if (nArray.length >= nArray2.length) return 1;
+                return -1;
+            }
+            if (!object.equals(object2)) return -1;
+            return 0;
+        }
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.DataConnectionStateStruct;
 
 public class DataConnectionStateStructSerializer {
-    public static void putOptionalDataConnectionStateStruct(ISerializer iSerializer, DataConnectionStateStruct dataConnectionStateStruct) {
+    public static void putOptionalDataConnectionStateStruct(ISerializer iSerializer, DataConnectionStateStruct dataConnectionStateStruct) throws SerializerException {
         boolean bl = dataConnectionStateStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DataConnectionStateStructSerializer {
         }
     }
 
-    public static void putOptionalDataConnectionStateStructVarArray(ISerializer iSerializer, DataConnectionStateStruct[] dataConnectionStateStructArray) {
+    public static void putOptionalDataConnectionStateStructVarArray(ISerializer iSerializer, DataConnectionStateStruct[] dataConnectionStateStructArray) throws SerializerException {
         boolean bl = dataConnectionStateStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DataConnectionStateStructSerializer {
         }
     }
 
-    public static DataConnectionStateStruct getOptionalDataConnectionStateStruct(IDeserializer iDeserializer) {
+    public static DataConnectionStateStruct getOptionalDataConnectionStateStruct(IDeserializer iDeserializer) throws SerializerException {
         DataConnectionStateStruct dataConnectionStateStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DataConnectionStateStructSerializer {
         return dataConnectionStateStruct;
     }
 
-    public static DataConnectionStateStruct[] getOptionalDataConnectionStateStructVarArray(IDeserializer iDeserializer) {
+    public static DataConnectionStateStruct[] getOptionalDataConnectionStateStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataConnectionStateStruct[] dataConnectionStateStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

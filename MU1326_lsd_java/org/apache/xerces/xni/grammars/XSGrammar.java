@@ -8,10 +8,8 @@ import org.apache.xerces.xs.XSModel;
 
 public interface XSGrammar
 extends Grammar {
-    default public XSModel toXSModel() {
-    }
+    public XSModel toXSModel();
 
-    default public XSModel toXSModel(XSGrammar[] xSGrammarArray) {
-    }
+    public XSModel toXSModel(XSGrammar[] var1);
 }
 

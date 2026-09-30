@@ -43,7 +43,6 @@ extends AbstractRemoteBackend {
         this.session = n3;
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         if (traceConfigBackend != null) {
@@ -61,12 +60,11 @@ extends AbstractRemoteBackend {
         }
         int n = string.lastIndexOf(46);
         if (n == -1) {
-            return new StringBuffer().append(string).append("_s").append(this.session).toString();
+            return string + "_s" + this.session;
         }
-        return new StringBuffer().append(string.substring(0, n)).append("_s").append(this.session).append(string.substring(n)).toString();
+        return string.substring(0, n) + "_s" + this.session + string.substring(n);
     }
 
-    @Override
     public boolean connect() {
         super.connect();
         IConnectionFactory iConnectionFactory = this.setupFactory();
@@ -85,9 +83,8 @@ extends AbstractRemoteBackend {
         return true;
     }
 
-    @Override
     public void disconnect() {
-        this.listener.logMessage(this.bid, new StringBuffer().append("closing eso proto file ").append(this.fileName).toString());
+        this.listener.logMessage(this.bid, "closing eso proto file " + this.fileName);
         this.remoteDisconnect();
         super.disconnect();
     }
@@ -97,15 +94,15 @@ extends AbstractRemoteBackend {
         BaseTransportFactory baseTransportFactory;
         if (this.splitSize == 0) {
             this.curPath = this.appendSession(this.fileName);
-            this.listener.logMessage(this.bid, new StringBuffer().append("setting dump to single file ").append(this.curPath).toString());
+            this.listener.logMessage(this.bid, "setting dump to single file " + this.curPath);
             baseTransportFactory = new FileSingleTransportFactory(this.curPath);
         } else {
             this.curPath = this.appendSession(this.outDir);
-            object = new StringBuffer().append(this.curPath).append(File.separator).append("log").toString();
-            this.listener.logMessage(this.bid, new StringBuffer().append("setting dump to multi file in base dir ").append(this.curPath).toString());
+            object = this.curPath + File.separator + "log";
+            this.listener.logMessage(this.bid, "setting dump to multi file in base dir " + this.curPath);
             File file = new File(this.curPath);
             if (!file.isDirectory() && !file.mkdirs()) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("error creating dir ").append(this.curPath).toString());
+                this.listener.logMessage(this.bid, "error creating dir " + this.curPath);
                 return null;
             }
             baseTransportFactory = new MultiOutputFileSingleTransportFactory((String)object, "esotrace", this.numDigits, 0, this.splitSize);

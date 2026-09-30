@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.Node;
 
 public class NodeSerializer {
-    public static void putOptionalNode(ISerializer iSerializer, Node node) {
+    public static void putOptionalNode(ISerializer iSerializer, Node node) throws SerializerException {
         boolean bl = node == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class NodeSerializer {
         }
     }
 
-    public static void putOptionalNodeVarArray(ISerializer iSerializer, Node[] nodeArray) {
+    public static void putOptionalNodeVarArray(ISerializer iSerializer, Node[] nodeArray) throws SerializerException {
         boolean bl = nodeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class NodeSerializer {
         }
     }
 
-    public static Node getOptionalNode(IDeserializer iDeserializer) {
+    public static Node getOptionalNode(IDeserializer iDeserializer) throws SerializerException {
         Node node = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class NodeSerializer {
         return node;
     }
 
-    public static Node[] getOptionalNodeVarArray(IDeserializer iDeserializer) {
+    public static Node[] getOptionalNodeVarArray(IDeserializer iDeserializer) throws SerializerException {
         Node[] nodeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

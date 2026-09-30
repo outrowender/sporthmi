@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.picturehandling;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.picturehandling.DSIPictureHandlingReply;
 import de.esolutions.fw.comm.dsi.picturehandling.impl.DSIPictureHandlingReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIPictureHandlingReply {
         super(n, (class$org$dsi$ifc$picturehandling$DSIPictureHandlingListener == null ? (class$org$dsi$ifc$picturehandling$DSIPictureHandlingListener = DSIPictureHandlingDispatcher.class$("org.dsi.ifc.picturehandling.DSIPictureHandlingListener")) : class$org$dsi$ifc$picturehandling$DSIPictureHandlingListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicatePicture(int n, int n2, ResourceLocator resourceLocator, ResourceLocator resourceLocator2) {
+    public void indicatePicture(int n, int n2, ResourceLocator resourceLocator, ResourceLocator resourceLocator2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIPictureHandlingReply {
         }
     }
 
-    @Override
-    public void finishPictureRequest(int n) {
+    public void finishPictureRequest(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIPictureHandlingReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,14 +75,13 @@ implements DSIPictureHandlingReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPictureHandlingListener dSIPictureHandlingListener = (DSIPictureHandlingListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPictureHandlingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPictureHandlingDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPictureHandlingListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPictureHandlingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPictureHandlingDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPictureHandlingListener, new Object[]{string, string2});
                     continue;
                 }

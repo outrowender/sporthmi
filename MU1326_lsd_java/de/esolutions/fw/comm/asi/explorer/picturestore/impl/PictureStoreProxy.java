@@ -6,17 +6,14 @@ package de.esolutions.fw.comm.asi.explorer.picturestore.impl;
 import de.esolutions.fw.comm.asi.explorer.picturestore.PictureStore;
 import de.esolutions.fw.comm.asi.explorer.picturestore.PictureStoreC;
 import de.esolutions.fw.comm.asi.explorer.picturestore.PictureStoreReply;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreProxy$1;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreProxy$2;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreProxy$3;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreProxy$4;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreProxy$5;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreProxy$6;
 import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
@@ -37,8 +34,7 @@ PictureStoreC {
         return this.proxy;
     }
 
-    @Override
-    public void setConfig(int n, int n2, int n3, int n4) {
+    public void setConfig(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -52,8 +48,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setConfigWithFileType(int n, int n2, int n3, int n4, int n5) {
+    public void setConfigWithFileType(int n, int n2, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -68,30 +63,44 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)53, genericSerializable);
     }
 
-    @Override
-    public void beginImport() {
+    public void beginImport() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void endImport() {
+    public void endImport() throws MethodException {
         this.proxy.remoteCallMethod((short)16, null);
     }
 
-    @Override
-    public void importPictureFromSource(int n, ResourceLocator resourceLocator, boolean bl, int n2, String string) {
-        PictureStoreProxy$1 pictureStoreProxy$1 = new PictureStoreProxy$1(this, n, resourceLocator, bl, n2, string);
-        this.proxy.remoteCallMethod((short)59, pictureStoreProxy$1);
+    public void importPictureFromSource(final int n, final ResourceLocator resourceLocator, final boolean bl, final int n2, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putBool(bl);
+                iSerializer.putEnum(n2);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)59, iSerializable);
     }
 
-    @Override
-    public void importPictureWithSynchronizationID(int n, ResourceLocator resourceLocator, boolean bl, int n2, String string, long l) {
-        PictureStoreProxy$2 pictureStoreProxy$2 = new PictureStoreProxy$2(this, n, resourceLocator, bl, n2, string, l);
-        this.proxy.remoteCallMethod((short)65, pictureStoreProxy$2);
+    public void importPictureWithSynchronizationID(final int n, final ResourceLocator resourceLocator, final boolean bl, final int n2, final String string, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putBool(bl);
+                iSerializer.putEnum(n2);
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt64(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)65, iSerializable);
     }
 
-    @Override
-    public void getMaxSynchronizationID(int n) {
+    public void getMaxSynchronizationID(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -102,8 +111,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void setSynchronizationID(int n, long l) {
+    public void setSynchronizationID(int n, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -115,8 +123,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)71, genericSerializable);
     }
 
-    @Override
-    public void renameFolder(int n, String string, String string2, long l) {
+    public void renameFolder(int n, String string, String string2, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -130,8 +137,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)69, genericSerializable);
     }
 
-    @Override
-    public void countPicturesInContext(int n, int n2) {
+    public void countPicturesInContext(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -143,20 +149,29 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void increaseRefCounter(ResourceLocator resourceLocator, int n) {
-        PictureStoreProxy$3 pictureStoreProxy$3 = new PictureStoreProxy$3(this, resourceLocator, n);
-        this.proxy.remoteCallMethod((short)5, pictureStoreProxy$3);
+    public void increaseRefCounter(final ResourceLocator resourceLocator, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void decreaseRefCounter(ResourceLocator resourceLocator, int n) {
-        PictureStoreProxy$4 pictureStoreProxy$4 = new PictureStoreProxy$4(this, resourceLocator, n);
-        this.proxy.remoteCallMethod((short)0, pictureStoreProxy$4);
+    public void decreaseRefCounter(final ResourceLocator resourceLocator, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void decreaseAllRefCounters(int n) {
+    public void decreaseAllRefCounters(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -167,8 +182,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void deleteAllPictures(int n, boolean bl) {
+    public void deleteAllPictures(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -180,14 +194,19 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void deletePicturesFromContext(int n, ResourceLocator[] resourceLocatorArray, boolean bl) {
-        PictureStoreProxy$5 pictureStoreProxy$5 = new PictureStoreProxy$5(this, n, resourceLocatorArray, bl);
-        this.proxy.remoteCallMethod((short)42, pictureStoreProxy$5);
+    public void deletePicturesFromContext(final int n, final ResourceLocator[] resourceLocatorArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocatorVarArray(iSerializer, resourceLocatorArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)42, iSerializable);
     }
 
-    @Override
-    public void deletePicturesWithFilterSet(int n, int n2, boolean bl) {
+    public void deletePicturesWithFilterSet(int n, int n2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -200,8 +219,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void deleteSynchronizedPicture(int n, long l, long l2) {
+    public void deleteSynchronizedPicture(int n, long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -214,14 +232,17 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)67, genericSerializable);
     }
 
-    @Override
-    public void getPictureAttributes(ResourceLocator resourceLocator) {
-        PictureStoreProxy$6 pictureStoreProxy$6 = new PictureStoreProxy$6(this, resourceLocator);
-        this.proxy.remoteCallMethod((short)46, pictureStoreProxy$6);
+    public void getPictureAttributes(final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)46, iSerializable);
     }
 
-    @Override
-    public void listInAllContextsWithFilter(int n, int n2, int n3) {
+    public void listInAllContextsWithFilter(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -234,8 +255,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void listInContext(int n, int n2, int n3) {
+    public void listInContext(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -248,8 +268,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)52, genericSerializable);
     }
 
-    @Override
-    public void listInContextWithFilter(int n, int n2, int n3, int n4) {
+    public void listInContextWithFilter(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -263,8 +282,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void listInContextWithFilterSortDist(int n, int n2, int n3, int n4, float f2, float f3) {
+    public void listInContextWithFilterSortDist(int n, int n2, int n3, int n4, float f2, float f3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -280,8 +298,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)74, genericSerializable);
     }
 
-    @Override
-    public void getRectanglePicturesGrid(int n, int n2, float f2, float f3, float f4, float f5, int n3, int n4, int n5) {
+    public void getRectanglePicturesGrid(int n, int n2, float f2, float f3, float f4, float f5, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -300,8 +317,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)55, genericSerializable);
     }
 
-    @Override
-    public void getAvailableYears(int n, int n2) {
+    public void getAvailableYears(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -313,8 +329,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void getAvailableMonths(int n, int n2, int n3) {
+    public void getAvailableMonths(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -327,13 +342,11 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void createFilterSet() {
+    public void createFilterSet() throws MethodException {
         this.proxy.remoteCallMethod((short)18, null);
     }
 
-    @Override
-    public void cloneFilterSet(int n) {
+    public void cloneFilterSet(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -344,8 +357,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void deleteFilterSet(int n) {
+    public void deleteFilterSet(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -356,8 +368,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setFilterImportSource(int n, int n2) {
+    public void setFilterImportSource(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -369,8 +380,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void setFilterTimeInterval(int n, int n2, long l, long l2) {
+    public void setFilterTimeInterval(int n, int n2, long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -384,8 +394,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)54, genericSerializable);
     }
 
-    @Override
-    public void setFilterGeoArea(int n, float f2, float f3, float f4, float f5) {
+    public void setFilterGeoArea(int n, float f2, float f3, float f4, float f5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -400,8 +409,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void getAvailableFolders(int n) {
+    public void getAvailableFolders(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -412,8 +420,7 @@ PictureStoreC {
         this.proxy.remoteCallMethod((short)57, genericSerializable);
     }
 
-    @Override
-    public void setFilterFolderName(int n, String string) {
+    public void setFilterFolderName(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavTraceMemoryUtilization;
 
 public class NavTraceMemoryUtilizationSerializer {
-    public static void putOptionalNavTraceMemoryUtilization(ISerializer iSerializer, NavTraceMemoryUtilization navTraceMemoryUtilization) {
+    public static void putOptionalNavTraceMemoryUtilization(ISerializer iSerializer, NavTraceMemoryUtilization navTraceMemoryUtilization) throws SerializerException {
         boolean bl = navTraceMemoryUtilization == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class NavTraceMemoryUtilizationSerializer {
         }
     }
 
-    public static void putOptionalNavTraceMemoryUtilizationVarArray(ISerializer iSerializer, NavTraceMemoryUtilization[] navTraceMemoryUtilizationArray) {
+    public static void putOptionalNavTraceMemoryUtilizationVarArray(ISerializer iSerializer, NavTraceMemoryUtilization[] navTraceMemoryUtilizationArray) throws SerializerException {
         boolean bl = navTraceMemoryUtilizationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class NavTraceMemoryUtilizationSerializer {
         }
     }
 
-    public static NavTraceMemoryUtilization getOptionalNavTraceMemoryUtilization(IDeserializer iDeserializer) {
+    public static NavTraceMemoryUtilization getOptionalNavTraceMemoryUtilization(IDeserializer iDeserializer) throws SerializerException {
         NavTraceMemoryUtilization navTraceMemoryUtilization = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class NavTraceMemoryUtilizationSerializer {
         return navTraceMemoryUtilization;
     }
 
-    public static NavTraceMemoryUtilization[] getOptionalNavTraceMemoryUtilizationVarArray(IDeserializer iDeserializer) {
+    public static NavTraceMemoryUtilization[] getOptionalNavTraceMemoryUtilizationVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavTraceMemoryUtilization[] navTraceMemoryUtilizationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

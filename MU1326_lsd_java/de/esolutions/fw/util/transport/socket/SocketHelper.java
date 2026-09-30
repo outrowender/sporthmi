@@ -21,7 +21,7 @@ public class SocketHelper {
     private final SocketOptions opts;
     private JSSESockets jsse;
 
-    public SocketHelper(SocketOptions socketOptions) {
+    public SocketHelper(SocketOptions socketOptions) throws IOException {
         this.opts = socketOptions;
         if (socketOptions != null && socketOptions.useSSL) {
             ISSLCredentialProvider iSSLCredentialProvider = this.getSSLCredentialProvider(socketOptions);
@@ -48,7 +48,7 @@ public class SocketHelper {
         return null;
     }
 
-    public ISocket createSocket(InetAddress inetAddress, int n) {
+    public ISocket createSocket(InetAddress inetAddress, int n) throws IOException {
         ISocket iSocket;
         if (this.opts != null && this.opts.useSSL) {
             iSocket = this.jsse.createSocket(inetAddress, n);
@@ -60,7 +60,7 @@ public class SocketHelper {
         return iSocket;
     }
 
-    public IServerSocket createServerSocket(InetAddress inetAddress, int n) {
+    public IServerSocket createServerSocket(InetAddress inetAddress, int n) throws IOException {
         IServerSocket iServerSocket;
         int n2 = 1;
         if (this.opts != null) {
@@ -78,13 +78,13 @@ public class SocketHelper {
         return iServerSocket;
     }
 
-    public ISocket accept(IServerSocket iServerSocket) {
+    public ISocket accept(IServerSocket iServerSocket) throws IOException {
         ISocket iSocket = iServerSocket.accept();
         this.setupSocket(iSocket.getSocket());
         return iSocket;
     }
 
-    private void setupSocket(Socket socket) {
+    private void setupSocket(Socket socket) throws IOException {
         if (this.opts != null) {
             if (this.opts.keepAlive) {
                 socket.setKeepAlive(true);

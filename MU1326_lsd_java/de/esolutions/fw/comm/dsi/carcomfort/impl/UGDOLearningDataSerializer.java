@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOLearningData;
 
 public class UGDOLearningDataSerializer {
-    public static void putOptionalUGDOLearningData(ISerializer iSerializer, UGDOLearningData uGDOLearningData) {
+    public static void putOptionalUGDOLearningData(ISerializer iSerializer, UGDOLearningData uGDOLearningData) throws SerializerException {
         boolean bl = uGDOLearningData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class UGDOLearningDataSerializer {
         }
     }
 
-    public static void putOptionalUGDOLearningDataVarArray(ISerializer iSerializer, UGDOLearningData[] uGDOLearningDataArray) {
+    public static void putOptionalUGDOLearningDataVarArray(ISerializer iSerializer, UGDOLearningData[] uGDOLearningDataArray) throws SerializerException {
         boolean bl = uGDOLearningDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class UGDOLearningDataSerializer {
         }
     }
 
-    public static UGDOLearningData getOptionalUGDOLearningData(IDeserializer iDeserializer) {
+    public static UGDOLearningData getOptionalUGDOLearningData(IDeserializer iDeserializer) throws SerializerException {
         UGDOLearningData uGDOLearningData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class UGDOLearningDataSerializer {
         return uGDOLearningData;
     }
 
-    public static UGDOLearningData[] getOptionalUGDOLearningDataVarArray(IDeserializer iDeserializer) {
+    public static UGDOLearningData[] getOptionalUGDOLearningDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOLearningData[] uGDOLearningDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

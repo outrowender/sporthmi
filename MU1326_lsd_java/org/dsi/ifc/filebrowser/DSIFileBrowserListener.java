@@ -11,58 +11,40 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIFileBrowserListener
 extends DSIListener {
-    default public void startResult(int n, int n2, Path path) {
-    }
+    public void startResult(int var1, int var2, Path var3);
 
-    default public void setFileExtensionFilterResult(int n, int n2) {
-    }
+    public void setFileExtensionFilterResult(int var1, int var2);
 
-    default public void setFileTypeFilterResult(int n, int n2) {
-    }
+    public void setFileTypeFilterResult(int var1, int var2);
 
-    default public void getViewWindowResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, int n4) {
-    }
+    public void getViewWindowResult(int var1, int var2, int var3, BrowsedFileSet var4, int var5);
 
-    default public void getViewWindowWithPreviewsResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, PreviewInfo[] previewInfoArray, int n4) {
-    }
+    public void getViewWindowWithPreviewsResult(int var1, int var2, int var3, BrowsedFileSet var4, PreviewInfo[] var5, int var6);
 
-    default public void getResourceLocatorWindowResult(int n, int n2, int n3, ResourceLocator[] resourceLocatorArray, int n4) {
-    }
+    public void getResourceLocatorWindowResult(int var1, int var2, int var3, ResourceLocator[] var4, int var5);
 
-    default public void indicateSelectionResult(int n, int n2, int n3) {
-    }
+    public void indicateSelectionResult(int var1, int var2, int var3);
 
-    default public void changeFolderResult(int n, int n2, Path path) {
-    }
+    public void changeFolderResult(int var1, int var2, Path var3);
 
-    default public void getSelectedFilesResult(int n, int n2, int n3) {
-    }
+    public void getSelectedFilesResult(int var1, int var2, int var3);
 
-    default public void getResourceLocatorsResult(int n, int n2, ResourceLocator[] resourceLocatorArray) {
-    }
+    public void getResourceLocatorsResult(int var1, int var2, ResourceLocator[] var3);
 
-    default public void getFileCountResult(int n, int n2, int n3) {
-    }
+    public void getFileCountResult(int var1, int var2, int var3);
 
-    default public void getFileCountWithFileTypeFilterResult(int n, int n2, int n3, int n4) {
-    }
+    public void getFileCountWithFileTypeFilterResult(int var1, int var2, int var3, int var4);
 
-    default public void spellerResult(int n, int n2, String string, String string2) {
-    }
+    public void spellerResult(int var1, int var2, String var3, String var4);
 
-    default public void setLanguageResult(int n, String string) {
-    }
+    public void setLanguageResult(int var1, String var2);
 
-    default public void setFileTypeActiveResult(int n) {
-    }
+    public void setFileTypeActiveResult(int var1);
 
-    default public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
-    }
+    public void validateSpellerCharsResult(int var1, int var2, String var3, String var4);
 
-    default public void createPreviewImageResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) {
-    }
+    public void createPreviewImageResult(ResourceLocator var1, ResourceLocator var2, int var3);
 
-    default public void cancelPreviewCreationResult(int n) {
-    }
+    public void cancelPreviewCreationResult(int var1);
 }
 

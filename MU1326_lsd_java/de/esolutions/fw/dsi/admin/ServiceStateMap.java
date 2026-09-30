@@ -3,14 +3,13 @@
  */
 package de.esolutions.fw.dsi.admin;
 
-import de.esolutions.fw.dsi.admin.ServiceStateMap$State;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class ServiceStateMap {
-    public static final int ADDED;
-    public static final int PENDING;
-    public static final int REGISTERED;
+    public static final int ADDED = 0;
+    public static final int PENDING = 1;
+    public static final int REGISTERED = 2;
     private final Map svcMap = new HashMap();
 
     public synchronized boolean checkAndAddService(String string, int n) {
@@ -18,13 +17,13 @@ public final class ServiceStateMap {
             return false;
         }
         String string2 = this.genKey(string, n);
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State != null) {
-            serviceStateMap$State.stopFlag = false;
-            serviceStateMap$State.restartFlag = true;
+        State state = this.getState(string, n);
+        if (state != null) {
+            state.stopFlag = false;
+            state.restartFlag = true;
             return false;
         }
-        this.svcMap.put(string2, new ServiceStateMap$State());
+        this.svcMap.put(string2, new State());
         return true;
     }
 
@@ -41,29 +40,29 @@ public final class ServiceStateMap {
             return false;
         }
         String string2 = this.genKey(string, n);
-        ServiceStateMap$State serviceStateMap$State = (ServiceStateMap$State)this.svcMap.get(string2);
-        if (serviceStateMap$State == null) {
+        State state = (State)this.svcMap.get(string2);
+        if (state == null) {
             return false;
         }
-        serviceStateMap$State.stopFlag = false;
+        state.stopFlag = false;
         return true;
     }
 
     public synchronized boolean setServiceState(String string, int n, int n2) {
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State == null) {
+        State state = this.getState(string, n);
+        if (state == null) {
             return false;
         }
-        serviceStateMap$State.state = n2;
+        state.state = n2;
         return true;
     }
 
     public synchronized Integer getServiceState(String string, int n) {
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State == null) {
+        State state = this.getState(string, n);
+        if (state == null) {
             return null;
         }
-        return new Integer(serviceStateMap$State.state);
+        return new Integer(state.state);
     }
 
     public synchronized boolean isEmpty() {
@@ -71,58 +70,58 @@ public final class ServiceStateMap {
     }
 
     public synchronized Boolean checkAndSetStopFlag(String string, int n) {
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State == null) {
+        State state = this.getState(string, n);
+        if (state == null) {
             return null;
         }
-        if (!serviceStateMap$State.stopFlag) {
-            serviceStateMap$State.stopFlag = true;
-            serviceStateMap$State.restartFlag = false;
+        if (!state.stopFlag) {
+            state.stopFlag = true;
+            state.restartFlag = false;
             return new Boolean(true);
         }
         return new Boolean(false);
     }
 
     public synchronized Boolean getStopFlag(String string, int n) {
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State == null) {
+        State state = this.getState(string, n);
+        if (state == null) {
             return null;
         }
-        return new Boolean(serviceStateMap$State.stopFlag);
+        return new Boolean(state.stopFlag);
     }
 
     private String genKey(String string, int n) {
-        return new StringBuffer().append(string).append(Integer.toString(n)).toString();
+        return string + Integer.toString(n);
     }
 
-    private ServiceStateMap$State getState(String string, int n) {
+    private State getState(String string, int n) {
         if (string == null) {
             return null;
         }
         String string2 = this.genKey(string, n);
-        ServiceStateMap$State serviceStateMap$State = (ServiceStateMap$State)this.svcMap.get(string2);
-        return serviceStateMap$State;
+        State state = (State)this.svcMap.get(string2);
+        return state;
     }
 
     public synchronized Boolean checkAndClearStopFlag(String string, int n) {
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State == null) {
+        State state = this.getState(string, n);
+        if (state == null) {
             return null;
         }
-        if (serviceStateMap$State.stopFlag) {
-            serviceStateMap$State.stopFlag = false;
+        if (state.stopFlag) {
+            state.stopFlag = false;
             return new Boolean(true);
         }
         return new Boolean(false);
     }
 
     public synchronized Boolean checkAndClearRestartFlag(String string, int n) {
-        ServiceStateMap$State serviceStateMap$State = this.getState(string, n);
-        if (serviceStateMap$State == null) {
+        State state = this.getState(string, n);
+        if (state == null) {
             return null;
         }
-        if (serviceStateMap$State.restartFlag) {
-            serviceStateMap$State.restartFlag = false;
+        if (state.restartFlag) {
+            state.restartFlag = false;
             return new Boolean(true);
         }
         return new Boolean(false);
@@ -133,12 +132,18 @@ public final class ServiceStateMap {
             return false;
         }
         String string2 = this.genKey(string, n);
-        ServiceStateMap$State serviceStateMap$State = (ServiceStateMap$State)this.svcMap.get(string2);
-        if (serviceStateMap$State == null) {
+        State state = (State)this.svcMap.get(string2);
+        if (state == null) {
             return false;
         }
-        serviceStateMap$State.restartFlag = false;
+        state.restartFlag = false;
         return true;
+    }
+
+    private static class State {
+        public int state = 0;
+        public boolean stopFlag = false;
+        public boolean restartFlag;
     }
 }
 

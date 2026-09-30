@@ -3,11 +3,11 @@
  */
 package de.esolutions.fw.comm.asi.onlineservices.auth;
 
-public interface PairingCodeValidatorC {
-    default public void validatePairingCode(String string, String string2, int n, int n2) {
-    }
+import de.esolutions.fw.comm.core.method.MethodException;
 
-    default public void updateActiveProfile(int n, String string, String string2) {
-    }
+public interface PairingCodeValidatorC {
+    public void validatePairingCode(String var1, String var2, int var3, int var4) throws MethodException;
+
+    public void updateActiveProfile(int var1, String var2, String var3) throws MethodException;
 }
 

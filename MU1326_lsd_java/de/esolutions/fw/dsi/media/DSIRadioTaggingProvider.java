@@ -26,28 +26,23 @@ implements DSIRadioTagging {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIRadioTagging == null ? (class$org$dsi$ifc$media$DSIRadioTagging = DSIRadioTaggingProvider.class$("org.dsi.ifc.media.DSIRadioTagging")) : class$org$dsi$ifc$media$DSIRadioTagging).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIRadioTaggingProxy(this.instance, (DSIRadioTaggingReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void tagSong(TagInformation tagInformation) {
         try {
             this.proxy.tagSong(tagInformation);
@@ -57,7 +52,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void tagAmbiguousSong(TagInformation tagInformation, TagInformation tagInformation2) {
         try {
             this.proxy.tagAmbiguousSong(tagInformation, tagInformation2);
@@ -67,7 +61,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void groupTags(int n) {
         try {
             this.proxy.groupTags(n);
@@ -77,7 +70,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -87,7 +79,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -97,7 +88,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -107,7 +97,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -127,7 +115,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -137,7 +124,6 @@ implements DSIRadioTagging {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

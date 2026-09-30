@@ -9,67 +9,56 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAndroidAuto2
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_CALLSTATE;
-    public static final int ATTR_TELEPHONYSTATE;
-    public static final int ATTR_NOWPLAYINGDATA;
-    public static final int ATTR_PLAYBACKSTATE;
-    public static final int ATTR_PLAYPOSITION;
-    public static final int ATTR_COVERARTURL;
-    public static final int ATTR_NAVIGATIONNEXTTURNEVENT;
-    public static final int ATTR_NAVIGATIONNEXTTURNDISTANCE;
-    public static final int RT_VIDEOFOCUSNOTIFICATION;
-    public static final int RT_AUDIOFOCUSNOTIFICATION;
-    public static final int RT_MICROPHONENOTIFICATION;
-    public static final int RT_NAVFOCUSNOTIFICATION;
-    public static final int RT_STARTSERVICE;
-    public static final int RT_POSTBUTTONEVENT;
-    public static final int RT_POSTTOUCHEVENT;
-    public static final int RT_POSTROTARYEVENT;
-    public static final int RT_SETNIGHTMODE;
-    public static final int RT_BLUETOOTHPAIRINGRESPONSE;
-    public static final int RT_BLUETOOTHAUTHENTICATIONDATA;
-    public static final int IN_VIDEOFOCUSREQUESTNOTIFICATION;
-    public static final int IN_VIDEOAVAILABLE;
-    public static final int IN_AUDIOFOCUSREQUESTNOTIFICATION;
-    public static final int IN_AUDIOAVAILABLE;
-    public static final int IN_VOICESESSIONNOTIFICATION;
-    public static final int IN_MICROPHONEREQUESTNOTIFICATION;
-    public static final int IN_NAVFOCUSREQUESTNOTIFICATION;
-    public static final int IN_SETEXTERNALDESTINATION;
-    public static final int IN_BLUETOOTHPAIRINGREQUEST;
+    public static final String VERSION = "2.11.2";
+    public static final int ATTR_CALLSTATE = 1;
+    public static final int ATTR_TELEPHONYSTATE = 2;
+    public static final int ATTR_NOWPLAYINGDATA = 3;
+    public static final int ATTR_PLAYBACKSTATE = 4;
+    public static final int ATTR_PLAYPOSITION = 5;
+    public static final int ATTR_COVERARTURL = 6;
+    public static final int ATTR_NAVIGATIONNEXTTURNEVENT = 7;
+    public static final int ATTR_NAVIGATIONNEXTTURNDISTANCE = 8;
+    public static final int RT_VIDEOFOCUSNOTIFICATION = 1001;
+    public static final int RT_AUDIOFOCUSNOTIFICATION = 1002;
+    public static final int RT_MICROPHONENOTIFICATION = 1003;
+    public static final int RT_NAVFOCUSNOTIFICATION = 1004;
+    public static final int RT_STARTSERVICE = 1005;
+    public static final int RT_POSTBUTTONEVENT = 1006;
+    public static final int RT_POSTTOUCHEVENT = 1007;
+    public static final int RT_POSTROTARYEVENT = 1008;
+    public static final int RT_SETNIGHTMODE = 1009;
+    public static final int RT_BLUETOOTHPAIRINGRESPONSE = 1010;
+    public static final int RT_BLUETOOTHAUTHENTICATIONDATA = 1011;
+    public static final int IN_VIDEOFOCUSREQUESTNOTIFICATION = 3001;
+    public static final int IN_VIDEOAVAILABLE = 3002;
+    public static final int IN_AUDIOFOCUSREQUESTNOTIFICATION = 3003;
+    public static final int IN_AUDIOAVAILABLE = 3004;
+    public static final int IN_VOICESESSIONNOTIFICATION = 3005;
+    public static final int IN_MICROPHONEREQUESTNOTIFICATION = 3006;
+    public static final int IN_NAVFOCUSREQUESTNOTIFICATION = 3007;
+    public static final int IN_SETEXTERNALDESTINATION = 3008;
+    public static final int IN_BLUETOOTHPAIRINGREQUEST = 3009;
 
-    default public void videoFocusNotification(int n, boolean bl) {
-    }
+    public void videoFocusNotification(int var1, boolean var2);
 
-    default public void audioFocusNotification(int n, boolean bl) {
-    }
+    public void audioFocusNotification(int var1, boolean var2);
 
-    default public void microphoneNotification(int n, boolean bl) {
-    }
+    public void microphoneNotification(int var1, boolean var2);
 
-    default public void navFocusNotification(int n, boolean bl) {
-    }
+    public void navFocusNotification(int var1, boolean var2);
 
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1);
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2);
 
-    default public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2, int n3) {
-    }
+    public void postTouchEvent(int var1, TouchEvent[] var2, int var3, int var4);
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1);
 
-    default public void setNightMode(boolean bl) {
-    }
+    public void setNightMode(boolean var1);
 
-    default public void bluetoothPairingResponse(boolean bl) {
-    }
+    public void bluetoothPairingResponse(boolean var1);
 
-    default public void bluetoothAuthenticationData(String string) {
-    }
+    public void bluetoothAuthenticationData(String var1);
 }
 

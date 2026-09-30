@@ -17,9 +17,9 @@ import de.esolutions.hmi.widgets.audi.evo.DisplayControllerEvo;
 public class MapControllerEvoHigh
 extends DisplayControllerEvo
 implements AnimationListener {
-    private static final int FADE_OUT;
-    private static final int FADE_IN;
-    private static final int ANIMATION_TYPE;
+    private static final int FADE_OUT = 1;
+    private static final int FADE_IN = 2;
+    private static final int ANIMATION_TYPE = 31;
     private AbstractAnimation animation;
     private int animationState = -1;
     private int currentAnimatedDisplayable = -1;
@@ -28,17 +28,16 @@ implements AnimationListener {
     private boolean isRGICombiConnected;
     private static int[] maneuverViewContexts;
 
-    @Override
     public void animate(int n, float f2) {
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#animate value = %1", (double)f2);
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#animate value = %1", (double)f2);
         float f3 = 0.0f;
         switch (this.animationState) {
             case 1: {
-                f3 = 1.0f - f2 / 31300;
+                f3 = 1.0f - f2 / 1000.0f;
                 break;
             }
             case 2: {
-                f3 = f2 / 31300;
+                f3 = f2 / 1000.0f;
                 break;
             }
             default: {
@@ -46,12 +45,11 @@ implements AnimationListener {
             }
         }
         this.setOpacity(this.currentAnimatedDisplayable, f3);
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#animate currentAnimatedDisplayable = %1", (long)this.currentAnimatedDisplayable);
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#animate currentAnimatedDisplayable = %1", (long)this.currentAnimatedDisplayable);
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#animationFinished");
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#animationFinished");
         int n3 = this.getTargetContextID();
         IDisplayManager iDisplayManager = hmiService.getDisplayManager();
         int n4 = iDisplayManager.getCurrentContextID(this.terminal.getTerminalID());
@@ -65,19 +63,19 @@ implements AnimationListener {
             this.desiredContext = -1;
             this.currentAnimatedDisplayable = n5;
             if (this.currentAnimatedDisplayable != -1) {
-                mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#animationFinished Start FADE_IN animation for displayable = %1", (long)this.currentAnimatedDisplayable);
+                mapControllerLogCh.log(10000000, "MapControllerEvoHigh#animationFinished Start FADE_IN animation for displayable = %1", (long)this.currentAnimatedDisplayable);
                 this.animationState = 2;
-                this.animation.startDynamicAnimation(0.0f, 31300, 31, false, this);
+                this.animation.startDynamicAnimation(0.0f, 1000.0f, 31, false, this);
                 return;
             }
-            mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#animationFinished Displayable is NONE. No FADE_IN needed.");
+            mapControllerLogCh.log(10000000, "MapControllerEvoHigh#animationFinished Displayable is NONE. No FADE_IN needed.");
         } else if (this.animationState == 2 && this.desiredContext != -1 && this.desiredContext != n4) {
             int n6;
             this.currentAnimatedDisplayable = n6 = MapControllerEvoHigh.getDisplayableIDForFading(n4);
             if (this.currentAnimatedDisplayable != -1) {
-                mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#animationFinished Displayable = %1 was just faded in but context changed while fading in. Start FADE_OUT animation.", (long)this.currentAnimatedDisplayable);
+                mapControllerLogCh.log(10000000, "MapControllerEvoHigh#animationFinished Displayable = %1 was just faded in but context changed while fading in. Start FADE_OUT animation.", (long)this.currentAnimatedDisplayable);
                 this.animationState = 1;
-                this.animation.startDynamicAnimation(0.0f, 31300, 31, false, this);
+                this.animation.startDynamicAnimation(0.0f, 1000.0f, 31, false, this);
                 this.desiredContext = n3;
                 return;
             }
@@ -87,11 +85,9 @@ implements AnimationListener {
         this.currentAnimatedDisplayable = -1;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.animation == null) {
@@ -110,7 +106,6 @@ implements AnimationListener {
         return this.isEvoHighMMIKombi() && this.terminal.getViewSizeManager().getCurrentViewSize() == 1 && ((HMITerminalEvo)((Object)this.terminal)).getSkin() == 1;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.firstRender) {
             this.firstRender = false;
@@ -123,7 +118,7 @@ implements AnimationListener {
     }
 
     private static int getDisplayableIDForFading(int n) {
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#getDisplayableIDForFading");
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#getDisplayableIDForFading");
         int n2 = -1;
         switch (n) {
             case 11: 
@@ -151,45 +146,43 @@ implements AnimationListener {
                 break;
             }
         }
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#getDisplayableIDForFading Displayable ID = %1", (long)n2);
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#getDisplayableIDForFading Displayable ID = %1", (long)n2);
         return n2;
     }
 
-    @Override
     public void setOpacity(int n, float f2) {
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#setOpacity displayable = %1, opacity = %2", (double)n, (double)f2, 0.0);
-        hmiService.getDisplayManager().setOpacity(n, this.terminal.getTerminalID(), (int)(f2 * 51266));
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#setOpacity displayable = %1, opacity = %2", (double)n, (double)f2, 0.0);
+        hmiService.getDisplayManager().setOpacity(n, this.terminal.getTerminalID(), (int)(f2 * 100.0f));
     }
 
-    @Override
     public void switchToTargetContext() {
         IDisplayManager iDisplayManager = hmiService.getDisplayManager();
         int n = iDisplayManager.getCurrentContextID(this.terminal.getTerminalID());
         int n2 = this.getTargetContextID();
-        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext Old context = %1, new context = %2", (long)n, (long)n2);
+        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext Old context = %1, new context = %2", (long)n, (long)n2);
         if (this.animation.isAnimating()) {
             if (n2 != this.desiredContext) {
-                mapControllerLogCh.log(1078071040, "MapControllerEvoHigh#switchToTargetContext Context changed during animation: Old = %1, new = %2, desired = %3. New context will be new desired context.", (long)n, (long)n2, (long)this.desiredContext);
+                mapControllerLogCh.log(1000000, "MapControllerEvoHigh#switchToTargetContext Context changed during animation: Old = %1, new = %2, desired = %3. New context will be new desired context.", (long)n, (long)n2, (long)this.desiredContext);
                 this.desiredContext = n2;
             }
         } else if (n2 != n) {
-            mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext Context changed: Old = %1, new = %2", (long)n, (long)n2);
+            mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext Context changed: Old = %1, new = %2", (long)n, (long)n2);
             int n3 = MapControllerEvoHigh.getDisplayableIDForFading(n);
             if (this.isRGICombiConnected && this.isManeuverViewVisible(n) && (this.terminal.getIAnimationController().isAnimationRunning(22) || this.terminal.getIAnimationController().isAnimationRunning(26))) {
-                mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext DISPLAYABLE_MAP_3D_INTERSECTION_VIEW should be faded in, don't start animation, because opacity will be set by screen change animation");
+                mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext DISPLAYABLE_MAP_3D_INTERSECTION_VIEW should be faded in, don't start animation, because opacity will be set by screen change animation");
                 return;
             }
             this.currentAnimatedDisplayable = n3;
             if (this.currentAnimatedDisplayable != -1) {
-                mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext Start FADE_OUT animation for displayable = %1", (long)this.currentAnimatedDisplayable);
+                mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext Start FADE_OUT animation for displayable = %1", (long)this.currentAnimatedDisplayable);
                 this.animationState = 1;
-                this.animation.startDynamicAnimation(0.0f, 31300, 31, false, this);
+                this.animation.startDynamicAnimation(0.0f, 1000.0f, 31, false, this);
                 this.desiredContext = n2;
             } else {
-                mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext Displayable is NONE. No FADE_OUT needed.");
+                mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext Displayable is NONE. No FADE_OUT needed.");
                 int n4 = MapControllerEvoHigh.getDisplayableIDForFading(n2);
                 if (this.isRGICombiConnected && this.isManeuverViewVisible(n2) && (this.terminal.getIAnimationController().isAnimationRunning(22) || this.terminal.getIAnimationController().isAnimationRunning(26))) {
-                    mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext DISPLAYABLE_MAP_3D_INTERSECTION_VIEW should be faded in, don't start animation, because opacity will be set by screen change animation");
+                    mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext DISPLAYABLE_MAP_3D_INTERSECTION_VIEW should be faded in, don't start animation, because opacity will be set by screen change animation");
                     super.switchToTargetContext();
                     return;
                 }
@@ -202,17 +195,16 @@ implements AnimationListener {
                 }
                 this.currentAnimatedDisplayable = n4;
                 if (this.currentAnimatedDisplayable != -1) {
-                    mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext Start FADE_IN animation for displayable = %1", (long)this.currentAnimatedDisplayable);
+                    mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext Start FADE_IN animation for displayable = %1", (long)this.currentAnimatedDisplayable);
                     this.animationState = 2;
-                    this.animation.startDynamicAnimation(0.0f, 31300, 31, false, this);
+                    this.animation.startDynamicAnimation(0.0f, 1000.0f, 31, false, this);
                 }
             }
         } else {
-            mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#switchToTargetContext No context change %1.", (long)n);
+            mapControllerLogCh.log(10000000, "MapControllerEvoHigh#switchToTargetContext No context change %1.", (long)n);
         }
     }
 
-    @Override
     protected void positionDisplayables() {
         if (this.isSmallStageInSportskin()) {
             int n = 0;
@@ -221,7 +213,7 @@ implements AnimationListener {
             }
             int n2 = hmiService.getDisplayManager().getCurrentContextID(this.terminal.getTerminalID());
             int n3 = this.getTargetContextID() + n;
-            mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#connected small stage sportskin: current context: %1, target context: %2", (long)n2, (long)n3);
+            mapControllerLogCh.log(10000000, "MapControllerEvoHigh#connected small stage sportskin: current context: %1, target context: %2", (long)n2, (long)n3);
             if (n2 != n3) {
                 Layout layout = this.terminal.getLayout();
                 int n4 = layout.getIntegerConstant(80);
@@ -244,7 +236,7 @@ implements AnimationListener {
                     case 19: 
                     case 39: 
                     case 51: {
-                        mapControllerLogCh.log(-2137614336, "MapControllerEvoHigh#adjustDisplayablePositionsForR8: Add special offsetY = %1 for R8.", (long)n);
+                        mapControllerLogCh.log(10000000, "MapControllerEvoHigh#adjustDisplayablePositionsForR8: Add special offsetY = %1 for R8.", (long)n);
                         this.positionsOfDisplayables[i2][2] = n;
                         continue block3;
                     }

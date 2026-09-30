@@ -32,7 +32,7 @@ public class ParentalSettings {
     }
 
     public String toString() {
-        return new StringBuffer("ParentalSettings{").append("isParentalManagementRequired=").append(this.isParentalManagementRequired).append(", parentalLevel=").append(this.parentalLevel).append("}").toString();
+        return "ParentalSettings{" + "isParentalManagementRequired=" + this.isParentalManagementRequired + ", parentalLevel=" + this.parentalLevel + "}";
     }
 }
 

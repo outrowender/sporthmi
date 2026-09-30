@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterSupportedSkins;
 
 public class UnitmasterSupportedSkinsSerializer {
-    public static void putOptionalUnitmasterSupportedSkins(ISerializer iSerializer, UnitmasterSupportedSkins unitmasterSupportedSkins) {
+    public static void putOptionalUnitmasterSupportedSkins(ISerializer iSerializer, UnitmasterSupportedSkins unitmasterSupportedSkins) throws SerializerException {
         boolean bl = unitmasterSupportedSkins == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class UnitmasterSupportedSkinsSerializer {
         }
     }
 
-    public static void putOptionalUnitmasterSupportedSkinsVarArray(ISerializer iSerializer, UnitmasterSupportedSkins[] unitmasterSupportedSkinsArray) {
+    public static void putOptionalUnitmasterSupportedSkinsVarArray(ISerializer iSerializer, UnitmasterSupportedSkins[] unitmasterSupportedSkinsArray) throws SerializerException {
         boolean bl = unitmasterSupportedSkinsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class UnitmasterSupportedSkinsSerializer {
         }
     }
 
-    public static UnitmasterSupportedSkins getOptionalUnitmasterSupportedSkins(IDeserializer iDeserializer) {
+    public static UnitmasterSupportedSkins getOptionalUnitmasterSupportedSkins(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterSupportedSkins unitmasterSupportedSkins = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class UnitmasterSupportedSkinsSerializer {
         return unitmasterSupportedSkins;
     }
 
-    public static UnitmasterSupportedSkins[] getOptionalUnitmasterSupportedSkinsVarArray(IDeserializer iDeserializer) {
+    public static UnitmasterSupportedSkins[] getOptionalUnitmasterSupportedSkinsVarArray(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterSupportedSkins[] unitmasterSupportedSkinsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

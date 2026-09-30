@@ -4,22 +4,16 @@
 package de.esolutions.fw.comm.agent.naming;
 
 public interface INameService {
-    default public String getMyProcName() {
-    }
+    public String getMyProcName();
 
-    default public String getMyNodeName() {
-    }
+    public String getMyNodeName();
 
-    default public short getMyID() {
-    }
+    public short getMyID();
 
-    default public Short mapNameToID(String string) {
-    }
+    public Short mapNameToID(String var1);
 
-    default public String mapIDToName(short s) {
-    }
+    public String mapIDToName(short var1);
 
-    default public String[] getNodeNames() {
-    }
+    public String[] getNodeNames();
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.OilLevelRefillVolume;
 
 public class OilLevelRefillVolumeSerializer {
-    public static void putOptionalOilLevelRefillVolume(ISerializer iSerializer, OilLevelRefillVolume oilLevelRefillVolume) {
+    public static void putOptionalOilLevelRefillVolume(ISerializer iSerializer, OilLevelRefillVolume oilLevelRefillVolume) throws SerializerException {
         boolean bl = oilLevelRefillVolume == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class OilLevelRefillVolumeSerializer {
         }
     }
 
-    public static void putOptionalOilLevelRefillVolumeVarArray(ISerializer iSerializer, OilLevelRefillVolume[] oilLevelRefillVolumeArray) {
+    public static void putOptionalOilLevelRefillVolumeVarArray(ISerializer iSerializer, OilLevelRefillVolume[] oilLevelRefillVolumeArray) throws SerializerException {
         boolean bl = oilLevelRefillVolumeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class OilLevelRefillVolumeSerializer {
         }
     }
 
-    public static OilLevelRefillVolume getOptionalOilLevelRefillVolume(IDeserializer iDeserializer) {
+    public static OilLevelRefillVolume getOptionalOilLevelRefillVolume(IDeserializer iDeserializer) throws SerializerException {
         OilLevelRefillVolume oilLevelRefillVolume = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class OilLevelRefillVolumeSerializer {
         return oilLevelRefillVolume;
     }
 
-    public static OilLevelRefillVolume[] getOptionalOilLevelRefillVolumeVarArray(IDeserializer iDeserializer) {
+    public static OilLevelRefillVolume[] getOptionalOilLevelRefillVolumeVarArray(IDeserializer iDeserializer) throws SerializerException {
         OilLevelRefillVolume[] oilLevelRefillVolumeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

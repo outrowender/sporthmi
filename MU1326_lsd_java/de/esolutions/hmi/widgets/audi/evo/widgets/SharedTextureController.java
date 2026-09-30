@@ -10,9 +10,9 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.ISharedTextureRenderer;
 
 public class SharedTextureController
 extends AbstractWidgetController {
-    public static final int UPDATE_MODE_ONCE;
-    public static final int UPDATE_MODE_MANUAL;
-    public static final int UPDATE_MODE_CONTINUOUS;
+    public static final int UPDATE_MODE_ONCE = 0;
+    public static final int UPDATE_MODE_MANUAL = 1;
+    public static final int UPDATE_MODE_CONTINUOUS = 2;
     private ISharedTextureRenderer renderer;
     private int displayableID = -1;
     private int updateMode = 0;
@@ -20,7 +20,6 @@ extends AbstractWidgetController {
     private int[] captureRect;
     private boolean r8distinction = false;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -29,7 +28,6 @@ extends AbstractWidgetController {
         this.renderer = iSharedTextureRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.checkForR8Hack();
@@ -42,7 +40,7 @@ extends AbstractWidgetController {
     }
 
     public void setDisplayableID(int n) {
-        logWidgetSharedTexture.log(-2137614336, "SharedTextureController#setDisplayableID %1", (long)n);
+        logWidgetSharedTexture.log(10000000, "SharedTextureController#setDisplayableID %1", (long)n);
         this.displayableID = n;
         this.setCompositesDirty(true);
         this.renderer.updateSharedTexture();
@@ -81,7 +79,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.isVisible() != bl) {
             super.setVisible(bl);
@@ -89,7 +86,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void setOnScreen(boolean bl) {
         if (this.isOnScreen() != bl) {
             super.setOnScreen(bl);
@@ -101,7 +97,6 @@ extends AbstractWidgetController {
         this.r8distinction = bl;
     }
 
-    @Override
     public void setVisibleOnCurrentStage(boolean bl) {
         if (this.isVisibleOnCurrentStage() != bl) {
             super.setVisibleOnCurrentStage(bl);

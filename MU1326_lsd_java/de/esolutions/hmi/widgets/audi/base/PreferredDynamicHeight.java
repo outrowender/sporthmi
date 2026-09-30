@@ -7,10 +7,8 @@ import de.esolutions.hmi.widgets.audi.base.PreferredSize;
 
 public interface PreferredDynamicHeight
 extends PreferredSize {
-    default public int getPreferredHeight(int n) {
-    }
+    public int getPreferredHeight(int var1);
 
-    default public boolean isHeightDependentFromWidth() {
-    }
+    public boolean isHeightDependentFromWidth();
 }
 

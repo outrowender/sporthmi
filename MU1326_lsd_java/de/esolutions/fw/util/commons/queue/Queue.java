@@ -20,7 +20,7 @@ public final class Queue {
 
     public synchronized void shutdown() {
         this.shutdown = true;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     public synchronized boolean inHighWater() {
@@ -35,24 +35,24 @@ public final class Queue {
         return this.queue.isEmpty();
     }
 
-    public synchronized boolean put(Object object) {
+    public synchronized boolean put(Object object) throws QueueShutdownException {
         if (this.shutdown) {
             throw new QueueShutdownException("Can't put, queue is already shutdown");
         }
         this.queue.push(object);
-        super.notifyAll();
+        this.notifyAll();
         if (this.queue.size() >= this.highWaterMark) {
             this.inHighWater = true;
         }
         return this.inHighWater;
     }
 
-    public synchronized Object get() {
+    public synchronized Object get() throws QueueShutdownException, InterruptedException {
         while (this.queue.isEmpty()) {
             if (this.shutdown) {
                 throw new QueueShutdownException("Can't get, queue is already shutdown");
             }
-            super.wait();
+            this.wait();
         }
         Object object = this.queue.pop();
         if (this.queue.size() < this.highWaterMark) {

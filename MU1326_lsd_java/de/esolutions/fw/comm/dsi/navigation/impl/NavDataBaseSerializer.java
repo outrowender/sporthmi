@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavDataBase;
 
 public class NavDataBaseSerializer {
-    public static void putOptionalNavDataBase(ISerializer iSerializer, NavDataBase navDataBase) {
+    public static void putOptionalNavDataBase(ISerializer iSerializer, NavDataBase navDataBase) throws SerializerException {
         boolean bl = navDataBase == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class NavDataBaseSerializer {
         }
     }
 
-    public static void putOptionalNavDataBaseVarArray(ISerializer iSerializer, NavDataBase[] navDataBaseArray) {
+    public static void putOptionalNavDataBaseVarArray(ISerializer iSerializer, NavDataBase[] navDataBaseArray) throws SerializerException {
         boolean bl = navDataBaseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class NavDataBaseSerializer {
         }
     }
 
-    public static NavDataBase getOptionalNavDataBase(IDeserializer iDeserializer) {
+    public static NavDataBase getOptionalNavDataBase(IDeserializer iDeserializer) throws SerializerException {
         NavDataBase navDataBase = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class NavDataBaseSerializer {
         return navDataBase;
     }
 
-    public static NavDataBase[] getOptionalNavDataBaseVarArray(IDeserializer iDeserializer) {
+    public static NavDataBase[] getOptionalNavDataBaseVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavDataBase[] navDataBaseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

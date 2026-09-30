@@ -4,20 +4,19 @@
 package de.vw.mib.bap.generated.audiosd.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
-import de.vw.mib.bap.generated.audiosd.serializer.PlayPosition_Status$Attributes;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class PlayPosition_Status
 implements StatusProperty {
     public int timePosition;
-    private static final int TIME_POSITION_BITSIZE;
+    private static final int TIME_POSITION_BITSIZE = 16;
     public int totalPlayTime;
-    private static final int TOTAL_PLAY_TIME_BITSIZE;
-    public final PlayPosition_Status$Attributes attributes = new PlayPosition_Status$Attributes();
-    public static final int EXTENSION_MIN;
+    private static final int TOTAL_PLAY_TIME_BITSIZE = 16;
+    public final Attributes attributes = new Attributes();
+    public static final int EXTENSION_MIN = 0;
     public int extension;
-    private static final int EXTENSION_BITSIZE;
+    private static final int EXTENSION_BITSIZE = 8;
 
     public PlayPosition_Status() {
         this.internalReset();
@@ -35,13 +34,11 @@ implements StatusProperty {
         this.extension = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.attributes.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PlayPosition_Status playPosition_Status = (PlayPosition_Status)bAPEntity;
         return this.timePosition == playPosition_Status.timePosition && this.totalPlayTime == playPosition_Status.totalPlayTime && this.attributes.equalTo(playPosition_Status.attributes) && this.extension == playPosition_Status.extension;
@@ -50,7 +47,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PlayPosition_Status:");
@@ -65,7 +61,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
@@ -74,7 +69,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.timePosition);
         bitStream.pushShort((short)this.totalPlayTime);
@@ -82,7 +76,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.timePosition = bitStream.popFrontShort();
         this.totalPlayTime = bitStream.popFrontShort();
@@ -94,9 +87,68 @@ implements StatusProperty {
         return 52;
     }
 
-    @Override
     public int getFunctionId() {
         return PlayPosition_Status.functionId();
+    }
+
+    public static final class Attributes
+    implements BAPEntity {
+        private static final int RESERVED_BIT_1__7_BITSIZE = 7;
+        public boolean variableBitRateActive;
+        private static final int ATTRIBUTES_BITSIZE = 8;
+
+        public Attributes() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public Attributes(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.variableBitRateActive = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            Attributes attributes = (Attributes)bAPEntity;
+            return this.variableBitRateActive == attributes.variableBitRateActive;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("Attributes:");
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.variableBitRateActive) {
+                stringBuffer.append("true  (variable bit rate active");
+            } else {
+                stringBuffer.append("false  (variable bit rate not active");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(7);
+            bitStream.pushBoolean(this.variableBitRateActive);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(7);
+            this.variableBitRateActive = bitStream.popFrontBoolean();
+        }
     }
 }
 

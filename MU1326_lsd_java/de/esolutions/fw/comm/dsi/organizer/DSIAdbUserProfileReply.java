@@ -3,77 +3,57 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.DownloadInfo;
 import org.dsi.ifc.organizer.EntryMeter;
 import org.dsi.ifc.organizer.ProfileInfo;
 
 public interface DSIAdbUserProfileReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "5600e882-32bc-5962-bf4b-6c7c42e96b5b";
+    public static final String IPL_COMM_INTERFACE_KEY = "087275ce-30fb-5962-9609-c69d8e3875d9";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.31";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.31";
 
-    default public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n, int n2) {
-    }
+    public void updateProfileInfo(ProfileInfo[] var1, int var2, int var3) throws MethodException;
 
-    default public void updateDeviceConnected(boolean bl, int n) {
-    }
+    public void updateDeviceConnected(boolean var1, int var2) throws MethodException;
 
-    default public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateDownloadCountSim(DownloadInfo var1, int var2) throws MethodException;
 
-    default public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateDownloadCountMe(DownloadInfo var1, int var2) throws MethodException;
 
-    default public void updateDownloadCountOpp(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateDownloadCountOpp(DownloadInfo var1, int var2) throws MethodException;
 
-    default public void updateDownloadState(int n, int n2, int n3) {
-    }
+    public void updateDownloadState(int var1, int var2, int var3) throws MethodException;
 
-    default public void newDeviceConnected(String string) {
-    }
+    public void newDeviceConnected(String var1) throws MethodException;
 
-    default public void downloadToProfileResult(int n) {
-    }
+    public void downloadToProfileResult(int var1) throws MethodException;
 
-    default public void restartDownloadResult(int n) {
-    }
+    public void restartDownloadResult(int var1) throws MethodException;
 
-    default public void profileDeleted(int n) {
-    }
+    public void profileDeleted(int var1) throws MethodException;
 
-    default public void setProfileNameResult(int n) {
-    }
+    public void setProfileNameResult(int var1) throws MethodException;
 
-    default public void deleteProfilesResult(int n) {
-    }
+    public void deleteProfilesResult(int var1) throws MethodException;
 
-    default public void commonEntryCountResult(int n, int n2) {
-    }
+    public void commonEntryCountResult(int var1, int var2) throws MethodException;
 
-    default public void entryMeterResult(int n, EntryMeter[] entryMeterArray) {
-    }
+    public void entryMeterResult(int var1, EntryMeter[] var2) throws MethodException;
 
-    default public void setPairingCodeResult(int n) {
-    }
+    public void setPairingCodeResult(int var1) throws MethodException;
 
-    default public void setHomeIdResult(int n) {
-    }
+    public void setHomeIdResult(int var1) throws MethodException;
 
-    default public void updateDownloadState2ndPhone(int n, int n2, int n3) {
-    }
+    public void updateDownloadState2ndPhone(int var1, int var2, int var3) throws MethodException;
 
-    default public void setSOSButtonResult(int n) {
-    }
+    public void setSOSButtonResult(int var1) throws MethodException;
 
-    default public void updateSOSButton(boolean bl, int n) {
-    }
+    public void updateSOSButton(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

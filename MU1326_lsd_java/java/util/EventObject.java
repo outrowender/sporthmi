@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class EventObject
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5516075349620653480L;
     protected transient Object source;
 
     public EventObject(Object object) {
@@ -22,7 +22,7 @@ implements Serializable {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append("[source=").append(String.valueOf(this.source)).append(']').toString();
+        return String.valueOf(this.getClass().getName()) + "[source=" + String.valueOf(this.source) + ']';
     }
 }
 

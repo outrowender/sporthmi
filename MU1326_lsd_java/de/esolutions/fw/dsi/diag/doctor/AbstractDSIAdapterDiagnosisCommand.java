@@ -24,7 +24,6 @@ extends AbstractDoctorCommand {
         return this.diagnosis;
     }
 
-    @Override
     public boolean handle(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         System.out.println("+ AbstractDSIAdapterDiagnosisCommand::handle");
         if (this.admin != null) {
@@ -42,8 +41,7 @@ extends AbstractDoctorCommand {
         return false;
     }
 
-    protected abstract void handleWithDSIAdapterDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    protected abstract void handleWithDSIAdapterDiagnosis(DoctorShell var1, String[] var2, PrintStream var3);
 
     static /* synthetic */ Class class$(String string) {
         try {

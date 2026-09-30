@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.ApplicationErrorStruct;
 
 public class ApplicationErrorStructSerializer {
-    public static void putOptionalApplicationErrorStruct(ISerializer iSerializer, ApplicationErrorStruct applicationErrorStruct) {
+    public static void putOptionalApplicationErrorStruct(ISerializer iSerializer, ApplicationErrorStruct applicationErrorStruct) throws SerializerException {
         boolean bl = applicationErrorStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ApplicationErrorStructSerializer {
         }
     }
 
-    public static void putOptionalApplicationErrorStructVarArray(ISerializer iSerializer, ApplicationErrorStruct[] applicationErrorStructArray) {
+    public static void putOptionalApplicationErrorStructVarArray(ISerializer iSerializer, ApplicationErrorStruct[] applicationErrorStructArray) throws SerializerException {
         boolean bl = applicationErrorStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ApplicationErrorStructSerializer {
         }
     }
 
-    public static ApplicationErrorStruct getOptionalApplicationErrorStruct(IDeserializer iDeserializer) {
+    public static ApplicationErrorStruct getOptionalApplicationErrorStruct(IDeserializer iDeserializer) throws SerializerException {
         ApplicationErrorStruct applicationErrorStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ApplicationErrorStructSerializer {
         return applicationErrorStruct;
     }
 
-    public static ApplicationErrorStruct[] getOptionalApplicationErrorStructVarArray(IDeserializer iDeserializer) {
+    public static ApplicationErrorStruct[] getOptionalApplicationErrorStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         ApplicationErrorStruct[] applicationErrorStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

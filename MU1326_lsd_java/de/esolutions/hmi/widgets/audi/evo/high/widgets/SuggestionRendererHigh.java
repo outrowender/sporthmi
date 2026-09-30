@@ -17,20 +17,20 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.SuggestionController;
 
 public class SuggestionRendererHigh
 extends AbstractRendererHigh {
-    private static final float OPACITY_FOCUSED;
-    private static final float OPACITY_NORMAL_SUGGESTION;
-    private static final int Y_OFFSET_SUGGESTION_TEXT;
-    private static final int Y_OFFSET_ARROW_ICON;
-    private static final int Y_OFFSET_BACKGROUND;
-    private static final int GAP_AFTER_SUGGESTION_TEXT;
-    private static final int X_OFFSET_SPELLER_ICON;
-    private static final int CURSOR_INSET_X;
-    private static final int BITMAP_BACKGROUND;
-    private static final int BITMAP_CURSOR_LEFT;
-    private static final int BITMAP_CURSOR_CENTER;
-    private static final int BITMAP_CURSOR_RIGHT;
-    private static final int BITMAP_ARROW_UP;
-    private static final int BITMAP_ARROW_DOWN;
+    private static final float OPACITY_FOCUSED = 1.0f;
+    private static final float OPACITY_NORMAL_SUGGESTION = 0.5f;
+    private static final int Y_OFFSET_SUGGESTION_TEXT = 27;
+    private static final int Y_OFFSET_ARROW_ICON = 39;
+    private static final int Y_OFFSET_BACKGROUND = 1;
+    private static final int GAP_AFTER_SUGGESTION_TEXT = 13;
+    private static final int X_OFFSET_SPELLER_ICON = 14;
+    private static final int CURSOR_INSET_X = 5;
+    private static final int BITMAP_BACKGROUND = 1;
+    private static final int BITMAP_CURSOR_LEFT = 2;
+    private static final int BITMAP_CURSOR_CENTER = 3;
+    private static final int BITMAP_CURSOR_RIGHT = 4;
+    private static final int BITMAP_ARROW_UP = 5;
+    private static final int BITMAP_ARROW_DOWN = 6;
     private SuggestionController controller;
     private IWrappedNode3D nodeClip;
     private IWrappedNode3DText[] nodeSuggestionTexts;
@@ -46,15 +46,10 @@ extends AbstractRendererHigh {
         this.controller = suggestionController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         this.nodeSuggestionTexts = new IWrappedNode3DText[3];
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
-    @Override
     public void render(RedrawContext redrawContext) {
         float f2;
         int n;
@@ -74,46 +69,46 @@ extends AbstractRendererHigh {
         }
         this.nodeClip.setVisible(true);
         int n2 = EALManager.createColorCode(redrawContext.getColor(1));
-        int n3 = 24641;
-        float f3 = 0.0f;
-        int n4 = 8257;
-        int n5 = Math.min(3, stringArray.length);
+        float f3 = 14.0f;
         float f4 = 0.0f;
-        for (n = 0; n < n5; ++n) {
+        float f5 = 10.0f;
+        int n3 = Math.min(3, stringArray.length);
+        float f6 = 0.0f;
+        for (n = 0; n < n3; ++n) {
             if (this.nodeSuggestionTexts[n] == null) {
                 this.nodeSuggestionTexts[n] = this.getEALManager().createText3D(this.nodeClip, EALManager.createNodeName("suggestionText", n, (AbstractRenderer)this), stringArray[n], redrawContextHigh.getCurrentFont());
                 this.nodeSuggestionTexts[n].getInterfaceText().setColor(n2);
             }
             this.nodeSuggestionTexts[n].setText(stringArray[n], redrawContextHigh.getCurrentFont());
-            this.nodeSuggestionTexts[n].setOpacity(this.isSuggestionFocused(n) && this.controller.showCursor() ? (int)1.0f : 63);
+            this.nodeSuggestionTexts[n].setOpacity(this.isSuggestionFocused(n) && this.controller.showCursor() ? 1.0f : 0.5f);
             this.nodeSuggestionTexts[n].setVisible(true);
-            this.nodeSuggestionTexts[n].setPosition(n3, 55361, 0.0f);
+            this.nodeSuggestionTexts[n].setPosition(f3, 27.0f, 0.0f);
             f2 = this.nodeSuggestionTexts[n].getWidth();
             if (n == 0) {
-                f4 = n3 + f2 / 2.0f - this.nodeArrowUp.getWidth() / 2.0f;
+                f6 = f3 + f2 / 2.0f - this.nodeArrowUp.getWidth() / 2.0f;
             }
             if (this.isSuggestionFocused(n)) {
-                f3 = n3 - 41024;
-                n4 = (int)(f2 + 8257);
+                f4 = f3 - 5.0f;
+                f5 = f2 + 10.0f;
             }
-            n3 = n3 + f2 + 20545;
+            f3 = f3 + f2 + 13.0f;
         }
-        for (n = n5; n < this.nodeSuggestionTexts.length; ++n) {
+        for (n = n3; n < this.nodeSuggestionTexts.length; ++n) {
             if (this.nodeSuggestionTexts[n] == null) continue;
             this.nodeSuggestionTexts[n].setVisible(false);
         }
-        float f5 = Math.min((float)n3, (float)this.controller.getWidth());
-        f2 = f5 / this.nodeBackground.getUnscaledWidth();
+        float f7 = Math.min(f3, (float)this.controller.getWidth());
+        f2 = f7 / this.nodeBackground.getUnscaledWidth();
         this.nodeBackground.setScale(f2, 1.0f, 1.0f);
         if (this.controller.showCursor()) {
             this.nodeArrowDown.setVisible(true);
             this.nodeArrowUp.setVisible(false);
-            this.nodeArrowDown.setPosition(f4, 7234, 0.0f);
-            this.handleCursorPositionAndScaling(f3, n4);
+            this.nodeArrowDown.setPosition(f6, 39.0f, 0.0f);
+            this.handleCursorPositionAndScaling(f4, f5);
         } else {
             this.nodeArrowDown.setVisible(false);
             this.nodeArrowUp.setVisible(true);
-            this.nodeArrowUp.setPosition(f4, 7234, 0.0f);
+            this.nodeArrowUp.setPosition(f6, 39.0f, 0.0f);
             this.nodeCursor.setVisible(false);
         }
         this.nodeClip.setPosition(this.controller.getX(), this.controller.getY() - 1, 0.0f);
@@ -146,7 +141,7 @@ extends AbstractRendererHigh {
             this.nodeArrowUp = this.getEALManager().createImage3D(this.nodeClip, EALManager.createNodeName("suggestion_arrowup", this), this.getTextureDescription(5, true), 0, true, (Object)this);
         }
         if (this.nodeCursor == null) {
-            this.nodeCursor = this.getEALManager().createNode3D(this.nodeClip, EALManager.createNodeName("suggestion_cursor", this), 51266, 51266);
+            this.nodeCursor = this.getEALManager().createNode3D(this.nodeClip, EALManager.createNodeName("suggestion_cursor", this), 100.0f, 100.0f);
             if (this.nodeCursorLeft == null) {
                 this.nodeCursorLeft = this.getEALManager().createImage3D(this.nodeCursor, EALManager.createNodeName("suggestion_cursor_left", this), this.getTextureDescription(2, true), 0, true, (Object)this);
             }
@@ -160,7 +155,6 @@ extends AbstractRendererHigh {
         }
     }
 
-    @Override
     public void disconnect() {
         if (this.getEALManager() != null) {
             if (this.nodeSuggestionTexts != null) {
@@ -189,7 +183,6 @@ extends AbstractRendererHigh {
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

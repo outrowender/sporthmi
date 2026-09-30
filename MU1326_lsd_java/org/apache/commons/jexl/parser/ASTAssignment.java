@@ -20,13 +20,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         ASTReference aSTReference;
         SimpleNode simpleNode = (SimpleNode)this.jjtGetChild(0);
         Object object = ((SimpleNode)this.jjtGetChild(1)).value(jexlContext);

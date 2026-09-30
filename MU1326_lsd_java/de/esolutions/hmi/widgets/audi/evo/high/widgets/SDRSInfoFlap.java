@@ -24,18 +24,18 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.SDRSInfoFlapRenderer;
 public class SDRSInfoFlap
 extends AbstractWidgetController
 implements AnimationListener {
-    private static final float ANIMATION_SPEED;
-    private static final int KILO;
-    private static final int ANIMATION_CYCLE;
-    private static final int MODEL_BETTER_ROUTE_AVAILABLE;
-    private static final int MODEL_BETTER_ROUTE_METRICS;
-    private static final int TEXT_BETTER_ROUTE;
-    private static final int STATE_CLOSED;
-    private static final int STATE_HALF_OPENED;
-    private static final int STATE_FULL_OPENED;
-    private static final int[] TARGET_CLOSED;
-    private static final int[] TARGET_HALF_OPENED;
-    private static final int[] TARGET_FULL_OPENED;
+    private static final float ANIMATION_SPEED = 300.0f;
+    private static final int KILO = 1000;
+    private static final int ANIMATION_CYCLE = 50;
+    private static final int MODEL_BETTER_ROUTE_AVAILABLE = 401368;
+    private static final int MODEL_BETTER_ROUTE_METRICS = 401369;
+    private static final int TEXT_BETTER_ROUTE = 0;
+    private static final int STATE_CLOSED = 0;
+    private static final int STATE_HALF_OPENED = 1;
+    private static final int STATE_FULL_OPENED = 2;
+    private static final int[] TARGET_CLOSED = new int[]{0, 0};
+    private static final int[] TARGET_HALF_OPENED = new int[]{1, 0};
+    private static final int[] TARGET_FULL_OPENED = new int[]{1, 1};
     private SDRSInfoFlapRenderer renderer;
     private AbstractAnimation animation;
     private int[] textIds;
@@ -47,24 +47,21 @@ implements AnimationListener {
     private int[] targetValues;
     private float progress;
     private long timeStamp = -1L;
-    private static final boolean useFadeInSpecial;
+    private static final boolean useFadeInSpecial = false;
 
-    @Override
     public void animate(int n, float f2, int n2) {
         long l = framework.getMonotonicTime();
         long l2 = l - this.timeStamp;
-        float f3 = (float)l2 / 31300;
-        float f4 = f3 * 38467;
+        float f3 = (float)l2 / 1000.0f;
+        float f4 = f3 * 300.0f;
         this.progress += f4;
         this.timeStamp = l;
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
@@ -100,7 +97,6 @@ implements AnimationListener {
         return nArray;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateContent();
@@ -112,7 +108,6 @@ implements AnimationListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.stopAnimation();
@@ -138,7 +133,6 @@ implements AnimationListener {
         return f2;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -166,21 +160,20 @@ implements AnimationListener {
         return this.cachedTextSavedTime;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!this.isConnected()) {
             return;
         }
-        mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#processModelUpdateEvent %1", (Object)modelUpdateEvent);
+        mapOverlayLogCh.log(10000000, "SDRSInfoFlap#processModelUpdateEvent %1", (Object)modelUpdateEvent);
         int n = modelUpdateEvent.getModelId();
         int n2 = modelUpdateEvent.getUpdateType();
-        if (n == -669055488) {
+        if (n == 401368) {
             if (n2 == 1) {
                 this.updateStatusAndHandleStatusChanged();
             } else {
                 mapOverlayLogCh.log(10000, "SDRSInfoFlap#processModelUpdateEvent Model update event not processed (%1).", (Object)modelUpdateEvent);
             }
-        } else if (n == -652278272) {
+        } else if (n == 401369) {
             if (n2 == 1) {
                 this.updateContent();
             } else if (n2 == 2) {
@@ -212,7 +205,7 @@ implements AnimationListener {
     }
 
     public void stopAnimation() {
-        mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#stopAnimation state = %1, targetState = %2", (long)this.state, (long)this.targetState);
+        mapOverlayLogCh.log(10000000, "SDRSInfoFlap#stopAnimation state = %1, targetState = %2", (long)this.state, (long)this.targetState);
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
         }
@@ -231,13 +224,13 @@ implements AnimationListener {
                     return;
                 }
                 this.cachedTextSavedTime = dateMetric.format();
-                mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#updateContent Cache text saved time = %1.", (Object)this.cachedTextSavedTime);
+                mapOverlayLogCh.log(10000000, "SDRSInfoFlap#updateContent Cache text saved time = %1.", (Object)this.cachedTextSavedTime);
                 this.setCompositesDirty(true);
             } else {
-                mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#updateContent Wrong metric %1.", (Object)abstractMetrics);
+                mapOverlayLogCh.log(10000000, "SDRSInfoFlap#updateContent Wrong metric %1.", (Object)abstractMetrics);
             }
         } else {
-            mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#updateContent Wrong model %1 connected.", this.model);
+            mapOverlayLogCh.log(10000000, "SDRSInfoFlap#updateContent Wrong model %1 connected.", this.model);
         }
     }
 
@@ -245,16 +238,16 @@ implements AnimationListener {
         HMIModelGUI hMIModelGUI;
         this.isVisible = false;
         this.isFullOpened = false;
-        HMIModel hMIModel = hmiService.getModel(-669055488);
+        HMIModel hMIModel = hmiService.getModel(401368);
         if (hMIModel instanceof ChoiceModel) {
             hMIModelGUI = (ChoiceModelGUI)((Object)hMIModel);
             boolean bl = this.isVisible = hMIModelGUI.getValue() == 1;
         }
-        if ((hMIModelGUI = hmiService.getModel(-652278272)) instanceof AbstractModel) {
+        if ((hMIModelGUI = hmiService.getModel(401369)) instanceof AbstractModel) {
             AbstractModel abstractModel = (AbstractModel)hMIModelGUI;
             this.isFullOpened = abstractModel.getStatus() == 1;
         }
-        mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#updateStatus isVisible = %1, isFullOpened = %2", this.isVisible, this.isFullOpened);
+        mapOverlayLogCh.log(10000000, "SDRSInfoFlap#updateStatus isVisible = %1, isFullOpened = %2", this.isVisible, this.isFullOpened);
     }
 
     private void updateStatusAndHandleStatusChanged() {
@@ -262,7 +255,7 @@ implements AnimationListener {
         int n = this.targetState;
         this.targetState = this.calculateTargetState();
         if (n != this.targetState) {
-            mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#updateStatusAndHandleStatusChanged state = %1, targetState = %2", (long)this.state, (long)this.targetState);
+            mapOverlayLogCh.log(10000000, "SDRSInfoFlap#updateStatusAndHandleStatusChanged state = %1, targetState = %2", (long)this.state, (long)this.targetState);
             this.targetValues = SDRSInfoFlap.calculateTargetValues(this.targetState);
             this.updateVisibility();
             this.startAnimation();
@@ -275,13 +268,7 @@ implements AnimationListener {
         } else {
             this.setOnScreen(true);
         }
-        mapOverlayLogCh.log(-2137614336, "SDRSInfoFlap#updateVisibility onScreen = %1", this.isOnScreen());
-    }
-
-    static {
-        TARGET_CLOSED = new int[]{0, 0};
-        TARGET_HALF_OPENED = new int[]{1, 0};
-        TARGET_FULL_OPENED = new int[]{1, 1};
+        mapOverlayLogCh.log(10000000, "SDRSInfoFlap#updateVisibility onScreen = %1", this.isOnScreen());
     }
 }
 

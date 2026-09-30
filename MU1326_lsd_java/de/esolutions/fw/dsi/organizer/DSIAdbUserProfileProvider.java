@@ -25,28 +25,23 @@ implements DSIAdbUserProfile {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbUserProfile == null ? (class$org$dsi$ifc$organizer$DSIAdbUserProfile = DSIAdbUserProfileProvider.class$("org.dsi.ifc.organizer.DSIAdbUserProfile")) : class$org$dsi$ifc$organizer$DSIAdbUserProfile).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbUserProfileProxy(this.instance, (DSIAdbUserProfileReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void downloadToProfile(int n) {
         try {
             this.proxy.downloadToProfile(n);
@@ -56,7 +51,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void restartDownload() {
         try {
             this.proxy.restartDownload();
@@ -66,7 +60,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setProfileName(String string) {
         try {
             this.proxy.setProfileName(string);
@@ -76,7 +69,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void deleteProfiles(int[] nArray) {
         try {
             this.proxy.deleteProfiles(nArray);
@@ -86,7 +78,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void commonEntryCount() {
         try {
             this.proxy.commonEntryCount();
@@ -96,7 +87,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void entryMeter() {
         try {
             this.proxy.entryMeter();
@@ -106,7 +96,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setPairingCode(String string) {
         try {
             this.proxy.setPairingCode(string);
@@ -116,7 +105,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setHomeId(long l) {
         try {
             this.proxy.setHomeId(l);
@@ -126,7 +114,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setSOSButton(boolean bl) {
         try {
             this.proxy.setSOSButton(bl);
@@ -136,7 +123,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -146,7 +132,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -156,7 +141,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -166,7 +150,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -176,7 +159,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -186,7 +168,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -196,7 +177,6 @@ implements DSIAdbUserProfile {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

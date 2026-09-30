@@ -10,15 +10,15 @@ import de.vw.mib.bap.stream.BitStream;
 public final class DialNumber_Result
 implements ResultMethod {
     public int asg_Id;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG = 0;
     public int dialNumber_Result;
-    public static final int DIAL_NUMBER_RESULT_NOT_SUCCESSFUL_NO_NETWORK;
-    public static final int DIAL_NUMBER_RESULT_NOT_SUCCESSFUL_NUMBER_INVALID;
-    public static final int DIAL_NUMBER_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int DIAL_NUMBER_RESULT_ABORT_SUCCESSFUL;
-    public static final int DIAL_NUMBER_RESULT_NOT_SUCCESSFUL;
-    public static final int DIAL_NUMBER_RESULT_SUCCESSFUL;
+    public static final int DIAL_NUMBER_RESULT_NOT_SUCCESSFUL_NO_NETWORK = 5;
+    public static final int DIAL_NUMBER_RESULT_NOT_SUCCESSFUL_NUMBER_INVALID = 4;
+    public static final int DIAL_NUMBER_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int DIAL_NUMBER_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int DIAL_NUMBER_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int DIAL_NUMBER_RESULT_SUCCESSFUL = 0;
 
     public DialNumber_Result() {
         this.internalReset();
@@ -35,12 +35,10 @@ implements ResultMethod {
         this.dialNumber_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DialNumber_Result dialNumber_Result = (DialNumber_Result)bAPEntity;
         return this.asg_Id == dialNumber_Result.asg_Id && this.dialNumber_Result == dialNumber_Result.dialNumber_Result;
@@ -49,12 +47,10 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public int getResultCode() {
         return this.dialNumber_Result;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DialNumber_Result");
@@ -63,18 +59,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.asg_Id);
         bitStream.pushByte((byte)this.dialNumber_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontByte();
         this.dialNumber_Result = bitStream.popFrontByte();
@@ -84,7 +77,6 @@ implements ResultMethod {
         return 30;
     }
 
-    @Override
     public int getFunctionId() {
         return DialNumber_Result.functionId();
     }

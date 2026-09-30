@@ -27,43 +27,44 @@ import de.esolutions.fw.comm.core.message.SetFeatureMessage;
 import de.esolutions.fw.comm.core.message.StubCreatedMessage;
 import de.esolutions.fw.comm.core.message.StubFailedMessage;
 import de.esolutions.fw.util.serializer.IDeserializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MessageType {
-    private static final byte TYPE_INIT;
-    private static final byte TYPE_ANNOUNCE_FEATURE;
-    private static final byte TYPE_SET_FEATURE;
-    private static final byte TYPE_CREATE_STUB;
-    private static final byte TYPE_STUB_CREATED;
-    private static final byte TYPE_DESTROY_STUB;
-    private static final byte TYPE_CALL_METHOD;
-    private static final byte TYPE_PROXY_ALIVE;
-    private static final byte TYPE_EXIT;
-    private static final byte TYPE_BROKER_ACK;
-    private static final byte TYPE_DROP;
-    private static final byte TYPE_STUB_FAILED;
-    private static final byte TYPE_CREATE_RRSTUB;
-    private static final byte TYPE_RRSTUB_CREATED;
-    private static final byte TYPE_PING;
-    private static final byte TYPE_HELLO;
-    private static final byte TYPE_REJECT;
-    public static final MessageType INIT;
-    public static final MessageType ANNOUNCE_FEATURE;
-    public static final MessageType SET_FEATURE;
-    public static final MessageType CREATE_STUB;
-    public static final MessageType STUB_CREATED;
-    public static final MessageType DESTROY_STUB;
-    public static final MessageType CALL_METHOD;
-    public static final MessageType PROXY_ALIVE;
-    public static final MessageType EXIT;
-    public static final MessageType BROKER_ACK;
-    public static final MessageType DROP;
-    public static final MessageType STUB_FAILED;
-    public static final MessageType CREATE_RRSTUB;
-    public static final MessageType RRSTUB_CREATED;
-    public static final MessageType PING;
-    public static final MessageType HELLO;
-    public static final MessageType REJECT;
-    public static final String UNKNOWN_MESSAGE_STRING;
+    private static final byte TYPE_INIT = 0;
+    private static final byte TYPE_ANNOUNCE_FEATURE = 1;
+    private static final byte TYPE_SET_FEATURE = 2;
+    private static final byte TYPE_CREATE_STUB = 3;
+    private static final byte TYPE_STUB_CREATED = 4;
+    private static final byte TYPE_DESTROY_STUB = 5;
+    private static final byte TYPE_CALL_METHOD = 6;
+    private static final byte TYPE_PROXY_ALIVE = 7;
+    private static final byte TYPE_EXIT = 8;
+    private static final byte TYPE_BROKER_ACK = 9;
+    private static final byte TYPE_DROP = 10;
+    private static final byte TYPE_STUB_FAILED = 11;
+    private static final byte TYPE_CREATE_RRSTUB = 12;
+    private static final byte TYPE_RRSTUB_CREATED = 13;
+    private static final byte TYPE_PING = 14;
+    private static final byte TYPE_HELLO = 16;
+    private static final byte TYPE_REJECT = 17;
+    public static final MessageType INIT = new MessageType(0);
+    public static final MessageType ANNOUNCE_FEATURE = new MessageType(1);
+    public static final MessageType SET_FEATURE = new MessageType(2);
+    public static final MessageType CREATE_STUB = new MessageType(3);
+    public static final MessageType STUB_CREATED = new MessageType(4);
+    public static final MessageType DESTROY_STUB = new MessageType(5);
+    public static final MessageType CALL_METHOD = new MessageType(6);
+    public static final MessageType PROXY_ALIVE = new MessageType(7);
+    public static final MessageType EXIT = new MessageType(8);
+    public static final MessageType BROKER_ACK = new MessageType(9);
+    public static final MessageType DROP = new MessageType(10);
+    public static final MessageType STUB_FAILED = new MessageType(11);
+    public static final MessageType CREATE_RRSTUB = new MessageType(12);
+    public static final MessageType RRSTUB_CREATED = new MessageType(13);
+    public static final MessageType PING = new MessageType(14);
+    public static final MessageType HELLO = new MessageType(16);
+    public static final MessageType REJECT = new MessageType(17);
+    public static final String UNKNOWN_MESSAGE_STRING = "UNKNOWN";
     private final byte type;
 
     private MessageType(byte by) {
@@ -152,7 +153,7 @@ public class MessageType {
         return messageType;
     }
 
-    public AbstractMessage createMessage(IDeserializer iDeserializer, boolean bl, byte by) {
+    public AbstractMessage createMessage(IDeserializer iDeserializer, boolean bl, byte by) throws SerializerException {
         switch (this.type) {
             case 0: {
                 if (by < 4) {
@@ -275,27 +276,7 @@ public class MessageType {
                 return "REJECT";
             }
         }
-        return "UNKNOWN";
-    }
-
-    static {
-        INIT = new MessageType(0);
-        ANNOUNCE_FEATURE = new MessageType(1);
-        SET_FEATURE = new MessageType(2);
-        CREATE_STUB = new MessageType(3);
-        STUB_CREATED = new MessageType(4);
-        DESTROY_STUB = new MessageType(5);
-        CALL_METHOD = new MessageType(6);
-        PROXY_ALIVE = new MessageType(7);
-        EXIT = new MessageType(8);
-        BROKER_ACK = new MessageType(9);
-        DROP = new MessageType(10);
-        STUB_FAILED = new MessageType(11);
-        CREATE_RRSTUB = new MessageType(12);
-        RRSTUB_CREATED = new MessageType(13);
-        PING = new MessageType(14);
-        HELLO = new MessageType(16);
-        REJECT = new MessageType(17);
+        return UNKNOWN_MESSAGE_STRING;
     }
 }
 

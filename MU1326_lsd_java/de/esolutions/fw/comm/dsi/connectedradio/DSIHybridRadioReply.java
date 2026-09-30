@@ -3,60 +3,45 @@
  */
 package de.esolutions.fw.comm.dsi.connectedradio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.connectedradio.RadioStation;
 
 public interface DSIHybridRadioReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "32a0f709-ed6a-52b0-b853-40bb0b5c16b4";
+    public static final String IPL_COMM_INTERFACE_KEY = "07a916a0-d145-57ef-879b-c9c74eefd6f2";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void getOnlineRadioAvailabilityResult(int n, int n2, RadioStation[] radioStationArray) {
-    }
+    public void getOnlineRadioAvailabilityResult(int var1, int var2, RadioStation[] var3) throws MethodException;
 
-    default public void getRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) {
-    }
+    public void getRadioStationLogoResult(int var1, int var2, RadioStation[] var3, int var4) throws MethodException;
 
-    default public void indicateRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) {
-    }
+    public void indicateRadioStationLogoResult(int var1, int var2, RadioStation[] var3, int var4) throws MethodException;
 
-    default public void getStreamResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void getStreamResult(int var1, int var2, RadioStation var3) throws MethodException;
 
-    default public void startSlideshowResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void startSlideshowResult(int var1, int var2, RadioStation var3) throws MethodException;
 
-    default public void stopSlideshowResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void stopSlideshowResult(int var1, int var2, RadioStation var3) throws MethodException;
 
-    default public void updateSlideshow(int n, RadioStation radioStation, int n2) {
-    }
+    public void updateSlideshow(int var1, RadioStation var2, int var3) throws MethodException;
 
-    default public void updateRadioText(int n, RadioStation radioStation, int n2) {
-    }
+    public void updateRadioText(int var1, RadioStation var2, int var3) throws MethodException;
 
-    default public void cancelGetRadioStationLogoResult(int n, int n2) {
-    }
+    public void cancelGetRadioStationLogoResult(int var1, int var2) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

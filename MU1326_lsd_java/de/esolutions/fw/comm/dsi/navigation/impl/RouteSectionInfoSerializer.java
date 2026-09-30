@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavRectangleSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.navigation.RouteSectionInfo;
 
 public class RouteSectionInfoSerializer {
-    public static void putOptionalRouteSectionInfo(ISerializer iSerializer, RouteSectionInfo routeSectionInfo) {
+    public static void putOptionalRouteSectionInfo(ISerializer iSerializer, RouteSectionInfo routeSectionInfo) throws SerializerException {
         boolean bl = routeSectionInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RouteSectionInfoSerializer {
         }
     }
 
-    public static void putOptionalRouteSectionInfoVarArray(ISerializer iSerializer, RouteSectionInfo[] routeSectionInfoArray) {
+    public static void putOptionalRouteSectionInfoVarArray(ISerializer iSerializer, RouteSectionInfo[] routeSectionInfoArray) throws SerializerException {
         boolean bl = routeSectionInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RouteSectionInfoSerializer {
         }
     }
 
-    public static RouteSectionInfo getOptionalRouteSectionInfo(IDeserializer iDeserializer) {
+    public static RouteSectionInfo getOptionalRouteSectionInfo(IDeserializer iDeserializer) throws SerializerException {
         RouteSectionInfo routeSectionInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class RouteSectionInfoSerializer {
         return routeSectionInfo;
     }
 
-    public static RouteSectionInfo[] getOptionalRouteSectionInfoVarArray(IDeserializer iDeserializer) {
+    public static RouteSectionInfo[] getOptionalRouteSectionInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RouteSectionInfo[] routeSectionInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,7 +10,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaFileInfo_StartResult
 implements StartResultMethod {
     public int ref_MediaBrowser;
-    private static final int REF_MEDIA_BROWSER_BITSIZE;
+    private static final int REF_MEDIA_BROWSER_BITSIZE = 16;
 
     public MediaFileInfo_StartResult() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements StartResultMethod {
         this.ref_MediaBrowser = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaFileInfo_StartResult mediaFileInfo_StartResult = (MediaFileInfo_StartResult)bAPEntity;
         return this.ref_MediaBrowser == mediaFileInfo_StartResult.ref_MediaBrowser;
@@ -40,7 +38,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaFileInfo_StartResult:");
@@ -49,18 +46,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.ref_MediaBrowser);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.ref_MediaBrowser = bitStream.popFrontShort();
     }
@@ -69,7 +63,6 @@ implements StartResultMethod {
         return 39;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaFileInfo_StartResult.functionId();
     }

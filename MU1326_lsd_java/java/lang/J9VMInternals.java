@@ -4,16 +4,19 @@
 package java.lang;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
 class J9VMInternals {
-    private static final int UNINITIALIZED;
-    private static final int INITIALIZED;
-    private static final int FAILED;
-    private static final int UNVERIFIED;
+    private static final int UNINITIALIZED = 0;
+    private static final int INITIALIZED = 1;
+    private static final int FAILED = 2;
+    private static final int UNVERIFIED = 3;
     private static Map exceptions;
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
@@ -27,8 +30,7 @@ class J9VMInternals {
         Thread.currentThread().completeInitialization();
     }
 
-    private static native void sendClassPrepareEvent(Class clazz) {
-    }
+    private static native void sendClassPrepareEvent(Class var0);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -85,7 +87,7 @@ class J9VMInternals {
                 }
                 if (!J9VMInternals.getInitThread(clazz)) {
                     try {
-                        super.wait();
+                        clazz.wait();
                     }
                     catch (InterruptedException interruptedException) {}
                     continue;
@@ -111,13 +113,12 @@ class J9VMInternals {
         }
     }
 
-    private static native void verifyImpl(Class clazz) {
-    }
+    private static native void verifyImpl(Class var0);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private static void initialize(Class clazz) {
+    private static void initialize(Class clazz) throws Throwable {
         block31: while (true) {
             Object object;
             switch (J9VMInternals.getInitStatus(clazz)) {
@@ -213,7 +214,7 @@ class J9VMInternals {
                         return;
                     }
                     try {
-                        super.wait();
+                        clazz.wait();
                     }
                     catch (InterruptedException interruptedException) {}
                     continue;
@@ -223,11 +224,65 @@ class J9VMInternals {
         }
     }
 
-    private static native Throwable newInstance(Class clazz, Class clazz2) {
-    }
+    private static native Throwable newInstance(Class var0, Class var1);
 
-    private static Throwable cloneThrowable(Throwable throwable) {
-        return (Throwable)AccessController.doPrivileged(new J9VMInternals$1(throwable));
+    private static Throwable cloneThrowable(final Throwable throwable) {
+        return (Throwable)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                Throwable throwable3;
+                try {
+                    Class clazz = throwable.getClass();
+                    Class clazz2 = class$0;
+                    if (clazz2 == null) {
+                        try {
+                            clazz2 = class$0 = Class.forName("java.lang.Object");
+                        }
+                        catch (ClassNotFoundException classNotFoundException) {
+                            throw new NoClassDefFoundError(classNotFoundException.getMessage());
+                        }
+                    }
+                    throwable3 = J9VMInternals.newInstance(clazz, clazz2);
+                    while (clazz != null) {
+                        Field[] fieldArray = clazz.getDeclaredFields();
+                        int n = 0;
+                        while (n < fieldArray.length) {
+                            if (!Modifier.isStatic(fieldArray[n].getModifiers())) {
+                                Class clazz3 = class$1;
+                                if (clazz3 == null) {
+                                    try {
+                                        clazz3 = Class.forName("java.lang.Throwable");
+                                    }
+                                    catch (ClassNotFoundException classNotFoundException) {
+                                        throw new NoClassDefFoundError(classNotFoundException.getMessage());
+                                    }
+                                }
+                                if (clazz != clazz3 || !fieldArray[n].getName().equals("walkback")) {
+                                    fieldArray[n].setAccessible(true);
+                                    Class clazz4 = class$1;
+                                    if (clazz4 == null) {
+                                        try {
+                                            clazz4 = Class.forName("java.lang.Throwable");
+                                        }
+                                        catch (ClassNotFoundException classNotFoundException) {
+                                            throw new NoClassDefFoundError(classNotFoundException.getMessage());
+                                        }
+                                    }
+                                    Object object = clazz == clazz4 && fieldArray[n].getName().equals("cause") ? throwable3 : fieldArray[n].get(throwable);
+                                    fieldArray[n].set(throwable3, object);
+                                }
+                            }
+                            ++n;
+                        }
+                        clazz = clazz.getSuperclass();
+                    }
+                }
+                catch (Throwable throwable2) {
+                    throwable3 = new Throwable(new StringBuffer("Error cloning Throwable (").append(throwable2).append("). The original exception was: ").append(throwable.toString()).toString());
+                }
+                return throwable3;
+            }
+        });
     }
 
     private static Throwable copyThrowable(Throwable throwable) {
@@ -255,24 +310,19 @@ class J9VMInternals {
         Class clazz2 = clazz;
         synchronized (clazz2) {
             J9VMInternals.setInitStatusImpl(clazz, n);
-            super.notifyAll();
+            clazz.notifyAll();
         }
     }
 
-    private static native int getInitStatus(Class clazz) {
-    }
+    private static native int getInitStatus(Class var0);
 
-    private static native void setInitStatusImpl(Class clazz, int n) {
-    }
+    private static native void setInitStatusImpl(Class var0, int var1);
 
-    private static native void initializeImpl(Class clazz) {
-    }
+    private static native void initializeImpl(Class var0);
 
-    private static native boolean getInitThread(Class clazz) {
-    }
+    private static native boolean getInitThread(Class var0);
 
-    private static native void setInitThread(Class clazz) {
-    }
+    private static native void setInitThread(Class var0);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -289,7 +339,7 @@ class J9VMInternals {
             }
             object = thread;
             synchronized (object) {
-                super.notifyAll();
+                thread.notifyAll();
             }
             throw throwable;
         }
@@ -300,7 +350,7 @@ class J9VMInternals {
         }
         object = thread;
         synchronized (object) {
-            super.notifyAll();
+            thread.notifyAll();
         }
     }
 
@@ -318,11 +368,6 @@ class J9VMInternals {
         catch (Throwable throwable) {}
     }
 
-    static native StackTraceElement[] getStackTrace(Throwable throwable, boolean bl) {
-    }
-
-    static /* synthetic */ Throwable access$0(Class clazz, Class clazz2) {
-        return J9VMInternals.newInstance(clazz, clazz2);
-    }
+    static native StackTraceElement[] getStackTrace(Throwable var0, boolean var1);
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.organizer.AddressData;
 
 public class AddressDataSerializer {
-    public static void putOptionalAddressData(ISerializer iSerializer, AddressData addressData) {
+    public static void putOptionalAddressData(ISerializer iSerializer, AddressData addressData) throws SerializerException {
         boolean bl = addressData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class AddressDataSerializer {
         }
     }
 
-    public static void putOptionalAddressDataVarArray(ISerializer iSerializer, AddressData[] addressDataArray) {
+    public static void putOptionalAddressDataVarArray(ISerializer iSerializer, AddressData[] addressDataArray) throws SerializerException {
         boolean bl = addressDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class AddressDataSerializer {
         }
     }
 
-    public static AddressData getOptionalAddressData(IDeserializer iDeserializer) {
+    public static AddressData getOptionalAddressData(IDeserializer iDeserializer) throws SerializerException {
         AddressData addressData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -85,7 +86,7 @@ public class AddressDataSerializer {
         return addressData;
     }
 
-    public static AddressData[] getOptionalAddressDataVarArray(IDeserializer iDeserializer) {
+    public static AddressData[] getOptionalAddressDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         AddressData[] addressDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

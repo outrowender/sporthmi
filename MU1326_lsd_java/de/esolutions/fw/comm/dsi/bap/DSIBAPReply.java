@@ -3,34 +3,28 @@
  */
 package de.esolutions.fw.comm.dsi.bap;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIBAPReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "187b8dba-bafe-54d9-bd32-ccc4dc6d16c7";
+    public static final String IPL_COMM_INTERFACE_KEY = "e99f0395-02b6-5a98-9d51-8714b5fcad80";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.5";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.5";
 
-    default public void bapStateStatus(int n, int n2) {
-    }
+    public void bapStateStatus(int var1, int var2) throws MethodException;
 
-    default public void indication(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void indication(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void indicationVoid(int n, int n2, int n3) {
-    }
+    public void indicationVoid(int var1, int var2, int var3) throws MethodException;
 
-    default public void indicationByteSequence(int n, int n2, int n3, byte[] byArray) {
-    }
+    public void indicationByteSequence(int var1, int var2, int var3, byte[] var4) throws MethodException;
 
-    default public void indicationError(int n, int n2, int n3) {
-    }
+    public void indicationError(int var1, int var2, int var3) throws MethodException;
 
-    default public void acknowledge(int n, int n2, int n3) {
-    }
+    public void acknowledge(int var1, int var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.PosTimeInfo;
 
 public class PosTimeInfoSerializer {
-    public static void putOptionalPosTimeInfo(ISerializer iSerializer, PosTimeInfo posTimeInfo) {
+    public static void putOptionalPosTimeInfo(ISerializer iSerializer, PosTimeInfo posTimeInfo) throws SerializerException {
         boolean bl = posTimeInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class PosTimeInfoSerializer {
         }
     }
 
-    public static void putOptionalPosTimeInfoVarArray(ISerializer iSerializer, PosTimeInfo[] posTimeInfoArray) {
+    public static void putOptionalPosTimeInfoVarArray(ISerializer iSerializer, PosTimeInfo[] posTimeInfoArray) throws SerializerException {
         boolean bl = posTimeInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class PosTimeInfoSerializer {
         }
     }
 
-    public static PosTimeInfo getOptionalPosTimeInfo(IDeserializer iDeserializer) {
+    public static PosTimeInfo getOptionalPosTimeInfo(IDeserializer iDeserializer) throws SerializerException {
         PosTimeInfo posTimeInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class PosTimeInfoSerializer {
         return posTimeInfo;
     }
 
-    public static PosTimeInfo[] getOptionalPosTimeInfoVarArray(IDeserializer iDeserializer) {
+    public static PosTimeInfo[] getOptionalPosTimeInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PosTimeInfo[] posTimeInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

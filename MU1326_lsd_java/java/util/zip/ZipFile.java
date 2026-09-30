@@ -7,14 +7,15 @@ import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.Util;
 import com.ibm.oti.vm.ZipStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
 import java.util.zip.ZipConstants;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
-import java.util.zip.ZipFile$1;
-import java.util.zip.ZipFile$ZFEnum;
 
 public class ZipFile
 implements ZipConstants {
@@ -23,18 +24,18 @@ implements ZipConstants {
     private int size = -1;
     private int mode;
     private Object lock = new Object();
-    public static final int OPEN_READ;
-    public static final int OPEN_DELETE;
+    public static final int OPEN_READ = 1;
+    public static final int OPEN_DELETE = 4;
 
     static {
         ZipFile.ntvinit();
     }
 
-    public ZipFile(File file) {
+    public ZipFile(File file) throws ZipException, IOException {
         this(file.getPath());
     }
 
-    public ZipFile(File file, int n) {
+    public ZipFile(File file, int n) throws IOException {
         if (n == 1 || n == 5) {
             this.fileName = file.getPath();
             SecurityManager securityManager = System.getSecurityManager();
@@ -51,7 +52,7 @@ implements ZipConstants {
         this.openZip(this.fileName);
     }
 
-    public ZipFile(String string) {
+    public ZipFile(String string) throws IOException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkRead(string);
@@ -63,7 +64,7 @@ implements ZipConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void openZip(String string) {
+    private void openZip(String string) throws IOException {
         int n;
         Object object = this.lock;
         synchronized (object) {
@@ -82,21 +83,27 @@ implements ZipConstants {
         }
     }
 
-    protected void finalize() {
+    protected void finalize() throws IOException {
         this.close();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void close() {
+    public void close() throws IOException {
         if (this.fileName != null) {
             Object object = this.lock;
             synchronized (object) {
                 this.closeZipImpl();
             }
             if ((this.mode & 4) != 0) {
-                AccessController.doPrivileged(new ZipFile$1(this));
+                AccessController.doPrivileged(new PrivilegedAction(){
+
+                    public Object run() {
+                        new File(ZipFile.this.fileName).delete();
+                        return null;
+                    }
+                });
             }
         }
     }
@@ -107,7 +114,7 @@ implements ZipConstants {
     public Enumeration entries() {
         Object object = this.lock;
         synchronized (object) {
-            return new ZipFile$ZFEnum(this);
+            return new ZFEnum();
         }
     }
 
@@ -126,7 +133,7 @@ implements ZipConstants {
         throw new NullPointerException();
     }
 
-    public InputStream getInputStream(ZipEntry zipEntry) {
+    public InputStream getInputStream(ZipEntry zipEntry) throws IOException {
         return ZipStream.getZipStream(this, zipEntry.getName());
     }
 
@@ -134,14 +141,11 @@ implements ZipConstants {
         return this.fileName;
     }
 
-    private native int openZipImpl(byte[] byArray) {
-    }
+    private native int openZipImpl(byte[] var1);
 
-    private native void closeZipImpl() {
-    }
+    private native void closeZipImpl();
 
-    private native ZipEntry getEntryImpl(long l, String string) {
-    }
+    private native ZipEntry getEntryImpl(long var1, String var3);
 
     public int size() {
         if (this.size != -1) {
@@ -156,15 +160,52 @@ implements ZipConstants {
         return this.size;
     }
 
-    private static native void ntvinit() {
-    }
+    private static native void ntvinit();
 
-    static /* synthetic */ Object access$0(ZipFile zipFile) {
-        return zipFile.lock;
-    }
+    class ZFEnum
+    implements Enumeration {
+        private long nextEntryPointer;
+        private ZipEntry current;
 
-    static /* synthetic */ String access$1(ZipFile zipFile) {
-        return zipFile.fileName;
+        ZFEnum() {
+            this.nextEntryPointer = this.resetZip(ZipFile.this.descriptor);
+            this.current = this.getNextEntry(ZipFile.this.descriptor, this.nextEntryPointer);
+        }
+
+        private native long resetZip(long var1);
+
+        private native ZipEntry getNextEntry(long var1, long var3);
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public boolean hasMoreElements() {
+            Object object = ZipFile.this.lock;
+            synchronized (object) {
+                if (ZipFile.this.descriptor == -1L) {
+                    throw new IllegalStateException(Msg.getString("K00b7"));
+                }
+            }
+            return this.current != null;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public Object nextElement() {
+            if (this.current == null) {
+                throw new NoSuchElementException();
+            }
+            ZipEntry zipEntry = this.current;
+            Object object = ZipFile.this.lock;
+            synchronized (object) {
+                if (ZipFile.this.descriptor == -1L) {
+                    throw new IllegalStateException(Msg.getString("K00b7"));
+                }
+                this.current = this.getNextEntry(ZipFile.this.descriptor, this.nextEntryPointer);
+            }
+            return zipEntry;
+        }
     }
 }
 

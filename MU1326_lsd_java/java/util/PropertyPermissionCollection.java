@@ -3,10 +3,9 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -16,7 +15,7 @@ import java.util.PropertyPermission;
 
 class PropertyPermissionCollection
 extends PermissionCollection {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7015263904581634791L;
     Hashtable permissions = new Hashtable(30);
     private static final ObjectStreamField[] serialPersistentFields;
     static /* synthetic */ Class class$0;
@@ -40,7 +39,6 @@ extends PermissionCollection {
     PropertyPermissionCollection() {
     }
 
-    @Override
     public void add(Permission permission) {
         if (!this.isReadOnly()) {
             Permission permission2 = (Permission)this.permissions.put(permission.getName(), permission);
@@ -52,12 +50,10 @@ extends PermissionCollection {
         }
     }
 
-    @Override
     public Enumeration elements() {
         return this.permissions.elements();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         Enumeration enumeration = this.elements();
         while (enumeration.hasMoreElements()) {
@@ -67,16 +63,16 @@ extends PermissionCollection {
         return permission.getActions().equals("read,write") && this.implies(new PropertyPermission(permission.getName(), "read")) && this.implies(new PropertyPermission(permission.getName(), "write"));
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("permissions", this.permissions);
-        objectOutputStream$PutField.put("all_allowed", false);
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("permissions", this.permissions);
+        putField.put("all_allowed", false);
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        this.permissions = (Hashtable)objectInputStream$GetField.get("permissions", null);
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        this.permissions = (Hashtable)getField.get("permissions", null);
     }
 }
 

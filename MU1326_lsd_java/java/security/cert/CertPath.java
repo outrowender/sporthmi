@@ -3,11 +3,15 @@
  */
 package java.security.cert;
 
+import java.io.ByteArrayInputStream;
+import java.io.InvalidObjectException;
 import java.io.NotSerializableException;
+import java.io.ObjectStreamException;
 import java.io.Serializable;
-import java.security.cert.CertPath$CertPathRep;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,8 +27,7 @@ implements Serializable {
         return this.type;
     }
 
-    public abstract Iterator getEncodings() {
-    }
+    public abstract Iterator getEncodings();
 
     public boolean equals(Object object) {
         if (!(object instanceof CertPath)) {
@@ -37,8 +40,7 @@ implements Serializable {
         return certPath.getCertificates() == this.getCertificates();
     }
 
-    public abstract List getCertificates() {
-    }
+    public abstract List getCertificates();
 
     public int hashCode() {
         return 31 * this.getType().hashCode() + this.getCertificates().hashCode();
@@ -54,13 +56,11 @@ implements Serializable {
         return stringBuffer.toString();
     }
 
-    public abstract byte[] getEncoded() {
-    }
+    public abstract byte[] getEncoded() throws CertificateEncodingException;
 
-    public abstract byte[] getEncoded(String string) {
-    }
+    public abstract byte[] getEncoded(String var1) throws CertificateEncodingException;
 
-    protected Object writeReplace() {
+    protected Object writeReplace() throws ObjectStreamException {
         byte[] byArray;
         try {
             byArray = this.getEncoded(this.type);
@@ -68,7 +68,31 @@ implements Serializable {
         catch (CertificateEncodingException certificateEncodingException) {
             throw new NotSerializableException(certificateEncodingException.getMessage());
         }
-        return new CertPath$CertPathRep(this.type, byArray);
+        return new CertPathRep(this.type, byArray);
+    }
+
+    protected static class CertPathRep
+    implements Serializable {
+        private String type;
+        private byte[] data;
+
+        protected CertPathRep(String string, byte[] byArray) {
+            this.type = string;
+            this.data = byArray;
+        }
+
+        protected Object readResolve() throws ObjectStreamException {
+            CertPath certPath;
+            try {
+                CertificateFactory certificateFactory = CertificateFactory.getInstance(this.type);
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.data);
+                certPath = certificateFactory.generateCertPath(byteArrayInputStream);
+            }
+            catch (CertificateException certificateException) {
+                throw new InvalidObjectException(certificateException.getMessage());
+            }
+            return certPath;
+        }
     }
 }
 

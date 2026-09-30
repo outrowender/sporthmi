@@ -21,12 +21,10 @@ extends IObject {
         return iINodeImage == null ? 0L : iINodeImage.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -38,7 +36,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -47,12 +44,10 @@ extends IObject {
         return ealswigJNI.eal_api_IINodeImage_setTexture(this.swigCPtr, this, ITexture.getCPtr(iTexture), iTexture);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IINodeImage_isValid(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IINodeImage_dispose(this.swigCPtr, this);
     }

@@ -12,7 +12,6 @@ implements IFactory {
     private final ILocationAccessorFactory locationFactory = new EBLocationAccessorFactory();
     static /* synthetic */ Class class$org$dsi$ifc$navigation$util$ILocationAccessorFactory;
 
-    @Override
     public Object getFactory(Class clazz) {
         if (clazz == null) {
             return null;
@@ -23,12 +22,10 @@ implements IFactory {
         return null;
     }
 
-    @Override
     public Class[] getFactoryList() {
         return new Class[]{class$org$dsi$ifc$navigation$util$ILocationAccessorFactory == null ? (class$org$dsi$ifc$navigation$util$ILocationAccessorFactory = NavigationFactory.class$("org.dsi.ifc.navigation.util.ILocationAccessorFactory")) : class$org$dsi$ifc$navigation$util$ILocationAccessorFactory};
     }
 
-    @Override
     public boolean shouldOverride(IFactory iFactory) {
         return false;
     }

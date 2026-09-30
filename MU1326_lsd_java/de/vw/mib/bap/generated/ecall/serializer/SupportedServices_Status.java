@@ -12,15 +12,15 @@ public final class SupportedServices_Status
 implements StatusProperty {
     public SupportedServices_Services services = new SupportedServices_Services();
     public int extension_3;
-    public static final int EXTENSION_3_MIN;
+    public static final int EXTENSION_3_MIN = 0;
     public int extension_4;
-    public static final int EXTENSION_4_MIN;
+    public static final int EXTENSION_4_MIN = 0;
     public int extension_5;
-    public static final int EXTENSION_5_MIN;
+    public static final int EXTENSION_5_MIN = 0;
     public int extension_1;
-    public static final int EXTENSION_1_MIN;
+    public static final int EXTENSION_1_MIN = 0;
     public int extension_2;
-    public static final int EXTENSION_2_MIN;
+    public static final int EXTENSION_2_MIN = 0;
 
     public SupportedServices_Status() {
         this.internalReset();
@@ -40,13 +40,11 @@ implements StatusProperty {
         this.extension_2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.services.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SupportedServices_Status supportedServices_Status = (SupportedServices_Status)bAPEntity;
         return this.services.equalTo(supportedServices_Status.services) && this.extension_3 == supportedServices_Status.extension_3 && this.extension_4 == supportedServices_Status.extension_4 && this.extension_5 == supportedServices_Status.extension_5 && this.extension_1 == supportedServices_Status.extension_1 && this.extension_2 == supportedServices_Status.extension_2;
@@ -55,7 +53,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SupportedServices_Status");
@@ -68,12 +65,10 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.services.serialize(bitStream);
         bitStream.pushByte((byte)this.extension_3);
@@ -83,7 +78,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension_2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.services.deserialize(bitStream);
         this.extension_3 = bitStream.popFrontByte();
@@ -97,7 +91,6 @@ implements StatusProperty {
         return 27;
     }
 
-    @Override
     public int getFunctionId() {
         return SupportedServices_Status.functionId();
     }

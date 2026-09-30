@@ -30,28 +30,23 @@ implements DSICarDriverAssistance {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$cardriverassistance$DSICarDriverAssistance == null ? (class$org$dsi$ifc$cardriverassistance$DSICarDriverAssistance = DSICarDriverAssistanceProvider.class$("org.dsi.ifc.cardriverassistance.DSICarDriverAssistance")) : class$org$dsi$ifc$cardriverassistance$DSICarDriverAssistance).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarDriverAssistanceProxy(this.instance, (DSICarDriverAssistanceReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setACCGongState(boolean bl) {
         try {
             this.proxy.setACCGongState(bl);
@@ -61,7 +56,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCGongVolume(int n) {
         try {
             this.proxy.setACCGongVolume(n);
@@ -71,7 +65,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCDrivingProgram(int n) {
         try {
             this.proxy.setACCDrivingProgram(n);
@@ -81,7 +74,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCTimeGap(int n) {
         try {
             this.proxy.setACCTimeGap(n);
@@ -91,7 +83,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCDefaultMode(int n) {
         try {
             this.proxy.setACCDefaultMode(n);
@@ -101,7 +92,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCCurveAssist(boolean bl) {
         try {
             this.proxy.setACCCurveAssist(bl);
@@ -111,7 +101,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCSpeedLimitAdoption(boolean bl) {
         try {
             this.proxy.setACCSpeedLimitAdoption(bl);
@@ -121,7 +110,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCTrafficJamAssist(boolean bl) {
         try {
             this.proxy.setACCTrafficJamAssist(bl);
@@ -131,7 +119,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCSpeedLimitOffset(int n) {
         try {
             this.proxy.setACCSpeedLimitOffset(n);
@@ -141,7 +128,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning) {
         try {
             this.proxy.setACCDistanceWarning(aCCDistanceWarning);
@@ -151,7 +137,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setACCSetFactoryDefault() {
         try {
             this.proxy.setACCSetFactoryDefault();
@@ -161,7 +146,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPACCSensibility(boolean bl) {
         try {
             this.proxy.setPACCSensibility(bl);
@@ -171,7 +155,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPACCMaxSpeed(int n, int n2) {
         try {
             this.proxy.setPACCMaxSpeed(n, n2);
@@ -181,7 +164,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPACCDrivingProgram(int n) {
         try {
             this.proxy.setPACCDrivingProgram(n);
@@ -191,7 +173,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVSystem(int n) {
         try {
             this.proxy.setAWVSystem(n);
@@ -201,7 +182,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVWarning(boolean bl) {
         try {
             this.proxy.setAWVWarning(bl);
@@ -211,7 +191,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVGong(boolean bl) {
         try {
             this.proxy.setAWVGong(bl);
@@ -221,7 +200,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVGongVolume(int n) {
         try {
             this.proxy.setAWVGongVolume(n);
@@ -231,7 +209,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVBrakeJerk(boolean bl) {
         try {
             this.proxy.setAWVBrakeJerk(bl);
@@ -241,7 +218,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVEmergencyBrake(AWVEmergencyBrake aWVEmergencyBrake) {
         try {
             this.proxy.setAWVEmergencyBrake(aWVEmergencyBrake);
@@ -251,7 +227,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVDistanceWarning(boolean bl) {
         try {
             this.proxy.setAWVDistanceWarning(bl);
@@ -261,7 +236,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVWarningTimegap(int n) {
         try {
             this.proxy.setAWVWarningTimegap(n);
@@ -271,7 +245,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setAWVSetFactoryDefault() {
         try {
             this.proxy.setAWVSetFactoryDefault();
@@ -281,7 +254,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWABrightness(int n) {
         try {
             this.proxy.setSWABrightness(n);
@@ -291,7 +263,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWAWarningTime(int n) {
         try {
             this.proxy.setSWAWarningTime(n);
@@ -301,7 +272,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWAFrequency(int n) {
         try {
             this.proxy.setSWAFrequency(n);
@@ -311,7 +281,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWASystem(int n) {
         try {
             this.proxy.setSWASystem(n);
@@ -321,7 +290,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWAGongState(boolean bl) {
         try {
             this.proxy.setSWAGongState(bl);
@@ -331,7 +299,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWAGongVolume(int n) {
         try {
             this.proxy.setSWAGongVolume(n);
@@ -341,7 +308,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWARCTA(boolean bl) {
         try {
             this.proxy.setSWARCTA(bl);
@@ -351,7 +317,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setSWAExitAssist(boolean bl) {
         try {
             this.proxy.setSWAExitAssist(bl);
@@ -361,7 +326,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVActivation(boolean bl) {
         try {
             this.proxy.setNVActivation(bl);
@@ -371,7 +335,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVContrast(int n) {
         try {
             this.proxy.setNVContrast(n);
@@ -381,7 +344,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVBrightness(int n) {
         try {
             this.proxy.setNVBrightness(n);
@@ -391,7 +353,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVObjectDetection(NVObjectDetection nVObjectDetection) {
         try {
             this.proxy.setNVObjectDetection(nVObjectDetection);
@@ -401,7 +362,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVColorPA(int n) {
         try {
             this.proxy.setNVColorPA(n);
@@ -411,7 +371,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVDesignPA(int n) {
         try {
             this.proxy.setNVDesignPA(n);
@@ -421,7 +380,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVDisplay(int n) {
         try {
             this.proxy.setNVDisplay(n);
@@ -431,7 +389,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVZoomPanning(int n) {
         try {
             this.proxy.setNVZoomPanning(n);
@@ -441,7 +398,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVSound(int n) {
         try {
             this.proxy.setNVSound(n);
@@ -451,7 +407,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVSymbol(boolean bl) {
         try {
             this.proxy.setNVSymbol(bl);
@@ -461,7 +416,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVSetFactoryDefault() {
         try {
             this.proxy.setNVSetFactoryDefault();
@@ -471,7 +425,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVWarningTimegap(int n) {
         try {
             this.proxy.setNVWarningTimegap(n);
@@ -481,7 +434,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNVSystem(boolean bl) {
         try {
             this.proxy.setNVSystem(bl);
@@ -491,7 +443,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setLDWWarningTime(int n) {
         try {
             this.proxy.setLDWWarningTime(n);
@@ -501,7 +452,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setLDWSteeringWheelVibration(int n) {
         try {
             this.proxy.setLDWSteeringWheelVibration(n);
@@ -511,7 +461,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setHCAInterventionStyle(int n) {
         try {
             this.proxy.setHCAInterventionStyle(n);
@@ -521,7 +470,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setHCAToleranceLevel(int n) {
         try {
             this.proxy.setHCAToleranceLevel(n);
@@ -531,7 +479,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setLdwhcaSetFactoryDefault() {
         try {
             this.proxy.setLdwhcaSetFactoryDefault();
@@ -541,7 +488,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setLDWHCASystemOnOff(boolean bl) {
         try {
             this.proxy.setLDWHCASystemOnOff(bl);
@@ -551,7 +497,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setLDWHCAWarningSound(boolean bl, int n) {
         try {
             this.proxy.setLDWHCAWarningSound(bl, n);
@@ -561,7 +506,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setTSDSystemOnOff(boolean bl) {
         try {
             this.proxy.setTSDSystemOnOff(bl);
@@ -571,7 +515,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setTSDRoadSignFilter(TSDRoadSignFilter tSDRoadSignFilter) {
         try {
             this.proxy.setTSDRoadSignFilter(tSDRoadSignFilter);
@@ -581,7 +524,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setTsdSetFactoryDefault() {
         try {
             this.proxy.setTsdSetFactoryDefault();
@@ -591,7 +533,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setTSDSpeedWarningThreshold(boolean bl, CarBCSpeed carBCSpeed) {
         try {
             this.proxy.setTSDSpeedWarningThreshold(bl, carBCSpeed);
@@ -601,7 +542,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setTSDTrailerSpeedLimit(CarBCSpeed carBCSpeed) {
         try {
             this.proxy.setTSDTrailerSpeedLimit(carBCSpeed);
@@ -611,7 +551,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setTSDSpeedWarningAcoustics(boolean bl) {
         try {
             this.proxy.setTSDSpeedWarningAcoustics(bl);
@@ -621,7 +560,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setMKESystemOnOff(boolean bl) {
         try {
             this.proxy.setMKESystemOnOff(bl);
@@ -631,7 +569,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setMKESetFactoryDefault() {
         try {
             this.proxy.setMKESetFactoryDefault();
@@ -641,7 +578,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPASystemOnOff(boolean bl) {
         try {
             this.proxy.setPASystemOnOff(bl);
@@ -651,7 +587,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPASetFactoryDefault() {
         try {
             this.proxy.setPASetFactoryDefault();
@@ -661,7 +596,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPAConfigInformation(boolean bl) {
         try {
             this.proxy.setPAConfigInformation(bl);
@@ -671,7 +605,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPAConfigWarning(boolean bl) {
         try {
             this.proxy.setPAConfigWarning(bl);
@@ -681,7 +614,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setPAWarningTimegap(int n) {
         try {
             this.proxy.setPAWarningTimegap(n);
@@ -691,7 +623,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setCurveAssistSystemOnOff(boolean bl) {
         try {
             this.proxy.setCurveAssistSystemOnOff(bl);
@@ -701,7 +632,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setCurveAssistSetFactoryDefault() {
         try {
             this.proxy.setCurveAssistSetFactoryDefault();
@@ -711,7 +641,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setFTASystemOnOff(boolean bl) {
         try {
             this.proxy.setFTASystemOnOff(bl);
@@ -721,7 +650,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -731,7 +659,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -741,7 +668,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -751,7 +677,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -761,7 +686,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -771,7 +695,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -781,7 +704,6 @@ implements DSICarDriverAssistance {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

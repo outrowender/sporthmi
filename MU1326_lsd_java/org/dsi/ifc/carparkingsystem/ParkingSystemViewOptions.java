@@ -409,7 +409,7 @@ public class ParkingSystemViewOptions {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(1390673920);
+        StringBuffer stringBuffer = new StringBuffer(58450);
         stringBuffer.append("ParkingSystemViewOptions");
         stringBuffer.append('(');
         stringBuffer.append("pdcSystemOnOff");

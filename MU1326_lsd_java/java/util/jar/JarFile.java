@@ -4,11 +4,13 @@
 package java.util.jar;
 
 import java.io.File;
+import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
-import java.util.jar.JarFile$1$JarFileEnumerator;
-import java.util.jar.JarFile$JarFileInputStream;
+import java.util.jar.JarFile;
 import java.util.jar.JarVerifier;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -16,17 +18,17 @@ import java.util.zip.ZipFile;
 
 public class JarFile
 extends ZipFile {
-    public static final String MANIFEST_NAME;
-    static final String META_DIR;
+    public static final String MANIFEST_NAME = "META-INF/MANIFEST.MF";
+    static final String META_DIR = "META-INF/";
     private Manifest manifest;
     private ZipEntry manifestEntry;
     JarVerifier verifier;
 
-    public JarFile(File file) {
+    public JarFile(File file) throws IOException {
         this(file, true);
     }
 
-    public JarFile(File file, boolean bl) {
+    public JarFile(File file, boolean bl) throws IOException {
         super(file);
         if (bl) {
             this.verifier = new JarVerifier(file.getPath());
@@ -34,7 +36,7 @@ extends ZipFile {
         this.readMetaEntries();
     }
 
-    public JarFile(File file, boolean bl, int n) {
+    public JarFile(File file, boolean bl, int n) throws IOException {
         super(file, n);
         if (bl) {
             this.verifier = new JarVerifier(file.getPath());
@@ -42,11 +44,11 @@ extends ZipFile {
         this.readMetaEntries();
     }
 
-    public JarFile(String string) {
+    public JarFile(String string) throws IOException {
         this(string, true);
     }
 
-    public JarFile(String string, boolean bl) {
+    public JarFile(String string, boolean bl) throws IOException {
         super(string);
         if (bl) {
             this.verifier = new JarVerifier(string);
@@ -54,16 +56,40 @@ extends ZipFile {
         this.readMetaEntries();
     }
 
-    @Override
     public Enumeration entries() {
-        return new JarFile$1$JarFileEnumerator(this, super.entries(), this);
+        class JarFileEnumerator
+        implements Enumeration {
+            Enumeration ze;
+            JarFile jf;
+            final /* synthetic */ JarFile this$0;
+
+            JarFileEnumerator(JarFile jarFile, Enumeration enumeration, JarFile jarFile2) {
+                this.this$0 = jarFile;
+                this.ze = enumeration;
+                this.jf = jarFile2;
+            }
+
+            public boolean hasMoreElements() {
+                return this.ze.hasMoreElements();
+            }
+
+            public Object nextElement() {
+                JarEntry jarEntry = new JarEntry((ZipEntry)this.ze.nextElement());
+                jarEntry.parentJar = this.jf;
+                if (this.this$0.verifier != null) {
+                    jarEntry.certificates = this.this$0.verifier.getCertificates(jarEntry.getName());
+                }
+                return jarEntry;
+            }
+        }
+        return new JarFileEnumerator(this, super.entries(), this);
     }
 
     public JarEntry getJarEntry(String string) {
         return (JarEntry)this.getEntry(string);
     }
 
-    public Manifest getManifest() {
+    public Manifest getManifest() throws IOException {
         if (this.manifest != null) {
             return this.manifest;
         }
@@ -87,16 +113,16 @@ extends ZipFile {
         return this.manifest;
     }
 
-    private void readMetaEntries() {
+    private void readMetaEntries() throws IOException {
         ZipEntry[] zipEntryArray = this.getMetaEntriesImpl(null);
-        int n = "META-INF/".length();
+        int n = META_DIR.length();
         boolean bl = false;
         if (zipEntryArray != null) {
             int n2 = 0;
             while (n2 < zipEntryArray.length) {
                 ZipEntry zipEntry = zipEntryArray[n2];
                 String string = zipEntry.getName();
-                if (this.manifestEntry == null && this.manifest == null && string.regionMatches(true, n, "META-INF/MANIFEST.MF", n, "META-INF/MANIFEST.MF".length() - n)) {
+                if (this.manifestEntry == null && this.manifest == null && string.regionMatches(true, n, MANIFEST_NAME, n, MANIFEST_NAME.length() - n)) {
                     this.manifestEntry = zipEntry;
                     if (this.verifier == null) {
                         break;
@@ -117,8 +143,7 @@ extends ZipFile {
         }
     }
 
-    @Override
-    public InputStream getInputStream(ZipEntry zipEntry) {
+    public InputStream getInputStream(ZipEntry zipEntry) throws IOException {
         InputStream inputStream;
         if (this.manifestEntry != null) {
             this.getManifest();
@@ -138,10 +163,9 @@ extends ZipFile {
         if ((inputStream = super.getInputStream(zipEntry)) == null) {
             return null;
         }
-        return new JarFile$JarFileInputStream(inputStream, zipEntry, zipEntry.getSize() >= 0L ? this.verifier : null);
+        return new JarFileInputStream(inputStream, zipEntry, zipEntry.getSize() >= 0L ? this.verifier : null);
     }
 
-    @Override
     public ZipEntry getEntry(String string) {
         ZipEntry zipEntry = super.getEntry(string);
         if (zipEntry == null) {
@@ -155,7 +179,79 @@ extends ZipFile {
         return jarEntry;
     }
 
-    private native ZipEntry[] getMetaEntriesImpl(byte[] byArray) {
+    private native ZipEntry[] getMetaEntriesImpl(byte[] var1);
+
+    static final class JarFileInputStream
+    extends FilterInputStream {
+        private long count;
+        private ZipEntry zipEntry;
+        private JarVerifier verifier;
+        private JarVerifier.VerifierEntry entry;
+        private MessageDigest digest;
+
+        JarFileInputStream(InputStream inputStream, ZipEntry zipEntry, JarVerifier jarVerifier) {
+            super(inputStream);
+            if (jarVerifier != null) {
+                this.zipEntry = zipEntry;
+                this.verifier = jarVerifier;
+                this.count = this.zipEntry.getSize();
+                this.entry = this.verifier.initEntry(zipEntry.getName());
+                if (this.entry != null) {
+                    this.digest = this.entry.digest;
+                }
+            }
+        }
+
+        public int read() throws IOException {
+            int n = super.read();
+            if (this.entry != null) {
+                if (n != -1) {
+                    this.digest.update((byte)n);
+                    --this.count;
+                }
+                if (n == -1 || this.count <= 0L) {
+                    JarVerifier.VerifierEntry verifierEntry = this.entry;
+                    this.entry = null;
+                    this.verifier.verifySignatures(verifierEntry, this.zipEntry);
+                }
+            }
+            return n;
+        }
+
+        public int read(byte[] byArray, int n, int n2) throws IOException {
+            int n3 = super.read(byArray, n, n2);
+            if (this.entry != null) {
+                if (n3 != -1) {
+                    int n4 = n3;
+                    if (this.count < (long)n4) {
+                        n4 = (int)this.count;
+                    }
+                    this.digest.update(byArray, n, n4);
+                    this.count -= (long)n3;
+                }
+                if (n3 == -1 || this.count <= 0L) {
+                    JarVerifier.VerifierEntry verifierEntry = this.entry;
+                    this.entry = null;
+                    this.verifier.verifySignatures(verifierEntry, this.zipEntry);
+                }
+            }
+            return n3;
+        }
+
+        public long skip(long l) throws IOException {
+            long l2 = 0L;
+            long l3 = 0L;
+            byte[] byArray = new byte[4096];
+            while (l2 < l) {
+                l3 = l - l2;
+                int n = this.read(byArray, 0, l3 > (long)byArray.length ? byArray.length : (int)l3);
+                if (n == -1) {
+                    return l2;
+                }
+                l2 += (long)n;
+            }
+            return l2;
+        }
     }
 }
 

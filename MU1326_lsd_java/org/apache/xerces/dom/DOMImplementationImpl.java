@@ -21,7 +21,6 @@ implements DOMImplementation {
         return singleton;
     }
 
-    @Override
     public boolean hasFeature(String string, String string2) {
         boolean bl = super.hasFeature(string, string2);
         if (!bl) {
@@ -35,8 +34,7 @@ implements DOMImplementation {
         return bl;
     }
 
-    @Override
-    public Document createDocument(String string, String string2, DocumentType documentType) {
+    public Document createDocument(String string, String string2, DocumentType documentType) throws DOMException {
         if (string == null && string2 == null && documentType == null) {
             return new DocumentImpl();
         }

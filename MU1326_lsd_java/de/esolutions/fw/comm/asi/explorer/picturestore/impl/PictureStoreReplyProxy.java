@@ -4,33 +4,17 @@
 package de.esolutions.fw.comm.asi.explorer.picturestore.impl;
 
 import de.esolutions.fw.comm.asi.explorer.picturestore.PictureStoreReply;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$1;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$10;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$11;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$12;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$13;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$14;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$15;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$16;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$17;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$18;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$19;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$2;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$20;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$21;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$22;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$23;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$3;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$4;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$5;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$6;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$7;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$8;
-import de.esolutions.fw.comm.asi.explorer.picturestore.impl.PictureStoreReplyProxy$9;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
+import de.esolutions.fw.comm.dsi.picturestore.impl.GeoPictureSerializer;
+import de.esolutions.fw.comm.dsi.picturestore.impl.PictureAttributeSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.picturestore.GeoPicture;
 import org.dsi.ifc.picturestore.PictureAttribute;
@@ -39,7 +23,7 @@ public class PictureStoreReplyProxy
 implements PictureStoreReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.explorer.picturestore.PictureStore");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public PictureStoreReplyProxy() {
@@ -47,147 +31,272 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void beginImportResult(int n) {
-        PictureStoreReplyProxy$1 pictureStoreReplyProxy$1 = new PictureStoreReplyProxy$1(this, n);
-        this.proxy.remoteCallMethod((short)41, pictureStoreReplyProxy$1);
+    public void beginImportResult(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)41, iSerializable);
     }
 
-    @Override
-    public void endImportResult(int n) {
-        PictureStoreReplyProxy$2 pictureStoreReplyProxy$2 = new PictureStoreReplyProxy$2(this, n);
-        this.proxy.remoteCallMethod((short)43, pictureStoreReplyProxy$2);
+    public void endImportResult(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)43, iSerializable);
     }
 
-    @Override
-    public void importPictureFromSourceResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) {
-        PictureStoreReplyProxy$3 pictureStoreReplyProxy$3 = new PictureStoreReplyProxy$3(this, n, resourceLocator, resourceLocator2, n2);
-        this.proxy.remoteCallMethod((short)49, pictureStoreReplyProxy$3);
+    public void importPictureFromSourceResult(final int n, final ResourceLocator resourceLocator, final ResourceLocator resourceLocator2, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator2);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)49, iSerializable);
     }
 
-    @Override
-    public void importPictureWithSynchronizationIDResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2, long l) {
-        PictureStoreReplyProxy$4 pictureStoreReplyProxy$4 = new PictureStoreReplyProxy$4(this, n, resourceLocator, resourceLocator2, n2, l);
-        this.proxy.remoteCallMethod((short)66, pictureStoreReplyProxy$4);
+    public void importPictureWithSynchronizationIDResult(final int n, final ResourceLocator resourceLocator, final ResourceLocator resourceLocator2, final int n2, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator2);
+                iSerializer.putEnum(n2);
+                iSerializer.putInt64(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)66, iSerializable);
     }
 
-    @Override
-    public void getMaxSynchronizationIDResult(int n, long l) {
-        PictureStoreReplyProxy$5 pictureStoreReplyProxy$5 = new PictureStoreReplyProxy$5(this, n, l);
-        this.proxy.remoteCallMethod((short)64, pictureStoreReplyProxy$5);
+    public void getMaxSynchronizationIDResult(final int n, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt64(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)64, iSerializable);
     }
 
-    @Override
-    public void setSynchronizationIDResult(int n, long l) {
-        PictureStoreReplyProxy$6 pictureStoreReplyProxy$6 = new PictureStoreReplyProxy$6(this, n, l);
-        this.proxy.remoteCallMethod((short)72, pictureStoreReplyProxy$6);
+    public void setSynchronizationIDResult(final int n, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt64(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)72, iSerializable);
     }
 
-    @Override
-    public void renameFolderResult(int n, String string, String string2, long l, int n2) {
-        PictureStoreReplyProxy$7 pictureStoreReplyProxy$7 = new PictureStoreReplyProxy$7(this, n, string, string2, l, n2);
-        this.proxy.remoteCallMethod((short)70, pictureStoreReplyProxy$7);
+    public void renameFolderResult(final int n, final String string, final String string2, final long l, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+                iSerializer.putInt64(l);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)70, iSerializable);
     }
 
-    @Override
-    public void countPicturesInContextResult(int n, int n2, int n3) {
-        PictureStoreReplyProxy$8 pictureStoreReplyProxy$8 = new PictureStoreReplyProxy$8(this, n, n2, n3);
-        this.proxy.remoteCallMethod((short)36, pictureStoreReplyProxy$8);
+    public void countPicturesInContextResult(final int n, final int n2, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void increaseRefCounterResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) {
-        PictureStoreReplyProxy$9 pictureStoreReplyProxy$9 = new PictureStoreReplyProxy$9(this, resourceLocator, resourceLocator2, n);
-        this.proxy.remoteCallMethod((short)50, pictureStoreReplyProxy$9);
+    public void increaseRefCounterResult(final ResourceLocator resourceLocator, final ResourceLocator resourceLocator2, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator2);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)50, iSerializable);
     }
 
-    @Override
-    public void deletedPictures(ResourceLocator[] resourceLocatorArray) {
-        PictureStoreReplyProxy$10 pictureStoreReplyProxy$10 = new PictureStoreReplyProxy$10(this, resourceLocatorArray);
-        this.proxy.remoteCallMethod((short)2, pictureStoreReplyProxy$10);
+    public void deletedPictures(final ResourceLocator[] resourceLocatorArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocatorVarArray(iSerializer, resourceLocatorArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void deleteSynchronizedPictureResult(int n, long l, long l2, int n2) {
-        PictureStoreReplyProxy$11 pictureStoreReplyProxy$11 = new PictureStoreReplyProxy$11(this, n, l, l2, n2);
-        this.proxy.remoteCallMethod((short)68, pictureStoreReplyProxy$11);
+    public void deleteSynchronizedPictureResult(final int n, final long l, final long l2, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt64(l);
+                iSerializer.putInt64(l2);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)68, iSerializable);
     }
 
-    @Override
-    public void getPictureAttributesResult(ResourceLocator resourceLocator, PictureAttribute[] pictureAttributeArray, int n) {
-        PictureStoreReplyProxy$12 pictureStoreReplyProxy$12 = new PictureStoreReplyProxy$12(this, resourceLocator, pictureAttributeArray, n);
-        this.proxy.remoteCallMethod((short)47, pictureStoreReplyProxy$12);
+    public void getPictureAttributesResult(final ResourceLocator resourceLocator, final PictureAttribute[] pictureAttributeArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                PictureAttributeSerializer.putOptionalPictureAttributeVarArray(iSerializer, pictureAttributeArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)47, iSerializable);
     }
 
-    @Override
-    public void listWithFilterResult(ResourceLocator[] resourceLocatorArray, int n) {
-        PictureStoreReplyProxy$13 pictureStoreReplyProxy$13 = new PictureStoreReplyProxy$13(this, resourceLocatorArray, n);
-        this.proxy.remoteCallMethod((short)30, pictureStoreReplyProxy$13);
+    public void listWithFilterResult(final ResourceLocator[] resourceLocatorArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocatorVarArray(iSerializer, resourceLocatorArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)30, iSerializable);
     }
 
-    @Override
-    public void listForContextResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-        PictureStoreReplyProxy$14 pictureStoreReplyProxy$14 = new PictureStoreReplyProxy$14(this, n, resourceLocatorArray, n2);
-        this.proxy.remoteCallMethod((short)51, pictureStoreReplyProxy$14);
+    public void listForContextResult(final int n, final ResourceLocator[] resourceLocatorArray, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocatorVarArray(iSerializer, resourceLocatorArray);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)51, iSerializable);
     }
 
-    @Override
-    public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-        PictureStoreReplyProxy$15 pictureStoreReplyProxy$15 = new PictureStoreReplyProxy$15(this, n, resourceLocatorArray, n2);
-        this.proxy.remoteCallMethod((short)27, pictureStoreReplyProxy$15);
+    public void listForContextWithFilterResult(final int n, final ResourceLocator[] resourceLocatorArray, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocatorVarArray(iSerializer, resourceLocatorArray);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void listForContextWithFilterSortDistResult(int n, ResourceLocator[] resourceLocatorArray, int n2, float f2, float f3) {
-        PictureStoreReplyProxy$16 pictureStoreReplyProxy$16 = new PictureStoreReplyProxy$16(this, n, resourceLocatorArray, n2, f2, f3);
-        this.proxy.remoteCallMethod((short)73, pictureStoreReplyProxy$16);
+    public void listForContextWithFilterSortDistResult(final int n, final ResourceLocator[] resourceLocatorArray, final int n2, final float f2, final float f3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResourceLocatorSerializer.putOptionalResourceLocatorVarArray(iSerializer, resourceLocatorArray);
+                iSerializer.putInt32(n2);
+                iSerializer.putFloat(f2);
+                iSerializer.putFloat(f3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)73, iSerializable);
     }
 
-    @Override
-    public void getRectanglePicturesGridResult(GeoPicture[] geoPictureArray) {
-        PictureStoreReplyProxy$17 pictureStoreReplyProxy$17 = new PictureStoreReplyProxy$17(this, geoPictureArray);
-        this.proxy.remoteCallMethod((short)10, pictureStoreReplyProxy$17);
+    public void getRectanglePicturesGridResult(final GeoPicture[] geoPictureArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                GeoPictureSerializer.putOptionalGeoPictureVarArray(iSerializer, geoPictureArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void getAvailableYearsResult(int[] nArray) {
-        PictureStoreReplyProxy$18 pictureStoreReplyProxy$18 = new PictureStoreReplyProxy$18(this, nArray);
-        this.proxy.remoteCallMethod((short)24, pictureStoreReplyProxy$18);
+    public void getAvailableYearsResult(final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)24, iSerializable);
     }
 
-    @Override
-    public void getAvailableMonthsResult(int[] nArray) {
-        PictureStoreReplyProxy$19 pictureStoreReplyProxy$19 = new PictureStoreReplyProxy$19(this, nArray);
-        this.proxy.remoteCallMethod((short)22, pictureStoreReplyProxy$19);
+    public void getAvailableMonthsResult(final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 
-    @Override
-    public void createFilterSetResult(int n) {
-        PictureStoreReplyProxy$20 pictureStoreReplyProxy$20 = new PictureStoreReplyProxy$20(this, n);
-        this.proxy.remoteCallMethod((short)19, pictureStoreReplyProxy$20);
+    public void createFilterSetResult(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void cloneFilterSetResult(int n, int n2) {
-        PictureStoreReplyProxy$21 pictureStoreReplyProxy$21 = new PictureStoreReplyProxy$21(this, n, n2);
-        this.proxy.remoteCallMethod((short)38, pictureStoreReplyProxy$21);
+    public void cloneFilterSetResult(final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)38, iSerializable);
     }
 
-    @Override
-    public void invalidData(int[] nArray, int n) {
-        PictureStoreReplyProxy$22 pictureStoreReplyProxy$22 = new PictureStoreReplyProxy$22(this, nArray, n);
-        this.proxy.remoteCallMethod((short)75, pictureStoreReplyProxy$22);
+    public void invalidData(final int[] nArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)75, iSerializable);
     }
 
-    @Override
-    public void getAvailableFoldersResult(int n, String[] stringArray) {
-        PictureStoreReplyProxy$23 pictureStoreReplyProxy$23 = new PictureStoreReplyProxy$23(this, n, stringArray);
-        this.proxy.remoteCallMethod((short)58, pictureStoreReplyProxy$23);
+    public void getAvailableFoldersResult(final int n, final String[] stringArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putOptionalStringVarArray(stringArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)58, iSerializable);
     }
 }
 

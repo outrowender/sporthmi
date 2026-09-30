@@ -3,16 +3,15 @@
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 
 public interface Externalizable
 extends Serializable {
-    default public void readExternal(ObjectInput objectInput) {
-    }
+    public void readExternal(ObjectInput var1) throws IOException, ClassNotFoundException;
 
-    default public void writeExternal(ObjectOutput objectOutput) {
-    }
+    public void writeExternal(ObjectOutput var1) throws IOException;
 }
 

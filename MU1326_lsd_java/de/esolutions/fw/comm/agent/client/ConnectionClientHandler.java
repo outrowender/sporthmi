@@ -4,7 +4,6 @@
 package de.esolutions.fw.comm.agent.client;
 
 import de.esolutions.fw.comm.agent.Agent;
-import de.esolutions.fw.comm.agent.client.ConnectionClientHandler$WaitingStub;
 import de.esolutions.fw.comm.agent.client.ConnectionHandler;
 import de.esolutions.fw.comm.agent.client.IClientHandler;
 import de.esolutions.fw.comm.agent.client.IClientHandlerListener;
@@ -80,7 +79,7 @@ ILifecycleListener {
     }
 
     public String toString() {
-        return new StringBuffer().append("[Connection:peer=#").append(this.peerAgentID).append("]").toString();
+        return "[Connection:peer=#" + this.peerAgentID + "]";
     }
 
     /*
@@ -93,7 +92,6 @@ ILifecycleListener {
         }
     }
 
-    @Override
     public short getPeerAgentID() {
         return this.peerAgentID;
     }
@@ -105,7 +103,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public byte getProtocolVersion() {
         Object object = this.lock;
         synchronized (object) {
@@ -119,7 +116,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public short getPeerAgentEpoch() {
         Object object = this.lock;
         synchronized (object) {
@@ -143,7 +139,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public short getMyAssignedAgentID() {
         Object object = this.lock;
         synchronized (object) {
@@ -157,7 +152,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public short getMyAssignedAgentEpoch() {
         Object object = this.lock;
         synchronized (object) {
@@ -171,7 +165,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ServiceInstanceID getBrokerServiceInstanceID() {
         Object object = this.lock;
         synchronized (object) {
@@ -185,7 +178,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isAvailable() {
         Object object = this.lock;
         synchronized (object) {
@@ -196,7 +188,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isConnected() {
         Object object = this.lock;
         synchronized (object) {
@@ -210,7 +201,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isDeadOrError() {
         Object object = this.lock;
         synchronized (object) {
@@ -283,7 +273,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void shutdown() {
         CommAgentTracing.CLIENT.log((short)0, "%1: + shutdown", new Short(this.peerAgentID));
         ConnectionHandler connectionHandler = null;
@@ -311,7 +300,6 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void lifecycleChanged(Lifecycle lifecycle, Object object) {
         ConnectionHandler connectionHandler = (ConnectionHandler)object;
         Object object2 = this.lock;
@@ -389,7 +377,6 @@ ILifecycleListener {
         return s >= 0 && s < this.proxyStubPools.getStubIDPoolSize();
     }
 
-    @Override
     public void handleDestroyStub(short s) {
         Proxy proxy;
         CommAgentTracing.CLIENT.log((short)1, "%2: { deleteStub stub=%1", new Short(s), (Object)new Short(this.peerAgentID));
@@ -416,7 +403,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%3: } deleteStub %2 stub=%1", new Short(s), (Object)(stub != null ? stub.getServiceHandler().getInstanceID() : null), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void handleCreateStub(short s, short s2, ServiceInstanceID serviceInstanceID) {
         CommAgentTracing.CLIENT.log((short)1, "%4: { remote connectProxy instance=%3 agent=#%1 proxy=#%2 creating stub", new Short(s), (Object)new Short(s2), (Object)serviceInstanceID, (Object)new Short(this.peerAgentID));
         if (serviceInstanceID == null) {
@@ -445,7 +431,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%5: } remote connectProxy instance=%3 agent=#%1 proxy=#%2 -> stub=#%4 created", new Short(s), (Object)new Short(s2), (Object)serviceInstanceID, (Object)new Short(s3), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void handleProxyAlive(short s) {
         if (!this.isStubIDValid(s)) {
             CommAgentTracing.CLIENT.log((short)3, "%2: handleProxyAlive, invalid stubID (%1) received, call ignored", new Short(s), (Object)new Short(this.peerAgentID));
@@ -466,7 +451,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%1: } remote proxyAlive stub=#%2 -> proxy=#%3 instance=%4", new Short(this.peerAgentID), (Object)new Short(s), (Object)new Short(stub.getRemoteProxyID()), (Object)stub.getService().getInstanceID());
     }
 
-    @Override
     public void handleCreateRRStub(short s, short s2, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2, short s3) {
         CommAgentTracing.CLIENT.log((short)1, "%1: { remote connectProxyRR instance=%2 agent=#%3 requestProxy=#%4 + replyInstance=%5 replyStub=#%6 creating stub", new Short(this.peerAgentID), (Object)serviceInstanceID, (Object)new Short(s), (Object)new Short(s2), (Object)serviceInstanceID2, (Object)new Short(s3));
         if (serviceInstanceID == null || serviceInstanceID2 == null) {
@@ -523,7 +507,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%1: } remote connectProxyRR instance=%2 agent=#%3 requestProxy=#%4 + replyInstance=%5 replyStub=#%6 -> requestStub=#%7, replyProxy=#%8", new Short(this.peerAgentID), (Object)serviceInstanceID, (Object)new Short(s), (Object)new Short(s2), (Object)serviceInstanceID2, (Object)new Short(s3), (Object)new Short(s4), (Object)new Short(s5));
     }
 
-    @Override
     public void handleRRStubCreated(short s, short s2, short s3) {
         CommAgentTracing.CLIENT.log((short)1, "%1: { connectProxyRR: request proxy=#%2 -> request stub=#%3 + reply proxy=#%4", new Short(this.peerAgentID), (Object)new Short(s), (Object)new Short(s2), (Object)new Short(s3));
         if (!this.isProxyIDValid(s)) {
@@ -554,7 +537,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%4: } connectProxyRR: %3 request proxy=#%1 -> request stub=#%2 alive!", new Short(s), (Object)new Short(s2), (Object)(proxy != null ? proxy.getInstanceID() : null), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void handleStubCreated(short s, short s2) {
         CommAgentTracing.CLIENT.log((short)1, "%3: { connectProxy: proxy=%1 -> stub=#%2 received", new Short(s), (Object)new Short(s2), (Object)new Short(this.peerAgentID));
         if (!this.isProxyIDValid(s)) {
@@ -565,7 +547,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%4: } connectProxy: %3 proxy=#%1 -> stub=#%2 alive!", new Short(s), (Object)new Short(s2), (Object)(proxy != null ? proxy.getInstanceID() : null), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void handleStubFailed(short s, byte by) {
         CommAgentTracing.CLIENT.log((short)1, "%3: { connectProxy: proxy=%1 -> FAILED with error code %2", new Short(s), (Object)new Byte(by), (Object)new Short(this.peerAgentID));
         if (!this.isProxyIDValid(s)) {
@@ -576,7 +557,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%4: } connectProxy: %3 proxy=#%1 -> FAILED with error code %2", new Short(s), (Object)new Short(by), (Object)(proxy != null ? proxy.getInstanceID() : null), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void handleCallMethod(short s, short s2, IDeserializer iDeserializer) {
         CommAgentTracing.CLIENT_CALLS.log((short)1, "%3: { remote method call stub=#%1 method=#%2", new Short(s), (Object)new Short(s2), (Object)new Short(this.peerAgentID));
         if (!this.isStubIDValid(s)) {
@@ -590,11 +570,9 @@ ILifecycleListener {
         CommAgentTracing.CLIENT_CALLS.log((short)1, "%3: } remote method call instance=%1 method=#%2", stub != null ? stub.getServiceHandler().getInstanceID() : null, (Object)new Short(s2), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void handlePing() {
     }
 
-    @Override
     public boolean connectProxy(Proxy proxy) {
         boolean bl = false;
         IReplyService iReplyService = proxy.getReplyService();
@@ -698,7 +676,6 @@ ILifecycleListener {
         return true;
     }
 
-    @Override
     public void proxyAliveDone(Proxy proxy) {
         boolean bl;
         Stub stub;
@@ -721,8 +698,7 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void remoteCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) {
+    public void remoteCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) throws MethodException {
         CommAgentTracing.CLIENT_CALLS.log((short)1, "%3: < callMethod stub=#%1 method=#%2", new Short(s), (Object)new Short(s2), (Object)new Short(this.peerAgentID));
         try {
             Object object = this.lock;
@@ -736,12 +712,11 @@ ILifecycleListener {
         }
         catch (Exception exception) {
             CommAgentTracing.CLIENT_CALLS.log((short)4, "%3: send call method failed: stub=%1 method=%2: %4", new Short(s), (Object)new Short(s2), (Object)new Short(this.peerAgentID), (Object)exception);
-            throw new MethodException(new StringBuffer().append("Call failed: ").append(exception).toString());
+            throw new MethodException("Call failed: " + exception);
         }
         CommAgentTracing.CLIENT_CALLS.log((short)1, "%3: > callMethod stub=#%1 method=#%2", new Short(s), (Object)new Short(s2), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void disconnectProxy(Proxy proxy) {
         short s = proxy.getProxyID();
         short s2 = proxy.getStubID();
@@ -761,7 +736,6 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)1, "%4: > disconnectProxy instance=%3 proxy=#%1 (stub=#%2)", new Short(s), (Object)new Short(s2), (Object)proxy.getInstanceID(), (Object)new Short(this.peerAgentID));
     }
 
-    @Override
     public void dropStub(IStub iStub) {
         CommAgentTracing.CLIENT.log((short)1, "%4: < dropStub instance=%3 proxy=#%1 (stub=#%2)", new Short(iStub.getRemoteProxyID()), (Object)new Short(iStub.getStubID()), (Object)iStub.getService().getInstanceID(), (Object)new Short(this.peerAgentID));
         if (iStub.getReplyProxyFrontend() != null) {
@@ -780,18 +754,18 @@ ILifecycleListener {
 
     public void doTimer() {
         long l = this.monoTime.getCurrentTime();
-        ConnectionClientHandler$WaitingStub[] connectionClientHandler$WaitingStubArray = this.getDueStubs(l);
-        if (connectionClientHandler$WaitingStubArray != null) {
-            for (int i2 = 0; i2 < connectionClientHandler$WaitingStubArray.length; ++i2) {
-                ConnectionClientHandler$WaitingStub connectionClientHandler$WaitingStub = connectionClientHandler$WaitingStubArray[i2];
-                short s = connectionClientHandler$WaitingStub.getStubID();
+        WaitingStub[] waitingStubArray = this.getDueStubs(l);
+        if (waitingStubArray != null) {
+            for (int i2 = 0; i2 < waitingStubArray.length; ++i2) {
+                WaitingStub waitingStub = waitingStubArray[i2];
+                short s = waitingStub.getStubID();
                 Stub stub = this.proxyStubPools.getStubForID(s);
                 if (stub == null) {
                     CommAgentTracing.CLIENT.log((short)4, "%1: doTimer: timed out proxyAlive stub=#%2 NOT IN POOL", new Short(this.peerAgentID), (Object)new Short(s));
                     continue;
                 }
-                long l2 = l - connectionClientHandler$WaitingStub.getStartTime();
-                long l3 = connectionClientHandler$WaitingStub.getTimeOut();
+                long l2 = l - waitingStub.getStartTime();
+                long l3 = waitingStub.getTimeOut();
                 CommAgentTracing.CLIENT.log((short)4, "%1: proxy is reported alive after TIMEOUT of %2 (%3) ms (Peer is missing PROXY_ALIVE support!) -> attach stub for proxy #%4, stub #%5 instance=%6", new Short(this.peerAgentID), (Object)new Long(l2), (Object)new Long(l3), (Object)new Short(stub.getRemoteProxyID()), (Object)new Short(s), (Object)stub.getServiceHandler().getInstanceID());
                 stub.getServiceHandler().attachedStub(stub);
             }
@@ -844,11 +818,11 @@ ILifecycleListener {
         CommAgentTracing.CLIENT.log((short)2, "%1: postponing stub attachment: waiting for proxy alive: proxy #%2, stub #%3 instance=%4. waiting for PROXY_ALIVE", new Short(this.peerAgentID), (Object)new Short(stub.getRemoteProxyID()), (Object)new Short(stub.getStubID()), (Object)stub.getServiceHandler().getInstanceID());
         List list = this.waitingStubList;
         synchronized (list) {
-            ConnectionClientHandler$WaitingStub connectionClientHandler$WaitingStub = new ConnectionClientHandler$WaitingStub(stub.getStubID(), this.proxyAliveTimeout, this.monoTime.getCurrentTime());
-            if (this.waitingStubList.contains(connectionClientHandler$WaitingStub)) {
+            WaitingStub waitingStub = new WaitingStub(stub.getStubID(), this.proxyAliveTimeout, this.monoTime.getCurrentTime());
+            if (this.waitingStubList.contains(waitingStub)) {
                 CommAgentTracing.CLIENT.log((short)5, "This should never happen!!! Stub already in waiting list! stub=%1", new Short(stub.getStubID()));
             } else {
-                this.waitingStubList.add(connectionClientHandler$WaitingStub);
+                this.waitingStubList.add(waitingStub);
             }
         }
     }
@@ -871,8 +845,8 @@ ILifecycleListener {
         synchronized (list) {
             ListIterator listIterator = this.waitingStubList.listIterator();
             while (listIterator.hasNext()) {
-                ConnectionClientHandler$WaitingStub connectionClientHandler$WaitingStub = (ConnectionClientHandler$WaitingStub)listIterator.next();
-                if (connectionClientHandler$WaitingStub.getStubID() != s) continue;
+                WaitingStub waitingStub = (WaitingStub)listIterator.next();
+                if (waitingStub.getStubID() != s) continue;
                 listIterator.remove();
                 return true;
             }
@@ -883,31 +857,31 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private ConnectionClientHandler$WaitingStub[] getDueStubs(long l) {
-        ConnectionClientHandler$WaitingStub[] connectionClientHandler$WaitingStubArray;
+    private WaitingStub[] getDueStubs(long l) {
+        WaitingStub[] waitingStubArray;
         ArrayList arrayList = new ArrayList();
         List list = this.waitingStubList;
         synchronized (list) {
             if (this.waitingStubList.isEmpty()) {
                 return null;
             }
-            connectionClientHandler$WaitingStubArray = this.waitingStubList.listIterator();
-            while (connectionClientHandler$WaitingStubArray.hasNext()) {
-                ConnectionClientHandler$WaitingStub connectionClientHandler$WaitingStub = (ConnectionClientHandler$WaitingStub)connectionClientHandler$WaitingStubArray.next();
-                if (!connectionClientHandler$WaitingStub.isDue(l)) continue;
-                arrayList.add(connectionClientHandler$WaitingStub);
-                connectionClientHandler$WaitingStubArray.remove();
+            waitingStubArray = this.waitingStubList.listIterator();
+            while (waitingStubArray.hasNext()) {
+                WaitingStub waitingStub = (WaitingStub)waitingStubArray.next();
+                if (!waitingStub.isDue(l)) continue;
+                arrayList.add(waitingStub);
+                waitingStubArray.remove();
             }
         }
         int n = arrayList.size();
         if (n == 0) {
             return null;
         }
-        connectionClientHandler$WaitingStubArray = new ConnectionClientHandler$WaitingStub[n];
+        waitingStubArray = new WaitingStub[n];
         for (int i2 = 0; i2 < n; ++i2) {
-            connectionClientHandler$WaitingStubArray[i2] = (ConnectionClientHandler$WaitingStub)arrayList.get(i2);
+            waitingStubArray[i2] = (WaitingStub)arrayList.get(i2);
         }
-        return connectionClientHandler$WaitingStubArray;
+        return waitingStubArray;
     }
 
     /*
@@ -1062,7 +1036,7 @@ ILifecycleListener {
 
     public ClientInfo createInfo(ConnectionHandler connectionHandler) {
         short s = -1;
-        String string = super.getClass().getName();
+        String string = this.getClass().getName();
         String string2 = null;
         Boolean bl = null;
         short s2 = -1;
@@ -1092,11 +1066,56 @@ ILifecycleListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ClientInfo createInfo() {
         Object object = this.lock;
         synchronized (object) {
             return this.createInfo(this.connectionHandler);
+        }
+    }
+
+    private static final class WaitingStub {
+        private final short stubId;
+        private final long startTime;
+        private final long timeOut;
+
+        public WaitingStub(short s, long l, long l2) {
+            this.stubId = s;
+            this.startTime = l2;
+            this.timeOut = l;
+        }
+
+        public boolean isDue(long l) {
+            return l - this.startTime >= this.timeOut;
+        }
+
+        public short getStubID() {
+            return this.stubId;
+        }
+
+        public long getStartTime() {
+            return this.startTime;
+        }
+
+        public long getTimeOut() {
+            return this.timeOut;
+        }
+
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            }
+            if (object == null) {
+                return false;
+            }
+            if (this.getClass() != object.getClass()) {
+                return false;
+            }
+            WaitingStub waitingStub = (WaitingStub)object;
+            return this.stubId == waitingStub.stubId;
+        }
+
+        public int hashCode() {
+            return this.stubId;
         }
     }
 }

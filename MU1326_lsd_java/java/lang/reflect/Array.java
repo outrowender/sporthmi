@@ -7,43 +7,31 @@ public final class Array {
     private Array() {
     }
 
-    public static native Object get(Object object, int n) {
-    }
+    public static native Object get(Object var0, int var1);
 
-    public static native boolean getBoolean(Object object, int n) {
-    }
+    public static native boolean getBoolean(Object var0, int var1);
 
-    public static native byte getByte(Object object, int n) {
-    }
+    public static native byte getByte(Object var0, int var1);
 
-    public static native char getChar(Object object, int n) {
-    }
+    public static native char getChar(Object var0, int var1);
 
-    public static native double getDouble(Object object, int n) {
-    }
+    public static native double getDouble(Object var0, int var1);
 
-    public static native float getFloat(Object object, int n) {
-    }
+    public static native float getFloat(Object var0, int var1);
 
-    public static native int getInt(Object object, int n) {
-    }
+    public static native int getInt(Object var0, int var1);
 
-    public static native int getLength(Object object) {
-    }
+    public static native int getLength(Object var0);
 
-    public static native long getLong(Object object, int n) {
-    }
+    public static native long getLong(Object var0, int var1);
 
-    public static native short getShort(Object object, int n) {
-    }
+    public static native short getShort(Object var0, int var1);
 
-    private static native Object multiNewArrayImpl(Class clazz, int n, int[] nArray) {
-    }
+    private static native Object multiNewArrayImpl(Class var0, int var1, int[] var2);
 
-    private static native Object newArrayImpl(Class clazz, int n) {
-    }
+    private static native Object newArrayImpl(Class var0, int var1);
 
-    public static Object newInstance(Class clazz, int[] nArray) {
+    public static Object newInstance(Class clazz, int[] nArray) throws NegativeArraySizeException, IllegalArgumentException {
         if (clazz == null) {
             throw new NullPointerException();
         }
@@ -63,7 +51,7 @@ public final class Array {
         return Array.multiNewArrayImpl(clazz, n, nArray2);
     }
 
-    public static Object newInstance(Class clazz, int n) {
+    public static Object newInstance(Class clazz, int n) throws NegativeArraySizeException {
         if (clazz == null) {
             throw new NullPointerException();
         }
@@ -73,31 +61,22 @@ public final class Array {
         return Array.newArrayImpl(clazz, n);
     }
 
-    public static native void set(Object object, int n, Object object2) {
-    }
+    public static native void set(Object var0, int var1, Object var2);
 
-    public static native void setBoolean(Object object, int n, boolean bl) {
-    }
+    public static native void setBoolean(Object var0, int var1, boolean var2);
 
-    public static native void setByte(Object object, int n, byte by) {
-    }
+    public static native void setByte(Object var0, int var1, byte var2);
 
-    public static native void setChar(Object object, int n, char c2) {
-    }
+    public static native void setChar(Object var0, int var1, char var2);
 
-    public static native void setDouble(Object object, int n, double d2) {
-    }
+    public static native void setDouble(Object var0, int var1, double var2);
 
-    public static native void setFloat(Object object, int n, float f2) {
-    }
+    public static native void setFloat(Object var0, int var1, float var2);
 
-    public static native void setInt(Object object, int n, int n2) {
-    }
+    public static native void setInt(Object var0, int var1, int var2);
 
-    public static native void setLong(Object object, int n, long l) {
-    }
+    public static native void setLong(Object var0, int var1, long var2);
 
-    public static native void setShort(Object object, int n, short s) {
-    }
+    public static native void setShort(Object var0, int var1, short var2);
 }
 

@@ -3,94 +3,68 @@
  */
 package de.esolutions.fw.comm.dsi.messaging;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIMessagingServiceConfigurationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "00bb8613-1c87-5188-8f8d-740a594364ca";
+    public static final String IPL_COMM_INTERFACE_KEY = "1274017b-42f4-5d28-8978-47f8efc8962f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.19";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.19";
 
-    default public void setSMSCNumberResponse(int n) {
-    }
+    public void setSMSCNumberResponse(int var1) throws MethodException;
 
-    default public void activateStoreSmsOnSentResponse(int n) {
-    }
+    public void activateStoreSmsOnSentResponse(int var1) throws MethodException;
 
-    default public void setShortMessageValidityPeriodResponse(int n) {
-    }
+    public void setShortMessageValidityPeriodResponse(int var1) throws MethodException;
 
-    default public void activateSMSDeliveryReportResponse(int n) {
-    }
+    public void activateSMSDeliveryReportResponse(int var1) throws MethodException;
 
-    default public void updateSMSCNumber(String string, int n) {
-    }
+    public void updateSMSCNumber(String var1, int var2) throws MethodException;
 
-    default public void setPhoneSystemRingingVolumeResponse(int n) {
-    }
+    public void setPhoneSystemRingingVolumeResponse(int var1) throws MethodException;
 
-    default public void setPhoneSystemRingingTypeResponse(int n) {
-    }
+    public void setPhoneSystemRingingTypeResponse(int var1) throws MethodException;
 
-    default public void activateEmailIncludeOldMailInReplyResponse(int n) {
-    }
+    public void activateEmailIncludeOldMailInReplyResponse(int var1) throws MethodException;
 
-    default public void activateEmailEmptySubjectNotificationResponse(int n) {
-    }
+    public void activateEmailEmptySubjectNotificationResponse(int var1) throws MethodException;
 
-    default public void changeFolderViewModeResponse(int n) {
-    }
+    public void changeFolderViewModeResponse(int var1) throws MethodException;
 
-    default public void restoreFactorySettingsResponse(int n) {
-    }
+    public void restoreFactorySettingsResponse(int var1) throws MethodException;
 
-    default public void responseSetSmsIndications(int n) {
-    }
+    public void responseSetSmsIndications(int var1) throws MethodException;
 
-    default public void responseSetEmailIndications(int n) {
-    }
+    public void responseSetEmailIndications(int var1) throws MethodException;
 
-    default public void responseSetPushSms(int n) {
-    }
+    public void responseSetPushSms(int var1) throws MethodException;
 
-    default public void updateSmsDeliveryReport(boolean bl, int n) {
-    }
+    public void updateSmsDeliveryReport(boolean var1, int var2) throws MethodException;
 
-    default public void updateStoreSmsOnSent(boolean bl, int n) {
-    }
+    public void updateStoreSmsOnSent(boolean var1, int var2) throws MethodException;
 
-    default public void updateShortMessageValidityPeriod(int n, int n2) {
-    }
+    public void updateShortMessageValidityPeriod(int var1, int var2) throws MethodException;
 
-    default public void updatePhoneSystemRingingVolume(int n, int n2) {
-    }
+    public void updatePhoneSystemRingingVolume(int var1, int var2) throws MethodException;
 
-    default public void updatePhoneSystemRingingType(int n, int n2) {
-    }
+    public void updatePhoneSystemRingingType(int var1, int var2) throws MethodException;
 
-    default public void updateEmailIncludeOldMailInReply(boolean bl, int n) {
-    }
+    public void updateEmailIncludeOldMailInReply(boolean var1, int var2) throws MethodException;
 
-    default public void updateEmailEmptySubjectNotification(boolean bl, int n) {
-    }
+    public void updateEmailEmptySubjectNotification(boolean var1, int var2) throws MethodException;
 
-    default public void updateFolderViewMode(int n, int n2) {
-    }
+    public void updateFolderViewMode(int var1, int var2) throws MethodException;
 
-    default public void updateAccountPreferences(int n, String string, int n2) {
-    }
+    public void updateAccountPreferences(int var1, String var2, int var3) throws MethodException;
 
-    default public void updateSmsIndications(boolean bl, int n) {
-    }
+    public void updateSmsIndications(boolean var1, int var2) throws MethodException;
 
-    default public void updateEmailIndications(boolean bl, int n) {
-    }
+    public void updateEmailIndications(boolean var1, int var2) throws MethodException;
 
-    default public void updatePushSms(boolean bl, int n) {
-    }
+    public void updatePushSms(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -14,12 +14,10 @@ extends AbstractList {
     protected AbstractSequentialList() {
     }
 
-    @Override
     public void add(int n, Object object) {
         this.listIterator(n).add(object);
     }
 
-    @Override
     public boolean addAll(int n, Collection collection) {
         ListIterator listIterator = this.listIterator(n);
         Iterator iterator = collection.iterator();
@@ -31,7 +29,6 @@ extends AbstractList {
         return n2 != listIterator.nextIndex();
     }
 
-    @Override
     public Object get(int n) {
         try {
             return this.listIterator(n).next();
@@ -41,16 +38,12 @@ extends AbstractList {
         }
     }
 
-    @Override
     public Iterator iterator() {
         return this.listIterator(0);
     }
 
-    @Override
-    public abstract ListIterator listIterator(int n) {
-    }
+    public abstract ListIterator listIterator(int var1);
 
-    @Override
     public Object remove(int n) {
         try {
             ListIterator listIterator = this.listIterator(n);
@@ -63,7 +56,6 @@ extends AbstractList {
         }
     }
 
-    @Override
     public Object set(int n, Object object) {
         ListIterator listIterator = this.listIterator(n);
         Object object2 = listIterator.next();

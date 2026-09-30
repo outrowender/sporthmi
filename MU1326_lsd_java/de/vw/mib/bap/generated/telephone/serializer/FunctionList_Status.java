@@ -14,7 +14,7 @@ implements StatusProperty {
     public boolean fctBapConfigSupported;
     public boolean fctFunctionListSupported;
     public boolean fctHeartbeatSupported;
-    private static final int RESERVED_BIT_5__13_BITSIZE;
+    private static final int RESERVED_BIT_5__13_BITSIZE = 9;
     public boolean fctFsg_SetupSupported;
     public boolean fctFsg_OperationStateSupported;
     public boolean fctMobileServiceSupportAvailable;
@@ -62,8 +62,8 @@ implements StatusProperty {
     public boolean fctAutomaticRedialExtendedInfoSupported;
     public boolean fctSupportedServiceNumbersSupported;
     public boolean fctFavoriteListSupported;
-    private static final int RESERVED_BIT_61__63_BITSIZE;
-    private static final int FUNCTION_LIST_STATUS_BITSIZE;
+    private static final int RESERVED_BIT_61__63_BITSIZE = 3;
+    private static final int FUNCTION_LIST_STATUS_BITSIZE = 64;
 
     public FunctionList_Status() {
         this.internalReset();
@@ -130,12 +130,10 @@ implements StatusProperty {
         this.fctFavoriteListSupported = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_Status functionList_Status = (FunctionList_Status)bAPEntity;
         return this.reserved_bit_0 == functionList_Status.reserved_bit_0 && this.fctGetAllSupported == functionList_Status.fctGetAllSupported && this.fctBapConfigSupported == functionList_Status.fctBapConfigSupported && this.fctFunctionListSupported == functionList_Status.fctFunctionListSupported && this.fctHeartbeatSupported == functionList_Status.fctHeartbeatSupported && this.fctFsg_SetupSupported == functionList_Status.fctFsg_SetupSupported && this.fctFsg_OperationStateSupported == functionList_Status.fctFsg_OperationStateSupported && this.fctMobileServiceSupportAvailable == functionList_Status.fctMobileServiceSupportAvailable && this.fctActiveUserSupported == functionList_Status.fctActiveUserSupported && this.fctRegisterStateSupported == functionList_Status.fctRegisterStateSupported && this.fctLockStateSupported == functionList_Status.fctLockStateSupported && this.fctNetworkProviderSupported == functionList_Status.fctNetworkProviderSupported && this.fctSignalQualitySupported == functionList_Status.fctSignalQualitySupported && this.fctCallStateSupported == functionList_Status.fctCallStateSupported && this.fctCallInfoSupported == functionList_Status.fctCallInfoSupported && this.fctCallDurationSyncSupported == functionList_Status.fctCallDurationSyncSupported && this.fctDisconnectReasonSupported == functionList_Status.fctDisconnectReasonSupported && this.fctDialNumberSupported == functionList_Status.fctDialNumberSupported && this.fctDialServiceSupported == functionList_Status.fctDialServiceSupported && this.fctConfirmEmergencyCallSupported == functionList_Status.fctConfirmEmergencyCallSupported && this.fctHangupCallSupported == functionList_Status.fctHangupCallSupported && this.fctAcceptCallSupported == functionList_Status.fctAcceptCallSupported && this.fctCallHoldSupported == functionList_Status.fctCallHoldSupported && this.fctResumeCallSupported == functionList_Status.fctResumeCallSupported && this.fctHandsFreeOnOffSupported == functionList_Status.fctHandsFreeOnOffSupported && this.fctMicroMuteOnOffSupported == functionList_Status.fctMicroMuteOnOffSupported && this.fctMpreleaseActiveCallAcceptWaitingCallSupported == functionList_Status.fctMpreleaseActiveCallAcceptWaitingCallSupported && this.fctMpswapSupported == functionList_Status.fctMpswapSupported && this.fctMpcallHoldAcceptWaitingCallSupported == functionList_Status.fctMpcallHoldAcceptWaitingCallSupported && this.fctMpreleaseAllCallsAcceptWaitingCallSupported == functionList_Status.fctMpreleaseAllCallsAcceptWaitingCallSupported && this.fctMpsetWaitingCallOnHoldSupported == functionList_Status.fctMpsetWaitingCallOnHoldSupported && this.fctCcjoinSupported == functionList_Status.fctCcjoinSupported && this.fctCcsplitSupported == functionList_Status.fctCcsplitSupported && this.fctKeypadSupported == functionList_Status.fctKeypadSupported && this.fctMobileBatteryLevelSupported == functionList_Status.fctMobileBatteryLevelSupported && this.fctDataConnectionIndicationSupported == functionList_Status.fctDataConnectionIndicationSupported && this.fctMissedCallIndicationSupported == functionList_Status.fctMissedCallIndicationSupported && this.fctMissedCallsSupported == functionList_Status.fctMissedCallsSupported && this.fctReceivedCallsSupported == functionList_Status.fctReceivedCallsSupported && this.fctDialedNumbersSupported == functionList_Status.fctDialedNumbersSupported && this.fctCombinedNumbersSupported == functionList_Status.fctCombinedNumbersSupported && this.fctCallStackDeleteAllSupported == functionList_Status.fctCallStackDeleteAllSupported && this.fctPbStateSupported == functionList_Status.fctPbStateSupported && this.fctPhonebookSupported == functionList_Status.fctPhonebookSupported && this.fctPbSpellerSupported == functionList_Status.fctPbSpellerSupported && this.fctGetNextListPosSupported == functionList_Status.fctGetNextListPosSupported && this.fctSmsstateSupported == functionList_Status.fctSmsstateSupported && this.fctRingToneMuteOnOffSupported == functionList_Status.fctRingToneMuteOnOffSupported && this.fctAutomaticRedialSupported == functionList_Status.fctAutomaticRedialSupported && this.fctAutomaticRedialExtendedInfoSupported == functionList_Status.fctAutomaticRedialExtendedInfoSupported && this.fctSupportedServiceNumbersSupported == functionList_Status.fctSupportedServiceNumbersSupported && this.fctFavoriteListSupported == functionList_Status.fctFavoriteListSupported;
@@ -144,7 +142,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_Status:");
@@ -463,13 +460,11 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 64;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllSupported);
@@ -527,7 +522,6 @@ implements StatusProperty {
         bitStream.resetBits(3);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllSupported = bitStream.popFrontBoolean();
@@ -589,7 +583,6 @@ implements StatusProperty {
         return 3;
     }
 
-    @Override
     public int getFunctionId() {
         return FunctionList_Status.functionId();
     }

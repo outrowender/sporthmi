@@ -25,28 +25,23 @@ implements DSIDiagnoseSystem {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$diagnose$DSIDiagnoseSystem == null ? (class$org$dsi$ifc$diagnose$DSIDiagnoseSystem = DSIDiagnoseSystemProvider.class$("org.dsi.ifc.diagnose.DSIDiagnoseSystem")) : class$org$dsi$ifc$diagnose$DSIDiagnoseSystem).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDiagnoseSystemProxy(this.instance, (DSIDiagnoseSystemReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void acknowledgeRoutine(int n, int n2, int n3, int n4) {
         try {
             this.proxy.acknowledgeRoutine(n, n2, n3, n4);
@@ -56,7 +51,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void resultRoutine(int n, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.resultRoutine(n, n2, n3, n4, n5);
@@ -66,7 +60,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void acknowledgeActuatorTest(int n, int n2, int n3, int n4, int[] nArray, int n5) {
         try {
             this.proxy.acknowledgeActuatorTest(n, n2, n3, n4, nArray, n5);
@@ -76,7 +69,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -86,7 +78,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -96,7 +87,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -106,7 +96,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -116,7 +105,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -126,7 +114,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -136,7 +123,6 @@ implements DSIDiagnoseSystem {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

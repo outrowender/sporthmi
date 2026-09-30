@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface EComponentEncryptionDomain
 extends IEnum {
-    public static final int eFecEnryptComponentBased;
-    public static final int eFecEnryptComponentAndCarBased;
-    public static final int eFecEnryptGFAKeyBased;
+    public static final int eFecEnryptComponentBased = 0;
+    public static final int eFecEnryptComponentAndCarBased = 1;
+    public static final int eFecEnryptGFAKeyBased = 2;
 }
 

@@ -52,7 +52,7 @@ public class sRoutineResponse {
     }
 
     public String toString() {
-        return new StringBuffer("sRoutineResponse{").append("msg_id=").append(this.msg_id).append(", action=").append(this.action).append(", status=").append(this.status).append(", results=").append(this.results).append("}").toString();
+        return "sRoutineResponse{" + "msg_id=" + this.msg_id + ", action=" + this.action + ", status=" + this.status + ", results=" + this.results + "}";
     }
 }
 

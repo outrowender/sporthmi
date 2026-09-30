@@ -3,19 +3,23 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
+import de.esolutions.fw.comm.asi.diagnosis.displaymanager.impl.sTrunkOfferFBASSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.displaymanager.impl.sVideoInputStateSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.displaymanager.sTrunkOfferFBAS;
 import de.esolutions.fw.comm.asi.diagnosis.displaymanager.sVideoInputState;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2DisplayManagerDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2DisplayManagerDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2DisplayManagerDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2DisplayManagerDiagServiceProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2DisplayManagerDiagServiceProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2DisplayManagerDiagServiceProxy$3;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2DisplayManagerDiagServiceReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2DisplayManagerDiagServiceProxy
 implements MMX2DisplayManagerDiagService,
@@ -33,22 +37,34 @@ MMX2DisplayManagerDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorDisplayManager(sClientResponseError sClientResponseError2) {
-        MMX2DisplayManagerDiagServiceProxy$1 mMX2DisplayManagerDiagServiceProxy$1 = new MMX2DisplayManagerDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)16, mMX2DisplayManagerDiagServiceProxy$1);
+    public void responseErrorDisplayManager(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void responseVideoInputState(sVideoInputState sVideoInputState2) {
-        MMX2DisplayManagerDiagServiceProxy$2 mMX2DisplayManagerDiagServiceProxy$2 = new MMX2DisplayManagerDiagServiceProxy$2(this, sVideoInputState2);
-        this.proxy.remoteCallMethod((short)13, mMX2DisplayManagerDiagServiceProxy$2);
+    public void responseVideoInputState(final sVideoInputState sVideoInputState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sVideoInputStateSerializer.putOptionalsVideoInputState(iSerializer, sVideoInputState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void responseTrunkOfferFBAS(sTrunkOfferFBAS sTrunkOfferFBAS2) {
-        MMX2DisplayManagerDiagServiceProxy$3 mMX2DisplayManagerDiagServiceProxy$3 = new MMX2DisplayManagerDiagServiceProxy$3(this, sTrunkOfferFBAS2);
-        this.proxy.remoteCallMethod((short)12, mMX2DisplayManagerDiagServiceProxy$3);
+    public void responseTrunkOfferFBAS(final sTrunkOfferFBAS sTrunkOfferFBAS2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTrunkOfferFBASSerializer.putOptionalsTrunkOfferFBAS(iSerializer, sTrunkOfferFBAS2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 }
 

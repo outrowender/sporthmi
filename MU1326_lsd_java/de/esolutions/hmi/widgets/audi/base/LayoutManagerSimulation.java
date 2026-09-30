@@ -8,10 +8,8 @@ import de.esolutions.hmi.widgets.audi.base.LayoutManager;
 
 public interface LayoutManagerSimulation
 extends LayoutManager {
-    default public int[][] simulateLayout(int n, int n2) {
-    }
+    public int[][] simulateLayout(int var1, int var2);
 
-    default public AbstractWidget[] getSimulationWidgets() {
-    }
+    public AbstractWidget[] getSimulationWidgets();
 }
 

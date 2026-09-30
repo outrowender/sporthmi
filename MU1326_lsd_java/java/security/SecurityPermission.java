@@ -7,14 +7,9 @@ import java.security.BasicPermission;
 
 public final class SecurityPermission
 extends BasicPermission {
-    private static final long serialVersionUID;
-    static final SecurityPermission permissionToGetPolicy;
-    static final SecurityPermission permissionToSetPolicy;
-
-    static {
-        permissionToGetPolicy = new SecurityPermission("getPolicy");
-        permissionToSetPolicy = new SecurityPermission("setPolicy");
-    }
+    private static final long serialVersionUID = 5236109936224050470L;
+    static final SecurityPermission permissionToGetPolicy = new SecurityPermission("getPolicy");
+    static final SecurityPermission permissionToSetPolicy = new SecurityPermission("setPolicy");
 
     public SecurityPermission(String string) {
         super(string);

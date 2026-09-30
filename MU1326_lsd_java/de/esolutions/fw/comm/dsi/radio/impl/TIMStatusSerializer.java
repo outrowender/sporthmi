@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.TIMStatus;
 
 public class TIMStatusSerializer {
-    public static void putOptionalTIMStatus(ISerializer iSerializer, TIMStatus tIMStatus) {
+    public static void putOptionalTIMStatus(ISerializer iSerializer, TIMStatus tIMStatus) throws SerializerException {
         boolean bl = tIMStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TIMStatusSerializer {
         }
     }
 
-    public static void putOptionalTIMStatusVarArray(ISerializer iSerializer, TIMStatus[] tIMStatusArray) {
+    public static void putOptionalTIMStatusVarArray(ISerializer iSerializer, TIMStatus[] tIMStatusArray) throws SerializerException {
         boolean bl = tIMStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TIMStatusSerializer {
         }
     }
 
-    public static TIMStatus getOptionalTIMStatus(IDeserializer iDeserializer) {
+    public static TIMStatus getOptionalTIMStatus(IDeserializer iDeserializer) throws SerializerException {
         TIMStatus tIMStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TIMStatusSerializer {
         return tIMStatus;
     }
 
-    public static TIMStatus[] getOptionalTIMStatusVarArray(IDeserializer iDeserializer) {
+    public static TIMStatus[] getOptionalTIMStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         TIMStatus[] tIMStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,7 +8,6 @@ import de.esolutions.fw.util.config.query.IConfigValueResolver;
 
 public class ConfigSimpleValueResolver
 implements IConfigValueResolver {
-    @Override
     public ConfigValue getInArray(ConfigValue configValue, String string) {
         try {
             int n = Integer.parseInt(string);
@@ -23,7 +22,6 @@ implements IConfigValueResolver {
         }
     }
 
-    @Override
     public ConfigValue getInDictionary(ConfigValue configValue, String string) {
         return configValue.getDictValue(string);
     }

@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.kombisync2;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombisync2.DisplayIdentification;
 import org.dsi.ifc.kombisync2.DisplayRequestResponse;
 import org.dsi.ifc.kombisync2.DisplayStatus;
@@ -11,54 +12,39 @@ import org.dsi.ifc.kombisync2.PopupRegisterRequestResponse;
 import org.dsi.ifc.kombisync2.PopupStatus;
 
 public interface DSIKombiSyncReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "30d4067c-4595-5e28-a2f6-cb8f9a05d616";
+    public static final String IPL_COMM_INTERFACE_KEY = "286587af-7c4b-5082-b0e2-a5927520759a";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.0";
 
-    default public void updateKombiCommunicationState(boolean bl, int n) {
-    }
+    public void updateKombiCommunicationState(boolean var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStateDisplayIdentification(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayIdentification(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStateDisplayRequestResponse(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayRequestResponse(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStateDisplayStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayStatus(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStatePopupActionRequest(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupActionRequest(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStatePopupRegisterResponse(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupRegisterResponse(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStatePopupStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupStatus(int var1, int var2) throws MethodException;
 
-    default public void responseKombiDisplayRequestResponse(DisplayRequestResponse displayRequestResponse) {
-    }
+    public void responseKombiDisplayRequestResponse(DisplayRequestResponse var1) throws MethodException;
 
-    default public void responseKombiDisplayStatus(DisplayStatus displayStatus) {
-    }
+    public void responseKombiDisplayStatus(DisplayStatus var1) throws MethodException;
 
-    default public void responseKombiDisplayIdentification(DisplayIdentification displayIdentification) {
-    }
+    public void responseKombiDisplayIdentification(DisplayIdentification var1) throws MethodException;
 
-    default public void responseKombiPopupRegisterResponse(PopupRegisterRequestResponse popupRegisterRequestResponse) {
-    }
+    public void responseKombiPopupRegisterResponse(PopupRegisterRequestResponse var1) throws MethodException;
 
-    default public void responseKombiPopupActionRequest(PopupActionRequestResponse popupActionRequestResponse) {
-    }
+    public void responseKombiPopupActionRequest(PopupActionRequestResponse var1) throws MethodException;
 
-    default public void responseKombiPopupStatus(PopupStatus popupStatus) {
-    }
+    public void responseKombiPopupStatus(PopupStatus var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

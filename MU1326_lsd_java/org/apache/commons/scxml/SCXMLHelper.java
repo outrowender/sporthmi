@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +27,7 @@ import org.w3c.dom.CharacterData;
 import org.w3c.dom.Node;
 
 public final class SCXMLHelper {
-    private static final String NAMESPACES_KEY;
+    private static final String NAMESPACES_KEY = "_ALL_NAMESPACES";
     static /* synthetic */ Class class$java$lang$Object;
     static /* synthetic */ Class class$org$apache$commons$scxml$SCXMLHelper;
 
@@ -77,7 +77,7 @@ public final class SCXMLHelper {
         }
         iterator = identityHashMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            object = (Map$Entry)iterator.next();
+            object = (Map.Entry)iterator.next();
             transitionTarget = (TransitionTarget)object.getKey();
             set2 = (Set)object.getValue();
             if (transitionTarget instanceof Parallel) {
@@ -286,9 +286,9 @@ public final class SCXMLHelper {
             if (!SCXMLHelper.isStringEmpty(data.getExpr())) {
                 Object object = null;
                 try {
-                    context.setLocal("_ALL_NAMESPACES", data.getNamespaces());
+                    context.setLocal(NAMESPACES_KEY, data.getNamespaces());
                     object = evaluator.eval(context, data.getExpr());
-                    context.setLocal("_ALL_NAMESPACES", null);
+                    context.setLocal(NAMESPACES_KEY, null);
                 }
                 catch (SCXMLExpressionException sCXMLExpressionException) {
                     if (log != null) {

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.comm.dsi.navigation.impl.RouteOptionsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.RouteDestination;
 import org.dsi.ifc.navigation.RouteOptions;
 
 public class RouteDestinationSerializer {
-    public static void putOptionalRouteDestination(ISerializer iSerializer, RouteDestination routeDestination) {
+    public static void putOptionalRouteDestination(ISerializer iSerializer, RouteDestination routeDestination) throws SerializerException {
         boolean bl = routeDestination == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RouteDestinationSerializer {
         }
     }
 
-    public static void putOptionalRouteDestinationVarArray(ISerializer iSerializer, RouteDestination[] routeDestinationArray) {
+    public static void putOptionalRouteDestinationVarArray(ISerializer iSerializer, RouteDestination[] routeDestinationArray) throws SerializerException {
         boolean bl = routeDestinationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RouteDestinationSerializer {
         }
     }
 
-    public static RouteDestination getOptionalRouteDestination(IDeserializer iDeserializer) {
+    public static RouteDestination getOptionalRouteDestination(IDeserializer iDeserializer) throws SerializerException {
         RouteDestination routeDestination = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class RouteDestinationSerializer {
         return routeDestination;
     }
 
-    public static RouteDestination[] getOptionalRouteDestinationVarArray(IDeserializer iDeserializer) {
+    public static RouteDestination[] getOptionalRouteDestinationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RouteDestination[] routeDestinationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

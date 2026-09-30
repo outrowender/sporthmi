@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carcomfort;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carcomfort.DoorLockingComfortOpenSettings;
 import org.dsi.ifc.carcomfort.DoorLockingRearBlind;
 import org.dsi.ifc.carcomfort.DoorLockingTheftWarningSettings;
@@ -26,298 +27,200 @@ import org.dsi.ifc.carcomfort.UGDOSoftkeys;
 import org.dsi.ifc.carcomfort.UGDOSynchronisation;
 
 public interface DSICarComfortC {
-    default public void setRGSBeltPretensionerDataFront(RGSBeltPretensionData rGSBeltPretensionData) {
-    }
+    public void setRGSBeltPretensionerDataFront(RGSBeltPretensionData var1) throws MethodException;
 
-    default public void setRGSBeltPretensionerDataRear(RGSBeltPretensionData rGSBeltPretensionData) {
-    }
+    public void setRGSBeltPretensionerDataRear(RGSBeltPretensionData var1) throws MethodException;
 
-    default public void setRGSPreCrashSystem(boolean bl) {
-    }
+    public void setRGSPreCrashSystem(boolean var1) throws MethodException;
 
-    default public void setRgsSetFactoryDefault() {
-    }
+    public void setRgsSetFactoryDefault() throws MethodException;
 
-    default public void setRGSPreSenseSystem(boolean bl) {
-    }
+    public void setRGSPreSenseSystem(boolean var1) throws MethodException;
 
-    default public void setRGSPreSenseWarning(int n) {
-    }
+    public void setRGSPreSenseWarning(int var1) throws MethodException;
 
-    default public void setRGSLocalHazardInformation(RGSLocalHazardInformation rGSLocalHazardInformation) {
-    }
+    public void setRGSLocalHazardInformation(RGSLocalHazardInformation var1) throws MethodException;
 
-    default public void setDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings doorLockingComfortOpenSettings) {
-    }
+    public void setDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings var1) throws MethodException;
 
-    default public void setDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings doorLockingTheftWarningSettings) {
-    }
+    public void setDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings var1) throws MethodException;
 
-    default public void setDoorLockingClBootOpen(boolean bl) {
-    }
+    public void setDoorLockingClBootOpen(boolean var1) throws MethodException;
 
-    default public void setDoorLockingBootOpen(boolean bl) {
-    }
+    public void setDoorLockingBootOpen(boolean var1) throws MethodException;
 
-    default public void setDoorLockingBootClose(boolean bl) {
-    }
+    public void setDoorLockingBootClose(boolean var1) throws MethodException;
 
-    default public void startDoorLockingRemoteLockUnlock(String string) {
-    }
+    public void startDoorLockingRemoteLockUnlock(String var1) throws MethodException;
 
-    default public void abortDoorLockingRemoteLockUnlock() {
-    }
+    public void abortDoorLockingRemoteLockUnlock() throws MethodException;
 
-    default public void sendDoorLockingRemoteLockUnlockSignature(String string) {
-    }
+    public void sendDoorLockingRemoteLockUnlockSignature(String var1) throws MethodException;
 
-    default public void startDoorLockingRemoteBlinking(int n) {
-    }
+    public void startDoorLockingRemoteBlinking(int var1) throws MethodException;
 
-    default public void startDoorLockingRemoteHorn(int n) {
-    }
+    public void startDoorLockingRemoteHorn(int var1) throws MethodException;
 
-    default public void setDoorLockingUnlockingMode(int n) {
-    }
+    public void setDoorLockingUnlockingMode(int var1) throws MethodException;
 
-    default public void setDoorLockingAutoLock(int n) {
-    }
+    public void setDoorLockingAutoLock(int var1) throws MethodException;
 
-    default public void setDoorLockingAutoUnlock(boolean bl) {
-    }
+    public void setDoorLockingAutoUnlock(boolean var1) throws MethodException;
 
-    default public void setDoorLockingClBootLock(boolean bl) {
-    }
+    public void setDoorLockingClBootLock(boolean var1) throws MethodException;
 
-    default public void setDoorLockingMirrorProtection(boolean bl) {
-    }
+    public void setDoorLockingMirrorProtection(boolean var1) throws MethodException;
 
-    default public void setDoorLockingConfirmation(boolean bl) {
-    }
+    public void setDoorLockingConfirmation(boolean var1) throws MethodException;
 
-    default public void setDoorLockingRainClosing(boolean bl) {
-    }
+    public void setDoorLockingRainClosing(boolean var1) throws MethodException;
 
-    default public void setDoorLockingRearBlind(DoorLockingRearBlind doorLockingRearBlind) {
-    }
+    public void setDoorLockingRearBlind(DoorLockingRearBlind var1) throws MethodException;
 
-    default public void setDoorLockingSetFactoryDefault() {
-    }
+    public void setDoorLockingSetFactoryDefault() throws MethodException;
 
-    default public void requestDoorLockingUserList(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo) {
-    }
+    public void requestDoorLockingUserList(DoorLockingUserListUpdateInfo var1) throws MethodException;
 
-    default public void setDoorLockingUserListRA1(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, DoorLockingUserListRA1[] doorLockingUserListRA1Array) {
-    }
+    public void setDoorLockingUserListRA1(DoorLockingUserListUpdateInfo var1, DoorLockingUserListRA1[] var2) throws MethodException;
 
-    default public void setDoorLockingUserListRAF(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int[] nArray) {
-    }
+    public void setDoorLockingUserListRAF(DoorLockingUserListUpdateInfo var1, int[] var2) throws MethodException;
 
-    default public void setDoorLockingActiveUser(int n) {
-    }
+    public void setDoorLockingActiveUser(int var1) throws MethodException;
 
-    default public void setDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff doorLockingUserProfileOnOff) {
-    }
+    public void setDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff var1) throws MethodException;
 
-    default public void startDoorLockingUserProfileControl(int n, int n2) {
-    }
+    public void startDoorLockingUserProfileControl(int var1, int var2) throws MethodException;
 
-    default public void abortDoorLockingUserProfileControl() {
-    }
+    public void abortDoorLockingUserProfileControl() throws MethodException;
 
-    default public void setDoorLockingWindowAutoClose(boolean bl) {
-    }
+    public void setDoorLockingWindowAutoClose(boolean var1) throws MethodException;
 
-    default public void setDoorlockingBlindsControl(int n) {
-    }
+    public void setDoorlockingBlindsControl(int var1) throws MethodException;
 
-    default public void setDoorlockingBlindsControlExtended(int n) {
-    }
+    public void setDoorlockingBlindsControlExtended(int var1) throws MethodException;
 
-    default public void setDoorLockingLeftSideBlindControl(int n) {
-    }
+    public void setDoorLockingLeftSideBlindControl(int var1) throws MethodException;
 
-    default public void setDoorLockingRightSideBlindControl(int n) {
-    }
+    public void setDoorLockingRightSideBlindControl(int var1) throws MethodException;
 
-    default public void setDoorLockingTurnIndRepeat(boolean bl) {
-    }
+    public void setDoorLockingTurnIndRepeat(boolean var1) throws MethodException;
 
-    default public void setDoorLockingKeyless(boolean bl) {
-    }
+    public void setDoorLockingKeyless(boolean var1) throws MethodException;
 
-    default public void setWiperServicePosition(boolean bl) {
-    }
+    public void setWiperServicePosition(boolean var1) throws MethodException;
 
-    default public void setWiperRainSensorOnOff(boolean bl) {
-    }
+    public void setWiperRainSensorOnOff(boolean var1) throws MethodException;
 
-    default public void setWiperRainSensorConfig(int n) {
-    }
+    public void setWiperRainSensorConfig(int var1) throws MethodException;
 
-    default public void setWiperRearWiping(boolean bl) {
-    }
+    public void setWiperRearWiping(boolean var1) throws MethodException;
 
-    default public void setWiperTearsWiping(boolean bl) {
-    }
+    public void setWiperTearsWiping(boolean var1) throws MethodException;
 
-    default public void setWiperWinterPosition(boolean bl) {
-    }
+    public void setWiperWinterPosition(boolean var1) throws MethodException;
 
-    default public void setEasyEntrySteeringColumn(boolean bl) {
-    }
+    public void setEasyEntrySteeringColumn(boolean var1) throws MethodException;
 
-    default public void setWiperSetFactoryDefault() {
-    }
+    public void setWiperSetFactoryDefault() throws MethodException;
 
-    default public void setUGDOLearningData(UGDOLearningData uGDOLearningData) {
-    }
+    public void setUGDOLearningData(UGDOLearningData var1) throws MethodException;
 
-    default public void showUGDOPopup(UGDOContent uGDOContent) {
-    }
+    public void showUGDOPopup(UGDOContent var1) throws MethodException;
 
-    default public void cancelUGDOPopup(UGDOContent uGDOContent) {
-    }
+    public void cancelUGDOPopup(UGDOContent var1) throws MethodException;
 
-    default public void deleteUGDOButton(UGDOSoftkeys uGDOSoftkeys) {
-    }
+    public void deleteUGDOButton(UGDOSoftkeys var1) throws MethodException;
 
-    default public void setUGDOSetFactoryDefault() {
-    }
+    public void setUGDOSetFactoryDefault() throws MethodException;
 
-    default public void setUGDODestinationReached(UGDODestinationReached uGDODestinationReached) {
-    }
+    public void setUGDODestinationReached(UGDODestinationReached var1) throws MethodException;
 
-    default public void setUGDOOpenDoor(UGDOOpenDoor uGDOOpenDoor) {
-    }
+    public void setUGDOOpenDoor(UGDOOpenDoor var1) throws MethodException;
 
-    default public void setUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
-    }
+    public void setUGDOSynchronisation(UGDOSynchronisation var1) throws MethodException;
 
-    default public void responseUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
-    }
+    public void responseUGDOSynchronisation(UGDOSynchronisation var1) throws MethodException;
 
-    default public void startUGDOLearning(int n, int n2) {
-    }
+    public void startUGDOLearning(int var1, int var2) throws MethodException;
 
-    default public void abortUGDOLearning() {
-    }
+    public void abortUGDOLearning() throws MethodException;
 
-    default public void requestUGDOButtonList(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo) {
-    }
+    public void requestUGDOButtonList(UGDOButtonListUpdateInfo var1) throws MethodException;
 
-    default public void setUGDOButtonListRA0(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA0[] uGDOButtonListRA0Array) {
-    }
+    public void setUGDOButtonListRA0(UGDOButtonListUpdateInfo var1, UGDOButtonListRA0[] var2) throws MethodException;
 
-    default public void setUGDOButtonListRA1(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA1[] uGDOButtonListRA1Array) {
-    }
+    public void setUGDOButtonListRA1(UGDOButtonListUpdateInfo var1, UGDOButtonListRA1[] var2) throws MethodException;
 
-    default public void setUGDOButtonListRA2(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA2[] uGDOButtonListRA2Array) {
-    }
+    public void setUGDOButtonListRA2(UGDOButtonListUpdateInfo var1, UGDOButtonListRA2[] var2) throws MethodException;
 
-    default public void setUGDOButtonListRA3(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA3[] uGDOButtonListRA3Array) {
-    }
+    public void setUGDOButtonListRA3(UGDOButtonListUpdateInfo var1, UGDOButtonListRA3[] var2) throws MethodException;
 
-    default public void setUGDOButtonListRA4(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA4[] uGDOButtonListRA4Array) {
-    }
+    public void setUGDOButtonListRA4(UGDOButtonListUpdateInfo var1, UGDOButtonListRA4[] var2) throws MethodException;
 
-    default public void setUGDOButtonListRA5(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA5[] uGDOButtonListRA5Array) {
-    }
+    public void setUGDOButtonListRA5(UGDOButtonListUpdateInfo var1, UGDOButtonListRA5[] var2) throws MethodException;
 
-    default public void setUGDOButtonListRAF(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int[] nArray) {
-    }
+    public void setUGDOButtonListRAF(UGDOButtonListUpdateInfo var1, int[] var2) throws MethodException;
 
-    default public void setRDKSystemOnOff(boolean bl) {
-    }
+    public void setRDKSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setRDKTireSetupSelectedTire(int n) {
-    }
+    public void setRDKTireSetupSelectedTire(int var1) throws MethodException;
 
-    default public void setRDKSpeedLimit(int n) {
-    }
+    public void setRDKSpeedLimit(int var1) throws MethodException;
 
-    default public void setRDKTireChanged() {
-    }
+    public void setRDKTireChanged() throws MethodException;
 
-    default public void setRDKPressureChanged() {
-    }
+    public void setRDKPressureChanged() throws MethodException;
 
-    default public void requestRDKLifeMonitoring() {
-    }
+    public void requestRDKLifeMonitoring() throws MethodException;
 
-    default public void setRDKPressureLevel(byte by) {
-    }
+    public void setRDKPressureLevel(byte var1) throws MethodException;
 
-    default public void setRDKSetFactoryDefault() {
-    }
+    public void setRDKSetFactoryDefault() throws MethodException;
 
-    default public void setMirrorLowering(boolean bl) {
-    }
+    public void setMirrorLowering(boolean var1) throws MethodException;
 
-    default public void setMirrorSyncAdjust(boolean bl) {
-    }
+    public void setMirrorSyncAdjust(boolean var1) throws MethodException;
 
-    default public void setMirrorFolding(boolean bl) {
-    }
+    public void setMirrorFolding(boolean var1) throws MethodException;
 
-    default public void setMirrorDimming(boolean bl) {
-    }
+    public void setMirrorDimming(boolean var1) throws MethodException;
 
-    default public void setMirrorHeating(boolean bl) {
-    }
+    public void setMirrorHeating(boolean var1) throws MethodException;
 
-    default public void setMirrorSetFactoryDefault() {
-    }
+    public void setMirrorSetFactoryDefault() throws MethodException;
 
-    default public void setBrakeElectricalParking(boolean bl) {
-    }
+    public void setBrakeElectricalParking(boolean var1) throws MethodException;
 
-    default public void setBrakeAutoHold(int n) {
-    }
+    public void setBrakeAutoHold(int var1) throws MethodException;
 
-    default public void setBrakeEscMode(int n) {
-    }
+    public void setBrakeEscMode(int var1) throws MethodException;
 
-    default public void setBrakeHdcMode(boolean bl) {
-    }
+    public void setBrakeHdcMode(boolean var1) throws MethodException;
 
-    default public void setHMIIsReady(boolean bl) {
-    }
+    public void setHMIIsReady(boolean var1) throws MethodException;
 
-    default public void showDoorLockingPrompt(int n) {
-    }
+    public void showDoorLockingPrompt(int var1) throws MethodException;
 
-    default public void cancelDoorLockingPrompt(int n) {
-    }
+    public void cancelDoorLockingPrompt(int var1) throws MethodException;
 
-    default public void setMascotSetFactoryDefault() {
-    }
+    public void setMascotSetFactoryDefault() throws MethodException;
 
-    default public void setMascotControl(int n) {
-    }
+    public void setMascotControl(int var1) throws MethodException;
 
-    default public void setMascotMode(int n) {
-    }
+    public void setMascotMode(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

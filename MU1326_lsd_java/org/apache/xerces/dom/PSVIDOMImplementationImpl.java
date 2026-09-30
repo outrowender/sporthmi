@@ -21,13 +21,11 @@ extends CoreDOMImplementationImpl {
         return singleton;
     }
 
-    @Override
     public boolean hasFeature(String string, String string2) {
         return super.hasFeature(string, string2) || string.equalsIgnoreCase("psvi");
     }
 
-    @Override
-    public Document createDocument(String string, String string2, DocumentType documentType) {
+    public Document createDocument(String string, String string2, DocumentType documentType) throws DOMException {
         if (documentType != null && documentType.getOwnerDocument() != null) {
             throw new DOMException(4, DOMMessageFormatter.formatMessage("http://www.w3.org/TR/1998/REC-xml-19980210", "WRONG_DOCUMENT_ERR", null));
         }

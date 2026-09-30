@@ -34,7 +34,7 @@ implements IWidgetLogChannel {
     private void updateModelValue() {
         if (this.model != null && this.model instanceof ChoiceModelGUI) {
             this.currentSpeed = ((ChoiceModelGUI)this.model).getValue();
-            log.log(-2137614336, "SpeedDisclaimerController#updateModelValue Current value of Speed-Model is: %1", (long)this.currentSpeed);
+            log.log(10000000, "SpeedDisclaimerController#updateModelValue Current value of Speed-Model is: %1", (long)this.currentSpeed);
         }
         this.processDisclaimer();
     }
@@ -44,22 +44,22 @@ implements IWidgetLogChannel {
             if (this.messageContainer != null && this.disclaimerContainer != null) {
                 if (this.currentSpeed < this.speedThreshold) {
                     this.setDisclaimerVisible(false);
-                    log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer is visible: %1, maxLines: %2", this.disclaimerContainer.isVisible(), (long)this.messageLabel.getMaxLines());
+                    log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer is visible: %1, maxLines: %2", this.disclaimerContainer.isVisible(), (long)this.messageLabel.getMaxLines());
                     return;
                 }
                 if (this.currentSpeed >= this.speedThreshold) {
                     int n = this.getNumberOfRows();
-                    log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer lines: %1", (long)n);
+                    log.log(10000000, "SpeedDisclaimerController#processDisclaimer lines: %1", (long)n);
                     if (this.maxLinesOfMessage < n) {
                         this.setDisclaimerVisible(true);
-                        log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer is visible: %1, maxLines: %2", this.disclaimerContainer.isVisible(), (long)this.messageLabel.getMaxLines());
+                        log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer is visible: %1, maxLines: %2", this.disclaimerContainer.isVisible(), (long)this.messageLabel.getMaxLines());
                     } else {
                         this.setDisclaimerVisible(false);
-                        log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer is visible: %1, maxLines: %2", this.disclaimerContainer.isVisible(), (long)this.messageLabel.getMaxLines());
+                        log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer is visible: %1, maxLines: %2", this.disclaimerContainer.isVisible(), (long)this.messageLabel.getMaxLines());
                     }
                 }
             } else {
-                log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has no messageContainer or disclaimerContainer");
+                log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has no messageContainer or disclaimerContainer");
             }
         }
     }
@@ -80,14 +80,13 @@ implements IWidgetLogChannel {
         Object object;
         List list = multiLineMenuItemController.getChildren();
         if (list.size() >= 1 && (object = list.get(0)) instanceof LabelController) {
-            log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has messageLabel with text: %1", (Object)((LabelController)object).getText());
+            log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has messageLabel with text: %1", (Object)((LabelController)object).getText());
             return (LabelController)object;
         }
-        log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has no messageLabel");
+        log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has no messageLabel");
         return null;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = this.currentSpeed;
         this.updateModelValue();
@@ -97,7 +96,6 @@ implements IWidgetLogChannel {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.setContentToContainers();
@@ -115,21 +113,20 @@ implements IWidgetLogChannel {
                 if (this.messageContainer == null) {
                     this.messageContainer = (MultiLineMenuItemController)object;
                     this.messageContainer.setVisible(true);
-                    log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has messageContainer: %1", (Object)this.messageContainer);
+                    log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has messageContainer: %1", (Object)this.messageContainer);
                 } else {
                     this.shortMessageContainer = (MultiLineMenuItemController)object;
                     this.shortMessageContainer.setVisible(false);
-                    log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has shortMessageContainer: %1", (Object)this.shortMessageContainer);
+                    log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has shortMessageContainer: %1", (Object)this.shortMessageContainer);
                 }
             }
             if (!(object instanceof MenuItemController) || this.disclaimerContainer != null) continue;
             this.disclaimerContainer = (MenuItemController)object;
             this.disclaimerContainer.setVisible(false);
-            log.log(-2137614336, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has disclaimerContainer: %1", (Object)this.disclaimerContainer);
+            log.log(10000000, "SpeedDisclaimerController#processDisclaimer SpeedDisclaimer has disclaimerContainer: %1", (Object)this.disclaimerContainer);
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

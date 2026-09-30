@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlife.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlife.DeviceInfo;
 
 public class DeviceInfoSerializer {
-    public static void putOptionalDeviceInfo(ISerializer iSerializer, DeviceInfo deviceInfo) {
+    public static void putOptionalDeviceInfo(ISerializer iSerializer, DeviceInfo deviceInfo) throws SerializerException {
         boolean bl = deviceInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -59,7 +60,7 @@ public class DeviceInfoSerializer {
         }
     }
 
-    public static void putOptionalDeviceInfoVarArray(ISerializer iSerializer, DeviceInfo[] deviceInfoArray) {
+    public static void putOptionalDeviceInfoVarArray(ISerializer iSerializer, DeviceInfo[] deviceInfoArray) throws SerializerException {
         boolean bl = deviceInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -70,7 +71,7 @@ public class DeviceInfoSerializer {
         }
     }
 
-    public static DeviceInfo getOptionalDeviceInfo(IDeserializer iDeserializer) {
+    public static DeviceInfo getOptionalDeviceInfo(IDeserializer iDeserializer) throws SerializerException {
         DeviceInfo deviceInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -123,7 +124,7 @@ public class DeviceInfoSerializer {
         return deviceInfo;
     }
 
-    public static DeviceInfo[] getOptionalDeviceInfoVarArray(IDeserializer iDeserializer) {
+    public static DeviceInfo[] getOptionalDeviceInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DeviceInfo[] deviceInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

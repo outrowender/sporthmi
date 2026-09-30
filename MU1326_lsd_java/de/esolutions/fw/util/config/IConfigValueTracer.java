@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.config;
 
 public interface IConfigValueTracer {
-    default public void traceValues() {
-    }
+    public void traceValues();
 }
 

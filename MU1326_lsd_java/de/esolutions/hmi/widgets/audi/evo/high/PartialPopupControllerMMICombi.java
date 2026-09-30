@@ -37,9 +37,9 @@ implements AnimationListener {
     private LogChannel logPPMMICombi = IWidgetLogChannel.logChannelPPMMICombi;
     private PartialPopupRendererMMICombi renderer;
     private AbstractAnimation showHideAnimation;
-    private static final float ANIMATION_OPACITY_NONE;
-    private static final float ANIMATION_OPACITY_FULL;
-    private static final boolean USE_SMALL_STAGE_TEXT;
+    private static final float ANIMATION_OPACITY_NONE = 0.0f;
+    private static final float ANIMATION_OPACITY_FULL = 1.0f;
+    private static final boolean USE_SMALL_STAGE_TEXT = true;
     private boolean hideOnOptionSelected = false;
     private boolean fireEventOnOptionSelected = false;
 
@@ -50,28 +50,22 @@ implements AnimationListener {
         super(n);
     }
 
-    @Override
     public HMIView[][] getReplacementWidgets() {
         return this.replacementWidgets;
     }
 
-    @Override
     public void hideNotScreenChangeSurvivingPopups() {
     }
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
     }
 
-    @Override
     public void triggerProximityEvent(ProximityEvent proximityEvent) {
     }
 
-    @Override
     public void shiftHorizontal(int n) {
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -80,15 +74,14 @@ implements AnimationListener {
         this.renderer = partialPopupRendererMMICombi;
     }
 
-    @Override
     public int show(int n) {
-        this.logPPMMICombi.log(1078071040, "PartialPopupControllerMMICombi#show id: %1", (long)this.getID());
+        this.logPPMMICombi.log(1000000, "PartialPopupControllerMMICombi#show id: %1", (long)this.getID());
         if (!this.isEnabled()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "PartialPopupControllerMMICombi#show not showing partial popup with ID %1 because it is disabled", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "PartialPopupControllerMMICombi#show not showing partial popup with ID %1 because it is disabled", (Object)this.getPopupName());
             return 2;
         }
         if (!this.isPopupActive()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "PartialPopupControllerMMICombi#show not showing partial popup with ID %1 because it is inactive", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "PartialPopupControllerMMICombi#show not showing partial popup with ID %1 because it is inactive", (Object)this.getPopupName());
             return 2;
         }
         PartialPopupBAPContent partialPopupBAPContent = new PartialPopupBAPContent(this.priority, this.context, this.getTitleText());
@@ -166,15 +159,14 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public int hide(int n) {
-        this.logPPMMICombi.log(1078071040, "PartialPopupControllerMMICombi#hide id: %1", (long)this.getID());
+        this.logPPMMICombi.log(1000000, "PartialPopupControllerMMICombi#hide id: %1", (long)this.getID());
         if (!this.isEnabled()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "PartialPopupControllerMMICombi#hide not showing or hiding partial popup with ID %1 because it is disabled", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "PartialPopupControllerMMICombi#hide not showing or hiding partial popup with ID %1 because it is disabled", (Object)this.getPopupName());
             return 2;
         }
         if (!this.isPopupActive()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "PartialPopupControllerMMICombi#hide not showing or hiding partial popup with ID %1 because it is inactive", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "PartialPopupControllerMMICombi#hide not showing or hiding partial popup with ID %1 because it is inactive", (Object)this.getPopupName());
             return 2;
         }
         if (this.greyOutBackground) {
@@ -213,7 +205,7 @@ implements AnimationListener {
     }
 
     public void optionSelected(int n) {
-        this.logPPMMICombi.log(-2137614336, "PartialPopupControllerMMICombi#option selected id: %1, option: %2", (long)this.getID(), (long)n);
+        this.logPPMMICombi.log(10000000, "PartialPopupControllerMMICombi#option selected id: %1, option: %2", (long)this.getID(), (long)n);
         if (this.options != null && n >= 0 && n < this.options.length) {
             KeyEvent keyEvent = new KeyEvent(null, 10401, 17, this.terminal.getTerminalID());
             this.options[n].keyPressed(keyEvent);
@@ -221,13 +213,12 @@ implements AnimationListener {
                 this.popupManager.hidePopup(this.popupID);
             }
             if (this.fireEventOnOptionSelected) {
-                this.logPPMMICombi.log(-2137614336, "PartialPopupControllerMMICombi#option selected firing event");
+                this.logPPMMICombi.log(10000000, "PartialPopupControllerMMICombi#option selected firing event");
                 this.fireSMEvent(this.terminal.getTerminalID(), this.event);
             }
         }
     }
 
-    @Override
     public void setPriority(int n) {
         this.priority = n;
     }
@@ -272,7 +263,6 @@ implements AnimationListener {
         this.options = menuItemControllerArray;
     }
 
-    @Override
     protected void propagatePaint(RedrawContext redrawContext) {
     }
 
@@ -289,39 +279,30 @@ implements AnimationListener {
     public void setColorPalettes(int[][] nArray) {
     }
 
-    @Override
     public void activateBackgroundGrayOut() {
     }
 
-    @Override
     public void deactivateBackgroundGrayOut() {
     }
 
-    @Override
     public void animate(int n, float f2) {
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
-    @Override
     public void setGreyOutBackground(boolean bl) {
     }
 
-    @Override
     public void setConsumeHKAppChange(int n) {
     }
 
-    @Override
     public void setConsumeHKReturn(int n) {
     }
 
-    @Override
     public void setConsumeDDSPress(int n) {
         if (n == 3 || n == 7) {
             this.fireEventOnOptionSelected = true;
@@ -331,35 +312,27 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void setConsumeKeyTurned(int n) {
     }
 
-    @Override
     public void setConsumeSKPress(int n) {
     }
 
-    @Override
     public void setConsumeTouchPad(int n) {
     }
 
-    @Override
     public void setConsumeGenericKeys(int n, int[] nArray) {
     }
 
-    @Override
     public void setConsumeJoystickNorth(int n) {
     }
 
-    @Override
     public void setConsumeJoystickEast(int n) {
     }
 
-    @Override
     public void setConsumeJoystickSouth(int n) {
     }
 
-    @Override
     public void setConsumeJoystickWest(int n) {
     }
 }

@@ -7,6 +7,7 @@ import de.esolutions.fw.util.config.bcf.BCFStringPool;
 import de.esolutions.fw.util.config.model.ConfigArray;
 import de.esolutions.fw.util.config.model.ConfigDictionary;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 import java.util.Stack;
 
 public class BCFConfigWriterElements
@@ -77,8 +78,7 @@ implements IConfigExporter {
         return n2;
     }
 
-    @Override
-    public void beginDictionary(ConfigDictionary configDictionary, int n) {
+    public void beginDictionary(ConfigDictionary configDictionary, int n) throws WriteConfigException {
         int n2;
         int n3 = this.nextPos();
         this.elements[n3] = 1;
@@ -93,21 +93,17 @@ implements IConfigExporter {
         }
     }
 
-    @Override
-    public void endDictionary() {
+    public void endDictionary() throws WriteConfigException {
         this.popPos();
     }
 
-    @Override
-    public void beginDictEntry(int n, String string) {
+    public void beginDictEntry(int n, String string) throws WriteConfigException {
     }
 
-    @Override
-    public void endDictEntry(boolean bl) {
+    public void endDictEntry(boolean bl) throws WriteConfigException {
     }
 
-    @Override
-    public void beginArray(ConfigArray configArray, int n) {
+    public void beginArray(ConfigArray configArray, int n) throws WriteConfigException {
         int n2;
         int n3 = this.nextPos();
         this.elements[n3] = 2;
@@ -117,28 +113,23 @@ implements IConfigExporter {
         this.elements[n2 + 1] = n4 / 2;
     }
 
-    @Override
-    public void endArray() {
+    public void endArray() throws WriteConfigException {
         this.popPos();
     }
 
-    @Override
-    public void beginArrayEntry(int n) {
+    public void beginArrayEntry(int n) throws WriteConfigException {
     }
 
-    @Override
-    public void endArrayEntry(boolean bl) {
+    public void endArrayEntry(boolean bl) throws WriteConfigException {
     }
 
-    @Override
-    public void writeString(String string) {
+    public void writeString(String string) throws WriteConfigException {
         int n = this.nextPos();
         this.elements[n] = 9;
         this.elements[n + 1] = this.nextStringOffset();
     }
 
-    @Override
-    public void writeInteger(int n) {
+    public void writeInteger(int n) throws WriteConfigException {
         int n2 = this.nextPos();
         boolean bl = false;
         if (!(this.bits32 || n >= Short.MIN_VALUE && n <= Short.MAX_VALUE)) {
@@ -148,22 +139,19 @@ implements IConfigExporter {
         this.elements[n2 + 1] = bl ? this.nextStringOffset() : n;
     }
 
-    @Override
-    public void writeDouble(double d2) {
+    public void writeDouble(double d2) throws WriteConfigException {
         int n = this.nextPos();
         this.elements[n] = 5;
         this.elements[n + 1] = this.nextStringOffset();
     }
 
-    @Override
-    public void writeNull() {
+    public void writeNull() throws WriteConfigException {
         int n = this.nextPos();
         this.elements[n] = 8;
         this.elements[n + 1] = 0;
     }
 
-    @Override
-    public void writeBoolean(boolean bl) {
+    public void writeBoolean(boolean bl) throws WriteConfigException {
         int n = this.nextPos();
         this.elements[n] = bl ? 6 : 7;
         this.elements[n + 1] = 0;

@@ -4,7 +4,6 @@
 package edu.emory.mathcs.backport.java.util.concurrent;
 
 public interface ThreadFactory {
-    default public Thread newThread(Runnable runnable) {
-    }
+    public Thread newThread(Runnable var1);
 }
 

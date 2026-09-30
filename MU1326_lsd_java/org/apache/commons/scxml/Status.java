@@ -14,7 +14,7 @@ import org.apache.commons.scxml.model.State;
 
 public class Status
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Set states = new HashSet();
     private Collection events = new ArrayList();
 

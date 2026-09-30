@@ -68,13 +68,12 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void activateDrawer(IDrawerControllerEvo iDrawerControllerEvo, long[] lArray) {
         long[] lArray2 = this.contextIDs;
         this.contextIDs = lArray;
         if (IWidgetLogChannel.logDrawerCondtionEngine.isDebug()) {
             int n;
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateDrawer previousContextIDs: %1, new contextIDs: %2", (Object)lArray2, (Object)lArray);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateDrawer previousContextIDs: %1, new contextIDs: %2", (Object)lArray2, (Object)lArray);
             Buffer buffer = new Buffer(30);
             buffer.append("previousContextIDs:");
             if (lArray2 != null) {
@@ -91,24 +90,24 @@ ServiceTrackerCustomizer {
                     buffer.append(';');
                 }
             }
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateDrawer %1", (Object)buffer);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateDrawer %1", (Object)buffer);
         }
         if (this.drawerController != null) {
             if (this.drawerController.equals(iDrawerControllerEvo)) {
-                IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateDrawer new and old drawerController are the same, refresh the current one");
+                IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateDrawer new and old drawerController are the same, refresh the current one");
                 this.refreshDrawerContextID(lArray2, lArray);
             } else {
-                IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateDrawer deactivate previous drawer, activate new drawerController if there is one, newDrawerController: %1", (Object)this.drawerController);
+                IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateDrawer deactivate previous drawer, activate new drawerController if there is one, newDrawerController: %1", (Object)this.drawerController);
                 this.deactivatePreviousDrawerController();
                 if (iDrawerControllerEvo != null) {
                     this.activateNewDrawer(iDrawerControllerEvo);
                 }
             }
         } else if (iDrawerControllerEvo != null) {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateDrawer there is no previousDrawerController - activate the new one if there is one");
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateDrawer there is no previousDrawerController - activate the new one if there is one");
             this.activateNewDrawer(iDrawerControllerEvo);
         } else {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateDrawer no new and no previous drawer controller - do nothing");
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateDrawer no new and no previous drawer controller - do nothing");
         }
     }
 
@@ -121,7 +120,7 @@ ServiceTrackerCustomizer {
         this.visibleEntriesInContext.clear();
         this.visibleNotContextSpecificEntries.clear();
         Set set = this.visibleEntries.keySet();
-        IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#refreshDrawerContextID visibleEntriesSize: %1", (long)set.size());
+        IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#refreshDrawerContextID visibleEntriesSize: %1", (long)set.size());
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
             PropertyObject propertyObject = (PropertyObject)iterator.next();
@@ -166,10 +165,10 @@ ServiceTrackerCustomizer {
                 this.setEnabledState(iComponentConditionManager, propertyObject);
             }
             if (!IWidgetLogChannel.logDrawerCondtionEngine.isDebug()) continue;
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#refreshDrawerContextID widget:%1 visibleCCID: %2 bitfieldVisibility: %3", (Object)propertyObject.getWidget(), (long)propertyObject.getVisibleCCID(), (long)n);
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#refreshDrawerContextID isVisible: %1, isEnabled: %2", this.evaluateCondition(propertyObject.getVisibleCCID(), iComponentConditionManager), this.evaluateCondition(propertyObject.getEnabledCCID(), iComponentConditionManager));
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#refreshDrawerContextID widget:%1 visibleCCID: %2 bitfieldVisibility: %3", (Object)propertyObject.getWidget(), (long)propertyObject.getVisibleCCID(), (long)n);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#refreshDrawerContextID isVisible: %1, isEnabled: %2", this.evaluateCondition(propertyObject.getVisibleCCID(), iComponentConditionManager), this.evaluateCondition(propertyObject.getEnabledCCID(), iComponentConditionManager));
         }
-        IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#refreshDrawerContextID end of refresh visibleEntriesInContext: %1", (long)this.visibleEntriesInContext.size());
+        IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#refreshDrawerContextID end of refresh visibleEntriesInContext: %1", (long)this.visibleEntriesInContext.size());
     }
 
     private void setEnabledState(IComponentConditionManager iComponentConditionManager, PropertyObject propertyObject) {
@@ -181,7 +180,7 @@ ServiceTrackerCustomizer {
 
     private boolean evaluateCondition(int n, IComponentConditionManager iComponentConditionManager) {
         if (n == -2) {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#evaluateCondition CCM#isTrue ignored. Constant is used for ccid: %1", (long)n);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#evaluateCondition CCM#isTrue ignored. Constant is used for ccid: %1", (long)n);
             return true;
         }
         return iComponentConditionManager.isTrue(n, this.terminalID);
@@ -191,7 +190,7 @@ ServiceTrackerCustomizer {
         if (n != -2) {
             iComponentConditionManager.deactivateCC(n);
         } else {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#evaluateDeactivation CCM did not deactivate ccid: %1, constant is used.", (long)n);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#evaluateDeactivation CCM did not deactivate ccid: %1, constant is used.", (long)n);
         }
     }
 
@@ -199,12 +198,12 @@ ServiceTrackerCustomizer {
         if (n != -2) {
             iComponentConditionManager.activateCC(n);
         } else {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#evaluateActivation CCM did not activated ccid: %1, constant is used.", (long)n);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#evaluateActivation CCM did not activated ccid: %1, constant is used.", (long)n);
         }
     }
 
     private void deactivatePreviousDrawerController() {
-        IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#deactivatePreviousDrawerController");
+        IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#deactivatePreviousDrawerController");
         IComponentConditionManager iComponentConditionManager = this.componentConditionManager;
         if (iComponentConditionManager == null) {
             IWidgetLogChannel.logDrawerCondtionEngine.log(10000, "DrawerConditionEngine#deactivatePreviousDrawerController componentConditionManager is null - sidebar elements cannot be enabled or set invisible");
@@ -263,8 +262,8 @@ ServiceTrackerCustomizer {
             if (abstractWidget instanceof MenuItemController) {
                 string = this.getNameOfMenuItem((MenuItemController)abstractWidget);
             }
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateNewDrawer widget: %1 visibleCCID: %2, enabledCCID: %3", (Object)string, (long)n, (long)n2);
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateNewDrawer isVisible: %1, isEnabled: %2", bl, bl2);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateNewDrawer widget: %1 visibleCCID: %2, enabledCCID: %3", (Object)string, (long)n, (long)n2);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateNewDrawer isVisible: %1, isEnabled: %2", bl, bl2);
         }
     }
 
@@ -296,17 +295,16 @@ ServiceTrackerCustomizer {
                     }
                     break;
                 }
-                IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#activateNewDrawer no propertyObjectContextIDs available, they are null for type: %2, widget: %1 is not added to visibleEntries in context", (Object)propertyObject.getWidget(), (long)propertyObject.getType());
+                IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#activateNewDrawer no propertyObjectContextIDs available, they are null for type: %2, widget: %1 is not added to visibleEntries in context", (Object)propertyObject.getWidget(), (long)propertyObject.getType());
                 break;
             }
             default: {
-                IWidgetLogChannel.logDrawerCondtionEngine.log(-1601830656, "DrawerConditionEngine#activateNewDrawer unknown type: %1", (long)propertyObject.getType());
+                IWidgetLogChannel.logDrawerCondtionEngine.log(100000, "DrawerConditionEngine#activateNewDrawer unknown type: %1", (long)propertyObject.getType());
             }
         }
         return bl;
     }
 
-    @Override
     public void processCCEvent(ComponentConditionEvent componentConditionEvent) {
         int n;
         int n2;
@@ -325,15 +323,15 @@ ServiceTrackerCustomizer {
                 propertyObjectArray.append(this.evaluateCondition(nArray[n2], iComponentConditionManager));
                 propertyObjectArray.append(';');
             }
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#processCCEvent component condition IDs which have changed: %1", (Object)propertyObjectArray);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#processCCEvent component condition IDs which have changed: %1", (Object)propertyObjectArray);
         }
         if (this.drawerController == null) {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(1078071040, "DrawerConditionEngine#processCCEvent drawerController is null - no drawer set, cannot process component condition event");
+            IWidgetLogChannel.logDrawerCondtionEngine.log(1000000, "DrawerConditionEngine#processCCEvent drawerController is null - no drawer set, cannot process component condition event");
             return;
         }
         propertyObjectArray = this.drawerController.getPropertyObjects();
         if (propertyObjectArray == null) {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-1601830656, "DrawerConditionEngine#processCCEvent No property objects found at this drawer! %1", (Object)this.drawerController);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(100000, "DrawerConditionEngine#processCCEvent No property objects found at this drawer! %1", (Object)this.drawerController);
             return;
         }
         for (n2 = 0; n2 < nArray.length; ++n2) {
@@ -369,18 +367,16 @@ ServiceTrackerCustomizer {
         if (propertyObjectArray.length > 0 && propertyObjectArray[0] != null) {
             AbstractWidget abstractWidget = propertyObjectArray[0].getWidget();
             n = abstractWidget instanceof AbstractWidgetController ? ((AbstractWidgetController)abstractWidget).getScreenId() : -1;
-            IWidgetLogChannel.logRepaintCause.log(-2137614336, "DrawerConditionEngine#processCCEvent: trigger repaint. screen id: %2, event: %1", (Object)componentConditionEvent, (long)n);
+            IWidgetLogChannel.logRepaintCause.log(10000000, "DrawerConditionEngine#processCCEvent: trigger repaint. screen id: %2, event: %1", (Object)componentConditionEvent, (long)n);
             abstractWidget.triggerRepaint();
         }
     }
 
-    @Override
     public void spellerActive(boolean bl) {
     }
 
-    @Override
     public void setFocusedProperty(IFocusedPropertyObject iFocusedPropertyObject) {
-        IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty newFocusedProperty=%1, oldFocusedProperty=%2", (Object)iFocusedPropertyObject, (Object)this.focusedProperty);
+        IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty newFocusedProperty=%1, oldFocusedProperty=%2", (Object)iFocusedPropertyObject, (Object)this.focusedProperty);
         this.focusedProperty = iFocusedPropertyObject;
         this.updateFocusedProperty();
     }
@@ -415,14 +411,14 @@ ServiceTrackerCustomizer {
                     break;
                 }
             } else if (IWidgetLogChannel.logDrawerCondtionEngine.isDebug()) {
-                IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty focusedProperty or category is null focusedProperty: %1, categories: %2. Entry in option drawer with visibleCCID: %3 is set visible: false", (Object)this.focusedProperty, (Object)nArray2, (long)propertyObject.getVisibleCCID());
+                IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty focusedProperty or category is null focusedProperty: %1, categories: %2. Entry in option drawer with visibleCCID: %3 is set visible: false", (Object)this.focusedProperty, (Object)nArray2, (long)propertyObject.getVisibleCCID());
             }
             if (bl) {
                 if (nArray == null || nArray.length == 0) {
                     int[] nArray3 = propertyObject.getFocusPropertiesToShow();
                     if (nArray3 != null && nArray3.length > 0) {
                         if (IWidgetLogChannel.logDrawerCondtionEngine.isDebug()) {
-                            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty no focusedPropertyToShow configured (null or length == 0) entry in option drawer with visibleCCID: %1 is set visible: false", (long)propertyObject.getVisibleCCID());
+                            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty no focusedPropertyToShow configured (null or length == 0) entry in option drawer with visibleCCID: %1 is set visible: false", (long)propertyObject.getVisibleCCID());
                         }
                         bl = false;
                     }
@@ -483,8 +479,8 @@ ServiceTrackerCustomizer {
     private void logState(int n, int[] nArray) {
         if (IWidgetLogChannel.logDrawerCondtionEngine.isDebug()) {
             int n2;
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty focusedProperty: %1", (Object)this.focusedProperty);
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty focusedCategory: %1", (long)n);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty focusedProperty: %1", (Object)this.focusedProperty);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty focusedCategory: %1", (long)n);
             Buffer buffer = new Buffer(512);
             buffer.append("DrawerConditionEngine#setFocusedProperty contextIDs: ");
             if (this.contextIDs != null) {
@@ -504,23 +500,22 @@ ServiceTrackerCustomizer {
             } else {
                 buffer.append("none");
             }
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty targetModelID: %1, targetRow: %2, targetWidgetID: %3", (long)this.targetModelID, (long)this.targetRow, (long)this.targetWidgetID);
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#setFocusedProperty targetActionReceiver: %1", (Object)this.targetActionReceiver);
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, buffer.toString());
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty targetModelID: %1, targetRow: %2, targetWidgetID: %3", (long)this.targetModelID, (long)this.targetRow, (long)this.targetWidgetID);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#setFocusedProperty targetActionReceiver: %1", (Object)this.targetActionReceiver);
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, buffer.toString());
         }
     }
 
     protected boolean compareCategory(int n, int n2) {
-        if (n == -657864606 && n2 == 950834496) {
+        if (n == 1657326040 && n2 == 1083550776) {
             return true;
         }
         return n == n2;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (this.bundleContext == null) {
-            IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#addingService(): bundleContext is null, bundle probably has been stopped -> NOP");
+            IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#addingService(): bundleContext is null, bundle probably has been stopped -> NOP");
             return null;
         }
         Object object = this.bundleContext.getService(serviceReference);
@@ -528,7 +523,7 @@ ServiceTrackerCustomizer {
             this.setComponentConditionManager((IComponentConditionManager)object);
             return object;
         }
-        IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#addingService(): unknown service, service has not been tracked: %1", object);
+        IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#addingService(): unknown service, service has not been tracked: %1", object);
         return null;
     }
 
@@ -536,39 +531,32 @@ ServiceTrackerCustomizer {
         this.componentConditionManager = iComponentConditionManager;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        IWidgetLogChannel.logDrawerCondtionEngine.log(-2137614336, "DrawerConditionEngine#removedService() service: %1", object);
+        IWidgetLogChannel.logDrawerCondtionEngine.log(10000000, "DrawerConditionEngine#removedService() service: %1", object);
         if (object instanceof IComponentConditionManager) {
             this.componentConditionManager = null;
         }
     }
 
-    @Override
     public int getTargetModelID() {
         return this.targetModelID;
     }
 
-    @Override
     public int getTargetRow() {
         return this.targetRow;
     }
 
-    @Override
     public int getTargetWidgetID() {
         return this.targetWidgetID;
     }
 
-    @Override
     public long[] getActiveContexts() {
         return this.contextIDs;
     }
 
-    @Override
     public IRightDrawerActionReceiver getTargetActionReceiver() {
         return this.targetActionReceiver;
     }
@@ -620,7 +608,6 @@ ServiceTrackerCustomizer {
         return object2;
     }
 
-    @Override
     public Object getInternalState() {
         PropertyObject propertyObject;
         Buffer buffer = new Buffer(2048);

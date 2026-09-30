@@ -20,7 +20,6 @@ extends PartialPopupRendererHigh {
         super(presetPopupController);
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         IWrappedNode3D iWrappedNode3D = this.getEALManager().createNode3D(this.getEALManager().getPresetPopupNode(), EALManager.createNodeName("presetPopup", ((PresetPopupController)this.controller).getID(), (AbstractRenderer)this), 0.0f, 0.0f);
         this.renderNode(iWrappedNode3D, 0);
@@ -29,12 +28,10 @@ extends PartialPopupRendererHigh {
         }
     }
 
-    @Override
     protected IWrappedNode3D getParentNode(RedrawContextHigh redrawContextHigh) {
         return this.getEALManager().getPresetPopupNode();
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         if (abstractWidget instanceof PresetPopupHeadlineController) {
             if (this.node == null) {

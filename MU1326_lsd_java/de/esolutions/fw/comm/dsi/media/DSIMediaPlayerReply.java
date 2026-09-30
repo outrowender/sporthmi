@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.media.AudioStream;
 import org.dsi.ifc.media.Capabilities;
@@ -11,108 +12,75 @@ import org.dsi.ifc.media.ListEntry;
 import org.dsi.ifc.media.PlaybackMode;
 
 public interface DSIMediaPlayerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "0c182e4a-4267-577b-94ca-68dedb283139";
+    public static final String IPL_COMM_INTERFACE_KEY = "22bc8a7b-fd79-5e25-aedc-0b80a7f97b2f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.52";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.52";
 
-    default public void updateVideoFormat(int n, int n2) {
-    }
+    public void updateVideoFormat(int var1, int var2) throws MethodException;
 
-    default public void updateVideoNorm(int n, int n2) {
-    }
+    public void updateVideoNorm(int var1, int var2) throws MethodException;
 
-    default public void updateCmdBlockingMask(int n, int n2) {
-    }
+    public void updateCmdBlockingMask(int var1, int var2) throws MethodException;
 
-    default public void updateNumVideoAngles(int n, int n2) {
-    }
+    public void updateNumVideoAngles(int var1, int var2) throws MethodException;
 
-    default public void updatePlaybackModeList(PlaybackMode[] playbackModeArray, int n) {
-    }
+    public void updatePlaybackModeList(PlaybackMode[] var1, int var2) throws MethodException;
 
-    default public void updatePlaybackMode(int n, int n2) {
-    }
+    public void updatePlaybackMode(int var1, int var2) throws MethodException;
 
-    default public void updatePlaybackState(int n, int n2) {
-    }
+    public void updatePlaybackState(int var1, int var2) throws MethodException;
 
-    default public void updateActiveMedia(long l, long l2, int n, int n2, int n3) {
-    }
+    public void updateActiveMedia(long var1, long var3, int var5, int var6, int var7) throws MethodException;
 
-    default public void updatePlaybackFolder(ListEntry[] listEntryArray, int n) {
-    }
+    public void updatePlaybackFolder(ListEntry[] var1, int var2) throws MethodException;
 
-    default public void updateCapabilities(Capabilities capabilities, int n) {
-    }
+    public void updateCapabilities(Capabilities var1, int var2) throws MethodException;
 
-    default public void updatePlayPosition(long l, int n, int n2, int n3) {
-    }
+    public void updatePlayPosition(long var1, int var3, int var4, int var5) throws MethodException;
 
-    default public void updatePlayViewSize(int n, int n2, int n3) {
-    }
+    public void updatePlayViewSize(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateActiveVideoAngle(int n, int n2) {
-    }
+    public void updateActiveVideoAngle(int var1, int var2) throws MethodException;
 
-    default public void updateAudioStreamList(AudioStream[] audioStreamArray, int n) {
-    }
+    public void updateAudioStreamList(AudioStream[] var1, int var2) throws MethodException;
 
-    default public void updateActiveAudioStream(int n, int n2) {
-    }
+    public void updateActiveAudioStream(int var1, int var2) throws MethodException;
 
-    default public void updateSubtitleList(int[] nArray, int n) {
-    }
+    public void updateSubtitleList(int[] var1, int var2) throws MethodException;
 
-    default public void updateActiveSubtitle(int n, int n2) {
-    }
+    public void updateActiveSubtitle(int var1, int var2) throws MethodException;
 
-    default public void responseCmdBlocked(int n) {
-    }
+    public void responseCmdBlocked(int var1) throws MethodException;
 
-    default public void responseRating(long l, int n) {
-    }
+    public void responseRating(long var1, int var3) throws MethodException;
 
-    default public void responseFullyQualifiedName(long l, String string) {
-    }
+    public void responseFullyQualifiedName(long var1, String var3) throws MethodException;
 
-    default public void responseCoverArt(long l, ResourceLocator resourceLocator) {
-    }
+    public void responseCoverArt(long var1, ResourceLocator var3) throws MethodException;
 
-    default public void responsePlayView(ListEntry[] listEntryArray, int n, int n2, int n3) {
-    }
+    public void responsePlayView(ListEntry[] var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void responseDetailInfo(EntryInfo entryInfo) {
-    }
+    public void responseDetailInfo(EntryInfo var1) throws MethodException;
 
-    default public void indicationDvdEvent(int n) {
-    }
+    public void indicationDvdEvent(int var1) throws MethodException;
 
-    default public void responseSetPlaySelection(int n, int n2) {
-    }
+    public void responseSetPlaySelection(int var1, int var2) throws MethodException;
 
-    default public void responseSetPlaySelectionAB(int n, boolean bl) {
-    }
+    public void responseSetPlaySelectionAB(int var1, boolean var2) throws MethodException;
 
-    default public void responseSetPlaybackURL(String string) {
-    }
+    public void responseSetPlaybackURL(String var1) throws MethodException;
 
-    default public void responseSetVideoRect(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
-    }
+    public void responseSetVideoRect(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) throws MethodException;
 
-    default public void responsePlaySimilarEntry(long l, boolean bl) {
-    }
+    public void responsePlaySimilarEntry(long var1, boolean var3) throws MethodException;
 
-    default public void tempPMLRequest(int n) {
-    }
+    public void tempPMLRequest(int var1) throws MethodException;
 
-    default public void updatePlaybackContentFolder(ListEntry[] listEntryArray, int n) {
-    }
+    public void updatePlaybackContentFolder(ListEntry[] var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

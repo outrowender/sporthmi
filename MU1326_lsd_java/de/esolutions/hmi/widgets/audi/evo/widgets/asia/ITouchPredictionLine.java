@@ -3,23 +3,19 @@
  */
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ITouchResultLine;
 
 public interface ITouchPredictionLine
 extends ITouchResultLine {
-    public static final int MAX_AMOUNT_OF_PREDICTION_RESULTS;
+    public static final int MAX_AMOUNT_OF_PREDICTION_RESULTS = 20;
 
-    default public void updateWordPredictionContext(String string, String string2) {
-    }
+    public void updateWordPredictionContext(String var1, String var2);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public SpellerController$ISpellerItem getTruffleButton() {
-    }
+    public SpellerController.ISpellerItem getTruffleButton();
 
-    default public void onSuggestionChange(boolean bl) {
-    }
+    public void onSuggestionChange(boolean var1);
 }
 

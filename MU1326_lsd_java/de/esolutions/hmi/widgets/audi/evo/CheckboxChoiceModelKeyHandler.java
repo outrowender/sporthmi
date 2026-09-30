@@ -11,7 +11,6 @@ public class CheckboxChoiceModelKeyHandler
 extends ChoiceModelKeyHandler {
     private int[] modelValues;
 
-    @Override
     protected int getNewModelValue(AbstractWidgetController abstractWidgetController) {
         if (this.modelValues == null || this.modelValues.length < 2) {
             menuItemLogCh.log(10000, "CheckboxChoiceModelKeyHandler#getNewModelValue: no modelValues configured in handler. widget: %1", (Object)abstractWidgetController);

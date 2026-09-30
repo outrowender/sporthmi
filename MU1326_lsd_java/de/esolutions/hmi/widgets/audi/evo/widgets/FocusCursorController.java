@@ -26,7 +26,6 @@ implements IViewSizeAnimatable {
         this.setWaitAnimOffsetIdx(this.shouldShowOptionsIcon() ? 1 : 0);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateForViewSize();
@@ -62,14 +61,12 @@ implements IViewSizeAnimatable {
         return (this.optionsIconVisible || this.optionsIconVisibleForOnline) && this.optionsIconVisibleForViewSize;
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
-        if (f2 < 0x6666663F && f2 > -791884739) {
+        if (f2 < 0.9f && f2 > 0.100000024f) {
             this.updateForViewSize();
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         this.updateForViewSize();
     }
@@ -112,7 +109,6 @@ implements IViewSizeAnimatable {
         this.optionsIconVisibleForViewSize = bl;
     }
 
-    @Override
     protected boolean supportsWaitAnimationWidget() {
         return true;
     }
@@ -169,7 +165,6 @@ implements IViewSizeAnimatable {
         return this.optionIconYOffset;
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
@@ -177,14 +172,12 @@ implements IViewSizeAnimatable {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
-    @Override
     public void optionDrawerLocked(Boolean bl) {
         if (bl != null) {
-            logLocking.log(1078071040, "FocusCursorController#optionDrawerLocked locked=%1", (Object)bl);
+            logLocking.log(1000000, "FocusCursorController#optionDrawerLocked locked=%1", (Object)bl);
             this.lockingActive = bl;
             this.setCompositesDirty(true);
         }

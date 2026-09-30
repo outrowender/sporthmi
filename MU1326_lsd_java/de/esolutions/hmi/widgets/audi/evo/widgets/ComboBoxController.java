@@ -44,10 +44,10 @@ implements BaselineWidget,
 AnimationListener,
 ContentEnabledListener {
     private int maxMenuHeight;
-    private static final int MAX_HIERACHY_DEPTH;
-    public static final int TYPE_NORMAL_COMBOBOX;
-    public static final int TYPE_SUBELEMENT_COMBOBOX;
-    private static final int SUBMENU_INSET;
+    private static final int MAX_HIERACHY_DEPTH = 5;
+    public static final int TYPE_NORMAL_COMBOBOX = 0;
+    public static final int TYPE_SUBELEMENT_COMBOBOX = 1;
+    private static final int SUBMENU_INSET = 18;
     private int type;
     private int subElementMenuX = 0;
     private ComboBoxRenderer renderer;
@@ -89,7 +89,6 @@ ContentEnabledListener {
     private int scrollbarBackgroundDistance;
     private int openComboToParentGlassplateDistance;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.setComboBoxTextEnabledOrDisabled();
@@ -99,7 +98,6 @@ ContentEnabledListener {
         }
     }
 
-    @Override
     protected void afterConnected() {
         super.afterConnected();
         if (this.type == 0) {
@@ -155,7 +153,6 @@ ContentEnabledListener {
         return n;
     }
 
-    @Override
     public void setContentEnabled(int n, boolean bl) {
         if (n < 0 || n > this.menu.getChildren().size() - 1) {
             return;
@@ -164,7 +161,6 @@ ContentEnabledListener {
         this.setComboBoxTextEnabledOrDisabled();
     }
 
-    @Override
     public void setContentVisible(int n, boolean bl) {
         if (n < 0 || n > this.menu.getChildren().size() - 1) {
             return;
@@ -231,7 +227,6 @@ ContentEnabledListener {
         this.maxMenuHeight = layout.getIntegerConstant(77);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.refreshAvailableHints();
@@ -273,7 +268,6 @@ ContentEnabledListener {
         return null;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -349,11 +343,11 @@ ContentEnabledListener {
         this.menu.setViewport(new MenuViewport(null, null));
         MenuItemIndex menuItemIndex2 = this.menu.getFirstMenuItem();
         if (menuItemIndex2 != null) {
-            menuLogCh.log(-2137614336, "ComboBoxController#prepareForOpen: focus first menu item with index: %1", (Object)menuItemIndex2);
+            menuLogCh.log(10000000, "ComboBoxController#prepareForOpen: focus first menu item with index: %1", (Object)menuItemIndex2);
             this.menu.focusItemImmediately(menuItemIndex2, FocusAdvice.KEEP_POSITION);
         }
         if (menuItemIndex != null) {
-            menuLogCh.log(-2137614336, "ComboBoxController#prepareForOpen: focus selected menu item with index: %1", (Object)menuItemIndex);
+            menuLogCh.log(10000000, "ComboBoxController#prepareForOpen: focus selected menu item with index: %1", (Object)menuItemIndex);
             this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
         }
         this.menu.setCompositesDirty(true);
@@ -370,10 +364,10 @@ ContentEnabledListener {
             return ((BaselineWidget)((Object)abstractWidget)).getBaseline() - n2 + n;
         }
         if (abstractWidget != null) {
-            logChannel.log(-1601830656, "ComboBoxController#getMenuItemBaselineOffset: combo item is not a baselineWidget. Index: %1, widget: %2", (Object)menuItemIndex, (Object)abstractWidget);
+            logChannel.log(100000, "ComboBoxController#getMenuItemBaselineOffset: combo item is not a baselineWidget. Index: %1, widget: %2", (Object)menuItemIndex, (Object)abstractWidget);
             return abstractWidget.getHeight() - n2 + n;
         }
-        logChannel.log(-1601830656, "ComboBoxController#getMenuItemBaselineOffset: combo item %1 is null", (Object)menuItemIndex);
+        logChannel.log(100000, "ComboBoxController#getMenuItemBaselineOffset: combo item %1 is null", (Object)menuItemIndex);
         return n;
     }
 
@@ -386,13 +380,13 @@ ContentEnabledListener {
     private int adjustMenuYForParentMenu(int n, int n2) {
         AbstractWidget abstractWidget = this.getParent().getParent();
         if (!(abstractWidget instanceof MenuController)) {
-            logChannel.log(-1601830656, "ComboBoxController#adjustMenuYForParentMenu: comboBox is not inside a parent menu.");
+            logChannel.log(100000, "ComboBoxController#adjustMenuYForParentMenu: comboBox is not inside a parent menu.");
             return n;
         }
         MenuController menuController = (MenuController)abstractWidget;
         MenuItemIndex menuItemIndex = menuController.getMenuItemIndex(this.getParent());
         if (menuItemIndex == null) {
-            logChannel.log(-1601830656, "ComboBoxController#adjustMenuYForParentMenu: parent MenuItem not found in parent menu.");
+            logChannel.log(100000, "ComboBoxController#adjustMenuYForParentMenu: parent MenuItem not found in parent menu.");
             return n;
         }
         int n3 = 0;
@@ -527,7 +521,7 @@ ContentEnabledListener {
             this.closedMenuY = this.menu.getY();
             return;
         }
-        logChannel.log(-2137614336, "ComboBoxController#ensureMenuCreated: no menu found. Create one.");
+        logChannel.log(10000000, "ComboBoxController#ensureMenuCreated: no menu found. Create one.");
         this.menu = this.instantiateMenu();
         new ComboBoxMenuBuilder((ExtHMITerminalEvo)((Object)this.getTerminalImpl())).configureMenu(this.menu, this, this.cursorColors);
         this.setMenuVisible(false);
@@ -549,7 +543,7 @@ ContentEnabledListener {
             this.label = (LabelController)abstractWidgetController;
             return;
         }
-        logChannel.log(-2137614336, "ComboBoxController#ensureLabelCreated: no label found. Create one.");
+        logChannel.log(10000000, "ComboBoxController#ensureLabelCreated: no label found. Create one.");
         this.label = new ComboBoxMenuBuilder((ExtHMITerminalEvo)((Object)this.getTerminalImpl())).createPreviewLabel(this);
     }
 
@@ -564,7 +558,7 @@ ContentEnabledListener {
             this.closedIcon = (IconController)abstractWidgetController;
             return;
         }
-        logChannel.log(-2137614336, "ComboBoxController#ensureLabelCreated: no label found. Create one.");
+        logChannel.log(10000000, "ComboBoxController#ensureLabelCreated: no label found. Create one.");
         this.closedIcon = new ComboBoxMenuBuilder((ExtHMITerminalEvo)((Object)this.getTerminalImpl())).createClosedIcon(this);
     }
 
@@ -572,7 +566,7 @@ ContentEnabledListener {
         if (this.comboBoxBackground != null) {
             return;
         }
-        logChannel.log(-2137614336, "ComboBoxController#ensureGlassplateCreated: no glassplate found. Create one.");
+        logChannel.log(10000000, "ComboBoxController#ensureGlassplateCreated: no glassplate found. Create one.");
         this.comboBoxBackground = new ComboBoxMenuBuilder((ExtHMITerminalEvo)((Object)this.getTerminalImpl())).createComboBoxBackground(this);
         this.comboBoxBackground.setColorIndices(this.getColorIndices());
     }
@@ -589,10 +583,10 @@ ContentEnabledListener {
         if (this.model instanceof ChoiceModelGUI) {
             ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)this.model;
             int n2 = this.comboIndexToModelValue(n);
-            logChannel.log(-2137614336, "ComboBoxController#fireItemSelected: notify choice model %1 with item %2, model value %3", (long)choiceModelGUI.getID(), (long)n, (long)n2);
+            logChannel.log(10000000, "ComboBoxController#fireItemSelected: notify choice model %1 with item %2, model value %3", (long)choiceModelGUI.getID(), (long)n, (long)n2);
             choiceModelGUI.itemSelected(n2, this.getTerminalImpl().getTerminalID());
         } else {
-            logChannel.log(-1601830656, "ComboBoxController#fireItemSelected(%2): unknown model: %1", this.model, (long)n);
+            logChannel.log(100000, "ComboBoxController#fireItemSelected(%2): unknown model: %1", this.model, (long)n);
         }
     }
 
@@ -618,7 +612,6 @@ ContentEnabledListener {
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.isConsumed() || !this.hasState(36)) {
             return;
@@ -656,7 +649,6 @@ ContentEnabledListener {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         if (joystickEvent.isConsumed() || !this.hasState(36)) {
             return;
@@ -667,7 +659,6 @@ ContentEnabledListener {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 2 || n == 18 || n == 14) {
@@ -684,11 +675,11 @@ ContentEnabledListener {
 
     public boolean setSelectedIndex(int n) {
         if (this.selectedIndex == n && this.type == 0) {
-            logChannel.log(-2137614336, "ComboBoxController#setSelectedIndex: selected index equals model value, no further action");
+            logChannel.log(10000000, "ComboBoxController#setSelectedIndex: selected index equals model value, no further action");
             return false;
         }
         this.selectedIndex = n;
-        logChannel.log(-2137614336, "ComboBoxController#setSelectedIndex: new selected index, update label");
+        logChannel.log(10000000, "ComboBoxController#setSelectedIndex: new selected index, update label");
         this.updateLabel();
         this.setCompositesDirty(true);
         this.invalidateParentLayout();
@@ -734,22 +725,19 @@ ContentEnabledListener {
             int n = choiceModelGUI.getValue();
             return this.modelValueToComboIndex(n);
         }
-        logChannel.log(-1601830656, "ComboBoxController#getSelectedIndexFromModel: Unknown model %2: %1", this.model, (long)this.modelID);
+        logChannel.log(100000, "ComboBoxController#getSelectedIndexFromModel: Unknown model %2: %1", this.model, (long)this.modelID);
         return -1;
     }
 
-    @Override
     public int getPreferredHeight() {
         int n = Math.max(this.label.getPreferredHeight(), this.closedIcon.getPreferredHeight());
         return n;
     }
 
-    @Override
     public int getBaseline() {
         return this.label.getBaseline();
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         this.doLayout();
         super.render(redrawContext);
@@ -845,14 +833,12 @@ ContentEnabledListener {
         return this.closedIcon;
     }
 
-    @Override
     public void disconnecting() {
         this.close();
         this.timer.cancelTimer();
         super.disconnecting();
     }
 
-    @Override
     public void predisconnecting() {
         if (this.isOpen()) {
             this.close();
@@ -873,7 +859,6 @@ ContentEnabledListener {
         return this.selectedIndex;
     }
 
-    @Override
     protected void destroyWidget() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -881,11 +866,9 @@ ContentEnabledListener {
         this.animation = null;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (this.isClosing) {
             this.comboBoxBackground.close();
@@ -897,7 +880,7 @@ ContentEnabledListener {
                 this.renderer.close();
             }
             this.setCompositesDirty(true);
-            this.label.setDepth(-129);
+            this.label.setDepth(Integer.MAX_VALUE);
             this.label.setCompositesDirty(true);
             if (this.type == 1) {
                 this.comboBoxBackground.setVisible(false);
@@ -911,7 +894,6 @@ ContentEnabledListener {
         this.isClosing = false;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         if (n == 98) {
             int n3;
@@ -979,7 +961,7 @@ ContentEnabledListener {
             this.animation.stopAnimation();
         } else {
             this.doLayout();
-            this.animation.startDynamicAnimation(0.0f, 31300, 98, true, this);
+            this.animation.startDynamicAnimation(0.0f, 1000.0f, 98, true, this);
         }
     }
 
@@ -991,7 +973,7 @@ ContentEnabledListener {
                 this.animation.stopAnimation();
             } else {
                 this.doLayout();
-                this.animation.startDynamicAnimation(0.0f, 31300, 76, true, this);
+                this.animation.startDynamicAnimation(0.0f, 1000.0f, 76, true, this);
             }
         }
     }
@@ -1014,7 +996,7 @@ ContentEnabledListener {
         if (!this.isOpening && this.open) {
             this.reset();
         } else if (this.type == 1 && !this.getParent().isVisible()) {
-            logChannel.log(-1601830656, "ComboBoxController#close Parent (SubelementMenuController) was set to invisible, close combobox");
+            logChannel.log(100000, "ComboBoxController#close Parent (SubelementMenuController) was set to invisible, close combobox");
             this.reset();
         }
     }
@@ -1040,7 +1022,7 @@ ContentEnabledListener {
             this.refreshAvailableHints();
             this.prepareForOpen();
             this.open = true;
-            this.dimParentElements(63, false);
+            this.dimParentElements(0.5f, false);
             this.isOpening = true;
             this.isClosing = false;
             if (this.type == 1) {
@@ -1053,7 +1035,6 @@ ContentEnabledListener {
         }
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
         super.handleFocusChanged(n, n2, n3);
         if (n != 1) {
@@ -1077,10 +1058,10 @@ ContentEnabledListener {
             return;
         }
         if (this.model instanceof ChoiceModelGUI) {
-            menuLogCh.log(-2137614336, "ComboBoxController#menuItemFocused: notify choiceModel, item: %1", (long)n);
+            menuLogCh.log(10000000, "ComboBoxController#menuItemFocused: notify choiceModel, item: %1", (long)n);
             ((ChoiceModelGUI)this.model).itemFocused(n, this.terminal.getTerminalID());
         } else {
-            logChannel.log(-1601830656, "ComboBoxController#menuItemFocused: Unknown model %2: %1", this.model, (long)this.modelID);
+            logChannel.log(100000, "ComboBoxController#menuItemFocused: Unknown model %2: %1", this.model, (long)this.modelID);
         }
     }
 
@@ -1089,10 +1070,10 @@ ContentEnabledListener {
             return;
         }
         if (this.model instanceof ChoiceModelGUI) {
-            menuLogCh.log(-2137614336, "ComboBoxController#menuItemFocusCleared: no focused item for choice model");
+            menuLogCh.log(10000000, "ComboBoxController#menuItemFocusCleared: no focused item for choice model");
             ((ChoiceModelGUI)this.model).itemFocused(-1, this.terminal.getTerminalID());
         } else {
-            logChannel.log(-1601830656, "ComboBoxController#menuItemFocused: Unknown model %2: %1", this.model, (long)this.modelID);
+            logChannel.log(100000, "ComboBoxController#menuItemFocused: Unknown model %2: %1", this.model, (long)this.modelID);
         }
     }
 
@@ -1104,7 +1085,6 @@ ContentEnabledListener {
         this.additionalSpace = n;
     }
 
-    @Override
     public boolean hasBaseline() {
         return true;
     }

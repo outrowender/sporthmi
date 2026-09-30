@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavVersionInfo;
 
 public class NavVersionInfoSerializer {
-    public static void putOptionalNavVersionInfo(ISerializer iSerializer, NavVersionInfo navVersionInfo) {
+    public static void putOptionalNavVersionInfo(ISerializer iSerializer, NavVersionInfo navVersionInfo) throws SerializerException {
         boolean bl = navVersionInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class NavVersionInfoSerializer {
         }
     }
 
-    public static void putOptionalNavVersionInfoVarArray(ISerializer iSerializer, NavVersionInfo[] navVersionInfoArray) {
+    public static void putOptionalNavVersionInfoVarArray(ISerializer iSerializer, NavVersionInfo[] navVersionInfoArray) throws SerializerException {
         boolean bl = navVersionInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class NavVersionInfoSerializer {
         }
     }
 
-    public static NavVersionInfo getOptionalNavVersionInfo(IDeserializer iDeserializer) {
+    public static NavVersionInfo getOptionalNavVersionInfo(IDeserializer iDeserializer) throws SerializerException {
         NavVersionInfo navVersionInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class NavVersionInfoSerializer {
         return navVersionInfo;
     }
 
-    public static NavVersionInfo[] getOptionalNavVersionInfoVarArray(IDeserializer iDeserializer) {
+    public static NavVersionInfo[] getOptionalNavVersionInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavVersionInfo[] navVersionInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

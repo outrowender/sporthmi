@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.telephoneng;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.telephoneng.DSIMobileEquipmentReply;
 import de.esolutions.fw.comm.dsi.telephoneng.impl.DSIMobileEquipmentReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -44,13 +45,11 @@ implements DSIMobileEquipmentReply {
         super(n, (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener == null ? (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener = DSIMobileEquipmentDispatcher.class$("org.dsi.ifc.telephoneng.DSIMobileEquipmentListener")) : class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseAbortNetworkRegistration(int n) {
+    public void responseAbortNetworkRegistration(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -66,8 +65,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseAbortNetworkSearch(int n) {
+    public void responseAbortNetworkSearch(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -83,8 +81,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseAcceptCall(int n) {
+    public void responseAcceptCall(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -100,8 +97,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseCallForward(CFResponseData[] cFResponseDataArray, int n) {
+    public void responseCallForward(CFResponseData[] cFResponseDataArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -117,8 +113,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseCallWaiting(int n, int n2) {
+    public void responseCallWaiting(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -134,8 +129,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseChangeSIMCode(int n, int n2) {
+    public void responseChangeSIMCode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -151,8 +145,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseCLIR(int n, int n2, int n3) {
+    public void responseCLIR(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -168,8 +161,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseDialNumber(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
+    public void responseDialNumber(int n, SuppServiceResponseStruct suppServiceResponseStruct) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -185,8 +177,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseDialOperator(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
+    public void responseDialOperator(int n, SuppServiceResponseStruct suppServiceResponseStruct) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -202,8 +193,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSendDTMF(int n) {
+    public void responseSendDTMF(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -219,8 +209,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateDTMFTonePlaying(String string, int n) {
+    public void updateDTMFTonePlaying(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -248,8 +237,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateEmergencyNumbers(EmergencyNumbers emergencyNumbers, int n) {
+    public void updateEmergencyNumbers(EmergencyNumbers emergencyNumbers, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -277,8 +265,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseRemoveOtherSIM(int n) {
+    public void responseRemoveOtherSIM(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -294,8 +281,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSIMPINRequired(int n) {
+    public void responseSIMPINRequired(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -311,8 +297,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateOtherSIMAvailable(boolean bl, int n) {
+    public void updateOtherSIMAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -340,8 +325,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSIMPINRequired(boolean bl, int n) {
+    public void updateSIMPINRequired(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -369,8 +353,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseHangupCall(int n) {
+    public void responseHangupCall(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -386,8 +369,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseJoinCalls(int n) {
+    public void responseJoinCalls(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -403,8 +385,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseNetworkRegistration(int n) {
+    public void responseNetworkRegistration(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -420,8 +401,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
+    public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -437,8 +417,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseUnlockOtherSIM(int n) {
+    public void responseUnlockOtherSIM(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -454,8 +433,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseUnlockSIM(int n) {
+    public void responseUnlockSIM(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -471,8 +449,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseCheckSIMPINCode(int n) {
+    public void responseCheckSIMPINCode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -488,8 +465,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n) {
+    public void responseRestoreFactorySettings(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -505,8 +481,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetHandsFreeMode(int n) {
+    public void responseSetHandsFreeMode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -522,8 +497,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetAutomaticPinEntryActive(int n) {
+    public void responseSetAutomaticPinEntryActive(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -539,8 +513,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetAutomaticRedialActive(int n) {
+    public void responseSetAutomaticRedialActive(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -556,8 +529,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseServiceCodeAbort(int n) {
+    public void responseServiceCodeAbort(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -573,8 +545,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSplitCall(int n) {
+    public void responseSplitCall(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -590,8 +561,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSwapCalls(int n) {
+    public void responseSwapCalls(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -607,8 +577,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseTelPower(int n) {
+    public void responseTelPower(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -624,8 +593,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateActivationState(ActivationStateStruct activationStateStruct, int n) {
+    public void updateActivationState(ActivationStateStruct activationStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -653,8 +621,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateAutomaticPinEntryActive(boolean bl, int n) {
+    public void updateAutomaticPinEntryActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -682,8 +649,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateAutomaticRedialActive(boolean bl, int n) {
+    public void updateAutomaticRedialActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -711,8 +677,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateBatteryChargeLevel(int n, int n2) {
+    public void updateBatteryChargeLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -740,8 +705,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateCallDurationList(CallDuration[] callDurationArray, int n) {
+    public void updateCallDurationList(CallDuration[] callDurationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -769,8 +733,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateCallList(CallInformation[] callInformationArray, int n) {
+    public void updateCallList(CallInformation[] callInformationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -798,8 +761,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateCDMAThreeWayCallingSetting(boolean bl, int n) {
+    public void updateCDMAThreeWayCallingSetting(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -827,8 +789,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateCradlePlugInState(int n, int n2) {
+    public void updateCradlePlugInState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -856,8 +817,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateDisconnectReason(DisconnectReason disconnectReason, int n) {
+    public void updateDisconnectReason(DisconnectReason disconnectReason, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -885,8 +845,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateEmergencyCallActive(EmergencyCallSetting emergencyCallSetting, int n) {
+    public void updateEmergencyCallActive(EmergencyCallSetting emergencyCallSetting, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -914,8 +873,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateEnhancedPrivacyMode(boolean bl, int n) {
+    public void updateEnhancedPrivacyMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -943,8 +901,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateHandsFreeMode(int n, int n2) {
+    public void updateHandsFreeMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -972,8 +929,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateLockState(LockStateStruct lockStateStruct, int n) {
+    public void updateLockState(LockStateStruct lockStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -1001,8 +957,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray, int n) {
+    public void updateMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -1030,8 +985,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateMICMuteState(int n, int n2) {
+    public void updateMICMuteState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -1059,8 +1013,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) {
+    public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -1088,8 +1041,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
+    public void updatePhoneInformation(PhoneInformation phoneInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -1117,8 +1069,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) {
+    public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1146,8 +1097,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateNetworkType(int n, int n2) {
+    public void updateNetworkType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1175,8 +1125,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updatePrivacyMode(boolean bl, int n) {
+    public void updatePrivacyMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1204,8 +1153,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) {
+    public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1233,8 +1181,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateServiceCodeType(ServiceCodeTypeStruct serviceCodeTypeStruct, int n) {
+    public void updateServiceCodeType(ServiceCodeTypeStruct serviceCodeTypeStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1262,8 +1209,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateServiceNumbers(ServiceNumbers serviceNumbers, int n) {
+    public void updateServiceNumbers(ServiceNumbers serviceNumbers, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1291,8 +1237,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSignalQuality(int n, int n2) {
+    public void updateSignalQuality(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -1320,8 +1265,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSuppServiceResponse(SuppServiceResponseStruct suppServiceResponseStruct, int n) {
+    public void updateSuppServiceResponse(SuppServiceResponseStruct suppServiceResponseStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -1349,8 +1293,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateServiceProvider(ServiceProvider serviceProvider, int n) {
+    public void updateServiceProvider(ServiceProvider serviceProvider, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -1378,8 +1321,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateNADMode(int n, int n2) {
+    public void updateNADMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -1407,8 +1349,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetCDMAThreeWayCallingSetting(int n) {
+    public void responseSetCDMAThreeWayCallingSetting(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1424,8 +1365,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetAutomaticEmergencyCallActive(int n) {
+    public void responseSetAutomaticEmergencyCallActive(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1441,8 +1381,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetMailboxContent(int n) {
+    public void responseSetMailboxContent(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1458,8 +1397,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetPrivacyMode(int n) {
+    public void responseSetPrivacyMode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1475,8 +1413,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetSIMAliases(int n) {
+    public void responseSetSIMAliases(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1492,8 +1429,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetMICMuteState(int n) {
+    public void responseSetMICMuteState(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1509,8 +1445,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetOptimizationMode(int n, int n2) {
+    public void responseSetOptimizationMode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1526,8 +1461,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetNADMode(int n, int n2) {
+    public void responseSetNADMode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1543,8 +1477,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateMicGainLevel(int n, int n2) {
+    public void updateMicGainLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -1572,8 +1505,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSIMAliasInformation(SIMAliasInformation sIMAliasInformation, int n) {
+    public void updateSIMAliasInformation(SIMAliasInformation sIMAliasInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -1601,8 +1533,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateOptimizationMode(int n, int n2) {
+    public void updateOptimizationMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -1630,8 +1561,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetPhoneReminderSetting(int n) {
+    public void responseSetPhoneReminderSetting(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1647,8 +1577,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetPrefixActivated(int n) {
+    public void responseSetPrefixActivated(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1664,8 +1593,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetPrefixContent(int n) {
+    public void responseSetPrefixContent(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1681,8 +1609,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updatePhoneReminderSetting(boolean bl, int n) {
+    public void updatePhoneReminderSetting(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1710,8 +1637,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updatePrefixActivated(boolean bl, int n) {
+    public void updatePrefixActivated(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1739,8 +1665,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updatePrefixContent(String string, int n) {
+    public void updatePrefixContent(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1768,8 +1693,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateWidebandSpeech(boolean bl, int n) {
+    public void updateWidebandSpeech(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1797,8 +1721,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetPhoneRingtone(int n) {
+    public void responseSetPhoneRingtone(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1814,8 +1737,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updatePhoneRingtone(int n, String string, int n2) {
+    public void updatePhoneRingtone(int n, String string, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -1843,8 +1765,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetFavorites(int n) {
+    public void responseSetFavorites(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1860,8 +1781,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateFavorites(Favorite[] favoriteArray, int n) {
+    public void updateFavorites(Favorite[] favoriteArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -1889,8 +1809,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSAPUpgradeActive(boolean bl, int n) {
+    public void updateSAPUpgradeActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -1918,8 +1837,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetSIMName(int n) {
+    public void responseSetSIMName(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1935,8 +1853,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseSetESIMActive(int n) {
+    public void responseSetESIMActive(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1952,8 +1869,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateEUICCID(String string, int n) {
+    public void updateEUICCID(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1981,8 +1897,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateESIMMSISDN(String string, int n) {
+    public void updateESIMMSISDN(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -2010,8 +1925,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateESimActive(boolean bl, int n) {
+    public void updateESimActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -2039,8 +1953,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateESimB2BMode(boolean bl, int n) {
+    public void updateESimB2BMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -2068,8 +1981,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateCallstacksIsReverted(boolean bl, int n) {
+    public void updateCallstacksIsReverted(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -2097,8 +2009,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) {
+    public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -2126,8 +2037,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) {
+    public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -2155,8 +2065,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) {
+    public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -2184,8 +2093,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateMEDataValidity(int n, int n2) {
+    public void updateMEDataValidity(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -2213,8 +2121,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) {
+    public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -2242,8 +2149,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSpeechRecognitionAvailable(int n, int n2) {
+    public void updateSpeechRecognitionAvailable(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -2271,8 +2177,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSpeechRecognitionActive(int n, int n2) {
+    public void updateSpeechRecognitionActive(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -2300,8 +2205,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void updateSpeechRecognitionType(int n, int n2) {
+    public void updateSpeechRecognitionType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -2329,8 +2233,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseStartSpeechRecognition(int n) {
+    public void responseStartSpeechRecognition(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2346,8 +2249,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void responseStopSpeechRecognition(int n) {
+    public void responseStopSpeechRecognition(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2363,8 +2265,7 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2380,14 +2281,13 @@ implements DSIMobileEquipmentReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMobileEquipmentListener dSIMobileEquipmentListener = (DSIMobileEquipmentListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMobileEquipmentDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMobileEquipmentDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMobileEquipmentListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMobileEquipmentDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMobileEquipmentDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMobileEquipmentListener, new Object[]{string, string2});
                     continue;
                 }

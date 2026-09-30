@@ -11,12 +11,10 @@ extends EncodedKeySpec {
         super(byArray);
     }
 
-    @Override
     public byte[] getEncoded() {
         return super.getEncoded();
     }
 
-    @Override
     public final String getFormat() {
         return "X.509";
     }

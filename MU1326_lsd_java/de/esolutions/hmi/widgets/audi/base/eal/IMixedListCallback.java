@@ -4,7 +4,6 @@
 package de.esolutions.hmi.widgets.audi.base.eal;
 
 public interface IMixedListCallback {
-    default public void kZBMergedCallback(boolean bl) {
-    }
+    public void kZBMergedCallback(boolean var1);
 }
 

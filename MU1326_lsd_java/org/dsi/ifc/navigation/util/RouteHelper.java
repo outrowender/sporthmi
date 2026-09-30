@@ -7,7 +7,7 @@ import org.dsi.ifc.navigation.Route;
 import org.dsi.ifc.navigation.RouteDestination;
 
 public class RouteHelper {
-    public static void addDestinationAtPosition(Route route, RouteDestination routeDestination, int n) {
+    public static void addDestinationAtPosition(Route route, RouteDestination routeDestination, int n) throws ArrayIndexOutOfBoundsException {
         if (route.routelist == null && n != 0 || route.routelist != null && (n < 0 || n > route.routelist.length)) {
             throw new ArrayIndexOutOfBoundsException(n);
         }
@@ -40,7 +40,7 @@ public class RouteHelper {
         route.routelist = new RouteDestination[]{route.routelist[route.routelist.length - 1]};
     }
 
-    public static void deleteDestinationAtPosition(Route route, int n) {
+    public static void deleteDestinationAtPosition(Route route, int n) throws ArrayIndexOutOfBoundsException {
         if (route.routelist == null || n < 0 || n >= route.routelist.length) {
             throw new ArrayIndexOutOfBoundsException(n);
         }
@@ -51,20 +51,20 @@ public class RouteHelper {
         RouteHelper.correctDestinationType(route);
     }
 
-    public static RouteDestination getDestinationAtPosition(Route route, int n) {
+    public static RouteDestination getDestinationAtPosition(Route route, int n) throws ArrayIndexOutOfBoundsException {
         if (route.routelist == null || n < 0 || n >= route.routelist.length) {
             throw new ArrayIndexOutOfBoundsException(n);
         }
         return route.routelist[n];
     }
 
-    public static void moveDestination(Route route, int n, int n2) {
+    public static void moveDestination(Route route, int n, int n2) throws ArrayIndexOutOfBoundsException {
         RouteDestination routeDestination = RouteHelper.getDestinationAtPosition(route, n);
         RouteHelper.deleteDestinationAtPosition(route, n);
         RouteHelper.addDestinationAtPosition(route, routeDestination, n2);
     }
 
-    public static void replaceDestinationAtPosition(Route route, RouteDestination routeDestination, int n) {
+    public static void replaceDestinationAtPosition(Route route, RouteDestination routeDestination, int n) throws ArrayIndexOutOfBoundsException {
         if (route.routelist == null || n < 0 || n >= route.routelist.length) {
             throw new ArrayIndexOutOfBoundsException(n);
         }

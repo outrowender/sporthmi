@@ -20,7 +20,6 @@ extends LayoutContainerController {
         this.setRenderer(compositeRendererHigh);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
     }
@@ -31,7 +30,7 @@ extends LayoutContainerController {
 
     public boolean isVisibilityLocked() {
         if (sideBarLogChannel.isDebug()) {
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebarSegment#isVisibilityLocked The segment %2 is %1", this.visibilityMutex, (Object)this);
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebarSegment#isVisibilityLocked The segment %2 is %1", this.visibilityMutex, (Object)this);
         }
         return this.visibilityMutex;
     }
@@ -50,7 +49,6 @@ extends LayoutContainerController {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (!this.isVisibilityLocked()) {
             super.setVisible(bl);

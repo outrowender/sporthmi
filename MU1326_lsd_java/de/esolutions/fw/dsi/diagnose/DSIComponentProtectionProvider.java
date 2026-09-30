@@ -25,28 +25,23 @@ implements DSIComponentProtection {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$diagnose$DSIComponentProtection == null ? (class$org$dsi$ifc$diagnose$DSIComponentProtection = DSIComponentProtectionProvider.class$("org.dsi.ifc.diagnose.DSIComponentProtection")) : class$org$dsi$ifc$diagnose$DSIComponentProtection).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIComponentProtectionProxy(this.instance, (DSIComponentProtectionReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void authString(String string, int n, int n2) {
         try {
             this.proxy.authString(string, n, n2);
@@ -56,7 +51,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -66,7 +60,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -76,7 +69,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -86,7 +78,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -96,7 +87,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -106,7 +96,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -116,7 +105,6 @@ implements DSIComponentProtection {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

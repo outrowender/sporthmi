@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.SemiStaticDataViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SemiStaticDataViewOptionsSerializer {
-    public static void putOptionalSemiStaticDataViewOptions(ISerializer iSerializer, SemiStaticDataViewOptions semiStaticDataViewOptions) {
+    public static void putOptionalSemiStaticDataViewOptions(ISerializer iSerializer, SemiStaticDataViewOptions semiStaticDataViewOptions) throws SerializerException {
         boolean bl = semiStaticDataViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SemiStaticDataViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSemiStaticDataViewOptionsVarArray(ISerializer iSerializer, SemiStaticDataViewOptions[] semiStaticDataViewOptionsArray) {
+    public static void putOptionalSemiStaticDataViewOptionsVarArray(ISerializer iSerializer, SemiStaticDataViewOptions[] semiStaticDataViewOptionsArray) throws SerializerException {
         boolean bl = semiStaticDataViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SemiStaticDataViewOptionsSerializer {
         }
     }
 
-    public static SemiStaticDataViewOptions getOptionalSemiStaticDataViewOptions(IDeserializer iDeserializer) {
+    public static SemiStaticDataViewOptions getOptionalSemiStaticDataViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SemiStaticDataViewOptions semiStaticDataViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class SemiStaticDataViewOptionsSerializer {
         return semiStaticDataViewOptions;
     }
 
-    public static SemiStaticDataViewOptions[] getOptionalSemiStaticDataViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SemiStaticDataViewOptions[] getOptionalSemiStaticDataViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SemiStaticDataViewOptions[] semiStaticDataViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

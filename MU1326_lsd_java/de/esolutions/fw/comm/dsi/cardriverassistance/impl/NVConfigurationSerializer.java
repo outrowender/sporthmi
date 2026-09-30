@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.NVConfiguration;
 
 public class NVConfigurationSerializer {
-    public static void putOptionalNVConfiguration(ISerializer iSerializer, NVConfiguration nVConfiguration) {
+    public static void putOptionalNVConfiguration(ISerializer iSerializer, NVConfiguration nVConfiguration) throws SerializerException {
         boolean bl = nVConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class NVConfigurationSerializer {
         }
     }
 
-    public static void putOptionalNVConfigurationVarArray(ISerializer iSerializer, NVConfiguration[] nVConfigurationArray) {
+    public static void putOptionalNVConfigurationVarArray(ISerializer iSerializer, NVConfiguration[] nVConfigurationArray) throws SerializerException {
         boolean bl = nVConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class NVConfigurationSerializer {
         }
     }
 
-    public static NVConfiguration getOptionalNVConfiguration(IDeserializer iDeserializer) {
+    public static NVConfiguration getOptionalNVConfiguration(IDeserializer iDeserializer) throws SerializerException {
         NVConfiguration nVConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class NVConfigurationSerializer {
         return nVConfiguration;
     }
 
-    public static NVConfiguration[] getOptionalNVConfigurationVarArray(IDeserializer iDeserializer) {
+    public static NVConfiguration[] getOptionalNVConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         NVConfiguration[] nVConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

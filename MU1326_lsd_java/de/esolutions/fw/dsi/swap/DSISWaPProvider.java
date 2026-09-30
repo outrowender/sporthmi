@@ -25,28 +25,23 @@ implements DSISWaP {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$swap$DSISWaP == null ? (class$org$dsi$ifc$swap$DSISWaP = DSISWaPProvider.class$("org.dsi.ifc.swap.DSISWaP")) : class$org$dsi$ifc$swap$DSISWaP).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISWaPProxy(this.instance, (DSISWaPReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void encryptFile(String string, String string2, byte[] byArray) {
         try {
             this.proxy.encryptFile(string, string2, byArray);
@@ -56,7 +51,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void checkSignature(String string, short[] sArray, int n, long l) {
         try {
             this.proxy.checkSignature(string, sArray, n, l);
@@ -66,7 +60,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void getPublicKey() {
         try {
             this.proxy.getPublicKey();
@@ -76,7 +69,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void checkSingleFsc(int n) {
         try {
             this.proxy.checkSingleFsc(n);
@@ -86,7 +78,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void decryptFile(String string, String string2, byte[] byArray) {
         try {
             this.proxy.decryptFile(string, string2, byArray);
@@ -96,7 +87,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void getFscDetails(int n, int n2, int n3) {
         try {
             this.proxy.getFscDetails(n, n2, n3);
@@ -106,7 +96,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void triggerSoftwareEnabling() {
         try {
             this.proxy.triggerSoftwareEnabling();
@@ -116,7 +105,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void importFSCs(int n) {
         try {
             this.proxy.importFSCs(n);
@@ -126,7 +114,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void exportCCD(int n) {
         try {
             this.proxy.exportCCD(n);
@@ -136,7 +123,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void getHistory() {
         try {
             this.proxy.getHistory();
@@ -146,7 +132,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -156,7 +141,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -166,7 +150,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -176,7 +159,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -186,7 +168,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -196,7 +177,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -206,7 +186,6 @@ implements DSISWaP {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

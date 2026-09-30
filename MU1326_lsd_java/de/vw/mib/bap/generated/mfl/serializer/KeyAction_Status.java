@@ -10,74 +10,74 @@ import de.vw.mib.bap.stream.BitStream;
 public final class KeyAction_Status
 implements StatusProperty {
     public int fsgactionKey1;
-    private static final int FSG_ACTION_KEY1_BITSIZE;
-    public static final int FSG_ACTION_KEY1_IDLE_NO_ACTION;
-    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_COMPLETE;
-    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_OFF;
-    public static final int FSG_ACTION_KEY1_SWITCH_MAP_COLOR_TO_DAY;
-    public static final int FSG_ACTION_KEY1_SWITCH_MAP_COLOR_TO_NIGHT;
-    public static final int FSG_ACTION_KEY1_TRAFFIC_ANNOUNCEMENT_ON;
-    public static final int FSG_ACTION_KEY1_TRAFFIC_ANNOUNCEMENT_OFF;
-    public static final int FSG_ACTION_KEY1_NAVIGATE_TO_HOME;
-    public static final int FSG_ACTION_KEY1_AUXILIARY_HEATING_ON;
-    public static final int FSG_ACTION_KEY1_AUXILIARY_HEATING_OFF;
-    public static final int FSG_ACTION_KEY1_DISPLAY_OFF;
-    public static final int FSG_ACTION_KEY1_DISPLAY_ON;
-    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_TRAFFIC_DF3_1;
-    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_SHORT_DF3_1;
-    public static final int FSG_ACTION_KEY1_MAP_INFO_OFF_DF3_1;
-    public static final int FSG_ACTION_KEY1_MAP_INFO_ROUTE_DF3_1;
-    public static final int FSG_ACTION_KEY1_MAP_INFO_OVERVIEW_MAP_DF3_1;
-    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_CALL_ACTIVE_DF3_2;
-    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_NO_SIM_DF3_2;
-    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_GENERAL_ERROR_DF3_2;
-    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_NO_PHONE_DF3_3;
-    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_OFF_DF3_3;
-    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_DF3_3;
-    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_WEAK_DF3_3;
-    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_MEDIUM_DF3_3;
-    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_STRONG_DF3_3;
+    private static final int FSG_ACTION_KEY1_BITSIZE = 8;
+    public static final int FSG_ACTION_KEY1_IDLE_NO_ACTION = 0;
+    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_COMPLETE = 1;
+    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_OFF = 2;
+    public static final int FSG_ACTION_KEY1_SWITCH_MAP_COLOR_TO_DAY = 3;
+    public static final int FSG_ACTION_KEY1_SWITCH_MAP_COLOR_TO_NIGHT = 4;
+    public static final int FSG_ACTION_KEY1_TRAFFIC_ANNOUNCEMENT_ON = 5;
+    public static final int FSG_ACTION_KEY1_TRAFFIC_ANNOUNCEMENT_OFF = 6;
+    public static final int FSG_ACTION_KEY1_NAVIGATE_TO_HOME = 7;
+    public static final int FSG_ACTION_KEY1_AUXILIARY_HEATING_ON = 8;
+    public static final int FSG_ACTION_KEY1_AUXILIARY_HEATING_OFF = 9;
+    public static final int FSG_ACTION_KEY1_DISPLAY_OFF = 10;
+    public static final int FSG_ACTION_KEY1_DISPLAY_ON = 11;
+    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_TRAFFIC_DF3_1 = 12;
+    public static final int FSG_ACTION_KEY1_VOICE_GUIDANCE_SHORT_DF3_1 = 13;
+    public static final int FSG_ACTION_KEY1_MAP_INFO_OFF_DF3_1 = 14;
+    public static final int FSG_ACTION_KEY1_MAP_INFO_ROUTE_DF3_1 = 15;
+    public static final int FSG_ACTION_KEY1_MAP_INFO_OVERVIEW_MAP_DF3_1 = 16;
+    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_CALL_ACTIVE_DF3_2 = 17;
+    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_NO_SIM_DF3_2 = 18;
+    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_GENERAL_ERROR_DF3_2 = 19;
+    public static final int FSG_ACTION_KEY1_POI_CALL_UNAVAILABLE_NO_PHONE_DF3_3 = 20;
+    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_OFF_DF3_3 = 21;
+    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_DF3_3 = 22;
+    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_WEAK_DF3_3 = 23;
+    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_MEDIUM_DF3_3 = 24;
+    public static final int FSG_ACTION_KEY1_STEERINGWHEELHEATER_ON_STRONG_DF3_3 = 25;
     public int fsgactionKey2;
-    private static final int FSG_ACTION_KEY2_BITSIZE;
-    public static final int FSG_ACTION_KEY2_IDLE_NO_ACTION;
-    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_COMPLETE;
-    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_OFF;
-    public static final int FSG_ACTION_KEY2_SWITCH_MAP_COLOR_TO_DAY;
-    public static final int FSG_ACTION_KEY2_SWITCH_MAP_COLOR_TO_NIGHT;
-    public static final int FSG_ACTION_KEY2_TRAFFIC_ANNOUNCEMENT_ON;
-    public static final int FSG_ACTION_KEY2_TRAFFIC_ANNOUNCEMENT_OFF;
-    public static final int FSG_ACTION_KEY2_NAVIGATE_TO_HOME;
-    public static final int FSG_ACTION_KEY2_AUXILIARY_HEATING_ON;
-    public static final int FSG_ACTION_KEY2_AUXILIARY_HEATING_OFF;
-    public static final int FSG_ACTION_KEY2_DISPLAY_OFF;
-    public static final int FSG_ACTION_KEY2_DISPLAY_ON;
-    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_TRAFFIC_DF3_1;
-    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_SHORT_DF3_1;
-    public static final int FSG_ACTION_KEY2_MAP_INFO_OFF_DF3_1;
-    public static final int FSG_ACTION_KEY2_MAP_INFO_ROUTE_DF3_1;
-    public static final int FSG_ACTION_KEY2_MAP_INFO_OVERVIEW_MAP_DF3_1;
-    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_CALL_ACTIVE_DF3_2;
-    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_NO_SIM_DF3_2;
-    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_GENERAL_ERROR_DF3_2;
-    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_NO_PHONE_DF3_3;
-    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_OFF_DF3_3;
-    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_DF3_3;
-    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_WEAK_DF3_3;
-    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_MEDIUM_DF3_3;
-    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_STRONG_DF3_3;
+    private static final int FSG_ACTION_KEY2_BITSIZE = 8;
+    public static final int FSG_ACTION_KEY2_IDLE_NO_ACTION = 0;
+    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_COMPLETE = 1;
+    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_OFF = 2;
+    public static final int FSG_ACTION_KEY2_SWITCH_MAP_COLOR_TO_DAY = 3;
+    public static final int FSG_ACTION_KEY2_SWITCH_MAP_COLOR_TO_NIGHT = 4;
+    public static final int FSG_ACTION_KEY2_TRAFFIC_ANNOUNCEMENT_ON = 5;
+    public static final int FSG_ACTION_KEY2_TRAFFIC_ANNOUNCEMENT_OFF = 6;
+    public static final int FSG_ACTION_KEY2_NAVIGATE_TO_HOME = 7;
+    public static final int FSG_ACTION_KEY2_AUXILIARY_HEATING_ON = 8;
+    public static final int FSG_ACTION_KEY2_AUXILIARY_HEATING_OFF = 9;
+    public static final int FSG_ACTION_KEY2_DISPLAY_OFF = 10;
+    public static final int FSG_ACTION_KEY2_DISPLAY_ON = 11;
+    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_TRAFFIC_DF3_1 = 12;
+    public static final int FSG_ACTION_KEY2_VOICE_GUIDANCE_SHORT_DF3_1 = 13;
+    public static final int FSG_ACTION_KEY2_MAP_INFO_OFF_DF3_1 = 14;
+    public static final int FSG_ACTION_KEY2_MAP_INFO_ROUTE_DF3_1 = 15;
+    public static final int FSG_ACTION_KEY2_MAP_INFO_OVERVIEW_MAP_DF3_1 = 16;
+    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_CALL_ACTIVE_DF3_2 = 17;
+    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_NO_SIM_DF3_2 = 18;
+    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_GENERAL_ERROR_DF3_2 = 19;
+    public static final int FSG_ACTION_KEY2_POI_CALL_UNAVAILABLE_NO_PHONE_DF3_3 = 20;
+    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_OFF_DF3_3 = 21;
+    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_DF3_3 = 22;
+    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_WEAK_DF3_3 = 23;
+    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_MEDIUM_DF3_3 = 24;
+    public static final int FSG_ACTION_KEY2_STEERINGWHEELHEATER_ON_STRONG_DF3_3 = 25;
     public int fsgkeyNoFunc;
-    private static final int FSG_KEY_NO_FUNC_BITSIZE;
-    public static final int FSG_KEY_NO_FUNC_IDLE_NO_ACTION;
-    public static final int FSG_KEY_NO_FUNC_I_NAV_NO_FUNCTIONALITY;
-    public static final int FSG_KEY_NO_FUNC_SDS_NO_FUNCTIONALITY;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_ACTION_NOT_SUCCESSFUL;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_AUXILIARY_HEATING_SYSTEM_ERROR;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_AUXILIARY_HEATING_LOW_FUEL;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_AUXILIARY_HEATING_LOW_VOLTAGE;
-    public static final int FSG_KEY_NO_FUNC_TELEPHONE_NO_FUNCTIONALITY_DF3_1;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_PARKING_CURBVIEW_NOT_POSSIBLE_DF3_3;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_PARKING_PANORAMAVIEW_NOT_POSSIBLE_DF3_3;
-    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_STEERING_WHEEL_HEATER_NOT_FUNCTIONAL_DF3_3;
+    private static final int FSG_KEY_NO_FUNC_BITSIZE = 8;
+    public static final int FSG_KEY_NO_FUNC_IDLE_NO_ACTION = 0;
+    public static final int FSG_KEY_NO_FUNC_I_NAV_NO_FUNCTIONALITY = 1;
+    public static final int FSG_KEY_NO_FUNC_SDS_NO_FUNCTIONALITY = 2;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_ACTION_NOT_SUCCESSFUL = 3;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_AUXILIARY_HEATING_SYSTEM_ERROR = 4;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_AUXILIARY_HEATING_LOW_FUEL = 5;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_AUXILIARY_HEATING_LOW_VOLTAGE = 6;
+    public static final int FSG_KEY_NO_FUNC_TELEPHONE_NO_FUNCTIONALITY_DF3_1 = 7;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_PARKING_CURBVIEW_NOT_POSSIBLE_DF3_3 = 8;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_PARKING_PANORAMAVIEW_NOT_POSSIBLE_DF3_3 = 9;
+    public static final int FSG_KEY_NO_FUNC_JOKER_KEY_STEERING_WHEEL_HEATER_NOT_FUNCTIONAL_DF3_3 = 10;
 
     public KeyAction_Status() {
         this.internalReset();
@@ -95,12 +95,10 @@ implements StatusProperty {
         this.fsgkeyNoFunc = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         KeyAction_Status keyAction_Status = (KeyAction_Status)bAPEntity;
         return this.fsgactionKey1 == keyAction_Status.fsgactionKey1 && this.fsgactionKey2 == keyAction_Status.fsgactionKey2 && this.fsgkeyNoFunc == keyAction_Status.fsgkeyNoFunc;
@@ -109,7 +107,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("KeyAction_Status:");
@@ -386,7 +383,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -394,14 +390,12 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.fsgactionKey1);
         bitStream.pushByte((byte)this.fsgactionKey2);
         bitStream.pushByte((byte)this.fsgkeyNoFunc);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.fsgactionKey1 = bitStream.popFrontByte();
         this.fsgactionKey2 = bitStream.popFrontByte();
@@ -412,7 +406,6 @@ implements StatusProperty {
         return 18;
     }
 
-    @Override
     public int getFunctionId() {
         return KeyAction_Status.functionId();
     }

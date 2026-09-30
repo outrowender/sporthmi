@@ -24,13 +24,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         SimpleNode simpleNode = (SimpleNode)this.jjtGetChild(0);
         Object object = simpleNode.value(jexlContext);
         if (object == null) {
@@ -39,7 +37,7 @@ extends SimpleNode {
         return new Integer(ASTSizeFunction.sizeOf(object));
     }
 
-    public static int sizeOf(Object object) {
+    public static int sizeOf(Object object) throws Exception {
         if (object instanceof Collection) {
             return ((Collection)object).size();
         }
@@ -59,7 +57,7 @@ extends SimpleNode {
             Integer n = (Integer)velMethod.invoke(object, objectArray);
             return n;
         }
-        throw new Exception(new StringBuffer().append("size() : unknown type : ").append(object.getClass()).toString());
+        throw new Exception("size() : unknown type : " + object.getClass());
     }
 }
 

@@ -6,13 +6,10 @@ package de.vw.mib.bap.functions;
 import de.vw.mib.bap.functions.BAPFunctionListener;
 
 public interface BAPFunction {
-    default public void indicationError(int n, BAPFunctionListener bAPFunctionListener) {
-    }
+    public void indicationError(int var1, BAPFunctionListener var2);
 
-    default public void requestAcknowledge() {
-    }
+    public void requestAcknowledge();
 
-    default public void errorAcknowledge() {
-    }
+    public void errorAcknowledge();
 }
 

@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carparkingsystem;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
 import org.dsi.ifc.carparkingsystem.PDCPLASystemState;
 import org.dsi.ifc.carparkingsystem.PDCPiloPaSystemState;
@@ -15,238 +16,160 @@ import org.dsi.ifc.carparkingsystem.VPSOPSOverlay;
 import org.dsi.ifc.global.CarArrayListUpdateInfo;
 
 public interface DSICarParkingSystemC {
-    default public void setHMIStateIsReady(boolean bl) {
-    }
+    public void setHMIStateIsReady(boolean var1) throws MethodException;
 
-    default public void setPDCDefaultParkingMode(int n) {
-    }
+    public void setPDCDefaultParkingMode(int var1) throws MethodException;
 
-    default public void setPDCMute(boolean bl) {
-    }
+    public void setPDCMute(boolean var1) throws MethodException;
 
-    default public void setPDCFrequenceFront(int n) {
-    }
+    public void setPDCFrequenceFront(int var1) throws MethodException;
 
-    default public void setPDCFrequenceRear(int n) {
-    }
+    public void setPDCFrequenceRear(int var1) throws MethodException;
 
-    default public void setPDCVolumeFront(int n) {
-    }
+    public void setPDCVolumeFront(int var1) throws MethodException;
 
-    default public void setPDCVolumeRear(int n) {
-    }
+    public void setPDCVolumeRear(int var1) throws MethodException;
 
-    default public void setPDCAutoActivation(boolean bl) {
-    }
+    public void setPDCAutoActivation(boolean var1) throws MethodException;
 
-    default public void setPDCSystemOnOff(boolean bl) {
-    }
+    public void setPDCSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setPDCFrequenceRight(int n) {
-    }
+    public void setPDCFrequenceRight(int var1) throws MethodException;
 
-    default public void setPDCFrequenceLeft(int n) {
-    }
+    public void setPDCFrequenceLeft(int var1) throws MethodException;
 
-    default public void setPDCVolumeRight(int n) {
-    }
+    public void setPDCVolumeRight(int var1) throws MethodException;
 
-    default public void setPDCVolumeLeft(int n) {
-    }
+    public void setPDCVolumeLeft(int var1) throws MethodException;
 
-    default public void setPDCFlankGuard(boolean bl) {
-    }
+    public void setPDCFlankGuard(boolean var1) throws MethodException;
 
-    default public void setPDCSoundReproduction(PDCSoundReproduction pDCSoundReproduction) {
-    }
+    public void setPDCSoundReproduction(PDCSoundReproduction var1) throws MethodException;
 
-    default public void setPDCSoundFront(PDCSound pDCSound) {
-    }
+    public void setPDCSoundFront(PDCSound var1) throws MethodException;
 
-    default public void setPDCSoundRear(PDCSound pDCSound) {
-    }
+    public void setPDCSoundRear(PDCSound var1) throws MethodException;
 
-    default public void setPDCSoundLeft(PDCSound pDCSound) {
-    }
+    public void setPDCSoundLeft(PDCSound var1) throws MethodException;
 
-    default public void setPDCSoundRight(PDCSound pDCSound) {
-    }
+    public void setPDCSoundRight(PDCSound var1) throws MethodException;
 
-    default public void setPDCPLAPreSelection(int n) {
-    }
+    public void setPDCPLAPreSelection(int var1) throws MethodException;
 
-    default public void setPDCPLAParkMode(int n) {
-    }
+    public void setPDCPLAParkMode(int var1) throws MethodException;
 
-    default public void setPDCPLASystemState(PDCPLASystemState pDCPLASystemState) {
-    }
+    public void setPDCPLASystemState(PDCPLASystemState var1) throws MethodException;
 
-    default public void setPDCOffroadMode(boolean bl) {
-    }
+    public void setPDCOffroadMode(boolean var1) throws MethodException;
 
-    default public void setPDCVisualisationParkbox(boolean bl) {
-    }
+    public void setPDCVisualisationParkbox(boolean var1) throws MethodException;
 
-    default public void setPDCOPSVisualisationPosition(int n) {
-    }
+    public void setPDCOPSVisualisationPosition(int var1) throws MethodException;
 
-    default public void setVPSFollowUpTime(int n) {
-    }
+    public void setVPSFollowUpTime(int var1) throws MethodException;
 
-    default public void setVPSColor(int n) {
-    }
+    public void setVPSColor(int var1) throws MethodException;
 
-    default public void setVPSContrast(int n) {
-    }
+    public void setVPSContrast(int var1) throws MethodException;
 
-    default public void setVPSBrightness(int n) {
-    }
+    public void setVPSBrightness(int var1) throws MethodException;
 
-    default public void setVPSDefaultModeRV(VPSDefaultMode vPSDefaultMode) {
-    }
+    public void setVPSDefaultModeRV(VPSDefaultMode var1) throws MethodException;
 
-    default public void setVPSDefaultModeFV(VPSDefaultMode vPSDefaultMode) {
-    }
+    public void setVPSDefaultModeFV(VPSDefaultMode var1) throws MethodException;
 
-    default public void setVPSDefaultModeSV(VPSDefaultMode vPSDefaultMode) {
-    }
+    public void setVPSDefaultModeSV(VPSDefaultMode var1) throws MethodException;
 
-    default public void setVPSDefaultModeBV(VPSDefaultMode vPSDefaultMode) {
-    }
+    public void setVPSDefaultModeBV(VPSDefaultMode var1) throws MethodException;
 
-    default public void setVPSDefaultView(int n) {
-    }
+    public void setVPSDefaultView(int var1) throws MethodException;
 
-    default public void setVPSOPSOverlay(VPSOPSOverlay vPSOPSOverlay) {
-    }
+    public void setVPSOPSOverlay(VPSOPSOverlay var1) throws MethodException;
 
-    default public void setVPSDynamicParkingMode(VPSDynParkingMode vPSDynParkingMode) {
-    }
+    public void setVPSDynamicParkingMode(VPSDynParkingMode var1) throws MethodException;
 
-    default public void setVPSSystemOnOff(boolean bl) {
-    }
+    public void setVPSSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setVPSExtCamConfig(int n) {
-    }
+    public void setVPSExtCamConfig(int var1) throws MethodException;
 
-    default public void setVPSExtCamManActivation(boolean bl) {
-    }
+    public void setVPSExtCamManActivation(boolean var1) throws MethodException;
 
-    default public void setVPS3DBirdview(int n, int n2) {
-    }
+    public void setVPS3DBirdview(int var1, int var2) throws MethodException;
 
-    default public void setVPSSystemState(boolean bl) {
-    }
+    public void setVPSSystemState(boolean var1) throws MethodException;
 
-    default public void showParkingPopup(DisplayContent displayContent) {
-    }
+    public void showParkingPopup(DisplayContent var1) throws MethodException;
 
-    default public void cancelParkingPopup(DisplayContent displayContent, int n) {
-    }
+    public void cancelParkingPopup(DisplayContent var1, int var2) throws MethodException;
 
-    default public void requestLifeMonitoring(boolean bl) {
-    }
+    public void requestLifeMonitoring(boolean var1) throws MethodException;
 
-    default public void setPdcSetFactoryDefault() {
-    }
+    public void setPdcSetFactoryDefault() throws MethodException;
 
-    default public void setVpsSetFactoryDefault() {
-    }
+    public void setVpsSetFactoryDefault() throws MethodException;
 
-    default public void setARATargetTrailerAngle(int n) {
-    }
+    public void setARATargetTrailerAngle(int var1) throws MethodException;
 
-    default public void setPDCManeuverAssistConfig(int n) {
-    }
+    public void setPDCManeuverAssistConfig(int var1) throws MethodException;
 
-    default public void setPDCManeuverAssist(boolean bl) {
-    }
+    public void setPDCManeuverAssist(boolean var1) throws MethodException;
 
-    default public void setPDCContinueDrivingAssist(int n) {
-    }
+    public void setPDCContinueDrivingAssist(int var1) throws MethodException;
 
-    default public void setPDCIpaConfig(int n) {
-    }
+    public void setPDCIpaConfig(int var1) throws MethodException;
 
-    default public void setPDCPiloPaSystemState(PDCPiloPaSystemState pDCPiloPaSystemState) {
-    }
+    public void setPDCPiloPaSystemState(PDCPiloPaSystemState var1) throws MethodException;
 
-    default public void setVPSCameraCleaning(VPSCameraCleaning vPSCameraCleaning) {
-    }
+    public void setVPSCameraCleaning(VPSCameraCleaning var1) throws MethodException;
 
-    default public void setWCAutoActivation(boolean bl) {
-    }
+    public void setWCAutoActivation(boolean var1) throws MethodException;
 
-    default public void setWCSystemOnOff(boolean bl) {
-    }
+    public void setWCSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setWCSetFactoryDefault() {
-    }
+    public void setWCSetFactoryDefault() throws MethodException;
 
-    default public void showWCPopup(int n) {
-    }
+    public void showWCPopup(int var1) throws MethodException;
 
-    default public void cancelWCPopup(int n, int n2) {
-    }
+    public void cancelWCPopup(int var1, int var2) throws MethodException;
 
-    default public void requestWCPanelList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-    }
+    public void requestWCPanelList(CarArrayListUpdateInfo var1) throws MethodException;
 
-    default public void enterWCPinPuk(String string, String string2) {
-    }
+    public void enterWCPinPuk(String var1, String var2) throws MethodException;
 
-    default public void abortWCEnterPinPuk() {
-    }
+    public void abortWCEnterPinPuk() throws MethodException;
 
-    default public void startWCScanning() {
-    }
+    public void startWCScanning() throws MethodException;
 
-    default public void abortWCScanning() {
-    }
+    public void abortWCScanning() throws MethodException;
 
-    default public void startWCPairing(String string, String string2) {
-    }
+    public void startWCPairing(String var1, String var2) throws MethodException;
 
-    default public void abortWCPairing() {
-    }
+    public void abortWCPairing() throws MethodException;
 
-    default public void startWCSoftwareUpdate(String string) {
-    }
+    public void startWCSoftwareUpdate(String var1) throws MethodException;
 
-    default public void abortWCSoftwareUpdate() {
-    }
+    public void abortWCSoftwareUpdate() throws MethodException;
 
-    default public void changeWCPin(String string, String string2) {
-    }
+    public void changeWCPin(String var1, String var2) throws MethodException;
 
-    default public void abortWCChangePin() {
-    }
+    public void abortWCChangePin() throws MethodException;
 
-    default public void changeWCPanelName(String string, String string2) {
-    }
+    public void changeWCPanelName(String var1, String var2) throws MethodException;
 
-    default public void abortWCChangePanelName() {
-    }
+    public void abortWCChangePanelName() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

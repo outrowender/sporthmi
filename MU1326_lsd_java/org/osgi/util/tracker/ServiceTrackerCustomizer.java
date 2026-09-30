@@ -6,13 +6,10 @@ package org.osgi.util.tracker;
 import org.osgi.framework.ServiceReference;
 
 public interface ServiceTrackerCustomizer {
-    default public Object addingService(ServiceReference serviceReference) {
-    }
+    public Object addingService(ServiceReference var1);
 
-    default public void modifiedService(ServiceReference serviceReference, Object object) {
-    }
+    public void modifiedService(ServiceReference var1, Object var2);
 
-    default public void removedService(ServiceReference serviceReference, Object object) {
-    }
+    public void removedService(ServiceReference var1, Object var2);
 }
 

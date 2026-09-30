@@ -7,10 +7,8 @@ import de.esolutions.fw.comm.agent.broker.BrokerAgentUpdate;
 import de.esolutions.fw.comm.agent.broker.BrokerServiceUpdate;
 
 public interface IBrokerServiceListener {
-    default public void serviceUpdate(BrokerServiceUpdate[] brokerServiceUpdateArray) {
-    }
+    public void serviceUpdate(BrokerServiceUpdate[] var1);
 
-    default public void agentUpdate(BrokerAgentUpdate[] brokerAgentUpdateArray) {
-    }
+    public void agentUpdate(BrokerAgentUpdate[] var1);
 }
 

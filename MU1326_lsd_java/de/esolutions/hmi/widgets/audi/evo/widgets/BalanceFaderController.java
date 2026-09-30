@@ -22,16 +22,16 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.balancefader.WrappedRangeModel
 public class BalanceFaderController
 extends AbstractWidgetController
 implements AnimationListener {
-    public static final int CROSSHAIR_MODE_BOTH;
-    public static final int CROSSHAIR_MODE_BALANCE;
-    public static final int CROSSHAIR_MODE_FADER;
-    public static final int CROSSHAIR_MODE_DISABLED;
-    public static final float AXIS_POSITION;
-    private static final float AXIS_SNAP_DISTANCE;
-    private static final int REPAINT_INTERVAL;
-    private static final long LOCK_DURATION;
-    private static final long TIME_BETWEEN_LOCKS;
-    private static final ValuePair AXIS_SNAP_BOUNDS;
+    public static final int CROSSHAIR_MODE_BOTH = 0;
+    public static final int CROSSHAIR_MODE_BALANCE = 1;
+    public static final int CROSSHAIR_MODE_FADER = 2;
+    public static final int CROSSHAIR_MODE_DISABLED = 3;
+    public static final float AXIS_POSITION = 0.5f;
+    private static final float AXIS_SNAP_DISTANCE = 0.03f;
+    private static final int REPAINT_INTERVAL = 30;
+    private static final long LOCK_DURATION = 250L;
+    private static final long TIME_BETWEEN_LOCKS = 250L;
+    private static final ValuePair AXIS_SNAP_BOUNDS = new ValuePair(0.47f, 0.53f);
     private IBalanceFaderRenderer renderer;
     private AbstractAnimation repaintAnimation = null;
     private TouchInputHandler touchInputHandler;
@@ -53,7 +53,6 @@ implements AnimationListener {
     public BalanceFaderController() {
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.terminal != null) {
@@ -67,11 +66,10 @@ implements AnimationListener {
         }
         this.touchInputHandler = new TouchInputHandler(this, framework);
         this.repaintAnimation = (AbstractAnimation)this.getTerminalImpl().getIAnimationController().getIAnimation(1);
-        this.xLock = new AxisLockWithTimer(0, 0, 63, framework);
-        this.yLock = new AxisLockWithTimer(0, 0, 63, framework);
+        this.xLock = new AxisLockWithTimer(250L, 250L, 0.5f, framework);
+        this.yLock = new AxisLockWithTimer(250L, 250L, 0.5f, framework);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.shouldRender()) {
@@ -89,11 +87,11 @@ implements AnimationListener {
 
     public void setCrosshairMode(int n) {
         if (!this.isCrossHairModeSupported(n)) {
-            logBalanceFader.log(-2137614336, "BalanceFaderController#setCrosshairMode Mode not supported! newMode = %1, supportedCrosshairMode = %2", (long)n, (long)this.supportedCrosshairMode);
+            logBalanceFader.log(10000000, "BalanceFaderController#setCrosshairMode Mode not supported! newMode = %1, supportedCrosshairMode = %2", (long)n, (long)this.supportedCrosshairMode);
             return;
         }
         if (n != this.currentCrosshairMode) {
-            logBalanceFader.log(-2137614336, "BalanceFaderController#setCrosshairMode newMode = %1", (long)n);
+            logBalanceFader.log(10000000, "BalanceFaderController#setCrosshairMode newMode = %1", (long)n);
             this.currentCrosshairMode = n;
             this.setCompositesDirty(true);
         }
@@ -103,7 +101,6 @@ implements AnimationListener {
         return n == this.supportedCrosshairMode || this.supportedCrosshairMode == 0 || n == 3;
     }
 
-    @Override
     public void disconnecting() {
         this.stopRepainAnimation();
         this.touchPadAtLeastOncePressed = false;
@@ -119,12 +116,11 @@ implements AnimationListener {
         this.repaintAnimation.removeListener();
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#keyPressed %1", (Object)keyEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#keyPressed %1", (Object)keyEvent);
         if (this.hasState(36) && keyEvent.getKeyCode() == 17) {
             this.toggleCrosshairMode(keyEvent);
             keyEvent.consume();
@@ -146,21 +142,19 @@ implements AnimationListener {
         hmiService.getEventDispatcher().postEvent(keyEvent2);
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#keyReleased %1", (Object)keyEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#keyReleased %1", (Object)keyEvent);
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (!this.isVisible()) {
             return;
         }
         if (logBalanceFaderKeyEvents.isDebug()) {
-            logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#keyTurned %2, isTouchPadTouched: %1", this.isTouchPadTouched, (Object)wheelButtonEvent.toStringWithDetails());
+            logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#keyTurned %2, isTouchPadTouched: %1", this.isTouchPadTouched, (Object)wheelButtonEvent.toStringWithDetails());
         }
         if (this.hasState(36) && !this.isTouchPadTouched) {
             this.handleDDSRotation(wheelButtonEvent);
@@ -184,11 +178,11 @@ implements AnimationListener {
     private ValuePair checkForAxisCrossing(ValuePair valuePair) {
         this.xLock.tryToLock(valuePair.getX(), this.oldPosition.getX());
         if (this.xLock.isLocked()) {
-            valuePair.setX(63);
+            valuePair.setX(0.5f);
         }
         this.yLock.tryToLock(valuePair.getY(), this.oldPosition.getY());
         if (this.yLock.isLocked()) {
-            valuePair.setY(63);
+            valuePair.setY(0.5f);
         }
         this.oldPosition = valuePair;
         return valuePair;
@@ -212,10 +206,10 @@ implements AnimationListener {
         float f2 = valuePair.getX();
         float f3 = valuePair.getY();
         if (this.isNearAxis(f2)) {
-            f2 = 63;
+            f2 = 0.5f;
         }
         if (this.isNearAxis(f3)) {
-            f3 = 63;
+            f3 = 0.5f;
         }
         return new ValuePair(f2, f3);
     }
@@ -226,12 +220,12 @@ implements AnimationListener {
 
     public void setCrosshairPosition(ValuePair valuePair) {
         valuePair = valuePair.clamp(0.0f, 1.0f);
-        logBalanceFader.log(-2137614336, "BalanceFaderController#setCursorPos newPosition = %1, currentPosition = %2", (Object)valuePair, (Object)this.currentCrosshairPosition);
+        logBalanceFader.log(10000000, "BalanceFaderController#setCursorPos newPosition = %1, currentPosition = %2", (Object)valuePair, (Object)this.currentCrosshairPosition);
         if (this.supportedCrosshairMode == 1) {
-            valuePair.setY(63);
+            valuePair.setY(0.5f);
         }
         if (this.supportedCrosshairMode == 2) {
-            valuePair.setX(63);
+            valuePair.setX(0.5f);
         }
         if (!this.currentCrosshairPosition.equals(valuePair)) {
             this.currentCrosshairPosition = valuePair;
@@ -240,12 +234,11 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#touchPadPressed %1", (Object)touchEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#touchPadPressed %1", (Object)touchEvent);
         if (this.hasState(36)) {
             this.touchPadAtLeastOncePressed = true;
             this.previousCrosshairMode = this.currentCrosshairMode;
@@ -254,12 +247,11 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#touchPadReleased %1", (Object)touchEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#touchPadReleased %1", (Object)touchEvent);
         if (this.hasState(36)) {
             this.touchInputHandler.touchPadReleased(touchEvent);
             this.setCrosshairMode(this.previousCrosshairMode);
@@ -267,28 +259,25 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#touchPadApproached %1", (Object)touchEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#touchPadApproached %1", (Object)touchEvent);
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#touchPadAbandoned %1", (Object)touchEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#touchPadAbandoned %1", (Object)touchEvent);
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (!this.isVisible()) {
             return;
         }
-        logBalanceFaderKeyEvents.log(-2137614336, "BalanceFaderController#touchPadPositionMoved %1", (Object)touchEvent);
+        logBalanceFaderKeyEvents.log(10000000, "BalanceFaderController#touchPadPositionMoved %1", (Object)touchEvent);
         if (this.hasState(36)) {
             if (!this.touchPadAtLeastOncePressed) {
                 this.touchPadPressed(touchEvent);
@@ -308,11 +297,11 @@ implements AnimationListener {
             if (n == 2) {
                 this.currentCrosshairMode = 2;
                 this.previousCrosshairMode = 2;
-                this.currentCrosshairPosition.setX(63);
+                this.currentCrosshairPosition.setX(0.5f);
             } else if (n == 1) {
                 this.currentCrosshairMode = 1;
                 this.previousCrosshairMode = 1;
-                this.currentCrosshairPosition.setY(63);
+                this.currentCrosshairPosition.setY(0.5f);
             }
         }
     }
@@ -321,19 +310,15 @@ implements AnimationListener {
         return this.currentCrosshairPosition;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -342,7 +327,6 @@ implements AnimationListener {
         this.renderer = iBalanceFaderRenderer;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!this.isVisible()) {
             return;
@@ -353,10 +337,6 @@ implements AnimationListener {
             this.currentCrosshairPosition = this.wrappedModel.processEvent(modelUpdateEvent);
             this.setCompositesDirty(true);
         }
-    }
-
-    static {
-        AXIS_SNAP_BOUNDS = new ValuePair(-677121986, 346949439);
     }
 }
 

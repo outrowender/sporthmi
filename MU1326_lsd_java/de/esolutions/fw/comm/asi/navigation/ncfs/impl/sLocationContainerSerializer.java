@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.asi.navigation.ncfs.sLocationContainer;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sRectangleSetReference;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sLocationContainerSerializer {
-    public static void putOptionalsLocationContainer(ISerializer iSerializer, sLocationContainer sLocationContainer2) {
+    public static void putOptionalsLocationContainer(ISerializer iSerializer, sLocationContainer sLocationContainer2) throws SerializerException {
         boolean bl = sLocationContainer2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sLocationContainerSerializer {
         }
     }
 
-    public static void putOptionalsLocationContainerVarArray(ISerializer iSerializer, sLocationContainer[] sLocationContainerArray) {
+    public static void putOptionalsLocationContainerVarArray(ISerializer iSerializer, sLocationContainer[] sLocationContainerArray) throws SerializerException {
         boolean bl = sLocationContainerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sLocationContainerSerializer {
         }
     }
 
-    public static sLocationContainer getOptionalsLocationContainer(IDeserializer iDeserializer) {
+    public static sLocationContainer getOptionalsLocationContainer(IDeserializer iDeserializer) throws SerializerException {
         sLocationContainer sLocationContainer2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sLocationContainerSerializer {
         return sLocationContainer2;
     }
 
-    public static sLocationContainer[] getOptionalsLocationContainerVarArray(IDeserializer iDeserializer) {
+    public static sLocationContainer[] getOptionalsLocationContainerVarArray(IDeserializer iDeserializer) throws SerializerException {
         sLocationContainer[] sLocationContainerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

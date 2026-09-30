@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.ReconnectInfo;
 
 public class ReconnectInfoSerializer {
-    public static void putOptionalReconnectInfo(ISerializer iSerializer, ReconnectInfo reconnectInfo) {
+    public static void putOptionalReconnectInfo(ISerializer iSerializer, ReconnectInfo reconnectInfo) throws SerializerException {
         boolean bl = reconnectInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ReconnectInfoSerializer {
         }
     }
 
-    public static void putOptionalReconnectInfoVarArray(ISerializer iSerializer, ReconnectInfo[] reconnectInfoArray) {
+    public static void putOptionalReconnectInfoVarArray(ISerializer iSerializer, ReconnectInfo[] reconnectInfoArray) throws SerializerException {
         boolean bl = reconnectInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ReconnectInfoSerializer {
         }
     }
 
-    public static ReconnectInfo getOptionalReconnectInfo(IDeserializer iDeserializer) {
+    public static ReconnectInfo getOptionalReconnectInfo(IDeserializer iDeserializer) throws SerializerException {
         ReconnectInfo reconnectInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ReconnectInfoSerializer {
         return reconnectInfo;
     }
 
-    public static ReconnectInfo[] getOptionalReconnectInfoVarArray(IDeserializer iDeserializer) {
+    public static ReconnectInfo[] getOptionalReconnectInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ReconnectInfo[] reconnectInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

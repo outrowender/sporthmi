@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.ExtLightConfig;
 
 public class ExtLightConfigSerializer {
-    public static void putOptionalExtLightConfig(ISerializer iSerializer, ExtLightConfig extLightConfig) {
+    public static void putOptionalExtLightConfig(ISerializer iSerializer, ExtLightConfig extLightConfig) throws SerializerException {
         boolean bl = extLightConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ExtLightConfigSerializer {
         }
     }
 
-    public static void putOptionalExtLightConfigVarArray(ISerializer iSerializer, ExtLightConfig[] extLightConfigArray) {
+    public static void putOptionalExtLightConfigVarArray(ISerializer iSerializer, ExtLightConfig[] extLightConfigArray) throws SerializerException {
         boolean bl = extLightConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ExtLightConfigSerializer {
         }
     }
 
-    public static ExtLightConfig getOptionalExtLightConfig(IDeserializer iDeserializer) {
+    public static ExtLightConfig getOptionalExtLightConfig(IDeserializer iDeserializer) throws SerializerException {
         ExtLightConfig extLightConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ExtLightConfigSerializer {
         return extLightConfig;
     }
 
-    public static ExtLightConfig[] getOptionalExtLightConfigVarArray(IDeserializer iDeserializer) {
+    public static ExtLightConfig[] getOptionalExtLightConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         ExtLightConfig[] extLightConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

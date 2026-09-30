@@ -36,28 +36,23 @@ implements DSINavigation {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$navigation$DSINavigation == null ? (class$org$dsi$ifc$navigation$DSINavigation = DSINavigationProvider.class$("org.dsi.ifc.navigation.DSINavigation")) : class$org$dsi$ifc$navigation$DSINavigation).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSINavigationProxy(this.instance, (DSINavigationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void afaRepeat(int n) {
         try {
             this.proxy.afaRepeat(n);
@@ -67,7 +62,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void createExportFile(String string, int n) {
         try {
             this.proxy.createExportFile(string, n);
@@ -77,7 +71,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmFlagDestinationSet(NavLocation navLocation) {
         try {
             this.proxy.dmFlagDestinationSet(navLocation);
@@ -87,7 +80,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmFlagDestinationRemove() {
         try {
             this.proxy.dmFlagDestinationRemove();
@@ -97,7 +89,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmFlagDestinationSetName(String string) {
         try {
             this.proxy.dmFlagDestinationSetName(string);
@@ -107,7 +98,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmLastDestinationsAddList(NavLastDest[] navLastDestArray) {
         try {
             this.proxy.dmLastDestinationsAddList(navLastDestArray);
@@ -117,7 +107,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmLastDestinationsDelete(long l) {
         try {
             this.proxy.dmLastDestinationsDelete(l);
@@ -127,7 +116,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmLastDestinationsDeleteAll() {
         try {
             this.proxy.dmLastDestinationsDeleteAll();
@@ -137,7 +125,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmLastDestinationsGet(long l) {
         try {
             this.proxy.dmLastDestinationsGet(l);
@@ -147,7 +134,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmLastDestinationsReplace(long l, NavLocation navLocation, String string) {
         try {
             this.proxy.dmLastDestinationsReplace(l, navLocation, string);
@@ -157,7 +143,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmRecentRoutesAdd(Route route, String string) {
         try {
             this.proxy.dmRecentRoutesAdd(route, string);
@@ -167,7 +152,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmRecentRoutesDelete(long l) {
         try {
             this.proxy.dmRecentRoutesDelete(l);
@@ -177,7 +161,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmRecentRoutesDeleteAll() {
         try {
             this.proxy.dmRecentRoutesDeleteAll();
@@ -187,7 +170,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmRecentRoutesGet(long l) {
         try {
             this.proxy.dmRecentRoutesGet(l);
@@ -197,7 +179,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void dmRecentRoutesReplace(long l, Route route, String string) {
         try {
             this.proxy.dmRecentRoutesReplace(l, route, string);
@@ -207,7 +188,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void enableRgStreetLists(boolean bl) {
         try {
             this.proxy.enableRgStreetLists(bl);
@@ -217,7 +197,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void enableRgLaneGuidance(boolean bl) {
         try {
             this.proxy.enableRgLaneGuidance(bl);
@@ -227,7 +206,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void enableRgPoiInfo(boolean bl) {
         try {
             this.proxy.enableRgPoiInfo(bl);
@@ -237,7 +215,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcGetCountryAbbreviation(String string) {
         try {
             this.proxy.etcGetCountryAbbreviation(string);
@@ -247,7 +224,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcSetDemoMode(boolean bl) {
         try {
             this.proxy.etcSetDemoMode(bl);
@@ -257,7 +233,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcSetDemoModeSpeed(long l) {
         try {
             this.proxy.etcSetDemoModeSpeed(l);
@@ -267,7 +242,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcSetMetricSystem(int n) {
         try {
             this.proxy.etcSetMetricSystem(n);
@@ -277,7 +251,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcSelectDatabase(int n) {
         try {
             this.proxy.etcSelectDatabase(n);
@@ -287,7 +260,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcSelectNavDataBase(int n) {
         try {
             this.proxy.etcSelectNavDataBase(n);
@@ -297,7 +269,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void importFile(String string, int n) {
         try {
             this.proxy.importFile(string, n);
@@ -307,7 +278,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void languageSpellableCharacters(String string) {
         try {
             this.proxy.languageSpellableCharacters(string);
@@ -317,7 +287,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetCurrentState() {
         try {
             this.proxy.liGetCurrentState();
@@ -327,7 +296,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetLastCityHistoryEntry(long l) {
         try {
             this.proxy.liGetLastCityHistoryEntry(l);
@@ -337,7 +305,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetLastStreetHistoryEntry(long l) {
         try {
             this.proxy.liGetLastStreetHistoryEntry(l);
@@ -347,7 +314,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetLocationDescriptionTransform(NavLocation navLocation) {
         try {
             this.proxy.liGetLocationDescriptionTransform(navLocation);
@@ -357,7 +323,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetLocationDescriptionTransformNearBy(NavLocation navLocation) {
         try {
             this.proxy.liGetLocationDescriptionTransformNearBy(navLocation);
@@ -367,7 +332,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetState() {
         try {
             this.proxy.liGetState();
@@ -377,7 +341,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetLastStateHistoryEntry(long l) {
         try {
             this.proxy.liGetLastStateHistoryEntry(l);
@@ -387,7 +350,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStateHistoryAdd(NavLocation navLocation, boolean bl, String string) {
         try {
             this.proxy.liLastStateHistoryAdd(navLocation, bl, string);
@@ -397,7 +359,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStateHistoryAddExtended(NavLocation navLocation, boolean bl, String string, LIExtData[] lIExtDataArray) {
         try {
             this.proxy.liLastStateHistoryAddExtended(navLocation, bl, string, lIExtDataArray);
@@ -407,7 +368,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStateHistoryDelete(long l) {
         try {
             this.proxy.liLastStateHistoryDelete(l);
@@ -417,7 +377,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStateHistoryDeleteAll() {
         try {
             this.proxy.liLastStateHistoryDeleteAll();
@@ -427,7 +386,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastCityHistoryAdd(NavLocation navLocation, boolean bl, String string) {
         try {
             this.proxy.liLastCityHistoryAdd(navLocation, bl, string);
@@ -437,7 +395,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastCityHistoryAddExtended(NavLocation navLocation, boolean bl, String string, LIExtData[] lIExtDataArray) {
         try {
             this.proxy.liLastCityHistoryAddExtended(navLocation, bl, string, lIExtDataArray);
@@ -447,7 +404,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastCityHistoryDelete(long l) {
         try {
             this.proxy.liLastCityHistoryDelete(l);
@@ -457,7 +413,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastCityHistoryDeleteAll() {
         try {
             this.proxy.liLastCityHistoryDeleteAll();
@@ -467,7 +422,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStreetHistoryAdd(NavLocation navLocation, String string) {
         try {
             this.proxy.liLastStreetHistoryAdd(navLocation, string);
@@ -477,7 +431,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStreetHistoryAddExtended(NavLocation navLocation, String string, LIExtData[] lIExtDataArray) {
         try {
             this.proxy.liLastStreetHistoryAddExtended(navLocation, string, lIExtDataArray);
@@ -487,7 +440,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStreetHistoryDelete(long l) {
         try {
             this.proxy.liLastStreetHistoryDelete(l);
@@ -497,7 +449,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStreetHistoryDeleteAll() {
         try {
             this.proxy.liLastStreetHistoryDeleteAll();
@@ -507,7 +458,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liRestoreState(LISpellerData lISpellerData) {
         try {
             this.proxy.liRestoreState(lISpellerData);
@@ -517,7 +467,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSetCountryForCityAndStreetHistory(String string) {
         try {
             this.proxy.liSetCountryForCityAndStreetHistory(string);
@@ -527,7 +476,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSetHistory(String string, String string2) {
         try {
             this.proxy.liSetHistory(string, string2);
@@ -537,7 +485,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSetStreetForCityHistory(String string) {
         try {
             this.proxy.liSetStreetForCityHistory(string);
@@ -547,7 +494,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liDeleteHistory() {
         try {
             this.proxy.liDeleteHistory();
@@ -557,7 +503,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSetCurrentLD(NavLocation navLocation) {
         try {
             this.proxy.liSetCurrentLD(navLocation);
@@ -567,7 +512,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispAddCharacter(String string) {
         try {
             this.proxy.lispAddCharacter(string);
@@ -577,7 +521,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispCancelSpeller() {
         try {
             this.proxy.lispCancelSpeller();
@@ -587,7 +530,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispDeleteAllCharacters() {
         try {
             this.proxy.lispDeleteAllCharacters();
@@ -597,7 +539,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispRequestValueListByListIndex(int n, boolean bl) {
         try {
             this.proxy.lispRequestValueListByListIndex(n, bl);
@@ -607,7 +548,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispSelectListItem(int n) {
         try {
             this.proxy.lispSelectListItem(n);
@@ -617,7 +557,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispSelectItemFromLocation(NavLocation navLocation) {
         try {
             this.proxy.lispSelectItemFromLocation(navLocation);
@@ -627,7 +566,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispSelectByCategoryUid(int n) {
         try {
             this.proxy.lispSelectByCategoryUid(n);
@@ -637,7 +575,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispSelectByMultipleCategoryUids(int[] nArray) {
         try {
             this.proxy.lispSelectByMultipleCategoryUids(nArray);
@@ -647,7 +584,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispSetInput(String string, boolean bl) {
         try {
             this.proxy.lispSetInput(string, bl);
@@ -657,7 +593,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispGetMatchingNVC(String string) {
         try {
             this.proxy.lispGetMatchingNVC(string);
@@ -667,7 +602,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispUndoCharacter() {
         try {
             this.proxy.lispUndoCharacter();
@@ -677,7 +611,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liStartMultiCriteriaSpeller(int n, int n2, boolean bl, boolean bl2, boolean bl3) {
         try {
             this.proxy.liStartMultiCriteriaSpeller(n, n2, bl, bl2, bl3);
@@ -687,7 +620,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liStartSpeller(int n, boolean bl, boolean bl2, boolean bl3) {
         try {
             this.proxy.liStartSpeller(n, bl, bl2, bl3);
@@ -697,7 +629,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liTryBestMatch(TryBestMatchData tryBestMatchData) {
         try {
             this.proxy.liTryBestMatch(tryBestMatchData);
@@ -707,7 +638,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liValueListFilename(String string) {
         try {
             this.proxy.liValueListFilename(string);
@@ -717,7 +647,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liValueListOutputMethod(int n) {
         try {
             this.proxy.liValueListOutputMethod(n);
@@ -727,7 +656,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void locationToStream(NavLocation navLocation) {
         try {
             this.proxy.locationToStream(navLocation);
@@ -737,7 +665,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiSelectSelectionCriteria(long l) {
         try {
             this.proxy.poiSelectSelectionCriteria(l);
@@ -747,7 +674,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiSetContext(NavLocation navLocation) {
         try {
             this.proxy.poiSetContext(navLocation);
@@ -757,7 +683,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiSetSortOrder2(int n) {
         try {
             this.proxy.poiSetSortOrder2(n);
@@ -767,7 +692,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiStartSpellerAlongRoute(int n, long l, long l2) {
         try {
             this.proxy.poiStartSpellerAlongRoute(n, l, l2);
@@ -777,7 +701,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiStartSpellerAlongRouteAdvanced(int n, long l, long l2, long l3, boolean bl) {
         try {
             this.proxy.poiStartSpellerAlongRouteAdvanced(n, l, l2, l3, bl);
@@ -787,7 +710,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void requestSoPosPositionDescriptionVehicle() {
         try {
             this.proxy.requestSoPosPositionDescriptionVehicle();
@@ -797,7 +719,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgCalculateRoute(Route route, int n) {
         try {
             this.proxy.rgCalculateRoute(route, n);
@@ -807,7 +728,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSetPosition(NavLocation navLocation) {
         try {
             this.proxy.rgSetPosition(navLocation);
@@ -817,7 +737,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSetRouteGuidanceMode(int n) {
         try {
             this.proxy.rgSetRouteGuidanceMode(n);
@@ -827,7 +746,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSetRouteOptions(RouteOptions routeOptions) {
         try {
             this.proxy.rgSetRouteOptions(routeOptions);
@@ -837,7 +755,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgStartGuidanceCalculatedRoute(int n) {
         try {
             this.proxy.rgStartGuidanceCalculatedRoute(n);
@@ -847,7 +764,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgStopGuidance() {
         try {
             this.proxy.rgStopGuidance();
@@ -857,7 +773,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmMakeRoutePersistent(Route route) {
         try {
             this.proxy.rmMakeRoutePersistent(route);
@@ -867,7 +782,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmRouteAdd(int n, Route route, String string) {
         try {
             this.proxy.rmRouteAdd(n, route, string);
@@ -877,7 +791,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmRouteDelete(int n, long l) {
         try {
             this.proxy.rmRouteDelete(n, l);
@@ -887,7 +800,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmRouteDeleteAll(int n) {
         try {
             this.proxy.rmRouteDeleteAll(n);
@@ -897,7 +809,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmRouteGet(int n, long l) {
         try {
             this.proxy.rmRouteGet(n, l);
@@ -907,7 +818,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmRouteRename(int n, long l, String string) {
         try {
             this.proxy.rmRouteRename(n, l, string);
@@ -917,7 +827,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rrdStartCalculationByListIndex(int n, long l) {
         try {
             this.proxy.rrdStartCalculationByListIndex(n, l);
@@ -927,7 +836,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rrdStartCalculationForPosition(NavLocationWgs84[] navLocationWgs84Array) {
         try {
             this.proxy.rrdStartCalculationForPosition(navLocationWgs84Array);
@@ -937,7 +845,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rrdStopCalculation() {
         try {
             this.proxy.rrdStopCalculation();
@@ -947,7 +854,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -957,7 +863,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void streamToLocation(byte[] byArray) {
         try {
             this.proxy.streamToLocation(byArray);
@@ -967,7 +872,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void translateRoute(Route route) {
         try {
             this.proxy.translateRoute(route);
@@ -977,7 +881,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trCreateWaypoint() {
         try {
             this.proxy.trCreateWaypoint();
@@ -987,7 +890,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trDeleteAllTraces() {
         try {
             this.proxy.trDeleteAllTraces();
@@ -997,7 +899,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trDeleteTrace(NavSegmentID navSegmentID) {
         try {
             this.proxy.trDeleteTrace(navSegmentID);
@@ -1007,7 +908,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trRenameTrace(NavSegmentID navSegmentID, String string) {
         try {
             this.proxy.trRenameTrace(navSegmentID, string);
@@ -1017,7 +917,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trStartTraceRecording(int n) {
         try {
             this.proxy.trStartTraceRecording(n);
@@ -1027,7 +926,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trStopTraceRecording() {
         try {
             this.proxy.trStopTraceRecording();
@@ -1037,7 +935,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trStoreTrace(String string) {
         try {
             this.proxy.trStoreTrace(string);
@@ -1047,7 +944,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liStripLocation(NavLocation navLocation, int n) {
         try {
             this.proxy.liStripLocation(navLocation, n);
@@ -1057,7 +953,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSetNVCRange(int n) {
         try {
             this.proxy.liSetNVCRange(n);
@@ -1067,7 +962,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liValueListWindowSize(int n) {
         try {
             this.proxy.liValueListWindowSize(n);
@@ -1077,7 +971,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void requestAudioTrigger(int n) {
         try {
             this.proxy.requestAudioTrigger(n);
@@ -1087,7 +980,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liThesaurusHistoryAdd(String string) {
         try {
             this.proxy.liThesaurusHistoryAdd(string);
@@ -1097,7 +989,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liThesaurusHistoryGetEntry(int n) {
         try {
             this.proxy.liThesaurusHistoryGetEntry(n);
@@ -1107,7 +998,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liThesaurusHistoryDelete(int n) {
         try {
             this.proxy.liThesaurusHistoryDelete(n);
@@ -1117,7 +1007,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liThesaurusHistoryDeleteAll() {
         try {
             this.proxy.liThesaurusHistoryDeleteAll();
@@ -1127,7 +1016,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehGetAllCategories(int n) {
         try {
             this.proxy.ehGetAllCategories(n);
@@ -1137,7 +1025,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehGetAllBrandsOfCategory(int n, int n2) {
         try {
             this.proxy.ehGetAllBrandsOfCategory(n, n2);
@@ -1147,7 +1034,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
         try {
             this.proxy.ehSetCategoryVisibility(n, nArray, blArray);
@@ -1157,7 +1043,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehSetCategoryVisibilityToDefault(int n) {
         try {
             this.proxy.ehSetCategoryVisibilityToDefault(n);
@@ -1167,7 +1052,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehSetCategoryAudioWarning(int n, int[] nArray, boolean[] blArray) {
         try {
             this.proxy.ehSetCategoryAudioWarning(n, nArray, blArray);
@@ -1177,7 +1061,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehSetCategoryMonitoring(int[] nArray, boolean[] blArray) {
         try {
             this.proxy.ehSetCategoryMonitoring(nArray, blArray);
@@ -1187,7 +1070,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehSetBrandVisibility(int n, int[] nArray, boolean[] blArray) {
         try {
             this.proxy.ehSetBrandVisibility(n, nArray, blArray);
@@ -1197,7 +1079,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void ehSetBrandPreference(int n, int[] nArray, boolean[] blArray) {
         try {
             this.proxy.ehSetBrandPreference(n, nArray, blArray);
@@ -1207,7 +1088,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setRemainingRangeOfVehicle(int n) {
         try {
             this.proxy.setRemainingRangeOfVehicle(n);
@@ -1217,7 +1097,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setUserDefinedPOIs(NavLocation[] navLocationArray) {
         try {
             this.proxy.setUserDefinedPOIs(navLocationArray);
@@ -1227,7 +1106,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setTrailerStatus(boolean bl) {
         try {
             this.proxy.setTrailerStatus(bl);
@@ -1237,7 +1115,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void requestCountryInfo(String string) {
         try {
             this.proxy.requestCountryInfo(string);
@@ -1247,7 +1124,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void jumpToNextManeuver() {
         try {
             this.proxy.jumpToNextManeuver();
@@ -1257,7 +1133,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetViaPointCountryList() {
         try {
             this.proxy.liGetViaPointCountryList();
@@ -1267,7 +1142,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSetViaPointCountry(String string) {
         try {
             this.proxy.liSetViaPointCountry(string);
@@ -1277,7 +1151,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetViaPointList(int n, int n2, int n3, int n4) {
         try {
             this.proxy.liGetViaPointList(n, n2, n3, n4);
@@ -1287,7 +1160,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liSelectViaPoint(int n) {
         try {
             this.proxy.liSelectViaPoint(n);
@@ -1297,7 +1169,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgStartGuidanceCalculatedRouteByUID(NavSegmentID navSegmentID) {
         try {
             this.proxy.rgStartGuidanceCalculatedRouteByUID(navSegmentID);
@@ -1307,7 +1178,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liGetSpellableCharacters(NavLocation navLocation, int n) {
         try {
             this.proxy.liGetSpellableCharacters(navLocation, n);
@@ -1317,7 +1187,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liStopSpeller() {
         try {
             this.proxy.liStopSpeller();
@@ -1327,7 +1196,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liValueListMaximumLength(int n) {
         try {
             this.proxy.liValueListMaximumLength(n);
@@ -1337,7 +1205,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setPathsToPersonalPOIDataBases(String[] stringArray) {
         try {
             this.proxy.setPathsToPersonalPOIDataBases(stringArray);
@@ -1347,7 +1214,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void deletePersonalPOIDataBases(String[] stringArray) {
         try {
             this.proxy.deletePersonalPOIDataBases(stringArray);
@@ -1357,7 +1223,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgStopRouteCalculation() {
         try {
             this.proxy.rgStopRouteCalculation();
@@ -1367,7 +1232,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSwitchToNextPossibleRoad() {
         try {
             this.proxy.rgSwitchToNextPossibleRoad();
@@ -1377,7 +1241,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setVehicleFuelType(int n) {
         try {
             this.proxy.setVehicleFuelType(n);
@@ -1387,7 +1250,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void createNavLocationOfPOIUID(long l) {
         try {
             this.proxy.createNavLocationOfPOIUID(l);
@@ -1397,7 +1259,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispSelectListItemByIdent(String string) {
         try {
             this.proxy.lispSelectListItemByIdent(string);
@@ -1407,7 +1268,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmRouteReplace(int n, long l, Route route) {
         try {
             this.proxy.rmRouteReplace(n, l, route);
@@ -1417,7 +1277,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setNavInternalDataToFactorySettings() {
         try {
             this.proxy.setNavInternalDataToFactorySettings();
@@ -1427,7 +1286,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liTryMatchLocation(TryMatchLocationData tryMatchLocationData) {
         try {
             this.proxy.liTryMatchLocation(tryMatchLocationData);
@@ -1437,7 +1295,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trImportTrails(String string) {
         try {
             this.proxy.trImportTrails(string);
@@ -1447,7 +1304,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trExportTrails(NavSegmentID[] navSegmentIDArray, String string) {
         try {
             this.proxy.trExportTrails(navSegmentIDArray, string);
@@ -1457,7 +1313,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSkipNextWayPoints(int n) {
         try {
             this.proxy.rgSkipNextWayPoints(n);
@@ -1467,7 +1322,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgReverseTrailDirection() {
         try {
             this.proxy.rgReverseTrailDirection();
@@ -1477,7 +1331,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgPrepareRubberbandManipulation(boolean bl) {
         try {
             this.proxy.rgPrepareRubberbandManipulation(bl);
@@ -1487,7 +1340,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgStartRubberbandManipulation(int n) {
         try {
             this.proxy.rgStartRubberbandManipulation(n);
@@ -1497,7 +1349,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSetRubberbandPosition(NavLocationWgs84 navLocationWgs84) {
         try {
             this.proxy.rgSetRubberbandPosition(navLocationWgs84);
@@ -1507,7 +1358,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgGetRouteBoundingRectangle(boolean bl, int n) {
         try {
             this.proxy.rgGetRouteBoundingRectangle(bl, n);
@@ -1517,7 +1367,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgGetLocationOnRoute(long l) {
         try {
             this.proxy.rgGetLocationOnRoute(l);
@@ -1527,7 +1376,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgStopRubberbandManipulation() {
         try {
             this.proxy.rgStopRubberbandManipulation();
@@ -1537,7 +1385,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgDeleteCalculatedRubberbandPoint() {
         try {
             this.proxy.rgDeleteCalculatedRubberbandPoint();
@@ -1547,7 +1394,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgGetRubberBandPointPosition() {
         try {
             this.proxy.rgGetRubberBandPointPosition();
@@ -1557,7 +1403,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgEnableEnhancedSignPostInfo(boolean bl) {
         try {
             this.proxy.rgEnableEnhancedSignPostInfo(bl);
@@ -1567,7 +1412,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispGetLocationFromLiValueListElement(int n) {
         try {
             this.proxy.lispGetLocationFromLiValueListElement(n);
@@ -1577,7 +1421,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgSetTurnListMode(int n) {
         try {
             this.proxy.rgSetTurnListMode(n);
@@ -1587,7 +1430,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liHistoryAddLocation(NavLocation navLocation) {
         try {
             this.proxy.liHistoryAddLocation(navLocation);
@@ -1597,7 +1439,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastCityHistorySetStreet(NavLocation navLocation) {
         try {
             this.proxy.liLastCityHistorySetStreet(navLocation);
@@ -1607,7 +1448,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liLastStreetHistorySetCity(NavLocation navLocation) {
         try {
             this.proxy.liLastStreetHistorySetCity(navLocation);
@@ -1617,7 +1457,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void enableRgMotorwayInfo(boolean bl) {
         try {
             this.proxy.enableRgMotorwayInfo(bl);
@@ -1627,7 +1466,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgTriggerRCCIUpdate() {
         try {
             this.proxy.rgTriggerRCCIUpdate();
@@ -1637,7 +1475,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiGetXt9LDBs(NavLocation navLocation, int n) {
         try {
             this.proxy.poiGetXt9LDBs(navLocation, n);
@@ -1647,7 +1484,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiSetListStyle(int n) {
         try {
             this.proxy.poiSetListStyle(n);
@@ -1657,7 +1493,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcGetPositionTimeInfo(NavLocationWgs84 navLocationWgs84) {
         try {
             this.proxy.etcGetPositionTimeInfo(navLocationWgs84);
@@ -1667,7 +1502,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiGetCategoryTypesFromUId(int n) {
         try {
             this.proxy.poiGetCategoryTypesFromUId(n);
@@ -1677,7 +1511,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgDeletePersistedRouteData() {
         try {
             this.proxy.rgDeletePersistedRouteData();
@@ -1687,7 +1520,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgCalculate1stRouteAndPostponeRemaining(Route route, int n, boolean bl) {
         try {
             this.proxy.rgCalculate1stRouteAndPostponeRemaining(route, n, bl);
@@ -1697,7 +1529,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void liDisambiguateLocation(NavLocation navLocation) {
         try {
             this.proxy.liDisambiguateLocation(navLocation);
@@ -1707,7 +1538,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void triggerEventAudioMessage(int n) {
         try {
             this.proxy.triggerEventAudioMessage(n);
@@ -1717,7 +1547,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispAddStroke(String string) {
         try {
             this.proxy.lispAddStroke(string);
@@ -1727,7 +1556,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void lispRequestNVCList(int n, int n2, int n3) {
         try {
             this.proxy.lispRequestNVCList(n, n2, n3);
@@ -1737,7 +1565,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiConfigureContext(String string, int n, NavLocation navLocation, int[] nArray) {
         try {
             this.proxy.poiConfigureContext(string, n, navLocation, nArray);
@@ -1747,7 +1574,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void etcTriggerNavigationRestart(int n) {
         try {
             this.proxy.etcTriggerNavigationRestart(n);
@@ -1757,7 +1583,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmImportToursFromGpxFile(int n, String string) {
         try {
             this.proxy.rmImportToursFromGpxFile(n, string);
@@ -1767,7 +1592,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rmAbortImportToursFromGpxFile() {
         try {
             this.proxy.rmAbortImportToursFromGpxFile();
@@ -1777,7 +1601,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void importRouteFromGpxFile(String string) {
         try {
             this.proxy.importRouteFromGpxFile(string);
@@ -1787,7 +1610,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void poiRequestExtendedInfo(NavLocation navLocation) {
         try {
             this.proxy.poiRequestExtendedInfo(navLocation);
@@ -1797,7 +1619,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void rgConfigurePoiInfo(NavPoiInfoConfiguration navPoiInfoConfiguration) {
         try {
             this.proxy.rgConfigurePoiInfo(navPoiInfoConfiguration);
@@ -1807,7 +1628,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void trClearRecordedTraceCache() {
         try {
             this.proxy.trClearRecordedTraceCache();
@@ -1817,7 +1637,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setVirtualRouteGuidance(boolean bl) {
         try {
             this.proxy.setVirtualRouteGuidance(bl);
@@ -1827,7 +1646,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -1837,7 +1655,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -1847,7 +1664,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -1857,7 +1673,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -1867,7 +1682,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void deleteSatelliteCache() {
         try {
             this.proxy.deleteSatelliteCache();
@@ -1877,7 +1691,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -1887,7 +1700,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -1897,7 +1709,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -1907,7 +1718,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -1917,7 +1727,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -1927,7 +1736,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -1937,7 +1745,6 @@ implements DSINavigation {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

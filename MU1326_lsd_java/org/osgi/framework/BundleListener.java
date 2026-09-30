@@ -8,7 +8,6 @@ import org.osgi.framework.BundleEvent;
 
 public interface BundleListener
 extends EventListener {
-    default public void bundleChanged(BundleEvent bundleEvent) {
-    }
+    public void bundleChanged(BundleEvent var1);
 }
 

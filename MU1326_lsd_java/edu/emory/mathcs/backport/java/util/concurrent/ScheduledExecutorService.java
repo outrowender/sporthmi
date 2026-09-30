@@ -10,16 +10,12 @@ import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 
 public interface ScheduledExecutorService
 extends ExecutorService {
-    default public ScheduledFuture schedule(Runnable runnable, long l, TimeUnit timeUnit) {
-    }
+    public ScheduledFuture schedule(Runnable var1, long var2, TimeUnit var4);
 
-    default public ScheduledFuture schedule(Callable callable, long l, TimeUnit timeUnit) {
-    }
+    public ScheduledFuture schedule(Callable var1, long var2, TimeUnit var4);
 
-    default public ScheduledFuture scheduleAtFixedRate(Runnable runnable, long l, long l2, TimeUnit timeUnit) {
-    }
+    public ScheduledFuture scheduleAtFixedRate(Runnable var1, long var2, long var4, TimeUnit var6);
 
-    default public ScheduledFuture scheduleWithFixedDelay(Runnable runnable, long l, long l2, TimeUnit timeUnit) {
-    }
+    public ScheduledFuture scheduleWithFixedDelay(Runnable var1, long var2, long var4, TimeUnit var6);
 }
 

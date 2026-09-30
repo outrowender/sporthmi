@@ -7,16 +7,12 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSINavFleetServicesListener
 extends DSIListener {
-    default public void setVZOTrackerStateResult(int n) {
-    }
+    public void setVZOTrackerStateResult(int var1);
 
-    default public void setVZODownloadStateResult(int n) {
-    }
+    public void setVZODownloadStateResult(int var1);
 
-    default public void setLGITrackerStateResult(int n) {
-    }
+    public void setLGITrackerStateResult(int var1);
 
-    default public void setLGIDownloadStateResult(int n) {
-    }
+    public void setLGIDownloadStateResult(int var1);
 }
 

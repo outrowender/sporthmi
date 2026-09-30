@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.trafficregulation.impl;
 import de.esolutions.fw.comm.dsi.trafficregulation.impl.TrafficSignInformationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.trafficregulation.TrafficSignInformation;
 import org.dsi.ifc.trafficregulation.TrafficSignInformationOnRoute;
 
 public class TrafficSignInformationOnRouteSerializer {
-    public static void putOptionalTrafficSignInformationOnRoute(ISerializer iSerializer, TrafficSignInformationOnRoute trafficSignInformationOnRoute) {
+    public static void putOptionalTrafficSignInformationOnRoute(ISerializer iSerializer, TrafficSignInformationOnRoute trafficSignInformationOnRoute) throws SerializerException {
         boolean bl = trafficSignInformationOnRoute == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class TrafficSignInformationOnRouteSerializer {
         }
     }
 
-    public static void putOptionalTrafficSignInformationOnRouteVarArray(ISerializer iSerializer, TrafficSignInformationOnRoute[] trafficSignInformationOnRouteArray) {
+    public static void putOptionalTrafficSignInformationOnRouteVarArray(ISerializer iSerializer, TrafficSignInformationOnRoute[] trafficSignInformationOnRouteArray) throws SerializerException {
         boolean bl = trafficSignInformationOnRouteArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class TrafficSignInformationOnRouteSerializer {
         }
     }
 
-    public static TrafficSignInformationOnRoute getOptionalTrafficSignInformationOnRoute(IDeserializer iDeserializer) {
+    public static TrafficSignInformationOnRoute getOptionalTrafficSignInformationOnRoute(IDeserializer iDeserializer) throws SerializerException {
         TrafficSignInformationOnRoute trafficSignInformationOnRoute = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class TrafficSignInformationOnRouteSerializer {
         return trafficSignInformationOnRoute;
     }
 
-    public static TrafficSignInformationOnRoute[] getOptionalTrafficSignInformationOnRouteVarArray(IDeserializer iDeserializer) {
+    public static TrafficSignInformationOnRoute[] getOptionalTrafficSignInformationOnRouteVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficSignInformationOnRoute[] trafficSignInformationOnRouteArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -4,12 +4,11 @@
 package de.esolutions.fw.comm.asi.navigation.uotanaviservice;
 
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.ComponentInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface UOTANaviServiceC {
-    default public void registerClient(int n) {
-    }
+    public void registerClient(int var1) throws MethodException;
 
-    default public void respondVersionInfo(short s, ComponentInfo[] componentInfoArray, int n) {
-    }
+    public void respondVersionInfo(short var1, ComponentInfo[] var2, int var3) throws MethodException;
 }
 

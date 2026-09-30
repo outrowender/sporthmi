@@ -3,25 +3,22 @@
  */
 package de.esolutions.fw.comm.asi.persistence;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface AttributesReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f423654f-fed2-59d3-be18-59e9a9b2d05f";
+    public static final String IPL_COMM_INTERFACE_KEY = "e5e426dc-4f2a-56e5-9b1b-8beaf406be7a";
+    public static final String IPL_COMM_INTERFACE_VERSION = "0.0.3";
+    public static final String IPL_COMM_MODULE_VERSION = "0.0.3";
 
-    default public void unsubscribeResults(long[] lArray, long[] lArray2, int[] nArray) {
-    }
+    public void unsubscribeResults(long[] var1, long[] var2, int[] var3) throws MethodException;
 
-    default public void stringValues(long[] lArray, long[] lArray2, String[] stringArray, int[] nArray) {
-    }
+    public void stringValues(long[] var1, long[] var2, String[] var3, int[] var4) throws MethodException;
 
-    default public void intValues(long[] lArray, long[] lArray2, int[] nArray, int[] nArray2) {
-    }
+    public void intValues(long[] var1, long[] var2, int[] var3, int[] var4) throws MethodException;
 
-    default public void blobValues(long[] lArray, long[] lArray2, short[][] sArray, int[] nArray) {
-    }
+    public void blobValues(long[] var1, long[] var2, short[][] var3, int[] var4) throws MethodException;
 
-    default public void putResults(long[] lArray, long[] lArray2, int[] nArray) {
-    }
+    public void putResults(long[] var1, long[] var2, int[] var3) throws MethodException;
 }
 

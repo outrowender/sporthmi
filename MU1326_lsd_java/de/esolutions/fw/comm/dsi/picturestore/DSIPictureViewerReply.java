@@ -3,61 +3,46 @@
  */
 package de.esolutions.fw.comm.dsi.picturestore;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.picturestore.PictureEntryInfo;
 
 public interface DSIPictureViewerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "b0372b7e-61ec-51fc-95c5-9262597c39d8";
+    public static final String IPL_COMM_INTERFACE_KEY = "eb80de47-8f4f-5dfa-adf6-4f2ff55d4a1b";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.11";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.11";
 
-    default public void updateViewerState(int n, int n2) {
-    }
+    public void updateViewerState(int var1, int var2) throws MethodException;
 
-    default public void updateScrollMode(int n, int n2) {
-    }
+    public void updateScrollMode(int var1, int var2) throws MethodException;
 
-    default public void updateListPosition(long l, int n, int n2) {
-    }
+    public void updateListPosition(long var1, int var3, int var4) throws MethodException;
 
-    default public void updateNumEntries(long l, int n) {
-    }
+    public void updateNumEntries(long var1, int var3) throws MethodException;
 
-    default public void updateNumSelectedEntries(long l, int n) {
-    }
+    public void updateNumSelectedEntries(long var1, int var3) throws MethodException;
 
-    default public void getPictureInfoResult(long l, PictureEntryInfo pictureEntryInfo, int n) {
-    }
+    public void getPictureInfoResult(long var1, PictureEntryInfo var3, int var4) throws MethodException;
 
-    default public void selectionResult(int n) {
-    }
+    public void selectionResult(int var1) throws MethodException;
 
-    default public void createFilterSetResult(int n, int n2) {
-    }
+    public void createFilterSetResult(int var1, int var2) throws MethodException;
 
-    default public void deleteFilterSetResult(int n, int n2) {
-    }
+    public void deleteFilterSetResult(int var1, int var2) throws MethodException;
 
-    default public void changedFilterSetResult(int n, int n2) {
-    }
+    public void changedFilterSetResult(int var1, int var2) throws MethodException;
 
-    default public void getAvailableYearsResult(int[] nArray, int n) {
-    }
+    public void getAvailableYearsResult(int[] var1, int var2) throws MethodException;
 
-    default public void getAvailableMonthsResult(int[] nArray, int n) {
-    }
+    public void getAvailableMonthsResult(int[] var1, int var2) throws MethodException;
 
-    default public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2, int n3) {
-    }
+    public void listForContextWithFilterResult(int var1, ResourceLocator[] var2, int var3, int var4) throws MethodException;
 
-    default public void deletePicturesWithFilterSetResult(int n, int n2) {
-    }
+    public void deletePicturesWithFilterSetResult(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

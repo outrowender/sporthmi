@@ -10,61 +10,42 @@ import org.dsi.ifc.organizer.ProfileInfo;
 
 public interface DSIAdbUserProfileListener
 extends DSIListener {
-    default public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n, int n2) {
-    }
+    public void updateProfileInfo(ProfileInfo[] var1, int var2, int var3);
 
-    default public void updateDeviceConnected(boolean bl, int n) {
-    }
+    public void updateDeviceConnected(boolean var1, int var2);
 
-    default public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateDownloadCountSim(DownloadInfo var1, int var2);
 
-    default public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateDownloadCountMe(DownloadInfo var1, int var2);
 
-    default public void updateDownloadCountOpp(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateDownloadCountOpp(DownloadInfo var1, int var2);
 
-    default public void updateDownloadState(int n, int n2, int n3) {
-    }
+    public void updateDownloadState(int var1, int var2, int var3);
 
-    default public void newDeviceConnected(String string) {
-    }
+    public void newDeviceConnected(String var1);
 
-    default public void downloadToProfileResult(int n) {
-    }
+    public void downloadToProfileResult(int var1);
 
-    default public void restartDownloadResult(int n) {
-    }
+    public void restartDownloadResult(int var1);
 
-    default public void profileDeleted(int n) {
-    }
+    public void profileDeleted(int var1);
 
-    default public void setProfileNameResult(int n) {
-    }
+    public void setProfileNameResult(int var1);
 
-    default public void deleteProfilesResult(int n) {
-    }
+    public void deleteProfilesResult(int var1);
 
-    default public void commonEntryCountResult(int n, int n2) {
-    }
+    public void commonEntryCountResult(int var1, int var2);
 
-    default public void entryMeterResult(int n, EntryMeter[] entryMeterArray) {
-    }
+    public void entryMeterResult(int var1, EntryMeter[] var2);
 
-    default public void setPairingCodeResult(int n) {
-    }
+    public void setPairingCodeResult(int var1);
 
-    default public void setHomeIdResult(int n) {
-    }
+    public void setHomeIdResult(int var1);
 
-    default public void updateDownloadState2ndPhone(int n, int n2, int n3) {
-    }
+    public void updateDownloadState2ndPhone(int var1, int var2, int var3);
 
-    default public void setSOSButtonResult(int n) {
-    }
+    public void setSOSButtonResult(int var1);
 
-    default public void updateSOSButton(boolean bl, int n) {
-    }
+    public void updateSOSButton(boolean var1, int var2);
 }
 

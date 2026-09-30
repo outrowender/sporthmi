@@ -3,62 +3,45 @@
  */
 package de.esolutions.fw.comm.dsi.androidauto2;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.androidauto2.ServiceConfiguration;
 import org.dsi.ifc.androidauto2.TouchEvent;
 
 public interface DSIAndroidAuto2C {
-    default public void videoFocusNotification(int n, boolean bl) {
-    }
+    public void videoFocusNotification(int var1, boolean var2) throws MethodException;
 
-    default public void audioFocusNotification(int n, boolean bl) {
-    }
+    public void audioFocusNotification(int var1, boolean var2) throws MethodException;
 
-    default public void microphoneNotification(int n, boolean bl) {
-    }
+    public void microphoneNotification(int var1, boolean var2) throws MethodException;
 
-    default public void navFocusNotification(int n, boolean bl) {
-    }
+    public void navFocusNotification(int var1, boolean var2) throws MethodException;
 
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1) throws MethodException;
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2) throws MethodException;
 
-    default public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2, int n3) {
-    }
+    public void postTouchEvent(int var1, TouchEvent[] var2, int var3, int var4) throws MethodException;
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1) throws MethodException;
 
-    default public void setNightMode(boolean bl) {
-    }
+    public void setNightMode(boolean var1) throws MethodException;
 
-    default public void bluetoothPairingResponse(boolean bl) {
-    }
+    public void bluetoothPairingResponse(boolean var1) throws MethodException;
 
-    default public void bluetoothAuthenticationData(String string) {
-    }
+    public void bluetoothAuthenticationData(String var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -38,12 +38,10 @@ implements BAPEntity {
         this.reserved_bit_0 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RemoteProcessCommands_SupportedCommands0 remoteProcessCommands_SupportedCommands0 = (RemoteProcessCommands_SupportedCommands0)bAPEntity;
         return this.getMobileDeviceKeyCountSupportedDf3_4 == remoteProcessCommands_SupportedCommands0.getMobileDeviceKeyCountSupportedDf3_4 && this.terminationByUserSupported == remoteProcessCommands_SupportedCommands0.terminationByUserSupported && this.confirmServiceExpiryWarningSupported == remoteProcessCommands_SupportedCommands0.confirmServiceExpiryWarningSupported && this.pairMainUserVehiclePinSupported == remoteProcessCommands_SupportedCommands0.pairMainUserVehiclePinSupported && this.pairMainUserPairingCodeSupported == remoteProcessCommands_SupportedCommands0.pairMainUserPairingCodeSupported && this.remoteDeleteUserListSupported == remoteProcessCommands_SupportedCommands0.remoteDeleteUserListSupported && this.remoteUpdateUserListSupported == remoteProcessCommands_SupportedCommands0.remoteUpdateUserListSupported && this.reserved_bit_0 == remoteProcessCommands_SupportedCommands0.reserved_bit_0;
@@ -52,27 +50,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RemoteProcessCommands_SupportedCommands0");
-        stringBuffer.append(new StringBuffer().append("\n - getMobileDeviceKeyCountSupportedDf3_4:").append(this.getMobileDeviceKeyCountSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - terminationByUserSupported:").append(this.terminationByUserSupported).toString());
-        stringBuffer.append(new StringBuffer().append("\n - confirmServiceExpiryWarningSupported:").append(this.confirmServiceExpiryWarningSupported).toString());
-        stringBuffer.append(new StringBuffer().append("\n - pairMainUserVehiclePinSupported:").append(this.pairMainUserVehiclePinSupported).toString());
-        stringBuffer.append(new StringBuffer().append("\n - pairMainUserPairingCodeSupported:").append(this.pairMainUserPairingCodeSupported).toString());
-        stringBuffer.append(new StringBuffer().append("\n - remoteDeleteUserListSupported:").append(this.remoteDeleteUserListSupported).toString());
-        stringBuffer.append(new StringBuffer().append("\n - remoteUpdateUserListSupported:").append(this.remoteUpdateUserListSupported).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserved_bit_0:").append(this.reserved_bit_0).toString());
+        stringBuffer.append("\n - getMobileDeviceKeyCountSupportedDf3_4:" + this.getMobileDeviceKeyCountSupportedDf3_4);
+        stringBuffer.append("\n - terminationByUserSupported:" + this.terminationByUserSupported);
+        stringBuffer.append("\n - confirmServiceExpiryWarningSupported:" + this.confirmServiceExpiryWarningSupported);
+        stringBuffer.append("\n - pairMainUserVehiclePinSupported:" + this.pairMainUserVehiclePinSupported);
+        stringBuffer.append("\n - pairMainUserPairingCodeSupported:" + this.pairMainUserPairingCodeSupported);
+        stringBuffer.append("\n - remoteDeleteUserListSupported:" + this.remoteDeleteUserListSupported);
+        stringBuffer.append("\n - remoteUpdateUserListSupported:" + this.remoteUpdateUserListSupported);
+        stringBuffer.append("\n - reserved_bit_0:" + this.reserved_bit_0);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.getMobileDeviceKeyCountSupportedDf3_4);
         bitStream.pushBoolean(this.terminationByUserSupported);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.reserved_bit_0);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.getMobileDeviceKeyCountSupportedDf3_4 = bitStream.popFrontBoolean();
         this.terminationByUserSupported = bitStream.popFrontBoolean();

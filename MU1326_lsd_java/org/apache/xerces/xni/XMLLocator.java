@@ -4,31 +4,22 @@
 package org.apache.xerces.xni;
 
 public interface XMLLocator {
-    default public String getPublicId() {
-    }
+    public String getPublicId();
 
-    default public String getLiteralSystemId() {
-    }
+    public String getLiteralSystemId();
 
-    default public String getBaseSystemId() {
-    }
+    public String getBaseSystemId();
 
-    default public String getExpandedSystemId() {
-    }
+    public String getExpandedSystemId();
 
-    default public int getLineNumber() {
-    }
+    public int getLineNumber();
 
-    default public int getColumnNumber() {
-    }
+    public int getColumnNumber();
 
-    default public int getCharacterOffset() {
-    }
+    public int getCharacterOffset();
 
-    default public String getEncoding() {
-    }
+    public String getEncoding();
 
-    default public String getXMLVersion() {
-    }
+    public String getXMLVersion();
 }
 

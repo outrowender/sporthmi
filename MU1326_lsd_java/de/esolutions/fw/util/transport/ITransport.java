@@ -6,45 +6,34 @@ package de.esolutions.fw.util.transport;
 import de.esolutions.fw.util.transport.IReadable;
 import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public interface ITransport {
-    default public void send(IWriter iWriter) {
-    }
+    public void send(IWriter var1) throws IOException, TransportException, InterruptedException;
 
-    default public void sendSync(IWriter iWriter) {
-    }
+    public void sendSync(IWriter var1) throws IOException, TransportException, InterruptedException;
 
-    default public IReadable recv() {
-    }
+    public IReadable recv() throws IOException, TransportException, InterruptedException;
 
-    default public void flush() {
-    }
+    public void flush() throws IOException, TransportException, InterruptedException;
 
-    default public void open() {
-    }
+    public void open() throws IOException;
 
-    default public boolean isOpen() {
-    }
+    public boolean isOpen();
 
-    default public void close(boolean bl) {
-    }
+    public void close(boolean var1) throws IOException;
 
-    default public int maxMsgSize() {
-    }
+    public int maxMsgSize();
 
-    default public boolean keepsRecordBoundaries() {
-    }
+    public boolean keepsRecordBoundaries();
 
-    default public boolean isReliable() {
-    }
+    public boolean isReliable();
 
-    default public boolean detectsPeerReset() {
-    }
+    public boolean detectsPeerReset();
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public void setDebug(ITransportDebug iTransportDebug) {
-    }
+    public void setDebug(ITransportDebug var1);
 }
 

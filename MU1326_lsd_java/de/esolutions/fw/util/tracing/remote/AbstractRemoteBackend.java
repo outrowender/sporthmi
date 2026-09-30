@@ -40,14 +40,12 @@ extends AbstractTraceBackend {
         this.sendSyncMarkers = bl;
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         this.maxEntities = iTraceBackendListener.getCoreMaxEntities();
         this.id = iTraceBackendListener.getCoreId();
     }
 
-    @Override
     public boolean adjustToChangeLevel(ITraceEntity iTraceEntity) {
         return true;
     }
@@ -66,12 +64,10 @@ extends AbstractTraceBackend {
         return this.protocol.getPeerName();
     }
 
-    @Override
     public int getFlags() {
         return 0;
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         try {
             if (this.protocol != null) {
@@ -80,20 +76,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("log message failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "log message failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("log message failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "log message failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("log message failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "log message failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public ITraceMessage logBulk(ITraceMessage[] iTraceMessageArray) {
         try {
             if (this.protocol != null) {
@@ -102,20 +97,19 @@ extends AbstractTraceBackend {
             return null;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("bulk log message failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "bulk log message failed: " + iOException);
             return iTraceMessageArray[0];
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("bulk log message failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "bulk log message failed: " + transportException);
             return iTraceMessageArray[0];
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("bulk log message failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "bulk log message failed: " + interruptedException);
             return iTraceMessageArray[0];
         }
     }
 
-    @Override
     public boolean droppedMessages(int n) {
         try {
             if (this.protocol != null) {
@@ -124,20 +118,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("dropped messages failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "dropped messages failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("dropped messages failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "dropped messages failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("dropped messages failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "dropped messages failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public boolean createEntity(ITraceEntity iTraceEntity) {
         try {
             if (this.protocol != null) {
@@ -146,20 +139,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("create failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "create failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("create failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "create failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("create failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "create failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public boolean createEntityBulk(ITraceEntity[] iTraceEntityArray) {
         try {
             if (this.protocol != null && iTraceEntityArray != null) {
@@ -173,20 +165,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("create failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "create failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("create failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "create failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("create failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "create failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public boolean registerTimeZone(int n, int n2, String string) {
         try {
             if (this.protocol != null) {
@@ -196,20 +187,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("register timezone failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "register timezone failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("register timezone failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "register timezone failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("register timezone failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "register timezone failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public boolean updateTimeZone(int n, long l, long l2) {
         try {
             if (this.protocol != null) {
@@ -219,20 +209,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("update timezone failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "update timezone failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("update timezone failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "update timezone failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("update timezone failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "update timezone failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public boolean changeFilterLevel(TraceEntityURI traceEntityURI, short s) {
         try {
             if (this.protocol != null) {
@@ -241,20 +230,19 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("send failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "send failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("send failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "send failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("send failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "send failed: " + interruptedException);
             return false;
         }
     }
 
-    @Override
     public boolean changeFilterLevelBulk(ITraceEntity[] iTraceEntityArray) {
         try {
             if (this.protocol != null && iTraceEntityArray != null) {
@@ -268,23 +256,23 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("send failed: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "send failed: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("send failed: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "send failed: " + transportException);
             return false;
         }
         catch (InterruptedException interruptedException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("send failed: ").append(interruptedException).toString());
+            this.listener.logMessage(this.bid, "send failed: " + interruptedException);
             return false;
         }
     }
 
-    protected boolean remoteConnect(Connection connection, boolean bl, boolean bl2, boolean bl3) {
+    protected boolean remoteConnect(Connection connection, boolean bl, boolean bl2, boolean bl3) throws InterruptedException {
         try {
             this.connection = connection;
-            this.listener.logMessage(this.bid, new StringBuffer().append("trying to open connection ").append(connection.getDescription()).toString());
+            this.listener.logMessage(this.bid, "trying to open connection " + connection.getDescription());
             this.protocol = new ProtocolHandler(this.id, connection, bl);
             this.protocol.setMaxEntities(this.maxEntities);
             this.protocol.setActionHandler(new RemoteBackendActions(this.bid, this.listener));
@@ -303,19 +291,19 @@ extends AbstractTraceBackend {
             return false;
         }
         catch (IOException iOException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("ERROR: opening connection: ").append(iOException).toString());
+            this.listener.logMessage(this.bid, "ERROR: opening connection: " + iOException);
             return false;
         }
         catch (TransportException transportException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("ERROR: opening connection: ").append(transportException).toString());
+            this.listener.logMessage(this.bid, "ERROR: opening connection: " + transportException);
             return false;
         }
         catch (SerializerException serializerException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("ERROR: opening connection: ").append(serializerException).toString());
+            this.listener.logMessage(this.bid, "ERROR: opening connection: " + serializerException);
             return false;
         }
         catch (ProtocolException protocolException) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("ERROR: opening connection: ").append(protocolException).toString());
+            this.listener.logMessage(this.bid, "ERROR: opening connection: " + protocolException);
             return false;
         }
     }
@@ -335,15 +323,15 @@ extends AbstractTraceBackend {
                 this.protocol = null;
             }
             catch (ProtocolException protocolException) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("disconnecing remote: protocol notes: ").append(protocolException.getMessage()).toString());
+                this.listener.logMessage(this.bid, "disconnecing remote: protocol notes: " + protocolException.getMessage());
             }
             catch (InterruptedException interruptedException) {
             }
             catch (IOException iOException) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("disconnecing remote: IO notes: ").append(iOException.getMessage()).toString());
+                this.listener.logMessage(this.bid, "disconnecing remote: IO notes: " + iOException.getMessage());
             }
             catch (TransportException transportException) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("disconnecing remote: transport notes: ").append(transportException.getMessage()).toString());
+                this.listener.logMessage(this.bid, "disconnecing remote: transport notes: " + transportException.getMessage());
             }
         }
         if (this.connection != null) {
@@ -352,7 +340,7 @@ extends AbstractTraceBackend {
                 this.connection = null;
             }
             catch (Exception exception) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("disconnection exception ").append(exception).toString());
+                this.listener.logMessage(this.bid, "disconnection exception " + exception);
                 return false;
             }
         }
@@ -369,7 +357,7 @@ extends AbstractTraceBackend {
             return false;
         }
         catch (Exception exception) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("protocol interrupted: ").append(exception).toString());
+            this.listener.logMessage(this.bid, "protocol interrupted: " + exception);
             return false;
         }
     }
@@ -382,7 +370,7 @@ extends AbstractTraceBackend {
                 ++this.syncCount;
             }
             catch (Exception exception) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("error sending sync marker: ").append(exception).toString());
+                this.listener.logMessage(this.bid, "error sending sync marker: " + exception);
             }
         }
     }

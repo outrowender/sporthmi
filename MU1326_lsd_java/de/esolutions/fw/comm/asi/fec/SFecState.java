@@ -42,7 +42,7 @@ public class SFecState {
     }
 
     public String toString() {
-        return new StringBuffer("SFecState{").append("fsid=").append(this.fsid).append(", index=").append(this.index).append(", fecState=").append(this.fecState).append("}").toString();
+        return "SFecState{" + "fsid=" + this.fsid + ", index=" + this.index + ", fecState=" + this.fecState + "}";
     }
 }
 

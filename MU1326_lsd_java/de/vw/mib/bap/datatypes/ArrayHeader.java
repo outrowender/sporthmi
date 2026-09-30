@@ -3,35 +3,34 @@
  */
 package de.vw.mib.bap.datatypes;
 
-import de.vw.mib.bap.datatypes.ArrayHeader$Mode;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 import de.vw.mib.bap.datatypes.BAPEntity;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class ArrayHeader
 implements BAPEntity {
-    public final ArrayHeader$Mode mode = new ArrayHeader$Mode();
+    public final Mode mode = new Mode();
     private int recordAddress;
     private int serializationRecordAddress;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int RECORD_ADDRESS_COMPLETE;
-    private static final int RECORD_ADDRESS_BITSIZE;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int RECORD_ADDRESS_COMPLETE = 0;
+    private static final int RECORD_ADDRESS_BITSIZE = 4;
     public int start;
-    public static final int FIRST_BAP_POS;
-    private static final int START_BITSIZE;
-    private static final int START_LONG_BITSIZE;
+    public static final int FIRST_BAP_POS = 0;
+    private static final int START_BITSIZE = 8;
+    private static final int START_LONG_BITSIZE = 16;
     public int elements;
-    private static final int ELEMENTS_BITSIZE;
-    private static final int ELEMENTS_LONG_BITSIZE;
-    private static final int POS_BITSIZE;
-    private static final int POS_LONG_BITSIZE;
-    private static final int FULL_RANGE_UPDATE_ELEMENTS;
-    private static final int ONE_ELEMENT_CHANGE_NUMBER;
+    private static final int ELEMENTS_BITSIZE = 8;
+    private static final int ELEMENTS_LONG_BITSIZE = 16;
+    private static final int POS_BITSIZE = 8;
+    private static final int POS_LONG_BITSIZE = 16;
+    private static final int FULL_RANGE_UPDATE_ELEMENTS = 65535;
+    private static final int ONE_ELEMENT_CHANGE_NUMBER = 1;
     private int _setGetRequestType;
-    public static final int REQUEST_TYPE_UNKNOWN;
-    public static final int REQUEST_TYPE_MODIFY;
-    public static final int REQUEST_TYPE_INSERT;
-    public static final int REQUEST_TYPE_DELETE;
+    public static final int REQUEST_TYPE_UNKNOWN = 0;
+    public static final int REQUEST_TYPE_MODIFY = 1;
+    public static final int REQUEST_TYPE_INSERT = 2;
+    public static final int REQUEST_TYPE_DELETE = 3;
 
     public ArrayHeader() {
         this.internalReset();
@@ -54,13 +53,11 @@ implements BAPEntity {
         this.elements = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.mode.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ArrayHeader arrayHeader = (ArrayHeader)bAPEntity;
         return this.recordAddress == arrayHeader.recordAddress && this.serializationRecordAddress == arrayHeader.serializationRecordAddress && this.start == arrayHeader.start && this.elements == arrayHeader.elements && this.mode.equalTo(arrayHeader.mode);
@@ -71,7 +68,7 @@ implements BAPEntity {
     }
 
     public boolean isFullRangeUpdate() {
-        return this.mode.is16BitsIndexSize() ? this.elements == -65536 : this.elements == 255;
+        return this.mode.is16BitsIndexSize() ? this.elements == 65535 : this.elements == 255;
     }
 
     public void setFullRangeUpdate(boolean bl) {
@@ -80,7 +77,7 @@ implements BAPEntity {
         this.mode.arrayDirectionIsBackward = false;
         this.mode.arrayPositionIsTransmitted = false;
         this.setRecordAddress(0);
-        this.elements = bl ? -65536 : 255;
+        this.elements = bl ? 65535 : 255;
         this.mode.indexSize16BitForStartElements = bl;
     }
 
@@ -230,7 +227,6 @@ implements BAPEntity {
         return this.mode.is16BitsIndexSize() ? 16 : 8;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ArrayHeader:");
@@ -245,7 +241,6 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.mode.bitSize();
@@ -260,7 +255,6 @@ implements BAPEntity {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.mode.serialize(bitStream);
         bitStream.pushBits(4, this.recordAddress);
@@ -273,7 +267,6 @@ implements BAPEntity {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.mode.deserialize(bitStream);
         this.setRecordAddress(bitStream.popFrontBits(4));
@@ -297,6 +290,100 @@ implements BAPEntity {
         this.serializationRecordAddress = arrayHeader.serializationRecordAddress;
         this.start = arrayHeader.start;
         this.mode.copy(arrayHeader.mode);
+    }
+
+    public static final class Mode
+    implements BAPEntity {
+        public boolean indexSize16BitForStartElements;
+        public boolean arrayPositionIsTransmitted;
+        public boolean arrayDirectionIsBackward;
+        public boolean shift;
+        private static final int MODE_BITSIZE = 4;
+
+        public boolean is16BitsIndexSize() {
+            return this.indexSize16BitForStartElements;
+        }
+
+        public Mode() {
+            this.internalReset();
+        }
+
+        public Mode(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.indexSize16BitForStartElements = false;
+            this.arrayPositionIsTransmitted = false;
+            this.arrayDirectionIsBackward = false;
+            this.shift = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            Mode mode = (Mode)bAPEntity;
+            return this.indexSize16BitForStartElements == mode.indexSize16BitForStartElements && this.arrayPositionIsTransmitted == mode.arrayPositionIsTransmitted && this.arrayDirectionIsBackward == mode.arrayDirectionIsBackward && this.shift == mode.shift;
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("Mode:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.indexSize16BitForStartElements) {
+                stringBuffer.append("true  (IndexSize 16 Bit for Start/Elements");
+            } else {
+                stringBuffer.append("false  (IndexSize 8 Bit for Start/Elements");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.arrayPositionIsTransmitted) {
+                stringBuffer.append("true  (Array position is transmitted");
+            } else {
+                stringBuffer.append("false  (Array position is not transmitted");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.arrayDirectionIsBackward) {
+                stringBuffer.append("true  (Array direction is backward");
+            } else {
+                stringBuffer.append("false  (Array direction is forward");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.shift) {
+                stringBuffer.append("true  (Shift");
+            } else {
+                stringBuffer.append("false  (Shift");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 4;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.indexSize16BitForStartElements);
+            bitStream.pushBoolean(this.arrayPositionIsTransmitted);
+            bitStream.pushBoolean(this.arrayDirectionIsBackward);
+            bitStream.pushBoolean(this.shift);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.indexSize16BitForStartElements = bitStream.popFrontBoolean();
+            this.arrayPositionIsTransmitted = bitStream.popFrontBoolean();
+            this.arrayDirectionIsBackward = bitStream.popFrontBoolean();
+            this.shift = bitStream.popFrontBoolean();
+        }
+
+        public void copy(Mode mode) {
+            this.arrayDirectionIsBackward = mode.arrayDirectionIsBackward;
+            this.arrayPositionIsTransmitted = mode.arrayPositionIsTransmitted;
+            this.indexSize16BitForStartElements = mode.indexSize16BitForStartElements;
+            this.shift = mode.shift;
+        }
     }
 }
 

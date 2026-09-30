@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 
 public class PoiOnlineSearchValuelistElementSerializer {
-    public static void putOptionalPoiOnlineSearchValuelistElement(ISerializer iSerializer, PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement) {
+    public static void putOptionalPoiOnlineSearchValuelistElement(ISerializer iSerializer, PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement) throws SerializerException {
         boolean bl = poiOnlineSearchValuelistElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -47,7 +48,7 @@ public class PoiOnlineSearchValuelistElementSerializer {
         }
     }
 
-    public static void putOptionalPoiOnlineSearchValuelistElementVarArray(ISerializer iSerializer, PoiOnlineSearchValuelistElement[] poiOnlineSearchValuelistElementArray) {
+    public static void putOptionalPoiOnlineSearchValuelistElementVarArray(ISerializer iSerializer, PoiOnlineSearchValuelistElement[] poiOnlineSearchValuelistElementArray) throws SerializerException {
         boolean bl = poiOnlineSearchValuelistElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -58,7 +59,7 @@ public class PoiOnlineSearchValuelistElementSerializer {
         }
     }
 
-    public static PoiOnlineSearchValuelistElement getOptionalPoiOnlineSearchValuelistElement(IDeserializer iDeserializer) {
+    public static PoiOnlineSearchValuelistElement getOptionalPoiOnlineSearchValuelistElement(IDeserializer iDeserializer) throws SerializerException {
         PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class PoiOnlineSearchValuelistElementSerializer {
         return poiOnlineSearchValuelistElement;
     }
 
-    public static PoiOnlineSearchValuelistElement[] getOptionalPoiOnlineSearchValuelistElementVarArray(IDeserializer iDeserializer) {
+    public static PoiOnlineSearchValuelistElement[] getOptionalPoiOnlineSearchValuelistElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         PoiOnlineSearchValuelistElement[] poiOnlineSearchValuelistElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

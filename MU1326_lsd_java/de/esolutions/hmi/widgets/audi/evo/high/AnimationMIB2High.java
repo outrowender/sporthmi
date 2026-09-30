@@ -10,7 +10,6 @@ import de.audi.atip.hmi.view.IScreenData;
 import de.audi.atip.hmi.view.Screen;
 import de.audi.tghu.fwhmi.IDisplayManagerKombiControl;
 import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem;
-import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem$Helper;
 import de.esolutions.hmi.widgets.audi.base.AbstractScreenWidget;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
@@ -37,17 +36,17 @@ public class AnimationMIB2High
 extends AbstractAnimation
 implements AnimationListener,
 IAnimationTypesEvo {
-    private static final int MMI_COMBI_SYNC_TYPE_NONE;
-    private static final int MMI_COMBI_SYNC_TYPE_VIEW_SIZE_CHANGE;
-    private static final int MMI_COMBI_SYNC_TYPE_SELECTION_DRAWER_STATE_CHANGE;
-    private static final int MMI_COMBI_SYNC_TYPE_OPTION_DRAWER_STATE_CHANGE;
-    private static final int MMI_COMBI_SYNC_TYPE_SCREEN_CHANGE_STANDARD_FORWARD;
-    private static final int MMI_COMBI_SYNC_TYPE_REMOVE_POPUP;
-    private static final int MMI_COMBI_SYNC_TYPE_SHOW_POPUP;
-    private static final int MMI_COMBI_SYNC_TYPE_EXIT_VIEW_FADING;
-    private static final int MMI_COMBI_SYNC_TYPE_SCREEN_CHANGE_FADING_IN_PLACE;
-    private static final int MMI_COMBI_SYNC_TYPE_EXIT_VIEW_FADING_WITHOUT_VIEW_SIZE_CHANGE;
-    private static final int MMI_COMBI_SYNC_TYPE_FLAP_FADING_WITHOUT_VIEW_SIZE_CHANGE;
+    private static final int MMI_COMBI_SYNC_TYPE_NONE = -1;
+    private static final int MMI_COMBI_SYNC_TYPE_VIEW_SIZE_CHANGE = 1;
+    private static final int MMI_COMBI_SYNC_TYPE_SELECTION_DRAWER_STATE_CHANGE = 2;
+    private static final int MMI_COMBI_SYNC_TYPE_OPTION_DRAWER_STATE_CHANGE = 3;
+    private static final int MMI_COMBI_SYNC_TYPE_SCREEN_CHANGE_STANDARD_FORWARD = 4;
+    private static final int MMI_COMBI_SYNC_TYPE_REMOVE_POPUP = 8;
+    private static final int MMI_COMBI_SYNC_TYPE_SHOW_POPUP = 9;
+    private static final int MMI_COMBI_SYNC_TYPE_EXIT_VIEW_FADING = 10;
+    private static final int MMI_COMBI_SYNC_TYPE_SCREEN_CHANGE_FADING_IN_PLACE = 11;
+    private static final int MMI_COMBI_SYNC_TYPE_EXIT_VIEW_FADING_WITHOUT_VIEW_SIZE_CHANGE = 12;
+    private static final int MMI_COMBI_SYNC_TYPE_FLAP_FADING_WITHOUT_VIEW_SIZE_CHANGE = 13;
     Screen oldScreen;
     Screen newScreen;
     DrawerController oldOptionDrawer;
@@ -58,7 +57,6 @@ IAnimationTypesEvo {
         super(abstractAnimationController);
     }
 
-    @Override
     public void startScreenChangeAnimation(int[] nArray, boolean bl, IScreenData iScreenData, IScreenData iScreenData2) {
         try {
             this.initializeScreenChange(nArray, bl, iScreenData, iScreenData2);
@@ -134,13 +132,12 @@ IAnimationTypesEvo {
         this.fadeIn = bl;
         this.type = bl ? nArray[2] : nArray[0];
         if (!this.controller.isScreenChangeType(this.type)) {
-            this.logAnimation.log(-1601830656, "AnimationMIB2High#startScreenChangeAnimation type: %1 is not a valid screenChangeType, using fake animation instead", (long)this.type);
+            this.logAnimation.log(100000, "AnimationMIB2High#startScreenChangeAnimation type: %1 is not a valid screenChangeType, using fake animation instead", (long)this.type);
             this.type = 23;
         }
         this.animationStart = AbstractWidget.framework.getMonotonicTime();
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
@@ -152,7 +149,7 @@ IAnimationTypesEvo {
                 iDisplayControllerWidget.setOpacityOnBackgroundLayers(0.0f, true);
             }
         } else {
-            this.logAnimation.log(-1601830656, "AnimationMIB2High#prepareBackgroundFading no controller at screen!");
+            this.logAnimation.log(100000, "AnimationMIB2High#prepareBackgroundFading no controller at screen!");
         }
     }
 
@@ -165,12 +162,12 @@ IAnimationTypesEvo {
     }
 
     protected void startFakeAnimation() {
-        this.startDynamicAnimation(8258, 8258, 23, this.fadeIn, (AbstractWidget)((Object)this.animatedScreen));
+        this.startDynamicAnimation(40.0f, 40.0f, 23, this.fadeIn, (AbstractWidget)((Object)this.animatedScreen));
     }
 
     protected void startScreenChange(int n) {
         if (IWidgetLogChannel.logScreenChange.isInfo()) {
-            IWidgetLogChannel.logScreenChange.log(1078071040, "AnimationMIB2High#startScreenChange target=%1: %2", (Object)ScreenChangeAnimationItem$Helper.getText(n));
+            IWidgetLogChannel.logScreenChange.log(1000000, "AnimationMIB2High#startScreenChange target=%1: %2", (Object)ScreenChangeAnimationItem.Helper.getText(n));
         }
         boolean bl = (this.computedAnimationInfo[1] & 8) > 0;
         boolean bl2 = (this.computedAnimationInfo[1] & 4) > 0;
@@ -228,9 +225,9 @@ IAnimationTypesEvo {
     protected void startBackgroundFading() {
         this.prepareBackgroundFading();
         if (this.fadeIn) {
-            this.startDynamicAnimation(0.0f, 51266, this.type, this.fadeIn, (AbstractWidget)((Object)this.animatedScreen));
+            this.startDynamicAnimation(0.0f, 100.0f, this.type, this.fadeIn, (AbstractWidget)((Object)this.animatedScreen));
         } else {
-            this.startDynamicAnimation(51266, 0.0f, this.type, this.fadeIn, (AbstractWidget)((Object)this.animatedScreen));
+            this.startDynamicAnimation(100.0f, 0.0f, this.type, this.fadeIn, (AbstractWidget)((Object)this.animatedScreen));
         }
     }
 
@@ -253,7 +250,6 @@ IAnimationTypesEvo {
         }
     }
 
-    @Override
     protected void doSpecializedAnimation() {
         switch (this.type) {
             case 22: 
@@ -315,7 +311,7 @@ IAnimationTypesEvo {
                 break;
             }
             default: {
-                this.logAnimation.log(-2137614336, "AnimationMIB2High#doSpecializedAnimation nothing special done for tpye: %1", (long)this.type);
+                this.logAnimation.log(10000000, "AnimationMIB2High#doSpecializedAnimation nothing special done for tpye: %1", (long)this.type);
             }
         }
     }
@@ -368,7 +364,6 @@ IAnimationTypesEvo {
         }
     }
 
-    @Override
     protected void stopSpecializedAnimation() {
         if (this.controller.isScreenChangeType(this.type) && this.fadeIn) {
             AbstractScreenWidget abstractScreenWidget = (AbstractScreenWidget)this.animatedScreen;
@@ -377,14 +372,14 @@ IAnimationTypesEvo {
                 iDisplayControllerWidget.setOpacityOnBackgroundLayers(1.0f, true);
             }
             if (abstractScreenWidget.getScreenType() == 1) {
-                this.logAnimation.log(-2137614336, "AnimationMIB2High#animationFinished: Map animation finished, notifying Startup.");
+                this.logAnimation.log(10000000, "AnimationMIB2High#animationFinished: Map animation finished, notifying Startup.");
                 AbstractWidget.framework.getStartupMgr().triggerMapAvailable();
             }
         }
         switch (this.type) {
             case 61: {
                 boolean bl;
-                IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#stopSpecializedAnimation stop exit view fading without view size, fadeIn: %1", this.fadeIn);
+                IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#stopSpecializedAnimation stop exit view fading without view size, fadeIn: %1", this.fadeIn);
                 if (!((IDisplayManagerKombiControl)AbstractWidget.hmiService.getDisplayManager()).isKDKVisible(this.controller.getTerminal().getTerminalID())) break;
                 boolean bl2 = bl = this.controller.getTerminal().getViewSizeManager().getCurrentViewSize() == 2;
                 if (!this.fadeIn) {
@@ -397,7 +392,7 @@ IAnimationTypesEvo {
             }
             case 62: {
                 boolean bl;
-                IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#stopSpecializedAnimation stop flap fading without view size, fadeIn: %1", this.fadeIn);
+                IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#stopSpecializedAnimation stop flap fading without view size, fadeIn: %1", this.fadeIn);
                 boolean bl3 = bl = this.controller.getTerminal().getViewSizeManager().getCurrentViewSize() == 2;
                 if (this.fadeIn) break;
                 this.setKDKVisible(false, bl, false);
@@ -405,7 +400,7 @@ IAnimationTypesEvo {
                 break;
             }
             case 56: {
-                IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#stopSpecializedAnimation stop exit view fading with view size change, fadeIn: %1", this.fadeIn);
+                IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#stopSpecializedAnimation stop exit view fading with view size change, fadeIn: %1", this.fadeIn);
                 if (!this.fadeIn || !((IDisplayManagerKombiControl)AbstractWidget.hmiService.getDisplayManager()).isKDKVisible(this.controller.getTerminal().getTerminalID())) break;
                 boolean bl = this.controller.getTerminal().getViewSizeManager().getCurrentViewSize() == 2;
                 this.setKDKVisible(true, bl, true);
@@ -436,23 +431,21 @@ IAnimationTypesEvo {
                 break;
             }
             default: {
-                this.logAnimation.log(-2137614336, "AnimationMIB2High#stopSpecializedAnimation nothing special to do for type: %1", (long)this.type);
+                this.logAnimation.log(10000000, "AnimationMIB2High#stopSpecializedAnimation nothing special to do for type: %1", (long)this.type);
             }
         }
     }
 
-    @Override
     protected void doErrorHandlingForScreenChange() {
         this.animationCurve.setFinished(true);
         this.doSpecializedAnimation();
         this.stopSpecializedAnimation();
     }
 
-    @Override
     protected boolean startSpezializedAnimation() {
         switch (this.type) {
             case 61: {
-                IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#startSpecializedAnimation start exit view fading without view size, fadeIn: %1", this.fadeIn);
+                IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#startSpecializedAnimation start exit view fading without view size, fadeIn: %1", this.fadeIn);
                 if (this.fadeIn && ((IDisplayManagerKombiControl)AbstractWidget.hmiService.getDisplayManager()).isKDKVisible(this.controller.getTerminal().getTerminalID())) {
                     boolean bl = this.controller.getTerminal().getViewSizeManager().getCurrentViewSize() == 2;
                     this.setKDKVisible(true, bl, true);
@@ -478,7 +471,7 @@ IAnimationTypesEvo {
         int n;
         IDisplayManagerKombiControl iDisplayManagerKombiControl = this.getDisplayManager();
         if (iDisplayManagerKombiControl == null) {
-            IWidgetLogChannel.logKDK.log(-1601830656, "AnimationMIB2High#setKDKvisible failed to retrieve the display manager; ignoring the invocation");
+            IWidgetLogChannel.logKDK.log(100000, "AnimationMIB2High#setKDKvisible failed to retrieve the display manager; ignoring the invocation");
             return;
         }
         int n2 = iDisplayManagerKombiControl.getVisibleKDK(0);
@@ -504,12 +497,12 @@ IAnimationTypesEvo {
                 n4 = layout.getIntegerConstant(58);
                 n3 = layout.getIntegerConstant(59);
             }
-            IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#setKDKvisible setCropping 1 sourceX: %1, sourceY: %2, cropWidth: %3, cropHeight: %4", (Object)String.valueOf(n7), (Object)String.valueOf(n), (Object)String.valueOf(n6), (Object)String.valueOf(n5));
-            IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#setKDKvisible setCropping 2 targetX: %1, targetY: %2", (long)n4, (long)n3);
+            IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#setKDKvisible setCropping 1 sourceX: %1, sourceY: %2, cropWidth: %3, cropHeight: %4", (Object)String.valueOf(n7), (Object)String.valueOf(n), (Object)String.valueOf(n6), (Object)String.valueOf(n5));
+            IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#setKDKvisible setCropping 2 targetX: %1, targetY: %2", (long)n4, (long)n3);
             iDisplayManagerKombiControl.setCropping(n2, 0, n7, n, n6, n5, n4, n3, n6, n5);
         }
         if (bl) {
-            IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#setKDKvisible setting opacity of kdk to opaque");
+            IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#setKDKvisible setting opacity of kdk to opaque");
             if (n2 != -1) {
                 ((IDisplayManagerKombiControl)AbstractWidget.hmiService.getDisplayManager()).setKDKOpacity(this.controller.getTerminal().getTerminalID(), 100);
                 int[] nArray = AbstractWidget.hmiService.getDisplayManager().getPosition(n2, 0);
@@ -520,7 +513,7 @@ IAnimationTypesEvo {
                 ((EALManager)this.controller.getTerminal().getGUIManager()).showKDKBackground(this.getKDKBackgroundImage(n != 0), nArray[0], nArray[1], this);
             }
         } else {
-            IWidgetLogChannel.logKDK.log(-2137614336, "AnimationMIB2High#setKDKvisible setting opacity of kdk to transparent");
+            IWidgetLogChannel.logKDK.log(10000000, "AnimationMIB2High#setKDKvisible setting opacity of kdk to transparent");
             if (n2 != -1) {
                 ((IDisplayManagerKombiControl)AbstractWidget.hmiService.getDisplayManager()).setKDKOpacity(this.controller.getTerminal().getTerminalID(), 0);
             }
@@ -550,12 +543,10 @@ IAnimationTypesEvo {
         return HMIImageConstantsSystem.kdk_background_default;
     }
 
-    @Override
     protected int getMinimumDelay() {
         return 20;
     }
 
-    @Override
     protected int getMinimumTimerIntervall() {
         if (AbstractWidget.isVariantHigh()) {
             return 1;
@@ -583,12 +574,10 @@ IAnimationTypesEvo {
         return 540;
     }
 
-    @Override
     protected boolean repaintAtFinish() {
         return this.type != 23;
     }
 
-    @Override
     public int getCombiSyncType(int n) {
         if (n == 0) {
             return this.getCombiSyncTypeV0();
@@ -638,7 +627,6 @@ IAnimationTypesEvo {
         return -1;
     }
 
-    @Override
     protected IAnimationCurve createAnimationCurve() {
         AbstractAnimationCurve abstractAnimationCurve;
         IAnimationParametersMIB2 iAnimationParametersMIB2 = this.getAnimationParameters();
@@ -649,8 +637,8 @@ IAnimationTypesEvo {
             fArray[4] = this.plannedDuration + 100;
         }
         if (this.type == 28 && this.fadeIn) {
-            fArray[3] = 51267;
-            fArray[4] = 57667;
+            fArray[3] = 400.0f;
+            fArray[4] = 450.0f;
         }
         if (fArray2 != null || this.isEndlessAnimation()) {
             abstractAnimationCurve = new AnimationCurveFixedValues(this.type, 1, this.start, this.target, this.renderEachStep(), this.logAnimation, fArray, fArray2, this.isEndlessAnimation(), this.getMinimumTimerIntervall());
@@ -670,7 +658,6 @@ IAnimationTypesEvo {
         return AnimationParametersEvoHigh.getAnimationParametersEvoHigh();
     }
 
-    @Override
     public boolean isAnimationNeeded(int n) {
         if (n == 56) {
             return ((IDisplayManagerKombiControl)AbstractWidget.hmiService.getDisplayManager()).isKDKVisible(this.controller.getTerminal().getTerminalID());
@@ -678,7 +665,6 @@ IAnimationTypesEvo {
         return super.isAnimationNeeded(n);
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 }

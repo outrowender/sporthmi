@@ -4,25 +4,21 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface ICarViewer {
-    public static final int MODE_CAR_MENU;
-    public static final int MODE_DRIVE_SELECT;
-    public static final int MODE_UGDO;
-    public static final int MODE_AMBIENT_LIGHT;
-    public static final int MODE_AMBIENT_LIGHT_OPTION_SCREEN;
-    public static final int NUM_MODES;
-    public static final int BIG_STAGE;
-    public static final int SMALL_STAGE;
+    public static final int MODE_CAR_MENU = 0;
+    public static final int MODE_DRIVE_SELECT = 1;
+    public static final int MODE_UGDO = 2;
+    public static final int MODE_AMBIENT_LIGHT = 3;
+    public static final int MODE_AMBIENT_LIGHT_OPTION_SCREEN = 4;
+    public static final int NUM_MODES = 5;
+    public static final int BIG_STAGE = 0;
+    public static final int SMALL_STAGE = 1;
 
-    default public void setCarMenuIndex(int n) {
-    }
+    public void setCarMenuIndex(int var1);
 
-    default public void setMode(int n) {
-    }
+    public void setMode(int var1);
 
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public void setIgnoreScreenChangeTransformation(boolean bl) {
-    }
+    public void setIgnoreScreenChangeTransformation(boolean var1);
 }
 

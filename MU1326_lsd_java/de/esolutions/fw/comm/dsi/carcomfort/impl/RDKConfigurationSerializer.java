@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.RDKSpeedLimitAvailabilitySerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKConfiguration;
 import org.dsi.ifc.carcomfort.RDKSpeedLimitAvailability;
 
 public class RDKConfigurationSerializer {
-    public static void putOptionalRDKConfiguration(ISerializer iSerializer, RDKConfiguration rDKConfiguration) {
+    public static void putOptionalRDKConfiguration(ISerializer iSerializer, RDKConfiguration rDKConfiguration) throws SerializerException {
         boolean bl = rDKConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class RDKConfigurationSerializer {
         }
     }
 
-    public static void putOptionalRDKConfigurationVarArray(ISerializer iSerializer, RDKConfiguration[] rDKConfigurationArray) {
+    public static void putOptionalRDKConfigurationVarArray(ISerializer iSerializer, RDKConfiguration[] rDKConfigurationArray) throws SerializerException {
         boolean bl = rDKConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class RDKConfigurationSerializer {
         }
     }
 
-    public static RDKConfiguration getOptionalRDKConfiguration(IDeserializer iDeserializer) {
+    public static RDKConfiguration getOptionalRDKConfiguration(IDeserializer iDeserializer) throws SerializerException {
         RDKConfiguration rDKConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class RDKConfigurationSerializer {
         return rDKConfiguration;
     }
 
-    public static RDKConfiguration[] getOptionalRDKConfigurationVarArray(IDeserializer iDeserializer) {
+    public static RDKConfiguration[] getOptionalRDKConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKConfiguration[] rDKConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

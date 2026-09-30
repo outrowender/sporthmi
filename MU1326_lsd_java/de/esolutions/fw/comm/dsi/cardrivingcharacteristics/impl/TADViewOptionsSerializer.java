@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.TADConfiguration
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.TADConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.TADViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class TADViewOptionsSerializer {
-    public static void putOptionalTADViewOptions(ISerializer iSerializer, TADViewOptions tADViewOptions) {
+    public static void putOptionalTADViewOptions(ISerializer iSerializer, TADViewOptions tADViewOptions) throws SerializerException {
         boolean bl = tADViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class TADViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalTADViewOptionsVarArray(ISerializer iSerializer, TADViewOptions[] tADViewOptionsArray) {
+    public static void putOptionalTADViewOptionsVarArray(ISerializer iSerializer, TADViewOptions[] tADViewOptionsArray) throws SerializerException {
         boolean bl = tADViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class TADViewOptionsSerializer {
         }
     }
 
-    public static TADViewOptions getOptionalTADViewOptions(IDeserializer iDeserializer) {
+    public static TADViewOptions getOptionalTADViewOptions(IDeserializer iDeserializer) throws SerializerException {
         TADViewOptions tADViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class TADViewOptionsSerializer {
         return tADViewOptions;
     }
 
-    public static TADViewOptions[] getOptionalTADViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static TADViewOptions[] getOptionalTADViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         TADViewOptions[] tADViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

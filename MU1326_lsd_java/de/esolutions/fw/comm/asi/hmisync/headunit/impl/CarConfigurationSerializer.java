@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.headunit.impl;
 import de.esolutions.fw.comm.asi.hmisync.headunit.CarConfiguration;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class CarConfigurationSerializer {
-    public static void putOptionalCarConfiguration(ISerializer iSerializer, CarConfiguration carConfiguration) {
+    public static void putOptionalCarConfiguration(ISerializer iSerializer, CarConfiguration carConfiguration) throws SerializerException {
         boolean bl = carConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CarConfigurationSerializer {
         }
     }
 
-    public static void putOptionalCarConfigurationVarArray(ISerializer iSerializer, CarConfiguration[] carConfigurationArray) {
+    public static void putOptionalCarConfigurationVarArray(ISerializer iSerializer, CarConfiguration[] carConfigurationArray) throws SerializerException {
         boolean bl = carConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CarConfigurationSerializer {
         }
     }
 
-    public static CarConfiguration getOptionalCarConfiguration(IDeserializer iDeserializer) {
+    public static CarConfiguration getOptionalCarConfiguration(IDeserializer iDeserializer) throws SerializerException {
         CarConfiguration carConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CarConfigurationSerializer {
         return carConfiguration;
     }
 
-    public static CarConfiguration[] getOptionalCarConfigurationVarArray(IDeserializer iDeserializer) {
+    public static CarConfiguration[] getOptionalCarConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarConfiguration[] carConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

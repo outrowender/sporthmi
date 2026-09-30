@@ -3,59 +3,43 @@
  */
 package de.esolutions.fw.comm.dsi.sdars;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISDARSTunerC {
-    default public void selectStation(int n, int n2) {
-    }
+    public void selectStation(int var1, int var2) throws MethodException;
 
-    default public void getTime() {
-    }
+    public void getTime() throws MethodException;
 
-    default public void getEPG24Hour(int n) {
-    }
+    public void getEPG24Hour(int var1) throws MethodException;
 
-    default public void getEPGDescription(int n, int n2) {
-    }
+    public void getEPGDescription(int var1, int var2) throws MethodException;
 
-    default public void notifyHMIReady(int n) {
-    }
+    public void notifyHMIReady(int var1) throws MethodException;
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1) throws MethodException;
 
-    default public void setRadioText2Config(int n, int n2) {
-    }
+    public void setRadioText2Config(int var1, int var2) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

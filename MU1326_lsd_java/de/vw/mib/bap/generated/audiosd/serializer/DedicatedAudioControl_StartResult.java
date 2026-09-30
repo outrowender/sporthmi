@@ -10,25 +10,25 @@ import de.vw.mib.bap.stream.BitStream;
 public final class DedicatedAudioControl_StartResult
 implements StartResultMethod {
     public int controlType;
-    private static final int CONTROL_TYPE_BITSIZE;
-    public static final int CONTROL_TYPE_SELECT_LIST_ENTRY;
-    public static final int CONTROL_TYPE_NEXT;
-    public static final int CONTROL_TYPE_PREVIOUS;
-    public static final int CONTROL_TYPE_FAST_FORWARD;
-    public static final int CONTROL_TYPE_FAST_BACKWARD_REWIND;
-    public static final int CONTROL_TYPE_UPDATE_STATION_LIST_RELATED_TO_ACTIVE_BAND;
-    public static final int CONTROL_TYPE_CANCEL_STATION_LIST_UPDATE;
-    public static final int CONTROL_TYPE_CANCEL_SEEK_SCAN;
+    private static final int CONTROL_TYPE_BITSIZE = 8;
+    public static final int CONTROL_TYPE_SELECT_LIST_ENTRY = 0;
+    public static final int CONTROL_TYPE_NEXT = 1;
+    public static final int CONTROL_TYPE_PREVIOUS = 2;
+    public static final int CONTROL_TYPE_FAST_FORWARD = 3;
+    public static final int CONTROL_TYPE_FAST_BACKWARD_REWIND = 4;
+    public static final int CONTROL_TYPE_UPDATE_STATION_LIST_RELATED_TO_ACTIVE_BAND = 5;
+    public static final int CONTROL_TYPE_CANCEL_STATION_LIST_UPDATE = 6;
+    public static final int CONTROL_TYPE_CANCEL_SEEK_SCAN = 7;
     public int additionalControlInformation;
-    private static final int ADDITIONAL_CONTROL_INFORMATION_BITSIZE;
+    private static final int ADDITIONAL_CONTROL_INFORMATION_BITSIZE = 16;
     public int listType;
-    private static final int LIST_TYPE_BITSIZE;
-    public static final int LIST_TYPE_NO_LIST;
-    public static final int LIST_TYPE_RECEPTION_LIST;
-    public static final int LIST_TYPE_RADIO_TV_PRESET_LIST;
-    public static final int LIST_TYPE_MEDIA_BROWSER;
-    public static final int LIST_TYPE_TP_MEMO_LIST;
-    public static final int LIST_TYPE_COMMON_LIST_DF4_1;
+    private static final int LIST_TYPE_BITSIZE = 8;
+    public static final int LIST_TYPE_NO_LIST = 0;
+    public static final int LIST_TYPE_RECEPTION_LIST = 1;
+    public static final int LIST_TYPE_RADIO_TV_PRESET_LIST = 2;
+    public static final int LIST_TYPE_MEDIA_BROWSER = 3;
+    public static final int LIST_TYPE_TP_MEMO_LIST = 4;
+    public static final int LIST_TYPE_COMMON_LIST_DF4_1 = 5;
 
     public DedicatedAudioControl_StartResult() {
         this.internalReset();
@@ -46,12 +46,10 @@ implements StartResultMethod {
         this.listType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DedicatedAudioControl_StartResult dedicatedAudioControl_StartResult = (DedicatedAudioControl_StartResult)bAPEntity;
         return this.controlType == dedicatedAudioControl_StartResult.controlType && this.additionalControlInformation == dedicatedAudioControl_StartResult.additionalControlInformation && this.listType == dedicatedAudioControl_StartResult.listType;
@@ -60,7 +58,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DedicatedAudioControl_StartResult:");
@@ -137,7 +134,6 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -145,14 +141,12 @@ implements StartResultMethod {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.controlType);
         bitStream.pushShort((short)this.additionalControlInformation);
         bitStream.pushByte((byte)this.listType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.controlType = bitStream.popFrontByte();
         this.additionalControlInformation = bitStream.popFrontShort();
@@ -163,7 +157,6 @@ implements StartResultMethod {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return DedicatedAudioControl_StartResult.functionId();
     }

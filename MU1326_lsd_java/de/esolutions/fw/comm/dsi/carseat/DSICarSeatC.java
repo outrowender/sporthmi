@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carseat;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carseat.MassageData;
 import org.dsi.ifc.carseat.SeatAdjustment;
 import org.dsi.ifc.carseat.SeatContent;
@@ -12,124 +13,84 @@ import org.dsi.ifc.carseat.SwitcherDataBackForward;
 import org.dsi.ifc.carseat.SwitcherDataUpDown;
 
 public interface DSICarSeatC {
-    default public void setSeatRadioKeyAutomatic(boolean bl) {
-    }
+    public void setSeatRadioKeyAutomatic(boolean var1) throws MethodException;
 
-    default public void setSeatCodriverSettingsFromRear(boolean bl) {
-    }
+    public void setSeatCodriverSettingsFromRear(boolean var1) throws MethodException;
 
-    default public void setSeatCodriverSettingsFromDriver(boolean bl) {
-    }
+    public void setSeatCodriverSettingsFromDriver(boolean var1) throws MethodException;
 
-    default public void setSeatEasyEntryFrontLeft(boolean bl) {
-    }
+    public void setSeatEasyEntryFrontLeft(boolean var1) throws MethodException;
 
-    default public void setSeatEasyEntryFrontRight(boolean bl) {
-    }
+    public void setSeatEasyEntryFrontRight(boolean var1) throws MethodException;
 
-    default public void setSeatEasyEntryRearLeft(boolean bl) {
-    }
+    public void setSeatEasyEntryRearLeft(boolean var1) throws MethodException;
 
-    default public void setSeatEasyEntryRearRight(boolean bl) {
-    }
+    public void setSeatEasyEntryRearRight(boolean var1) throws MethodException;
 
-    default public void setSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition) {
-    }
+    public void setSeatSpecialPosition(SeatSpecialPosition var1) throws MethodException;
 
-    default public void setSeatSpecialPositionRearCoDriver(SeatSpecialPosition seatSpecialPosition) {
-    }
+    public void setSeatSpecialPositionRearCoDriver(SeatSpecialPosition var1) throws MethodException;
 
-    default public void showSeatPopup(SeatContent seatContent) {
-    }
+    public void showSeatPopup(SeatContent var1) throws MethodException;
 
-    default public void cancelSeatPopup(SeatContent seatContent, int n) {
-    }
+    public void cancelSeatPopup(SeatContent var1, int var2) throws MethodException;
 
-    default public void setSeatHMIIsReady(boolean bl) {
-    }
+    public void setSeatHMIIsReady(boolean var1) throws MethodException;
 
-    default public void setSeatPneumaticCodriverSettingsFromDriver(boolean bl) {
-    }
+    public void setSeatPneumaticCodriverSettingsFromDriver(boolean var1) throws MethodException;
 
-    default public void showSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void showSeatPneumaticPopup(SeatPneumaticContent var1) throws MethodException;
 
-    default public void cancelSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent, int n) {
-    }
+    public void cancelSeatPneumaticPopup(SeatPneumaticContent var1, int var2) throws MethodException;
 
-    default public void setSeatSetFactoryDefault() {
-    }
+    public void setSeatSetFactoryDefault() throws MethodException;
 
-    default public void setSeatPneumaticSetFactoryDefault() {
-    }
+    public void setSeatPneumaticSetFactoryDefault() throws MethodException;
 
-    default public void startSeatMoveRearSeatDisplay() {
-    }
+    public void startSeatMoveRearSeatDisplay() throws MethodException;
 
-    default public void abortSeatMoveRearSeatDisplay() {
-    }
+    public void abortSeatMoveRearSeatDisplay() throws MethodException;
 
-    default public void setSeatMassageData(int n, MassageData massageData) {
-    }
+    public void setSeatMassageData(int var1, MassageData var2) throws MethodException;
 
-    default public void setSeatSwitcherDataUp(int n, SwitcherDataUpDown switcherDataUpDown) {
-    }
+    public void setSeatSwitcherDataUp(int var1, SwitcherDataUpDown var2) throws MethodException;
 
-    default public void setSeatSwitcherDataDown(int n, SwitcherDataUpDown switcherDataUpDown) {
-    }
+    public void setSeatSwitcherDataDown(int var1, SwitcherDataUpDown var2) throws MethodException;
 
-    default public void setSeatSwitcherDataForward(int n, SwitcherDataBackForward switcherDataBackForward) {
-    }
+    public void setSeatSwitcherDataForward(int var1, SwitcherDataBackForward var2) throws MethodException;
 
-    default public void setSeatSwitcherDataBack(int n, SwitcherDataBackForward switcherDataBackForward) {
-    }
+    public void setSeatSwitcherDataBack(int var1, SwitcherDataBackForward var2) throws MethodException;
 
-    default public void setSeatAdjustment(int n, SeatAdjustment seatAdjustment) {
-    }
+    public void setSeatAdjustment(int var1, SeatAdjustment var2) throws MethodException;
 
-    default public void startSeatDeleteSpecialPosition(boolean bl, boolean bl2) {
-    }
+    public void startSeatDeleteSpecialPosition(boolean var1, boolean var2) throws MethodException;
 
-    default public void setSeatCoDriverSettingsFromRearActivation(boolean bl) {
-    }
+    public void setSeatCoDriverSettingsFromRearActivation(boolean var1) throws MethodException;
 
-    default public void setSeatFoldHeadRestRearDriver(boolean bl) {
-    }
+    public void setSeatFoldHeadRestRearDriver(boolean var1) throws MethodException;
 
-    default public void setSeatFoldHeadRestRearCoDriver(boolean bl) {
-    }
+    public void setSeatFoldHeadRestRearCoDriver(boolean var1) throws MethodException;
 
-    default public void setSeatStopButton(int n, boolean bl) {
-    }
+    public void setSeatStopButton(int var1, boolean var2) throws MethodException;
 
-    default public void setSeatPremiumMassageData(int n, MassageData massageData) {
-    }
+    public void setSeatPremiumMassageData(int var1, MassageData var2) throws MethodException;
 
-    default public void setSeatPremiumMassageSwitcher(int n, boolean bl) {
-    }
+    public void setSeatPremiumMassageSwitcher(int var1, boolean var2) throws MethodException;
 
-    default public void setSeatMassageSwitcher(int n, boolean bl) {
-    }
+    public void setSeatMassageSwitcher(int var1, boolean var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

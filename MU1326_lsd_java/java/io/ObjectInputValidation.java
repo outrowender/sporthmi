@@ -3,8 +3,9 @@
  */
 package java.io;
 
+import java.io.InvalidObjectException;
+
 public interface ObjectInputValidation {
-    default public void validateObject() {
-    }
+    public void validateObject() throws InvalidObjectException;
 }
 

@@ -7,108 +7,98 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSISDARSSeek
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_SEEKPOSSIBILITY;
-    public static final int ATTR_SEEKLIST;
-    public static final int ATTR_SEEKALERT;
-    public static final int ATTR_LEAGUELIST;
-    public static final int ATTR_TRAFFICWEATHERLIST;
-    public static final int ATTR_REGISTEREDTEAMS;
-    public static final int ATTR_PROFILESTATE;
-    public static final int RT_SETSEEKCOMMAND;
-    public static final int RT_MANAGESEEK;
-    public static final int RT_RESET;
-    public static final int RT_MANAGESEEK2;
-    public static final int RT_GETTEAMSOFLEAGUE;
-    public static final int RT_GETLEAGUES;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
-    public static final int RP_SETSEEKCOMMANDRESULT;
-    public static final int RP_MANAGESEEKRESULT;
-    public static final int RP_TEAMSOFLEAGUE;
-    public static final int RP_LEAGUES;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
-    public static final int RESETTYPE_TO_DEFAULT;
-    public static final int TYPEOFCONTENT_UNKNOWN;
-    public static final int TYPEOFCONTENT_SONGARTIST;
-    public static final int TYPEOFCONTENT_LEAGUE;
-    public static final int TYPEOFCONTENT_TEAM;
-    public static final int TYPEOFCONTENT_TRAFFICWX;
-    public static final int SEEKCONTENTID_UNLINKED;
-    public static final int SEEKTYPE_UNKNOWN;
-    public static final int SEEKTYPE_SONG;
-    public static final int SEEKTYPE_ARTIST;
-    public static final int SEEKTYPE_LEAGUE;
-    public static final int SEEKTYPE_TEAMA;
-    public static final int SEEKTYPE_TEAMB;
-    public static final int SEEKTYPE_TRAFFICWX;
-    public static final int SEEKINFO_UNDEFINED;
-    public static final int SEEKINFO_SHORTARTISTNAME;
-    public static final int SEEKINFO_LONGARTISTNAME;
-    public static final int SEEKINFO_SHORTPROGRAMTITLE;
-    public static final int SEEKINFO_LONGPROGRAMTITLE;
-    public static final int SEEKINFO_SHORTTEAMA;
-    public static final int SEEKINFO_LONGTEAMA;
-    public static final int SEEKINFO_SHORTTEAMB;
-    public static final int SEEKINFO_LONGTEAMB;
-    public static final int SEEKINFO_NAMETEAMA;
-    public static final int SEEKINFO_NICKNAMETEAMA;
-    public static final int SEEKINFO_ABBREVIATIONTEAMA;
-    public static final int SEEKINFO_NAMETEAMB;
-    public static final int SEEKINFO_NICKNAMETEAMB;
-    public static final int SEEKINFO_ABBREVIATIONTEAMB;
-    public static final int SEEKINFO_LEAGUE_NAME;
-    public static final int SEEKINFO_LEAGUE_ABBREVIATION;
-    public static final int STATE_ACTIVATED;
-    public static final int STATE_INACTIVATED;
-    public static final int SEEKCOMMAND_ADD;
-    public static final int SEEKCOMMAND_REMOVE;
-    public static final int SEEKCOMMANDRESULT_OK;
-    public static final int SEEKCOMMANDRESULT_NOK;
-    public static final int SEEKMANAGEACTION_ACTIVATE;
-    public static final int SEEKMANAGEACTION_DEACTIVATE;
-    public static final int SEEKMANAGEACTION_DELETE;
-    public static final int SEEKMANAGEMENTRESULT_OK;
-    public static final int SEEKMANAGEMENTRESULT_NOK;
-    public static final int ALERTTYPE_START;
-    public static final int ALERTTYPE_END;
-    public static final int RESETSEEKTYPE_UNDEFINED;
-    public static final int RESETSEEKTYPE_TO_DEFAULT;
-    public static final int RESETSEEKTYPE_ANONYMIZE;
+    public static final String VERSION = "2.11.20";
+    public static final int ATTR_SEEKPOSSIBILITY = 1;
+    public static final int ATTR_SEEKLIST = 2;
+    public static final int ATTR_SEEKALERT = 3;
+    public static final int ATTR_LEAGUELIST = 4;
+    public static final int ATTR_TRAFFICWEATHERLIST = 6;
+    public static final int ATTR_REGISTEREDTEAMS = 7;
+    public static final int ATTR_PROFILESTATE = 8;
+    public static final int RT_SETSEEKCOMMAND = 1000;
+    public static final int RT_MANAGESEEK = 1001;
+    public static final int RT_RESET = 1002;
+    public static final int RT_MANAGESEEK2 = 1003;
+    public static final int RT_GETTEAMSOFLEAGUE = 1004;
+    public static final int RT_GETLEAGUES = 1005;
+    public static final int RT_PROFILECHANGE = 1006;
+    public static final int RT_PROFILECOPY = 1007;
+    public static final int RT_PROFILERESET = 1008;
+    public static final int RT_PROFILERESETALL = 1009;
+    public static final int RP_SETSEEKCOMMANDRESULT = 2000;
+    public static final int RP_MANAGESEEKRESULT = 2001;
+    public static final int RP_TEAMSOFLEAGUE = 2002;
+    public static final int RP_LEAGUES = 2003;
+    public static final int RP_PROFILECHANGED = 2004;
+    public static final int RP_PROFILECOPIED = 2005;
+    public static final int RP_PROFILERESET = 2006;
+    public static final int RP_PROFILERESETALL = 2007;
+    public static final int RESETTYPE_TO_DEFAULT = 1;
+    public static final int TYPEOFCONTENT_UNKNOWN = 0;
+    public static final int TYPEOFCONTENT_SONGARTIST = 1;
+    public static final int TYPEOFCONTENT_LEAGUE = 2;
+    public static final int TYPEOFCONTENT_TEAM = 3;
+    public static final int TYPEOFCONTENT_TRAFFICWX = 4;
+    public static final int SEEKCONTENTID_UNLINKED = 0;
+    public static final int SEEKTYPE_UNKNOWN = 0;
+    public static final int SEEKTYPE_SONG = 1;
+    public static final int SEEKTYPE_ARTIST = 2;
+    public static final int SEEKTYPE_LEAGUE = 3;
+    public static final int SEEKTYPE_TEAMA = 4;
+    public static final int SEEKTYPE_TEAMB = 5;
+    public static final int SEEKTYPE_TRAFFICWX = 6;
+    public static final int SEEKINFO_UNDEFINED = 0;
+    public static final int SEEKINFO_SHORTARTISTNAME = 1;
+    public static final int SEEKINFO_LONGARTISTNAME = 2;
+    public static final int SEEKINFO_SHORTPROGRAMTITLE = 3;
+    public static final int SEEKINFO_LONGPROGRAMTITLE = 4;
+    public static final int SEEKINFO_SHORTTEAMA = 5;
+    public static final int SEEKINFO_LONGTEAMA = 6;
+    public static final int SEEKINFO_SHORTTEAMB = 7;
+    public static final int SEEKINFO_LONGTEAMB = 8;
+    public static final int SEEKINFO_NAMETEAMA = 9;
+    public static final int SEEKINFO_NICKNAMETEAMA = 10;
+    public static final int SEEKINFO_ABBREVIATIONTEAMA = 11;
+    public static final int SEEKINFO_NAMETEAMB = 12;
+    public static final int SEEKINFO_NICKNAMETEAMB = 13;
+    public static final int SEEKINFO_ABBREVIATIONTEAMB = 14;
+    public static final int SEEKINFO_LEAGUE_NAME = 15;
+    public static final int SEEKINFO_LEAGUE_ABBREVIATION = 16;
+    public static final int STATE_ACTIVATED = 1;
+    public static final int STATE_INACTIVATED = 2;
+    public static final int SEEKCOMMAND_ADD = 1;
+    public static final int SEEKCOMMAND_REMOVE = 2;
+    public static final int SEEKCOMMANDRESULT_OK = 1;
+    public static final int SEEKCOMMANDRESULT_NOK = 2;
+    public static final int SEEKMANAGEACTION_ACTIVATE = 1;
+    public static final int SEEKMANAGEACTION_DEACTIVATE = 2;
+    public static final int SEEKMANAGEACTION_DELETE = 3;
+    public static final int SEEKMANAGEMENTRESULT_OK = 1;
+    public static final int SEEKMANAGEMENTRESULT_NOK = 2;
+    public static final int ALERTTYPE_START = 1;
+    public static final int ALERTTYPE_END = 2;
+    public static final int RESETSEEKTYPE_UNDEFINED = 0;
+    public static final int RESETSEEKTYPE_TO_DEFAULT = 1;
+    public static final int RESETSEEKTYPE_ANONYMIZE = 2;
 
-    default public void setSeekCommand(int n, int n2, int n3) {
-    }
+    public void setSeekCommand(int var1, int var2, int var3);
 
-    default public void manageSeek(int n, int n2) {
-    }
+    public void manageSeek(int var1, int var2);
 
-    default public void manageSeek2(int n, int n2, int n3, int n4) {
-    }
+    public void manageSeek2(int var1, int var2, int var3, int var4);
 
-    default public void getTeamsOfLeague(int n) {
-    }
+    public void getTeamsOfLeague(int var1);
 
-    default public void getLeagues() {
-    }
+    public void getLeagues();
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

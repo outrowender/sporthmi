@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlLevels;
 
 public class SuspensionControlLevelsSerializer {
-    public static void putOptionalSuspensionControlLevels(ISerializer iSerializer, SuspensionControlLevels suspensionControlLevels) {
+    public static void putOptionalSuspensionControlLevels(ISerializer iSerializer, SuspensionControlLevels suspensionControlLevels) throws SerializerException {
         boolean bl = suspensionControlLevels == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SuspensionControlLevelsSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlLevelsVarArray(ISerializer iSerializer, SuspensionControlLevels[] suspensionControlLevelsArray) {
+    public static void putOptionalSuspensionControlLevelsVarArray(ISerializer iSerializer, SuspensionControlLevels[] suspensionControlLevelsArray) throws SerializerException {
         boolean bl = suspensionControlLevelsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SuspensionControlLevelsSerializer {
         }
     }
 
-    public static SuspensionControlLevels getOptionalSuspensionControlLevels(IDeserializer iDeserializer) {
+    public static SuspensionControlLevels getOptionalSuspensionControlLevels(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlLevels suspensionControlLevels = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class SuspensionControlLevelsSerializer {
         return suspensionControlLevels;
     }
 
-    public static SuspensionControlLevels[] getOptionalSuspensionControlLevelsVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlLevels[] getOptionalSuspensionControlLevelsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlLevels[] suspensionControlLevelsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

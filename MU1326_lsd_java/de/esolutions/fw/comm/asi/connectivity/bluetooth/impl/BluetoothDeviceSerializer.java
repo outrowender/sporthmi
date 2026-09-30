@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.connectivity.bluetooth.impl;
 import de.esolutions.fw.comm.asi.connectivity.bluetooth.BluetoothDevice;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BluetoothDeviceSerializer {
-    public static void putOptionalBluetoothDevice(ISerializer iSerializer, BluetoothDevice bluetoothDevice) {
+    public static void putOptionalBluetoothDevice(ISerializer iSerializer, BluetoothDevice bluetoothDevice) throws SerializerException {
         boolean bl = bluetoothDevice == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BluetoothDeviceSerializer {
         }
     }
 
-    public static void putOptionalBluetoothDeviceVarArray(ISerializer iSerializer, BluetoothDevice[] bluetoothDeviceArray) {
+    public static void putOptionalBluetoothDeviceVarArray(ISerializer iSerializer, BluetoothDevice[] bluetoothDeviceArray) throws SerializerException {
         boolean bl = bluetoothDeviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BluetoothDeviceSerializer {
         }
     }
 
-    public static BluetoothDevice getOptionalBluetoothDevice(IDeserializer iDeserializer) {
+    public static BluetoothDevice getOptionalBluetoothDevice(IDeserializer iDeserializer) throws SerializerException {
         BluetoothDevice bluetoothDevice = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BluetoothDeviceSerializer {
         return bluetoothDevice;
     }
 
-    public static BluetoothDevice[] getOptionalBluetoothDeviceVarArray(IDeserializer iDeserializer) {
+    public static BluetoothDevice[] getOptionalBluetoothDeviceVarArray(IDeserializer iDeserializer) throws SerializerException {
         BluetoothDevice[] bluetoothDeviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

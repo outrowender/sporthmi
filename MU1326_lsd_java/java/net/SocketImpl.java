@@ -4,11 +4,13 @@
 package java.net;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.net.SocketOptions;
 import java.net.SocketTimeoutException;
 
@@ -25,33 +27,25 @@ implements SocketOptions {
         SocketImpl.oneTimeInitialization(true);
     }
 
-    private static native void oneTimeInitialization(boolean bl) {
-    }
+    private static native void oneTimeInitialization(boolean var0);
 
     public SocketImpl() {
         this.initializeSocket();
     }
 
-    protected abstract void accept(SocketImpl socketImpl) {
-    }
+    protected abstract void accept(SocketImpl var1) throws IOException;
 
-    protected abstract int available() {
-    }
+    protected abstract int available() throws IOException;
 
-    protected abstract void bind(InetAddress inetAddress, int n) {
-    }
+    protected abstract void bind(InetAddress var1, int var2) throws IOException;
 
-    protected abstract void close() {
-    }
+    protected abstract void close() throws IOException;
 
-    protected abstract void connect(String string, int n) {
-    }
+    protected abstract void connect(String var1, int var2) throws IOException;
 
-    protected abstract void connect(InetAddress inetAddress, int n) {
-    }
+    protected abstract void connect(InetAddress var1, int var2) throws IOException;
 
-    protected abstract void create(boolean bl) {
-    }
+    protected abstract void create(boolean var1) throws IOException;
 
     protected FileDescriptor getFileDescriptor() {
         return this.fd;
@@ -61,19 +55,15 @@ implements SocketOptions {
         return this.address;
     }
 
-    protected abstract InputStream getInputStream() {
-    }
+    protected abstract InputStream getInputStream() throws IOException;
 
     protected int getLocalPort() {
         return this.localport;
     }
 
-    @Override
-    public abstract Object getOption(int n) {
-    }
+    public abstract Object getOption(int var1) throws SocketException;
 
-    protected abstract OutputStream getOutputStream() {
-    }
+    protected abstract OutputStream getOutputStream() throws IOException;
 
     protected int getPort() {
         return this.port;
@@ -84,31 +74,23 @@ implements SocketOptions {
         this.receiveTimeout = 0;
     }
 
-    protected abstract void listen(int n) {
-    }
+    protected abstract void listen(int var1) throws IOException;
 
-    static native void acceptStreamSocketImpl(FileDescriptor fileDescriptor, SocketImpl socketImpl, FileDescriptor fileDescriptor2, int n) {
-    }
+    static native void acceptStreamSocketImpl(FileDescriptor var0, SocketImpl var1, FileDescriptor var2, int var3);
 
-    static native int availableStreamImpl(FileDescriptor fileDescriptor) {
-    }
+    static native int availableStreamImpl(FileDescriptor var0);
 
-    static native void createStreamSocketImpl(FileDescriptor fileDescriptor, boolean bl) {
-    }
+    static native void createStreamSocketImpl(FileDescriptor var0, boolean var1);
 
-    static native void createDatagramSocketImpl(FileDescriptor fileDescriptor, boolean bl) {
-    }
+    static native void createDatagramSocketImpl(FileDescriptor var0, boolean var1);
 
-    static native void listenStreamSocketImpl(FileDescriptor fileDescriptor, int n) {
-    }
+    static native void listenStreamSocketImpl(FileDescriptor var0, int var1);
 
-    static native int receiveStreamImpl(FileDescriptor fileDescriptor, byte[] byArray, int n, int n2, int n3) {
-    }
+    static native int receiveStreamImpl(FileDescriptor var0, byte[] var1, int var2, int var3, int var4);
 
-    static native int sendStreamImpl(FileDescriptor fileDescriptor, byte[] byArray, int n, int n2) {
-    }
+    static native int sendStreamImpl(FileDescriptor var0, byte[] var1, int var2, int var3);
 
-    int read(byte[] byArray, int n, int n2) {
+    int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.shutdownInput) {
             return -1;
         }
@@ -124,47 +106,39 @@ implements SocketOptions {
         }
     }
 
-    @Override
-    public abstract void setOption(int n, Object object) {
-    }
+    public abstract void setOption(int var1, Object var2) throws SocketException;
 
     public String toString() {
         return new StringBuffer(100).append("Socket[addr=").append(this.getInetAddress()).append(",port=").append(this.port).append(",localport=").append(this.getLocalPort()).append("]").toString();
     }
 
-    int write(byte[] byArray, int n, int n2) {
+    int write(byte[] byArray, int n, int n2) throws IOException {
         return SocketImpl.sendStreamImpl(this.fd, byArray, n, n2);
     }
 
-    protected void shutdownInput() {
+    protected void shutdownInput() throws IOException {
         this.shutdownInput = true;
         this.shutdownInputImpl(this.fd);
     }
 
-    private native void shutdownInputImpl(FileDescriptor fileDescriptor) {
-    }
+    private native void shutdownInputImpl(FileDescriptor var1);
 
-    protected void shutdownOutput() {
+    protected void shutdownOutput() throws IOException {
         this.shutdownOutputImpl(this.fd);
     }
 
-    private native void shutdownOutputImpl(FileDescriptor fileDescriptor) {
-    }
+    private native void shutdownOutputImpl(FileDescriptor var1);
 
-    protected abstract void connect(SocketAddress socketAddress, int n) {
-    }
+    protected abstract void connect(SocketAddress var1, int var2) throws IOException;
 
     protected boolean supportsUrgentData() {
         return false;
     }
 
-    protected abstract void sendUrgentData(int n) {
-    }
+    protected abstract void sendUrgentData(int var1) throws IOException;
 
-    static native boolean supportsUrgentDataImpl(FileDescriptor fileDescriptor) {
-    }
+    static native boolean supportsUrgentDataImpl(FileDescriptor var0);
 
-    static native boolean sendUrgentDataImpl(FileDescriptor fileDescriptor, byte by) {
-    }
+    static native boolean sendUrgentDataImpl(FileDescriptor var0, byte var1);
 }
 

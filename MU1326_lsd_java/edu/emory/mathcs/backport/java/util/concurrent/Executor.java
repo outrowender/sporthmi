@@ -4,7 +4,6 @@
 package edu.emory.mathcs.backport.java.util.concurrent;
 
 public interface Executor {
-    default public void execute(Runnable runnable) {
-    }
+    public void execute(Runnable var1);
 }
 

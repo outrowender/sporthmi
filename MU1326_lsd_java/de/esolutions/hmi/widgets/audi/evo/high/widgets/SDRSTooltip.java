@@ -24,19 +24,19 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.MapOverlayPlateController;
 public class SDRSTooltip
 extends LayoutContainerController
 implements SDRSTooltipConstants {
-    private static final int ORIGINAL_ROUTE;
-    private static final int BETTER_ROUTE;
-    public static final int DETAILS_BUTTON;
-    private static final int TEXT_DELAY;
-    private static final int TEXT_TIMESAVING;
-    private static final int TEXT_CLOSED_ROAD;
-    private static final int TEXT_ONLY_ONE_DETOUR;
-    private static final int TEXT_MORE_DETOUR;
-    private static final int HEIGHT;
-    private static final int WIDTH;
-    private static final int TEXT_WIDTH;
-    private static final int WIDTH_G24;
-    private static final int TEXT_WIDTH_G24;
+    private static final int ORIGINAL_ROUTE = 0;
+    private static final int BETTER_ROUTE = 1;
+    public static final int DETAILS_BUTTON = 2;
+    private static final int TEXT_DELAY = 0;
+    private static final int TEXT_TIMESAVING = 1;
+    private static final int TEXT_CLOSED_ROAD = 2;
+    private static final int TEXT_ONLY_ONE_DETOUR = 3;
+    private static final int TEXT_MORE_DETOUR = 4;
+    private static final int HEIGHT = 44;
+    private static final int WIDTH = 684;
+    private static final int TEXT_WIDTH = 663;
+    private static final int WIDTH_G24 = 387;
+    private static final int TEXT_WIDTH_G24 = 336;
     private boolean isSetUp = false;
     private IconController tooltipIcon;
     private LabelController labelLine1;
@@ -49,12 +49,10 @@ implements SDRSTooltipConstants {
     private int distanceToDetour = 0;
     private int[] textIDs;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         if (!this.isSetUp) {
             this.setUpWidget();
@@ -86,9 +84,8 @@ implements SDRSTooltipConstants {
         return "";
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        mapOverlayLogCh.log(-2137614336, "SDRSTooltip#processModelUpdateEvent Model-ID %1, Typ %2", (long)modelUpdateEvent.getModelId(), (long)modelUpdateEvent.getUpdateType());
+        mapOverlayLogCh.log(10000000, "SDRSTooltip#processModelUpdateEvent Model-ID %1, Typ %2", (long)modelUpdateEvent.getModelId(), (long)modelUpdateEvent.getUpdateType());
         switch (modelUpdateEvent.getUpdateType()) {
             case 6: 
             case 8: 
@@ -135,15 +132,15 @@ implements SDRSTooltipConstants {
     private static String replaceString(String string, String string2, String string3) {
         int n = string.indexOf(string2);
         if (n != -1) {
-            return new StringBuffer().append(string.substring(0, n)).append(string3).append(string.substring(n + 2, string.length())).toString();
+            return string.substring(0, n) + string3 + string.substring(n + 2, string.length());
         }
-        mapOverlayLogCh.log(-2137614336, "SDRSTooltip#updateContent There's no placeholder contained in the text %1.", (Object)string);
+        mapOverlayLogCh.log(10000000, "SDRSTooltip#updateContent There's no placeholder contained in the text %1.", (Object)string);
         return string;
     }
 
     private void updateContent() {
         if (!this.isSetUp) {
-            mapOverlayLogCh.log(-2137614336, "SDRSTooltip#updateContent Widget is not set up.");
+            mapOverlayLogCh.log(10000000, "SDRSTooltip#updateContent Widget is not set up.");
             return;
         }
         if (!(this.model instanceof ListModelGUI)) {
@@ -172,7 +169,7 @@ implements SDRSTooltipConstants {
                 String string = "";
                 if (this.selectedItemIndex == 1 && n2 == 1) {
                     string = this.getText(2);
-                    mapOverlayLogCh.log(-2137614336, "SDRSTooltip#updateContent Selected route %1 contains a closed road.", (long)this.selectedItemIndex);
+                    mapOverlayLogCh.log(10000000, "SDRSTooltip#updateContent Selected route %1 contains a closed road.", (long)this.selectedItemIndex);
                 } else if (this.selectedItemIndex == 2) {
                     int n3 = this.selectedDetour;
                     int n4 = this.distanceToDetour;
@@ -191,13 +188,13 @@ implements SDRSTooltipConstants {
                     string = SDRSTooltip.replaceString(string, "%1", string2);
                 }
                 if (this.selectedItemIndex > 1) {
-                    mapOverlayLogCh.log(-2137614336, "SDRSTooltip#updateContent Route index %1 is not valid.", (long)this.selectedItemIndex);
+                    mapOverlayLogCh.log(10000000, "SDRSTooltip#updateContent Route index %1 is not valid.", (long)this.selectedItemIndex);
                 }
                 this.labelLine1.setModel(string);
                 this.labelLine1.updateContent();
             }
         } else {
-            mapOverlayLogCh.log(10000, "SDRSTooltip#updateContent Expected %1 columns, but model has %2 columns.", (long)0, (long)n);
+            mapOverlayLogCh.log(10000, "SDRSTooltip#updateContent Expected %1 columns, but model has %2 columns.", 7L, (long)n);
         }
     }
 }

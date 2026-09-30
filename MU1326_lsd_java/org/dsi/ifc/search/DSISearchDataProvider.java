@@ -9,36 +9,30 @@ import org.dsi.ifc.search.RawDataSet;
 
 public interface DSISearchDataProvider
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RP_REGISTERPROVIDERSOURCERESULT;
-    public static final int RP_INVALIDATEALLDATARESULT;
-    public static final int RP_STOREDATASETSRESULT;
-    public static final int RP_DELETEDATASETRESULT;
-    public static final int IN_ACTIVATEPROVIDERSOURCE;
-    public static final int IN_PROVIDEDATA;
-    public static final int RT_REGISTERPROVIDERSOURCE;
-    public static final int RT_INVALIDATEALLDATA;
-    public static final int RT_STOREDATASETS;
-    public static final int RT_DELETEDATASET;
-    public static final int RT_SOURCEDATAAVAILABILITYCHANGED;
-    public static final int RT_STORERAWDATASETS;
+    public static final String VERSION = "2.11.25";
+    public static final int RP_REGISTERPROVIDERSOURCERESULT = 2000;
+    public static final int RP_INVALIDATEALLDATARESULT = 2001;
+    public static final int RP_STOREDATASETSRESULT = 2002;
+    public static final int RP_DELETEDATASETRESULT = 2003;
+    public static final int IN_ACTIVATEPROVIDERSOURCE = 3001;
+    public static final int IN_PROVIDEDATA = 3002;
+    public static final int RT_REGISTERPROVIDERSOURCE = 1001;
+    public static final int RT_INVALIDATEALLDATA = 1002;
+    public static final int RT_STOREDATASETS = 1003;
+    public static final int RT_DELETEDATASET = 1004;
+    public static final int RT_SOURCEDATAAVAILABILITYCHANGED = 1005;
+    public static final int RT_STORERAWDATASETS = 1006;
 
-    default public void registerProviderSource(int n) {
-    }
+    public void registerProviderSource(int var1);
 
-    default public void sourceDataAvailabilityChanged(int n, boolean bl) {
-    }
+    public void sourceDataAvailabilityChanged(int var1, boolean var2);
 
-    default public void invalidateAllData(int n) {
-    }
+    public void invalidateAllData(int var1);
 
-    default public void storeDataSets(int n, DataSet[] dataSetArray, int n2) {
-    }
+    public void storeDataSets(int var1, DataSet[] var2, int var3);
 
-    default public void storeRawDataSets(int n, RawDataSet[] rawDataSetArray, int n2) {
-    }
+    public void storeRawDataSets(int var1, RawDataSet[] var2, int var3);
 
-    default public void deleteDataSet(int n, long l) {
-    }
+    public void deleteDataSet(int var1, long var2);
 }
 

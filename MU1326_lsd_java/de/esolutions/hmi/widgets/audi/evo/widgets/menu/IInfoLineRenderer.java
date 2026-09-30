@@ -8,19 +8,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.InfolineController;
 
 public interface IInfoLineRenderer
 extends IRenderer {
-    default public int getPreferredHeight(int n) {
-    }
+    public int getPreferredHeight(int var1);
 
-    default public void setController(InfolineController infolineController) {
-    }
+    public void setController(InfolineController var1);
 
-    default public void setFonts(Object[] objectArray) {
-    }
+    public void setFonts(Object[] var1);
 
-    default public int getAutoWrap() {
-    }
+    public int getAutoWrap();
 
-    default public void setAutoWrap(int n) {
-    }
+    public void setAutoWrap(int var1);
 }
 

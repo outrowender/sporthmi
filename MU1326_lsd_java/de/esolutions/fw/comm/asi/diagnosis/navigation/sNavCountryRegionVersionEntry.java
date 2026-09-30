@@ -22,7 +22,7 @@ public class sNavCountryRegionVersionEntry {
     }
 
     public String toString() {
-        return new StringBuffer("sNavCountryRegionVersionEntry{").append("country_region_version_code=").append("[").append(this.country_region_version_code == null ? "null" : new StringBuffer().append("size=").append(this.country_region_version_code.length).toString()).append("]").append("}").toString();
+        return "sNavCountryRegionVersionEntry{" + "country_region_version_code=" + "[" + (this.country_region_version_code == null ? "null" : "size=" + this.country_region_version_code.length) + "]" + "}";
     }
 }
 

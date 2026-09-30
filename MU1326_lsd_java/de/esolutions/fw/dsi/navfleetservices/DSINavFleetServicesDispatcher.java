@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.navfleetservices;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.navfleetservices.DSINavFleetServicesReply;
 import de.esolutions.fw.comm.dsi.navfleetservices.impl.DSINavFleetServicesReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSINavFleetServicesReply {
         super(n, (class$org$dsi$ifc$navfleetservices$DSINavFleetServicesListener == null ? (class$org$dsi$ifc$navfleetservices$DSINavFleetServicesListener = DSINavFleetServicesDispatcher.class$("org.dsi.ifc.navfleetservices.DSINavFleetServicesListener")) : class$org$dsi$ifc$navfleetservices$DSINavFleetServicesListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void setVZOTrackerStateResult(int n) {
+    public void setVZOTrackerStateResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSINavFleetServicesReply {
         }
     }
 
-    @Override
-    public void setVZODownloadStateResult(int n) {
+    public void setVZODownloadStateResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSINavFleetServicesReply {
         }
     }
 
-    @Override
-    public void setLGITrackerStateResult(int n) {
+    public void setLGITrackerStateResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSINavFleetServicesReply {
         }
     }
 
-    @Override
-    public void setLGIDownloadStateResult(int n) {
+    public void setLGIDownloadStateResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSINavFleetServicesReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,14 +106,13 @@ implements DSINavFleetServicesReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSINavFleetServicesListener dSINavFleetServicesListener = (DSINavFleetServicesListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSINavFleetServicesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSINavFleetServicesDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSINavFleetServicesListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSINavFleetServicesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSINavFleetServicesDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSINavFleetServicesListener, new Object[]{string, string2});
                     continue;
                 }

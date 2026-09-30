@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.mobilityhorizon;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.DSIMobilityHorizonReply;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.DSIMobilityHorizonReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIMobilityHorizonReply {
         super(n, (class$org$dsi$ifc$mobilityhorizon$DSIMobilityHorizonListener == null ? (class$org$dsi$ifc$mobilityhorizon$DSIMobilityHorizonListener = DSIMobilityHorizonDispatcher.class$("org.dsi.ifc.mobilityhorizon.DSIMobilityHorizonListener")) : class$org$dsi$ifc$mobilityhorizon$DSIMobilityHorizonListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray, int n) {
+    public void updateLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -57,8 +56,7 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void updateConsideredLocationTypes(int[] nArray, int n) {
+    public void updateConsideredLocationTypes(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -86,8 +84,7 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void updateDriveTrainMode(int n, int n2) {
+    public void updateDriveTrainMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -115,8 +112,7 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void updateMobilityHorizonStatus(int n, int n2) {
+    public void updateMobilityHorizonStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -144,8 +140,7 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void requestLocationRangeLevelResult(int n, int n2) {
+    public void requestLocationRangeLevelResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -161,8 +156,7 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void locationRangeLevelChanged(int n) {
+    public void locationRangeLevelChanged(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -178,8 +172,7 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -195,14 +188,13 @@ implements DSIMobilityHorizonReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMobilityHorizonListener dSIMobilityHorizonListener = (DSIMobilityHorizonListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMobilityHorizonDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMobilityHorizonDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMobilityHorizonListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMobilityHorizonDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMobilityHorizonDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMobilityHorizonListener, new Object[]{string, string2});
                     continue;
                 }

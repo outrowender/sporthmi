@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.CarFunction;
 
 public class CarFunctionSerializer {
-    public static void putOptionalCarFunction(ISerializer iSerializer, CarFunction carFunction) {
+    public static void putOptionalCarFunction(ISerializer iSerializer, CarFunction carFunction) throws SerializerException {
         boolean bl = carFunction == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class CarFunctionSerializer {
         }
     }
 
-    public static void putOptionalCarFunctionVarArray(ISerializer iSerializer, CarFunction[] carFunctionArray) {
+    public static void putOptionalCarFunctionVarArray(ISerializer iSerializer, CarFunction[] carFunctionArray) throws SerializerException {
         boolean bl = carFunctionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class CarFunctionSerializer {
         }
     }
 
-    public static CarFunction getOptionalCarFunction(IDeserializer iDeserializer) {
+    public static CarFunction getOptionalCarFunction(IDeserializer iDeserializer) throws SerializerException {
         CarFunction carFunction = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class CarFunctionSerializer {
         return carFunction;
     }
 
-    public static CarFunction[] getOptionalCarFunctionVarArray(IDeserializer iDeserializer) {
+    public static CarFunction[] getOptionalCarFunctionVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarFunction[] carFunctionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

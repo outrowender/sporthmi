@@ -4,10 +4,8 @@
 package de.esolutions.hmi.widgets.audi.evo.listener;
 
 public interface ContentEnabledListener {
-    default public void setContentEnabled(int n, boolean bl) {
-    }
+    public void setContentEnabled(int var1, boolean var2);
 
-    default public void setContentVisible(int n, boolean bl) {
-    }
+    public void setContentVisible(int var1, boolean var2);
 }
 

@@ -3,119 +3,83 @@
  */
 package de.esolutions.fw.comm.dsi.mirrorlink;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.mirrorlink.ClientCapabilities;
 import org.dsi.ifc.mirrorlink.Event;
 
 public interface DSIMirrorLinkC {
-    default public void requestClientCapabilities(ClientCapabilities clientCapabilities) {
-    }
+    public void requestClientCapabilities(ClientCapabilities var1) throws MethodException;
 
-    default public void requestAccessMode(int n) {
-    }
+    public void requestAccessMode(int var1) throws MethodException;
 
-    default public void requestDayNightMode(int n) {
-    }
+    public void requestDayNightMode(int var1) throws MethodException;
 
-    default public void requestUsableViewport(int n, int n2, int n3, int n4) {
-    }
+    public void requestUsableViewport(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void requestContextVisible(boolean bl) {
-    }
+    public void requestContextVisible(boolean var1) throws MethodException;
 
-    default public void requestConnectDevice(int n) {
-    }
+    public void requestConnectDevice(int var1) throws MethodException;
 
-    default public void requestDisconnectDevice(int n) {
-    }
+    public void requestDisconnectDevice(int var1) throws MethodException;
 
-    default public void requestRotateScreen(int n) {
-    }
+    public void requestRotateScreen(int var1) throws MethodException;
 
-    default public void requestChangeOrientation(int n) {
-    }
+    public void requestChangeOrientation(int var1) throws MethodException;
 
-    default public void requestSoftKeyEvent(int n, int n2) {
-    }
+    public void requestSoftKeyEvent(int var1, int var2) throws MethodException;
 
-    default public void requestLaunchApp(int n) {
-    }
+    public void requestLaunchApp(int var1) throws MethodException;
 
-    default public void requestTerminateApp(int n) {
-    }
+    public void requestTerminateApp(int var1) throws MethodException;
 
-    default public void requestStartSpeller(String string) {
-    }
+    public void requestStartSpeller(String var1) throws MethodException;
 
-    default public void requestAddSpellerChars(String string) {
-    }
+    public void requestAddSpellerChars(String var1) throws MethodException;
 
-    default public void requestRemoveSpellerChar() {
-    }
+    public void requestRemoveSpellerChar() throws MethodException;
 
-    default public void requestClearSpeller() {
-    }
+    public void requestClearSpeller() throws MethodException;
 
-    default public void requestSendString(String string) {
-    }
+    public void requestSendString(String var1) throws MethodException;
 
-    default public void requestAudioOption(int n) {
-    }
+    public void requestAudioOption(int var1) throws MethodException;
 
-    default public void requestAudioConnectionAudible(int n, boolean bl) {
-    }
+    public void requestAudioConnectionAudible(int var1, boolean var2) throws MethodException;
 
-    default public void requestSendTouchEvents(Event[] eventArray, int n) {
-    }
+    public void requestSendTouchEvents(Event[] var1, int var2) throws MethodException;
 
-    default public void requestKeyboardMode(int n) {
-    }
+    public void requestKeyboardMode(int var1) throws MethodException;
 
-    default public void requestAvailableApplicationsWindow(int n, int n2) {
-    }
+    public void requestAvailableApplicationsWindow(int var1, int var2) throws MethodException;
 
-    default public void requestDisplayKeyboard() {
-    }
+    public void requestDisplayKeyboard() throws MethodException;
 
-    default public void requestDismissHMIKeyboard() {
-    }
+    public void requestDismissHMIKeyboard() throws MethodException;
 
-    default public void requestFactorySettings() {
-    }
+    public void requestFactorySettings() throws MethodException;
 
-    default public void requestPhoneView() {
-    }
+    public void requestPhoneView() throws MethodException;
 
-    default public void requestContextSwitched(boolean bl) {
-    }
+    public void requestContextSwitched(boolean var1) throws MethodException;
 
-    default public void invokeNotiAction(int n, int n2) {
-    }
+    public void invokeNotiAction(int var1, int var2) throws MethodException;
 
-    default public void requestNotificationServiceEnabled(boolean bl, int n, int n2, int n3, int n4) {
-    }
+    public void requestNotificationServiceEnabled(boolean var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void requestLocationDataServicesEnabled(boolean bl) {
-    }
+    public void requestLocationDataServicesEnabled(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

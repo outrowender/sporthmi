@@ -10,15 +10,13 @@ import org.apache.commons.jexl.JexlContext;
 public class HashMapContext
 extends HashMap
 implements JexlContext {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 5715964743204418854L;
 
-    @Override
     public void setVars(Map map) {
         this.clear();
         this.putAll(map);
     }
 
-    @Override
     public Map getVars() {
         return this;
     }

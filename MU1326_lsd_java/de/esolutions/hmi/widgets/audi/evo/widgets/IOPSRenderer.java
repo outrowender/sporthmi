@@ -7,10 +7,8 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IOPSRenderer
 extends IRenderer {
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public void finalizeAsyncMerge(String string) {
-    }
+    public void finalizeAsyncMerge(String var1);
 }
 

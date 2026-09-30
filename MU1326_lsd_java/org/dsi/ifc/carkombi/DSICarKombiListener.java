@@ -58,397 +58,266 @@ import org.dsi.ifc.global.CarBCTime;
 
 public interface DSICarKombiListener
 extends DSIListener {
-    default public void updateSIAViewOptions(SIAViewOptions sIAViewOptions, int n) {
-    }
+    public void updateSIAViewOptions(SIAViewOptions var1, int var2);
 
-    default public void updateSIAServiceData(SIAServiceData sIAServiceData, int n) {
-    }
+    public void updateSIAServiceData(SIAServiceData var1, int var2);
 
-    default public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, int n) {
-    }
+    public void updateSIAOilInspection(SIAOilInspection var1, int var2);
 
-    default public void indicateEndOfSIAReset(boolean bl) {
-    }
+    public void indicateEndOfSIAReset(boolean var1);
 
-    default public void updateSIAHistoryListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateSIAHistoryListUpdateInfo(CarArrayListUpdateInfo var1, int[] var2, int var3);
 
-    default public void responseSIAHistoryList(CarArrayListUpdateInfo carArrayListUpdateInfo, SIAHistoryListRecord[] sIAHistoryListRecordArray) {
-    }
+    public void responseSIAHistoryList(CarArrayListUpdateInfo var1, SIAHistoryListRecord[] var2);
 
-    default public void updateSIAHistoryListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateSIAHistoryListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateSIADistanceOilUser(SIADistanceData sIADistanceData, int n) {
-    }
+    public void updateSIADistanceOilUser(SIADistanceData var1, int var2);
 
-    default public void updateSIADistanceAirFilterUser(SIADistanceData sIADistanceData, int n) {
-    }
+    public void updateSIADistanceAirFilterUser(SIADistanceData var1, int var2);
 
-    default public void updateSIADistanceOilFilterUser(SIADistanceData sIADistanceData, int n) {
-    }
+    public void updateSIADistanceOilFilterUser(SIADistanceData var1, int var2);
 
-    default public void updateSIAInspectionDistanceUser(SIADistanceData sIADistanceData, int n) {
-    }
+    public void updateSIAInspectionDistanceUser(SIADistanceData var1, int var2);
 
-    default public void updateSIADailyAverageMileage(int n, int n2, int n3) {
-    }
+    public void updateSIADailyAverageMileage(int var1, int var2, int var3);
 
-    default public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
-    }
+    public void updateBCViewOptions(BCViewOptions var1, int var2);
 
-    default public void updateBCIndications(BCIndications bCIndications, int n) {
-    }
+    public void updateBCIndications(BCIndications var1, int var2);
 
-    default public void updateBCCurrentConsumption1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCCurrentConsumption1(CarBCConsumption var1, int var2);
 
-    default public void updateBCCurrentConsumption2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCCurrentConsumption2(CarBCConsumption var1, int var2);
 
-    default public void updateBCCurrentRange1(CarBCCurrentRange carBCCurrentRange, int n) {
-    }
+    public void updateBCCurrentRange1(CarBCCurrentRange var1, int var2);
 
-    default public void updateBCCurrentRange2(CarBCCurrentRange carBCCurrentRange, int n) {
-    }
+    public void updateBCCurrentRange2(CarBCCurrentRange var1, int var2);
 
-    default public void updateBCTotalDistance(CarBCDistance carBCDistance, int n) {
-    }
+    public void updateBCTotalDistance(CarBCDistance var1, int var2);
 
-    default public void updateBCShortTermAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCShortTermAverageConsumption1(CarBCConsumption var1, int var2);
 
-    default public void updateBCShortTermAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCShortTermAverageConsumption2(CarBCConsumption var1, int var2);
 
-    default public void updateBCShortTermGeneral(BCShortTermGeneralData bCShortTermGeneralData, int n) {
-    }
+    public void updateBCShortTermGeneral(BCShortTermGeneralData var1, int var2);
 
-    default public void updateBCLongTermAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCLongTermAverageConsumption1(CarBCConsumption var1, int var2);
 
-    default public void updateBCLongTermAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCLongTermAverageConsumption2(CarBCConsumption var1, int var2);
 
-    default public void updateBCLongTermGeneral(BCLongTermGeneralData bCLongTermGeneralData, int n) {
-    }
+    public void updateBCLongTermGeneral(BCLongTermGeneralData var1, int var2);
 
-    default public void updateBCCycleAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCCycleAverageConsumption1(CarBCConsumption var1, int var2);
 
-    default public void updateBCCycleAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCCycleAverageConsumption2(CarBCConsumption var1, int var2);
 
-    default public void updateBCCycleGeneral(BCCycleGeneralData bCCycleGeneralData, int n) {
-    }
+    public void updateBCCycleGeneral(BCCycleGeneralData var1, int var2);
 
-    default public void updateBCVZADisplay(boolean bl, int n) {
-    }
+    public void updateBCVZADisplay(boolean var1, int var2);
 
-    default public void updateBCLifeTipsDisplay(boolean bl, int n) {
-    }
+    public void updateBCLifeTipsDisplay(boolean var1, int var2);
 
-    default public void updateBCConsumerDisplay(boolean bl, int n) {
-    }
+    public void updateBCConsumerDisplay(boolean var1, int var2);
 
-    default public void updateBCTankLevel1(BCTankLevel bCTankLevel, int n) {
-    }
+    public void updateBCTankLevel1(BCTankLevel var1, int var2);
 
-    default public void updateBCTankLevel2(BCTankLevel bCTankLevel, int n) {
-    }
+    public void updateBCTankLevel2(BCTankLevel var1, int var2);
 
-    default public void updateBCRefuelVolume1(BCRefuelVolume bCRefuelVolume, int n) {
-    }
+    public void updateBCRefuelVolume1(BCRefuelVolume var1, int var2);
 
-    default public void updateBCRefuelVolume2(BCRefuelVolume bCRefuelVolume, int n) {
-    }
+    public void updateBCRefuelVolume2(BCRefuelVolume var1, int var2);
 
-    default public void updateBCMenue1Config(BCMenueConfiguration bCMenueConfiguration, int n) {
-    }
+    public void updateBCMenue1Config(BCMenueConfiguration var1, int var2);
 
-    default public void updateBCMenue2Config(BCMenueConfiguration bCMenueConfiguration, int n) {
-    }
+    public void updateBCMenue2Config(BCMenueConfiguration var1, int var2);
 
-    default public void updateBCMenue3Config(BCMenueConfiguration bCMenueConfiguration, int n) {
-    }
+    public void updateBCMenue3Config(BCMenueConfiguration var1, int var2);
 
-    default public void updateBCOilTemperature(boolean bl, int n) {
-    }
+    public void updateBCOilTemperature(boolean var1, int var2);
 
-    default public void updateBCDigitalSpeed(boolean bl, int n) {
-    }
+    public void updateBCDigitalSpeed(boolean var1, int var2);
 
-    default public void updateBCStopwatch(boolean bl, int n) {
-    }
+    public void updateBCStopwatch(boolean var1, int var2);
 
-    default public void updateBCVzaMFA(boolean bl, int n) {
-    }
+    public void updateBCVzaMFA(boolean var1, int var2);
 
-    default public void updateBCSpeedWarning(BCSpeedWarningSettings bCSpeedWarningSettings, int n) {
-    }
+    public void updateBCSpeedWarning(BCSpeedWarningSettings var1, int var2);
 
-    default public void updateBCGearRecommendation(boolean bl, int n) {
-    }
+    public void updateBCGearRecommendation(boolean var1, int var2);
 
-    default public void updateBCRearSeatbeltWarning(boolean bl, int n) {
-    }
+    public void updateBCRearSeatbeltWarning(boolean var1, int var2);
 
-    default public void updateBCOutsideTemperature(CarBCTemperature carBCTemperature, int n) {
-    }
+    public void updateBCOutsideTemperature(CarBCTemperature var1, int var2);
 
-    default public void indicateEndOfBCMenuReset(boolean bl) {
-    }
+    public void indicateEndOfBCMenuReset(boolean var1);
 
-    default public void updateBCVehicleStateListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateBCVehicleStateListTotalNumberOfElements(int var1, int var2);
 
-    default public void responseVehicleStateUpdateInfo(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int[] nArray) {
-    }
+    public void responseVehicleStateUpdateInfo(BCVehicleStateUpdateInfoAH var1, int[] var2);
 
-    default public void responseVehicleStateListWarningIDdynValueAlternativeText(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int n, int n2, String string, String string2) {
-    }
+    public void responseVehicleStateListWarningIDdynValueAlternativeText(BCVehicleStateUpdateInfoAH var1, int var2, int var3, String var4, String var5);
 
-    default public void responseVehicleStateListWarningIDdynValue(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, ListWarningIDsDynValues[] listWarningIDsDynValuesArray) {
-    }
+    public void responseVehicleStateListWarningIDdynValue(BCVehicleStateUpdateInfoAH var1, ListWarningIDsDynValues[] var2);
 
-    default public void responseVehicleStateListAlternativeText(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int n, String string) {
-    }
+    public void responseVehicleStateListAlternativeText(BCVehicleStateUpdateInfoAH var1, int var2, String var3);
 
-    default public void responseVehicleStateListdynValue(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, ListDynValues[] listDynValuesArray) {
-    }
+    public void responseVehicleStateListdynValue(BCVehicleStateUpdateInfoAH var1, ListDynValues[] var2);
 
-    default public void responseVehicleStateListPos(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int[] nArray) {
-    }
+    public void responseVehicleStateListPos(BCVehicleStateUpdateInfoAH var1, int[] var2);
 
-    default public void acknowledgeBcSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeBcSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeHUDSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeHUDSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeDCSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeDCSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeBcStatisticsReset(int n) {
-    }
+    public void acknowledgeBcStatisticsReset(int var1);
 
-    default public void updateBCStatisticsDistanceAC1(BCStatisticsAC bCStatisticsAC, int n) {
-    }
+    public void updateBCStatisticsDistanceAC1(BCStatisticsAC var1, int var2);
 
-    default public void updateBCStatisticsDistanceAC2(BCStatisticsAC bCStatisticsAC, int n) {
-    }
+    public void updateBCStatisticsDistanceAC2(BCStatisticsAC var1, int var2);
 
-    default public void updateBCStatisticsDistanceRE(BCStatisticsRE bCStatisticsRE, int n) {
-    }
+    public void updateBCStatisticsDistanceRE(BCStatisticsRE var1, int var2);
 
-    default public void updateBCStatisticsDistanceZE(BCStatisticsZE bCStatisticsZE, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance, int n) {
-    }
+    public void updateBCStatisticsDistanceZE(BCStatisticsZE var1, BCZeroEmissionAbsoluteDistance var2, int var3);
 
-    default public void updateBCStatisticsDistanceCurrentIntervalAC1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCStatisticsDistanceCurrentIntervalAC1(CarBCConsumption var1, int var2);
 
-    default public void updateBCStatisticsDistanceCurrentIntervalAC2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCStatisticsDistanceCurrentIntervalAC2(CarBCConsumption var1, int var2);
 
-    default public void updateBCStatisticsDistanceCurrentIntervalRE(BCAverageRecoveredEnergy bCAverageRecoveredEnergy, int n) {
-    }
+    public void updateBCStatisticsDistanceCurrentIntervalRE(BCAverageRecoveredEnergy var1, int var2);
 
-    default public void updateBCStatisticsDistanceCurrentIntervalZE(BCZeroEmissionRelative bCZeroEmissionRelative, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance, int n) {
-    }
+    public void updateBCStatisticsDistanceCurrentIntervalZE(BCZeroEmissionRelative var1, BCZeroEmissionAbsoluteDistance var2, int var3);
 
-    default public void updateBCStatisticsTimeAC1(BCStatisticsAC bCStatisticsAC, int n) {
-    }
+    public void updateBCStatisticsTimeAC1(BCStatisticsAC var1, int var2);
 
-    default public void updateBCStatisticsTimeAC2(BCStatisticsAC bCStatisticsAC, int n) {
-    }
+    public void updateBCStatisticsTimeAC2(BCStatisticsAC var1, int var2);
 
-    default public void updateBCStatisticsTimeRE(BCStatisticsRE bCStatisticsRE, int n) {
-    }
+    public void updateBCStatisticsTimeRE(BCStatisticsRE var1, int var2);
 
-    default public void updateBCStatisticsTimeZE(BCStatisticsZE bCStatisticsZE, BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime, int n) {
-    }
+    public void updateBCStatisticsTimeZE(BCStatisticsZE var1, BCZeroEmissionAbsoluteTime var2, int var3);
 
-    default public void updateBCStatisticsTimeCurrentPeriodAC1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCStatisticsTimeCurrentPeriodAC1(CarBCConsumption var1, int var2);
 
-    default public void updateBCStatisticsTimeCurrentPeriodAC2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateBCStatisticsTimeCurrentPeriodAC2(CarBCConsumption var1, int var2);
 
-    default public void updateBCStatisticsTimeCurrentPeriodRE(BCAverageRecoveredEnergy bCAverageRecoveredEnergy, int n) {
-    }
+    public void updateBCStatisticsTimeCurrentPeriodRE(BCAverageRecoveredEnergy var1, int var2);
 
-    default public void updateBCStatisticsTimeCurrentPeriodZE(BCZeroEmissionRelative bCZeroEmissionRelative, BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime, int n) {
-    }
+    public void updateBCStatisticsTimeCurrentPeriodZE(BCZeroEmissionRelative var1, BCZeroEmissionAbsoluteTime var2, int var3);
 
-    default public void updateBCStatisticsConfig(BCStatisticsConfig bCStatisticsConfig, int n) {
-    }
+    public void updateBCStatisticsConfig(BCStatisticsConfig var1, int var2);
 
-    default public void updateBCStatisticDistanceEUkm(BCStatisticsDistanceEU bCStatisticsDistanceEU, int n) {
-    }
+    public void updateBCStatisticDistanceEUkm(BCStatisticsDistanceEU var1, int var2);
 
-    default public void updateBCStatisticDistanceEUmls(BCStatisticsDistanceEU bCStatisticsDistanceEU, int n) {
-    }
+    public void updateBCStatisticDistanceEUmls(BCStatisticsDistanceEU var1, int var2);
 
-    default public void updateBCOilTemperatureValue(CarBCTemperature carBCTemperature, int n) {
-    }
+    public void updateBCOilTemperatureValue(CarBCTemperature var1, int var2);
 
-    default public void updateBCCoolantTemperature(CarBCTemperature carBCTemperature, int n) {
-    }
+    public void updateBCCoolantTemperature(CarBCTemperature var1, int var2);
 
-    default public void updateBCComfortPowerConsumption(BCComfortPowerConsumption bCComfortPowerConsumption, int n) {
-    }
+    public void updateBCComfortPowerConsumption(BCComfortPowerConsumption var1, int var2);
 
-    default public void updateBCTotalCurrentRange(CarBCDistance carBCDistance, int n) {
-    }
+    public void updateBCTotalCurrentRange(CarBCDistance var1, int var2);
 
-    default public void updateBCZeroEmissionDistanceST(CarBCDistance carBCDistance, int n) {
-    }
+    public void updateBCZeroEmissionDistanceST(CarBCDistance var1, int var2);
 
-    default public void updateBCZeroEmissionDistanceLT(CarBCDistance carBCDistance, int n) {
-    }
+    public void updateBCZeroEmissionDistanceLT(CarBCDistance var1, int var2);
 
-    default public void updateBCZeroEmissionDistanceCY(CarBCDistance carBCDistance, int n) {
-    }
+    public void updateBCZeroEmissionDistanceCY(CarBCDistance var1, int var2);
 
-    default public void updateBCZeroEmissionTimeST(CarBCTime carBCTime, int n) {
-    }
+    public void updateBCZeroEmissionTimeST(CarBCTime var1, int var2);
 
-    default public void updateBCZeroEmissionTimeLT(CarBCTime carBCTime, int n) {
-    }
+    public void updateBCZeroEmissionTimeLT(CarBCTime var1, int var2);
 
-    default public void updateBCZeroEmissionTimeCY(CarBCTime carBCTime, int n) {
-    }
+    public void updateBCZeroEmissionTimeCY(CarBCTime var1, int var2);
 
-    default public void updateBCMaxValues(BCMaxValues bCMaxValues, int n) {
-    }
+    public void updateBCMaxValues(BCMaxValues var1, int var2);
 
-    default public void updateBCResetTimeStampST(BCResetTimeStamp bCResetTimeStamp, int n) {
-    }
+    public void updateBCResetTimeStampST(BCResetTimeStamp var1, int var2);
 
-    default public void updateBCResetTimeStampLT(BCResetTimeStamp bCResetTimeStamp, int n) {
-    }
+    public void updateBCResetTimeStampLT(BCResetTimeStamp var1, int var2);
 
-    default public void updateBCResetTimeStampCY(BCResetTimeStamp bCResetTimeStamp, int n) {
-    }
+    public void updateBCResetTimeStampCY(BCResetTimeStamp var1, int var2);
 
-    default public void updateBCAstaMFA(boolean bl, int n) {
-    }
+    public void updateBCAstaMFA(boolean var1, int var2);
 
-    default public void updateHUDViewOptions(HUDViewOptions hUDViewOptions, int n) {
-    }
+    public void updateHUDViewOptions(HUDViewOptions var1, int var2);
 
-    default public void updateHUDHeightAdjustment(byte by, int n) {
-    }
+    public void updateHUDHeightAdjustment(byte var1, int var2);
 
-    default public void updateHUDBrightness(byte by, int n) {
-    }
+    public void updateHUDBrightness(byte var1, int var2);
 
-    default public void updateHUDColour(int n, int n2, int n3) {
-    }
+    public void updateHUDColour(int var1, int var2, int var3);
 
-    default public void updateHUDContent(HUDContent hUDContent, int n) {
-    }
+    public void updateHUDContent(HUDContent var1, int var2);
 
-    default public void updateHUDInfo(boolean bl, int n) {
-    }
+    public void updateHUDInfo(boolean var1, int var2);
 
-    default public void updateHUDSystemOnOff(boolean bl, int n) {
-    }
+    public void updateHUDSystemOnOff(boolean var1, int var2);
 
-    default public void updateHUDRotationAdjustment(int n, int n2) {
-    }
+    public void updateHUDRotationAdjustment(int var1, int var2);
 
-    default public void updateHUDPresets(int n, int n2, int n3) {
-    }
+    public void updateHUDPresets(int var1, int var2, int var3);
 
-    default public void updateHUDCollectiveTopics(HUDCollectiveTopics hUDCollectiveTopics, int n) {
-    }
+    public void updateHUDCollectiveTopics(HUDCollectiveTopics var1, int var2);
 
-    default public void updateHUDAutoSkinSwitch(boolean bl, int n) {
-    }
+    public void updateHUDAutoSkinSwitch(boolean var1, int var2);
 
-    default public void responseHUDSectionConfigList(CarArrayListUpdateInfo carArrayListUpdateInfo, HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) {
-    }
+    public void responseHUDSectionConfigList(CarArrayListUpdateInfo var1, HUDSectionConfigListRecord[] var2);
 
-    default public void updateHUDSectionConfigListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateHUDSectionConfigListUpdateInfo(CarArrayListUpdateInfo var1, int[] var2, int var3);
 
-    default public void updateHUDSectionConfigListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateHUDSectionConfigListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateDCViewOptions(DCViewOptions dCViewOptions, int n) {
-    }
+    public void updateDCViewOptions(DCViewOptions var1, int var2);
 
-    default public void updateDCBrightness(int n, int n2) {
-    }
+    public void updateDCBrightness(int var1, int var2);
 
-    default public void updateDCVolume(int n, int n2) {
-    }
+    public void updateDCVolume(int var1, int var2);
 
-    default public void updateDCElementContentSelectionListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateDCElementContentSelectionListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateDCDisplay1Setup(DCMainItems dCMainItems, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos, DCAdditionalInfo dCAdditionalInfo, DCAdditionalInfo dCAdditionalInfo2, int n) {
-    }
+    public void updateDCDisplay1Setup(DCMainItems var1, DCDisplayedAdditionalInfos var2, DCAdditionalInfo var3, DCAdditionalInfo var4, int var5);
 
-    default public void updateDCDisplay2Setup(DCMainItems dCMainItems, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos, DCAdditionalInfo dCAdditionalInfo, DCAdditionalInfo dCAdditionalInfo2, int n) {
-    }
+    public void updateDCDisplay2Setup(DCMainItems var1, DCDisplayedAdditionalInfos var2, DCAdditionalInfo var3, DCAdditionalInfo var4, int var5);
 
-    default public void updateDCDisplay3Setup(DCMainItems dCMainItems, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos, DCAdditionalInfo dCAdditionalInfo, DCAdditionalInfo dCAdditionalInfo2, int n) {
-    }
+    public void updateDCDisplay3Setup(DCMainItems var1, DCDisplayedAdditionalInfos var2, DCAdditionalInfo var3, DCAdditionalInfo var4, int var5);
 
-    default public void updateDCDisplay1MainSelection(DCMainItems dCMainItems, int n) {
-    }
+    public void updateDCDisplay1MainSelection(DCMainItems var1, int var2);
 
-    default public void updateDCDisplay2MainSelection(DCMainItems dCMainItems, int n) {
-    }
+    public void updateDCDisplay2MainSelection(DCMainItems var1, int var2);
 
-    default public void updateDCDisplay3MainSelection(DCMainItems dCMainItems, int n) {
-    }
+    public void updateDCDisplay3MainSelection(DCMainItems var1, int var2);
 
-    default public void responseDCElementContentSelectionListRAF(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, int[] nArray) {
-    }
+    public void responseDCElementContentSelectionListRAF(DCElementContentSelectionListUpdateInfo var1, int[] var2);
 
-    default public void responseDCElementContentSelectionListRA1(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) {
-    }
+    public void responseDCElementContentSelectionListRA1(DCElementContentSelectionListUpdateInfo var1, DCElementContentSelectionListRA1[] var2);
 
-    default public void responseDCElementContentSelectionListRA2(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA2[] dCElementContentSelectionListRA2Array) {
-    }
+    public void responseDCElementContentSelectionListRA2(DCElementContentSelectionListUpdateInfo var1, DCElementContentSelectionListRA2[] var2);
 
-    default public void updateDCElementContentSelectionListUpdateInfo(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateDCElementContentSelectionListUpdateInfo(DCElementContentSelectionListUpdateInfo var1, int[] var2, int var3);
 
-    default public void updateDCAdditionalInstrumentSetup(DCAdditionalInstrument dCAdditionalInstrument, int n) {
-    }
+    public void updateDCAdditionalInstrumentSetup(DCAdditionalInstrument var1, int var2);
 
-    default public void updateDCAdditionalInstrument2Setup(DCAdditionalInstrument2 dCAdditionalInstrument2, int n) {
-    }
+    public void updateDCAdditionalInstrument2Setup(DCAdditionalInstrument2 var1, int var2);
 
-    default public void updateDCDisplayPresetsListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateDCDisplayPresetsListTotalNumberOfElements(int var1, int var2);
 
-    default public void responseDCDisplayPresetsList(CarArrayListUpdateInfo carArrayListUpdateInfo, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) {
-    }
+    public void responseDCDisplayPresetsList(CarArrayListUpdateInfo var1, DCDisplayPresetsListRecord[] var2);
 
-    default public void updateDCDisplayPresetsListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray, int n) {
-    }
+    public void updateDCDisplayPresetsListUpdateInfo(CarArrayListUpdateInfo var1, DCDisplayPresetsListRecord[] var2, int var3);
 
-    default public void updateDCDisplayDependencySetup(DCDisplayDependency dCDisplayDependency, int n) {
-    }
+    public void updateDCDisplayDependencySetup(DCDisplayDependency var1, int var2);
 
-    default public void updateDCActiveDisplayPreset(int n, int n2) {
-    }
+    public void updateDCActiveDisplayPreset(int var1, int var2);
 
-    default public void updateDCDisplayViewConfiguration(DCDisplayViewConfiguration dCDisplayViewConfiguration, int n) {
-    }
+    public void updateDCDisplayViewConfiguration(DCDisplayViewConfiguration var1, int var2);
 
-    default public void updateCompassInfo(int n, int n2, int n3) {
-    }
+    public void updateCompassInfo(int var1, int var2, int var3);
 
-    default public void updateHUDLicense(boolean bl, int n) {
-    }
+    public void updateHUDLicense(boolean var1, int var2);
 
-    default public void updateDCLEDConfiguration(boolean bl, int n) {
-    }
+    public void updateDCLEDConfiguration(boolean var1, int var2);
 }
 

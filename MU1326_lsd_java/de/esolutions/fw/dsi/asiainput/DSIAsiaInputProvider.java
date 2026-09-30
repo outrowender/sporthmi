@@ -27,28 +27,23 @@ implements DSIAsiaInput {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$asiainput$DSIAsiaInput == null ? (class$org$dsi$ifc$asiainput$DSIAsiaInput = DSIAsiaInputProvider.class$("org.dsi.ifc.asiainput.DSIAsiaInput")) : class$org$dsi$ifc$asiainput$DSIAsiaInput).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAsiaInputProxy(this.instance, (DSIAsiaInputReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void initialize(int n) {
         try {
             this.proxy.initialize(n);
@@ -58,7 +53,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void addSymbol(char c2) {
         try {
             this.proxy.addSymbol(c2);
@@ -68,7 +62,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void addSymbols(String string) {
         try {
             this.proxy.addSymbols(string);
@@ -78,7 +71,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void removeSymbol() {
         try {
             this.proxy.removeSymbol();
@@ -88,7 +80,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void removeAllSymbols() {
         try {
             this.proxy.removeAllSymbols();
@@ -98,7 +89,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void clear() {
         try {
             this.proxy.clear();
@@ -108,7 +98,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void buildCandidates() {
         try {
             this.proxy.buildCandidates();
@@ -118,7 +107,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getSpelling() {
         try {
             this.proxy.getSpelling();
@@ -128,7 +116,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getCandidates(int n) {
         try {
             this.proxy.getCandidates(n);
@@ -138,7 +125,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void selectCandidate(int n) {
         try {
             this.proxy.selectCandidate(n);
@@ -148,7 +134,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setBooleanParameter(int n, boolean bl) {
         try {
             this.proxy.setBooleanParameter(n, bl);
@@ -158,7 +143,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setIntParameter(int n, int n2) {
         try {
             this.proxy.setIntParameter(n, n2);
@@ -168,7 +152,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getBooleanParameter(int n) {
         try {
             this.proxy.getBooleanParameter(n);
@@ -178,7 +161,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getIntParameter(int n) {
         try {
             this.proxy.getIntParameter(n);
@@ -188,7 +170,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getVersionInfo() {
         try {
             this.proxy.getVersionInfo();
@@ -198,7 +179,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setStringParameter(int n, String string) {
         try {
             this.proxy.setStringParameter(n, string);
@@ -208,7 +188,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getStringParameter(int n) {
         try {
             this.proxy.getStringParameter(n);
@@ -218,7 +197,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setPredictionContext(String string) {
         try {
             this.proxy.setPredictionContext(string);
@@ -228,7 +206,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void clearPredictionContext() {
         try {
             this.proxy.clearPredictionContext();
@@ -238,7 +215,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void addUserDefinedEntry(UserDefinedEntry userDefinedEntry) {
         try {
             this.proxy.addUserDefinedEntry(userDefinedEntry);
@@ -248,7 +224,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setAdditionalWordDatabases(WordDatabase[] wordDatabaseArray) {
         try {
             this.proxy.setAdditionalWordDatabases(wordDatabaseArray);
@@ -258,7 +233,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setUserDatabaseState(int n, int n2) {
         try {
             this.proxy.setUserDatabaseState(n, n2);
@@ -268,7 +242,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void resetToFactorySettings() {
         try {
             this.proxy.resetToFactorySettings();
@@ -278,7 +251,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void getSegmentation(String string) {
         try {
             this.proxy.getSegmentation(string);
@@ -288,7 +260,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void requestSegmentationForTruffles(String string) {
         try {
             this.proxy.requestSegmentationForTruffles(string);
@@ -298,7 +269,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -308,7 +278,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -318,7 +287,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -328,7 +296,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -338,7 +305,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -348,7 +314,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -358,7 +323,6 @@ implements DSIAsiaInput {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

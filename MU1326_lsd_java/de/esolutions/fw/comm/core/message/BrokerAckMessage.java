@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.core.message.InstanceIDTool;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BrokerAckMessage
 extends AbstractMessage {
@@ -21,18 +22,16 @@ extends AbstractMessage {
         this.brokerInstanceID = serviceInstanceID;
     }
 
-    public BrokerAckMessage(IDeserializer iDeserializer, boolean bl) {
+    public BrokerAckMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.BROKER_ACK, iDeserializer, bl);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.brokerAgentID);
         InstanceIDTool.serializeUUID(this.brokerInstanceID, iSerializer);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.brokerAgentID = iDeserializer.getInt16();
         this.brokerInstanceID = InstanceIDTool.deserializeUUID(iDeserializer);
     }

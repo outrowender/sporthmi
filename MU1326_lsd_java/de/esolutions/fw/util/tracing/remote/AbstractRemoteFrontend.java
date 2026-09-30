@@ -27,7 +27,6 @@ implements ITraceFrontendListener {
         this.frontend.unregisterListener(this);
     }
 
-    @Override
     public void requestFilterLevel(TraceEntityURI traceEntityURI, short s) {
         EntityBackRef entityBackRef = (EntityBackRef)this.frontend.getAttachment(traceEntityURI);
         if (entityBackRef == null) {
@@ -36,7 +35,6 @@ implements ITraceFrontendListener {
         entityBackRef.getHandler().requestFilterLevelExtUri(new TraceEntityURI(traceEntityURI.getType(), entityBackRef.getExtId()), s);
     }
 
-    @Override
     public void executeCallback(int n, byte[] byArray) {
         EntityBackRef entityBackRef = (EntityBackRef)this.frontend.getAttachment(new TraceEntityURI(4, n));
         if (entityBackRef == null) {
@@ -45,16 +43,15 @@ implements ITraceFrontendListener {
         entityBackRef.getHandler().executeCallbackExtUri(entityBackRef.getExtId(), byArray);
     }
 
-    @Override
     public synchronized void requestQuit() {
         this.doQuit = true;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     public synchronized boolean waitForQuit() {
         while (!this.doQuit) {
             try {
-                super.wait();
+                this.wait();
             }
             catch (InterruptedException interruptedException) {
                 return false;

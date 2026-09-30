@@ -42,7 +42,7 @@ public class NextDestinationInfo {
     }
 
     public String toString() {
-        return new StringBuffer("NextDestinationInfo{").append("destinationIndex=").append(this.destinationIndex).append(", distanceToNextDestination=").append(this.distanceToNextDestination).append(", timeToNextDestiantion=").append(this.timeToNextDestiantion).append("}").toString();
+        return "NextDestinationInfo{" + "destinationIndex=" + this.destinationIndex + ", distanceToNextDestination=" + this.distanceToNextDestination + ", timeToNextDestiantion=" + this.timeToNextDestiantion + "}";
     }
 }
 

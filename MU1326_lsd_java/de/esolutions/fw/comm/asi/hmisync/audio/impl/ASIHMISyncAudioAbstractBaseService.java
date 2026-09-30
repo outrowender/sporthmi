@@ -9,17 +9,18 @@ import de.esolutions.fw.comm.asi.hmisync.audio.ASIHMISyncAudioS;
 import de.esolutions.fw.comm.asi.hmisync.audio.AudioState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeLockState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeRange;
-import de.esolutions.fw.comm.asi.hmisync.audio.impl.ASIHMISyncAudioAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncAudioAbstractBaseService
 implements ASIHMISyncAudioS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.audio.ASIHMISyncAudio");
-    private static final int attributesCount;
+    private static final int attributesCount = 10;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -90,39 +91,33 @@ implements ASIHMISyncAudioS {
     }
 
     public ASIHMISyncAudioAbstractBaseService() {
-        ASIHMISyncAudioAbstractBaseService$AttributesBitMapProvider aSIHMISyncAudioAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncAudioAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncAudio", aSIHMISyncAudioAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncAudio", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncAudioReply);
         this.sendAttributeUpdate(l, aSIHMISyncAudioReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         this.baseService.setNotification(aSIHMISyncAudioReply);
         this.sendAttributeUpdate(aSIHMISyncAudioReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncAudioReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncAudioReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncAudioReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         this.baseService.clearNotification(aSIHMISyncAudioReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncAudioReply);
     }
@@ -153,25 +148,25 @@ implements ASIHMISyncAudioS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
         try {
-            if (l == 0) {
+            if (l == 13L) {
                 aSIHMISyncAudioReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncAudioReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncAudioReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 14L) {
                 aSIHMISyncAudioReply.updateAudioContext(this.AudioContext, this.AudioContext_valid);
-            } else if (l == 0) {
+            } else if (l == 15L) {
                 aSIHMISyncAudioReply.updateFrontAudioContext(this.FrontAudioContext, this.FrontAudioContext_valid);
-            } else if (l == 0) {
+            } else if (l == 25L) {
                 aSIHMISyncAudioReply.updateVolumeLockState(this.VolumeLockState, this.VolumeLockState_valid);
-            } else if (l == 0) {
+            } else if (l == 23L) {
                 aSIHMISyncAudioReply.updateA2LSState(this.A2LSState, this.A2LSState_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncAudioReply.updateVolumeRange(this.VolumeRange, this.VolumeRange_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncAudioReply.updateVolume(this.Volume, this.Volume_valid);
-            } else if (l == 0) {
+            } else if (l == 24L) {
                 aSIHMISyncAudioReply.updateAudibleState(this.AudibleState, this.AudibleState_valid);
             } else {
                 System.out.println("unexpected");
@@ -182,11 +177,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncAudioAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(13);
@@ -200,11 +195,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -223,11 +218,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -246,11 +241,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateAudioContext(AudioState audioState) {
+    public void updateAudioContext(AudioState audioState) throws MethodException {
         this.updateAudioContext(audioState, true);
     }
 
-    public void updateAudioContext(AudioState audioState, boolean bl) {
+    public void updateAudioContext(AudioState audioState, boolean bl) throws MethodException {
         this.AudioContext = ASIHMISyncAudioAbstractBaseService.copyAudioState(audioState);
         this.AudioContext_valid = bl;
         List list = this.baseService.getNotifications(14);
@@ -264,11 +259,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateFrontAudioContext(AudioState audioState) {
+    public void updateFrontAudioContext(AudioState audioState) throws MethodException {
         this.updateFrontAudioContext(audioState, true);
     }
 
-    public void updateFrontAudioContext(AudioState audioState, boolean bl) {
+    public void updateFrontAudioContext(AudioState audioState, boolean bl) throws MethodException {
         this.FrontAudioContext = ASIHMISyncAudioAbstractBaseService.copyAudioState(audioState);
         this.FrontAudioContext_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -282,11 +277,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateVolumeLockState(VolumeLockState volumeLockState) {
+    public void updateVolumeLockState(VolumeLockState volumeLockState) throws MethodException {
         this.updateVolumeLockState(volumeLockState, true);
     }
 
-    public void updateVolumeLockState(VolumeLockState volumeLockState, boolean bl) {
+    public void updateVolumeLockState(VolumeLockState volumeLockState, boolean bl) throws MethodException {
         this.VolumeLockState = ASIHMISyncAudioAbstractBaseService.copyVolumeLockState(volumeLockState);
         this.VolumeLockState_valid = bl;
         List list = this.baseService.getNotifications(25);
@@ -300,11 +295,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateA2LSState(A2LSState a2LSState) {
+    public void updateA2LSState(A2LSState a2LSState) throws MethodException {
         this.updateA2LSState(a2LSState, true);
     }
 
-    public void updateA2LSState(A2LSState a2LSState, boolean bl) {
+    public void updateA2LSState(A2LSState a2LSState, boolean bl) throws MethodException {
         this.A2LSState = ASIHMISyncAudioAbstractBaseService.copyA2LSState(a2LSState);
         this.A2LSState_valid = bl;
         List list = this.baseService.getNotifications(23);
@@ -318,11 +313,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateVolumeRange(VolumeRange volumeRange) {
+    public void updateVolumeRange(VolumeRange volumeRange) throws MethodException {
         this.updateVolumeRange(volumeRange, true);
     }
 
-    public void updateVolumeRange(VolumeRange volumeRange, boolean bl) {
+    public void updateVolumeRange(VolumeRange volumeRange, boolean bl) throws MethodException {
         this.VolumeRange = ASIHMISyncAudioAbstractBaseService.copyVolumeRange(volumeRange);
         this.VolumeRange_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -336,11 +331,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateVolume(int n) {
+    public void updateVolume(int n) throws MethodException {
         this.updateVolume(n, true);
     }
 
-    public void updateVolume(int n, boolean bl) {
+    public void updateVolume(int n, boolean bl) throws MethodException {
         this.Volume = n;
         this.Volume_valid = bl;
         List list = this.baseService.getNotifications(17);
@@ -354,11 +349,11 @@ implements ASIHMISyncAudioS {
         }
     }
 
-    public void updateAudibleState(int n) {
+    public void updateAudibleState(int n) throws MethodException {
         this.updateAudibleState(n, true);
     }
 
-    public void updateAudibleState(int n, boolean bl) {
+    public void updateAudibleState(int n, boolean bl) throws MethodException {
         this.AudibleState = n;
         this.AudibleState_valid = bl;
         List list = this.baseService.getNotifications(24);
@@ -369,6 +364,33 @@ implements ASIHMISyncAudioS {
                 aSIHMISyncAudioReply.updateAudibleState(n, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(13L), new Integer(0));
+            this.map.put(new Long(20L), new Integer(1));
+            this.map.put(new Long(19L), new Integer(2));
+            this.map.put(new Long(14L), new Integer(3));
+            this.map.put(new Long(15L), new Integer(4));
+            this.map.put(new Long(25L), new Integer(5));
+            this.map.put(new Long(23L), new Integer(6));
+            this.map.put(new Long(18L), new Integer(7));
+            this.map.put(new Long(17L), new Integer(8));
+            this.map.put(new Long(24L), new Integer(9));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 10;
         }
     }
 }

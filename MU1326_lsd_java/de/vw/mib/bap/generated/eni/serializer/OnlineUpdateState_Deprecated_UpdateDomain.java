@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class OnlineUpdateState_Deprecated_UpdateDomain
 implements BAPEntity {
     public OnlineUpdateState_Deprecated_UpdateDomain0 updateDomain0 = new OnlineUpdateState_Deprecated_UpdateDomain0();
-    public static final int UPDATE_DOMAIN1_MIN;
+    public static final int UPDATE_DOMAIN1_MIN = 0;
     public int updateDomain1;
-    public static final int UPDATE_DOMAIN2_MIN;
+    public static final int UPDATE_DOMAIN2_MIN = 0;
     public int updateDomain2;
-    public static final int UPDATE_DOMAIN3_MIN;
+    public static final int UPDATE_DOMAIN3_MIN = 0;
     public int updateDomain3;
 
     public OnlineUpdateState_Deprecated_UpdateDomain() {
@@ -33,13 +33,11 @@ implements BAPEntity {
         this.updateDomain3 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.updateDomain0.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OnlineUpdateState_Deprecated_UpdateDomain onlineUpdateState_Deprecated_UpdateDomain = (OnlineUpdateState_Deprecated_UpdateDomain)bAPEntity;
         return this.updateDomain0.equalTo(onlineUpdateState_Deprecated_UpdateDomain.updateDomain0) && this.updateDomain1 == onlineUpdateState_Deprecated_UpdateDomain.updateDomain1 && this.updateDomain2 == onlineUpdateState_Deprecated_UpdateDomain.updateDomain2 && this.updateDomain3 == onlineUpdateState_Deprecated_UpdateDomain.updateDomain3;
@@ -48,23 +46,20 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OnlineUpdateState_Deprecated_UpdateDomain");
-        stringBuffer.append(new StringBuffer().append("\n - updateDomain0:").append(this.updateDomain0.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - updateDomain1:").append(this.updateDomain1).toString());
-        stringBuffer.append(new StringBuffer().append("\n - updateDomain2:").append(this.updateDomain2).toString());
-        stringBuffer.append(new StringBuffer().append("\n - updateDomain3:").append(this.updateDomain3).toString());
+        stringBuffer.append("\n - updateDomain0:" + this.updateDomain0.toString());
+        stringBuffer.append("\n - updateDomain1:" + this.updateDomain1);
+        stringBuffer.append("\n - updateDomain2:" + this.updateDomain2);
+        stringBuffer.append("\n - updateDomain3:" + this.updateDomain3);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.updateDomain0.serialize(bitStream);
         bitStream.pushByte((byte)this.updateDomain1);
@@ -72,7 +67,6 @@ implements BAPEntity {
         bitStream.pushByte((byte)this.updateDomain3);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.updateDomain0.deserialize(bitStream);
         this.updateDomain1 = bitStream.popFrontByte();

@@ -6,13 +6,10 @@ package java.security.interfaces;
 import java.math.BigInteger;
 
 public interface DSAParams {
-    default public BigInteger getP() {
-    }
+    public BigInteger getP();
 
-    default public BigInteger getQ() {
-    }
+    public BigInteger getQ();
 
-    default public BigInteger getG() {
-    }
+    public BigInteger getG();
 }
 

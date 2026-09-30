@@ -3,46 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.map.Point;
 
 public interface DSIMapViewerRouteBlockC {
-    default public void rBMarkNextSegment() {
-    }
+    public void rBMarkNextSegment() throws MethodException;
 
-    default public void rBMarkPreviousSegment() {
-    }
+    public void rBMarkPreviousSegment() throws MethodException;
 
-    default public void rBSetSegmentScales(long l, long l2) {
-    }
+    public void rBSetSegmentScales(long var1, long var3) throws MethodException;
 
-    default public void rBStartOfSelection() {
-    }
+    public void rBStartOfSelection() throws MethodException;
 
-    default public void pickSegmentUidsInScreenSpace(Point point, int n) {
-    }
+    public void pickSegmentUidsInScreenSpace(Point var1, int var2) throws MethodException;
 
-    default public void highLightSegmentUidsInMap(long[] lArray, boolean bl) {
-    }
+    public void highLightSegmentUidsInMap(long[] var1, boolean var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

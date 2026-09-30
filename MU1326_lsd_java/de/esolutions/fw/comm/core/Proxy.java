@@ -22,22 +22,22 @@ import de.esolutions.fw.util.tracing.TraceChannel;
 public final class Proxy
 implements IMethodCaller,
 ILifecycleListener {
-    public static final int NORMAL_OPERATION;
-    public static final int DUPLICATE_INSTANCEID;
-    public static final int INVALID_INSTANCEID;
-    public static final int CONNECTION_LOST;
-    public static final int INTERFACE_KEY_MISMATCH;
-    public static final int OOM;
-    public static final int SERVICE_NOT_AVAILABLE;
-    public static final int FACTORY_NOT_FOUND;
-    public static final int ID_POOL_EXHAUSTED;
-    public static final int OBJECT_IS_DEAD;
-    public static final int PROXY_IS_INVALID;
-    public static final int INVALID_AGENT_ID;
-    public static final int AGENT_IN_SHUTDOWN;
-    public static final int INTERNAL_ERROR;
-    public static final String[] ERROR_NAMES;
-    public static final short INVALID_ID;
+    public static final int NORMAL_OPERATION = 0;
+    public static final int DUPLICATE_INSTANCEID = 1;
+    public static final int INVALID_INSTANCEID = 2;
+    public static final int CONNECTION_LOST = 3;
+    public static final int INTERFACE_KEY_MISMATCH = 4;
+    public static final int OOM = 5;
+    public static final int SERVICE_NOT_AVAILABLE = 6;
+    public static final int FACTORY_NOT_FOUND = 7;
+    public static final int ID_POOL_EXHAUSTED = 8;
+    public static final int OBJECT_IS_DEAD = 9;
+    public static final int PROXY_IS_INVALID = 10;
+    public static final int INVALID_AGENT_ID = 11;
+    public static final int AGENT_IN_SHUTDOWN = 12;
+    public static final int INTERNAL_ERROR = 13;
+    public static final String[] ERROR_NAMES = new String[]{"normal operation", "duplicate instance id", "invalid instance id", "connection lost", "interface key mismatch", "out of memory", "service not available", "factory not found", "id pool exhausted", "object is dead", "proxy is invalid", "invalid agent id", "agent in shutdown", "internal error"};
+    public static final short INVALID_ID = -1;
     protected static IProxyConnector proxyConnector;
     protected ServiceInstanceID instanceID;
     protected IProxyBackend backend;
@@ -118,7 +118,6 @@ ILifecycleListener {
         return this.requestStub;
     }
 
-    @Override
     public void lifecycleChanged(Lifecycle lifecycle, Object object) {
         Proxy proxy = (Proxy)object;
         int n = proxy.getState();
@@ -137,7 +136,7 @@ ILifecycleListener {
         return this.replyServiceWorker;
     }
 
-    public boolean connect() {
+    public boolean connect() throws InterruptedException {
         if (!this.connectAsync()) {
             return false;
         }
@@ -165,7 +164,7 @@ ILifecycleListener {
         return true;
     }
 
-    public boolean disconnect() {
+    public boolean disconnect() throws InterruptedException {
         if (!this.disconnectAsync()) {
             return false;
         }
@@ -235,19 +234,19 @@ ILifecycleListener {
         return this.backend;
     }
 
-    public boolean waitUntilDead() {
+    public boolean waitUntilDead() throws InterruptedException {
         return this.lifecycle.waitUntilDead();
     }
 
-    public boolean waitUntilAlive() {
+    public boolean waitUntilAlive() throws InterruptedException {
         return this.lifecycle.waitUntilAlive();
     }
 
-    public boolean waitUntilDead(long l) {
+    public boolean waitUntilDead(long l) throws InterruptedException {
         return this.lifecycle.waitUntilDead(l);
     }
 
-    public boolean waitUntilAlive(long l) {
+    public boolean waitUntilAlive(long l) throws InterruptedException {
         return this.lifecycle.waitUntilAlive(l);
     }
 
@@ -276,7 +275,7 @@ ILifecycleListener {
         if (n >= 0 && n < ERROR_NAMES.length) {
             return ERROR_NAMES[n];
         }
-        return new StringBuffer().append("ERROR:").append(n).toString();
+        return "ERROR:" + n;
     }
 
     public Lifecycle getLifecycle() {
@@ -301,12 +300,11 @@ ILifecycleListener {
         this.pendingError = 0;
     }
 
-    @Override
-    public void remoteCallMethod(short s, ISerializable iSerializable) {
+    public void remoteCallMethod(short s, ISerializable iSerializable) throws MethodException {
         int n = this.numCalls++;
         if (!this.lifecycle.isAlive()) {
             ++this.errorCalls;
-            throw new MethodException(new StringBuffer().append("called method ").append(s).append(" and proxy is not alive").toString());
+            throw new MethodException("called method " + s + " and proxy is not alive");
         }
         try {
             ProxyTracing proxyTracing = null;
@@ -398,10 +396,6 @@ ILifecycleListener {
 
     public boolean getReplyServiceRegistered() {
         return this.replyServiceRegistered;
-    }
-
-    static {
-        ERROR_NAMES = new String[]{"normal operation", "duplicate instance id", "invalid instance id", "connection lost", "interface key mismatch", "out of memory", "service not available", "factory not found", "id pool exhausted", "object is dead", "proxy is invalid", "invalid agent id", "agent in shutdown", "internal error"};
     }
 }
 

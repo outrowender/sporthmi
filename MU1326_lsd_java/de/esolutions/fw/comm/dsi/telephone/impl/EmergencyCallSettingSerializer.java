@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.EmergencyCallSetting;
 
 public class EmergencyCallSettingSerializer {
-    public static void putOptionalEmergencyCallSetting(ISerializer iSerializer, EmergencyCallSetting emergencyCallSetting) {
+    public static void putOptionalEmergencyCallSetting(ISerializer iSerializer, EmergencyCallSetting emergencyCallSetting) throws SerializerException {
         boolean bl = emergencyCallSetting == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class EmergencyCallSettingSerializer {
         }
     }
 
-    public static void putOptionalEmergencyCallSettingVarArray(ISerializer iSerializer, EmergencyCallSetting[] emergencyCallSettingArray) {
+    public static void putOptionalEmergencyCallSettingVarArray(ISerializer iSerializer, EmergencyCallSetting[] emergencyCallSettingArray) throws SerializerException {
         boolean bl = emergencyCallSettingArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class EmergencyCallSettingSerializer {
         }
     }
 
-    public static EmergencyCallSetting getOptionalEmergencyCallSetting(IDeserializer iDeserializer) {
+    public static EmergencyCallSetting getOptionalEmergencyCallSetting(IDeserializer iDeserializer) throws SerializerException {
         EmergencyCallSetting emergencyCallSetting = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class EmergencyCallSettingSerializer {
         return emergencyCallSetting;
     }
 
-    public static EmergencyCallSetting[] getOptionalEmergencyCallSettingVarArray(IDeserializer iDeserializer) {
+    public static EmergencyCallSetting[] getOptionalEmergencyCallSettingVarArray(IDeserializer iDeserializer) throws SerializerException {
         EmergencyCallSetting[] emergencyCallSettingArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

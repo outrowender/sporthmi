@@ -10,9 +10,8 @@ import java.util.List;
 
 public class PunctuationMarkEnforcementRule
 extends AbstractPRPRule {
-    private static final String PUNCTUATION_LIST;
+    private static final String PUNCTUATION_LIST = "!.;?\u00a1\u00bf";
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (this.getInfoProvider().isEmpty() || this.isPunctuation()) {
             Iterator iterator = list.iterator();
@@ -31,21 +30,19 @@ extends AbstractPRPRule {
         String string = this.getInfoProvider().getCurrentText();
         boolean bl = false;
         if (string.length() > 0) {
-            boolean bl2 = bl = "!.;?\u00a1\u00bf".indexOf(string.charAt(string.length() - 1)) > -1;
+            boolean bl2 = bl = PUNCTUATION_LIST.indexOf(string.charAt(string.length() - 1)) > -1;
         }
         if (!bl && string.length() >= 2) {
-            bl = "!.;?\u00a1\u00bf".indexOf(string.charAt(string.length() - 2)) > -1;
+            bl = PUNCTUATION_LIST.indexOf(string.charAt(string.length() - 2)) > -1;
             bl &= string.charAt(string.length() - 1) == ' ';
         }
         return bl;
     }
 
-    @Override
     public String getRuleName() {
         return "Punctuation-Mark Enforcement Rule";
     }
 
-    @Override
     public int getValidity() {
         return 2;
     }

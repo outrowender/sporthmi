@@ -10,22 +10,22 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SDS_State_SetGet
 implements SetGetProperty {
     public int state;
-    private static final int STATE_BITSIZE;
-    public static final int STATE_SDS_NOT_BUILT_IN;
-    public static final int STATE_SDS_INITIALISING_SDS_IS_BEING_INITIALISED;
-    public static final int STATE_SDS_INITIALISING_ACTIVE;
-    public static final int STATE_SDS_ACTIVE_RECOGNIZER_OPEN;
-    public static final int STATE_SDS_ACTIVE_RECOGNIZER_CLOSED;
-    public static final int STATE_SDS_NOT_READY;
-    public static final int STATE_SDS_DEACTIVATED_VOICE_RECOGNITION_NOT_ACTIVE;
-    public static final int STATE_SDS_PAUSE_VOICE_RECOGNITION_IS_PAUSED;
-    public static final int STATE_SDS_NOT_BUIT_IN_ACTIVE;
-    public static final int STATE_SDS_DESIRED_LANGUAGE_NOT_AVAILABLE;
-    public static final int STATE_SDS_LANGUAGE_IS_BEEING_LOADED;
-    public static final int STATE_SDS_DOWNLOAD_UNSUCCESSFUL;
-    public static final int STATE_SDS_NOT_AVAILABLE_DUE_TO_ACTIVE_RVC_APS_OPS;
-    public static final int STATE_SDS_TEMPORARY_NOT_AVAILABLE;
-    public static final int STATE_EXTERNAL_SDS_ACTIVE_DF4_1;
+    private static final int STATE_BITSIZE = 8;
+    public static final int STATE_SDS_NOT_BUILT_IN = 0;
+    public static final int STATE_SDS_INITIALISING_SDS_IS_BEING_INITIALISED = 1;
+    public static final int STATE_SDS_INITIALISING_ACTIVE = 2;
+    public static final int STATE_SDS_ACTIVE_RECOGNIZER_OPEN = 3;
+    public static final int STATE_SDS_ACTIVE_RECOGNIZER_CLOSED = 4;
+    public static final int STATE_SDS_NOT_READY = 5;
+    public static final int STATE_SDS_DEACTIVATED_VOICE_RECOGNITION_NOT_ACTIVE = 6;
+    public static final int STATE_SDS_PAUSE_VOICE_RECOGNITION_IS_PAUSED = 7;
+    public static final int STATE_SDS_NOT_BUIT_IN_ACTIVE = 8;
+    public static final int STATE_SDS_DESIRED_LANGUAGE_NOT_AVAILABLE = 9;
+    public static final int STATE_SDS_LANGUAGE_IS_BEEING_LOADED = 10;
+    public static final int STATE_SDS_DOWNLOAD_UNSUCCESSFUL = 11;
+    public static final int STATE_SDS_NOT_AVAILABLE_DUE_TO_ACTIVE_RVC_APS_OPS = 12;
+    public static final int STATE_SDS_TEMPORARY_NOT_AVAILABLE = 13;
+    public static final int STATE_EXTERNAL_SDS_ACTIVE_DF4_1 = 14;
 
     public SDS_State_SetGet() {
         this.internalReset();
@@ -41,12 +41,10 @@ implements SetGetProperty {
         this.state = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SDS_State_SetGet sDS_State_SetGet = (SDS_State_SetGet)bAPEntity;
         return this.state == sDS_State_SetGet.state;
@@ -55,7 +53,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SDS_State_SetGet:");
@@ -128,18 +125,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.state);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.state = bitStream.popFrontByte();
     }
@@ -148,7 +142,6 @@ implements SetGetProperty {
         return 41;
     }
 
-    @Override
     public int getFunctionId() {
         return SDS_State_SetGet.functionId();
     }

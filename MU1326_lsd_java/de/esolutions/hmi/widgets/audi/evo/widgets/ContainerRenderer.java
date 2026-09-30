@@ -7,10 +7,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
 
 public interface ContainerRenderer
 extends CompositeRenderer {
-    default public void setScreenChangeProgress(float f2) {
-    }
+    public void setScreenChangeProgress(float var1);
 
-    default public void setVisibleDirect(boolean bl) {
-    }
+    public void setVisibleDirect(boolean var1);
 }
 

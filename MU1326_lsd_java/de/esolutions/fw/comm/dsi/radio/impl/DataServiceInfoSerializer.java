@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.DataServiceInfo;
 
 public class DataServiceInfoSerializer {
-    public static void putOptionalDataServiceInfo(ISerializer iSerializer, DataServiceInfo dataServiceInfo) {
+    public static void putOptionalDataServiceInfo(ISerializer iSerializer, DataServiceInfo dataServiceInfo) throws SerializerException {
         boolean bl = dataServiceInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class DataServiceInfoSerializer {
         }
     }
 
-    public static void putOptionalDataServiceInfoVarArray(ISerializer iSerializer, DataServiceInfo[] dataServiceInfoArray) {
+    public static void putOptionalDataServiceInfoVarArray(ISerializer iSerializer, DataServiceInfo[] dataServiceInfoArray) throws SerializerException {
         boolean bl = dataServiceInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class DataServiceInfoSerializer {
         }
     }
 
-    public static DataServiceInfo getOptionalDataServiceInfo(IDeserializer iDeserializer) {
+    public static DataServiceInfo getOptionalDataServiceInfo(IDeserializer iDeserializer) throws SerializerException {
         DataServiceInfo dataServiceInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class DataServiceInfoSerializer {
         return dataServiceInfo;
     }
 
-    public static DataServiceInfo[] getOptionalDataServiceInfoVarArray(IDeserializer iDeserializer) {
+    public static DataServiceInfo[] getOptionalDataServiceInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataServiceInfo[] dataServiceInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

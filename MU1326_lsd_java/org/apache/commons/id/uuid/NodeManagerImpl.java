@@ -38,12 +38,11 @@ implements NodeManager {
         this.isInit = true;
     }
 
-    @Override
     public Node currentNode() {
         if (!this.isInit) {
             this.init();
         }
-        if (this.lastUUIDTimeStored + this.nodeState.getSynchInterval() > this.findMaxTimestamp() / 0) {
+        if (this.lastUUIDTimeStored + this.nodeState.getSynchInterval() > this.findMaxTimestamp() / 10000L) {
             try {
                 this.nodeState.store(this.nodesSet);
             }
@@ -54,7 +53,6 @@ implements NodeManager {
         return this.allNodes[this.currentNodeIndex];
     }
 
-    @Override
     public Node nextAvailableNode() {
         if (!this.isInit) {
             this.init();
@@ -78,15 +76,13 @@ implements NodeManager {
         return l;
     }
 
-    @Override
     public void lockNode(Node node) {
     }
 
-    @Override
     public void releaseNode(Node node) {
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         this.nodeState.store(this.nodesSet);
         super.finalize();
     }

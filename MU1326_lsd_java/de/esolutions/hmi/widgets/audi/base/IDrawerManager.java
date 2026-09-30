@@ -9,43 +9,30 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 
 public interface IDrawerManager
 extends IContentChangeListener {
-    default public void activateSelectionDrawer(long l) {
-    }
+    public void activateSelectionDrawer(long var1);
 
-    default public void activateOptionDrawer(long l, long[] lArray) {
-    }
+    public void activateOptionDrawer(long var1, long[] var3);
 
-    default public void activateEntertainmentDrawer() {
-    }
+    public void activateEntertainmentDrawer();
 
-    default public AbstractWidgetController getNewEntertainmentContent(int n) {
-    }
+    public AbstractWidgetController getNewEntertainmentContent(int var1);
 
-    default public void activateEntertainmentDrawerContent(AbstractWidgetController abstractWidgetController) {
-    }
+    public void activateEntertainmentDrawerContent(AbstractWidgetController var1);
 
-    default public void startTrackingServices() {
-    }
+    public void startTrackingServices();
 
-    default public int getBlackListedConnection() {
-    }
+    public int getBlackListedConnection();
 
-    default public void notifyADCListeners(int n, int n2) {
-    }
+    public void notifyADCListeners(int var1, int var2);
 
-    default public void entertainmentDrawerClosed() {
-    }
+    public void entertainmentDrawerClosed();
 
-    default public void entertainmentDrawerOpened() {
-    }
+    public void entertainmentDrawerOpened();
 
-    default public IDrawerController getOptionDrawer(long l) {
-    }
+    public IDrawerController getOptionDrawer(long var1);
 
-    default public void languageChanged() {
-    }
+    public void languageChanged();
 
-    default public void clear() {
-    }
+    public void clear();
 }
 

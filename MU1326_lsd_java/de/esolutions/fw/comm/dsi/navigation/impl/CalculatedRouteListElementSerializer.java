@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavSegmentIDSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.navigation.CalculatedRouteListElement;
 
 public class CalculatedRouteListElementSerializer {
-    public static void putOptionalCalculatedRouteListElement(ISerializer iSerializer, CalculatedRouteListElement calculatedRouteListElement) {
+    public static void putOptionalCalculatedRouteListElement(ISerializer iSerializer, CalculatedRouteListElement calculatedRouteListElement) throws SerializerException {
         boolean bl = calculatedRouteListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class CalculatedRouteListElementSerializer {
         }
     }
 
-    public static void putOptionalCalculatedRouteListElementVarArray(ISerializer iSerializer, CalculatedRouteListElement[] calculatedRouteListElementArray) {
+    public static void putOptionalCalculatedRouteListElementVarArray(ISerializer iSerializer, CalculatedRouteListElement[] calculatedRouteListElementArray) throws SerializerException {
         boolean bl = calculatedRouteListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class CalculatedRouteListElementSerializer {
         }
     }
 
-    public static CalculatedRouteListElement getOptionalCalculatedRouteListElement(IDeserializer iDeserializer) {
+    public static CalculatedRouteListElement getOptionalCalculatedRouteListElement(IDeserializer iDeserializer) throws SerializerException {
         CalculatedRouteListElement calculatedRouteListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -125,7 +126,7 @@ public class CalculatedRouteListElementSerializer {
         return calculatedRouteListElement;
     }
 
-    public static CalculatedRouteListElement[] getOptionalCalculatedRouteListElementVarArray(IDeserializer iDeserializer) {
+    public static CalculatedRouteListElement[] getOptionalCalculatedRouteListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         CalculatedRouteListElement[] calculatedRouteListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

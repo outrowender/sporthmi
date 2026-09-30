@@ -16,21 +16,20 @@ import java.util.ArrayList;
 public class LockingGridImageController
 extends AbstractWidgetController
 implements IGridImageLocker {
-    private static final int LOCKING_CODED_DISABLED;
-    private static final int LOCKING_CODED_GREYOUT;
-    private static final int LOCKING_CODED_INVISIBLE;
-    private static final float LOCKING_DEFAULT_SHADING_OPACITY;
-    private static final float LOCKING_FULL_OPACITY;
+    private static final int LOCKING_CODED_DISABLED = 1;
+    private static final int LOCKING_CODED_GREYOUT = 2;
+    private static final int LOCKING_CODED_INVISIBLE = 3;
+    private static final float LOCKING_DEFAULT_SHADING_OPACITY = 0.5f;
+    private static final float LOCKING_FULL_OPACITY = 1.0f;
     ArrayList lockingImages = new ArrayList();
     int currentLockingState;
-    private static final LogChannel log;
+    private static final LogChannel log = AbstractWidget.framework.getLogChannel("App.Online.RemoteHMI");
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        log.log(1078071040, "LockingGridImageController#processModelUpdateEvent() update type %1", (long)modelUpdateEvent.getUpdateType());
+        log.log(1000000, "LockingGridImageController#processModelUpdateEvent() update type %1", (long)modelUpdateEvent.getUpdateType());
         if (modelUpdateEvent.getModelType() == 2 && modelUpdateEvent.getUpdateType() == 1) {
             int n = ((ChoiceModelGUI)this.model).getValue();
-            log.log(1078071040, "LockingGridImageController#processModelUpdateEvent: new value %1 old value %2", (long)n, (long)this.currentLockingState);
+            log.log(1000000, "LockingGridImageController#processModelUpdateEvent: new value %1 old value %2", (long)n, (long)this.currentLockingState);
             if (n != this.currentLockingState) {
                 this.currentLockingState = n;
                 this.applyLockingStateToAllImages();
@@ -38,26 +37,22 @@ implements IGridImageLocker {
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void disconnecting() {
         this.clearMenuImages();
         super.disconnecting();
     }
 
-    @Override
     protected void afterConnected() {
         if (this.model instanceof ChoiceModelGUI) {
             this.currentLockingState = ((ChoiceModelGUI)this.model).getValue();
         }
-        log.log(1078071040, "LockingGridImageController#afterConnected locking state %1, number of referenced images is %2", (long)this.currentLockingState, (long)this.lockingImages.size());
+        log.log(1000000, "LockingGridImageController#afterConnected locking state %1, number of referenced images is %2", (long)this.currentLockingState, (long)this.lockingImages.size());
     }
 
-    @Override
     public void addLockImage(IconController iconController) {
         if (iconController != null) {
             this.lockingImages.add(iconController);
@@ -65,15 +60,13 @@ implements IGridImageLocker {
         }
     }
 
-    @Override
     public int getCurrentLockingState() {
         return this.currentLockingState;
     }
 
-    @Override
     public void clearMenuImages() {
         if (this.lockingImages != null) {
-            log.log(1078071040, "LockingGridImageController#clearMenuImages");
+            log.log(1000000, "LockingGridImageController#clearMenuImages");
             this.lockingImages.clear();
         }
     }
@@ -89,14 +82,10 @@ implements IGridImageLocker {
             iconController.setVisible(true);
             iconController.setOpacity(1.0f);
         } else if (this.currentLockingState == 2) {
-            iconController.setOpacity(63);
+            iconController.setOpacity(0.5f);
         } else if (this.currentLockingState == 3) {
             iconController.setVisible(false);
         }
-    }
-
-    static {
-        log = AbstractWidget.framework.getLogChannel("App.Online.RemoteHMI");
     }
 }
 

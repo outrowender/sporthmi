@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.PosPosition;
 
 public class PosPositionSerializer {
-    public static void putOptionalPosPosition(ISerializer iSerializer, PosPosition posPosition) {
+    public static void putOptionalPosPosition(ISerializer iSerializer, PosPosition posPosition) throws SerializerException {
         boolean bl = posPosition == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class PosPositionSerializer {
         }
     }
 
-    public static void putOptionalPosPositionVarArray(ISerializer iSerializer, PosPosition[] posPositionArray) {
+    public static void putOptionalPosPositionVarArray(ISerializer iSerializer, PosPosition[] posPositionArray) throws SerializerException {
         boolean bl = posPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class PosPositionSerializer {
         }
     }
 
-    public static PosPosition getOptionalPosPosition(IDeserializer iDeserializer) {
+    public static PosPosition getOptionalPosPosition(IDeserializer iDeserializer) throws SerializerException {
         PosPosition posPosition = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -91,7 +92,7 @@ public class PosPositionSerializer {
         return posPosition;
     }
 
-    public static PosPosition[] getOptionalPosPositionVarArray(IDeserializer iDeserializer) {
+    public static PosPosition[] getOptionalPosPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         PosPosition[] posPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

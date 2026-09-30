@@ -4,7 +4,6 @@
 package java.text;
 
 import com.ibm.oti.text.Normalizer;
-import com.ibm.oti.text.Normalizer$Mode;
 import java.text.CharacterIterator;
 import java.text.EntryPair;
 import java.text.RBCollationTables;
@@ -12,8 +11,8 @@ import java.text.RuleBasedCollator;
 import java.util.Vector;
 
 public final class CollationElementIterator {
-    public static final int NULLORDER;
-    static final int UNMAPPEDCHARVALUE;
+    public static final int NULLORDER = -1;
+    static final int UNMAPPEDCHARVALUE = 0x7FFF0000;
     private Normalizer text = null;
     private int[] buffer = null;
     private int[] ownBuffer = new int[2];
@@ -27,23 +26,23 @@ public final class CollationElementIterator {
         this.owner = ruleBasedCollator;
         this.ordering = ruleBasedCollator.getTables();
         if (string.length() != 0) {
-            Normalizer$Mode normalizer$Mode = Normalizer.getMode(ruleBasedCollator.getDecomposition());
-            this.text = new Normalizer(string, normalizer$Mode);
+            Normalizer.Mode mode = Normalizer.getMode(ruleBasedCollator.getDecomposition());
+            this.text = new Normalizer(string, mode);
         }
     }
 
     CollationElementIterator(CharacterIterator characterIterator, RuleBasedCollator ruleBasedCollator) {
         this.owner = ruleBasedCollator;
         this.ordering = ruleBasedCollator.getTables();
-        Normalizer$Mode normalizer$Mode = Normalizer.getMode(ruleBasedCollator.getDecomposition());
-        this.text = new Normalizer(characterIterator, normalizer$Mode);
+        Normalizer.Mode mode = Normalizer.getMode(ruleBasedCollator.getDecomposition());
+        this.text = new Normalizer(characterIterator, mode);
     }
 
     public void reset() {
         if (this.text != null) {
             this.text.reset();
-            Normalizer$Mode normalizer$Mode = Normalizer.getMode(this.owner.getDecomposition());
-            this.text.setMode(normalizer$Mode);
+            Normalizer.Mode mode = Normalizer.getMode(this.owner.getDecomposition());
+            this.text.setMode(mode);
         }
         this.buffer = null;
         this.expIndex = 0;
@@ -51,13 +50,13 @@ public final class CollationElementIterator {
 
     public int next() {
         char c2;
-        Normalizer$Mode normalizer$Mode;
+        Normalizer.Mode mode;
         if (this.text == null) {
             return -1;
         }
-        Normalizer$Mode normalizer$Mode2 = this.text.getMode();
-        if (normalizer$Mode2 != (normalizer$Mode = Normalizer.getMode(this.owner.getDecomposition()))) {
-            this.text.setMode(normalizer$Mode);
+        Normalizer.Mode mode2 = this.text.getMode();
+        if (mode2 != (mode = Normalizer.getMode(this.owner.getDecomposition()))) {
+            this.text.setMode(mode);
         }
         if (this.buffer != null) {
             if (this.expIndex < this.buffer.length) {
@@ -65,25 +64,25 @@ public final class CollationElementIterator {
             }
             this.buffer = null;
         }
-        if ((c2 = this.text.next()) == '\uffff0000') {
+        if ((c2 = this.text.next()) == '\uffff') {
             return -1;
         }
         int n = this.ordering.getUnicodeOrder(c2);
         if (n == -1) {
-            this.ownBuffer[0] = 65407;
+            this.ownBuffer[0] = 0x7FFF0000;
             this.ownBuffer[1] = c2 << 16;
             this.buffer = this.ownBuffer;
-        } else if (n >= 127) {
+        } else if (n >= 0x7F000000) {
             n = this.nextContractChar(c2);
         }
-        if (n >= 126) {
+        if (n >= 0x7E000000) {
             this.buffer = this.ordering.getExpandValueList(n);
         }
         if (this.ordering.isSEAsianSwapping()) {
             char c3;
             if (CollationElementIterator.isThaiPreVowel(c2)) {
                 c3 = this.text.next();
-                if (c3 == '\uffff0000') {
+                if (c3 == '\uffff') {
                     return -1;
                 }
                 if (CollationElementIterator.isThaiBaseConsonant(c3)) {
@@ -94,7 +93,7 @@ public final class CollationElementIterator {
             }
             if (CollationElementIterator.isLaoPreVowel(c2)) {
                 c3 = this.text.next();
-                if (c3 == '\uffff0000') {
+                if (c3 == '\uffff') {
                     return -1;
                 }
                 if (CollationElementIterator.isLaoBaseConsonant(c3)) {
@@ -113,13 +112,13 @@ public final class CollationElementIterator {
 
     public int previous() {
         char c2;
-        Normalizer$Mode normalizer$Mode;
+        Normalizer.Mode mode;
         if (this.text == null) {
             return -1;
         }
-        Normalizer$Mode normalizer$Mode2 = this.text.getMode();
-        if (normalizer$Mode2 != (normalizer$Mode = Normalizer.getMode(this.owner.getDecomposition()))) {
-            this.text.setMode(normalizer$Mode);
+        Normalizer.Mode mode2 = this.text.getMode();
+        if (mode2 != (mode = Normalizer.getMode(this.owner.getDecomposition()))) {
+            this.text.setMode(mode);
         }
         if (this.buffer != null) {
             if (this.expIndex > 0) {
@@ -127,19 +126,19 @@ public final class CollationElementIterator {
             }
             this.buffer = null;
         }
-        if ((c2 = this.text.previous()) == '\uffff0000') {
+        if ((c2 = this.text.previous()) == '\uffff') {
             return -1;
         }
         int n = this.ordering.getUnicodeOrder(c2);
         if (n == -1) {
-            this.ownBuffer[0] = 65407;
+            this.ownBuffer[0] = 0x7FFF0000;
             this.ownBuffer[1] = c2 << 16;
             this.buffer = this.ownBuffer;
         } else {
-            if (n >= 127) {
+            if (n >= 0x7F000000) {
                 n = this.prevContractChar(c2);
             }
-            if (n >= 126) {
+            if (n >= 0x7E000000) {
                 this.buffer = this.ordering.getExpandValueList(n);
             }
             if (this.ordering.isSEAsianSwapping()) {
@@ -171,11 +170,11 @@ public final class CollationElementIterator {
     }
 
     public static final int primaryOrder(int n) {
-        return (n &= 0xFFFF) >>> 16;
+        return (n &= 0xFFFF0000) >>> 16;
     }
 
     public static final short secondaryOrder(int n) {
-        return (short)((n &= 0xFF0000) >> 8);
+        return (short)((n &= 0xFF00) >> 8);
     }
 
     public static final short tertiaryOrder(int n) {
@@ -185,7 +184,7 @@ public final class CollationElementIterator {
     final int strengthOrder(int n) {
         int n2 = this.owner.getStrength();
         if (n2 == 0) {
-            n &= 0xFFFF;
+            n &= 0xFFFF0000;
         } else if (n2 == 1) {
             n &= 0xFFFFFF00;
         }
@@ -226,22 +225,22 @@ public final class CollationElementIterator {
 
     public void setText(String string) {
         this.buffer = null;
-        Normalizer$Mode normalizer$Mode = Normalizer.getMode(this.owner.getDecomposition());
+        Normalizer.Mode mode = Normalizer.getMode(this.owner.getDecomposition());
         if (this.text == null) {
-            this.text = new Normalizer(string, normalizer$Mode);
+            this.text = new Normalizer(string, mode);
         } else {
-            this.text.setMode(normalizer$Mode);
+            this.text.setMode(mode);
             this.text.setText(string);
         }
     }
 
     public void setText(CharacterIterator characterIterator) {
         this.buffer = null;
-        Normalizer$Mode normalizer$Mode = Normalizer.getMode(this.owner.getDecomposition());
+        Normalizer.Mode mode = Normalizer.getMode(this.owner.getDecomposition());
         if (this.text == null) {
-            this.text = new Normalizer(characterIterator, normalizer$Mode);
+            this.text = new Normalizer(characterIterator, mode);
         } else {
-            this.text.setMode(normalizer$Mode);
+            this.text.setMode(mode);
             this.text.setText(characterIterator);
         }
     }
@@ -266,11 +265,11 @@ public final class CollationElementIterator {
         int[] nArray2;
         int n2;
         int n3 = this.ordering.getUnicodeOrder(c2);
-        if (n3 >= 127) {
+        if (n3 >= 0x7F000000) {
             n3 = bl ? this.nextContractChar(c2) : this.prevContractChar(c2);
         }
         int[] nArray3 = null;
-        if (n3 >= 126) {
+        if (n3 >= 0x7E000000) {
             nArray3 = this.ordering.getExpandValueList(n3);
         }
         if (!bl) {
@@ -315,7 +314,7 @@ public final class CollationElementIterator {
         normalizer.previous();
         this.key.setLength(0);
         char c3 = normalizer.next();
-        while (n2 > 0 && c3 != '\uffff0000') {
+        while (n2 > 0 && c3 != '\uffff') {
             this.key.append(c3);
             --n2;
             c3 = normalizer.next();
@@ -348,7 +347,7 @@ public final class CollationElementIterator {
         normalizer.next();
         this.key.setLength(0);
         char c3 = normalizer.previous();
-        while (n2 > 0 && c3 != '\uffff0000') {
+        while (n2 > 0 && c3 != '\uffff') {
             this.key.append(c3);
             --n2;
             c3 = normalizer.previous();

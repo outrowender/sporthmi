@@ -52,7 +52,7 @@ public class sNavCorrectedPosition {
     }
 
     public String toString() {
-        return new StringBuffer("sNavCorrectedPosition{").append("msg_id=").append(this.msg_id).append(", valuesOK=").append(this.valuesOK).append(", longitude=").append(this.longitude).append(", latitude=").append(this.latitude).append("}").toString();
+        return "sNavCorrectedPosition{" + "msg_id=" + this.msg_id + ", valuesOK=" + this.valuesOK + ", longitude=" + this.longitude + ", latitude=" + this.latitude + "}";
     }
 }
 

@@ -16,7 +16,6 @@ extends Command {
         this.updateEvents = brokerServiceUpdateArray;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doBrokerServiceUpdate(this.updateEvents);
     }

@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.message.ITraceMessage;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.LogDataMessage;
@@ -24,8 +25,7 @@ extends AbstractMessage {
         super(MessageType.BULK_LOG_DATA);
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         int n = 0;
         if (this.msgs != null) {
             n = this.msgs.length;
@@ -37,8 +37,7 @@ extends AbstractMessage {
         }
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         int n = iDeserializer.getInt32();
         this.msgs = new ITraceMessage[n];
         for (int i2 = 0; i2 < n; ++i2) {
@@ -52,7 +51,6 @@ extends AbstractMessage {
         return this.msgs;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         int n = 0;
         if (this.msgs != null) {

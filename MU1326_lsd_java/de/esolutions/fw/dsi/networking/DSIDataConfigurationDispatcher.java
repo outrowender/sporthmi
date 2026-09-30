@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.networking;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.networking.DSIDataConfigurationReply;
 import de.esolutions.fw.comm.dsi.networking.impl.DSIDataConfigurationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIDataConfigurationReply {
         super(n, (class$org$dsi$ifc$networking$DSIDataConfigurationListener == null ? (class$org$dsi$ifc$networking$DSIDataConfigurationListener = DSIDataConfigurationDispatcher.class$("org.dsi.ifc.networking.DSIDataConfigurationListener")) : class$org$dsi$ifc$networking$DSIDataConfigurationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateAvailableProfiles(CDataProfile[] cDataProfileArray, int n) {
+    public void updateAvailableProfiles(CDataProfile[] cDataProfileArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void updateActiveProfile(int n, int n2) {
+    public void updateActiveProfile(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void updateRoamingState(int n, int n2) {
+    public void updateRoamingState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void updateConnectionMode(int n, int n2) {
+    public void updateConnectionMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void updateDataRequest(int n, int n2) {
+    public void updateDataRequest(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -174,8 +169,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void updateRequestSetting(int n, int n2, int n3) {
+    public void updateRequestSetting(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -203,8 +197,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void setDataProfileResponse(CDataProfile cDataProfile, int n) {
+    public void setDataProfileResponse(CDataProfile cDataProfile, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -220,8 +213,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) {
+    public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -237,8 +229,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void setRoamingStateResponse(int n) {
+    public void setRoamingStateResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -254,8 +245,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void setConnectionModeResponse(int n) {
+    public void setConnectionModeResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -271,8 +261,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void setRequestSettingResponse(int n) {
+    public void setRequestSettingResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -288,8 +277,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void acceptDataRequestResponse(int n) {
+    public void acceptDataRequestResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -305,8 +293,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void resetPacketCounterResponse(int n) {
+    public void resetPacketCounterResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -322,8 +309,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void restoreFactorySettingsResponse(int n) {
+    public void restoreFactorySettingsResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -339,8 +325,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void updatePacketCounter(CPacketCounter cPacketCounter, int n) {
+    public void updatePacketCounter(CPacketCounter cPacketCounter, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -368,8 +353,7 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -385,14 +369,13 @@ implements DSIDataConfigurationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDataConfigurationListener dSIDataConfigurationListener = (DSIDataConfigurationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDataConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDataConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDataConfigurationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDataConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDataConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDataConfigurationListener, new Object[]{string, string2});
                     continue;
                 }

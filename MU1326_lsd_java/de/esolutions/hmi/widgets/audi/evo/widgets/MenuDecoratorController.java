@@ -4,6 +4,7 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 import de.audi.atip.hmi.event.ATIPEvent;
+import de.audi.atip.hmi.event.ATIPEventListener;
 import de.audi.atip.hmi.event.TimerEvent;
 import de.audi.atip.util.Util;
 import de.esolutions.fw.util.commons.job.Job;
@@ -11,7 +12,6 @@ import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
-import de.esolutions.hmi.widgets.audi.evo.widgets.MenuDecoratorController$1;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuCallback;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
@@ -21,14 +21,13 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateDelta;
 public class MenuDecoratorController
 extends AbstractWidgetController
 implements IMenuCallback {
-    private static final int TIMEOUT_SHOW_OVERLAY_DECORATORS;
+    private static final int TIMEOUT_SHOW_OVERLAY_DECORATORS = 500;
     private boolean hideOverlayDecoratorDuringScrolling = true;
     private TimerEvent timerEventShowOverlayDecorators;
     private Job timerJobShowOverlayDecorators;
     private CompositeRenderer renderer;
     private MenuController menu;
 
-    @Override
     public void disconnecting() {
         this.cancelOverlayDecoratorShowTimer();
         this.timerJobShowOverlayDecorators = null;
@@ -37,7 +36,6 @@ implements IMenuCallback {
         super.disconnecting();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -46,39 +44,41 @@ implements IMenuCallback {
         this.renderer = compositeRenderer;
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
         this.menu = menuController;
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
         if (this.hideOverlayDecoratorDuringScrolling && !Util.equals(menuItemIndex, this.menu.getFocusedIndex())) {
-            menuLogCh.log(-2137614336, "MenuDecoratorController#menuFocusChanged hide decorator");
+            menuLogCh.log(10000000, "MenuDecoratorController#menuFocusChanged hide decorator");
             this.setOnScreen(false);
             this.cancelOverlayDecoratorShowTimer();
         }
     }
 
-    @Override
     public void menuFocusChangeFinished() {
         if (this.hideOverlayDecoratorDuringScrolling) {
             this.restartOverlayDecoratorShowTimer(this.menu);
         }
     }
 
-    private void restartOverlayDecoratorShowTimer(MenuController menuController) {
+    private void restartOverlayDecoratorShowTimer(final MenuController menuController) {
         this.cancelOverlayDecoratorShowTimer();
         if (this.timerEventShowOverlayDecorators == null) {
-            this.timerEventShowOverlayDecorators = new TimerEvent(new MenuDecoratorController$1(this, menuController));
+            this.timerEventShowOverlayDecorators = new TimerEvent(new ATIPEventListener(){
+
+                public void processEvent(ATIPEvent aTIPEvent) {
+                    MenuDecoratorController.this.overlayDecoratorShowTimerFired(aTIPEvent, menuController);
+                }
+            });
         }
-        menuLogCh.log(-2137614336, "MenuDecoratorController#restartOverlayDecoratorShowTimer with timeout: %1", (long)0);
-        this.timerJobShowOverlayDecorators = hmiService.getEventDispatcher().postEvent(this.timerEventShowOverlayDecorators, 0);
+        menuLogCh.log(10000000, "MenuDecoratorController#restartOverlayDecoratorShowTimer with timeout: %1", 500L);
+        this.timerJobShowOverlayDecorators = hmiService.getEventDispatcher().postEvent(this.timerEventShowOverlayDecorators, 500L);
     }
 
     public void cancelOverlayDecoratorShowTimer() {
         if (this.timerJobShowOverlayDecorators != null && !this.timerJobShowOverlayDecorators.isCanceled()) {
-            menuLogCh.log(-2137614336, "MenuDecoratorController#cancelOverlayDecoratorShowTimer");
+            menuLogCh.log(10000000, "MenuDecoratorController#cancelOverlayDecoratorShowTimer");
             this.timerJobShowOverlayDecorators.cancel();
             this.timerJobShowOverlayDecorators = null;
         }
@@ -89,7 +89,7 @@ implements IMenuCallback {
             this.timerJobShowOverlayDecorators = null;
             this.showOverlayDecorators(menuController);
         } else {
-            menuLogCh.log(-1601830656, "MenuDecoratorController#overlayDecoratorShowTimerFired is called with unexpected timer: %1, expected timer: %2, menu: %3", (Object)aTIPEvent, (Object)this.timerEventShowOverlayDecorators, (Object)menuController);
+            menuLogCh.log(100000, "MenuDecoratorController#overlayDecoratorShowTimerFired is called with unexpected timer: %1, expected timer: %2, menu: %3", (Object)aTIPEvent, (Object)this.timerEventShowOverlayDecorators, (Object)menuController);
         }
     }
 
@@ -97,13 +97,13 @@ implements IMenuCallback {
         boolean bl;
         boolean bl2 = bl = !this.isCursorOnTouchPad(menuController);
         if (bl == this.isOnScreen()) {
-            menuLogCh.log(-2137614336, "MenuDecoratorController#overlayDecoratorShowTimerFired: timer fired. visibility didn't change. visible: %1, menu: %2", bl, (Object)menuController);
+            menuLogCh.log(10000000, "MenuDecoratorController#overlayDecoratorShowTimerFired: timer fired. visibility didn't change. visible: %1, menu: %2", bl, (Object)menuController);
             return;
         }
-        menuLogCh.log(-2137614336, "MenuDecoratorController#overlayDecoratorShowTimerFired. show decorators: %1, menu: %2", bl, (Object)menuController);
+        menuLogCh.log(10000000, "MenuDecoratorController#overlayDecoratorShowTimerFired. show decorators: %1, menu: %2", bl, (Object)menuController);
         this.setOnScreen(bl);
         if (logRepaintCause.isDebug()) {
-            logRepaintCause.log(-2137614336, "MenuDecoratorController#showOverlayDecorators: trigger repaint. screen id: %2, show overlays: %1", (Object)bl, (long)this.getScreenId());
+            logRepaintCause.log(10000000, "MenuDecoratorController#showOverlayDecorators: trigger repaint. screen id: %2, show overlays: %1", (Object)bl, (long)this.getScreenId());
         }
         this.triggerRepaint();
     }
@@ -120,25 +120,17 @@ implements IMenuCallback {
         return this.hideOverlayDecoratorDuringScrolling;
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
         this.hideOverlayDecoratorDuringScrolling = bl;
     }
 
-    @Override
     public void menuLayouted() {
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
-    }
-
-    static /* synthetic */ void access$000(MenuDecoratorController menuDecoratorController, ATIPEvent aTIPEvent, MenuController menuController) {
-        menuDecoratorController.overlayDecoratorShowTimerFired(aTIPEvent, menuController);
     }
 }
 

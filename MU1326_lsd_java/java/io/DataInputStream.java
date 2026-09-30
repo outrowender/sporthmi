@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
@@ -12,42 +9,33 @@ import com.ibm.oti.vm.VM;
 import java.io.DataInput;
 import java.io.EOFException;
 import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 
 public class DataInputStream
 extends FilterInputStream
 implements DataInput {
-    static final int MAX_BUF_SIZE;
-    private static final boolean useNative;
-    static boolean useShared;
-    static byte[] byteBuf;
-    static char[] charBuf;
+    static final int MAX_BUF_SIZE = 8192;
+    private static final boolean useNative = VM.useNatives();
+    static boolean useShared = true;
+    static byte[] byteBuf = new byte[0];
+    static char[] charBuf = new char[0];
     static /* synthetic */ Class class$0;
-
-    static {
-        useNative = VM.useNatives();
-        useShared = true;
-        byteBuf = new byte[0];
-        charBuf = new char[0];
-    }
 
     public DataInputStream(InputStream inputStream) {
         super(inputStream);
     }
 
-    @Override
-    public final int read(byte[] byArray) {
+    public final int read(byte[] byArray) throws IOException {
         return this.in.read(byArray, 0, byArray.length);
     }
 
-    @Override
-    public final int read(byte[] byArray, int n, int n2) {
+    public final int read(byte[] byArray, int n, int n2) throws IOException {
         return this.in.read(byArray, n, n2);
     }
 
-    @Override
-    public final boolean readBoolean() {
+    public final boolean readBoolean() throws IOException {
         int n = this.in.read();
         if (n >= 0) {
             return n != 0;
@@ -55,8 +43,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final byte readByte() {
+    public final byte readByte() throws IOException {
         int n = this.in.read();
         if (n >= 0) {
             return (byte)n;
@@ -64,8 +51,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final char readChar() {
+    public final char readChar() throws IOException {
         int n;
         int n2 = this.in.read();
         if ((n2 | (n = this.in.read())) >= 0) {
@@ -74,18 +60,15 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final double readDouble() {
-        return Double.longBitsToDouble((long)this.readLong());
+    public final double readDouble() throws IOException {
+        return Double.longBitsToDouble(this.readLong());
     }
 
-    @Override
-    public final float readFloat() {
+    public final float readFloat() throws IOException {
         return Float.intBitsToFloat(this.readInt());
     }
 
-    @Override
-    public final void readFully(byte[] byArray) {
+    public final void readFully(byte[] byArray) throws IOException {
         this.readFully(byArray, 0, byArray.length);
     }
 
@@ -93,8 +76,7 @@ implements DataInput {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public final void readFully(byte[] byArray, int n, int n2) {
+    public final void readFully(byte[] byArray, int n, int n2) throws IOException {
         if (byArray == null) throw new NullPointerException(Msg.getString("K0047"));
         if (n < 0 || n > byArray.length || n2 < 0 || n2 > byArray.length - n) throw new IndexOutOfBoundsException();
         while (n2 > 0) {
@@ -105,8 +87,7 @@ implements DataInput {
         }
     }
 
-    @Override
-    public final int readInt() {
+    public final int readInt() throws IOException {
         int n;
         int n2;
         int n3;
@@ -117,8 +98,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final String readLine() {
+    public final String readLine() throws IOException {
         StringBuffer stringBuffer = new StringBuffer(80);
         boolean bl = false;
         block7: while (true) {
@@ -136,7 +116,7 @@ implements DataInput {
                         return stringBuffer.toString();
                     }
                     bl = true;
-                    Class clazz = super.getClass();
+                    Class clazz = this.in.getClass();
                     Class clazz2 = class$0;
                     if (clazz2 == null) {
                         try {
@@ -162,8 +142,7 @@ implements DataInput {
         }
     }
 
-    @Override
-    public final long readLong() {
+    public final long readLong() throws IOException {
         int n;
         int n2;
         int n3;
@@ -175,8 +154,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final short readShort() {
+    public final short readShort() throws IOException {
         int n;
         int n2 = this.in.read();
         if ((n2 | (n = this.in.read())) >= 0) {
@@ -185,8 +163,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final int readUnsignedByte() {
+    public final int readUnsignedByte() throws IOException {
         int n = this.in.read();
         if (n >= 0) {
             return n;
@@ -194,8 +171,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final int readUnsignedShort() {
+    public final int readUnsignedShort() throws IOException {
         int n;
         int n2 = this.in.read();
         if ((n2 | (n = this.in.read())) >= 0) {
@@ -204,8 +180,7 @@ implements DataInput {
         throw new EOFException();
     }
 
-    @Override
-    public final String readUTF() {
+    public final String readUTF() throws IOException {
         int n = this.readUnsignedShort();
         return this.decodeUTF(n);
     }
@@ -218,7 +193,7 @@ implements DataInput {
      * Converted monitor instructions to comments
      * Lifted jumps to return sites
      */
-    String decodeUTF(int n) {
+    String decodeUTF(int n) throws IOException {
         byte[] byArray;
         Object object;
         char[] cArray = null;
@@ -254,12 +229,11 @@ implements DataInput {
         return object;
     }
 
-    public static final String readUTF(DataInput dataInput) {
+    public static final String readUTF(DataInput dataInput) throws IOException {
         return dataInput.readUTF();
     }
 
-    @Override
-    public final int skipBytes(int n) {
+    public final int skipBytes(int n) throws IOException {
         long l;
         int n2 = 0;
         while (n2 < n && (l = this.in.skip(n - n2)) != 0L) {

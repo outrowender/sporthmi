@@ -4,7 +4,6 @@
 package java.lang;
 
 public interface Comparable {
-    default public int compareTo(Object object) {
-    }
+    public int compareTo(Object var1);
 }
 

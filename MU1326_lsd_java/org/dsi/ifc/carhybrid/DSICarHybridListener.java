@@ -32,133 +32,90 @@ import org.dsi.ifc.carhybrid.HybridViewOptions;
 
 public interface DSICarHybridListener
 extends DSIListener {
-    default public void updateHybridViewOptions(HybridViewOptions hybridViewOptions, int n) {
-    }
+    public void updateHybridViewOptions(HybridViewOptions var1, int var2);
 
-    default public void updateHybridCharge(int n, int n2) {
-    }
+    public void updateHybridCharge(int var1, int var2);
 
-    default public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState, int n) {
-    }
+    public void updateHybridEnergyFlowState(HybridEnergyFlowState var1, int var2);
 
-    default public void updateHybridRecoveredEnergy(int n, int n2) {
-    }
+    public void updateHybridRecoveredEnergy(int var1, int var2);
 
-    default public void updateHybridEnergyFlow(int n, int n2) {
-    }
+    public void updateHybridEnergyFlow(int var1, int var2);
 
-    default public void updateHybridEnergyAssistControl(boolean bl, int n) {
-    }
+    public void updateHybridEnergyAssistControl(boolean var1, int var2);
 
-    default public void updateHybridEnergyAssistState(int n, int n2) {
-    }
+    public void updateHybridEnergyAssistState(int var1, int var2);
 
-    default public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) {
-    }
+    public void updateBatteryControlViewOptions(BatteryControlViewOptions var1, int var2);
 
-    default public void updateBatteryControlPlug(BatteryControlPlug batteryControlPlug, int n) {
-    }
+    public void updateBatteryControlPlug(BatteryControlPlug var1, int var2);
 
-    default public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState, int n) {
-    }
+    public void updateBatteryControlChargeState(BatteryControlChargeState var1, int var2);
 
-    default public void updateBatteryControlClimateState(BatteryControlClimateState batteryControlClimateState, int n) {
-    }
+    public void updateBatteryControlClimateState(BatteryControlClimateState var1, int var2);
 
-    default public void updateBatteryControlTimerState(BatteryControlTimerState batteryControlTimerState, int n) {
-    }
+    public void updateBatteryControlTimerState(BatteryControlTimerState var1, int var2);
 
-    default public void updateBatteryControlTimer1(BatteryControlTimer batteryControlTimer, int n) {
-    }
+    public void updateBatteryControlTimer1(BatteryControlTimer var1, int var2);
 
-    default public void updateBatteryControlTimer2(BatteryControlTimer batteryControlTimer, int n) {
-    }
+    public void updateBatteryControlTimer2(BatteryControlTimer var1, int var2);
 
-    default public void updateBatteryControlTimer3(BatteryControlTimer batteryControlTimer, int n) {
-    }
+    public void updateBatteryControlTimer3(BatteryControlTimer var1, int var2);
 
-    default public void updateBatteryControlTimer4(BatteryControlTimer batteryControlTimer, int n) {
-    }
+    public void updateBatteryControlTimer4(BatteryControlTimer var1, int var2);
 
-    default public void updateBatteryControlTotalNumberOfProfiles(int n, int n2) {
-    }
+    public void updateBatteryControlTotalNumberOfProfiles(int var1, int var2);
 
-    default public void updateBatteryControlProfilesListUpdateInfo(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray, int n) {
-    }
+    public void updateBatteryControlProfilesListUpdateInfo(BatteryControlProfilesAH var1, int[] var2, int var3);
 
-    default public void updateBatteryControlTotalNumberOfPowerProvider(int n, int n2) {
-    }
+    public void updateBatteryControlTotalNumberOfPowerProvider(int var1, int var2);
 
-    default public void updateBatteryControlPowerProviderListUpdateInfo(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray, int n) {
-    }
+    public void updateBatteryControlPowerProviderListUpdateInfo(BatteryControlPowerProviderAH var1, int[] var2, int var3);
 
-    default public void acknowledgeBatteryControlSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeBatteryControlSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeBatteryControlImmediately(boolean bl, int n) {
-    }
+    public void acknowledgeBatteryControlImmediately(boolean var1, int var2);
 
-    default public void responseProfileListRA0(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA0[] batteryControlProfileRA0Array) {
-    }
+    public void responseProfileListRA0(BatteryControlProfilesAH var1, BatteryControlProfileRA0[] var2);
 
-    default public void responseProfileListRA1(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA1[] batteryControlProfileRA1Array) {
-    }
+    public void responseProfileListRA1(BatteryControlProfilesAH var1, BatteryControlProfileRA1[] var2);
 
-    default public void responseProfileListRA2(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA2[] batteryControlProfileRA2Array) {
-    }
+    public void responseProfileListRA2(BatteryControlProfilesAH var1, BatteryControlProfileRA2[] var2);
 
-    default public void responseProfileListRA3(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA3[] batteryControlProfileRA3Array) {
-    }
+    public void responseProfileListRA3(BatteryControlProfilesAH var1, BatteryControlProfileRA3[] var2);
 
-    default public void responseProfileListRA4(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA4[] batteryControlProfileRA4Array) {
-    }
+    public void responseProfileListRA4(BatteryControlProfilesAH var1, BatteryControlProfileRA4[] var2);
 
-    default public void responseProfileListRA5(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA5[] batteryControlProfileRA5Array) {
-    }
+    public void responseProfileListRA5(BatteryControlProfilesAH var1, BatteryControlProfileRA5[] var2);
 
-    default public void responseProfileListRA6(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA6[] batteryControlProfileRA6Array) {
-    }
+    public void responseProfileListRA6(BatteryControlProfilesAH var1, BatteryControlProfileRA6[] var2);
 
-    default public void responseProfileListRA7(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA7[] batteryControlProfileRA7Array) {
-    }
+    public void responseProfileListRA7(BatteryControlProfilesAH var1, BatteryControlProfileRA7[] var2);
 
-    default public void responseProfileListRAF(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray) {
-    }
+    public void responseProfileListRAF(BatteryControlProfilesAH var1, int[] var2);
 
-    default public void responsePowerProviderListRA0(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) {
-    }
+    public void responsePowerProviderListRA0(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRA0[] var2);
 
-    default public void responsePowerProviderListRA1(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA1[] batteryControlPowerProviderRA1Array) {
-    }
+    public void responsePowerProviderListRA1(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRA1[] var2);
 
-    default public void responsePowerProviderListRA2(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) {
-    }
+    public void responsePowerProviderListRA2(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRA2[] var2);
 
-    default public void responsePowerProviderListRAE(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRAE[] batteryControlPowerProviderRAEArray) {
-    }
+    public void responsePowerProviderListRAE(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRAE[] var2);
 
-    default public void responsePowerProviderListRAF(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray) {
-    }
+    public void responsePowerProviderListRAF(BatteryControlPowerProviderAH var1, int[] var2);
 
-    default public void updateHybridTargetRange(HybridTargetRange hybridTargetRange, int n) {
-    }
+    public void updateHybridTargetRange(HybridTargetRange var1, int var2);
 
-    default public void updateBatteryControlPastErrorReason(int n, int n2, int n3, int n4) {
-    }
+    public void updateBatteryControlPastErrorReason(int var1, int var2, int var3, int var4);
 
-    default public void updateBatteryControlPlugDisplayState(int n, int n2, int n3) {
-    }
+    public void updateBatteryControlPlugDisplayState(int var1, int var2, int var3);
 
-    default public void updateBatteryControlRemainingChargeTime(BatteryControlRemainingChargeTime batteryControlRemainingChargeTime, BatteryControlRemainingChargeTime batteryControlRemainingChargeTime2, int n) {
-    }
+    public void updateBatteryControlRemainingChargeTime(BatteryControlRemainingChargeTime var1, BatteryControlRemainingChargeTime var2, int var3);
 
-    default public void updateBatteryControlLowestMaxCurrent(int n, int n2) {
-    }
+    public void updateBatteryControlLowestMaxCurrent(int var1, int var2);
 
-    default public void updateHybridInhibitReason(HybridInhibitReason hybridInhibitReason, int n) {
-    }
+    public void updateHybridInhibitReason(HybridInhibitReason var1, int var2);
 
-    default public void updateHybridActivePedal(boolean bl, int n) {
-    }
+    public void updateHybridActivePedal(boolean var1, int var2);
 }
 

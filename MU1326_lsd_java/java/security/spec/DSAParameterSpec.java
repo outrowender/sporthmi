@@ -14,17 +14,14 @@ DSAParams {
     private BigInteger q;
     private BigInteger g;
 
-    @Override
     public BigInteger getG() {
         return this.g;
     }
 
-    @Override
     public BigInteger getP() {
         return this.p;
     }
 
-    @Override
     public BigInteger getQ() {
         return this.q;
     }

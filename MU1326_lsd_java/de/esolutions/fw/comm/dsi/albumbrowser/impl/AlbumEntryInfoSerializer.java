@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.albumbrowser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.albumbrowser.AlbumEntryInfo;
 
 public class AlbumEntryInfoSerializer {
-    public static void putOptionalAlbumEntryInfo(ISerializer iSerializer, AlbumEntryInfo albumEntryInfo) {
+    public static void putOptionalAlbumEntryInfo(ISerializer iSerializer, AlbumEntryInfo albumEntryInfo) throws SerializerException {
         boolean bl = albumEntryInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class AlbumEntryInfoSerializer {
         }
     }
 
-    public static void putOptionalAlbumEntryInfoVarArray(ISerializer iSerializer, AlbumEntryInfo[] albumEntryInfoArray) {
+    public static void putOptionalAlbumEntryInfoVarArray(ISerializer iSerializer, AlbumEntryInfo[] albumEntryInfoArray) throws SerializerException {
         boolean bl = albumEntryInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class AlbumEntryInfoSerializer {
         }
     }
 
-    public static AlbumEntryInfo getOptionalAlbumEntryInfo(IDeserializer iDeserializer) {
+    public static AlbumEntryInfo getOptionalAlbumEntryInfo(IDeserializer iDeserializer) throws SerializerException {
         AlbumEntryInfo albumEntryInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class AlbumEntryInfoSerializer {
         return albumEntryInfo;
     }
 
-    public static AlbumEntryInfo[] getOptionalAlbumEntryInfoVarArray(IDeserializer iDeserializer) {
+    public static AlbumEntryInfo[] getOptionalAlbumEntryInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         AlbumEntryInfo[] albumEntryInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

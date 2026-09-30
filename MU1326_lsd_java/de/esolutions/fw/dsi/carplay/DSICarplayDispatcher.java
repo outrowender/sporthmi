@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carplay;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carplay.DSICarplayReply;
 import de.esolutions.fw.comm.dsi.carplay.impl.DSICarplayReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -30,13 +31,11 @@ implements DSICarplayReply {
         super(n, (class$org$dsi$ifc$carplay$DSICarplayListener == null ? (class$org$dsi$ifc$carplay$DSICarplayListener = DSICarplayDispatcher.class$("org.dsi.ifc.carplay.DSICarplayListener")) : class$org$dsi$ifc$carplay$DSICarplayListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateMode(Resource[] resourceArray, AppState[] appStateArray, int n) {
+    public void updateMode(Resource[] resourceArray, AppState[] appStateArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -64,8 +63,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray, int n) {
+    public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -81,8 +79,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void requestBTDeactivation(String string, int n) {
+    public void requestBTDeactivation(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -98,8 +95,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
+    public void updateDeviceInfo(DeviceInfo deviceInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -127,8 +123,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateCallState(CallState[] callStateArray, int n) {
+    public void updateCallState(CallState[] callStateArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -156,8 +151,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateTelephonyState(TelephonyState telephonyState, int n) {
+    public void updateTelephonyState(TelephonyState telephonyState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -185,8 +179,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateNowPlayingData(TrackData trackData, int n) {
+    public void updateNowPlayingData(TrackData trackData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -214,8 +207,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
+    public void updatePlaybackState(PlaybackInfo playbackInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -243,8 +235,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updatePlayposition(int n, int n2) {
+    public void updatePlayposition(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -272,8 +263,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
+    public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -301,8 +291,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateTextInputState(int n, int n2) {
+    public void updateTextInputState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -330,8 +319,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void duckAudio(int n, double d2) {
+    public void duckAudio(int n, double d2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -347,8 +335,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void unduckAudio(int n) {
+    public void unduckAudio(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -364,8 +351,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void oemAppSelected() {
+    public void oemAppSelected() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -381,8 +367,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void updateMainAudioType(int n, int n2) {
+    public void updateMainAudioType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -410,8 +395,7 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -427,14 +411,13 @@ implements DSICarplayReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarplayListener dSICarplayListener = (DSICarplayListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarplayDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarplayDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarplayListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarplayDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarplayDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarplayListener, new Object[]{string, string2});
                     continue;
                 }

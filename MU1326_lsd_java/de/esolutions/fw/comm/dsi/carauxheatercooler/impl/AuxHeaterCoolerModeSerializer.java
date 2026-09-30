@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carauxheatercooler.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerMode;
 
 public class AuxHeaterCoolerModeSerializer {
-    public static void putOptionalAuxHeaterCoolerMode(ISerializer iSerializer, AuxHeaterCoolerMode auxHeaterCoolerMode) {
+    public static void putOptionalAuxHeaterCoolerMode(ISerializer iSerializer, AuxHeaterCoolerMode auxHeaterCoolerMode) throws SerializerException {
         boolean bl = auxHeaterCoolerMode == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class AuxHeaterCoolerModeSerializer {
         }
     }
 
-    public static void putOptionalAuxHeaterCoolerModeVarArray(ISerializer iSerializer, AuxHeaterCoolerMode[] auxHeaterCoolerModeArray) {
+    public static void putOptionalAuxHeaterCoolerModeVarArray(ISerializer iSerializer, AuxHeaterCoolerMode[] auxHeaterCoolerModeArray) throws SerializerException {
         boolean bl = auxHeaterCoolerModeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class AuxHeaterCoolerModeSerializer {
         }
     }
 
-    public static AuxHeaterCoolerMode getOptionalAuxHeaterCoolerMode(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerMode getOptionalAuxHeaterCoolerMode(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerMode auxHeaterCoolerMode = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class AuxHeaterCoolerModeSerializer {
         return auxHeaterCoolerMode;
     }
 
-    public static AuxHeaterCoolerMode[] getOptionalAuxHeaterCoolerModeVarArray(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerMode[] getOptionalAuxHeaterCoolerModeVarArray(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerMode[] auxHeaterCoolerModeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

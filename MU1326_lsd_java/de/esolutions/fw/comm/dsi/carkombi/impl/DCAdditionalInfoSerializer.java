@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCAdditionalInfo;
 
 public class DCAdditionalInfoSerializer {
-    public static void putOptionalDCAdditionalInfo(ISerializer iSerializer, DCAdditionalInfo dCAdditionalInfo) {
+    public static void putOptionalDCAdditionalInfo(ISerializer iSerializer, DCAdditionalInfo dCAdditionalInfo) throws SerializerException {
         boolean bl = dCAdditionalInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -139,7 +140,7 @@ public class DCAdditionalInfoSerializer {
         }
     }
 
-    public static void putOptionalDCAdditionalInfoVarArray(ISerializer iSerializer, DCAdditionalInfo[] dCAdditionalInfoArray) {
+    public static void putOptionalDCAdditionalInfoVarArray(ISerializer iSerializer, DCAdditionalInfo[] dCAdditionalInfoArray) throws SerializerException {
         boolean bl = dCAdditionalInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -150,7 +151,7 @@ public class DCAdditionalInfoSerializer {
         }
     }
 
-    public static DCAdditionalInfo getOptionalDCAdditionalInfo(IDeserializer iDeserializer) {
+    public static DCAdditionalInfo getOptionalDCAdditionalInfo(IDeserializer iDeserializer) throws SerializerException {
         DCAdditionalInfo dCAdditionalInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -283,7 +284,7 @@ public class DCAdditionalInfoSerializer {
         return dCAdditionalInfo;
     }
 
-    public static DCAdditionalInfo[] getOptionalDCAdditionalInfoVarArray(IDeserializer iDeserializer) {
+    public static DCAdditionalInfo[] getOptionalDCAdditionalInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCAdditionalInfo[] dCAdditionalInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

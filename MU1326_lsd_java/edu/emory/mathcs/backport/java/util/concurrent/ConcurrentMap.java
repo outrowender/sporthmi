@@ -7,16 +7,12 @@ import java.util.Map;
 
 public interface ConcurrentMap
 extends Map {
-    default public Object putIfAbsent(Object object, Object object2) {
-    }
+    public Object putIfAbsent(Object var1, Object var2);
 
-    default public boolean remove(Object object, Object object2) {
-    }
+    public boolean remove(Object var1, Object var2);
 
-    default public boolean replace(Object object, Object object2, Object object3) {
-    }
+    public boolean replace(Object var1, Object var2, Object var3);
 
-    default public Object replace(Object object, Object object2) {
-    }
+    public Object replace(Object var1, Object var2);
 }
 

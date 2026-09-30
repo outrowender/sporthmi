@@ -21,13 +21,13 @@ import java.util.List;
 class PinYinFreeTextConverter
 implements IFreetextConverter {
     private static final String pinYinResourcePath = StringUtility.concatenate(System.getProperty("SpellerCharacterSetPath"), "/china/");
-    public static final int MAX_KANJIS;
-    private static final String DELIMITER;
-    private static final int NONE;
-    private static HashMap nextValidCharsString;
-    private static HashMap kanjisString;
-    private static final char[] possibleKanjis;
-    private static int numberOfKanjis;
+    public static final int MAX_KANJIS = 3072;
+    private static final String DELIMITER = "_";
+    private static final int NONE = -1;
+    private static HashMap nextValidCharsString = new HashMap(25);
+    private static HashMap kanjisString = new HashMap(25);
+    private static final char[] possibleKanjis = new char[3072];
+    private static int numberOfKanjis = 0;
 
     PinYinFreeTextConverter() {
     }
@@ -55,10 +55,10 @@ implements IFreetextConverter {
                 cArray[n++] = c3;
             }
             if (n == 0) {
-                IWidgetLogChannel.spellerLogChannel.log(1078071040, "PinYinFreeTextConverter#getValidPinYinChars validCharsBufferIndex is 0 - error while determing valid characters. spelledInCharaters: %1 currentDelimiter: %2", (Object)string, (Object)string2);
+                IWidgetLogChannel.spellerLogChannel.log(1000000, "PinYinFreeTextConverter#getValidPinYinChars validCharsBufferIndex is 0 - error while determing valid characters. spelledInCharaters: %1 currentDelimiter: %2", (Object)string, (Object)string2);
             }
             if (IWidgetLogChannel.spellerLogChannel.isDebug()) {
-                IWidgetLogChannel.spellerLogChannel.log(-2137614336, "PinYinFreeTextConverter#getValidPinYinChars validCharsBuffer: %1", (Object)new String(cArray, 0, n));
+                IWidgetLogChannel.spellerLogChannel.log(10000000, "PinYinFreeTextConverter#getValidPinYinChars validCharsBuffer: %1", (Object)new String(cArray, 0, n));
             }
         }
         return new String(cArray, 0, n);
@@ -67,9 +67,9 @@ implements IFreetextConverter {
     private static String getCurrentDelimiter(String string) {
         int n = string.length();
         if (n > 1) {
-            return new StringBuffer().append("_").append(string.substring(1, n)).toString();
+            return DELIMITER + string.substring(1, n);
         }
-        return "_";
+        return DELIMITER;
     }
 
     private static boolean charArrayContains(char[] cArray, char c2) {
@@ -133,7 +133,7 @@ implements IFreetextConverter {
             string2 = string2.toLowerCase();
             int n2 = 0;
             numberOfKanjis = 0;
-            String string4 = new StringBuffer().append(string2).append(':').toString();
+            String string4 = string2 + ':';
             if (PinYinFreeTextConverter.getCompleteNextValidCharsString(c2).indexOf(string4) >= 0) {
                 char c4 = '\u0000';
                 while (numberOfKanjis < n) {
@@ -214,7 +214,6 @@ implements IFreetextConverter {
         return string2;
     }
 
-    @Override
     public List getPossibleConversions(String string, int n) {
         ArrayList arrayList = new ArrayList();
         if (!StringUtilities.isNullOrEmpty(string)) {
@@ -227,21 +226,12 @@ implements IFreetextConverter {
         return arrayList;
     }
 
-    @Override
     public int getNumberOfConversions() {
         return PinYinFreeTextConverter.getNumberOfKanjs();
     }
 
-    @Override
     public String getValidCharacters(String string) {
         return PinYinFreeTextConverter.getValidPinYinChars(string);
-    }
-
-    static {
-        nextValidCharsString = new HashMap(25);
-        kanjisString = new HashMap(25);
-        possibleKanjis = new char[3072];
-        numberOfKanjis = 0;
     }
 }
 

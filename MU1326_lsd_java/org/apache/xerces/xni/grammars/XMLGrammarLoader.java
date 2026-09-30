@@ -3,50 +3,40 @@
  */
 package org.apache.xerces.xni.grammars;
 
+import java.io.IOException;
 import java.util.Locale;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.grammars.Grammar;
+import org.apache.xerces.xni.parser.XMLConfigurationException;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.apache.xerces.xni.parser.XMLErrorHandler;
 import org.apache.xerces.xni.parser.XMLInputSource;
 
 public interface XMLGrammarLoader {
-    default public String[] getRecognizedFeatures() {
-    }
+    public String[] getRecognizedFeatures();
 
-    default public boolean getFeature(String string) {
-    }
+    public boolean getFeature(String var1) throws XMLConfigurationException;
 
-    default public void setFeature(String string, boolean bl) {
-    }
+    public void setFeature(String var1, boolean var2) throws XMLConfigurationException;
 
-    default public String[] getRecognizedProperties() {
-    }
+    public String[] getRecognizedProperties();
 
-    default public Object getProperty(String string) {
-    }
+    public Object getProperty(String var1) throws XMLConfigurationException;
 
-    default public void setProperty(String string, Object object) {
-    }
+    public void setProperty(String var1, Object var2) throws XMLConfigurationException;
 
-    default public void setLocale(Locale locale) {
-    }
+    public void setLocale(Locale var1);
 
-    default public Locale getLocale() {
-    }
+    public Locale getLocale();
 
-    default public void setErrorHandler(XMLErrorHandler xMLErrorHandler) {
-    }
+    public void setErrorHandler(XMLErrorHandler var1);
 
-    default public XMLErrorHandler getErrorHandler() {
-    }
+    public XMLErrorHandler getErrorHandler();
 
-    default public void setEntityResolver(XMLEntityResolver xMLEntityResolver) {
-    }
+    public void setEntityResolver(XMLEntityResolver var1);
 
-    default public XMLEntityResolver getEntityResolver() {
-    }
+    public XMLEntityResolver getEntityResolver();
 
-    default public Grammar loadGrammar(XMLInputSource xMLInputSource) {
-    }
+    public Grammar loadGrammar(XMLInputSource var1) throws IOException, XNIException;
 }
 

@@ -22,7 +22,6 @@ IWidgetLogChannel {
         this.actionID = n;
     }
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -32,7 +31,7 @@ IWidgetLogChannel {
         IDrawerConditionEngine iDrawerConditionEngine = hMITerminalEvo.getDrawerConditionEngine();
         if (iDrawerConditionEngine != null) {
             IRightDrawerActionReceiver iRightDrawerActionReceiver = iDrawerConditionEngine.getTargetActionReceiver();
-            logDrawerCondtionEngine.log(-2137614336, "OptionModelKeyHandler#keyPressed: call touchField (%1) to execute an action (actionId=%2)", (Object)iRightDrawerActionReceiver, (long)this.actionID);
+            logDrawerCondtionEngine.log(10000000, "OptionModelKeyHandler#keyPressed: call touchField (%1) to execute an action (actionId=%2)", (Object)iRightDrawerActionReceiver, (long)this.actionID);
             if (iRightDrawerActionReceiver != null) {
                 iRightDrawerActionReceiver.executeAction(this.actionID);
             }
@@ -42,15 +41,12 @@ IWidgetLogChannel {
         keyEvent.consume(false);
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
     }
 }

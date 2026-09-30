@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightTransmittableElements;
 
 public class IntLightTransmittableElementsSerializer {
-    public static void putOptionalIntLightTransmittableElements(ISerializer iSerializer, IntLightTransmittableElements intLightTransmittableElements) {
+    public static void putOptionalIntLightTransmittableElements(ISerializer iSerializer, IntLightTransmittableElements intLightTransmittableElements) throws SerializerException {
         boolean bl = intLightTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class IntLightTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalIntLightTransmittableElementsVarArray(ISerializer iSerializer, IntLightTransmittableElements[] intLightTransmittableElementsArray) {
+    public static void putOptionalIntLightTransmittableElementsVarArray(ISerializer iSerializer, IntLightTransmittableElements[] intLightTransmittableElementsArray) throws SerializerException {
         boolean bl = intLightTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class IntLightTransmittableElementsSerializer {
         }
     }
 
-    public static IntLightTransmittableElements getOptionalIntLightTransmittableElements(IDeserializer iDeserializer) {
+    public static IntLightTransmittableElements getOptionalIntLightTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         IntLightTransmittableElements intLightTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class IntLightTransmittableElementsSerializer {
         return intLightTransmittableElements;
     }
 
-    public static IntLightTransmittableElements[] getOptionalIntLightTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static IntLightTransmittableElements[] getOptionalIntLightTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightTransmittableElements[] intLightTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

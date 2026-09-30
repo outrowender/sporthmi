@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.RangeDataConfiguration;
 
 public class RangeDataConfigurationSerializer {
-    public static void putOptionalRangeDataConfiguration(ISerializer iSerializer, RangeDataConfiguration rangeDataConfiguration) {
+    public static void putOptionalRangeDataConfiguration(ISerializer iSerializer, RangeDataConfiguration rangeDataConfiguration) throws SerializerException {
         boolean bl = rangeDataConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class RangeDataConfigurationSerializer {
         }
     }
 
-    public static void putOptionalRangeDataConfigurationVarArray(ISerializer iSerializer, RangeDataConfiguration[] rangeDataConfigurationArray) {
+    public static void putOptionalRangeDataConfigurationVarArray(ISerializer iSerializer, RangeDataConfiguration[] rangeDataConfigurationArray) throws SerializerException {
         boolean bl = rangeDataConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class RangeDataConfigurationSerializer {
         }
     }
 
-    public static RangeDataConfiguration getOptionalRangeDataConfiguration(IDeserializer iDeserializer) {
+    public static RangeDataConfiguration getOptionalRangeDataConfiguration(IDeserializer iDeserializer) throws SerializerException {
         RangeDataConfiguration rangeDataConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class RangeDataConfigurationSerializer {
         return rangeDataConfiguration;
     }
 
-    public static RangeDataConfiguration[] getOptionalRangeDataConfigurationVarArray(IDeserializer iDeserializer) {
+    public static RangeDataConfiguration[] getOptionalRangeDataConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RangeDataConfiguration[] rangeDataConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

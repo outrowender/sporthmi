@@ -18,88 +18,60 @@ import org.dsi.ifc.sdars.SubscriptionStatus;
 
 public interface DSISDARSTunerListener
 extends DSIListener {
-    default public void updateElectronicSerialCode(String string, int n) {
-    }
+    public void updateElectronicSerialCode(String var1, int var2);
 
-    default public void updateServiceStatus3(ServiceStatus3 serviceStatus3, int n) {
-    }
+    public void updateServiceStatus3(ServiceStatus3 var1, int var2);
 
-    default public void updateSignalQuality(SignalQuality signalQuality, int n) {
-    }
+    public void updateSignalQuality(SignalQuality var1, int var2);
 
-    default public void updateSelectedStation(StationInfo stationInfo, int n) {
-    }
+    public void updateSelectedStation(StationInfo var1, int var2);
 
-    default public void updateStationList(StationInfo[] stationInfoArray, int n) {
-    }
+    public void updateStationList(StationInfo[] var1, int var2);
 
-    default public void updateCategoryList(CategoryInfo[] categoryInfoArray, int n) {
-    }
+    public void updateCategoryList(CategoryInfo[] var1, int var2);
 
-    default public void informationRadioText(RadioText radioText) {
-    }
+    public void informationRadioText(RadioText var1);
 
-    default public void informationRadioText2(RadioText[] radioTextArray) {
-    }
+    public void informationRadioText2(RadioText[] var1);
 
-    default public void updateStaticTaggingInfo(String string, String string2, int n) {
-    }
+    public void updateStaticTaggingInfo(String var1, String var2, int var3);
 
-    default public void updateDetectedDevice(int n, int n2) {
-    }
+    public void updateDetectedDevice(int var1, int var2);
 
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1);
 
-    default public void responseTime(DateTime dateTime) {
-    }
+    public void responseTime(DateTime var1);
 
-    default public void responseEPG24Hour(EPGShortInfo ePGShortInfo) {
-    }
+    public void responseEPG24Hour(EPGShortInfo var1);
 
-    default public void responseEPGDescription(EPGDescription ePGDescription) {
-    }
+    public void responseEPGDescription(EPGDescription var1);
 
-    default public void updateAvailability(int n, int n2) {
-    }
+    public void updateAvailability(int var1, int var2);
 
-    default public void updateStationDescription(StationDescription[] stationDescriptionArray, int n) {
-    }
+    public void updateStationDescription(StationDescription[] var1, int var2);
 
-    default public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus, int n) {
-    }
+    public void updateSubscriptionStatus(SubscriptionStatus var1, int var2);
 
-    default public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) {
-    }
+    public void informationEPGChannelList(EPGShortInfo[] var1);
 
-    default public void informationChannelArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationChannelArt(ImageInformation[] var1);
 
-    default public void informationBackgroundArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationBackgroundArt(ImageInformation[] var1);
 
-    default public void informationAlbumArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationAlbumArt(ImageInformation[] var1);
 
-    default public void informationGenreArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationGenreArt(ImageInformation[] var1);
 
-    default public void informationStudioArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationStudioArt(ImageInformation[] var1);
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3);
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2);
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3);
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2);
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1);
 }
 

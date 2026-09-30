@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.RgInfoForNextDestination;
 
 public class RgInfoForNextDestinationSerializer {
-    public static void putOptionalRgInfoForNextDestination(ISerializer iSerializer, RgInfoForNextDestination rgInfoForNextDestination) {
+    public static void putOptionalRgInfoForNextDestination(ISerializer iSerializer, RgInfoForNextDestination rgInfoForNextDestination) throws SerializerException {
         boolean bl = rgInfoForNextDestination == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class RgInfoForNextDestinationSerializer {
         }
     }
 
-    public static void putOptionalRgInfoForNextDestinationVarArray(ISerializer iSerializer, RgInfoForNextDestination[] rgInfoForNextDestinationArray) {
+    public static void putOptionalRgInfoForNextDestinationVarArray(ISerializer iSerializer, RgInfoForNextDestination[] rgInfoForNextDestinationArray) throws SerializerException {
         boolean bl = rgInfoForNextDestinationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class RgInfoForNextDestinationSerializer {
         }
     }
 
-    public static RgInfoForNextDestination getOptionalRgInfoForNextDestination(IDeserializer iDeserializer) {
+    public static RgInfoForNextDestination getOptionalRgInfoForNextDestination(IDeserializer iDeserializer) throws SerializerException {
         RgInfoForNextDestination rgInfoForNextDestination = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class RgInfoForNextDestinationSerializer {
         return rgInfoForNextDestination;
     }
 
-    public static RgInfoForNextDestination[] getOptionalRgInfoForNextDestinationVarArray(IDeserializer iDeserializer) {
+    public static RgInfoForNextDestination[] getOptionalRgInfoForNextDestinationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RgInfoForNextDestination[] rgInfoForNextDestinationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

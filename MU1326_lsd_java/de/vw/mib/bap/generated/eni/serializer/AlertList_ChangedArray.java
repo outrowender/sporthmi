@@ -14,10 +14,9 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AlertList_ChangedArray
 implements BAPChangedArray {
     public ArrayHeader arrayHeader = new ArrayHeader();
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 255;
     public BAPArrayData data = new BAPArrayData(255, this.arrayHeader);
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new AlertList_Data(this.getArrayHeader());
     }
@@ -35,14 +34,12 @@ implements BAPChangedArray {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AlertList_ChangedArray alertList_ChangedArray = (AlertList_ChangedArray)bAPEntity;
         return this.arrayHeader.equalTo(alertList_ChangedArray.arrayHeader) && this.data.equalTo(alertList_ChangedArray.data);
@@ -51,27 +48,23 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AlertList_ChangedArray");
-        stringBuffer.append(new StringBuffer().append("\n - arrayHeader:").append(this.arrayHeader.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - data:").append(this.data.toString()).toString());
+        stringBuffer.append("\n - arrayHeader:" + this.arrayHeader.toString());
+        stringBuffer.append("\n - data:" + this.data.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.arrayHeader.serialize(bitStream);
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.arrayHeader.deserialize(bitStream);
         this.arrayHeader.evaluateRecordAddressPosForChangedArray();
@@ -88,27 +81,22 @@ implements BAPChangedArray {
         return 25;
     }
 
-    @Override
     public int getFunctionId() {
         return AlertList_ChangedArray.functionId();
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }

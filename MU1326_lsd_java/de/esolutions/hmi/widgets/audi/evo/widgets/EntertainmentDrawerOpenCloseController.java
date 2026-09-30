@@ -9,6 +9,7 @@ import de.audi.atip.hmi.model.list.TiledListModelGUI;
 import de.audi.atip.hmi.modelaccess.ChoiceModelGUI;
 import de.audi.atip.hmi.modelaccess.ListModelGUI;
 import de.audi.atip.hmi.view.AnimationListener;
+import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.audi.tghu.hmi.evo.IDrawer;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
@@ -18,18 +19,14 @@ import de.esolutions.hmi.widgets.audi.base.IStatusbarGapEventHandler;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.RedrawContext;
+import de.esolutions.hmi.widgets.audi.base.widgets.AbstractIdleTimerController;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.LayoutContainer;
 import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager;
-import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager$Helper;
 import de.esolutions.hmi.widgets.audi.evo.DrawerFocusManager;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController$AnimationTransformation;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController$MutableAnimationTransformation;
 import de.esolutions.hmi.widgets.audi.evo.widgets.DrawerMain;
 import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerContentController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerOpenCloseController$1;
-import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerOpenCloseController$BlacklistingTimer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SplitGlassplateController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.anim.AnimUtils;
@@ -55,7 +52,7 @@ AnimationListener {
     private int verticalGapGlassplateContent = 0;
     private AbstractWidgetController glassplate = null;
     private final int GAP_GLASS_PLATE_BORDER;
-    private ContainerController$AnimationTransformation originalAnimationTransformation = null;
+    private ContainerController.AnimationTransformation originalAnimationTransformation = null;
     private EntertainmentDrawerStateUpdater stateUpdater = null;
     private EntertainmentDrawerAnimationState animationStates = new EntertainmentDrawerAnimationState();
     private EntertainmentDrawerAnimationManager animationManager;
@@ -69,15 +66,14 @@ AnimationListener {
     private float progressOpenCloseAnimation;
     int lastAudioSourceForListener = -1;
     int lastTargetStateForListener = -1;
-    private EntertainmentDrawerOpenCloseController$BlacklistingTimer timer;
+    private BlacklistingTimer timer;
 
     public EntertainmentDrawerOpenCloseController() {
         this.GAP_GLASS_PLATE_BORDER = 9;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
-        logEntertainmentDrawer.log(-2137614336, "EntertainmentDrawerOpenCloseController#connected called");
+        logEntertainmentDrawer.log(10000000, "EntertainmentDrawerOpenCloseController#connected called");
         super.connected(initializationContext);
         this.initBlacklistedAudioSource();
         int n = this.terminal.getLayout().getDistance(2);
@@ -87,30 +83,26 @@ AnimationListener {
         this.invalidate();
         this.animationManager = new EntertainmentDrawerAnimationManager(this);
         this.drawerAnimationManager = ((DrawerFocusManager)this.terminal.getDrawerFocusManager()).getDrawerAnimationManager();
-        this.timer = new EntertainmentDrawerOpenCloseController$BlacklistingTimer(this, logEntertainmentDrawer);
+        this.timer = new BlacklistingTimer(logEntertainmentDrawer);
         this.add(this.timer);
     }
 
-    @Override
     public void disconnecting() {
-        logEntertainmentDrawer.log(-2137614336, "EntertainmentDrawerOpenCloseController#disconnecting called");
+        logEntertainmentDrawer.log(10000000, "EntertainmentDrawerOpenCloseController#disconnecting called");
         super.disconnecting();
         this.terminal.getWidgetRegistry().setEntertainmentDrawerGapEventHandler(null);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         this.invalidate();
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         super.remove(abstractWidget);
         this.invalidateLayout(null);
     }
 
-    @Override
     public boolean canOpen() {
         boolean bl;
         if (this.animationManager == null) {
@@ -130,7 +122,7 @@ AnimationListener {
         if (!bl) {
             IWidgetLogChannel.logEntertainmentDrawer.log(10000, new StringBuffer().append("EntertainmentDrawerOpenCloseController#canOpen: cannot open entertainment drawer: current drawer state=").append(this.animationStates.getCurrentDrawerState()).append(", current state visible=").append(bl3).toString());
         } else {
-            IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "EntertainmentDrawerOpenCloseController#canOpen: %1", bl);
+            IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "EntertainmentDrawerOpenCloseController#canOpen: %1", bl);
         }
         return bl;
     }
@@ -139,18 +131,17 @@ AnimationListener {
         return this.animationStates.getCurrentDrawerState() == 6 && this.animationStates.getTargetState().getAudioSource() == 5003;
     }
 
-    @Override
     public boolean canClose() {
         if (this.activeContentController != null) {
             boolean bl = !framework.getHMIService().getHMITerminal(0).getKbdService().isPanelWithJoystick();
             boolean bl2 = this.terminal.getFramework().getHMIService().getChoiceModel(138).getValue() == 3;
             int n = this.activeContentController.getAudioSource();
             if (n == 5003 && bl && bl2) {
-                IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "EntertainmentDrawerOpenCloseController#canClose: false");
+                IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "EntertainmentDrawerOpenCloseController#canClose: false");
                 return false;
             }
         }
-        IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "EntertainmentDrawerOpenCloseController#canClose: true");
+        IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "EntertainmentDrawerOpenCloseController#canClose: true");
         return true;
     }
 
@@ -192,7 +183,6 @@ AnimationListener {
         return this.animationStates.getCurrentState().getContent();
     }
 
-    @Override
     public int getDisplayDrawerState() {
         return this.animationStates.getCurrentDrawerState();
     }
@@ -230,21 +220,19 @@ AnimationListener {
         }
         if (n == -1) {
             n = 9999;
-            logEntertainmentDrawer.log(-1601830656, "EntertainmentDrawerOpenCloseController#getAudioSourceFromModel: no value set in model, default audio source (%1) was set", (long)n);
+            logEntertainmentDrawer.log(100000, "EntertainmentDrawerOpenCloseController#getAudioSourceFromModel: no value set in model, default audio source (%1) was set", (long)n);
         }
         return n;
     }
 
-    public ContainerController$AnimationTransformation getOriginalAnimationTransformation() {
+    public ContainerController.AnimationTransformation getOriginalAnimationTransformation() {
         return this.originalAnimationTransformation;
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.animationStates.getCurrentState().getHeight();
     }
 
-    @Override
     public int getPreferredWidth() {
         return this.animationStates.getCurrentState().getWidth() + this.horizontalGapGlassplateContent * 2;
     }
@@ -257,22 +245,19 @@ AnimationListener {
         return 0;
     }
 
-    @Override
     public int getY() {
         return this.animationStates.getCurrentState().getYScreenOffset();
     }
 
-    @Override
-    public void setHideTransformation(ContainerController$AnimationTransformation containerController$AnimationTransformation) {
-        super.setHideTransformation(containerController$AnimationTransformation);
+    public void setHideTransformation(ContainerController.AnimationTransformation animationTransformation) {
+        super.setHideTransformation(animationTransformation);
         if (this.originalAnimationTransformation == null) {
-            this.originalAnimationTransformation = containerController$AnimationTransformation;
+            this.originalAnimationTransformation = animationTransformation;
         }
     }
 
-    @Override
     public void setHideTransformation(float f2, float f3, float f4, float f5, float f6) {
-        this.setHideTransformation(new ContainerController$MutableAnimationTransformation(f2, f3, f4, f6));
+        this.setHideTransformation(new ContainerController.MutableAnimationTransformation(f2, f3, f4, f6));
     }
 
     public void setIndentHorizontal(int n) {
@@ -301,7 +286,6 @@ AnimationListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         if (abstractWidget != null && abstractWidget == this.activeContentController) {
             this.onContentDimensionsChanged();
@@ -310,13 +294,11 @@ AnimationListener {
         this.setInvalid(true);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.onActiveAudioSourceChange();
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void setDisplayDrawerState(int n, boolean bl, boolean bl2) {
         this.onSetDisplayDrawerState(n, bl);
     }
@@ -326,9 +308,18 @@ AnimationListener {
             this.stateUpdater.updateTargetState(n, true);
             if (this.animationManager != null) {
                 this.animationManager.updateContent();
-                hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new EntertainmentDrawerOpenCloseController$1(this)));
+                hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+                    public void run() {
+                        if (EntertainmentDrawerOpenCloseController.this.animationManager != null) {
+                            EntertainmentDrawerOpenCloseController.this.animationManager.processAnimation(200, -1.0f, 1);
+                        } else {
+                            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#setEntertainmentDrawerStateRequest/RunnableEvent: animationManager is null");
+                        }
+                    }
+                }));
             } else {
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#setEntertainmentDrawerStateRequest: animationManager is null");
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#setEntertainmentDrawerStateRequest: animationManager is null");
             }
         }
     }
@@ -336,11 +327,11 @@ AnimationListener {
     private void onActiveAudioSourceChange() {
         this.updateTargetState();
         if (this.animationManager != null) {
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#processModelUpdateEvent: Audio source changed from %1 to %2", (long)this.animationStates.getSourceState().getAudioSource(), (long)this.animationStates.getTargetState().getAudioSource());
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#processModelUpdateEvent: Audio source changed from %1 to %2", (long)this.animationStates.getSourceState().getAudioSource(), (long)this.animationStates.getTargetState().getAudioSource());
             this.animationManager.updateContent();
-            this.animationManager.processAnimation(200, 32959, 0);
+            this.animationManager.processAnimation(200, -1.0f, 0);
         } else {
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onActiveAudioSourceChange: animationManager is null");
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onActiveAudioSourceChange: animationManager is null");
         }
     }
 
@@ -351,43 +342,43 @@ AnimationListener {
         if (n2 == -1) {
             if (this.blacklistedAudioSource.size() > 0) {
                 Integer n3 = (Integer)this.blacklistedAudioSource.remove(0);
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onBlacklistAudioSource: Removed blacklisting, audioSource: %1, remaining amount of blacklisted audio sources: %2", (Object)n3.toString(), (long)this.blacklistedAudioSource.size());
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onBlacklistAudioSource: Removed blacklisting, audioSource: %1, remaining amount of blacklisted audio sources: %2", (Object)n3.toString(), (long)this.blacklistedAudioSource.size());
                 if (this.animationManager != null && this.timer != null) {
                     this.animationManager.setDelayForDeblacklistingActive(true);
                     this.timer.restartTimer();
                 }
             } else {
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(1078071040, "EntertainmentDrawerOpenCloseController#onBlacklistAudioSource: Tried to remove blacklisting, but no audioSource was blacklisted anymore.");
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(1000000, "EntertainmentDrawerOpenCloseController#onBlacklistAudioSource: Tried to remove blacklisting, but no audioSource was blacklisted anymore.");
             }
         } else {
             if (!this.blacklistedAudioSource.contains(new Integer(n2))) {
                 this.blacklistedAudioSource.add(Util.createInteger(n2));
             }
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onBlacklistAudioSource: blacklisted audio source=%1, amount of blacklisted audio sources:%2", (long)n2, (long)this.blacklistedAudioSource.size());
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onBlacklistAudioSource: blacklisted audio source=%1, amount of blacklisted audio sources:%2", (long)n2, (long)this.blacklistedAudioSource.size());
         }
         this.updateTargetState();
     }
 
     public void onContentDimensionsChanged() {
         this.updateTargetState();
-        IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onContentDimensionsChanged called");
+        IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onContentDimensionsChanged called");
         if (this.animationManager != null) {
             this.animationManager.updateContent();
-            this.animationManager.processAnimation(200, 32959, 6);
+            this.animationManager.processAnimation(200, -1.0f, 6);
         } else {
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onContentDimensionsChanged: animationManager is null");
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onContentDimensionsChanged: animationManager is null");
         }
     }
 
     public void onDrawerVisibiltyChange(boolean bl) {
         if (this.visible != bl) {
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onDrawerVisibiltyChange visible=%1", bl);
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onDrawerVisibiltyChange visible=%1", bl);
             this.visible = bl;
             this.updateTargetState();
             if (this.animationManager != null) {
-                this.animationManager.processAnimation(200, 32959, 3);
+                this.animationManager.processAnimation(200, -1.0f, 3);
             } else {
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onDrawerVisibiltyChange: animationManager is null");
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onDrawerVisibiltyChange: animationManager is null");
             }
             if (this.drawerAnimationManager != null) {
                 this.drawerAnimationManager.setIsEntertainmentDrawerVisible(bl);
@@ -395,7 +386,6 @@ AnimationListener {
         }
     }
 
-    @Override
     public boolean onGapDataChanged(int n) {
         switch (n) {
             case 1: {
@@ -403,19 +393,18 @@ AnimationListener {
                 break;
             }
             case 0: {
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onGapDataChanged VALUE_CHANGED_MAX_GAP_WIDTH");
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onGapDataChanged VALUE_CHANGED_MAX_GAP_WIDTH");
                 if (this.animationManager != null) {
-                    this.animationManager.processAnimation(200, 32959, 4);
+                    this.animationManager.processAnimation(200, -1.0f, 4);
                     break;
                 }
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onGapDataChanged: animationManager is null");
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onGapDataChanged: animationManager is null");
                 break;
             }
         }
         return false;
     }
 
-    @Override
     public void onNewContentAvalabilityChanged() {
         this.updateTargetState();
     }
@@ -424,7 +413,7 @@ AnimationListener {
         if (this.stateUpdater != null) {
             this.stateUpdater.updateTargetState(n, true);
             this.invalidate();
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "EntertainmentDrawerOpenCloseController#onSetDisplayDrawerState state=%1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "EntertainmentDrawerOpenCloseController#onSetDisplayDrawerState state=%1", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING));
         }
     }
 
@@ -444,7 +433,6 @@ AnimationListener {
         return false;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.isConnected()) {
             EntertainmentDrawerState entertainmentDrawerState;
@@ -474,7 +462,7 @@ AnimationListener {
                 }
                 this.terminal.getDrawerManager().activateEntertainmentDrawerContent(entertainmentDrawerContentController);
                 this.activeContentController = entertainmentDrawerContentController;
-                IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "EntertainmentDrawerOpenCloseController#setContent newContent=%1 ", (Object)entertainmentDrawerContentController);
+                IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "EntertainmentDrawerOpenCloseController#setContent newContent=%1 ", (Object)entertainmentDrawerContentController);
                 this.add(entertainmentDrawerContentController);
                 entertainmentDrawerContentController.setConnected(true);
                 this.activeContentController.setCompositesDirty(true);
@@ -583,25 +571,23 @@ AnimationListener {
         this.updateGlassplate(n2, n);
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 4112;
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
         if (this.animationManager == null) {
             IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000, "EntertainmentDrawerOpenCloseController#setDrawerAnimation: animationManager is null");
             return;
         }
-        if (DrawerAnimationManager$Helper.hasFlag(n, 4)) {
+        if (DrawerAnimationManager.Helper.hasFlag(n, 4)) {
             this.progressOpenCloseAnimation = fArray[4];
             float f2 = fArray2[4];
             if (f2 == 0.0f) {
                 this.progressOpenCloseAnimation = 1.0f - this.progressOpenCloseAnimation;
             }
             this.animationManager.processAnimation(100, this.calculateFinalProgress(), 7);
-        } else if (DrawerAnimationManager$Helper.hasFlag(n, 12)) {
+        } else if (DrawerAnimationManager.Helper.hasFlag(n, 12)) {
             if (fArray2[12] == 1.0f) {
                 this.progressScreenFadeOutAnimation = fArray[12];
                 this.animationManager.processAnimation(100, this.calculateFinalProgress(), 7);
@@ -611,11 +597,10 @@ AnimationListener {
         }
         if (this.calculateFinalProgress() >= 1.0f) {
             this.animationManager.setGlobalAnimationIsAnimating(false);
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerOpenCloseController#setDrawerAnimation: global animation finished");
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerOpenCloseController#setDrawerAnimation: global animation finished");
         }
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
         if (this.terminal != null && this.terminal.getDrawerManager() != null && this.animationStates != null) {
             int n2 = this.animationStates.getTargetState().getDrawerState();
@@ -645,8 +630,27 @@ AnimationListener {
         return false;
     }
 
-    static /* synthetic */ EntertainmentDrawerAnimationManager access$000(EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController) {
-        return entertainmentDrawerOpenCloseController.animationManager;
+    public static final class TypeOfCall {
+        static final int NO_CALL = 1;
+        static final int ACTIVE = 2;
+        static final int INCOMING = 3;
+    }
+
+    private class BlacklistingTimer
+    extends AbstractIdleTimerController {
+        public BlacklistingTimer(LogChannel logChannel) {
+            super(logChannel);
+            this.startTimerAutomatically = false;
+            this.fireWhenOptionDrawerOpen = true;
+            this.fireWhenSelectionDrawerOpen = true;
+            this.deactivateOnKeyReleased = false;
+            this.idleTime = 300;
+        }
+
+        protected void timerFired() {
+            EntertainmentDrawerOpenCloseController.this.animationManager.setDelayForDeblacklistingActive(false);
+            EntertainmentDrawerOpenCloseController.this.animationManager.processAnimation(200, -1.0f, 1);
+        }
     }
 }
 

@@ -6,10 +6,8 @@ package org.apache.commons.scxml.model;
 import org.apache.commons.scxml.PathResolver;
 
 public interface PathResolverHolder {
-    default public void setPathResolver(PathResolver pathResolver) {
-    }
+    public void setPathResolver(PathResolver var1);
 
-    default public PathResolver getPathResolver() {
-    }
+    public PathResolver getPathResolver();
 }
 

@@ -4,10 +4,8 @@
 package de.esolutions.fw.comm.attributes;
 
 public interface IAttributeBitMapProvider {
-    default public int getAttributeBit(long l) {
-    }
+    public int getAttributeBit(long var1);
 
-    default public int getAttributesCount() {
-    }
+    public int getAttributesCount();
 }
 

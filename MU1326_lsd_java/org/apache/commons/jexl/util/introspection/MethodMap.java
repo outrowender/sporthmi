@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.apache.commons.jexl.util.introspection;
 
@@ -13,12 +10,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.jexl.util.introspection.MethodMap$AmbiguousException;
 
 public class MethodMap {
-    private static final int MORE_SPECIFIC;
-    private static final int LESS_SPECIFIC;
-    private static final int INCOMPARABLE;
+    private static final int MORE_SPECIFIC = 0;
+    private static final int LESS_SPECIFIC = 1;
+    private static final int INCOMPARABLE = 2;
     protected Map methodByNameMap = new Hashtable();
     static /* synthetic */ Class class$java$lang$Boolean;
     static /* synthetic */ Class class$java$lang$Character;
@@ -43,7 +39,7 @@ public class MethodMap {
         return (List)this.methodByNameMap.get(string);
     }
 
-    public Method find(String string, Object[] objectArray) {
+    public Method find(String string, Object[] objectArray) throws AmbiguousException {
         List list = this.get(string);
         if (list == null) {
             return null;
@@ -57,7 +53,7 @@ public class MethodMap {
         return MethodMap.getMostSpecific(list, classArray);
     }
 
-    private static Method getMostSpecific(List list, Class[] classArray) {
+    private static Method getMostSpecific(List list, Class[] classArray) throws AmbiguousException {
         LinkedList linkedList = MethodMap.getApplicables(list, classArray);
         if (linkedList.isEmpty()) {
             return null;
@@ -88,7 +84,7 @@ public class MethodMap {
             linkedList2.addLast(method);
         }
         if (linkedList2.size() > 1) {
-            throw new MethodMap$AmbiguousException();
+            throw new AmbiguousException();
         }
         return (Method)linkedList2.getFirst();
     }
@@ -206,6 +202,11 @@ public class MethodMap {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
+    }
+
+    public static class AmbiguousException
+    extends Exception {
+        static final long serialVersionUID = 8758118091728717367L;
     }
 }
 

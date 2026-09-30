@@ -10,9 +10,9 @@ public class ServiceEvent
 extends EventObject {
     private transient ServiceReference reference;
     private transient int type;
-    public static final int REGISTERED;
-    public static final int MODIFIED;
-    public static final int UNREGISTERING;
+    public static final int REGISTERED = 1;
+    public static final int MODIFIED = 2;
+    public static final int UNREGISTERING = 4;
 
     public ServiceEvent(int n, ServiceReference serviceReference) {
         super(serviceReference);

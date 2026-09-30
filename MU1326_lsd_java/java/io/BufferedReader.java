@@ -34,8 +34,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -45,7 +44,7 @@ extends Reader {
         }
     }
 
-    private int fillbuf() {
+    private int fillbuf() throws IOException {
         int n;
         if (this.markpos == -1 || this.pos - this.markpos >= this.marklimit) {
             int n2 = this.in.read(this.buf, 0, this.buf.length);
@@ -82,8 +81,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         if (n >= 0) {
             Object object = this.lock;
             synchronized (object) {
@@ -98,13 +96,11 @@ extends Reader {
         }
     }
 
-    @Override
     public boolean markSupported() {
         return true;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             block5: {
@@ -122,8 +118,7 @@ extends Reader {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             int n3;
@@ -185,7 +180,7 @@ extends Reader {
         }
     }
 
-    public String readLine() {
+    public String readLine() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -234,8 +229,7 @@ extends Reader {
         }
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -248,8 +242,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -267,8 +260,7 @@ extends Reader {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l < 0L) throw new IllegalArgumentException();
         Object object = this.lock;
         synchronized (object) {

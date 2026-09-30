@@ -10,10 +10,8 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedFont;
 
 public interface HMITerminalEAL
 extends HMITerminal {
-    default public EALManager getEALManager() {
-    }
+    public EALManager getEALManager();
 
-    default public StringUtility getStringUtility(IWrappedFont iWrappedFont) {
-    }
+    public StringUtility getStringUtility(IWrappedFont var1);
 }
 

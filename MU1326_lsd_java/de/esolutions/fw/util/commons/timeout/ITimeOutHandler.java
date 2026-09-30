@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.commons.timeout;
 
 public interface ITimeOutHandler {
-    default public void timeoutOccurred(Thread thread) {
-    }
+    public void timeoutOccurred(Thread var1);
 }
 

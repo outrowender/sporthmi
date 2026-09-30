@@ -42,7 +42,7 @@ public class SFecImportStatus {
     }
 
     public String toString() {
-        return new StringBuffer("SFecImportStatus{").append("fsid=").append(this.fsid).append(", state=").append(this.state).append(", supplementalInfo=").append(this.supplementalInfo).append("}").toString();
+        return "SFecImportStatus{" + "fsid=" + this.fsid + ", state=" + this.state + ", supplementalInfo=" + this.supplementalInfo + "}";
     }
 }
 

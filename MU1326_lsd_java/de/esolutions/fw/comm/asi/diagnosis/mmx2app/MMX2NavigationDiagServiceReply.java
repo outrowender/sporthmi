@@ -3,58 +3,44 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface MMX2NavigationDiagServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "128c33a5-671a-49e8-911b-ee23a09bcd10";
+    public static final String IPL_COMM_INTERFACE_KEY = "8040a0cc-a4ea-5c17-8a45-3b275afe913b";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.2.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.8.0";
 
-    default public void requestSubsystemState(long l) {
-    }
+    public void requestSubsystemState(long var1) throws MethodException;
 
-    default public void requestVersionsNavDB(long l) {
-    }
+    public void requestVersionsNavDB(long var1) throws MethodException;
 
-    default public void requestActiveNavDB(long l) {
-    }
+    public void requestActiveNavDB(long var1) throws MethodException;
 
-    default public void requestGPSNoSatellite(long l) {
-    }
+    public void requestGPSNoSatellite(long var1) throws MethodException;
 
-    default public void requestGPSOffroad(long l) {
-    }
+    public void requestGPSOffroad(long var1) throws MethodException;
 
-    default public void requestNavCalibrationState(long l) {
-    }
+    public void requestNavCalibrationState(long var1) throws MethodException;
 
-    default public void requestNavCorrectedPosition(long l) {
-    }
+    public void requestNavCorrectedPosition(long var1) throws MethodException;
 
-    default public void requestNavCorrectedDirection(long l) {
-    }
+    public void requestNavCorrectedDirection(long var1) throws MethodException;
 
-    default public void requestResetCalibration(long l, int n) {
-    }
+    public void requestResetCalibration(long var1, int var3) throws MethodException;
 
-    default public void requestSparePartNumberNavDB(long l) {
-    }
+    public void requestSparePartNumberNavDB(long var1) throws MethodException;
 
-    default public void requestApplicationSoftwareVersionNumberNavDB(long l) {
-    }
+    public void requestApplicationSoftwareVersionNumberNavDB(long var1) throws MethodException;
 
-    default public void requestHardwareNumberNavDB(long l) {
-    }
+    public void requestHardwareNumberNavDB(long var1) throws MethodException;
 
-    default public void requestHardwareVersionNumberNavDB(long l) {
-    }
+    public void requestHardwareVersionNumberNavDB(long var1) throws MethodException;
 
-    default public void requestSerialNumberNavDB(long l) {
-    }
+    public void requestSerialNumberNavDB(long var1) throws MethodException;
 
-    default public void requestSystemNameNavDB(long l) {
-    }
+    public void requestSystemNameNavDB(long var1) throws MethodException;
 
-    default public void requestCountryRegionVersion(long l) {
-    }
+    public void requestCountryRegionVersion(long var1) throws MethodException;
 }
 

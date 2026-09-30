@@ -10,7 +10,7 @@ import org.apache.xerces.dom.DeferredNode;
 public final class DeferredAttrNSImpl
 extends AttrNSImpl
 implements DeferredNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 6074924934945957154L;
     protected transient int fNodeIndex;
 
     DeferredAttrNSImpl(DeferredDocumentImpl deferredDocumentImpl, int n) {
@@ -20,12 +20,10 @@ implements DeferredNode {
         this.needsSyncChildren(true);
     }
 
-    @Override
     public int getNodeIndex() {
         return this.fNodeIndex;
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument();
@@ -40,7 +38,6 @@ implements DeferredNode {
         this.type = deferredDocumentImpl.getTypeInfo(n3);
     }
 
-    @Override
     protected void synchronizeChildren() {
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument();
         deferredDocumentImpl.synchronizeChildren(this, this.fNodeIndex);

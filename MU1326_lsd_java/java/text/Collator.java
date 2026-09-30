@@ -19,16 +19,16 @@ import java.util.Vector;
 public abstract class Collator
 implements Comparator,
 Cloneable {
-    static final int EQUAL;
-    static final int GREATER;
-    static final int LESS;
-    public static final int NO_DECOMPOSITION;
-    public static final int CANONICAL_DECOMPOSITION;
-    public static final int FULL_DECOMPOSITION;
-    public static final int PRIMARY;
-    public static final int SECONDARY;
-    public static final int TERTIARY;
-    public static final int IDENTICAL;
+    static final int EQUAL = 0;
+    static final int GREATER = 1;
+    static final int LESS = -1;
+    public static final int NO_DECOMPOSITION = 0;
+    public static final int CANONICAL_DECOMPOSITION = 1;
+    public static final int FULL_DECOMPOSITION = 2;
+    public static final int PRIMARY = 0;
+    public static final int SECONDARY = 1;
+    public static final int TERTIARY = 2;
+    public static final int IDENTICAL = 3;
     private static int CACHE_SIZE;
     private static Vector cache;
     private int strength = 2;
@@ -61,15 +61,12 @@ Cloneable {
         }
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         return this.compare((String)object, (String)object2);
     }
 
-    public abstract int compare(String string, String string2) {
-    }
+    public abstract int compare(String var1, String var2);
 
-    @Override
     public boolean equals(Object object) {
         if (!(object instanceof Collator)) {
             return false;
@@ -86,8 +83,7 @@ Cloneable {
         return java.util.Locale.getAvailableLocales();
     }
 
-    public abstract CollationKey getCollationKey(String string) {
-    }
+    public abstract CollationKey getCollationKey(String var1);
 
     public int getDecomposition() {
         return this.decomposition;
@@ -116,7 +112,7 @@ Cloneable {
                 n2 = (Integer)object;
             }
             catch (MissingResourceException missingResourceException) {}
-            object = new RuleBasedCollator(new StringBuffer(String.valueOf(CollationRules.DEFAULTRULES)).append(string2).toString(), n2);
+            object = new RuleBasedCollator(String.valueOf(CollationRules.DEFAULTRULES) + string2, n2);
             ((Collator)object).setDecomposition(0);
             if (CACHE_SIZE > 0) {
                 if (cache.size() >= CACHE_SIZE) {
@@ -137,8 +133,7 @@ Cloneable {
         return this.strength;
     }
 
-    public abstract int hashCode() {
-    }
+    public abstract int hashCode();
 
     public void setDecomposition(int n) {
         switch (n) {

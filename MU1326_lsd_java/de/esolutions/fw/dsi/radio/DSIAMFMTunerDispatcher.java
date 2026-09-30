@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.radio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.radio.DSIAMFMTunerReply;
 import de.esolutions.fw.comm.dsi.radio.impl.DSIAMFMTunerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIAMFMTunerReply {
         super(n, (class$org$dsi$ifc$radio$DSIAMFMTunerListener == null ? (class$org$dsi$ifc$radio$DSIAMFMTunerListener = DSIAMFMTunerDispatcher.class$("org.dsi.ifc.radio.DSIAMFMTunerListener")) : class$org$dsi$ifc$radio$DSIAMFMTunerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateStationList(Station[] stationArray, int n) {
+    public void updateStationList(Station[] stationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -60,8 +59,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateStationListMW(Station[] stationArray, int n) {
+    public void updateStationListMW(Station[] stationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -89,8 +87,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateStationListLW(Station[] stationArray, int n) {
+    public void updateStationListLW(Station[] stationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -118,8 +115,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray, int n) {
+    public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -147,8 +143,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateRadioText(AMFMRadioText aMFMRadioText, int n) {
+    public void updateRadioText(AMFMRadioText aMFMRadioText, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -176,8 +171,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateAFSwitchStatus(boolean bl, int n) {
+    public void updateAFSwitchStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -205,8 +199,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateREGSwitchStatus(int n, int n2) {
+    public void updateREGSwitchStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -234,8 +227,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateLinkingUsageStatus(int n, int n2) {
+    public void updateLinkingUsageStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -263,8 +255,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateDetectedDevice(int n, int n2) {
+    public void updateDetectedDevice(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -292,8 +283,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void tuneFrequencyStepsStatus(int n) {
+    public void tuneFrequencyStepsStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -309,8 +299,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void selectStationStatus(int n) {
+    public void selectStationStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -326,8 +315,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void seekStationStatus(int n) {
+    public void seekStationStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -343,8 +331,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateRadioTextPlus(int[] nArray, String[] stringArray, int n) {
+    public void updateRadioTextPlus(int[] nArray, String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -372,8 +359,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedStation(Station station, int n) {
+    public void updateSelectedStation(Station station, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -401,8 +387,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedStationHD(Station station, int n, int n2) {
+    public void updateSelectedStationHD(Station station, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -430,8 +415,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void prepareTuningStatus(int n) {
+    public void prepareTuningStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -447,8 +431,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void selectFrequencyStatus(int n) {
+    public void selectFrequencyStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -464,8 +447,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void setAMBandRangeStatus(int n) {
+    public void setAMBandRangeStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -481,8 +463,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void forceFMUpdateStatus(int n) {
+    public void forceFMUpdateStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -498,8 +479,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updatePiIgnoreSwitchStatus(boolean bl, int n) {
+    public void updatePiIgnoreSwitchStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -527,8 +507,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void forceAMUpdateStatus(int n) {
+    public void forceAMUpdateStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -544,8 +523,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateRDSIgnoreSwitchStatus(boolean bl, int n) {
+    public void updateRDSIgnoreSwitchStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -573,8 +551,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateMESwitchStatus(boolean bl, int n) {
+    public void updateMESwitchStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -602,8 +579,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateHdStatus(int n, int n2) {
+    public void updateHdStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -631,8 +607,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateHdMode(int n, int n2) {
+    public void updateHdMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -660,8 +635,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateHdStationInfo(HdStationInfo hdStationInfo, int n) {
+    public void updateHdStationInfo(HdStationInfo hdStationInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -689,8 +663,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateAvailability(int n, int n2) {
+    public void updateAvailability(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -718,8 +691,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateElectronicSerialCode(String string, int n) {
+    public void updateElectronicSerialCode(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -747,8 +719,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -776,8 +747,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -793,8 +763,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -810,8 +779,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -827,8 +795,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -844,8 +811,7 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -861,14 +827,13 @@ implements DSIAMFMTunerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAMFMTunerListener dSIAMFMTunerListener = (DSIAMFMTunerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAMFMTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAMFMTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAMFMTunerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAMFMTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAMFMTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAMFMTunerListener, new Object[]{string, string2});
                     continue;
                 }

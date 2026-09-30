@@ -4,28 +4,20 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 public interface IInputTextInfoProvider {
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public String getCurrentWord() {
-    }
+    public String getCurrentWord();
 
-    default public String getCurrentText() {
-    }
+    public String getCurrentText();
 
-    default public boolean isStartOfText() {
-    }
+    public boolean isStartOfText();
 
-    default public boolean isStartOfWord() {
-    }
+    public boolean isStartOfWord();
 
-    default public int getKeyboardType() {
-    }
+    public int getKeyboardType();
 
-    default public String getCurrentDisplayString() {
-    }
+    public String getCurrentDisplayString();
 
-    default public int getTextLength() {
-    }
+    public int getTextLength();
 }
 

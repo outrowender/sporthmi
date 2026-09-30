@@ -44,7 +44,6 @@ implements ISingleTransportFactory {
         this.opts = socketOptions;
     }
 
-    @Override
     public ITransport createTransport() {
         SocketOptions socketOptions = this.opts;
         if (socketOptions == null) {
@@ -58,13 +57,12 @@ implements ISingleTransportFactory {
         return iTransport;
     }
 
-    @Override
     public String getDescription() {
         String string = this.addr != null ? this.addr.toString() : this.addrString;
         if (this.opts == null) {
-            return new StringBuffer().append("[TCP:").append(string).append(":").append(this.port).append(",server=").append(this.server).append("]").toString();
+            return "[TCP:" + string + ":" + this.port + ",server=" + this.server + "]";
         }
-        return new StringBuffer().append("[TCP:").append(string).append(":").append(this.port).append(",server=").append(this.server).append(",opts=").append(this.opts).append("]").toString();
+        return "[TCP:" + string + ":" + this.port + ",server=" + this.server + ",opts=" + this.opts + "]";
     }
 }
 

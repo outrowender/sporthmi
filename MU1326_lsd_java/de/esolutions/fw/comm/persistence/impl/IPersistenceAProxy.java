@@ -11,33 +11,10 @@ import de.esolutions.fw.comm.persistence.IPersistenceA;
 import de.esolutions.fw.comm.persistence.IPersistenceAC;
 import de.esolutions.fw.comm.persistence.IPersistenceAReply;
 import de.esolutions.fw.comm.persistence.PartitionHandle;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$1;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$10;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$11;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$12;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$13;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$14;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$15;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$16;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$17;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$18;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$19;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$2;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$20;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$21;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$22;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$23;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$24;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$25;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$26;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$3;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$4;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$5;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$6;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$7;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$8;
-import de.esolutions.fw.comm.persistence.impl.IPersistenceAProxy$9;
 import de.esolutions.fw.comm.persistence.impl.IPersistenceAReplyService;
+import de.esolutions.fw.comm.persistence.impl.PartitionHandleSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -57,8 +34,7 @@ IPersistenceAC {
         return this.proxy;
     }
 
-    @Override
-    public void open(long l, String string) {
+    public void open(long l, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -70,8 +46,7 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void open(String string, String string2) {
+    public void open(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -83,14 +58,17 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void close(PartitionHandle partitionHandle) {
-        IPersistenceAProxy$1 iPersistenceAProxy$1 = new IPersistenceAProxy$1(this, partitionHandle);
-        this.proxy.remoteCallMethod((short)3, iPersistenceAProxy$1);
+    public void close(final PartitionHandle partitionHandle) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void version(long l) {
+    public void version(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -101,8 +79,7 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void version(String string) {
+    public void version(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -113,8 +90,7 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void purge(long l) {
+    public void purge(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -125,8 +101,7 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void purge(String string) {
+    public void purge(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -137,158 +112,288 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void beginTransaction(PartitionHandle partitionHandle) {
-        IPersistenceAProxy$2 iPersistenceAProxy$2 = new IPersistenceAProxy$2(this, partitionHandle);
-        this.proxy.remoteCallMethod((short)0, iPersistenceAProxy$2);
+    public void beginTransaction(final PartitionHandle partitionHandle) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void endTransaction(PartitionHandle partitionHandle, boolean bl) {
-        IPersistenceAProxy$3 iPersistenceAProxy$3 = new IPersistenceAProxy$3(this, partitionHandle, bl);
-        this.proxy.remoteCallMethod((short)51, iPersistenceAProxy$3);
+    public void endTransaction(final PartitionHandle partitionHandle, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)51, iSerializable);
     }
 
-    @Override
-    public void endTransaction(PartitionHandle partitionHandle) {
-        IPersistenceAProxy$4 iPersistenceAProxy$4 = new IPersistenceAProxy$4(this, partitionHandle);
-        this.proxy.remoteCallMethod((short)5, iPersistenceAProxy$4);
+    public void endTransaction(final PartitionHandle partitionHandle) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void flush(PartitionHandle partitionHandle) {
-        IPersistenceAProxy$5 iPersistenceAProxy$5 = new IPersistenceAProxy$5(this, partitionHandle);
-        this.proxy.remoteCallMethod((short)9, iPersistenceAProxy$5);
+    public void flush(final PartitionHandle partitionHandle) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void exists(PartitionHandle partitionHandle, long l) {
-        IPersistenceAProxy$6 iPersistenceAProxy$6 = new IPersistenceAProxy$6(this, partitionHandle, l);
-        this.proxy.remoteCallMethod((short)7, iPersistenceAProxy$6);
+    public void exists(final PartitionHandle partitionHandle, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void remove(PartitionHandle partitionHandle, long l) {
-        IPersistenceAProxy$7 iPersistenceAProxy$7 = new IPersistenceAProxy$7(this, partitionHandle, l);
-        this.proxy.remoteCallMethod((short)32, iPersistenceAProxy$7);
+    public void remove(final PartitionHandle partitionHandle, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)32, iSerializable);
     }
 
-    @Override
-    public void setInt(PartitionHandle partitionHandle, long l, long l2) {
-        IPersistenceAProxy$8 iPersistenceAProxy$8 = new IPersistenceAProxy$8(this, partitionHandle, l, l2);
-        this.proxy.remoteCallMethod((short)35, iPersistenceAProxy$8);
+    public void setInt(final PartitionHandle partitionHandle, final long l, final long l2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+                iSerializer.putUInt32(l2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)35, iSerializable);
     }
 
-    @Override
-    public void getInt(PartitionHandle partitionHandle, long l, int n) {
-        IPersistenceAProxy$9 iPersistenceAProxy$9 = new IPersistenceAProxy$9(this, partitionHandle, l, n);
-        this.proxy.remoteCallMethod((short)64, iPersistenceAProxy$9);
+    public void getInt(final PartitionHandle partitionHandle, final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)64, iSerializable);
     }
 
-    @Override
-    public void getInt(PartitionHandle partitionHandle, long l) {
-        IPersistenceAProxy$10 iPersistenceAProxy$10 = new IPersistenceAProxy$10(this, partitionHandle, l);
-        this.proxy.remoteCallMethod((short)15, iPersistenceAProxy$10);
+    public void getInt(final PartitionHandle partitionHandle, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void getInts(PartitionHandle partitionHandle, long[] lArray, int n) {
-        IPersistenceAProxy$11 iPersistenceAProxy$11 = new IPersistenceAProxy$11(this, partitionHandle, lArray, n);
-        this.proxy.remoteCallMethod((short)66, iPersistenceAProxy$11);
+    public void getInts(final PartitionHandle partitionHandle, final long[] lArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)66, iSerializable);
     }
 
-    @Override
-    public void getInts(PartitionHandle partitionHandle, long[] lArray) {
-        IPersistenceAProxy$12 iPersistenceAProxy$12 = new IPersistenceAProxy$12(this, partitionHandle, lArray);
-        this.proxy.remoteCallMethod((short)17, iPersistenceAProxy$12);
+    public void getInts(final PartitionHandle partitionHandle, final long[] lArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void setString(PartitionHandle partitionHandle, long l, String string) {
-        IPersistenceAProxy$13 iPersistenceAProxy$13 = new IPersistenceAProxy$13(this, partitionHandle, l, string);
-        this.proxy.remoteCallMethod((short)37, iPersistenceAProxy$13);
+    public void setString(final PartitionHandle partitionHandle, final long l, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)37, iSerializable);
     }
 
-    @Override
-    public void getString(PartitionHandle partitionHandle, long l, int n) {
-        IPersistenceAProxy$14 iPersistenceAProxy$14 = new IPersistenceAProxy$14(this, partitionHandle, l, n);
-        this.proxy.remoteCallMethod((short)68, iPersistenceAProxy$14);
+    public void getString(final PartitionHandle partitionHandle, final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)68, iSerializable);
     }
 
-    @Override
-    public void getString(PartitionHandle partitionHandle, long l) {
-        IPersistenceAProxy$15 iPersistenceAProxy$15 = new IPersistenceAProxy$15(this, partitionHandle, l);
-        this.proxy.remoteCallMethod((short)19, iPersistenceAProxy$15);
+    public void getString(final PartitionHandle partitionHandle, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void getStrings(PartitionHandle partitionHandle, long[] lArray, int n) {
-        IPersistenceAProxy$16 iPersistenceAProxy$16 = new IPersistenceAProxy$16(this, partitionHandle, lArray, n);
-        this.proxy.remoteCallMethod((short)70, iPersistenceAProxy$16);
+    public void getStrings(final PartitionHandle partitionHandle, final long[] lArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)70, iSerializable);
     }
 
-    @Override
-    public void getStrings(PartitionHandle partitionHandle, long[] lArray) {
-        IPersistenceAProxy$17 iPersistenceAProxy$17 = new IPersistenceAProxy$17(this, partitionHandle, lArray);
-        this.proxy.remoteCallMethod((short)21, iPersistenceAProxy$17);
+    public void getStrings(final PartitionHandle partitionHandle, final long[] lArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void setBlob(PartitionHandle partitionHandle, long l, short[] sArray) {
-        IPersistenceAProxy$18 iPersistenceAProxy$18 = new IPersistenceAProxy$18(this, partitionHandle, l, sArray);
-        this.proxy.remoteCallMethod((short)34, iPersistenceAProxy$18);
+    public void setBlob(final PartitionHandle partitionHandle, final long l, final short[] sArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+                iSerializer.putOptionalUInt8VarArray(sArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)34, iSerializable);
     }
 
-    @Override
-    public void getBlob(PartitionHandle partitionHandle, long l, int n) {
-        IPersistenceAProxy$19 iPersistenceAProxy$19 = new IPersistenceAProxy$19(this, partitionHandle, l, n);
-        this.proxy.remoteCallMethod((short)60, iPersistenceAProxy$19);
+    public void getBlob(final PartitionHandle partitionHandle, final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)60, iSerializable);
     }
 
-    @Override
-    public void getBlob(PartitionHandle partitionHandle, long l) {
-        IPersistenceAProxy$20 iPersistenceAProxy$20 = new IPersistenceAProxy$20(this, partitionHandle, l);
-        this.proxy.remoteCallMethod((short)11, iPersistenceAProxy$20);
+    public void getBlob(final PartitionHandle partitionHandle, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void getBlobs(PartitionHandle partitionHandle, long[] lArray, int n) {
-        IPersistenceAProxy$21 iPersistenceAProxy$21 = new IPersistenceAProxy$21(this, partitionHandle, lArray, n);
-        this.proxy.remoteCallMethod((short)62, iPersistenceAProxy$21);
+    public void getBlobs(final PartitionHandle partitionHandle, final long[] lArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)62, iSerializable);
     }
 
-    @Override
-    public void getBlobs(PartitionHandle partitionHandle, long[] lArray) {
-        IPersistenceAProxy$22 iPersistenceAProxy$22 = new IPersistenceAProxy$22(this, partitionHandle, lArray);
-        this.proxy.remoteCallMethod((short)13, iPersistenceAProxy$22);
+    public void getBlobs(final PartitionHandle partitionHandle, final long[] lArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void subscribe(PartitionHandle partitionHandle, long[] lArray, int n) {
-        IPersistenceAProxy$23 iPersistenceAProxy$23 = new IPersistenceAProxy$23(this, partitionHandle, lArray, n);
-        this.proxy.remoteCallMethod((short)80, iPersistenceAProxy$23);
+    public void subscribe(final PartitionHandle partitionHandle, final long[] lArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)80, iSerializable);
     }
 
-    @Override
-    public void subscribe(PartitionHandle partitionHandle, long[] lArray) {
-        IPersistenceAProxy$24 iPersistenceAProxy$24 = new IPersistenceAProxy$24(this, partitionHandle, lArray);
-        this.proxy.remoteCallMethod((short)39, iPersistenceAProxy$24);
+    public void subscribe(final PartitionHandle partitionHandle, final long[] lArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)39, iSerializable);
     }
 
-    @Override
-    public void unsubscribe(PartitionHandle partitionHandle, long[] lArray) {
-        IPersistenceAProxy$25 iPersistenceAProxy$25 = new IPersistenceAProxy$25(this, partitionHandle, lArray);
-        this.proxy.remoteCallMethod((short)40, iPersistenceAProxy$25);
+    public void unsubscribe(final PartitionHandle partitionHandle, final long[] lArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+                iSerializer.putOptionalUInt32VarArray(lArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)40, iSerializable);
     }
 
-    @Override
-    public void unsubscribeAll(PartitionHandle partitionHandle) {
-        IPersistenceAProxy$26 iPersistenceAProxy$26 = new IPersistenceAProxy$26(this, partitionHandle);
-        this.proxy.remoteCallMethod((short)41, iPersistenceAProxy$26);
+    public void unsubscribeAll(final PartitionHandle partitionHandle) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PartitionHandleSerializer.putOptionalPartitionHandle(iSerializer, partitionHandle);
+            }
+        };
+        this.proxy.remoteCallMethod((short)41, iSerializable);
     }
 
-    @Override
-    public void convert(long l, String string, String string2) {
+    public void convert(long l, String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -301,8 +406,7 @@ IPersistenceAC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void convert(String string, String string2, String string3) {
+    public void convert(String string, String string2, String string3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

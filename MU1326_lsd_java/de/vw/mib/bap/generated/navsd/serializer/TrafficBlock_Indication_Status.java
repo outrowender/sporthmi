@@ -10,32 +10,32 @@ import de.vw.mib.bap.stream.BitStream;
 public final class TrafficBlock_Indication_Status
 implements StatusProperty {
     public int tmc_Symbol;
-    private static final int TMC_SYMBOL_BITSIZE;
-    public static final int TMC_SYMBOL_NO_TMC_SYMBOL;
-    public static final int TMC_SYMBOL_GENERAL_DANGER_PART_1;
-    public static final int TMC_SYMBOL_GENERAL_DANGER_PART_2;
-    public static final int TMC_SYMBOL_GENERAL_DANGER_PART_3;
-    public static final int TMC_SYMBOL_ROAD_WORKS;
-    public static final int TMC_SYMBOL_STATIONARY_TRAFFIC_JAM;
-    public static final int TMC_SYMBOL_SLOW_HEAVY_TRAFFIC;
-    public static final int TMC_SYMBOL_ROAD_NARROWED_ROAD_WIDTH_REDUCED_ON_BOTH_SIDES;
-    public static final int TMC_SYMBOL_SNOWFALL;
-    public static final int TMC_SYMBOL_SLIPPERY_ROAD;
-    public static final int TMC_SYMBOL_HEAVY_WINDS_STORM;
-    public static final int TMC_SYMBOL_ROCKFALL_LANDSLIP;
-    public static final int TMC_SYMBOL_PEOPLE_ON_THE_ROAD;
-    public static final int TMC_SYMBOL_BIKER_ON_THE_ROAD;
-    public static final int TMC_SYMBOL_ANIMALS_ON_ROAD;
-    public static final int TMC_SYMBOL_SMOG;
-    public static final int TMC_SYMBOL_CLOSED_ROAD;
-    public static final int TMC_SYMBOL_OVERTAKE_RESTRICTION;
-    public static final int TMC_SYMBOL_END_OF_OVERTAKE_RESTRICTION;
-    public static final int TMC_SYMBOL_END_OF_ALL_RESTRICTIONS;
-    public static final int TMC_SYMBOL_SNOW_CHAINS_MANDATORY;
-    public static final int TMC_SYMBOL_DELAY;
-    public static final int TMC_SYMBOL_ROAD_NARROWED_ON_LEFT_HAND_SIDE;
-    public static final int TMC_SYMBOL_ROAD_NARROWED_ON_RIGHT_HAND_SIDE;
-    public static final int TMC_SYMBOL_UNKNOWN_TMC_SYMBOL;
+    private static final int TMC_SYMBOL_BITSIZE = 8;
+    public static final int TMC_SYMBOL_NO_TMC_SYMBOL = 0;
+    public static final int TMC_SYMBOL_GENERAL_DANGER_PART_1 = 1;
+    public static final int TMC_SYMBOL_GENERAL_DANGER_PART_2 = 2;
+    public static final int TMC_SYMBOL_GENERAL_DANGER_PART_3 = 3;
+    public static final int TMC_SYMBOL_ROAD_WORKS = 4;
+    public static final int TMC_SYMBOL_STATIONARY_TRAFFIC_JAM = 5;
+    public static final int TMC_SYMBOL_SLOW_HEAVY_TRAFFIC = 6;
+    public static final int TMC_SYMBOL_ROAD_NARROWED_ROAD_WIDTH_REDUCED_ON_BOTH_SIDES = 7;
+    public static final int TMC_SYMBOL_SNOWFALL = 8;
+    public static final int TMC_SYMBOL_SLIPPERY_ROAD = 9;
+    public static final int TMC_SYMBOL_HEAVY_WINDS_STORM = 10;
+    public static final int TMC_SYMBOL_ROCKFALL_LANDSLIP = 11;
+    public static final int TMC_SYMBOL_PEOPLE_ON_THE_ROAD = 12;
+    public static final int TMC_SYMBOL_BIKER_ON_THE_ROAD = 13;
+    public static final int TMC_SYMBOL_ANIMALS_ON_ROAD = 14;
+    public static final int TMC_SYMBOL_SMOG = 15;
+    public static final int TMC_SYMBOL_CLOSED_ROAD = 16;
+    public static final int TMC_SYMBOL_OVERTAKE_RESTRICTION = 17;
+    public static final int TMC_SYMBOL_END_OF_OVERTAKE_RESTRICTION = 18;
+    public static final int TMC_SYMBOL_END_OF_ALL_RESTRICTIONS = 19;
+    public static final int TMC_SYMBOL_SNOW_CHAINS_MANDATORY = 20;
+    public static final int TMC_SYMBOL_DELAY = 21;
+    public static final int TMC_SYMBOL_ROAD_NARROWED_ON_LEFT_HAND_SIDE = 22;
+    public static final int TMC_SYMBOL_ROAD_NARROWED_ON_RIGHT_HAND_SIDE = 23;
+    public static final int TMC_SYMBOL_UNKNOWN_TMC_SYMBOL = 255;
 
     public TrafficBlock_Indication_Status() {
         this.internalReset();
@@ -51,12 +51,10 @@ implements StatusProperty {
         this.tmc_Symbol = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         TrafficBlock_Indication_Status trafficBlock_Indication_Status = (TrafficBlock_Indication_Status)bAPEntity;
         return this.tmc_Symbol == trafficBlock_Indication_Status.tmc_Symbol;
@@ -65,7 +63,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("TrafficBlock_Indication_Status:");
@@ -178,18 +175,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.tmc_Symbol);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.tmc_Symbol = bitStream.popFrontByte();
     }
@@ -198,7 +192,6 @@ implements StatusProperty {
         return 40;
     }
 
-    @Override
     public int getFunctionId() {
         return TrafficBlock_Indication_Status.functionId();
     }

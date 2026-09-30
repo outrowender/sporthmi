@@ -31,7 +31,6 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.generalMonitoringStatus.reset();
@@ -40,7 +39,6 @@ implements StatusProperty {
         this.monitoringStatus.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveMonitorings_Status activeMonitorings_Status = (ActiveMonitorings_Status)bAPEntity;
         return this.generalMonitoringStatus.equalTo(activeMonitorings_Status.generalMonitoringStatus) && this.extension1.equalTo(activeMonitorings_Status.extension1) && this.extension2.equalTo(activeMonitorings_Status.extension2) && this.monitoringStatus.equalTo(activeMonitorings_Status.monitoringStatus);
@@ -49,23 +47,20 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveMonitorings_Status");
-        stringBuffer.append(new StringBuffer().append("\n - generalMonitoringStatus:").append(this.generalMonitoringStatus.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension1:").append(this.extension1.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension2:").append(this.extension2.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - monitoringStatus:").append(this.monitoringStatus.toString()).toString());
+        stringBuffer.append("\n - generalMonitoringStatus:" + this.generalMonitoringStatus.toString());
+        stringBuffer.append("\n - extension1:" + this.extension1.toString());
+        stringBuffer.append("\n - extension2:" + this.extension2.toString());
+        stringBuffer.append("\n - monitoringStatus:" + this.monitoringStatus.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.generalMonitoringStatus.serialize(bitStream);
         this.extension1.serialize(bitStream);
@@ -73,7 +68,6 @@ implements StatusProperty {
         this.monitoringStatus.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.generalMonitoringStatus.deserialize(bitStream);
         this.extension1.deserialize(bitStream);
@@ -85,7 +79,6 @@ implements StatusProperty {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return ActiveMonitorings_Status.functionId();
     }

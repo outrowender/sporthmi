@@ -26,28 +26,23 @@ implements DSIUPNPBrowser {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$upnp$DSIUPNPBrowser == null ? (class$org$dsi$ifc$upnp$DSIUPNPBrowser = DSIUPNPBrowserProvider.class$("org.dsi.ifc.upnp.DSIUPNPBrowser")) : class$org$dsi$ifc$upnp$DSIUPNPBrowser).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIUPNPBrowserProxy(this.instance, (DSIUPNPBrowserReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void changeFolder(ListEntry[] listEntryArray) {
         try {
             this.proxy.changeFolder(listEntryArray);
@@ -57,7 +52,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void requestList(String string, int n, int n2, int n3) {
         try {
             this.proxy.requestList(string, n, n2, n3);
@@ -67,7 +61,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -77,7 +70,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -87,7 +79,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -97,7 +88,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -107,7 +97,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -117,7 +106,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -127,7 +115,6 @@ implements DSIUPNPBrowser {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

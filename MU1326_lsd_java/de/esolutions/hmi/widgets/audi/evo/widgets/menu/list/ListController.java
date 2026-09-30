@@ -14,7 +14,6 @@ import de.audi.atip.hmi.model.TextListCell;
 import de.audi.atip.hmi.model.list.BaseListModel;
 import de.audi.atip.hmi.model.list.GuiListRow;
 import de.audi.atip.hmi.model.update.ModelUpdateData;
-import de.audi.atip.hmi.model.update.ModelUpdateData$Key;
 import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 import de.audi.atip.hmi.modelaccess.ListModelGUI;
 import de.audi.atip.hmi.view.AbstractScreenFactory;
@@ -25,6 +24,7 @@ import de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo;
 import de.audi.tghu.hmi.evo.IFocusedPropertyObject;
 import de.audi.tghu.hmi.evo.IPresetPopupData;
 import de.eso.widgets.preset.PresetPopupData;
+import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
@@ -43,7 +43,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemMetaData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateDelta;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.IListWidgetDataAccess;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListController$ListModelRowMapper;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListItemFactory;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListItemWidget;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListItemWidgetCache;
@@ -65,7 +64,7 @@ IViewSizeAnimatable {
     private ListItemFactory itemFactory;
     private ListManager listManager;
     private IListWidgetDataAccess dataAccess;
-    private ListController$ListModelRowMapper rowIndexMapper;
+    private ListModelRowMapper rowIndexMapper;
     ListLayoutCalculator layoutCalculator = new ListLayoutCalculator(this);
     private ListItemWidgetCache itemsCache = new ListItemWidgetCache();
     private int modelSize;
@@ -97,13 +96,12 @@ IViewSizeAnimatable {
     private int expandableItemColumn = -1;
     private int focusedIndexBeforeMerge;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.dataAccess == null) {
             this.dataAccess = this.createDefaultDataAccess();
             this.initializeDataAccess();
-            listLogCh.log(-2137614336, "ListController#initializeWidget: create default DataAccess: %1", (Object)this.dataAccess);
+            listLogCh.log(10000000, "ListController#initializeWidget: create default DataAccess: %1", (Object)this.dataAccess);
         }
         if (this.dataAccess != null) {
             this.dataAccess.connect(this.initContext);
@@ -132,7 +130,6 @@ IViewSizeAnimatable {
         return null;
     }
 
-    @Override
     public void disconnecting() {
         if (this.dataAccess != null) {
             this.dataAccess.disconnect();
@@ -162,31 +159,27 @@ IViewSizeAnimatable {
             }
         }
         if (this.getChildrenSize() != 0) {
-            listLogCh.log(-1601830656, "ListController#clearItemsCache: list widget has still children: %1", (Object)this.getChildren());
+            listLogCh.log(100000, "ListController#clearItemsCache: list widget has still children: %1", (Object)this.getChildren());
         }
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (bl) {
             this.clearHeightCache();
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (bl) {
             this.clearHeightCache();
         }
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        listLogCh.log(-2137614336, "ListController#processModelUpdateEvent: received model update. event: %1", (Object)modelUpdateEvent);
+        listLogCh.log(10000000, "ListController#processModelUpdateEvent: received model update. event: %1", (Object)modelUpdateEvent);
         this.propagateEventToDataAccess(modelUpdateEvent);
         if (this.shouldIgnoreEvent(modelUpdateEvent)) {
             return;
@@ -195,7 +188,7 @@ IViewSizeAnimatable {
         if (this.shouldRender()) {
             this.propagateEventToListManager(modelUpdateEvent);
         } else {
-            listLogCh.log(-2137614336, "ListController#processModelUpdateEvent: list widget is invisible, don't process event in menu. event: %1", (Object)modelUpdateEvent);
+            listLogCh.log(10000000, "ListController#processModelUpdateEvent: list widget is invisible, don't process event in menu. event: %1", (Object)modelUpdateEvent);
         }
         this.setCompositesDirty(true);
         super.processModelUpdateEvent(modelUpdateEvent);
@@ -204,13 +197,13 @@ IViewSizeAnimatable {
     private boolean shouldIgnoreEvent(ModelUpdateEvent modelUpdateEvent) {
         switch (modelUpdateEvent.getUpdateType()) {
             case 2: {
-                listLogCh.log(1078071040, "ListController#shouldIgnoreEvent: ignore StatusChanged event");
+                listLogCh.log(1000000, "ListController#shouldIgnoreEvent: ignore StatusChanged event");
                 return true;
             }
             case 8: {
                 ModelUpdateData modelUpdateData = modelUpdateEvent.getClientData3();
-                if (modelUpdateData != null && modelUpdateData.contains(ModelUpdateData$Key.COUNT) && modelUpdateData.getInt(ModelUpdateData$Key.COUNT) == 0) {
-                    listLogCh.log(1078071040, "ListController#shouldIgnoreEvent: ignore RowChanged event with count=0. Client");
+                if (modelUpdateData != null && modelUpdateData.contains(ModelUpdateData.Key.COUNT) && modelUpdateData.getInt(ModelUpdateData.Key.COUNT) == 0) {
+                    listLogCh.log(1000000, "ListController#shouldIgnoreEvent: ignore RowChanged event with count=0. Client");
                     return true;
                 }
                 return false;
@@ -239,7 +232,7 @@ IViewSizeAnimatable {
      */
     private void propagateEventToListManager(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent.getModelType() == 100) {
-            this.rowIndexMapper = new ListController$ListModelRowMapper(this, modelUpdateEvent.getNestedEvents());
+            this.rowIndexMapper = new ListModelRowMapper(modelUpdateEvent.getNestedEvents());
         }
         try {
             this.listManager.listModelChanged(this, modelUpdateEvent);
@@ -249,7 +242,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public boolean canProcessModelGroupEvent() {
         return true;
     }
@@ -258,11 +250,10 @@ IViewSizeAnimatable {
         if (this.rowIndexMapper != null) {
             this.rowIndexMapper.currentHandledEvent = n;
         } else {
-            listLogCh.log(-1601830656, "ListController#setCurrentProcessedNestedEvent: rowMapper is null. current processed event: %1", (long)n);
+            listLogCh.log(100000, "ListController#setCurrentProcessedNestedEvent: rowMapper is null. current processed event: %1", (long)n);
         }
     }
 
-    @Override
     public boolean updateMenuItem(MenuItemMetaData menuItemMetaData) {
         VisibleMenuListItem visibleMenuListItem = (VisibleMenuListItem)menuItemMetaData;
         int n = menuItemMetaData.index.widgetPart;
@@ -270,34 +261,33 @@ IViewSizeAnimatable {
         if (!this.isRecordSetCacheIgnored && this.isModelRowValidForItem(visibleMenuListItem, object)) {
             if (menuItemMetaData.isRealized()) {
                 if (listLogCh.isDebug()) {
-                    listLogCh.log(-2137614336, "ListController#updateMenuItem: update menu item %1. old item: '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
+                    listLogCh.log(10000000, "ListController#updateMenuItem: update menu item %1. old item: '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
                 }
                 this.updateListItemWidget(visibleMenuListItem, object, n);
                 if (listLogCh.isDebug()) {
-                    listLogCh.log(-2137614336, "ListController#updateMenuItem: update menu item %1. new item: '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
+                    listLogCh.log(10000000, "ListController#updateMenuItem: update menu item %1. new item: '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
                 }
             }
             visibleMenuListItem.listLayoutCacheKey = this.layoutCalculator.createCacheKeyForRowData(object);
             return true;
         }
-        listLogCh.log(-1601830656, "ListController#updateMenuItem: can not update item: %1", (Object)menuItemMetaData.index);
+        listLogCh.log(100000, "ListController#updateMenuItem: can not update item: %1", (Object)menuItemMetaData.index);
         return false;
     }
 
     private boolean isModelRowValidForItem(VisibleMenuListItem visibleMenuListItem, Object object) {
         int n = this.getRecordSetForRow(object);
         if (visibleMenuListItem.recordSet != n) {
-            listLogCh.log(-1601830656, "ListController#isModelRowValidForItem: RecordSet has changed in row %1. Expected RecordSet: %2, actual: %3", object, (long)visibleMenuListItem.recordSet, (long)n);
+            listLogCh.log(100000, "ListController#isModelRowValidForItem: RecordSet has changed in row %1. Expected RecordSet: %2, actual: %3", object, (long)visibleMenuListItem.recordSet, (long)n);
             return false;
         }
         return true;
     }
 
-    @Override
     public void updateSubItemCount() {
         int n = this.getLengthFromModel();
         if (n != this.modelSize) {
-            listLogCh.log(1078071040, "ListController#updateSubItemCount: listModel %1 length changed from %2 to %3", (long)this.getModelID(), (long)this.modelSize, (long)n);
+            listLogCh.log(1000000, "ListController#updateSubItemCount: listModel %1 length changed from %2 to %3", (long)this.getModelID(), (long)this.modelSize, (long)n);
         }
         this.modelSize = n;
     }
@@ -310,7 +300,6 @@ IViewSizeAnimatable {
         return 0;
     }
 
-    @Override
     public int getSelectedIndex() {
         if (this.dataAccess != null) {
             return this.dataAccess.getSelectedIndex();
@@ -324,7 +313,7 @@ IViewSizeAnimatable {
             if (this.rowIndexMapper != null) {
                 int n2 = this.rowIndexMapper.map(n);
                 if (n2 != n) {
-                    listLogCh.log(-2137614336, "ListController#getModelRow: map row index %2 to %3 for nested events. %1", (Object)this.rowIndexMapper, (long)n, (long)n2);
+                    listLogCh.log(10000000, "ListController#getModelRow: map row index %2 to %3 for nested events. %1", (Object)this.rowIndexMapper, (long)n, (long)n2);
                 }
                 n = n2;
             }
@@ -344,27 +333,22 @@ IViewSizeAnimatable {
         return this.getIntegerListCellValue(object, this.recordSetColumn, -1, "record set");
     }
 
-    @Override
     public int getSubItemCount() {
         return this.modelSize;
     }
 
-    @Override
     public int getPreferredMenuItemHeight(int n, boolean bl) {
         return this.layoutCalculator.getPreferredMenuItemHeight(n, bl);
     }
 
-    @Override
     public int getPreferredMenuItemHeight(MenuItemMetaData menuItemMetaData, boolean bl) {
         return this.layoutCalculator.getPreferredMenuItemHeight((VisibleMenuListItem)menuItemMetaData, bl);
     }
 
-    @Override
     public int getMargin(int n, boolean bl) {
         return this.layoutCalculator.getMargin(n, bl);
     }
 
-    @Override
     public int getGlassplateInsets(int n, boolean bl) {
         int n2 = this.getRecordSetForGlassplateInsetsArray(n, bl);
         if (n2 != -1) {
@@ -388,12 +372,10 @@ IViewSizeAnimatable {
         return n2;
     }
 
-    @Override
     public int getMargin(MenuItemMetaData menuItemMetaData, boolean bl) {
         return this.layoutCalculator.getMargin((VisibleMenuListItem)menuItemMetaData, bl);
     }
 
-    @Override
     public int getGlassplateInsets(MenuItemMetaData menuItemMetaData, boolean bl) {
         int n = this.getRecordSetForGlassplateInsetsArray(menuItemMetaData.index.widgetPart, bl);
         if (n != -1) {
@@ -403,12 +385,10 @@ IViewSizeAnimatable {
         return this.layoutCalculator.getGlassplateInsets((VisibleMenuListItem)menuItemMetaData, bl);
     }
 
-    @Override
     public int getNoCursorArea(MenuItemMetaData menuItemMetaData, boolean bl) {
         return this.getNoCursorArea(menuItemMetaData.index.widgetPart, bl);
     }
 
-    @Override
     public int getNoCursorArea(int n, boolean bl) {
         int[] nArray;
         int[] nArray2 = nArray = bl ? this.noCursorAreasTop : this.noCursorAreasBottom;
@@ -423,7 +403,6 @@ IViewSizeAnimatable {
         return nArray[n2];
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
@@ -444,7 +423,6 @@ IViewSizeAnimatable {
         this.listManager = listManager;
     }
 
-    @Override
     public MenuItemMetaData createMenuItem(int n) {
         return this.createListItemInternal(this.getModelRow(n));
     }
@@ -458,22 +436,21 @@ IViewSizeAnimatable {
         return visibleMenuListItem;
     }
 
-    @Override
     public boolean realizeMenuItem(MenuItemMetaData menuItemMetaData) {
         if (menuItemMetaData.isRealized()) {
-            listLogCh.log(-1601830656, "ListController#realizeMenuItem: item is already realized: %1", (Object)menuItemMetaData.index);
+            listLogCh.log(100000, "ListController#realizeMenuItem: item is already realized: %1", (Object)menuItemMetaData.index);
             return true;
         }
         VisibleMenuListItem visibleMenuListItem = (VisibleMenuListItem)menuItemMetaData;
         int n = menuItemMetaData.index.widgetPart;
         Object object = this.getModelRow(n);
         if (!this.isModelRowValidForItem(visibleMenuListItem, object)) {
-            listLogCh.log(-1601830656, "ListController#realizeMenuItem: can not realize item: %1", (Object)menuItemMetaData.index);
+            listLogCh.log(100000, "ListController#realizeMenuItem: can not realize item: %1", (Object)menuItemMetaData.index);
             return false;
         }
         this.realizeInternal(visibleMenuListItem, n, object);
         if (listLogCh.isDebug()) {
-            listLogCh.log(-2137614336, "ListController#realizeMenuItem: create widget for item: %1, '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
+            listLogCh.log(10000000, "ListController#realizeMenuItem: create widget for item: %1, '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
         }
         return true;
     }
@@ -490,7 +467,7 @@ IViewSizeAnimatable {
         this.propagateExpansion(visibleMenuListItem, n);
         InitializationContext initializationContext = this.getInitContext();
         if (initializationContext == null) {
-            listLogCh.log(-2137614336, "ListController#realizeInternal: InitContext is null! Cannot set current viewsize on widget!");
+            listLogCh.log(10000000, "ListController#realizeInternal: InitContext is null! Cannot set current viewsize on widget!");
             return;
         }
         Screen screen = initializationContext.getScreen();
@@ -518,7 +495,7 @@ IViewSizeAnimatable {
         }
         AbstractWidgetController abstractWidgetController2 = this.itemsCache.get(visibleMenuListItem.recordSet);
         if (abstractWidgetController2 != null) {
-            listLogCh.log(-2137614336, "ListController#createListItemWidget: get widget from listItemsCache for index %2, record set: %3: %1", (Object)abstractWidgetController2, (Object)visibleMenuListItem.index, (long)visibleMenuListItem.recordSet);
+            listLogCh.log(10000000, "ListController#createListItemWidget: get widget from listItemsCache for index %2, record set: %3: %1", (Object)abstractWidgetController2, (Object)visibleMenuListItem.index, (long)visibleMenuListItem.recordSet);
             return abstractWidgetController2;
         }
         if (visibleMenuListItem.recordSet == -1) {
@@ -533,7 +510,7 @@ IViewSizeAnimatable {
             abstractWidgetController = this.itemFactory.createListItem(visibleMenuListItem.recordSet, listCellArray);
         }
         if (abstractWidgetController != null) {
-            listLogCh.log(-2137614336, "ListController#createListItemWidget: realize menu item %2, record set: %3: %1", (Object)abstractWidgetController, (Object)visibleMenuListItem.index, (long)visibleMenuListItem.recordSet);
+            listLogCh.log(10000000, "ListController#createListItemWidget: realize menu item %2, record set: %3: %1", (Object)abstractWidgetController, (Object)visibleMenuListItem.index, (long)visibleMenuListItem.recordSet);
             return abstractWidgetController;
         }
         listLogCh.log(10000, "ListController#createListItemWidget: itemFactory returned null for item: %2, recordSet: %3, itemfactory: %1", (Object)this.itemFactory, (Object)visibleMenuListItem.index, (long)visibleMenuListItem.recordSet);
@@ -627,7 +604,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void destroyMenuItem(MenuItemMetaData menuItemMetaData) {
         int n;
         boolean bl;
@@ -635,7 +611,7 @@ IViewSizeAnimatable {
             return;
         }
         if (listLogCh.isDebug()) {
-            listLogCh.log(-2137614336, "ListController#destroyMenuItem: destroy menu item %1: '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
+            listLogCh.log(10000000, "ListController#destroyMenuItem: destroy menu item %1: '%2'", (Object)menuItemMetaData.index, (Object)menuItemMetaData.widget.getDiagnosisText());
         }
         if (bl = this.putItemWidgetInCache(n = ((VisibleMenuListItem)menuItemMetaData).recordSet, menuItemMetaData.widget)) {
             menuItemMetaData.widget.setOnScreen(false);
@@ -647,7 +623,7 @@ IViewSizeAnimatable {
 
     private boolean putItemWidgetInCache(int n, AbstractWidgetController abstractWidgetController) {
         if (this.isRecordSetCacheIgnored || !this.cacheWidgetsPerRecordSet) {
-            listLogCh.log(-2137614336, "ListController#destroyMenuItem: don't cache menu items");
+            listLogCh.log(10000000, "ListController#destroyMenuItem: don't cache menu items");
             return false;
         }
         if (!this.isConnected()) {
@@ -655,14 +631,13 @@ IViewSizeAnimatable {
         }
         boolean bl = this.itemsCache.add(n, abstractWidgetController);
         if (bl) {
-            listLogCh.log(-2137614336, "ListController#destroyMenuItem: add widget to listItemsCache for recordSet %2: %1", (Object)abstractWidgetController, (long)n);
+            listLogCh.log(10000000, "ListController#destroyMenuItem: add widget to listItemsCache for recordSet %2: %1", (Object)abstractWidgetController, (long)n);
         } else {
-            listLogCh.log(-1601830656, "ListController#destroyMenuItem: can not add item to listItemsCache for recordSet %2: %1", (Object)abstractWidgetController, (long)n);
+            listLogCh.log(100000, "ListController#destroyMenuItem: can not add item to listItemsCache for recordSet %2: %1", (Object)abstractWidgetController, (long)n);
         }
         return bl;
     }
 
-    @Override
     public void setParent(AbstractWidget abstractWidget) {
         super.setParent(abstractWidget);
         if (abstractWidget instanceof ListManager) {
@@ -690,7 +665,6 @@ IViewSizeAnimatable {
         this.recordSetColumn = n;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent, int n) {
         this.isKeyPressed = true;
         if (keyEvent.getKeyCode() != 17) {
@@ -701,7 +675,7 @@ IViewSizeAnimatable {
             if (l != null) {
                 this.dataAccess.itemSelected(l, n);
             } else {
-                listLogCh.log(-1601830656, "ListController#keyPressed: no ID defined for row %1", (long)n);
+                listLogCh.log(100000, "ListController#keyPressed: no ID defined for row %1", (long)n);
             }
             keyEvent.consume();
         } else {
@@ -709,7 +683,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent, int n) {
         Object object;
         this.isKeyPressed = false;
@@ -721,7 +694,7 @@ IViewSizeAnimatable {
             if (object != null) {
                 this.dataAccess.itemReleased((Long)object, n);
             } else {
-                listLogCh.log(-1601830656, "ListController#keyReleased: no ID defined for row %1", (long)n);
+                listLogCh.log(100000, "ListController#keyReleased: no ID defined for row %1", (long)n);
             }
         } else {
             listLogCh.log(10000, "ListController#keyReleased: no data access set. Model: %1", this.model);
@@ -741,16 +714,14 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void itemFocused(int n) {
         if (this.model instanceof ListModelGUI) {
             ListModelGUI listModelGUI = (ListModelGUI)this.model;
-            listLogCh.log(-2137614336, "ListController#itemFocused: call itemFocused. model: %1, row: %2", (long)listModelGUI.getID(), (long)n);
+            listLogCh.log(10000000, "ListController#itemFocused: call itemFocused. model: %1, row: %2", (long)listModelGUI.getID(), (long)n);
             listModelGUI.itemFocused(n, 0, this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public IFocusedPropertyObject getPropertiesForLine(int n) {
         if (this.propertyColumn == -1) {
             return null;
@@ -776,7 +747,6 @@ IViewSizeAnimatable {
         return null;
     }
 
-    @Override
     public boolean isEnabled(int n) {
         if (!this.isEnabled()) {
             return false;
@@ -795,7 +765,6 @@ IViewSizeAnimatable {
         return this.getIntegerListCellValue(object, this.enabledColumn, 1, "enabledColumn") > 0;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (this.isEnabled() == bl) {
             return;
@@ -809,7 +778,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public boolean isNowPlayingModeEnabled(int n) {
         if (this.nowPlayingModeEnabledColumn == -1) {
             return true;
@@ -837,13 +805,11 @@ IViewSizeAnimatable {
         return n2;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         this.updateDataAccessVisibility();
     }
 
-    @Override
     public void setVisibleOnCurrentStage(boolean bl) {
         super.setVisibleOnCurrentStage(bl);
         this.updateDataAccessVisibility();
@@ -856,21 +822,19 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public int getSizeForTabulator(int n) {
-        listLogCh.log(-1601830656, "ListController#getSizeForTabulator: tabulators are not supported in list. tabulatorType: %1", (long)n);
+        listLogCh.log(100000, "ListController#getSizeForTabulator: tabulators are not supported in list. tabulatorType: %1", (long)n);
         return -1;
     }
 
-    @Override
     public void showExtended(boolean bl, int n) {
         if (bl) {
             if (this.extendedMenuItem != -1 && this.extendedMenuItem != n) {
-                listLogCh.log(-1601830656, "ListController#showExtended: already another item expanded: %1, new expanded index: %2", (long)this.extendedMenuItem, (long)n);
+                listLogCh.log(100000, "ListController#showExtended: already another item expanded: %1, new expanded index: %2", (long)this.extendedMenuItem, (long)n);
             }
             this.extendedMenuItem = n;
         } else if (this.extendedMenuItem != n) {
-            listLogCh.log(-1601830656, "ListController#showExtended: collapsed index %2 was not stored as expanded (%1)", (long)this.extendedMenuItem, (long)n);
+            listLogCh.log(100000, "ListController#showExtended: collapsed index %2 was not stored as expanded (%1)", (long)this.extendedMenuItem, (long)n);
         } else {
             this.extendedMenuItem = -1;
         }
@@ -914,7 +878,6 @@ IViewSizeAnimatable {
         this.enabledColumn = n;
     }
 
-    @Override
     public IPresetPopupData getPresetPopupData(int n) {
         int n2 = -1;
         try {
@@ -932,7 +895,6 @@ IViewSizeAnimatable {
         return new PresetPopupData(0, n2, new Preset(1, this.modelID, 0, null, null, 99), null, null, n, null);
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
@@ -941,7 +903,6 @@ IViewSizeAnimatable {
         this.widgetID = n;
     }
 
-    @Override
     public int getItemIndexForUniqueID(long l) {
         if (this.dataAccess != null) {
             return this.dataAccess.getItemIndexForUniqueID(l);
@@ -950,7 +911,6 @@ IViewSizeAnimatable {
         return -1;
     }
 
-    @Override
     public Long getUniqueIDForItemIndex(int n) {
         if (this.dataAccess != null) {
             return this.dataAccess.getUniqueIDForItemIndex(n);
@@ -987,19 +947,16 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setModel(Object object) {
         super.setModel(object);
         this.initializeDataAccess();
     }
 
-    @Override
     public void setModel(HMIModelGUI hMIModelGUI) {
         super.setModel(hMIModelGUI);
         this.initializeDataAccess();
     }
 
-    @Override
     public void menuLayouted() {
         if (this.dataAccess != null) {
             MenuController menuController = (MenuController)this.parent;
@@ -1019,7 +976,6 @@ IViewSizeAnimatable {
         return menuItemMetaData.index;
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
         if (this.dataAccess != null && bl) {
             MenuController menuController = (MenuController)this.parent;
@@ -1035,23 +991,18 @@ IViewSizeAnimatable {
         this.autoLayoutSetup = bl;
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 
@@ -1063,7 +1014,6 @@ IViewSizeAnimatable {
         this.sdsItemSelectedAction = n;
     }
 
-    @Override
     public int getSdsItemSelectedAction(int n) {
         Object object = this.getModelRow(n);
         if (object != null && this.sdsActionColumn != -1) {
@@ -1072,12 +1022,10 @@ IViewSizeAnimatable {
         return this.sdsItemSelectedAction;
     }
 
-    @Override
     public boolean hasInfolineText(int n) {
         return this.getInfolineText(n) != null;
     }
 
-    @Override
     public String getInfolineText(int n) {
         int n2;
         int[] nArray;
@@ -1116,7 +1064,7 @@ IViewSizeAnimatable {
             return null;
         }
         if (n2 < 0 || n2 >= nArray.length) {
-            listLogCh.log(-1601830656, "ListController#getInfolineText: model value for infoline is invalid: %1, texts.length: %2, item enabled: %3", (long)n2, (long)nArray.length, bl);
+            listLogCh.log(100000, "ListController#getInfolineText: model value for infoline is invalid: %1, texts.length: %2, item enabled: %3", (long)n2, (long)nArray.length, bl);
             return null;
         }
         int n4 = nArray[n2];
@@ -1131,11 +1079,10 @@ IViewSizeAnimatable {
             }
             return abstractScreenFactory.getText(n);
         }
-        listLogCh.log(-1601830656, "ListController#getInfolineText: screen factory is null. textID: %1", (long)n);
+        listLogCh.log(100000, "ListController#getInfolineText: screen factory is null. textID: %1", (long)n);
         return null;
     }
 
-    @Override
     public boolean isFocusable(int n) {
         if (this.focusableColumn == -1) {
             return true;
@@ -1191,7 +1138,6 @@ IViewSizeAnimatable {
         return this.menuRightOptionsIconSpace;
     }
 
-    @Override
     public void setMenuSize(int n, int n2, int n3) {
         this.menuContentWidth = n;
         this.menuRightOptionsIconSpace = n3;
@@ -1229,7 +1175,6 @@ IViewSizeAnimatable {
         this.cacheWidgetsPerRecordSet = bl;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
@@ -1299,9 +1244,53 @@ IViewSizeAnimatable {
         return this.expandableItemColumn;
     }
 
-    @Override
     public void setFocusedCursorBeforeMerge(int n) {
         this.focusedIndexBeforeMerge = n;
+    }
+
+    public class ListModelRowMapper {
+        private ModelUpdateEvent[] nestedEvents;
+        int currentHandledEvent = 0;
+
+        public ListModelRowMapper(ModelUpdateEvent[] modelUpdateEventArray) {
+            this.nestedEvents = modelUpdateEventArray;
+        }
+
+        public int map(int n) {
+            for (int i2 = this.currentHandledEvent + 1; i2 < this.nestedEvents.length; ++i2) {
+                ModelUpdateEvent modelUpdateEvent = this.nestedEvents[i2];
+                if (modelUpdateEvent.getModelId() != ListController.this.getModelID()) continue;
+                n = this.map(n, modelUpdateEvent);
+            }
+            return n;
+        }
+
+        private int map(int n, ModelUpdateEvent modelUpdateEvent) {
+            int n2 = modelUpdateEvent.getUpdateType();
+            if (n2 == 9) {
+                int n3;
+                ModelUpdateData modelUpdateData = modelUpdateEvent.getClientData3();
+                int n4 = modelUpdateData != null ? modelUpdateData.getInt(ModelUpdateData.Key.INDEX) : modelUpdateEvent.getClientData1();
+                int n5 = n3 = modelUpdateData != null ? modelUpdateData.getInt(ModelUpdateData.Key.COUNT) : 1;
+                if (n4 <= n) {
+                    n -= n3;
+                    n = Math.max(n4, n);
+                }
+            } else if (n2 == 7) {
+                int n6;
+                ModelUpdateData modelUpdateData = modelUpdateEvent.getClientData3();
+                int n7 = modelUpdateData != null ? modelUpdateData.getInt(ModelUpdateData.Key.INDEX) : modelUpdateEvent.getClientData1();
+                int n8 = n6 = modelUpdateData != null ? modelUpdateData.getInt(ModelUpdateData.Key.COUNT) : 1;
+                if (n7 <= n) {
+                    n += n6;
+                }
+            }
+            return n;
+        }
+
+        public String toString() {
+            return new Buffer().append("ListRowMapper[current event: ").append(this.currentHandledEvent).append(", max: ").append(this.nestedEvents.length - 1).append("]").toString();
+        }
     }
 }
 

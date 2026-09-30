@@ -4,13 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 public interface IAsyncMultiLineLabelRenderer {
-    default public void onTextChanged() {
-    }
+    public void onTextChanged();
 
-    default public boolean isLineBreakingFinished() {
-    }
+    public boolean isLineBreakingFinished();
 
-    default public boolean updateLineBreaking(boolean bl) {
-    }
+    public boolean updateLineBreaking(boolean var1);
 }
 

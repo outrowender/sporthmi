@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.online.OSRApplication;
 import org.dsi.ifc.online.OSRDevice;
@@ -15,174 +16,119 @@ import org.dsi.ifc.online.OSRServiceState;
 import org.dsi.ifc.online.OSRUser;
 
 public interface DSIOnlineServiceRegistrationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "ceacf065-fc29-5dbb-a102-cb462ad790ed";
+    public static final String IPL_COMM_INTERFACE_KEY = "64105737-fd86-5dee-835d-34e9cf4b373f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void getOnlineApplicationListResponse(OSRApplication[] oSRApplicationArray) {
-    }
+    public void getOnlineApplicationListResponse(OSRApplication[] var1) throws MethodException;
 
-    default public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
-    }
+    public void getOnlineApplicationResponse(OSRApplication var1) throws MethodException;
 
-    default public void activateLicenseResponse(OSRLicense oSRLicense, int n) {
-    }
+    public void activateLicenseResponse(OSRLicense var1, int var2) throws MethodException;
 
-    default public void setCredentialResponse(String string, int n) {
-    }
+    public void setCredentialResponse(String var1, int var2) throws MethodException;
 
-    default public void downloadResponse(String string, String string2, String string3, int n) {
-    }
+    public void downloadResponse(String var1, String var2, String var3, int var4) throws MethodException;
 
-    default public void downloadRawResponse(String string, String string2, String string3, ResourceLocator resourceLocator, int n) {
-    }
+    public void downloadRawResponse(String var1, String var2, String var3, ResourceLocator var4, int var5) throws MethodException;
 
-    default public void validateOwnerResponse(int n) {
-    }
+    public void validateOwnerResponse(int var1) throws MethodException;
 
-    default public void checkOwnersVerificationResponse(int n) {
-    }
+    public void checkOwnersVerificationResponse(int var1) throws MethodException;
 
-    default public void createUserWithPairingCodeResponse(String string, OSRUser oSRUser, int n) {
-    }
+    public void createUserWithPairingCodeResponse(String var1, OSRUser var2, int var3) throws MethodException;
 
-    default public void createUserWithUserPasswordResponse(String string, OSRUser oSRUser, int n) {
-    }
+    public void createUserWithUserPasswordResponse(String var1, OSRUser var2, int var3) throws MethodException;
 
-    default public void checkPasswordResponse(OSRUser oSRUser, int n) {
-    }
+    public void checkPasswordResponse(OSRUser var1, int var2) throws MethodException;
 
-    default public void checkPairingCodeResponse(OSRUser oSRUser, int n) {
-    }
+    public void checkPairingCodeResponse(OSRUser var1, int var2) throws MethodException;
 
-    default public void setPrivacyFlagsResponse(OSRUser oSRUser) {
-    }
+    public void setPrivacyFlagsResponse(OSRUser var1) throws MethodException;
 
-    default public void setAutoLoginResponse(OSRUser oSRUser, OSRDevice[] oSRDeviceArray, int[] nArray) {
-    }
+    public void setAutoLoginResponse(OSRUser var1, OSRDevice[] var2, int[] var3) throws MethodException;
 
-    default public void loginResponse(OSRUser oSRUser, int n) {
-    }
+    public void loginResponse(OSRUser var1, int var2) throws MethodException;
 
-    default public void logoutResponse(OSRUser oSRUser, int n) {
-    }
+    public void logoutResponse(OSRUser var1, int var2) throws MethodException;
 
-    default public void logoutAuthSchemeResult(String string, OSRUser[] oSRUserArray, int[] nArray) {
-    }
+    public void logoutAuthSchemeResult(String var1, OSRUser[] var2, int[] var3) throws MethodException;
 
-    default public void getUsersResponse(OSRUser[] oSRUserArray) {
-    }
+    public void getUsersResponse(OSRUser[] var1) throws MethodException;
 
-    default public void removeUserResponse(OSRUser oSRUser, int n) {
-    }
+    public void removeUserResponse(OSRUser var1, int var2) throws MethodException;
 
-    default public void performPortalRegistrationResponse(String string, int n) {
-    }
+    public void performPortalRegistrationResponse(String var1, int var2) throws MethodException;
 
-    default public void precheckOnlineServiceServiceIDResponse(String string, OSRServiceState oSRServiceState) {
-    }
+    public void precheckOnlineServiceServiceIDResponse(String var1, OSRServiceState var2) throws MethodException;
 
-    default public void precheckOnlineServiceSymbolicNameResponse(String string, OSRServiceState oSRServiceState) {
-    }
+    public void precheckOnlineServiceSymbolicNameResponse(String var1, OSRServiceState var2) throws MethodException;
 
-    default public void precheckOnlineServiceResponse(String string, OSRServiceState[] oSRServiceStateArray) {
-    }
+    public void precheckOnlineServiceResponse(String var1, OSRServiceState[] var2) throws MethodException;
 
-    default public void getLicenseResponse(int n, OSRLicense oSRLicense) {
-    }
+    public void getLicenseResponse(int var1, OSRLicense var2) throws MethodException;
 
-    default public void getLicensesResponse(int n, boolean bl, boolean bl2, OSRLicense[] oSRLicenseArray) {
-    }
+    public void getLicensesResponse(int var1, boolean var2, boolean var3, OSRLicense[] var4) throws MethodException;
 
-    default public void getProfileFolderResponse(int n, String string, OSRUser oSRUser, String string2) {
-    }
+    public void getProfileFolderResponse(int var1, String var2, OSRUser var3, String var4) throws MethodException;
 
-    default public void getCredentialsFromHeaderResponse(int n, int n2, int n3, String string, String string2, String string3) {
-    }
+    public void getCredentialsFromHeaderResponse(int var1, int var2, int var3, String var4, String var5, String var6) throws MethodException;
 
-    default public void getCredentialsFromAuthSchemeResponse(int n, int n2, String string, String string2, String string3) {
-    }
+    public void getCredentialsFromAuthSchemeResponse(int var1, int var2, String var3, String var4, String var5) throws MethodException;
 
-    default public void getServiceURLResponse(int n, String string, String string2) {
-    }
+    public void getServiceURLResponse(int var1, String var2, String var3) throws MethodException;
 
-    default public void resetToFactorySettingsResponse(String string, int n) {
-    }
+    public void resetToFactorySettingsResponse(String var1, int var2) throws MethodException;
 
-    default public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray, int n) {
-    }
+    public void updateApplicationState(OSRNotifyProperties[] var1, int var2) throws MethodException;
 
-    default public void updateServices(OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray, int n) {
-    }
+    public void updateServices(OSRNotifyPropertiesSL[] var1, int var2) throws MethodException;
 
-    default public void updateCoreProfileInfo(OSRUser oSRUser, int n, int n2) {
-    }
+    public void updateCoreProfileInfo(OSRUser var1, int var2, int var3) throws MethodException;
 
-    default public void updateExternalProfileInfo(String string, OSRUser oSRUser, int n, int n2) {
-    }
+    public void updateExternalProfileInfo(String var1, OSRUser var2, int var3, int var4) throws MethodException;
 
-    default public void updateDeviceEnumerator(OSRDevice oSRDevice, int n, int n2) {
-    }
+    public void updateDeviceEnumerator(OSRDevice var1, int var2, int var3) throws MethodException;
 
-    default public void updateServiceState(int n, int n2) {
-    }
+    public void updateServiceState(int var1, int var2) throws MethodException;
 
-    default public void updateServiceList(OSRServiceListEntry[] oSRServiceListEntryArray, int n) {
-    }
+    public void updateServiceList(OSRServiceListEntry[] var1, int var2) throws MethodException;
 
-    default public void updateServiceRegistration(String string, OSRServiceRegistration oSRServiceRegistration, int n, int n2) {
-    }
+    public void updateServiceRegistration(String var1, OSRServiceRegistration var2, int var3, int var4) throws MethodException;
 
-    default public void setServiceStateResponse(OSRServiceState oSRServiceState) {
-    }
+    public void setServiceStateResponse(OSRServiceState var1) throws MethodException;
 
-    default public void setDemandStateServiceIDResponse(String string, int n) {
-    }
+    public void setDemandStateServiceIDResponse(String var1, int var2) throws MethodException;
 
-    default public void setServiceStateSymbolicNameResponse(OSRServiceState oSRServiceState) {
-    }
+    public void setServiceStateSymbolicNameResponse(OSRServiceState var1) throws MethodException;
 
-    default public void setActivePrivacyCategoryMaskResponse(int n) {
-    }
+    public void setActivePrivacyCategoryMaskResponse(int var1) throws MethodException;
 
-    default public void submitServiceStateChangesToBackendResponse(int n) {
-    }
+    public void submitServiceStateChangesToBackendResponse(int var1) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void setGPSUseModeResponse(int n) {
-    }
+    public void setGPSUseModeResponse(int var1) throws MethodException;
 
-    default public void setInventoryFinishedResponse(int n) {
-    }
+    public void setInventoryFinishedResponse(int var1) throws MethodException;
 
-    default public void updateSPINRequired(String string, String string2, int n) {
-    }
+    public void updateSPINRequired(String var1, String var2, int var3) throws MethodException;
 
-    default public void setSPINResponse(String string, String string2, int n, int n2) {
-    }
+    public void setSPINResponse(String var1, String var2, int var3, int var4) throws MethodException;
 
-    default public void getSPINHashResult(String string, String string2, int n, String string3, String string4, int n2) {
-    }
+    public void getSPINHashResult(String var1, String var2, int var3, String var4, String var5, int var6) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

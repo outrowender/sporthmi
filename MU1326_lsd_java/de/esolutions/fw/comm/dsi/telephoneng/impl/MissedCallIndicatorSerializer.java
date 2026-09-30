@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.MissedCallIndicator;
 
 public class MissedCallIndicatorSerializer {
-    public static void putOptionalMissedCallIndicator(ISerializer iSerializer, MissedCallIndicator missedCallIndicator) {
+    public static void putOptionalMissedCallIndicator(ISerializer iSerializer, MissedCallIndicator missedCallIndicator) throws SerializerException {
         boolean bl = missedCallIndicator == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class MissedCallIndicatorSerializer {
         }
     }
 
-    public static void putOptionalMissedCallIndicatorVarArray(ISerializer iSerializer, MissedCallIndicator[] missedCallIndicatorArray) {
+    public static void putOptionalMissedCallIndicatorVarArray(ISerializer iSerializer, MissedCallIndicator[] missedCallIndicatorArray) throws SerializerException {
         boolean bl = missedCallIndicatorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class MissedCallIndicatorSerializer {
         }
     }
 
-    public static MissedCallIndicator getOptionalMissedCallIndicator(IDeserializer iDeserializer) {
+    public static MissedCallIndicator getOptionalMissedCallIndicator(IDeserializer iDeserializer) throws SerializerException {
         MissedCallIndicator missedCallIndicator = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class MissedCallIndicatorSerializer {
         return missedCallIndicator;
     }
 
-    public static MissedCallIndicator[] getOptionalMissedCallIndicatorVarArray(IDeserializer iDeserializer) {
+    public static MissedCallIndicator[] getOptionalMissedCallIndicatorVarArray(IDeserializer iDeserializer) throws SerializerException {
         MissedCallIndicator[] missedCallIndicatorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

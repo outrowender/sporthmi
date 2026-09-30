@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SpoilerPositions
 import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SpoilerTypeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerPositionSetup;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerPositions;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerType;
 
 public class SpoilerConfigurationSerializer {
-    public static void putOptionalSpoilerConfiguration(ISerializer iSerializer, SpoilerConfiguration spoilerConfiguration) {
+    public static void putOptionalSpoilerConfiguration(ISerializer iSerializer, SpoilerConfiguration spoilerConfiguration) throws SerializerException {
         boolean bl = spoilerConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SpoilerConfigurationSerializer {
         }
     }
 
-    public static void putOptionalSpoilerConfigurationVarArray(ISerializer iSerializer, SpoilerConfiguration[] spoilerConfigurationArray) {
+    public static void putOptionalSpoilerConfigurationVarArray(ISerializer iSerializer, SpoilerConfiguration[] spoilerConfigurationArray) throws SerializerException {
         boolean bl = spoilerConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SpoilerConfigurationSerializer {
         }
     }
 
-    public static SpoilerConfiguration getOptionalSpoilerConfiguration(IDeserializer iDeserializer) {
+    public static SpoilerConfiguration getOptionalSpoilerConfiguration(IDeserializer iDeserializer) throws SerializerException {
         SpoilerConfiguration spoilerConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class SpoilerConfigurationSerializer {
         return spoilerConfiguration;
     }
 
-    public static SpoilerConfiguration[] getOptionalSpoilerConfigurationVarArray(IDeserializer iDeserializer) {
+    public static SpoilerConfiguration[] getOptionalSpoilerConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpoilerConfiguration[] spoilerConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

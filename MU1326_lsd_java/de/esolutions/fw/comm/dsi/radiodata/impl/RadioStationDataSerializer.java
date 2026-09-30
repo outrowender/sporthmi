@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radiodata.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radiodata.RadioStationData;
 
 public class RadioStationDataSerializer {
-    public static void putOptionalRadioStationData(ISerializer iSerializer, RadioStationData radioStationData) {
+    public static void putOptionalRadioStationData(ISerializer iSerializer, RadioStationData radioStationData) throws SerializerException {
         boolean bl = radioStationData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class RadioStationDataSerializer {
         }
     }
 
-    public static void putOptionalRadioStationDataVarArray(ISerializer iSerializer, RadioStationData[] radioStationDataArray) {
+    public static void putOptionalRadioStationDataVarArray(ISerializer iSerializer, RadioStationData[] radioStationDataArray) throws SerializerException {
         boolean bl = radioStationDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class RadioStationDataSerializer {
         }
     }
 
-    public static RadioStationData getOptionalRadioStationData(IDeserializer iDeserializer) {
+    public static RadioStationData getOptionalRadioStationData(IDeserializer iDeserializer) throws SerializerException {
         RadioStationData radioStationData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -91,7 +92,7 @@ public class RadioStationDataSerializer {
         return radioStationData;
     }
 
-    public static RadioStationData[] getOptionalRadioStationDataVarArray(IDeserializer iDeserializer) {
+    public static RadioStationData[] getOptionalRadioStationDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStationData[] radioStationDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

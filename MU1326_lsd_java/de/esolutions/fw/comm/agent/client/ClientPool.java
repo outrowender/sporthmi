@@ -35,6 +35,7 @@ import de.esolutions.fw.comm.core.protocol.ProtocolHandler;
 import de.esolutions.fw.util.commons.error.IRunnableWrapper;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.fw.util.serializer.connection.Connection;
+import de.esolutions.fw.util.serializer.connection.ConnectionFactoryException;
 import de.esolutions.fw.util.serializer.connection.IConnectionFactory;
 import de.esolutions.fw.util.serializer.connection.IConnectionFactoryProvider;
 import de.esolutions.fw.util.serializer.connection.ISpawnConnectionFactory;
@@ -142,14 +143,14 @@ IProtocolDecider {
         CommAgentTracing.CLIENTPOOL.log((short)0, "- client pool shutdown");
     }
 
-    public IClientHandler requestConnection(short s, boolean bl) {
+    public IClientHandler requestConnection(short s, boolean bl) throws ConnectionFactoryException, ClientException {
         return this.requestConnection(s, bl, null);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public IClientHandler requestConnection(short s, boolean bl, IConnectionRequestCallback iConnectionRequestCallback) {
+    public IClientHandler requestConnection(short s, boolean bl, IConnectionRequestCallback iConnectionRequestCallback) throws ConnectionFactoryException, ClientException {
         CommAgentTracing.CLIENTPOOL.log((short)1, "%1: request connection", new Short(s));
         short s2 = this.agentDirectory.getAgentEpoch(this.myAgentID);
         if (s == this.myAgentID) {
@@ -165,7 +166,7 @@ IProtocolDecider {
         if (!connectionClientHandler.isAvailable()) {
             String string = this.nameService.mapIDToName(s);
             if (string == null) {
-                throw new ClientException(new StringBuffer().append("Can't map peer=#").append(s).toString());
+                throw new ClientException("Can't map peer=#" + s);
             }
             IConnectionFactory iConnectionFactory = this.connectionFactoryProvider.createConnectionFactory("comm", string);
             Connection connection = iConnectionFactory.createConnection();
@@ -192,7 +193,6 @@ IProtocolDecider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void spawnedConnection(Connection connection) {
         short s = 0;
         Object object = this.lock;
@@ -207,18 +207,15 @@ IProtocolDecider {
         connectionHandler.start();
     }
 
-    @Override
     public boolean spawningRetry(ISpawnConnectionFactory iSpawnConnectionFactory, IOException iOException, int n) {
-        CommAgentTracing.CLIENTPOOL.log((short)3, "%1: retry spawning connection setup: %2:%3 (timeout %4 ms)", (Object)iSpawnConnectionFactory.getDescription(), (Object)super.getClass().getName(), (Object)iOException.getMessage(), (Object)new Integer(n));
+        CommAgentTracing.CLIENTPOOL.log((short)3, "%1: retry spawning connection setup: %2:%3 (timeout %4 ms)", (Object)iSpawnConnectionFactory.getDescription(), (Object)iOException.getClass().getName(), (Object)iOException.getMessage(), (Object)new Integer(n));
         return true;
     }
 
-    @Override
     public void spawningEnabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
         CommAgentTracing.CLIENTPOOL.log((short)2, "%1: enabled spawning", (Object)iSpawnConnectionFactory.getDescription());
     }
 
-    @Override
     public void spawningDisabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
         CommAgentTracing.CLIENTPOOL.log((short)2, "%1: disabled spawning", (Object)iSpawnConnectionFactory.getDescription());
     }
@@ -392,7 +389,6 @@ IProtocolDecider {
         }
     }
 
-    @Override
     public boolean reportProtocolRole(boolean bl, short s, Object object) {
         ConnectionHandler connectionHandler = (ConnectionHandler)object;
         if (connectionHandler.isIncoming()) {
@@ -404,14 +400,12 @@ IProtocolDecider {
         return false;
     }
 
-    @Override
     public boolean decideProtocolDrop(short s, Object object) {
         ConnectionClientHandler connectionClientHandler = this.getClientHandler(s);
         ConnectionHandler connectionHandler = (ConnectionHandler)object;
         return connectionClientHandler.decideConnectionDrop(connectionHandler);
     }
 
-    @Override
     public IProtocolActions setupProtocolActions(short s, Object object) {
         return this.getClientHandler(s);
     }

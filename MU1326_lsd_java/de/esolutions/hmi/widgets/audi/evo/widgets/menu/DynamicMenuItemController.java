@@ -17,22 +17,20 @@ public class DynamicMenuItemController
 extends MenuItemController {
     private int originalType = -1;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
-        menuItemLogCh.log(-2137614336, "DynamicMenuItemController#connected() - Called.");
+        menuItemLogCh.log(10000000, "DynamicMenuItemController#connected() - Called.");
         super.connected(initializationContext);
         this.buildMenuItem();
     }
 
-    @Override
     protected void initializeWidget() {
-        menuItemLogCh.log(-2137614336, "DynamicMenuItemController#initializeWidget() - Called.");
+        menuItemLogCh.log(10000000, "DynamicMenuItemController#initializeWidget() - Called.");
         super.initializeWidget();
         this.buildMenuItem();
     }
 
     private void buildMenuItem() {
-        menuItemLogCh.log(-2137614336, "DynamicMenuItemController#buildMenuItem() - Called.");
+        menuItemLogCh.log(10000000, "DynamicMenuItemController#buildMenuItem() - Called.");
         this.updateFromModel();
         this.autoSetup();
         if ((this.topGap != -1 || this.bottomGap != -1) && this.layoutManager != null) {
@@ -43,17 +41,15 @@ extends MenuItemController {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
-        menuItemLogCh.log(-2137614336, "DynamicMenuItemController#autoSetup() - Called.");
+        menuItemLogCh.log(10000000, "DynamicMenuItemController#autoSetup() - Called.");
         super.setVisible(bl);
     }
 
-    @Override
     protected void autoSetup() {
-        menuItemLogCh.log(-2137614336, "DynamicMenuItemController#autoSetup() - Called.");
+        menuItemLogCh.log(10000000, "DynamicMenuItemController#autoSetup() - Called.");
         if (this.originalType == -1) {
-            menuItemLogCh.log(-2137614336, "DynamicMenuItemController#autoSetup() - Original Type unknown till know, setting it to %1.", (long)this.type);
+            menuItemLogCh.log(10000000, "DynamicMenuItemController#autoSetup() - Original Type unknown till know, setting it to %1.", (long)this.type);
             this.originalType = this.type;
         }
         this.type = this.originalType;

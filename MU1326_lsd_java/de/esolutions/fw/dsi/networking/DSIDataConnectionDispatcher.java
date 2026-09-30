@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.networking;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.networking.DSIDataConnectionReply;
 import de.esolutions.fw.comm.dsi.networking.impl.DSIDataConnectionReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIDataConnectionReply {
         super(n, (class$org$dsi$ifc$networking$DSIDataConnectionListener == null ? (class$org$dsi$ifc$networking$DSIDataConnectionListener = DSIDataConnectionDispatcher.class$("org.dsi.ifc.networking.DSIDataConnectionListener")) : class$org$dsi$ifc$networking$DSIDataConnectionListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
+    public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -59,8 +58,7 @@ implements DSIDataConnectionReply {
         }
     }
 
-    @Override
-    public void updateConnectionStateInformation(ConnectionStateInformationStruct connectionStateInformationStruct, int n) {
+    public void updateConnectionStateInformation(ConnectionStateInformationStruct connectionStateInformationStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -88,8 +86,7 @@ implements DSIDataConnectionReply {
         }
     }
 
-    @Override
-    public void updateRoamingState(int n, int n2) {
+    public void updateRoamingState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -117,8 +114,7 @@ implements DSIDataConnectionReply {
         }
     }
 
-    @Override
-    public void updateErrorState(ApplicationErrorStruct applicationErrorStruct, int n) {
+    public void updateErrorState(ApplicationErrorStruct applicationErrorStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -146,8 +142,7 @@ implements DSIDataConnectionReply {
         }
     }
 
-    @Override
-    public void forceDisconnectResponse(int n) {
+    public void forceDisconnectResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -163,8 +158,7 @@ implements DSIDataConnectionReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -180,14 +174,13 @@ implements DSIDataConnectionReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDataConnectionListener dSIDataConnectionListener = (DSIDataConnectionListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDataConnectionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDataConnectionDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDataConnectionListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDataConnectionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDataConnectionDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDataConnectionListener, new Object[]{string, string2});
                     continue;
                 }

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.Station;
 
 public class StationSerializer {
-    public static void putOptionalStation(ISerializer iSerializer, Station station) {
+    public static void putOptionalStation(ISerializer iSerializer, Station station) throws SerializerException {
         boolean bl = station == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class StationSerializer {
         }
     }
 
-    public static void putOptionalStationVarArray(ISerializer iSerializer, Station[] stationArray) {
+    public static void putOptionalStationVarArray(ISerializer iSerializer, Station[] stationArray) throws SerializerException {
         boolean bl = stationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class StationSerializer {
         }
     }
 
-    public static Station getOptionalStation(IDeserializer iDeserializer) {
+    public static Station getOptionalStation(IDeserializer iDeserializer) throws SerializerException {
         Station station = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -125,7 +126,7 @@ public class StationSerializer {
         return station;
     }
 
-    public static Station[] getOptionalStationVarArray(IDeserializer iDeserializer) {
+    public static Station[] getOptionalStationVarArray(IDeserializer iDeserializer) throws SerializerException {
         Station[] stationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

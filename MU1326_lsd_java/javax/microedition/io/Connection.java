@@ -3,8 +3,9 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
+
 public interface Connection {
-    default public void close() {
-    }
+    public void close() throws IOException;
 }
 

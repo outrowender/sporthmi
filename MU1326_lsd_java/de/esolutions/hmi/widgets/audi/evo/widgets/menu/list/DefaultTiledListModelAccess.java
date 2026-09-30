@@ -5,7 +5,6 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.menu.list;
 
 import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.model.update.ModelUpdateData;
-import de.audi.atip.hmi.model.update.ModelUpdateData$Key;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
@@ -13,7 +12,6 @@ import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuViewport;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.AbstractTiledListModelAccess;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.DefaultTiledListModelAccess$ListRange;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -25,7 +23,7 @@ extends AbstractTiledListModelAccess {
     private static final LogChannel lc = listLogCh;
     private static int nextRequestID = 0;
     private int runningRequestID;
-    private DefaultTiledListModelAccess$ListRange runningRequest = new DefaultTiledListModelAccess$ListRange();
+    private ListRange runningRequest = new ListRange();
     private List fulfilledRequests = new ArrayList(10);
     private MenuViewport visibleItems = new MenuViewport(null, null);
     private MenuViewport destination = new MenuViewport(null, null);
@@ -36,7 +34,6 @@ extends AbstractTiledListModelAccess {
     private int listLength;
     private boolean isAsia = false;
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.runningRequest.clear();
@@ -51,28 +48,28 @@ extends AbstractTiledListModelAccess {
         return !this.runningRequest.isEmpty();
     }
 
-    private void sendRequest(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange) {
+    private void sendRequest(ListRange listRange) {
         int n;
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
+        if (listRange.isEmpty()) {
             return;
         }
-        this.adjustRequestForAlreadyExistingRows(defaultTiledListModelAccess$ListRange);
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
+        this.adjustRequestForAlreadyExistingRows(listRange);
+        if (listRange.isEmpty()) {
             return;
         }
         this.runningRequestID = n = DefaultTiledListModelAccess.generateRequestID();
-        this.runningRequest.start = defaultTiledListModelAccess$ListRange.start;
-        this.runningRequest.end = defaultTiledListModelAccess$ListRange.end;
-        lc.log(-2137614336, "DefaultTiledListModelAccess#sendRequest: requestID: %2, %1", (Object)this.createLogMessage(defaultTiledListModelAccess$ListRange.start, defaultTiledListModelAccess$ListRange.length()), (long)n);
-        this.model.requestItems(n, defaultTiledListModelAccess$ListRange.start, defaultTiledListModelAccess$ListRange.length(), this.context.getTerminalID());
+        this.runningRequest.start = listRange.start;
+        this.runningRequest.end = listRange.end;
+        lc.log(10000000, "DefaultTiledListModelAccess#sendRequest: requestID: %2, %1", (Object)this.createLogMessage(listRange.start, listRange.length()), (long)n);
+        this.model.requestItems(n, listRange.start, listRange.length(), this.context.getTerminalID());
     }
 
-    void adjustRequestForAlreadyExistingRows(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange) {
-        defaultTiledListModelAccess$ListRange.start = this.findEmptyListRow(defaultTiledListModelAccess$ListRange.start, defaultTiledListModelAccess$ListRange.end, true);
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
+    void adjustRequestForAlreadyExistingRows(ListRange listRange) {
+        listRange.start = this.findEmptyListRow(listRange.start, listRange.end, true);
+        if (listRange.isEmpty()) {
             return;
         }
-        defaultTiledListModelAccess$ListRange.end = this.findEmptyListRow(defaultTiledListModelAccess$ListRange.end, defaultTiledListModelAccess$ListRange.start, false);
+        listRange.end = this.findEmptyListRow(listRange.end, listRange.start, false);
     }
 
     private int findEmptyListRow(int n, int n2, boolean bl) {
@@ -119,8 +116,8 @@ extends AbstractTiledListModelAccess {
             }
             Iterator iterator = this.fulfilledRequests.iterator();
             while (iterator.hasNext()) {
-                DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)iterator.next();
-                buffer.append(defaultTiledListModelAccess$ListRange);
+                ListRange listRange = (ListRange)iterator.next();
+                buffer.append(listRange);
                 if (!iterator.hasNext()) continue;
                 buffer.append(", ");
             }
@@ -134,11 +131,10 @@ extends AbstractTiledListModelAccess {
     }
 
     private void sendUnrequest(int n, int n2) {
-        lc.log(-2137614336, "DefaultTiledListModelAccess#sendUnrequest: %1", (Object)this.createLogMessage(n, n2));
+        lc.log(10000000, "DefaultTiledListModelAccess#sendUnrequest: %1", (Object)this.createLogMessage(n, n2));
         this.model.unrequestItems(n, n2, this.context.getTerminalID());
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = this.listLength;
         this.updateLength();
@@ -147,23 +143,23 @@ extends AbstractTiledListModelAccess {
         if (modelUpdateData != null) {
             if (n2 == 8) {
                 int n3;
-                if (modelUpdateData.contains(ModelUpdateData$Key.REQUESTID) && this.isExpectedResponse(n3 = modelUpdateData.getInt(ModelUpdateData$Key.REQUESTID))) {
-                    int n4 = modelUpdateData.getInt(ModelUpdateData$Key.INDEX);
-                    int n5 = modelUpdateData.getInt(ModelUpdateData$Key.COUNT);
-                    lc.log(-2137614336, "DefaultTiledListModelAccess#processModelUpdateEvent: received response for requestID: %1, start: %2, length: %3", (long)n3, (long)n4, (long)n5);
+                if (modelUpdateData.contains(ModelUpdateData.Key.REQUESTID) && this.isExpectedResponse(n3 = modelUpdateData.getInt(ModelUpdateData.Key.REQUESTID))) {
+                    int n4 = modelUpdateData.getInt(ModelUpdateData.Key.INDEX);
+                    int n5 = modelUpdateData.getInt(ModelUpdateData.Key.COUNT);
+                    lc.log(10000000, "DefaultTiledListModelAccess#processModelUpdateEvent: received response for requestID: %1, start: %2, length: %3", (long)n3, (long)n4, (long)n5);
                     this.handleResponse(n4, n5);
                 }
             } else if (n2 == 20) {
-                int n6 = modelUpdateData.getInt(ModelUpdateData$Key.INDEX);
-                int n7 = modelUpdateData.getInt(ModelUpdateData$Key.COUNT);
+                int n6 = modelUpdateData.getInt(ModelUpdateData.Key.INDEX);
+                int n7 = modelUpdateData.getInt(ModelUpdateData.Key.COUNT);
                 this.handleCleared(n6, n7);
             } else if (n2 == 7) {
-                int n8 = modelUpdateData.getInt(ModelUpdateData$Key.INDEX);
-                int n9 = modelUpdateData.getInt(ModelUpdateData$Key.COUNT);
+                int n8 = modelUpdateData.getInt(ModelUpdateData.Key.INDEX);
+                int n9 = modelUpdateData.getInt(ModelUpdateData.Key.COUNT);
                 this.adjustFulfilledForInsert(n8, n9);
             } else if (n2 == 9) {
-                int n10 = modelUpdateData.getInt(ModelUpdateData$Key.INDEX);
-                int n11 = modelUpdateData.getInt(ModelUpdateData$Key.COUNT);
+                int n10 = modelUpdateData.getInt(ModelUpdateData.Key.INDEX);
+                int n11 = modelUpdateData.getInt(ModelUpdateData.Key.COUNT);
                 this.adjustFulfilledForRemove(n10, n11);
             }
         }
@@ -178,7 +174,7 @@ extends AbstractTiledListModelAccess {
     private void updateLength() {
         int n = this.getLength();
         if (this.listLength != n) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#updateLength: list length changed from %1 to %2", (long)this.listLength, (long)n);
+            lc.log(10000000, "DefaultTiledListModelAccess#updateLength: list length changed from %1 to %2", (long)this.listLength, (long)n);
         }
         this.listLength = n;
     }
@@ -186,96 +182,96 @@ extends AbstractTiledListModelAccess {
     private void adjustFulfilledForLength() {
         Iterator iterator = this.fulfilledRequests.iterator();
         while (iterator.hasNext()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)iterator.next();
-            this.adjustFulfilledForLength(defaultTiledListModelAccess$ListRange);
-            if (!defaultTiledListModelAccess$ListRange.isEmpty()) continue;
+            ListRange listRange = (ListRange)iterator.next();
+            this.adjustFulfilledForLength(listRange);
+            if (!listRange.isEmpty()) continue;
             iterator.remove();
         }
     }
 
-    private void adjustFulfilledForLength(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange) {
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
+    private void adjustFulfilledForLength(ListRange listRange) {
+        if (listRange.isEmpty()) {
             return;
         }
         int n = this.listLength - 1;
-        if (defaultTiledListModelAccess$ListRange.end <= n) {
+        if (listRange.end <= n) {
             return;
         }
-        if (defaultTiledListModelAccess$ListRange.start > n) {
-            defaultTiledListModelAccess$ListRange.clear();
+        if (listRange.start > n) {
+            listRange.clear();
         } else {
-            defaultTiledListModelAccess$ListRange.end = Math.min(defaultTiledListModelAccess$ListRange.end, n);
+            listRange.end = Math.min(listRange.end, n);
         }
     }
 
     private void adjustFulfilledForInsert(int n, int n2) {
         Iterator iterator = this.fulfilledRequests.iterator();
         while (iterator.hasNext()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)iterator.next();
-            this.adjustFulfilledForInsert(n, n2, defaultTiledListModelAccess$ListRange);
+            ListRange listRange = (ListRange)iterator.next();
+            this.adjustFulfilledForInsert(n, n2, listRange);
         }
     }
 
-    private void adjustFulfilledForInsert(int n, int n2, DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange) {
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
+    private void adjustFulfilledForInsert(int n, int n2, ListRange listRange) {
+        if (listRange.isEmpty()) {
             return;
         }
-        if (defaultTiledListModelAccess$ListRange.end < n) {
+        if (listRange.end < n) {
             return;
         }
-        if (defaultTiledListModelAccess$ListRange.start >= n) {
-            defaultTiledListModelAccess$ListRange.start += n2;
+        if (listRange.start >= n) {
+            listRange.start += n2;
         }
-        if (defaultTiledListModelAccess$ListRange.end >= n) {
-            defaultTiledListModelAccess$ListRange.end += n2;
+        if (listRange.end >= n) {
+            listRange.end += n2;
         }
-        lc.log(-2137614336, "DefaultTiledListModelAccess#adjustFulfilledForInsert: adjust fulfilled range: %1", (Object)defaultTiledListModelAccess$ListRange);
+        lc.log(10000000, "DefaultTiledListModelAccess#adjustFulfilledForInsert: adjust fulfilled range: %1", (Object)listRange);
     }
 
     private void adjustFulfilledForRemove(int n, int n2) {
-        DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = null;
+        ListRange listRange = null;
         Iterator iterator = this.fulfilledRequests.iterator();
         while (iterator.hasNext()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange2 = (DefaultTiledListModelAccess$ListRange)iterator.next();
-            this.adjustFulfilledForRemove(n, n2, defaultTiledListModelAccess$ListRange2);
-            if (defaultTiledListModelAccess$ListRange2.isEmpty() || defaultTiledListModelAccess$ListRange != null && this.combine(defaultTiledListModelAccess$ListRange, defaultTiledListModelAccess$ListRange2)) {
+            ListRange listRange2 = (ListRange)iterator.next();
+            this.adjustFulfilledForRemove(n, n2, listRange2);
+            if (listRange2.isEmpty() || listRange != null && this.combine(listRange, listRange2)) {
                 iterator.remove();
                 continue;
             }
-            defaultTiledListModelAccess$ListRange = defaultTiledListModelAccess$ListRange2;
+            listRange = listRange2;
         }
     }
 
-    private void adjustFulfilledForRemove(int n, int n2, DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange) {
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
+    private void adjustFulfilledForRemove(int n, int n2, ListRange listRange) {
+        if (listRange.isEmpty()) {
             return;
         }
-        if (defaultTiledListModelAccess$ListRange.end < n) {
+        if (listRange.end < n) {
             return;
         }
         int n3 = n + n2 - 1;
-        if (defaultTiledListModelAccess$ListRange.start > n3) {
-            defaultTiledListModelAccess$ListRange.start -= n2;
-            defaultTiledListModelAccess$ListRange.end -= n2;
-        } else if (defaultTiledListModelAccess$ListRange.start >= n && defaultTiledListModelAccess$ListRange.end <= n3) {
-            defaultTiledListModelAccess$ListRange.clear();
+        if (listRange.start > n3) {
+            listRange.start -= n2;
+            listRange.end -= n2;
+        } else if (listRange.start >= n && listRange.end <= n3) {
+            listRange.clear();
         } else {
-            if (defaultTiledListModelAccess$ListRange.start >= n) {
-                defaultTiledListModelAccess$ListRange.start = n;
+            if (listRange.start >= n) {
+                listRange.start = n;
             }
-            int n4 = Math.max(0, Math.min(defaultTiledListModelAccess$ListRange.end, n3) - Math.max(defaultTiledListModelAccess$ListRange.start, n) + 1);
-            defaultTiledListModelAccess$ListRange.end -= n4;
+            int n4 = Math.max(0, Math.min(listRange.end, n3) - Math.max(listRange.start, n) + 1);
+            listRange.end -= n4;
         }
-        lc.log(-2137614336, "DefaultTiledListModelAccess#adjustFulfilledForRemove: adjust fulfilled range: %1", (Object)defaultTiledListModelAccess$ListRange);
+        lc.log(10000000, "DefaultTiledListModelAccess#adjustFulfilledForRemove: adjust fulfilled range: %1", (Object)listRange);
     }
 
     private boolean isExpectedResponse(int n) {
         if (!this.isRequestRunning()) {
-            lc.log(-1601830656, "DefaultTiledListModelAccess#checkResponse: received unexpected response with requestID %1", (long)n);
+            lc.log(100000, "DefaultTiledListModelAccess#checkResponse: received unexpected response with requestID %1", (long)n);
             return false;
         }
         if (this.runningRequestID != n) {
-            lc.log(-1601830656, "DefaultTiledListModelAccess#checkResponse: received response with requestID %1, but expected %2", (long)n, (long)this.runningRequestID);
+            lc.log(100000, "DefaultTiledListModelAccess#checkResponse: received response with requestID %1, but expected %2", (long)n, (long)this.runningRequestID);
             return false;
         }
         return true;
@@ -285,8 +281,8 @@ extends AbstractTiledListModelAccess {
         this.fulfilled(n, n2);
         if (lc.isDebug()) {
             int n3 = n + n2 - 1;
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = new DefaultTiledListModelAccess$ListRange(n, n3);
-            lc.log(-2137614336, "DefaultTiledListModelAccess#handleResponse: items updated: %1, now fulfilled: %2", (Object)defaultTiledListModelAccess$ListRange, (Object)this.createLogMessageForFulfilledRanges());
+            ListRange listRange = new ListRange(n, n3);
+            lc.log(10000000, "DefaultTiledListModelAccess#handleResponse: items updated: %1, now fulfilled: %2", (Object)listRange, (Object)this.createLogMessageForFulfilledRanges());
         }
         this.manageUnrequest();
         this.manageRequest();
@@ -300,76 +296,76 @@ extends AbstractTiledListModelAccess {
     void addFulfilled(int n, int n2) {
         int n3;
         boolean bl;
-        DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange;
+        ListRange listRange;
         if (n > n2) {
             return;
         }
-        DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange2 = new DefaultTiledListModelAccess$ListRange(n, n2);
-        int n4 = Collections.binarySearch(this.fulfilledRequests, defaultTiledListModelAccess$ListRange2);
+        ListRange listRange2 = new ListRange(n, n2);
+        int n4 = Collections.binarySearch(this.fulfilledRequests, listRange2);
         if (n4 < 0) {
             n4 = -n4 - 1;
         }
         boolean bl2 = false;
         ListIterator listIterator = this.fulfilledRequests.listIterator(n4);
-        while (listIterator.hasNext() && this.combine(defaultTiledListModelAccess$ListRange2, defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)listIterator.next())) {
+        while (listIterator.hasNext() && this.combine(listRange2, listRange = (ListRange)listIterator.next())) {
             if (bl2) {
                 listIterator.remove();
             } else {
-                defaultTiledListModelAccess$ListRange2 = defaultTiledListModelAccess$ListRange;
+                listRange2 = listRange;
             }
             bl2 = true;
         }
-        if (n4 > 0 && (bl = this.combine(defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)this.fulfilledRequests.get(n3 = n4 - 1), defaultTiledListModelAccess$ListRange2))) {
+        if (n4 > 0 && (bl = this.combine(listRange = (ListRange)this.fulfilledRequests.get(n3 = n4 - 1), listRange2))) {
             if (bl2) {
                 this.fulfilledRequests.remove(n3);
             }
             bl2 = true;
         }
         if (!bl2) {
-            this.fulfilledRequests.add(n4, defaultTiledListModelAccess$ListRange2);
+            this.fulfilledRequests.add(n4, listRange2);
         }
     }
 
-    private boolean combine(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange, DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange2) {
-        if (defaultTiledListModelAccess$ListRange.isEmpty()) {
-            defaultTiledListModelAccess$ListRange.set(defaultTiledListModelAccess$ListRange2.start, defaultTiledListModelAccess$ListRange2.end);
+    private boolean combine(ListRange listRange, ListRange listRange2) {
+        if (listRange.isEmpty()) {
+            listRange.set(listRange2.start, listRange2.end);
             return true;
         }
-        if (defaultTiledListModelAccess$ListRange2.isEmpty()) {
-            defaultTiledListModelAccess$ListRange2.set(defaultTiledListModelAccess$ListRange.start, defaultTiledListModelAccess$ListRange.end);
+        if (listRange2.isEmpty()) {
+            listRange2.set(listRange.start, listRange.end);
             return true;
         }
-        if (this.areDistinct(defaultTiledListModelAccess$ListRange, defaultTiledListModelAccess$ListRange2) && !this.areAdjacent(defaultTiledListModelAccess$ListRange, defaultTiledListModelAccess$ListRange2)) {
+        if (this.areDistinct(listRange, listRange2) && !this.areAdjacent(listRange, listRange2)) {
             return false;
         }
-        int n = Math.min(defaultTiledListModelAccess$ListRange.start, defaultTiledListModelAccess$ListRange2.start);
-        int n2 = Math.max(defaultTiledListModelAccess$ListRange.end, defaultTiledListModelAccess$ListRange2.end);
-        defaultTiledListModelAccess$ListRange.set(n, n2);
-        defaultTiledListModelAccess$ListRange2.set(n, n2);
+        int n = Math.min(listRange.start, listRange2.start);
+        int n2 = Math.max(listRange.end, listRange2.end);
+        listRange.set(n, n2);
+        listRange2.set(n, n2);
         return true;
     }
 
-    private boolean areDistinct(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange, DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange2) {
-        return defaultTiledListModelAccess$ListRange.start > defaultTiledListModelAccess$ListRange2.end || defaultTiledListModelAccess$ListRange.end < defaultTiledListModelAccess$ListRange2.start;
+    private boolean areDistinct(ListRange listRange, ListRange listRange2) {
+        return listRange.start > listRange2.end || listRange.end < listRange2.start;
     }
 
-    private boolean areAdjacent(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange, DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange2) {
-        return defaultTiledListModelAccess$ListRange.start == defaultTiledListModelAccess$ListRange2.end + 1 || defaultTiledListModelAccess$ListRange.end == defaultTiledListModelAccess$ListRange2.start - 1;
+    private boolean areAdjacent(ListRange listRange, ListRange listRange2) {
+        return listRange.start == listRange2.end + 1 || listRange.end == listRange2.start - 1;
     }
 
     private void handleCleared(int n, int n2) {
         int n3 = n + n2 - 1;
         this.removeFulfilled(n, n3);
         if (lc.isDebug()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = new DefaultTiledListModelAccess$ListRange(n, n3);
-            lc.log(-2137614336, "DefaultTiledListModelAccess#handleCleared: rows cleared: %1, remaining fulfilled: %2", (Object)defaultTiledListModelAccess$ListRange, (Object)this.createLogMessageForFulfilledRanges());
+            ListRange listRange = new ListRange(n, n3);
+            lc.log(10000000, "DefaultTiledListModelAccess#handleCleared: rows cleared: %1, remaining fulfilled: %2", (Object)listRange, (Object)this.createLogMessageForFulfilledRanges());
         }
         this.manageRequest();
     }
 
     private void handleClearedAll() {
         this.fulfilledRequests.clear();
-        lc.log(-2137614336, "DefaultTiledListModelAccess#handleClearedAll: all rows cleared");
+        lc.log(10000000, "DefaultTiledListModelAccess#handleClearedAll: all rows cleared");
         this.manageRequest();
     }
 
@@ -379,8 +375,8 @@ extends AbstractTiledListModelAccess {
         if (this.fulfilledRequests.isEmpty()) {
             return;
         }
-        DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = new DefaultTiledListModelAccess$ListRange(n, n2);
-        int n3 = Collections.binarySearch(this.fulfilledRequests, defaultTiledListModelAccess$ListRange);
+        ListRange listRange = new ListRange(n, n2);
+        int n3 = Collections.binarySearch(this.fulfilledRequests, listRange);
         if (n3 < 0) {
             n3 = -n3 - 1;
             bl2 = true;
@@ -388,68 +384,66 @@ extends AbstractTiledListModelAccess {
             bl2 = false;
         }
         ListIterator listIterator = this.fulfilledRequests.listIterator(n3);
-        while (listIterator.hasNext() && (bl = this.removeFulfilledDuringIteration(defaultTiledListModelAccess$ListRange, listIterator))) {
+        while (listIterator.hasNext() && (bl = this.removeFulfilledDuringIteration(listRange, listIterator))) {
         }
         if (bl2 && n3 > 0) {
-            this.removeFulfilledDuringIteration(defaultTiledListModelAccess$ListRange, this.fulfilledRequests.listIterator(n3 - 1));
+            this.removeFulfilledDuringIteration(listRange, this.fulfilledRequests.listIterator(n3 - 1));
         }
     }
 
-    private boolean removeFulfilledDuringIteration(DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange, ListIterator listIterator) {
-        DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange2 = (DefaultTiledListModelAccess$ListRange)listIterator.next();
-        if (this.areDistinct(defaultTiledListModelAccess$ListRange, defaultTiledListModelAccess$ListRange2)) {
+    private boolean removeFulfilledDuringIteration(ListRange listRange, ListIterator listIterator) {
+        ListRange listRange2 = (ListRange)listIterator.next();
+        if (this.areDistinct(listRange, listRange2)) {
             return false;
         }
-        if (defaultTiledListModelAccess$ListRange2.start < defaultTiledListModelAccess$ListRange.start && defaultTiledListModelAccess$ListRange2.end > defaultTiledListModelAccess$ListRange.end) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange3 = new DefaultTiledListModelAccess$ListRange(defaultTiledListModelAccess$ListRange.end + 1, defaultTiledListModelAccess$ListRange2.end);
-            listIterator.add(defaultTiledListModelAccess$ListRange3);
-            defaultTiledListModelAccess$ListRange2.end = defaultTiledListModelAccess$ListRange.start - 1;
+        if (listRange2.start < listRange.start && listRange2.end > listRange.end) {
+            ListRange listRange3 = new ListRange(listRange.end + 1, listRange2.end);
+            listIterator.add(listRange3);
+            listRange2.end = listRange.start - 1;
             return false;
         }
-        if (defaultTiledListModelAccess$ListRange.start <= defaultTiledListModelAccess$ListRange2.start && defaultTiledListModelAccess$ListRange.end >= defaultTiledListModelAccess$ListRange2.end) {
+        if (listRange.start <= listRange2.start && listRange.end >= listRange2.end) {
             listIterator.remove();
             return true;
         }
-        if (defaultTiledListModelAccess$ListRange.end < defaultTiledListModelAccess$ListRange2.end) {
-            defaultTiledListModelAccess$ListRange2.start = defaultTiledListModelAccess$ListRange.end + 1;
+        if (listRange.end < listRange2.end) {
+            listRange2.start = listRange.end + 1;
             return false;
         }
-        defaultTiledListModelAccess$ListRange2.end = defaultTiledListModelAccess$ListRange.start - 1;
+        listRange2.end = listRange.start - 1;
         return true;
     }
 
-    @Override
     public void viewportChanged(MenuViewport menuViewport) {
         if (this.model == null) {
-            lc.log(-1601830656, "DefaultTiledListModelAccess#viewportChanged: no valid model set");
+            lc.log(100000, "DefaultTiledListModelAccess#viewportChanged: no valid model set");
             return;
         }
         this.destination = menuViewport;
-        lc.log(-2137614336, "DefaultTiledListModelAccess#viewportChanged: new viewport: %1, listWidgetIndex: %2", (Object)menuViewport, (long)this.listWidgetIndex);
+        lc.log(10000000, "DefaultTiledListModelAccess#viewportChanged: new viewport: %1, listWidgetIndex: %2", (Object)menuViewport, (long)this.listWidgetIndex);
         this.manageUnrequest();
         this.manageRequest();
     }
 
-    @Override
     public void rendered(MenuItemIndex menuItemIndex, MenuItemIndex menuItemIndex2) {
         if (this.model == null) {
-            lc.log(-1601830656, "DefaultTiledListModelAccess#rendered: no valid model set");
+            lc.log(100000, "DefaultTiledListModelAccess#rendered: no valid model set");
             return;
         }
         this.visibleItems = new MenuViewport(menuItemIndex, menuItemIndex2);
-        lc.log(-2137614336, "DefaultTiledListModelAccess#rendered: visible items: %1, listWidgetIndex: %2", (Object)this.visibleItems, (long)this.listWidgetIndex);
+        lc.log(10000000, "DefaultTiledListModelAccess#rendered: visible items: %1, listWidgetIndex: %2", (Object)this.visibleItems, (long)this.listWidgetIndex);
         this.manageUnrequest();
         this.manageRequest();
     }
 
     private void manageUnrequest() {
         if (!this.listWidgetVisible) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#manageUnrequest: unrequest all, because list is not visible. fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges());
+            lc.log(10000000, "DefaultTiledListModelAccess#manageUnrequest: unrequest all, because list is not visible. fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges());
             this.unrequestAll();
             return;
         }
         if (this.visibleItems.isEmpty() && this.destination.isEmpty()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#manageUnrequest: unrequest all, because list is empty. fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges());
+            lc.log(10000000, "DefaultTiledListModelAccess#manageUnrequest: unrequest all, because list is empty. fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges());
             this.unrequestAll();
             return;
         }
@@ -474,7 +468,7 @@ extends AbstractTiledListModelAccess {
         if (n2 == -1 || n3 == -1 || n2 > n3) {
             return;
         }
-        lc.log(-2137614336, "DefaultTiledListModelAccess#unrequestBefore: retain: %1. unrequest until: %3, fulfilled: %2, ", (Object)menuViewport, (Object)this.createLogMessageForFulfilledRanges(), (long)n3);
+        lc.log(10000000, "DefaultTiledListModelAccess#unrequestBefore: retain: %1. unrequest until: %3, fulfilled: %2, ", (Object)menuViewport, (Object)this.createLogMessageForFulfilledRanges(), (long)n3);
         this.unrequestInternal(n2, n3, false);
     }
 
@@ -488,7 +482,7 @@ extends AbstractTiledListModelAccess {
         if (n2 == -1 || n3 == -1 || n2 > n3) {
             return;
         }
-        lc.log(-2137614336, "DefaultTiledListModelAccess#unrequestAfter: retain: %1. fulfilled: %2, unrequest from: %3", (Object)menuViewport, (Object)this.createLogMessageForFulfilledRanges(), (long)n2);
+        lc.log(10000000, "DefaultTiledListModelAccess#unrequestAfter: retain: %1. fulfilled: %2, unrequest from: %3", (Object)menuViewport, (Object)this.createLogMessageForFulfilledRanges(), (long)n2);
         this.unrequestInternal(n2, n3, false);
     }
 
@@ -502,15 +496,15 @@ extends AbstractTiledListModelAccess {
     }
 
     private int getLastFulfilledRow() {
-        return ((DefaultTiledListModelAccess$ListRange)this.fulfilledRequests.get((int)(this.fulfilledRequests.size() - 1))).end;
+        return ((ListRange)this.fulfilledRequests.get((int)(this.fulfilledRequests.size() - 1))).end;
     }
 
     private int getFirstFulfilledRow(int n) {
         Iterator iterator = this.fulfilledRequests.iterator();
         while (iterator.hasNext()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)iterator.next();
-            if (defaultTiledListModelAccess$ListRange.end < n) continue;
-            return Math.max(n, defaultTiledListModelAccess$ListRange.start);
+            ListRange listRange = (ListRange)iterator.next();
+            if (listRange.end < n) continue;
+            return Math.max(n, listRange.start);
         }
         return -1;
     }
@@ -518,9 +512,9 @@ extends AbstractTiledListModelAccess {
     private int getLastFulfilledRow(int n) {
         ListIterator listIterator = this.fulfilledRequests.listIterator(this.fulfilledRequests.size());
         while (listIterator.hasPrevious()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)listIterator.previous();
-            if (defaultTiledListModelAccess$ListRange.start > n) continue;
-            return Math.min(n, defaultTiledListModelAccess$ListRange.end);
+            ListRange listRange = (ListRange)listIterator.previous();
+            if (listRange.start > n) continue;
+            return Math.min(n, listRange.end);
         }
         return -1;
     }
@@ -528,12 +522,12 @@ extends AbstractTiledListModelAccess {
     private int getFirstNotFulfilledRow(int n) {
         Iterator iterator = this.fulfilledRequests.iterator();
         while (iterator.hasNext()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)iterator.next();
-            if (defaultTiledListModelAccess$ListRange.end < n) continue;
-            if (defaultTiledListModelAccess$ListRange.start > n) {
+            ListRange listRange = (ListRange)iterator.next();
+            if (listRange.end < n) continue;
+            if (listRange.start > n) {
                 return n;
             }
-            n = defaultTiledListModelAccess$ListRange.end + 1;
+            n = listRange.end + 1;
         }
         return n;
     }
@@ -541,31 +535,31 @@ extends AbstractTiledListModelAccess {
     private int getLastNotFulfilledRow(int n) {
         ListIterator listIterator = this.fulfilledRequests.listIterator(this.fulfilledRequests.size());
         while (listIterator.hasPrevious()) {
-            DefaultTiledListModelAccess$ListRange defaultTiledListModelAccess$ListRange = (DefaultTiledListModelAccess$ListRange)listIterator.previous();
-            if (defaultTiledListModelAccess$ListRange.start > n) continue;
-            if (defaultTiledListModelAccess$ListRange.end < n) {
+            ListRange listRange = (ListRange)listIterator.previous();
+            if (listRange.start > n) continue;
+            if (listRange.end < n) {
                 return n;
             }
-            n = defaultTiledListModelAccess$ListRange.start - 1;
+            n = listRange.start - 1;
         }
         return n;
     }
 
     private void manageRequest() {
         if (!this.listWidgetVisible) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#manageRequest: list widget is not visible");
+            lc.log(10000000, "DefaultTiledListModelAccess#manageRequest: list widget is not visible");
             return;
         }
         if (this.destination.isEmpty()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#manageRequest: destination is empty");
+            lc.log(10000000, "DefaultTiledListModelAccess#manageRequest: destination is empty");
             return;
         }
         if (this.isListEmpty()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#manageRequest: list is empty. Destination: %1, listIndex: %2", (Object)this.destination, (long)this.listWidgetIndex);
+            lc.log(10000000, "DefaultTiledListModelAccess#manageRequest: list is empty. Destination: %1, listIndex: %2", (Object)this.destination, (long)this.listWidgetIndex);
             return;
         }
         if (this.isRequestRunning()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#manageRequest: another request is still running. ID: %2, range: %1", (Object)this.runningRequest, (long)this.runningRequestID);
+            lc.log(10000000, "DefaultTiledListModelAccess#manageRequest: another request is still running. ID: %2, range: %1", (Object)this.runningRequest, (long)this.runningRequestID);
             return;
         }
         if (!this.isScrolling()) {
@@ -581,7 +575,7 @@ extends AbstractTiledListModelAccess {
         int n;
         int n2 = this.menuIndexToListIndex(this.visibleItems.end, false);
         if (n2 < 0) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestBefore: visible area is before list. visible items: %1, list widget index: %2", (Object)this.visibleItems, (long)this.listWidgetIndex);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestBefore: visible area is before list. visible items: %1, list widget index: %2", (Object)this.visibleItems, (long)this.listWidgetIndex);
             return;
         }
         n2 = Math.min(this.getLastListIndex(), n2);
@@ -590,16 +584,16 @@ extends AbstractTiledListModelAccess {
             n = this.menuIndexToListIndex(this.visibleItems.start, false);
             int n3 = n - n2 - 1;
             if (n3 >= this.defaultRequestLength) {
-                lc.log(-2137614336, "DefaultTiledListModelAccess#requestBefore: preloading-limit reached. visibleStart: %2, last unloaded: %3, fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges(), (long)n, (long)n2);
+                lc.log(10000000, "DefaultTiledListModelAccess#requestBefore: preloading-limit reached. visibleStart: %2, last unloaded: %3, fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges(), (long)n, (long)n2);
                 return;
             }
         }
         if (n2 < 0) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestBefore: reached start of list. visible items: %1, fulfilled: %2, listLength: %3", (Object)this.visibleItems, (Object)this.createLogMessageForFulfilledRanges(), (long)this.listLength);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestBefore: reached start of list. visible items: %1, fulfilled: %2, listLength: %3", (Object)this.visibleItems, (Object)this.createLogMessageForFulfilledRanges(), (long)this.listLength);
             return;
         }
         if (n2 < this.menuIndexToListIndex(this.destination.start, false)) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestBefore: reached destination: %1, next request index: %2", (Object)this.destination, (long)n2);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestBefore: reached destination: %1, next request index: %2", (Object)this.destination, (long)n2);
             return;
         }
         n = Math.max(0, n2 - this.defaultRequestLength + 1);
@@ -611,20 +605,20 @@ extends AbstractTiledListModelAccess {
         int n2;
         int n3 = this.menuIndexToListIndex(this.visibleItems.start, false);
         if (n3 > this.getLastListIndex()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestAfter: visible area is after list. visible items: %1, list widget index: %2", (Object)this.visibleItems, (long)this.listWidgetIndex);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestAfter: visible area is after list. visible items: %1, list widget index: %2", (Object)this.visibleItems, (long)this.listWidgetIndex);
             return;
         }
         n3 = Math.max(0, n3);
         if (!this.fulfilledRequests.isEmpty() && (n2 = (n3 = this.getFirstNotFulfilledRow(n3)) - (n = this.menuIndexToListIndex(this.visibleItems.end, false)) - 1) >= this.defaultRequestLength) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestAfter: preloading-limit reached. visibleEnd: %2, first unloaded: %3, fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges(), (long)n, (long)n3);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestAfter: preloading-limit reached. visibleEnd: %2, first unloaded: %3, fulfilled: %1", (Object)this.createLogMessageForFulfilledRanges(), (long)n, (long)n3);
             return;
         }
         if (n3 > this.getLastListIndex()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestAfter: reached end of list. visible items: %1, fulfilled: %2, listLength: %3", (Object)this.visibleItems, (Object)this.createLogMessageForFulfilledRanges(), (long)this.listLength);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestAfter: reached end of list. visible items: %1, fulfilled: %2, listLength: %3", (Object)this.visibleItems, (Object)this.createLogMessageForFulfilledRanges(), (long)this.listLength);
             return;
         }
         if (n3 > this.menuIndexToListIndex(this.destination.end, false)) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestAfter: reached destination: %1, next request index: %2", (Object)this.destination, (long)n3);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestAfter: reached destination: %1, next request index: %2", (Object)this.destination, (long)n3);
             return;
         }
         this.requestInternal(n3, this.defaultRequestLength);
@@ -633,11 +627,11 @@ extends AbstractTiledListModelAccess {
     private void requestDestination() {
         int n;
         if (this.destination.start.widget > this.listWidgetIndex || this.destination.end.widget < this.listWidgetIndex) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestDestination: destination is outside of this list. Destination: %1, listIndex: %2", (Object)this.destination, (long)this.listWidgetIndex);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestDestination: destination is outside of this list. Destination: %1, listIndex: %2", (Object)this.destination, (long)this.listWidgetIndex);
             return;
         }
         if (this.isListEmpty()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestDestination: list is empty. Destination: %1, listIndex: %2", (Object)this.destination, (long)this.listWidgetIndex);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestDestination: list is empty. Destination: %1, listIndex: %2", (Object)this.destination, (long)this.listWidgetIndex);
             return;
         }
         int n2 = this.menuIndexToListIndex(this.destination.start, true);
@@ -651,7 +645,7 @@ extends AbstractTiledListModelAccess {
             n3 = this.getLastNotFulfilledRow(n3);
         }
         if ((n = n3 - n2 + 1) <= 0) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestDestination: already loaded destination: %1, fulfilled: %2", (Object)this.destination, (Object)this.createLogMessageForFulfilledRanges());
+            lc.log(10000000, "DefaultTiledListModelAccess#requestDestination: already loaded destination: %1, fulfilled: %2", (Object)this.destination, (Object)this.createLogMessageForFulfilledRanges());
             return;
         }
         int n4 = Math.max(0, this.defaultRequestLength - n);
@@ -695,24 +689,24 @@ extends AbstractTiledListModelAccess {
             this.updateLength();
         }
         if ((n2 = Math.min(n2, this.listLength - n)) <= 0) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#requestInternal: requestLength is 0 (start: %1)", (long)n);
+            lc.log(10000000, "DefaultTiledListModelAccess#requestInternal: requestLength is 0 (start: %1)", (long)n);
             return;
         }
         if (this.isRequestRunning()) {
             lc.log(10000, "DefaultTiledListModelAccess#requestInternal: Already requested %1, can't request %2+%3", (Object)this.runningRequest, (long)n, (long)n2);
-            throw new IllegalStateException(new StringBuffer().append("Already requested: ").append(this.runningRequest).append(". Can't send new request for ").append(n).append("-").append(n2).toString());
+            throw new IllegalStateException("Already requested: " + this.runningRequest + ". Can't send new request for " + n + "-" + n2);
         }
-        this.sendRequest(new DefaultTiledListModelAccess$ListRange(n, n + n2 - 1));
+        this.sendRequest(new ListRange(n, n + n2 - 1));
     }
 
     private void unrequestInternal(int n, int n2, boolean bl) {
         if ((n2 = Math.min(n2, this.getLastListIndex())) < n) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#unrequestInternal: end %1 is before start %2", (long)n2, (long)n);
+            lc.log(10000000, "DefaultTiledListModelAccess#unrequestInternal: end %1 is before start %2", (long)n2, (long)n);
             return;
         }
         int n3 = n2 - n + 1;
         if (n3 < this.unrequestMinLength && !bl && this.isScrolling()) {
-            lc.log(-2137614336, "DefaultTiledListModelAccess#unrequestInternal: don't send unrequest (%1 - %2) smaller than min size %3", (long)n, (long)n2, (long)this.unrequestMinLength);
+            lc.log(10000000, "DefaultTiledListModelAccess#unrequestInternal: don't send unrequest (%1 - %2) smaller than min size %3", (long)n, (long)n2, (long)this.unrequestMinLength);
             return;
         }
         this.removeFulfilled(n, n2);
@@ -749,6 +743,63 @@ extends AbstractTiledListModelAccess {
 
     List test_getFulfilledRequests() {
         return this.fulfilledRequests;
+    }
+
+    static class ListRange
+    implements Comparable {
+        int start;
+        int end;
+
+        public ListRange() {
+        }
+
+        public ListRange(int n, int n2) {
+            this.start = n;
+            this.end = n2;
+        }
+
+        public boolean isEmpty() {
+            return this.start > this.end;
+        }
+
+        public int length() {
+            if (this.isEmpty()) {
+                return 0;
+            }
+            return this.end - this.start + 1;
+        }
+
+        public void clear() {
+            this.end = this.start - 1;
+        }
+
+        public void set(int n, int n2) {
+            this.start = n;
+            this.end = n2;
+        }
+
+        public String toString() {
+            if (this.isEmpty()) {
+                return "[]";
+            }
+            return "[" + this.start + "-" + this.end + "]";
+        }
+
+        public int compareTo(Object object) {
+            ListRange listRange = (ListRange)object;
+            return this.start - listRange.start;
+        }
+
+        public boolean equals(Object object) {
+            if (object == this) {
+                return true;
+            }
+            if (object == null || !(object instanceof ListRange)) {
+                return false;
+            }
+            ListRange listRange = (ListRange)object;
+            return this.start == listRange.start && this.end == listRange.end;
+        }
     }
 }
 

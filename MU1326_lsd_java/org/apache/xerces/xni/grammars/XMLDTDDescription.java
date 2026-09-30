@@ -7,7 +7,6 @@ import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 
 public interface XMLDTDDescription
 extends XMLGrammarDescription {
-    default public String getRootName() {
-    }
+    public String getRootName();
 }
 

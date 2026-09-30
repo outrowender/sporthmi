@@ -7,16 +7,12 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSISFAListener
 extends DSIListener {
-    default public void updateAudioRequest(int n, int n2) {
-    }
+    public void updateAudioRequest(int var1, int var2);
 
-    default public void updateDisplayRequest(int n, int n2) {
-    }
+    public void updateDisplayRequest(int var1, int var2);
 
-    default public void responseKeyTouchEvaluation(int n, int n2) {
-    }
+    public void responseKeyTouchEvaluation(int var1, int var2);
 
-    default public void responseDisplayNotVisible(int n) {
-    }
+    public void responseDisplayNotVisible(int var1);
 }
 

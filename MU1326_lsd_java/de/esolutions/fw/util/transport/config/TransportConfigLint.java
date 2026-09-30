@@ -20,30 +20,30 @@ public class TransportConfigLint {
         String string2;
         String string3 = iConfigQuery.getStringValue("serializer");
         if (string3 == null) {
-            System.out.println(new StringBuffer().append("ERROR: No serializer given for ").append(string).toString());
+            System.out.println("ERROR: No serializer given for " + string);
             return false;
         }
         String string4 = iConfigQuery.getStringValue("mode");
         if (string4 == null) {
-            System.out.println(new StringBuffer().append("WARNING: No 'mode' set for ").append(string).append(". Falling back to legacy auto mode!").toString());
+            System.out.println("WARNING: No 'mode' set for " + string + ". Falling back to legacy auto mode!");
         }
         ConfigValue configValue = iConfigQuery.getDictionary("tcpip");
         ConfigValue configValue2 = iConfigQuery.getDictionary("resman");
         ConfigValue configValue3 = iConfigQuery.getDictionary("ts");
         if (configValue == null && configValue2 == null && configValue3 == null) {
-            System.out.println(new StringBuffer().append("ERROR: Neither 'resman', 'ts', nor 'tcp' for ").append(string).toString());
+            System.out.println("ERROR: Neither 'resman', 'ts', nor 'tcp' for " + string);
             return false;
         }
         if ((string4 == null || string4.equals("tcp")) && configValue != null) {
             string2 = iConfigQuery.getStringValue("tcpip.address");
             Integer n = iConfigQuery.getIntegerValue("tcpip.port");
             if (string2 == null && n != null) {
-                System.out.println(new StringBuffer().append("ERROR: missing 'address' in 'tcpip' for ").append(string).toString());
+                System.out.println("ERROR: missing 'address' in 'tcpip' for " + string);
                 return false;
             }
         }
         if ((string4 == null || string4.equals("resman")) && configValue2 != null && (string2 = iConfigQuery.getStringValue("resman.root_path")) == null) {
-            System.out.println(new StringBuffer().append("ERROR: missing 'root_path' in 'resman' for ").append(string).toString());
+            System.out.println("ERROR: missing 'root_path' in 'resman' for " + string);
             return false;
         }
         if (string4 != null) {
@@ -63,7 +63,7 @@ public class TransportConfigLint {
                     return false;
                 }
             } else {
-                System.out.println(new StringBuffer().append("ERROR: invalid mode ").append(string4).toString());
+                System.out.println("ERROR: invalid mode " + string4);
                 return false;
             }
         }
@@ -82,16 +82,16 @@ public class TransportConfigLint {
             for (int i2 = 0; i2 < stringArray4.length; ++i2) {
                 String string2 = stringArray4[i2];
                 if (bl) {
-                    System.out.println(new StringBuffer().append("checking service: ").append(string2).toString());
+                    System.out.println("checking service: " + string2);
                 }
                 for (int i3 = 0; i3 < stringArray3.length; ++i3) {
                     ConfigOverlayPathQuery configOverlayPathQuery;
                     stringArray2 = stringArray3[i3];
                     if (stringArray2.equals(string)) continue;
                     if (bl) {
-                        System.out.println(new StringBuffer().append("checking proc: ").append((String)stringArray2).toString());
+                        System.out.println("checking proc: " + (String)stringArray2);
                     }
-                    if ((configOverlayPathQuery = this.config.getQueryForService(string2, (String)stringArray2)) == null || this.checkService(configOverlayPathQuery, new StringBuffer().append(string2).append(":").append((String)stringArray2).toString())) continue;
+                    if ((configOverlayPathQuery = this.config.getQueryForService(string2, (String)stringArray2)) == null || this.checkService(configOverlayPathQuery, string2 + ":" + (String)stringArray2)) continue;
                     return false;
                 }
             }
@@ -100,18 +100,18 @@ public class TransportConfigLint {
             for (int i4 = 0; i4 < stringArray.length; ++i4) {
                 String string3 = stringArray[i4];
                 if (bl) {
-                    System.out.println(new StringBuffer().append("checking my service: ").append(string3).toString());
+                    System.out.println("checking my service: " + string3);
                 }
                 if ((stringArray2 = this.config.getMyReachableNodes(string3)) == null) continue;
                 for (int i5 = 0; i5 < stringArray2.length; ++i5) {
                     String string4 = stringArray2[i5];
                     if (bl) {
-                        System.out.println(new StringBuffer().append("checking node: ").append(string4).toString());
+                        System.out.println("checking node: " + string4);
                     }
-                    String string5 = new StringBuffer().append(string).append(":").append(string3).append(":").append(string4).toString();
+                    String string5 = string + ":" + string3 + ":" + string4;
                     ConfigOverlayPathQuery configOverlayPathQuery = this.config.getQueryForMyService(string3, string4);
                     if (configOverlayPathQuery == null) {
-                        System.out.println(new StringBuffer().append("ERROR: Can't find own service ").append(string5).toString());
+                        System.out.println("ERROR: Can't find own service " + string5);
                         return false;
                     }
                     if (this.checkService(configOverlayPathQuery, string5)) continue;
@@ -126,7 +126,7 @@ public class TransportConfigLint {
     public static void main(String[] stringArray) {
         TransportConfig transportConfig = TransportConfig.getInstance();
         if (!transportConfig.isValid()) {
-            System.out.println(new StringBuffer().append("ERROR reading config: ").append(transportConfig.getFailString()).toString());
+            System.out.println("ERROR reading config: " + transportConfig.getFailString());
             return;
         }
         TransportConfigLint transportConfigLint = new TransportConfigLint(transportConfig);

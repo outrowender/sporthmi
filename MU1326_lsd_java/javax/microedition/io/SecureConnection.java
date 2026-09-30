@@ -3,12 +3,12 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
 import javax.microedition.io.SecurityInfo;
 import javax.microedition.io.SocketConnection;
 
 public interface SecureConnection
 extends SocketConnection {
-    default public SecurityInfo getSecurityInfo() {
-    }
+    public SecurityInfo getSecurityInfo() throws IOException;
 }
 

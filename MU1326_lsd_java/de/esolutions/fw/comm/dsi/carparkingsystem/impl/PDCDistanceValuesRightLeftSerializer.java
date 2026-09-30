@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCDistanceValuesRightLeft;
 
 public class PDCDistanceValuesRightLeftSerializer {
-    public static void putOptionalPDCDistanceValuesRightLeft(ISerializer iSerializer, PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) {
+    public static void putOptionalPDCDistanceValuesRightLeft(ISerializer iSerializer, PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) throws SerializerException {
         boolean bl = pDCDistanceValuesRightLeft == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCDistanceValuesRightLeftSerializer {
         }
     }
 
-    public static void putOptionalPDCDistanceValuesRightLeftVarArray(ISerializer iSerializer, PDCDistanceValuesRightLeft[] pDCDistanceValuesRightLeftArray) {
+    public static void putOptionalPDCDistanceValuesRightLeftVarArray(ISerializer iSerializer, PDCDistanceValuesRightLeft[] pDCDistanceValuesRightLeftArray) throws SerializerException {
         boolean bl = pDCDistanceValuesRightLeftArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCDistanceValuesRightLeftSerializer {
         }
     }
 
-    public static PDCDistanceValuesRightLeft getOptionalPDCDistanceValuesRightLeft(IDeserializer iDeserializer) {
+    public static PDCDistanceValuesRightLeft getOptionalPDCDistanceValuesRightLeft(IDeserializer iDeserializer) throws SerializerException {
         PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCDistanceValuesRightLeftSerializer {
         return pDCDistanceValuesRightLeft;
     }
 
-    public static PDCDistanceValuesRightLeft[] getOptionalPDCDistanceValuesRightLeftVarArray(IDeserializer iDeserializer) {
+    public static PDCDistanceValuesRightLeft[] getOptionalPDCDistanceValuesRightLeftVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCDistanceValuesRightLeft[] pDCDistanceValuesRightLeftArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

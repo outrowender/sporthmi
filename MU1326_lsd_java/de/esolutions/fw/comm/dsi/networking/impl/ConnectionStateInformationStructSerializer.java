@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.ConnectionStateInformationStruct;
 
 public class ConnectionStateInformationStructSerializer {
-    public static void putOptionalConnectionStateInformationStruct(ISerializer iSerializer, ConnectionStateInformationStruct connectionStateInformationStruct) {
+    public static void putOptionalConnectionStateInformationStruct(ISerializer iSerializer, ConnectionStateInformationStruct connectionStateInformationStruct) throws SerializerException {
         boolean bl = connectionStateInformationStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ConnectionStateInformationStructSerializer {
         }
     }
 
-    public static void putOptionalConnectionStateInformationStructVarArray(ISerializer iSerializer, ConnectionStateInformationStruct[] connectionStateInformationStructArray) {
+    public static void putOptionalConnectionStateInformationStructVarArray(ISerializer iSerializer, ConnectionStateInformationStruct[] connectionStateInformationStructArray) throws SerializerException {
         boolean bl = connectionStateInformationStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ConnectionStateInformationStructSerializer {
         }
     }
 
-    public static ConnectionStateInformationStruct getOptionalConnectionStateInformationStruct(IDeserializer iDeserializer) {
+    public static ConnectionStateInformationStruct getOptionalConnectionStateInformationStruct(IDeserializer iDeserializer) throws SerializerException {
         ConnectionStateInformationStruct connectionStateInformationStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ConnectionStateInformationStructSerializer {
         return connectionStateInformationStruct;
     }
 
-    public static ConnectionStateInformationStruct[] getOptionalConnectionStateInformationStructVarArray(IDeserializer iDeserializer) {
+    public static ConnectionStateInformationStruct[] getOptionalConnectionStateInformationStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         ConnectionStateInformationStruct[] connectionStateInformationStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

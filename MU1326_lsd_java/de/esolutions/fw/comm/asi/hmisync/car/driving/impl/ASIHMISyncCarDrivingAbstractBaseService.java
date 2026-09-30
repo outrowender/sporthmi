@@ -7,17 +7,18 @@ import de.esolutions.fw.comm.asi.hmisync.car.driving.ASIHMISyncCarDrivingReply;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.ASIHMISyncCarDrivingS;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.TADConfiguration;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.TADVehicleInfo;
-import de.esolutions.fw.comm.asi.hmisync.car.driving.impl.ASIHMISyncCarDrivingAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncCarDrivingAbstractBaseService
 implements ASIHMISyncCarDrivingS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.car.driving.ASIHMISyncCarDriving");
-    private static final int attributesCount;
+    private static final int attributesCount = 17;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -88,39 +89,33 @@ implements ASIHMISyncCarDrivingS {
     }
 
     public ASIHMISyncCarDrivingAbstractBaseService() {
-        ASIHMISyncCarDrivingAbstractBaseService$AttributesBitMapProvider aSIHMISyncCarDrivingAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncCarDrivingAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncCarDriving", aSIHMISyncCarDrivingAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncCarDriving", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncCarDrivingReply);
         this.sendAttributeUpdate(l, aSIHMISyncCarDrivingReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         this.baseService.setNotification(aSIHMISyncCarDrivingReply);
         this.sendAttributeUpdate(aSIHMISyncCarDrivingReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncCarDrivingReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncCarDrivingReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncCarDrivingReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         this.baseService.clearNotification(aSIHMISyncCarDrivingReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncCarDrivingReply);
     }
@@ -158,39 +153,39 @@ implements ASIHMISyncCarDrivingS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncCarDrivingReply aSIHMISyncCarDrivingReply) {
         try {
-            if (l == 0) {
+            if (l == 6L) {
                 aSIHMISyncCarDrivingReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 10L) {
                 aSIHMISyncCarDrivingReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 9L) {
                 aSIHMISyncCarDrivingReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncCarDrivingReply.updateTADVehicleInfo(this.TADVehicleInfo, this.TADVehicleInfo_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncCarDrivingReply.updateTADConfiguration(this.TADConfiguration, this.TADConfiguration_valid);
-            } else if (l == 0) {
+            } else if (l == 15L) {
                 aSIHMISyncCarDrivingReply.updateTADCurrentRollAngle(this.TADCurrentRollAngle, this.TADCurrentRollAngle_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncCarDrivingReply.updateTADPosMaxRollAngle(this.TADPosMaxRollAngle, this.TADPosMaxRollAngle_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncCarDrivingReply.updateTADNegMaxRollAngle(this.TADNegMaxRollAngle, this.TADNegMaxRollAngle_valid);
-            } else if (l == 0) {
+            } else if (l == 14L) {
                 aSIHMISyncCarDrivingReply.updateTADCurrentPitchAngle(this.TADCurrentPitchAngle, this.TADCurrentPitchAngle_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncCarDrivingReply.updateTADPosMaxPitch(this.TADPosMaxPitch, this.TADPosMaxPitch_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncCarDrivingReply.updateTADNegMaxPitch(this.TADNegMaxPitch, this.TADNegMaxPitch_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncCarDrivingReply.updateTADVisibilityState(this.TADVisibilityState, this.TADVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 11L) {
                 aSIHMISyncCarDrivingReply.updateSuspensionControlCurrentLevel(this.SuspensionControlCurrentLevel, this.SuspensionControlCurrentLevel_valid);
-            } else if (l == 0) {
+            } else if (l == 12L) {
                 aSIHMISyncCarDrivingReply.updateSuspensionControlTargetLevel(this.SuspensionControlTargetLevel, this.SuspensionControlTargetLevel_valid);
-            } else if (l == 0) {
+            } else if (l == 13L) {
                 aSIHMISyncCarDrivingReply.updateSuspensionVisibilityState(this.SuspensionVisibilityState, this.SuspensionVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 7L) {
                 aSIHMISyncCarDrivingReply.updateDriveSelectActiveProfile(this.DriveSelectActiveProfile, this.DriveSelectActiveProfile_valid);
-            } else if (l == 0) {
+            } else if (l == 8L) {
                 aSIHMISyncCarDrivingReply.updateDriveSelectActiveProfileVisibilityState(this.DriveSelectActiveProfileVisibilityState, this.DriveSelectActiveProfileVisibilityState_valid);
             } else {
                 System.out.println("unexpected");
@@ -201,11 +196,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncCarDrivingAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(6);
@@ -219,11 +214,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -242,11 +237,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -265,11 +260,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo) {
+    public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo) throws MethodException {
         this.updateTADVehicleInfo(tADVehicleInfo, true);
     }
 
-    public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo, boolean bl) {
+    public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo, boolean bl) throws MethodException {
         this.TADVehicleInfo = ASIHMISyncCarDrivingAbstractBaseService.copyTADVehicleInfo(tADVehicleInfo);
         this.TADVehicleInfo_valid = bl;
         List list = this.baseService.getNotifications(20);
@@ -283,11 +278,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADConfiguration(TADConfiguration tADConfiguration) {
+    public void updateTADConfiguration(TADConfiguration tADConfiguration) throws MethodException {
         this.updateTADConfiguration(tADConfiguration, true);
     }
 
-    public void updateTADConfiguration(TADConfiguration tADConfiguration, boolean bl) {
+    public void updateTADConfiguration(TADConfiguration tADConfiguration, boolean bl) throws MethodException {
         this.TADConfiguration = ASIHMISyncCarDrivingAbstractBaseService.copyTADConfiguration(tADConfiguration);
         this.TADConfiguration_valid = bl;
         List list = this.baseService.getNotifications(22);
@@ -301,11 +296,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADCurrentRollAngle(float f2) {
+    public void updateTADCurrentRollAngle(float f2) throws MethodException {
         this.updateTADCurrentRollAngle(f2, true);
     }
 
-    public void updateTADCurrentRollAngle(float f2, boolean bl) {
+    public void updateTADCurrentRollAngle(float f2, boolean bl) throws MethodException {
         this.TADCurrentRollAngle = f2;
         this.TADCurrentRollAngle_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -319,11 +314,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADPosMaxRollAngle(float f2) {
+    public void updateTADPosMaxRollAngle(float f2) throws MethodException {
         this.updateTADPosMaxRollAngle(f2, true);
     }
 
-    public void updateTADPosMaxRollAngle(float f2, boolean bl) {
+    public void updateTADPosMaxRollAngle(float f2, boolean bl) throws MethodException {
         this.TADPosMaxRollAngle = f2;
         this.TADPosMaxRollAngle_valid = bl;
         List list = this.baseService.getNotifications(19);
@@ -337,11 +332,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADNegMaxRollAngle(float f2) {
+    public void updateTADNegMaxRollAngle(float f2) throws MethodException {
         this.updateTADNegMaxRollAngle(f2, true);
     }
 
-    public void updateTADNegMaxRollAngle(float f2, boolean bl) {
+    public void updateTADNegMaxRollAngle(float f2, boolean bl) throws MethodException {
         this.TADNegMaxRollAngle = f2;
         this.TADNegMaxRollAngle_valid = bl;
         List list = this.baseService.getNotifications(17);
@@ -355,11 +350,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADCurrentPitchAngle(float f2) {
+    public void updateTADCurrentPitchAngle(float f2) throws MethodException {
         this.updateTADCurrentPitchAngle(f2, true);
     }
 
-    public void updateTADCurrentPitchAngle(float f2, boolean bl) {
+    public void updateTADCurrentPitchAngle(float f2, boolean bl) throws MethodException {
         this.TADCurrentPitchAngle = f2;
         this.TADCurrentPitchAngle_valid = bl;
         List list = this.baseService.getNotifications(14);
@@ -373,11 +368,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADPosMaxPitch(float f2) {
+    public void updateTADPosMaxPitch(float f2) throws MethodException {
         this.updateTADPosMaxPitch(f2, true);
     }
 
-    public void updateTADPosMaxPitch(float f2, boolean bl) {
+    public void updateTADPosMaxPitch(float f2, boolean bl) throws MethodException {
         this.TADPosMaxPitch = f2;
         this.TADPosMaxPitch_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -391,11 +386,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADNegMaxPitch(float f2) {
+    public void updateTADNegMaxPitch(float f2) throws MethodException {
         this.updateTADNegMaxPitch(f2, true);
     }
 
-    public void updateTADNegMaxPitch(float f2, boolean bl) {
+    public void updateTADNegMaxPitch(float f2, boolean bl) throws MethodException {
         this.TADNegMaxPitch = f2;
         this.TADNegMaxPitch_valid = bl;
         List list = this.baseService.getNotifications(16);
@@ -409,11 +404,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateTADVisibilityState(int n) {
+    public void updateTADVisibilityState(int n) throws MethodException {
         this.updateTADVisibilityState(n, true);
     }
 
-    public void updateTADVisibilityState(int n, boolean bl) {
+    public void updateTADVisibilityState(int n, boolean bl) throws MethodException {
         this.TADVisibilityState = n;
         this.TADVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(21);
@@ -427,11 +422,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateSuspensionControlCurrentLevel(int n) {
+    public void updateSuspensionControlCurrentLevel(int n) throws MethodException {
         this.updateSuspensionControlCurrentLevel(n, true);
     }
 
-    public void updateSuspensionControlCurrentLevel(int n, boolean bl) {
+    public void updateSuspensionControlCurrentLevel(int n, boolean bl) throws MethodException {
         this.SuspensionControlCurrentLevel = n;
         this.SuspensionControlCurrentLevel_valid = bl;
         List list = this.baseService.getNotifications(11);
@@ -445,11 +440,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateSuspensionControlTargetLevel(int n) {
+    public void updateSuspensionControlTargetLevel(int n) throws MethodException {
         this.updateSuspensionControlTargetLevel(n, true);
     }
 
-    public void updateSuspensionControlTargetLevel(int n, boolean bl) {
+    public void updateSuspensionControlTargetLevel(int n, boolean bl) throws MethodException {
         this.SuspensionControlTargetLevel = n;
         this.SuspensionControlTargetLevel_valid = bl;
         List list = this.baseService.getNotifications(12);
@@ -463,11 +458,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateSuspensionVisibilityState(int[] nArray) {
+    public void updateSuspensionVisibilityState(int[] nArray) throws MethodException {
         this.updateSuspensionVisibilityState(nArray, true);
     }
 
-    public void updateSuspensionVisibilityState(int[] nArray, boolean bl) {
+    public void updateSuspensionVisibilityState(int[] nArray, boolean bl) throws MethodException {
         if (nArray != null) {
             this.SuspensionVisibilityState = new int[nArray.length];
             System.arraycopy((Object)nArray, 0, (Object)this.SuspensionVisibilityState, 0, nArray.length);
@@ -486,11 +481,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateDriveSelectActiveProfile(int n) {
+    public void updateDriveSelectActiveProfile(int n) throws MethodException {
         this.updateDriveSelectActiveProfile(n, true);
     }
 
-    public void updateDriveSelectActiveProfile(int n, boolean bl) {
+    public void updateDriveSelectActiveProfile(int n, boolean bl) throws MethodException {
         this.DriveSelectActiveProfile = n;
         this.DriveSelectActiveProfile_valid = bl;
         List list = this.baseService.getNotifications(7);
@@ -504,11 +499,11 @@ implements ASIHMISyncCarDrivingS {
         }
     }
 
-    public void updateDriveSelectActiveProfileVisibilityState(int n) {
+    public void updateDriveSelectActiveProfileVisibilityState(int n) throws MethodException {
         this.updateDriveSelectActiveProfileVisibilityState(n, true);
     }
 
-    public void updateDriveSelectActiveProfileVisibilityState(int n, boolean bl) {
+    public void updateDriveSelectActiveProfileVisibilityState(int n, boolean bl) throws MethodException {
         this.DriveSelectActiveProfileVisibilityState = n;
         this.DriveSelectActiveProfileVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(8);
@@ -519,6 +514,40 @@ implements ASIHMISyncCarDrivingS {
                 aSIHMISyncCarDrivingReply.updateDriveSelectActiveProfileVisibilityState(n, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(6L), new Integer(0));
+            this.map.put(new Long(10L), new Integer(1));
+            this.map.put(new Long(9L), new Integer(2));
+            this.map.put(new Long(20L), new Integer(3));
+            this.map.put(new Long(22L), new Integer(4));
+            this.map.put(new Long(15L), new Integer(5));
+            this.map.put(new Long(19L), new Integer(6));
+            this.map.put(new Long(17L), new Integer(7));
+            this.map.put(new Long(14L), new Integer(8));
+            this.map.put(new Long(18L), new Integer(9));
+            this.map.put(new Long(16L), new Integer(10));
+            this.map.put(new Long(21L), new Integer(11));
+            this.map.put(new Long(11L), new Integer(12));
+            this.map.put(new Long(12L), new Integer(13));
+            this.map.put(new Long(13L), new Integer(14));
+            this.map.put(new Long(7L), new Integer(15));
+            this.map.put(new Long(8L), new Integer(16));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 17;
         }
     }
 }

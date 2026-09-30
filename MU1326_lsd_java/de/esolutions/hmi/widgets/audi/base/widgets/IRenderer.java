@@ -8,37 +8,26 @@ import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.RedrawContext;
 
 public interface IRenderer {
-    default public void connect(InitializationContext initializationContext) {
-    }
+    public void connect(InitializationContext var1);
 
-    default public void disconnect() {
-    }
+    public void disconnect();
 
-    default public void render(RedrawContext redrawContext) {
-    }
+    public void render(RedrawContext var1);
 
-    default public InitializationContext createInitContextForChildren(InitializationContext initializationContext) {
-    }
+    public InitializationContext createInitContextForChildren(InitializationContext var1);
 
-    default public RedrawContext createRedrawContext(RedrawContext redrawContext) {
-    }
+    public RedrawContext createRedrawContext(RedrawContext var1);
 
-    default public void restoreRedrawContext(RedrawContext redrawContext) {
-    }
+    public void restoreRedrawContext(RedrawContext var1);
 
-    default public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
-    }
+    public void prepareRedrawContextForChildren(RedrawContext var1, AbstractWidget var2);
 
-    default public void setCompositesDirty(boolean bl) {
-    }
+    public void setCompositesDirty(boolean var1);
 
-    default public void setCompositeDirty(int n) {
-    }
+    public void setCompositeDirty(int var1);
 
-    default public boolean areCompositesDirty() {
-    }
+    public boolean areCompositesDirty();
 
-    default public void updateInheritedFonts() {
-    }
+    public void updateInheritedFonts();
 }
 

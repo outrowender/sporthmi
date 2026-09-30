@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carparkingsystem;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carparkingsystem.ARACurrentTrailerAngle;
 import org.dsi.ifc.carparkingsystem.ARAInfo;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
@@ -39,333 +40,225 @@ import org.dsi.ifc.carparkingsystem.WCViewOptions;
 import org.dsi.ifc.global.CarArrayListUpdateInfo;
 
 public interface DSICarParkingSystemReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "25fd9fa4-e912-5fdd-a328-629d65736e4c";
+    public static final String IPL_COMM_INTERFACE_KEY = "d37789a1-552e-5f0f-b925-4e2178c41e40";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.21";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.21";
 
-    default public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
-    }
+    public void updateParkingSystemViewOptions(ParkingSystemViewOptions var1, int var2) throws MethodException;
 
-    default public void updatePDCDefaultParkingMode(int n, int n2) {
-    }
+    public void updatePDCDefaultParkingMode(int var1, int var2) throws MethodException;
 
-    default public void updatePDCFrequenceFront(int n, int n2) {
-    }
+    public void updatePDCFrequenceFront(int var1, int var2) throws MethodException;
 
-    default public void updatePDCFrequenceRear(int n, int n2) {
-    }
+    public void updatePDCFrequenceRear(int var1, int var2) throws MethodException;
 
-    default public void updatePDCFrequenceRight(int n, int n2) {
-    }
+    public void updatePDCFrequenceRight(int var1, int var2) throws MethodException;
 
-    default public void updatePDCFrequenceLeft(int n, int n2) {
-    }
+    public void updatePDCFrequenceLeft(int var1, int var2) throws MethodException;
 
-    default public void updatePDCVolumeFront(int n, int n2) {
-    }
+    public void updatePDCVolumeFront(int var1, int var2) throws MethodException;
 
-    default public void updatePDCVolumeRear(int n, int n2) {
-    }
+    public void updatePDCVolumeRear(int var1, int var2) throws MethodException;
 
-    default public void updatePDCVolumeRight(int n, int n2) {
-    }
+    public void updatePDCVolumeRight(int var1, int var2) throws MethodException;
 
-    default public void updatePDCVolumeLeft(int n, int n2) {
-    }
+    public void updatePDCVolumeLeft(int var1, int var2) throws MethodException;
 
-    default public void updatePDCMute(boolean bl, int n) {
-    }
+    public void updatePDCMute(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCSystemOnOff(boolean bl, int n) {
-    }
+    public void updatePDCSystemOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCTrailerHitched(boolean bl, int n) {
-    }
+    public void updatePDCTrailerHitched(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCDistanceValuesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
-    }
+    public void updatePDCDistanceValuesFront(PDCDistanceValuesFrontRear var1, int var2) throws MethodException;
 
-    default public void updatePDCDistanceValuesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
-    }
+    public void updatePDCDistanceValuesRear(PDCDistanceValuesFrontRear var1, int var2) throws MethodException;
 
-    default public void updatePDCDistanceValuesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
-    }
+    public void updatePDCDistanceValuesRight(PDCDistanceValuesRightLeft var1, int var2) throws MethodException;
 
-    default public void updatePDCDistanceValuesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
-    }
+    public void updatePDCDistanceValuesLeft(PDCDistanceValuesRightLeft var1, int var2) throws MethodException;
 
-    default public void updatePDCStatusLevelFront(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
-    }
+    public void updatePDCStatusLevelFront(PDCStatusLevelFrontRear var1, int var2) throws MethodException;
 
-    default public void updatePDCStatusLevelRear(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
-    }
+    public void updatePDCStatusLevelRear(PDCStatusLevelFrontRear var1, int var2) throws MethodException;
 
-    default public void updatePDCStatusLevelRight(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
-    }
+    public void updatePDCStatusLevelRight(PDCStatusLevelRightLeft var1, int var2) throws MethodException;
 
-    default public void updatePDCStatusLevelLeft(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
-    }
+    public void updatePDCStatusLevelLeft(PDCStatusLevelRightLeft var1, int var2) throws MethodException;
 
-    default public void updatePDCOPSAutoActivation(boolean bl, int n) {
-    }
+    public void updatePDCOPSAutoActivation(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCCrashWarning(PDCCrashWarning pDCCrashWarning, int n) {
-    }
+    public void updatePDCCrashWarning(PDCCrashWarning var1, int var2) throws MethodException;
 
-    default public void updatePDCSteeringInformation(PDCSteeringInformation pDCSteeringInformation, int n) {
-    }
+    public void updatePDCSteeringInformation(PDCSteeringInformation var1, int var2) throws MethodException;
 
-    default public void updatePDCFlankGuard(boolean bl, int n) {
-    }
+    public void updatePDCFlankGuard(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCSoundReproduction(PDCSoundReproduction pDCSoundReproduction, int n) {
-    }
+    public void updatePDCSoundReproduction(PDCSoundReproduction var1, int var2) throws MethodException;
 
-    default public void updatePDCInfo(PDCInfo pDCInfo, int n) {
-    }
+    public void updatePDCInfo(PDCInfo var1, int var2) throws MethodException;
 
-    default public void updatePDCFailure(boolean bl, int n) {
-    }
+    public void updatePDCFailure(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCDistanceValuesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
-    }
+    public void updatePDCDistanceValuesFrontExt(PDCDistanceValuesFrontRearExt var1, int var2) throws MethodException;
 
-    default public void updatePDCDistanceValuesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
-    }
+    public void updatePDCDistanceValuesRearExt(PDCDistanceValuesFrontRearExt var1, int var2) throws MethodException;
 
-    default public void updatePDCStatusLevelFrontExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
-    }
+    public void updatePDCStatusLevelFrontExt(PDCStatusLevelFrontRearExt var1, int var2) throws MethodException;
 
-    default public void updatePDCStatusLevelRearExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
-    }
+    public void updatePDCStatusLevelRearExt(PDCStatusLevelFrontRearExt var1, int var2) throws MethodException;
 
-    default public void updatePDCWallDetection(PDCWallDetection pDCWallDetection, int n) {
-    }
+    public void updatePDCWallDetection(PDCWallDetection var1, int var2) throws MethodException;
 
-    default public void updatePDCPLAMessage(int n, int n2) {
-    }
+    public void updatePDCPLAMessage(int var1, int var2) throws MethodException;
 
-    default public void updatePDCSoundFront(PDCSound pDCSound, int n) {
-    }
+    public void updatePDCSoundFront(PDCSound var1, int var2) throws MethodException;
 
-    default public void updatePDCSoundRear(PDCSound pDCSound, int n) {
-    }
+    public void updatePDCSoundRear(PDCSound var1, int var2) throws MethodException;
 
-    default public void updatePDCSoundLeft(PDCSound pDCSound, int n) {
-    }
+    public void updatePDCSoundLeft(PDCSound var1, int var2) throws MethodException;
 
-    default public void updatePDCSoundRight(PDCSound pDCSound, int n) {
-    }
+    public void updatePDCSoundRight(PDCSound var1, int var2) throws MethodException;
 
-    default public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus, int n) {
-    }
+    public void updatePDCPLAStatus(PDCPLAStatus var1, int var2) throws MethodException;
 
-    default public void updatePDCPLABargraph(PDCPLABargraph pDCPLABargraph, int n) {
-    }
+    public void updatePDCPLABargraph(PDCPLABargraph var1, int var2) throws MethodException;
 
-    default public void updatePDCPLAParkmodeSelection(int n, int n2) {
-    }
+    public void updatePDCPLAParkmodeSelection(int var1, int var2) throws MethodException;
 
-    default public void updatePDCPLASystemState(PDCPLASystemState pDCPLASystemState, int n) {
-    }
+    public void updatePDCPLASystemState(PDCPLASystemState var1, int var2) throws MethodException;
 
-    default public void updatePDCOPSVisualisationPosition(int n, int n2) {
-    }
+    public void updatePDCOPSVisualisationPosition(int var1, int var2) throws MethodException;
 
-    default public void updatePDCOffroadMode(boolean bl, int n) {
-    }
+    public void updatePDCOffroadMode(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCParkboxVisualisation(boolean bl, int n) {
-    }
+    public void updatePDCParkboxVisualisation(boolean var1, int var2) throws MethodException;
 
-    default public void updateVPSFollowUpTime(int n, int n2) {
-    }
+    public void updateVPSFollowUpTime(int var1, int var2) throws MethodException;
 
-    default public void updateVPSVideoInfo(VPSVideoInfo vPSVideoInfo, int n) {
-    }
+    public void updateVPSVideoInfo(VPSVideoInfo var1, int var2) throws MethodException;
 
-    default public void updateVPSColor(int n, int n2) {
-    }
+    public void updateVPSColor(int var1, int var2) throws MethodException;
 
-    default public void updateVPSContrast(int n, int n2) {
-    }
+    public void updateVPSContrast(int var1, int var2) throws MethodException;
 
-    default public void updateVPSBrightness(int n, int n2) {
-    }
+    public void updateVPSBrightness(int var1, int var2) throws MethodException;
 
-    default public void updateVPSDefaultModeRV(VPSDefaultMode vPSDefaultMode, int n) {
-    }
+    public void updateVPSDefaultModeRV(VPSDefaultMode var1, int var2) throws MethodException;
 
-    default public void updateVPSDefaultModeSV(VPSDefaultMode vPSDefaultMode, int n) {
-    }
+    public void updateVPSDefaultModeSV(VPSDefaultMode var1, int var2) throws MethodException;
 
-    default public void updateVPSDefaultModeFV(VPSDefaultMode vPSDefaultMode, int n) {
-    }
+    public void updateVPSDefaultModeFV(VPSDefaultMode var1, int var2) throws MethodException;
 
-    default public void updateVPSDefaultModeBV(VPSDefaultMode vPSDefaultMode, int n) {
-    }
+    public void updateVPSDefaultModeBV(VPSDefaultMode var1, int var2) throws MethodException;
 
-    default public void updateVPSDefaultView(int n, int n2) {
-    }
+    public void updateVPSDefaultView(int var1, int var2) throws MethodException;
 
-    default public void updateVPSDynamicParkingMode(VPSDynParkingMode vPSDynParkingMode, int n) {
-    }
+    public void updateVPSDynamicParkingMode(VPSDynParkingMode var1, int var2) throws MethodException;
 
-    default public void updateVPSOPSOverlay(VPSOPSOverlay vPSOPSOverlay, int n) {
-    }
+    public void updateVPSOPSOverlay(VPSOPSOverlay var1, int var2) throws MethodException;
 
-    default public void updateVPSSystemOnOff(boolean bl, int n) {
-    }
+    public void updateVPSSystemOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void updateVPSFailure(boolean bl, int n) {
-    }
+    public void updateVPSFailure(boolean var1, int var2) throws MethodException;
 
-    default public void updateVPSExtCamConfig(int n, int n2) {
-    }
+    public void updateVPSExtCamConfig(int var1, int var2) throws MethodException;
 
-    default public void updateVPSExtCamManActivation(boolean bl, int n) {
-    }
+    public void updateVPSExtCamManActivation(boolean var1, int var2) throws MethodException;
 
-    default public void updateVPS3DBirdview(int n, int n2, int n3) {
-    }
+    public void updateVPS3DBirdview(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateVPSSystemState(boolean bl, int n) {
-    }
+    public void updateVPSSystemState(boolean var1, int var2) throws MethodException;
 
-    default public void updateVPSCameraStates(VPSCameraStates vPSCameraStates, int n) {
-    }
+    public void updateVPSCameraStates(VPSCameraStates var1, int var2) throws MethodException;
 
-    default public void updateParkingPopupContent(DisplayContent displayContent, int n) {
-    }
+    public void updateParkingPopupContent(DisplayContent var1, int var2) throws MethodException;
 
-    default public void requestParkingPopup(DisplayContent displayContent) {
-    }
+    public void requestParkingPopup(DisplayContent var1) throws MethodException;
 
-    default public void acknowledgeParkingPopup(DisplayContent displayContent) {
-    }
+    public void acknowledgeParkingPopup(DisplayContent var1) throws MethodException;
 
-    default public void responseLifeMonitoring(boolean bl) {
-    }
+    public void responseLifeMonitoring(boolean var1) throws MethodException;
 
-    default public void acknowledgePdcSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgePdcSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void acknowledgeVpsSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeVpsSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void updateARAFailure(boolean bl, int n) {
-    }
+    public void updateARAFailure(boolean var1, int var2) throws MethodException;
 
-    default public void updateARAInfo(ARAInfo aRAInfo, int n) {
-    }
+    public void updateARAInfo(ARAInfo var1, int var2) throws MethodException;
 
-    default public void updateARACurrentTrailerAngle(ARACurrentTrailerAngle aRACurrentTrailerAngle, int n) {
-    }
+    public void updateARACurrentTrailerAngle(ARACurrentTrailerAngle var1, int var2) throws MethodException;
 
-    default public void updateARATargetTrailerAngle(int n, int n2) {
-    }
+    public void updateARATargetTrailerAngle(int var1, int var2) throws MethodException;
 
-    default public void updatePDCManeuverAssistConfig(int n, int n2) {
-    }
+    public void updatePDCManeuverAssistConfig(int var1, int var2) throws MethodException;
 
-    default public void updatePDCManeuverAssist(boolean bl, int n) {
-    }
+    public void updatePDCManeuverAssist(boolean var1, int var2) throws MethodException;
 
-    default public void updatePDCManeuverAssistState(PDCManeuverAssistState pDCManeuverAssistState, int n) {
-    }
+    public void updatePDCManeuverAssistState(PDCManeuverAssistState var1, int var2) throws MethodException;
 
-    default public void updatePDCManeuverAssistMessage(int n, int n2) {
-    }
+    public void updatePDCManeuverAssistMessage(int var1, int var2) throws MethodException;
 
-    default public void updatePDCIPAMessage(int n, int n2) {
-    }
+    public void updatePDCIPAMessage(int var1, int var2) throws MethodException;
 
-    default public void updatePDCContinueDrivingAssist(int n, int n2) {
-    }
+    public void updatePDCContinueDrivingAssist(int var1, int var2) throws MethodException;
 
-    default public void updatePDCIpaConfig(int n, int n2) {
-    }
+    public void updatePDCIpaConfig(int var1, int var2) throws MethodException;
 
-    default public void updatePDCPiloPaSystemState(PDCPiloPaSystemState pDCPiloPaSystemState, int n) {
-    }
+    public void updatePDCPiloPaSystemState(PDCPiloPaSystemState var1, int var2) throws MethodException;
 
-    default public void updateVPSCameraCleaning(VPSCameraCleaning vPSCameraCleaning, int n) {
-    }
+    public void updateVPSCameraCleaning(VPSCameraCleaning var1, int var2) throws MethodException;
 
-    default public void updateVPSRimProtection(VPSRimProtection vPSRimProtection, int n) {
-    }
+    public void updateVPSRimProtection(VPSRimProtection var1, int var2) throws MethodException;
 
-    default public void updateWCViewOptions(WCViewOptions wCViewOptions, int n) {
-    }
+    public void updateWCViewOptions(WCViewOptions var1, int var2) throws MethodException;
 
-    default public void updateWCSystemOnOff(boolean bl, int n) {
-    }
+    public void updateWCSystemOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void updateWCAutoActivation(boolean bl, int n) {
-    }
+    public void updateWCAutoActivation(boolean var1, int var2) throws MethodException;
 
-    default public void updateWCPopupContent(int n, int n2) {
-    }
+    public void updateWCPopupContent(int var1, int var2) throws MethodException;
 
-    default public void updateWCMessage(int n, int n2) {
-    }
+    public void updateWCMessage(int var1, int var2) throws MethodException;
 
-    default public void updateWCPanelPosition(WCPanelInfo wCPanelInfo, int n) {
-    }
+    public void updateWCPanelPosition(WCPanelInfo var1, int var2) throws MethodException;
 
-    default public void acknowledgeWCSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeWCSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void requestWCPopup(int n) {
-    }
+    public void requestWCPopup(int var1) throws MethodException;
 
-    default public void acknowledgeWCPopup(int n) {
-    }
+    public void acknowledgeWCPopup(int var1) throws MethodException;
 
-    default public void updateWCPanelListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateWCPanelListUpdateInfo(CarArrayListUpdateInfo var1, int[] var2, int var3) throws MethodException;
 
-    default public void updateWCPanelListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateWCPanelListTotalNumberOfElements(int var1, int var2) throws MethodException;
 
-    default public void updateWCVehiclePanelInfo(WCVehiclePanelInfo wCVehiclePanelInfo, int n) {
-    }
+    public void updateWCVehiclePanelInfo(WCVehiclePanelInfo var1, int var2) throws MethodException;
 
-    default public void updateWCPinPukState(WCPinPukState wCPinPukState, int n) {
-    }
+    public void updateWCPinPukState(WCPinPukState var1, int var2) throws MethodException;
 
-    default public void updateWCScanningProgress(int n, int n2) {
-    }
+    public void updateWCScanningProgress(int var1, int var2) throws MethodException;
 
-    default public void updateWCSoftwareUpdateProgress(int n, int n2) {
-    }
+    public void updateWCSoftwareUpdateProgress(int var1, int var2) throws MethodException;
 
-    default public void acknowledgeWCEnterPinPuk(int n) {
-    }
+    public void acknowledgeWCEnterPinPuk(int var1) throws MethodException;
 
-    default public void acknowledgeWCScanning(int n) {
-    }
+    public void acknowledgeWCScanning(int var1) throws MethodException;
 
-    default public void acknowledgeWCPairing(int n) {
-    }
+    public void acknowledgeWCPairing(int var1) throws MethodException;
 
-    default public void acknowledgeWCSoftwareUpdate(int n) {
-    }
+    public void acknowledgeWCSoftwareUpdate(int var1) throws MethodException;
 
-    default public void acknowledgeWCChangePin(int n) {
-    }
+    public void acknowledgeWCChangePin(int var1) throws MethodException;
 
-    default public void acknowledgeWCChangePanelName(int n) {
-    }
+    public void acknowledgeWCChangePanelName(int var1) throws MethodException;
 
-    default public void responseWCPanelList(CarArrayListUpdateInfo carArrayListUpdateInfo, WCPanelListRecord[] wCPanelListRecordArray) {
-    }
+    public void responseWCPanelList(CarArrayListUpdateInfo var1, WCPanelListRecord[] var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

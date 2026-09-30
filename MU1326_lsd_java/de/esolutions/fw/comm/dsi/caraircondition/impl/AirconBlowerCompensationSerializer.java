@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconBlowerCompensation;
 
 public class AirconBlowerCompensationSerializer {
-    public static void putOptionalAirconBlowerCompensation(ISerializer iSerializer, AirconBlowerCompensation airconBlowerCompensation) {
+    public static void putOptionalAirconBlowerCompensation(ISerializer iSerializer, AirconBlowerCompensation airconBlowerCompensation) throws SerializerException {
         boolean bl = airconBlowerCompensation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AirconBlowerCompensationSerializer {
         }
     }
 
-    public static void putOptionalAirconBlowerCompensationVarArray(ISerializer iSerializer, AirconBlowerCompensation[] airconBlowerCompensationArray) {
+    public static void putOptionalAirconBlowerCompensationVarArray(ISerializer iSerializer, AirconBlowerCompensation[] airconBlowerCompensationArray) throws SerializerException {
         boolean bl = airconBlowerCompensationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AirconBlowerCompensationSerializer {
         }
     }
 
-    public static AirconBlowerCompensation getOptionalAirconBlowerCompensation(IDeserializer iDeserializer) {
+    public static AirconBlowerCompensation getOptionalAirconBlowerCompensation(IDeserializer iDeserializer) throws SerializerException {
         AirconBlowerCompensation airconBlowerCompensation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AirconBlowerCompensationSerializer {
         return airconBlowerCompensation;
     }
 
-    public static AirconBlowerCompensation[] getOptionalAirconBlowerCompensationVarArray(IDeserializer iDeserializer) {
+    public static AirconBlowerCompensation[] getOptionalAirconBlowerCompensationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconBlowerCompensation[] airconBlowerCompensationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

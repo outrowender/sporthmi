@@ -6,6 +6,7 @@ package org.apache.xerces.xs;
 import org.apache.xerces.xs.ShortList;
 import org.apache.xerces.xs.XSAnnotation;
 import org.apache.xerces.xs.XSComplexTypeDefinition;
+import org.apache.xerces.xs.XSException;
 import org.apache.xerces.xs.XSNamedMap;
 import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSTerm;
@@ -13,58 +14,40 @@ import org.apache.xerces.xs.XSTypeDefinition;
 
 public interface XSElementDeclaration
 extends XSTerm {
-    default public XSTypeDefinition getTypeDefinition() {
-    }
+    public XSTypeDefinition getTypeDefinition();
 
-    default public short getScope() {
-    }
+    public short getScope();
 
-    default public XSComplexTypeDefinition getEnclosingCTDefinition() {
-    }
+    public XSComplexTypeDefinition getEnclosingCTDefinition();
 
-    default public short getConstraintType() {
-    }
+    public short getConstraintType();
 
-    default public String getConstraintValue() {
-    }
+    public String getConstraintValue();
 
-    default public Object getActualVC() {
-    }
+    public Object getActualVC() throws XSException;
 
-    default public short getActualVCType() {
-    }
+    public short getActualVCType() throws XSException;
 
-    default public ShortList getItemValueTypes() {
-    }
+    public ShortList getItemValueTypes() throws XSException;
 
-    default public boolean getNillable() {
-    }
+    public boolean getNillable();
 
-    default public XSNamedMap getIdentityConstraints() {
-    }
+    public XSNamedMap getIdentityConstraints();
 
-    default public XSElementDeclaration getSubstitutionGroupAffiliation() {
-    }
+    public XSElementDeclaration getSubstitutionGroupAffiliation();
 
-    default public boolean isSubstitutionGroupExclusion(short s) {
-    }
+    public boolean isSubstitutionGroupExclusion(short var1);
 
-    default public short getSubstitutionGroupExclusions() {
-    }
+    public short getSubstitutionGroupExclusions();
 
-    default public boolean isDisallowedSubstitution(short s) {
-    }
+    public boolean isDisallowedSubstitution(short var1);
 
-    default public short getDisallowedSubstitutions() {
-    }
+    public short getDisallowedSubstitutions();
 
-    default public boolean getAbstract() {
-    }
+    public boolean getAbstract();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

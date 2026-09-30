@@ -28,7 +28,6 @@ implements PartialPopupRenderer {
     /*
      * Enabled aggressive block sorting
      */
-    @Override
     public void render(RedrawContext redrawContext) {
         float f2;
         super.render(redrawContext);
@@ -80,7 +79,6 @@ implements PartialPopupRenderer {
         this.controller = partialPopupController;
     }
 
-    @Override
     public void hide() {
         if (this.node != null) {
             this.node.setVisible(false);
@@ -96,7 +94,6 @@ implements PartialPopupRenderer {
         }
     }
 
-    @Override
     protected IWrappedNode3D getParentNode(RedrawContextHigh redrawContextHigh) {
         if (this.controller.getlayer() == 0) {
             if (this.controller.isUserHint()) {
@@ -110,7 +107,6 @@ implements PartialPopupRenderer {
         return this.getEALManager().getPartialPopupsFrontNode();
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         IWrappedNode3D iWrappedNode3D = this.getParentNode(redrawContextHigh);
         this.node = this.getEALManager().createNode3D(iWrappedNode3D, EALManager.createNodeName("partialPopupRoot", this.controller.getID(), (AbstractRenderer)this), this.controller.getWidth(), this.controller.getHeight(), redrawContextHigh.getCalculatedNodeIndex(this.controller.getDepth()));
@@ -126,7 +122,6 @@ implements PartialPopupRenderer {
         }
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         if (abstractWidget instanceof PartialPopupGlassplateController) {
@@ -151,7 +146,6 @@ implements PartialPopupRenderer {
         return false;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         if (this.offscreenLayer != null) {
@@ -162,7 +156,7 @@ implements PartialPopupRenderer {
 
     private boolean keepPositionInRTL() {
         int n = this.controller.getID();
-        return n == 806035456 || n == 822812672 || n == 839589888 || n == 889921536 || n == 1124802560 || n == 1208688640 || n == 671817728 || this.keepPositionInRTL;
+        return n == 2100016 || n == 2100017 || n == 2100018 || n == 2100021 || n == 2100035 || n == 2100040 || n == 2100008 || this.keepPositionInRTL;
     }
 
     public void keepPositionInRTL(boolean bl) {
@@ -184,7 +178,7 @@ implements PartialPopupRenderer {
                     break;
                 }
                 default: {
-                    logChannelPopups.log(-2137614336, "PartialPopupRendererHigh#getXOffsetRTL: no offset for the given popup with the id=%1", (long)n);
+                    logChannelPopups.log(10000000, "PartialPopupRendererHigh#getXOffsetRTL: no offset for the given popup with the id=%1", (long)n);
                     break;
                 }
             }
@@ -195,14 +189,13 @@ implements PartialPopupRenderer {
                     break;
                 }
                 default: {
-                    logChannelPopups.log(-2137614336, "PartialPopupRendererHigh#getXOffsetRTL: no offset for the given popup with the id=%1", (long)n);
+                    logChannelPopups.log(10000000, "PartialPopupRendererHigh#getXOffsetRTL: no offset for the given popup with the id=%1", (long)n);
                 }
             }
         }
         return n2;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
     }
 }

@@ -8,43 +8,30 @@ import de.esolutions.fw.util.tracing.format.ITraceEntityResolver;
 import de.esolutions.fw.util.tracing.format.ITraceMessageFormatter;
 
 public interface ITraceBackendListener {
-    default public void connected(short s, boolean bl) {
-    }
+    public void connected(short var1, boolean var2);
 
-    default public void disconnected(short s) {
-    }
+    public void disconnected(short var1);
 
-    default public boolean triggerRequestFilterLevel(TraceEntityURI traceEntityURI, short s) {
-    }
+    public boolean triggerRequestFilterLevel(TraceEntityURI var1, short var2);
 
-    default public boolean triggerExecuteCallback(int n, byte[] byArray) {
-    }
+    public boolean triggerExecuteCallback(int var1, byte[] var2);
 
-    default public short queryFilterLevel(TraceEntityURI traceEntityURI) {
-    }
+    public short queryFilterLevel(TraceEntityURI var1);
 
-    default public void logMessage(short s, String string) {
-    }
+    public void logMessage(short var1, String var2);
 
-    default public int getCoreMaxEntities() {
-    }
+    public int getCoreMaxEntities();
 
-    default public String getCoreId() {
-    }
+    public String getCoreId();
 
-    default public void requestQuit() {
-    }
+    public void requestQuit();
 
-    default public ITraceMessageFormatter createFormatter(String string, boolean bl) {
-    }
+    public ITraceMessageFormatter createFormatter(String var1, boolean var2);
 
-    default public ITraceEntityResolver getEntityResolver() {
-    }
+    public ITraceEntityResolver getEntityResolver();
 
-    default public String getTimeZoneName(int n) {
-    }
+    public String getTimeZoneName(int var1);
 
-    default public Object getComponent(String string) {
-    }
+    public Object getComponent(String var1);
 }
 

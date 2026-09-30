@@ -10,14 +10,12 @@ import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
 import de.esolutions.hmi.widgets.audi.base.eal.ITextureCache;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
-import de.esolutions.hmi.widgets.audi.base.eal.LRUTextureCache$CacheEntry;
 import de.esolutions.hmi.widgets.audi.base.eal.TextureDescription;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public class LRUTextureCache
@@ -45,7 +43,7 @@ IWidgetLogChannel {
     }
 
     public LRUTextureCache(EALManager eALManager, int n, int n2, int n3, boolean bl, boolean bl2) {
-        logChannel3DEngineCache.log(1078071040, "LRUTextureCache constructing cache %1, (%2, %3)", (long)n, (long)n2, (long)n3);
+        logChannel3DEngineCache.log(1000000, "LRUTextureCache constructing cache %1, (%2, %3)", (long)n, (long)n2, (long)n3);
         this.ealManager = eALManager;
         this.cacheId = n;
         this.levelsAreInByte = bl;
@@ -54,35 +52,32 @@ IWidgetLogChannel {
         this.deferredCacheDeleteActive = bl2;
     }
 
-    @Override
     public IWrappedTexture getTexture(TextureDescription textureDescription, Object object) {
         Object object2 = LRUTextureCache.getKey(textureDescription);
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)this.texDescrCounter.get(object2);
-        if (lRUTextureCache$CacheEntry == null) {
-            logChannel3DEngineCache.log(-2137614336, "LRUTextureCache#getTexture cache miss for %1 in cache %2", (Object)textureDescription, (long)this.cacheId);
+        CacheEntry cacheEntry = (CacheEntry)this.texDescrCounter.get(object2);
+        if (cacheEntry == null) {
+            logChannel3DEngineCache.log(10000000, "LRUTextureCache#getTexture cache miss for %1 in cache %2", (Object)textureDescription, (long)this.cacheId);
             this.freeBufferIfNeeded();
             return this.createCacheEntry(textureDescription, object);
         }
-        this.list.remove(lRUTextureCache$CacheEntry);
-        this.list.addFirst(lRUTextureCache$CacheEntry);
-        return LRUTextureCache$CacheEntry.access$000(lRUTextureCache$CacheEntry, object);
+        this.list.remove(cacheEntry);
+        this.list.addFirst(cacheEntry);
+        return cacheEntry.incrementReferences(object);
     }
 
-    @Override
     public IWrappedTexture getCachedTexture(TextureDescription textureDescription, Object object) {
         Object object2 = LRUTextureCache.getKey(textureDescription);
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)this.texDescrCounter.get(object2);
-        if (lRUTextureCache$CacheEntry == null) {
+        CacheEntry cacheEntry = (CacheEntry)this.texDescrCounter.get(object2);
+        if (cacheEntry == null) {
             return null;
         }
-        return LRUTextureCache$CacheEntry.access$000(lRUTextureCache$CacheEntry, object);
+        return cacheEntry.incrementReferences(object);
     }
 
-    @Override
     public boolean isTextureCached(TextureDescription textureDescription) {
         Object object = LRUTextureCache.getKey(textureDescription);
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)this.texDescrCounter.get(object);
-        return lRUTextureCache$CacheEntry != null;
+        CacheEntry cacheEntry = (CacheEntry)this.texDescrCounter.get(object);
+        return cacheEntry != null;
     }
 
     private static Object getKey(TextureDescription textureDescription) {
@@ -91,23 +86,23 @@ IWidgetLogChannel {
 
     private void freeBufferIfNeeded() {
         if (this.rawImgRamUsage < this.freeLevel) {
-            logChannel3DEngineCache.log(14808325, "LRUTextureCache#freeBufferIfNeeded current ramUsage: %1", (long)this.rawImgRamUsage);
+            logChannel3DEngineCache.log(100000000, "LRUTextureCache#freeBufferIfNeeded current ramUsage: %1", (long)this.rawImgRamUsage);
             return;
         }
-        logChannel3DEngineCache.log(-2137614336, "LRUTextureCache#freeBufferIfNeeded ramUsage: %1", (long)this.rawImgRamUsage);
+        logChannel3DEngineCache.log(10000000, "LRUTextureCache#freeBufferIfNeeded ramUsage: %1", (long)this.rawImgRamUsage);
         while (this.rawImgRamUsage >= this.freeLevel) {
-            LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = this.getNextFreeEntry();
-            if (lRUTextureCache$CacheEntry == null) {
-                int n = this.rawImgRamUsage >= this.errorLevel ? 10000 : -1601830656;
+            CacheEntry cacheEntry = this.getNextFreeEntry();
+            if (cacheEntry == null) {
+                int n = this.rawImgRamUsage >= this.errorLevel ? 10000 : 100000;
                 logChannel3DEngineCache.log(n, "LRUTextureCache#freeBufferIfNeeded items in cache %2 need %1 Bytes RAM", (long)this.rawImgRamUsage, (long)this.cacheId);
                 return;
             }
-            this.freeCacheEntry(lRUTextureCache$CacheEntry);
+            this.freeCacheEntry(cacheEntry);
         }
     }
 
-    private void freeCacheEntry(LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry) {
-        IWrappedTexture iWrappedTexture = lRUTextureCache$CacheEntry.getTexture();
+    private void freeCacheEntry(CacheEntry cacheEntry) {
+        IWrappedTexture iWrappedTexture = cacheEntry.getTexture();
         this.ealManager.destroy(iWrappedTexture);
         Object object = iWrappedTexture.getDescription().getCacheKey();
         this.texDescrCounter.remove(object);
@@ -115,7 +110,7 @@ IWidgetLogChannel {
         this.rawImgRamUsage -= n;
         this.texDescrRawImgSize.remove(object);
         this.descriptionMap.remove(object);
-        this.list.remove(lRUTextureCache$CacheEntry);
+        this.list.remove(cacheEntry);
         if (logChannel3DEngineCacheSize.isInfo()) {
             this.buffer.clear();
             this.buffer.append("LRUTextureCache#freeCacheEntry added texture for key ");
@@ -128,24 +123,24 @@ IWidgetLogChannel {
             this.buffer.append(this.list.size());
             this.buffer.append(", cacheSize=");
             this.buffer.append(this.rawImgRamUsage);
-            logChannel3DEngineCacheSize.log(1078071040, this.buffer.toString());
+            logChannel3DEngineCacheSize.log(1000000, this.buffer.toString());
         }
     }
 
     public int clearBufferIfPossible() {
         int n = this.rawImgRamUsage;
         int n2 = 0;
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = this.getNextFreeEntry();
-        while (lRUTextureCache$CacheEntry != null) {
-            IWrappedTexture iWrappedTexture = lRUTextureCache$CacheEntry.getTexture();
+        CacheEntry cacheEntry = this.getNextFreeEntry();
+        while (cacheEntry != null) {
+            IWrappedTexture iWrappedTexture = cacheEntry.getTexture();
             this.ealManager.destroy(iWrappedTexture);
             Object object = iWrappedTexture.getDescription().getCacheKey();
             this.texDescrCounter.remove(object);
             this.rawImgRamUsage -= ((Integer)this.texDescrRawImgSize.get(object)).intValue();
             this.texDescrRawImgSize.remove(object);
             this.descriptionMap.remove(object);
-            this.list.remove(lRUTextureCache$CacheEntry);
-            lRUTextureCache$CacheEntry = this.getNextFreeEntry();
+            this.list.remove(cacheEntry);
+            cacheEntry = this.getNextFreeEntry();
             ++n2;
         }
         int n3 = n - this.rawImgRamUsage;
@@ -161,25 +156,25 @@ IWidgetLogChannel {
             this.buffer.append(this.list.size());
             this.buffer.append(", cacheSize=");
             this.buffer.append(this.rawImgRamUsage);
-            logChannel3DEngineCacheSize.log(1078071040, this.buffer.toString());
+            logChannel3DEngineCacheSize.log(1000000, this.buffer.toString());
         }
         if (this.deferredCacheDeleteActive) {
             this.markAsDeleted();
         }
-        int n4 = -2137614336;
+        int n4 = 10000000;
         if (this.rawImgRamUsage >= this.freeLevel) {
-            n4 = this.rawImgRamUsage >= this.errorLevel ? 10000 : -1601830656;
+            n4 = this.rawImgRamUsage >= this.errorLevel ? 10000 : 100000;
         }
         logChannel3DEngineCache.log(n4, "LRUTextureCache#clearBufferIfPossible initialRamUsed: %1, clearedRAMSpace: %2, remainingRAMUsed: %3", (long)n, (long)(n - this.rawImgRamUsage), (long)this.rawImgRamUsage);
         return n3;
     }
 
-    private LRUTextureCache$CacheEntry getNextFreeEntry() {
+    private CacheEntry getNextFreeEntry() {
         ListIterator listIterator = this.list.listIterator(this.list.size());
         while (listIterator.hasPrevious()) {
-            LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)listIterator.previous();
-            if (LRUTextureCache$CacheEntry.access$100(lRUTextureCache$CacheEntry) > 0) continue;
-            return lRUTextureCache$CacheEntry;
+            CacheEntry cacheEntry = (CacheEntry)listIterator.previous();
+            if (cacheEntry.getRefcount() > 0) continue;
+            return cacheEntry;
         }
         return null;
     }
@@ -188,8 +183,8 @@ IWidgetLogChannel {
         ListIterator listIterator = this.list.listIterator(this.list.size());
         int n = 0;
         while (listIterator.hasPrevious()) {
-            LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)listIterator.previous();
-            if (LRUTextureCache$CacheEntry.access$100(lRUTextureCache$CacheEntry) > 0) continue;
+            CacheEntry cacheEntry = (CacheEntry)listIterator.previous();
+            if (cacheEntry.getRefcount() > 0) continue;
             ++n;
         }
         return n;
@@ -200,14 +195,14 @@ IWidgetLogChannel {
         if (iWrappedTexture == null) {
             return null;
         }
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = new LRUTextureCache$CacheEntry(iWrappedTexture, null);
+        CacheEntry cacheEntry = new CacheEntry(iWrappedTexture);
         Object object2 = textureDescription.getCacheKey();
-        this.texDescrCounter.put(object2, lRUTextureCache$CacheEntry);
+        this.texDescrCounter.put(object2, cacheEntry);
         int n = this.levelsAreInByte ? iWrappedTexture.getRawImageSize() : 1;
         this.texDescrRawImgSize.put(object2, Util.createInteger(n));
         this.rawImgRamUsage += n;
         this.descriptionMap.put(object2, textureDescription);
-        this.list.addFirst(lRUTextureCache$CacheEntry);
+        this.list.addFirst(cacheEntry);
         if (logChannel3DEngineCacheSize.isInfo()) {
             this.buffer.clear();
             this.buffer.append("LRUTextureCache#createCacheEntry added texture for key ");
@@ -220,42 +215,40 @@ IWidgetLogChannel {
             this.buffer.append(this.list.size());
             this.buffer.append(", cacheSize=");
             this.buffer.append(this.rawImgRamUsage);
-            logChannel3DEngineCacheSize.log(1078071040, this.buffer.toString());
+            logChannel3DEngineCacheSize.log(1000000, this.buffer.toString());
         }
-        return LRUTextureCache$CacheEntry.access$000(lRUTextureCache$CacheEntry, object);
+        return cacheEntry.incrementReferences(object);
     }
 
-    @Override
     public boolean release(IWrappedTexture iWrappedTexture, Object object) {
         Object object2 = LRUTextureCache.getKey(iWrappedTexture.getDescription());
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)this.texDescrCounter.get(object2);
-        if (lRUTextureCache$CacheEntry == null) {
+        CacheEntry cacheEntry = (CacheEntry)this.texDescrCounter.get(object2);
+        if (cacheEntry == null) {
             logChannel3DEngineCache.log(10000, "LRUTextureCache#release could not find cacheEntry for %1", (Object)iWrappedTexture);
             return false;
         }
-        this.list.remove(lRUTextureCache$CacheEntry);
-        this.list.addFirst(lRUTextureCache$CacheEntry);
-        boolean bl = LRUTextureCache$CacheEntry.access$300(lRUTextureCache$CacheEntry, object);
-        if (LRUTextureCache$CacheEntry.access$400(lRUTextureCache$CacheEntry)) {
-            this.freeCacheEntry(lRUTextureCache$CacheEntry);
+        this.list.remove(cacheEntry);
+        this.list.addFirst(cacheEntry);
+        boolean bl = cacheEntry.decrementReferences(object);
+        if (cacheEntry.isDeferredCacheDelete()) {
+            this.freeCacheEntry(cacheEntry);
         }
         this.freeBufferIfNeeded();
         return bl;
     }
 
-    @Override
     public void destroyAll() {
         Set set = this.texDescrCounter.entrySet();
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)map$Entry.getValue();
-            if (lRUTextureCache$CacheEntry == null) continue;
-            this.ealManager.destroy(lRUTextureCache$CacheEntry.getTexture());
+            Map.Entry entry = (Map.Entry)iterator.next();
+            CacheEntry cacheEntry = (CacheEntry)entry.getValue();
+            if (cacheEntry == null) continue;
+            this.ealManager.destroy(cacheEntry.getTexture());
         }
         this.texDescrCounter.clear();
         this.texDescrRawImgSize.clear();
-        logChannel3DEngineCacheSize.log(1078071040, "LRUTextureCache#destroyAll cleared %1 entries, cacheId=%2, size=%3", (long)this.list.size(), (long)this.getCacheId(), (long)this.rawImgRamUsage);
+        logChannel3DEngineCacheSize.log(1000000, "LRUTextureCache#destroyAll cleared %1 entries, cacheId=%2, size=%3", (long)this.list.size(), (long)this.getCacheId(), (long)this.rawImgRamUsage);
         this.list.clear();
         this.descriptionMap.clear();
         this.rawImgRamUsage = 0;
@@ -263,12 +256,12 @@ IWidgetLogChannel {
 
     public int getRefCount(TextureDescription textureDescription) {
         Object object = LRUTextureCache.getKey(textureDescription);
-        LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)this.texDescrCounter.get(object);
-        if (lRUTextureCache$CacheEntry == null) {
-            logChannel3DEngineCache.log(-2137614336, "LRUTextureCache#getRefCount could not find cacheEntry for %1", (Object)textureDescription);
+        CacheEntry cacheEntry = (CacheEntry)this.texDescrCounter.get(object);
+        if (cacheEntry == null) {
+            logChannel3DEngineCache.log(10000000, "LRUTextureCache#getRefCount could not find cacheEntry for %1", (Object)textureDescription);
             return -1;
         }
-        return LRUTextureCache$CacheEntry.access$500(lRUTextureCache$CacheEntry).size();
+        return cacheEntry.referencedObjects.size();
     }
 
     public int getCacheSize() {
@@ -279,35 +272,31 @@ IWidgetLogChannel {
         return this.rawImgRamUsage;
     }
 
-    @Override
     public void dump() {
         this.dump(logChannel3DEngineCache);
     }
 
-    @Override
     public void dump(LogChannel logChannel) {
         Object object;
-        logChannel.log(1078071040, "LRUTextureCache#dump Cache %1, size=%2", (long)this.cacheId, (long)this.rawImgRamUsage);
-        logChannel.log(1078071040, "LRUTextureCache#dump warnLevel=%1, errorLevel=%2", (long)this.freeLevel, (long)this.errorLevel);
+        logChannel.log(1000000, "LRUTextureCache#dump Cache %1, size=%2", (long)this.cacheId, (long)this.rawImgRamUsage);
+        logChannel.log(1000000, "LRUTextureCache#dump warnLevel=%1, errorLevel=%2", (long)this.freeLevel, (long)this.errorLevel);
         for (int i2 = 0; i2 < this.list.size(); ++i2) {
-            object = (LRUTextureCache$CacheEntry)this.list.get(i2);
-            logChannel.log(1078071040, "LRUTextureCache#dump CacheEntry: %2, CacheKey: %1, references=%3", ((LRUTextureCache$CacheEntry)object).getTexture().getDescription().getCacheKey(), (Object)((LRUTextureCache$CacheEntry)object).getTexture(), (long)LRUTextureCache$CacheEntry.access$100((LRUTextureCache$CacheEntry)object));
+            object = (CacheEntry)this.list.get(i2);
+            logChannel.log(1000000, "LRUTextureCache#dump CacheEntry: %2, CacheKey: %1, references=%3", ((CacheEntry)object).getTexture().getDescription().getCacheKey(), (Object)((CacheEntry)object).getTexture(), (long)((CacheEntry)object).getRefcount());
         }
         Set set = this.descriptionMap.entrySet();
-        logChannel.log(1078071040, "LRUTextureCache#dump Size of description-map: %1", (long)set.size());
+        logChannel.log(1000000, "LRUTextureCache#dump Size of description-map: %1", (long)set.size());
         object = set.iterator();
         while (object.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)object.next();
-            logChannel.log(1078071040, "LRUTextureCache#dump Description-Entry: %1", map$Entry.getKey());
+            Map.Entry entry = (Map.Entry)object.next();
+            logChannel.log(1000000, "LRUTextureCache#dump Description-Entry: %1", entry.getKey());
         }
     }
 
-    @Override
     public int getCacheId() {
         return this.cacheId;
     }
 
-    @Override
     public TextureDescription getTextureDescriptionByKey(Object object) {
         Object object2 = this.descriptionMap.get(object);
         if (object2 != null) {
@@ -319,10 +308,73 @@ IWidgetLogChannel {
     private void markAsDeleted() {
         ListIterator listIterator = this.list.listIterator(this.list.size());
         while (listIterator.hasPrevious()) {
-            LRUTextureCache$CacheEntry lRUTextureCache$CacheEntry = (LRUTextureCache$CacheEntry)listIterator.previous();
-            LRUTextureCache$CacheEntry.access$602(lRUTextureCache$CacheEntry, true);
+            CacheEntry cacheEntry = (CacheEntry)listIterator.previous();
+            cacheEntry.deleted = true;
         }
-        logChannel3DEngineCache.log(1078071040, "LRUTextureCache#markAsDeleted Cache %1, %2 entries marked for deferred cache delete.", (long)this.cacheId, (long)this.list.size());
+        logChannel3DEngineCache.log(1000000, "LRUTextureCache#markAsDeleted Cache %1, %2 entries marked for deferred cache delete.", (long)this.cacheId, (long)this.list.size());
+    }
+
+    private static class CacheEntry {
+        private final IWrappedTexture texture;
+        private LinkedList referencedObjects = new LinkedList();
+        private boolean deleted;
+
+        private CacheEntry(IWrappedTexture iWrappedTexture) {
+            this.texture = iWrappedTexture;
+        }
+
+        private int getRefcount() {
+            return this.referencedObjects.size();
+        }
+
+        private boolean decrementReferences(Object object) {
+            if (this.referencedObjects.size() <= 0) {
+                IWidgetLogChannel.logChannel3DEngineCache.log(10000, "LRUTextureCache#CacheEntry#decrementReferences no references, reference=%1", object);
+                IWidgetLogChannel.logChannel3DEngineCache.log(10000, "LRUTextureCache#CacheEntry#decrementReferences no references, texture=%1", (Object)this.texture);
+                return false;
+            }
+            if (!this.isPermanent()) {
+                int n = this.referencedObjects.size();
+                Iterator iterator = this.referencedObjects.iterator();
+                while (iterator.hasNext()) {
+                    Object object2 = iterator.next();
+                    if (!object2.equals(object)) continue;
+                    iterator.remove();
+                    IWidgetLogChannel.logChannel3DEngineCache.log(10000000, "LRUTextureCache#CacheEntry#decrementReferences decrementing reference counter of %1 to %2", (Object)this.texture, (long)this.referencedObjects.size());
+                    break;
+                }
+                if (n == this.referencedObjects.size()) {
+                    IWidgetLogChannel.logChannel3DEngineCache.log(10000, "LRUTextureCache#CacheEntry#decrementReferences decrementing failed. No existing Reference for %1", object);
+                    IWidgetLogChannel.logChannel3DEngineCache.log(10000, "LRUTextureCache#CacheEntry#decrementReferences remaining reference counts: %1", (long)this.referencedObjects.size());
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean isDeferredCacheDelete() {
+            return this.deleted && this.referencedObjects.size() <= 0;
+        }
+
+        private boolean isPermanent() {
+            return !this.referencedObjects.isEmpty() && this.equals(this.referencedObjects.getFirst());
+        }
+
+        private IWrappedTexture incrementReferences(Object object) {
+            if (this.referencedObjects.size() > 50) {
+                IWidgetLogChannel.logChannel3DEngineCache.log(10000, "LRUTextureCache#CacheEntry#incrementReferences buffer full. %1 is marked as stored permanently in RAM. Object cause: %2", (Object)this.texture, object);
+                this.referencedObjects.clear();
+                this.referencedObjects.add(this);
+            } else if (!this.isPermanent()) {
+                this.referencedObjects.add(object);
+                IWidgetLogChannel.logChannel3DEngineCache.log(10000000, "LRUTextureCache#CacheEntry#incrementReferences incrementing reference counter of %1 to %2", (Object)this.texture, (long)this.referencedObjects.size());
+            }
+            return this.texture;
+        }
+
+        public IWrappedTexture getTexture() {
+            return this.texture;
+        }
     }
 }
 

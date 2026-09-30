@@ -15,40 +15,28 @@ import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSTypeDefinition;
 
 public interface XSModel {
-    default public StringList getNamespaces() {
-    }
+    public StringList getNamespaces();
 
-    default public XSNamespaceItemList getNamespaceItems() {
-    }
+    public XSNamespaceItemList getNamespaceItems();
 
-    default public XSNamedMap getComponents(short s) {
-    }
+    public XSNamedMap getComponents(short var1);
 
-    default public XSNamedMap getComponentsByNamespace(short s, String string) {
-    }
+    public XSNamedMap getComponentsByNamespace(short var1, String var2);
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 
-    default public XSElementDeclaration getElementDeclaration(String string, String string2) {
-    }
+    public XSElementDeclaration getElementDeclaration(String var1, String var2);
 
-    default public XSAttributeDeclaration getAttributeDeclaration(String string, String string2) {
-    }
+    public XSAttributeDeclaration getAttributeDeclaration(String var1, String var2);
 
-    default public XSTypeDefinition getTypeDefinition(String string, String string2) {
-    }
+    public XSTypeDefinition getTypeDefinition(String var1, String var2);
 
-    default public XSAttributeGroupDefinition getAttributeGroup(String string, String string2) {
-    }
+    public XSAttributeGroupDefinition getAttributeGroup(String var1, String var2);
 
-    default public XSModelGroupDefinition getModelGroupDefinition(String string, String string2) {
-    }
+    public XSModelGroupDefinition getModelGroupDefinition(String var1, String var2);
 
-    default public XSNotationDeclaration getNotationDeclaration(String string, String string2) {
-    }
+    public XSNotationDeclaration getNotationDeclaration(String var1, String var2);
 
-    default public XSObjectList getSubstitutionGroup(XSElementDeclaration xSElementDeclaration) {
-    }
+    public XSObjectList getSubstitutionGroup(XSElementDeclaration var1);
 }
 

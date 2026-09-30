@@ -29,7 +29,6 @@ implements ICharacterRegister {
         return new CharacterRegisterBinarySearch(string, cArray, cArray2, cArray3);
     }
 
-    @Override
     public boolean contains(char c2) {
         if (Arrays.binarySearch(this.subtractedCharacters, c2) >= 0) {
             return false;
@@ -40,13 +39,12 @@ implements ICharacterRegister {
         return Arrays.binarySearch(this.characters, c2) >= 0;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
     public String toString() {
-        return new StringBuffer().append("CharacterRegisterBinarySearch [name=").append(this.name).append("]").toString();
+        return "CharacterRegisterBinarySearch [name=" + this.name + "]";
     }
 
     protected char[] getCharacters() {
@@ -61,7 +59,6 @@ implements ICharacterRegister {
         return (char[])this.subtractedCharacters.clone();
     }
 
-    @Override
     public int getSize() {
         int n;
         int n2 = this.characters.length;
@@ -76,7 +73,6 @@ implements ICharacterRegister {
         return n2;
     }
 
-    @Override
     public boolean containsIgnoreCase(char c2) {
         if (Arrays.binarySearch(this.subtractedCharacters, c2) >= 0 || Arrays.binarySearch(this.subtractedCharacters, this.convertCase(c2)) >= 0) {
             return false;

@@ -45,7 +45,7 @@ implements WidgetConstants {
 
     public String toString() {
         if (this.remove) {
-            return new StringBuffer().append(this.index).append("[remove]").toString();
+            return this.index + "[remove]";
         }
         return this.index.toString();
     }

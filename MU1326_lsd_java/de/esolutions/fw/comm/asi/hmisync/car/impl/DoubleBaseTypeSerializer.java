@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.DoubleBaseType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class DoubleBaseTypeSerializer {
-    public static void putOptionalDoubleBaseType(ISerializer iSerializer, DoubleBaseType doubleBaseType) {
+    public static void putOptionalDoubleBaseType(ISerializer iSerializer, DoubleBaseType doubleBaseType) throws SerializerException {
         boolean bl = doubleBaseType == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class DoubleBaseTypeSerializer {
         }
     }
 
-    public static void putOptionalDoubleBaseTypeVarArray(ISerializer iSerializer, DoubleBaseType[] doubleBaseTypeArray) {
+    public static void putOptionalDoubleBaseTypeVarArray(ISerializer iSerializer, DoubleBaseType[] doubleBaseTypeArray) throws SerializerException {
         boolean bl = doubleBaseTypeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class DoubleBaseTypeSerializer {
         }
     }
 
-    public static DoubleBaseType getOptionalDoubleBaseType(IDeserializer iDeserializer) {
+    public static DoubleBaseType getOptionalDoubleBaseType(IDeserializer iDeserializer) throws SerializerException {
         DoubleBaseType doubleBaseType = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class DoubleBaseTypeSerializer {
         return doubleBaseType;
     }
 
-    public static DoubleBaseType[] getOptionalDoubleBaseTypeVarArray(IDeserializer iDeserializer) {
+    public static DoubleBaseType[] getOptionalDoubleBaseTypeVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoubleBaseType[] doubleBaseTypeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

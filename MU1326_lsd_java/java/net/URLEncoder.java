@@ -3,8 +3,10 @@
  */
 package java.net;
 
+import java.io.UnsupportedEncodingException;
+
 public class URLEncoder {
-    static final String digits;
+    static final String digits = "0123456789ABCDEF";
 
     private URLEncoder() {
     }
@@ -23,8 +25,8 @@ public class URLEncoder {
                 int n2 = 0;
                 while (n2 < byArray.length) {
                     stringBuffer.append('%');
-                    stringBuffer.append("0123456789ABCDEF".charAt((byArray[n2] & 0xF0) >> 4));
-                    stringBuffer.append("0123456789ABCDEF".charAt(byArray[n2] & 0xF));
+                    stringBuffer.append(digits.charAt((byArray[n2] & 0xF0) >> 4));
+                    stringBuffer.append(digits.charAt(byArray[n2] & 0xF));
                     ++n2;
                 }
             }
@@ -33,7 +35,7 @@ public class URLEncoder {
         return stringBuffer.toString();
     }
 
-    public static String encode(String string, String string2) {
+    public static String encode(String string, String string2) throws UnsupportedEncodingException {
         if (string2 == null) {
             throw new NullPointerException();
         }
@@ -64,13 +66,13 @@ public class URLEncoder {
         return stringBuffer.toString();
     }
 
-    private static void convert(String string, StringBuffer stringBuffer, String string2) {
+    private static void convert(String string, StringBuffer stringBuffer, String string2) throws UnsupportedEncodingException {
         byte[] byArray = string.getBytes(string2);
         int n = 0;
         while (n < byArray.length) {
             stringBuffer.append('%');
-            stringBuffer.append("0123456789ABCDEF".charAt((byArray[n] & 0xF0) >> 4));
-            stringBuffer.append("0123456789ABCDEF".charAt(byArray[n] & 0xF));
+            stringBuffer.append(digits.charAt((byArray[n] & 0xF0) >> 4));
+            stringBuffer.append(digits.charAt(byArray[n] & 0xF));
             ++n;
         }
     }

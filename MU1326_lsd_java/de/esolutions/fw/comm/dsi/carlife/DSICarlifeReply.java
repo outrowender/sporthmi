@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carlife;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carlife.AppState;
 import org.dsi.ifc.carlife.CallState;
 import org.dsi.ifc.carlife.DeviceInfo;
@@ -13,48 +14,35 @@ import org.dsi.ifc.carlife.TrackData;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSICarlifeReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "c032514d-43a6-5c21-9026-4b110dd7075c";
+    public static final String IPL_COMM_INTERFACE_KEY = "7fc18f96-446f-5fb2-8dab-8fa8ec3dfd7c";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void responseSetMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseSetMode(Resource[] var1, AppState[] var2) throws MethodException;
 
-    default public void updateCallState(CallState callState, int n) {
-    }
+    public void updateCallState(CallState var1, int var2) throws MethodException;
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2) throws MethodException;
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2) throws MethodException;
 
-    default public void updatePlaymodeState(PlaymodeInfo playmodeInfo, int n) {
-    }
+    public void updatePlaymodeState(PlaymodeInfo var1, int var2) throws MethodException;
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2) throws MethodException;
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void updateNavigationNextTurnInfo(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateNavigationNextTurnInfo(String var1, int var2, int var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
-    }
+    public void updateDeviceInfo(DeviceInfo var1, int var2) throws MethodException;
 
-    default public void requestModeChange(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void requestModeChange(Resource[] var1, AppState[] var2) throws MethodException;
 
-    default public void updateVideoAvailable(boolean bl, int n) {
-    }
+    public void updateVideoAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

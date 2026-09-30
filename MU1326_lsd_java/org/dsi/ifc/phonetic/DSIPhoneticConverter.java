@@ -7,16 +7,14 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIPhoneticConverter
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_HANZITOPINYIN;
-    public static final int RT_HANZITOZHUYIN;
-    public static final int RP_HANZITOPINYINRESULT;
-    public static final int RP_HANZITOZHUYINRESULT;
+    public static final String VERSION = "2.11.1";
+    public static final int RT_HANZITOPINYIN = 1000;
+    public static final int RT_HANZITOZHUYIN = 1001;
+    public static final int RP_HANZITOPINYINRESULT = 2000;
+    public static final int RP_HANZITOZHUYINRESULT = 2001;
 
-    default public void hanziToPinYin(String string) {
-    }
+    public void hanziToPinYin(String var1);
 
-    default public void hanziToZhuYin(String string) {
-    }
+    public void hanziToZhuYin(String var1);
 }
 

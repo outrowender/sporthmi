@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.telephone;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.telephone.ActivationStateStruct;
 import org.dsi.ifc.telephone.LockStateStruct;
 import org.dsi.ifc.telephone.NADTemperatureStruct;
@@ -13,81 +14,57 @@ import org.dsi.ifc.telephone.RegisterStateStruct;
 import org.dsi.ifc.telephone.ServiceProvider;
 
 public interface DSINADReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "744f9c7a-3f01-5ae1-a600-1f677f1c9032";
+    public static final String IPL_COMM_INTERFACE_KEY = "a1072e44-3963-5f62-9f7a-427c15ebcd0f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.27";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.27";
 
-    default public void responseAbortNetworkRegistration(int n) {
-    }
+    public void responseAbortNetworkRegistration(int var1) throws MethodException;
 
-    default public void responseAbortNetworkSearch(int n) {
-    }
+    public void responseAbortNetworkSearch(int var1) throws MethodException;
 
-    default public void responseChangeSIMCode(int n, int n2) {
-    }
+    public void responseChangeSIMCode(int var1, int var2) throws MethodException;
 
-    default public void responseSIMPINRequired(int n) {
-    }
+    public void responseSIMPINRequired(int var1) throws MethodException;
 
-    default public void updateSIMPINRequired(boolean bl, int n) {
-    }
+    public void updateSIMPINRequired(boolean var1, int var2) throws MethodException;
 
-    default public void responseNetworkRegistration(int n) {
-    }
+    public void responseNetworkRegistration(int var1) throws MethodException;
 
-    default public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
-    }
+    public void responseNetworkSearch(NetworkProvider[] var1, int var2) throws MethodException;
 
-    default public void responseUnlockSIM(int n) {
-    }
+    public void responseUnlockSIM(int var1) throws MethodException;
 
-    default public void responseCheckSIMPINCode(int n) {
-    }
+    public void responseCheckSIMPINCode(int var1) throws MethodException;
 
-    default public void responseRestoreFactorySettings(int n) {
-    }
+    public void responseRestoreFactorySettings(int var1) throws MethodException;
 
-    default public void responseTelPower(int n) {
-    }
+    public void responseTelPower(int var1) throws MethodException;
 
-    default public void responseSetAutomaticPinEntryActive(int n) {
-    }
+    public void responseSetAutomaticPinEntryActive(int var1) throws MethodException;
 
-    default public void updateActivationState(ActivationStateStruct activationStateStruct, int n) {
-    }
+    public void updateActivationState(ActivationStateStruct var1, int var2) throws MethodException;
 
-    default public void updateAutomaticPinEntryActive(boolean bl, int n) {
-    }
+    public void updateAutomaticPinEntryActive(boolean var1, int var2) throws MethodException;
 
-    default public void updateLockState(LockStateStruct lockStateStruct, int n) {
-    }
+    public void updateLockState(LockStateStruct var1, int var2) throws MethodException;
 
-    default public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) {
-    }
+    public void updateNADTemperature(NADTemperatureStruct var1, int var2) throws MethodException;
 
-    default public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
-    }
+    public void updatePhoneInformation(PhoneInformation var1, int var2) throws MethodException;
 
-    default public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) {
-    }
+    public void updateNetworkProvider(NetworkProviderName var1, int var2) throws MethodException;
 
-    default public void updateNetworkType(int n, int n2) {
-    }
+    public void updateNetworkType(int var1, int var2) throws MethodException;
 
-    default public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) {
-    }
+    public void updateRegisterState(RegisterStateStruct var1, int var2) throws MethodException;
 
-    default public void updateSignalQuality(int n, int n2) {
-    }
+    public void updateSignalQuality(int var1, int var2) throws MethodException;
 
-    default public void updateServiceProvider(ServiceProvider serviceProvider, int n) {
-    }
+    public void updateServiceProvider(ServiceProvider var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

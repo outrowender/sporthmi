@@ -28,187 +28,126 @@ import org.dsi.ifc.global.CarBCCurrentRange;
 
 public interface DSICarEcoListener
 extends DSIListener {
-    default public void updateBCmEViewOptions(BCmEViewOptions bCmEViewOptions, int n) {
-    }
+    public void updateBCmEViewOptions(BCmEViewOptions var1, int var2);
 
-    default public void updateBCmEListUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
-    }
+    public void updateBCmEListUpdateInfo(BCmEListUpdateInfo var1, int var2);
 
-    default public void updateBCmEConsumption(int n, int n2, int n3, int n4) {
-    }
+    public void updateBCmEConsumption(int var1, int var2, int var3, int var4);
 
-    default public void updateBCmELiveTip(int n, boolean bl, int n2) {
-    }
+    public void updateBCmELiveTip(int var1, boolean var2, int var3);
 
-    default public void responseBCmEConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerList[] bCmEConsumerListArray) {
-    }
+    public void responseBCmEConsumerList(BCmEListUpdateInfo var1, BCmEConsumerList[] var2);
 
-    default public void acknowledgeBcmeSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeBcmeSetFactoryDefault(boolean var1);
 
-    default public void updateStartStopProhibitReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) {
-    }
+    public void updateStartStopProhibitReasonListUpdateInfo(StartStopListUpdateInfo var1, int var2);
 
-    default public void responseStartStopProhibitReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopProhibitList[] startStopProhibitListArray) {
-    }
+    public void responseStartStopProhibitReasonList(StartStopListUpdateInfo var1, StartStopProhibitList[] var2);
 
-    default public void updateStartStopRestartReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) {
-    }
+    public void updateStartStopRestartReasonListUpdateInfo(StartStopListUpdateInfo var1, int var2);
 
-    default public void responseStartStopRestartReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopRestartList[] startStopRestartListArray) {
-    }
+    public void responseStartStopRestartReasonList(StartStopListUpdateInfo var1, StartStopRestartList[] var2);
 
-    default public void updateStartStopRestartProhibitReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) {
-    }
+    public void updateStartStopRestartProhibitReasonListUpdateInfo(StartStopListUpdateInfo var1, int var2);
 
-    default public void responseStartStopRestartProhibitReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopRestartProhibitList[] startStopRestartProhibitListArray) {
-    }
+    public void responseStartStopRestartProhibitReasonList(StartStopListUpdateInfo var1, StartStopRestartProhibitList[] var2);
 
-    default public void updateStartStopState(int n, int n2) {
-    }
+    public void updateStartStopState(int var1, int var2);
 
-    default public void updateStartStopProhibitReasonListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateStartStopProhibitReasonListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateStartStopRestartReasonListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateStartStopRestartReasonListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateStartStopRestartProhibitReasonListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateStartStopRestartProhibitReasonListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateStartStopViewOptions(StartStopViewOptions startStopViewOptions, int n) {
-    }
+    public void updateStartStopViewOptions(StartStopViewOptions var1, int var2);
 
-    default public void updateStartStopCollectedReasons(int n, int n2) {
-    }
+    public void updateStartStopCollectedReasons(int var1, int var2);
 
-    default public void updateRDViewOptions(RangeDataViewOptions rangeDataViewOptions, int n) {
-    }
+    public void updateRDViewOptions(RangeDataViewOptions var1, int var2);
 
-    default public void updateRDConsumptionMotorway1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionMotorway1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionMotorway2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionMotorway2(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionHighway1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionHighway1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionHighway2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionHighway2(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionCountryRoad1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionCountryRoad1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionCountryRoad2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionCountryRoad2(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionDistrictRoad1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionDistrictRoad1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionDistrictRoad2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionDistrictRoad2(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionLocalRoad1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionLocalRoad1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionLocalRoad2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionLocalRoad2(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionRuralRoad1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionRuralRoad1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionRuralRoad2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionRuralRoad2(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionUnclassifiedRoad1(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionUnclassifiedRoad1(CarBCConsumption var1, int var2);
 
-    default public void updateRDConsumptionUnclassifiedRoad2(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updateRDConsumptionUnclassifiedRoad2(CarBCConsumption var1, int var2);
 
-    default public void updateRDMaxRange1(CarBCCurrentRange carBCCurrentRange, int n) {
-    }
+    public void updateRDMaxRange1(CarBCCurrentRange var1, int var2);
 
-    default public void updateRDMaxRange2(CarBCCurrentRange carBCCurrentRange, int n) {
-    }
+    public void updateRDMaxRange2(CarBCCurrentRange var1, int var2);
 
-    default public void updateRDResidualEnergy1(RangeDataResidualEnergy rangeDataResidualEnergy, int n) {
-    }
+    public void updateRDResidualEnergy1(RangeDataResidualEnergy var1, int var2);
 
-    default public void updateRDResidualEnergy2(RangeDataResidualEnergy rangeDataResidualEnergy, int n) {
-    }
+    public void updateRDResidualEnergy2(RangeDataResidualEnergy var1, int var2);
 
-    default public void acknowledgeRDSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeRDSetFactoryDefault(boolean var1);
 
-    default public void updateBCmEConsumerListConsumptionUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
-    }
+    public void updateBCmEConsumerListConsumptionUpdateInfo(BCmEListUpdateInfo var1, int var2);
 
-    default public void updateBCmEConsumerListRangeUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
-    }
+    public void updateBCmEConsumerListRangeUpdateInfo(BCmEListUpdateInfo var1, int var2);
 
-    default public void updateBCmEEnergyFlowComfort(BCmEEnergyFlowComfort bCmEEnergyFlowComfort, int n) {
-    }
+    public void updateBCmEEnergyFlowComfort(BCmEEnergyFlowComfort var1, int var2);
 
-    default public void updateBCmERangeGainTotal(BCmERangeGainTotal bCmERangeGainTotal, int n) {
-    }
+    public void updateBCmERangeGainTotal(BCmERangeGainTotal var1, int var2);
 
-    default public void responseBCmEConsumerListConsumptionRA0(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListConsumptionRA0[] bCmEConsumerListConsumptionRA0Array) {
-    }
+    public void responseBCmEConsumerListConsumptionRA0(BCmEListUpdateInfo var1, BCmEConsumerListConsumptionRA0[] var2);
 
-    default public void responseBCmEConsumerListConsumptionRA1(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListConsumptionRA1[] bCmEConsumerListConsumptionRA1Array) {
-    }
+    public void responseBCmEConsumerListConsumptionRA1(BCmEListUpdateInfo var1, BCmEConsumerListConsumptionRA1[] var2);
 
-    default public void responseBCmEConsumerListConsumptionRAF(BCmEListUpdateInfo bCmEListUpdateInfo, int[] nArray) {
-    }
+    public void responseBCmEConsumerListConsumptionRAF(BCmEListUpdateInfo var1, int[] var2);
 
-    default public void responseBCmEConsumerListRangeRA0(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA0[] bCmEConsumerListRangeRA0Array) {
-    }
+    public void responseBCmEConsumerListRangeRA0(BCmEListUpdateInfo var1, BCmEConsumerListRangeRA0[] var2);
 
-    default public void responseBCmEConsumerListRangeRA1(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA1[] bCmEConsumerListRangeRA1Array) {
-    }
+    public void responseBCmEConsumerListRangeRA1(BCmEListUpdateInfo var1, BCmEConsumerListRangeRA1[] var2);
 
-    default public void responseBCmEConsumerListRangeRA2(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array) {
-    }
+    public void responseBCmEConsumerListRangeRA2(BCmEListUpdateInfo var1, BCmEConsumerListRangeRA2[] var2);
 
-    default public void responseBCmEConsumerListRangeRAF(BCmEListUpdateInfo bCmEListUpdateInfo, int[] nArray) {
-    }
+    public void responseBCmEConsumerListRangeRAF(BCmEListUpdateInfo var1, int[] var2);
 
-    default public void updateBCmECurrentRange(BCmECurrentRange bCmECurrentRange, int n) {
-    }
+    public void updateBCmECurrentRange(BCmECurrentRange var1, int var2);
 
-    default public void updateBCmEConsumerListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateBCmEConsumerListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateBCmEConsumerListConsumptionTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateBCmEConsumerListConsumptionTotalNumberOfElements(int var1, int var2);
 
-    default public void updateBCmEConsumerListRangeTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateBCmEConsumerListRangeTotalNumberOfElements(int var1, int var2);
 
-    default public void updateBCmECurrentRangeSOC(int n, int n2, int n3, int n4) {
-    }
+    public void updateBCmECurrentRangeSOC(int var1, int var2, int var3, int var4);
 
-    default public void updateBCmECatalogueRange(int n, int n2, int n3, int n4) {
-    }
+    public void updateBCmECatalogueRange(int var1, int var2, int var3, int var4);
 
-    default public void updateEAViewOptions(EAViewOptions eAViewOptions, int n) {
-    }
+    public void updateEAViewOptions(EAViewOptions var1, int var2);
 
-    default public void updateEASystem(boolean bl, int n) {
-    }
+    public void updateEASystem(boolean var1, int var2);
 
-    default public void updateEAPedalJerk(boolean bl, int n) {
-    }
+    public void updateEAPedalJerk(boolean var1, int var2);
 
-    default public void acknowledgeEASetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeEASetFactoryDefault(boolean var1);
 
-    default public void updateEAFreeWheeling(boolean bl, int n) {
-    }
+    public void updateEAFreeWheeling(boolean var1, int var2);
 
-    default public void updateEAStartStop(boolean bl, int n) {
-    }
+    public void updateEAStartStop(boolean var1, int var2);
 }
 

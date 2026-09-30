@@ -9,19 +9,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuItemSingle;
 public interface IMenuItemMultiLine
 extends IMenuItemSingle,
 IMenuItemMulti {
-    default public int getPreferredLineHeight(int n) {
-    }
+    public int getPreferredLineHeight(int var1);
 
-    default public int getFilledInsets(boolean bl) {
-    }
+    public int getFilledInsets(boolean var1);
 
-    default public void setVisibleAreaBounds(int n, int n2, int n3) {
-    }
+    public void setVisibleAreaBounds(int var1, int var2, int var3);
 
-    default public boolean isScrollLineByLine() {
-    }
+    public boolean isScrollLineByLine();
 
-    default public int getSdsItemSelectedAction(int n) {
-    }
+    public int getSdsItemSelectedAction(int var1);
 }
 

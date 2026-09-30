@@ -3,66 +3,50 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.map.PosInfo;
 import org.dsi.ifc.map.Rect;
 import org.dsi.ifc.map.StreetViewThumbnail;
 
 public interface DSIMapViewerStreetViewCtrlReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "4c3800c3-44b1-546a-8e1a-10175e766248";
+    public static final String IPL_COMM_INTERFACE_KEY = "d48f38d9-e846-5a2d-9a56-a69068d291b5";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.62";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.62";
 
-    default public void updateStreetViewLoadStatus(int n, int n2) {
-    }
+    public void updateStreetViewLoadStatus(int var1, int var2) throws MethodException;
 
-    default public void updateStreetViewAvailable(boolean bl, int n) {
-    }
+    public void updateStreetViewAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void updateStreetViewZoomListIndex(int n, int n2) {
-    }
+    public void updateStreetViewZoomListIndex(int var1, int var2) throws MethodException;
 
-    default public void updateStreetViewZoomList(float[] fArray, int n) {
-    }
+    public void updateStreetViewZoomList(float[] var1, int var2) throws MethodException;
 
-    default public void updateStreetViewThumbnails(StreetViewThumbnail[] streetViewThumbnailArray, int n) {
-    }
+    public void updateStreetViewThumbnails(StreetViewThumbnail[] var1, int var2) throws MethodException;
 
-    default public void streetViewEnabled(boolean bl) {
-    }
+    public void streetViewEnabled(boolean var1) throws MethodException;
 
-    default public void streetViewVisible(boolean bl) {
-    }
+    public void streetViewVisible(boolean var1) throws MethodException;
 
-    default public void streetViewFreeze(boolean bl) {
-    }
+    public void streetViewFreeze(boolean var1) throws MethodException;
 
-    default public void updatePosition(NavLocationWgs84 navLocationWgs84, int n) {
-    }
+    public void updatePosition(NavLocationWgs84 var1, int var2) throws MethodException;
 
-    default public void updateRotation(int n, int n2, int n3) {
-    }
+    public void updateRotation(int var1, int var2, int var3) throws MethodException;
 
-    default public void getInfoForPosition(PosInfo[] posInfoArray) {
-    }
+    public void getInfoForPosition(PosInfo[] var1) throws MethodException;
 
-    default public void snapshotResult(StreetViewThumbnail streetViewThumbnail, int n) {
-    }
+    public void snapshotResult(StreetViewThumbnail var1, int var2) throws MethodException;
 
-    default public void updateScreenViewPort(Rect rect, int n) {
-    }
+    public void updateScreenViewPort(Rect var1, int var2) throws MethodException;
 
-    default public void updateStreetViewZoomLevel(float f2, int n) {
-    }
+    public void updateStreetViewZoomLevel(float var1, int var2) throws MethodException;
 
-    default public void updateStreetViewPosition(NavLocationWgs84 navLocationWgs84, boolean bl, int n) {
-    }
+    public void updateStreetViewPosition(NavLocationWgs84 var1, boolean var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

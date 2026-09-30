@@ -9,17 +9,16 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureFrameRenderer;
 
 public class PictureFrameController
 extends AbstractWidgetController {
-    public static final int TYP_3PLUS1;
-    public static final int TYP_STREET_VIEW;
-    public static final int TYP_BITMAP;
-    public static final int TYP_KANBAN;
+    public static final int TYP_3PLUS1 = 0;
+    public static final int TYP_STREET_VIEW = 1;
+    public static final int TYP_BITMAP = 2;
+    public static final int TYP_KANBAN = 3;
     private int type = 1;
     private int value = 50;
     private int updateInterval = 500;
     private int[] captureRect;
     private PictureFrameRenderer renderer;
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
     }
@@ -32,7 +31,6 @@ extends AbstractWidgetController {
         return this.getValue();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

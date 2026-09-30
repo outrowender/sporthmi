@@ -6,36 +6,27 @@ package de.esolutions.fw.comm.asi.online.coreservice;
 import de.esolutions.fw.comm.asi.online.coreservice.ExtOnlineCoreServiceReply;
 import de.esolutions.fw.comm.asi.online.coreservice.KeyValPair;
 import de.esolutions.fw.comm.asi.online.coreservice.RequestDescriptor;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ExtOnlineCoreServiceS {
-    default public void init(String string, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void init(String var1, ExtOnlineCoreServiceReply var2) throws MethodException;
 
-    default public void init(String string, String string2, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void init(String var1, String var2, ExtOnlineCoreServiceReply var3) throws MethodException;
 
-    default public void registerService(String string, String string2, boolean bl, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void registerService(String var1, String var2, boolean var3, ExtOnlineCoreServiceReply var4) throws MethodException;
 
-    default public void getServiceListEntry(String string, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void getServiceListEntry(String var1, ExtOnlineCoreServiceReply var2) throws MethodException;
 
-    default public void precheckOnlineServiceServiceID(String string, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void precheckOnlineServiceServiceID(String var1, ExtOnlineCoreServiceReply var2) throws MethodException;
 
-    default public void precheckOnlineService(ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void precheckOnlineService(ExtOnlineCoreServiceReply var1) throws MethodException;
 
-    default public void requestUpdateKeyStore(ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void requestUpdateKeyStore(ExtOnlineCoreServiceReply var1) throws MethodException;
 
-    default public void getToken(String string, boolean bl, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void getToken(String var1, boolean var2, ExtOnlineCoreServiceReply var3) throws MethodException;
 
-    default public void onlineRequest(RequestDescriptor requestDescriptor, int n, KeyValPair[] keyValPairArray, KeyValPair[] keyValPairArray2, byte[] byArray, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void onlineRequest(RequestDescriptor var1, int var2, KeyValPair[] var3, KeyValPair[] var4, byte[] var5, ExtOnlineCoreServiceReply var6) throws MethodException;
 
-    default public void registerForCredentialUpdates(int[] nArray, ExtOnlineCoreServiceReply extOnlineCoreServiceReply) {
-    }
+    public void registerForCredentialUpdates(int[] var1, ExtOnlineCoreServiceReply var2) throws MethodException;
 }
 

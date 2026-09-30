@@ -6,29 +6,28 @@ package java.security;
 import java.io.Serializable;
 import java.security.Permission;
 import java.security.PermissionCollection;
-import java.security.Permissions$PermissionsEnumeration;
 import java.security.PermissionsHash;
 import java.security.UnresolvedPermission;
 import java.security.UnresolvedPermissionCollection;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 
 public final class Permissions
 extends PermissionCollection
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4858622370623524688L;
     Hashtable perms = new Hashtable(8);
     PermissionCollection allPermission;
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
 
-    @Override
     public void add(Permission permission) {
         if (this.isReadOnly()) {
             throw new SecurityException();
         }
-        Class clazz = super.getClass();
+        Class clazz = permission.getClass();
         Class clazz2 = class$0;
         if (clazz2 == null) {
             try {
@@ -46,14 +45,13 @@ implements Serializable {
         }
     }
 
-    @Override
     public Enumeration elements() {
-        Permissions$PermissionsEnumeration permissions$PermissionsEnumeration = new Permissions$PermissionsEnumeration(this);
-        return permissions$PermissionsEnumeration;
+        PermissionsEnumeration permissionsEnumeration = new PermissionsEnumeration();
+        return permissionsEnumeration;
     }
 
     private PermissionCollection findCollection(Permission permission) {
-        Class clazz = super.getClass();
+        Class clazz = permission.getClass();
         PermissionCollection permissionCollection = (PermissionCollection)this.perms.get(clazz);
         if (permissionCollection == null) {
             permissionCollection = permission.newPermissionCollection();
@@ -65,14 +63,13 @@ implements Serializable {
         return permissionCollection;
     }
 
-    @Override
     public boolean implies(Permission permission) {
         Vector vector;
         UnresolvedPermissionCollection unresolvedPermissionCollection;
         if (this.allPermission != null) {
             return true;
         }
-        PermissionCollection permissionCollection = (PermissionCollection)this.perms.get(super.getClass());
+        PermissionCollection permissionCollection = (PermissionCollection)this.perms.get(permission.getClass());
         if (permissionCollection != null) {
             return permissionCollection.implies(permission);
         }
@@ -85,10 +82,10 @@ implements Serializable {
                 throw new NoClassDefFoundError(classNotFoundException.getMessage());
             }
         }
-        if ((unresolvedPermissionCollection = (UnresolvedPermissionCollection)this.perms.get(clazz)) != null && (vector = unresolvedPermissionCollection.getPermissions(super.getClass().getName())) != null) {
+        if ((unresolvedPermissionCollection = (UnresolvedPermissionCollection)this.perms.get(clazz)) != null && (vector = unresolvedPermissionCollection.getPermissions(permission.getClass().getName())) != null) {
             Enumeration enumeration = vector.elements();
             while (enumeration.hasMoreElements()) {
-                Permission permission2 = ((UnresolvedPermission)enumeration.nextElement()).resolve(super.getClass().getClassLoader());
+                Permission permission2 = ((UnresolvedPermission)enumeration.nextElement()).resolve(permission.getClass().getClassLoader());
                 if (permission2 == null) continue;
                 permissionCollection = this.findCollection(permission2);
                 permissionCollection.add(permission2);
@@ -98,6 +95,49 @@ implements Serializable {
             }
         }
         return false;
+    }
+
+    private class PermissionsEnumeration
+    implements Enumeration {
+        Enumeration enumMap;
+        PermissionCollection c;
+        Enumeration enumC;
+        Permission next;
+
+        PermissionsEnumeration() {
+            this.enumMap = Permissions.this.perms.elements();
+            this.next = this.findNextPermission();
+        }
+
+        public boolean hasMoreElements() {
+            return this.next != null;
+        }
+
+        public Object nextElement() {
+            if (this.next == null) {
+                throw new NoSuchElementException();
+            }
+            Permission permission = this.next;
+            this.next = this.findNextPermission();
+            return permission;
+        }
+
+        private Permission findNextPermission() {
+            while (this.c == null && this.enumMap.hasMoreElements()) {
+                this.c = (PermissionCollection)this.enumMap.nextElement();
+                this.enumC = this.c.elements();
+                if (this.enumC.hasMoreElements()) continue;
+                this.c = null;
+            }
+            if (this.c == null) {
+                return null;
+            }
+            Permission permission = (Permission)this.enumC.nextElement();
+            if (!this.enumC.hasMoreElements()) {
+                this.c = null;
+            }
+            return permission;
+        }
     }
 }
 

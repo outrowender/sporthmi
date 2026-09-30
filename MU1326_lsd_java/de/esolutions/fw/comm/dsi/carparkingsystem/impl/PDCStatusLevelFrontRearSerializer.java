@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCStatusLevelFrontRear;
 
 public class PDCStatusLevelFrontRearSerializer {
-    public static void putOptionalPDCStatusLevelFrontRear(ISerializer iSerializer, PDCStatusLevelFrontRear pDCStatusLevelFrontRear) {
+    public static void putOptionalPDCStatusLevelFrontRear(ISerializer iSerializer, PDCStatusLevelFrontRear pDCStatusLevelFrontRear) throws SerializerException {
         boolean bl = pDCStatusLevelFrontRear == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCStatusLevelFrontRearSerializer {
         }
     }
 
-    public static void putOptionalPDCStatusLevelFrontRearVarArray(ISerializer iSerializer, PDCStatusLevelFrontRear[] pDCStatusLevelFrontRearArray) {
+    public static void putOptionalPDCStatusLevelFrontRearVarArray(ISerializer iSerializer, PDCStatusLevelFrontRear[] pDCStatusLevelFrontRearArray) throws SerializerException {
         boolean bl = pDCStatusLevelFrontRearArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCStatusLevelFrontRearSerializer {
         }
     }
 
-    public static PDCStatusLevelFrontRear getOptionalPDCStatusLevelFrontRear(IDeserializer iDeserializer) {
+    public static PDCStatusLevelFrontRear getOptionalPDCStatusLevelFrontRear(IDeserializer iDeserializer) throws SerializerException {
         PDCStatusLevelFrontRear pDCStatusLevelFrontRear = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCStatusLevelFrontRearSerializer {
         return pDCStatusLevelFrontRear;
     }
 
-    public static PDCStatusLevelFrontRear[] getOptionalPDCStatusLevelFrontRearVarArray(IDeserializer iDeserializer) {
+    public static PDCStatusLevelFrontRear[] getOptionalPDCStatusLevelFrontRearVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCStatusLevelFrontRear[] pDCStatusLevelFrontRearArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

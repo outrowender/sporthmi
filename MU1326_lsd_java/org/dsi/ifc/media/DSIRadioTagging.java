@@ -8,28 +8,25 @@ import org.dsi.ifc.media.TagInformation;
 
 public interface DSIRadioTagging
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_COMPATIBLEDEVAVAIL;
-    public static final int RT_TAGSONG;
-    public static final int RT_TAGAMBIGUOUSSONG;
-    public static final int RT_GROUPTAGS;
-    public static final int RP_TAGRESULT;
-    public static final int RP_GROUPTAGSRESULT;
-    public static final int TAGRESULT_OK;
-    public static final int TAGRESULT_ERROR;
-    public static final int TAGRESULT_TARGETMEMORY_FULL;
-    public static final int DEVICESTATUS_NODEVICE;
-    public static final int DEVICESTATUS_AVAILABLE;
-    public static final int DEVICESTATUS_NOT_SUPPORTED;
-    public static final int DEVICESTATUS_ERROR;
+    public static final String VERSION = "2.11.52";
+    public static final int ATTR_COMPATIBLEDEVAVAIL = 1;
+    public static final int RT_TAGSONG = 1000;
+    public static final int RT_TAGAMBIGUOUSSONG = 1001;
+    public static final int RT_GROUPTAGS = 1002;
+    public static final int RP_TAGRESULT = 2000;
+    public static final int RP_GROUPTAGSRESULT = 2001;
+    public static final int TAGRESULT_OK = 0;
+    public static final int TAGRESULT_ERROR = 1;
+    public static final int TAGRESULT_TARGETMEMORY_FULL = 2;
+    public static final int DEVICESTATUS_NODEVICE = 0;
+    public static final int DEVICESTATUS_AVAILABLE = 1;
+    public static final int DEVICESTATUS_NOT_SUPPORTED = 2;
+    public static final int DEVICESTATUS_ERROR = 3;
 
-    default public void tagSong(TagInformation tagInformation) {
-    }
+    public void tagSong(TagInformation var1);
 
-    default public void tagAmbiguousSong(TagInformation tagInformation, TagInformation tagInformation2) {
-    }
+    public void tagAmbiguousSong(TagInformation var1, TagInformation var2);
 
-    default public void groupTags(int n) {
-    }
+    public void groupTags(int var1);
 }
 

@@ -7,82 +7,56 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIDisplayManagementListener
 extends DSIListener {
-    default public void getExtents(int n, int n2, int n3) {
-    }
+    public void getExtents(int var1, int var2, int var3);
 
-    default public void activeContext(int n, int n2, int n3) {
-    }
+    public void activeContext(int var1, int var2, int var3);
 
-    default public void fadeStarted(int n, int n2) {
-    }
+    public void fadeStarted(int var1, int var2);
 
-    default public void fadeComplete(int n, int n2) {
-    }
+    public void fadeComplete(int var1, int var2);
 
-    default public void getDisplayPower(int n, int n2) {
-    }
+    public void getDisplayPower(int var1, int var2);
 
-    default public void getDisplayBrightness(int n, int n2) {
-    }
+    public void getDisplayBrightness(int var1, int var2);
 
-    default public void getBrightness(int n, int n2) {
-    }
+    public void getBrightness(int var1, int var2);
 
-    default public void getContrast(int n, int n2) {
-    }
+    public void getContrast(int var1, int var2);
 
-    default public void getColor(int n, int n2) {
-    }
+    public void getColor(int var1, int var2);
 
-    default public void getTint(int n, int n2) {
-    }
+    public void getTint(int var1, int var2);
 
-    default public void lockDisplayResult(int n) {
-    }
+    public void lockDisplayResult(int var1);
 
-    default public void unlockDisplayResult(int n) {
-    }
+    public void unlockDisplayResult(int var1);
 
-    default public void setCroppingResult(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11) {
-    }
+    public void setCroppingResult(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11);
 
-    default public void getDisplayableInfo(int n, int n2, int n3) {
-    }
+    public void getDisplayableInfo(int var1, int var2, int var3);
 
-    default public void takeScreenshotOnExternalStorageResult(int n, int n2, String string) {
-    }
+    public void takeScreenshotOnExternalStorageResult(int var1, int var2, String var3);
 
-    default public void setDisplayTypeResult(int n, int n2) {
-    }
+    public void setDisplayTypeResult(int var1, int var2);
 
-    default public void getDisplayTypeResult(int n, int n2) {
-    }
+    public void getDisplayTypeResult(int var1, int var2);
 
-    default public void setUpdateRateResult(int n, int n2) {
-    }
+    public void setUpdateRateResult(int var1, int var2);
 
-    default public void getUpdateRateResult(int n, int n2) {
-    }
+    public void getUpdateRateResult(int var1, int var2);
 
-    default public void startComponentResult(int n, int n2, int n3, int n4) {
-    }
+    public void startComponentResult(int var1, int var2, int var3, int var4);
 
-    default public void stopComponentResult(int n, int n2, int n3, int n4) {
-    }
+    public void stopComponentResult(int var1, int var2, int var3, int var4);
 
-    default public void setAnnotationDataResponse(int n, int n2) {
-    }
+    public void setAnnotationDataResponse(int var1, int var2);
 
-    default public void initAnnotationsResponse(int n, int n2) {
-    }
+    public void initAnnotationsResponse(int var1, int var2);
 
-    default public void destroyImageDisplayableResponse(int n, int n2) {
-    }
+    public void destroyImageDisplayableResponse(int var1, int var2);
 
-    default public void requestUpdateImageDisplayableResponse(int n, int n2) {
-    }
+    public void requestUpdateImageDisplayableResponse(int var1, int var2);
 
-    default public void createImageDisplayableResponse(int n, int n2) {
-    }
+    public void createImageDisplayableResponse(int var1, int var2);
 }
 

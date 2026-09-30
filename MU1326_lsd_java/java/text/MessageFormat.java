@@ -4,13 +4,12 @@
 package java.text;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator$Attribute;
 import java.text.AttributedString;
 import java.text.ChoiceFormat;
 import java.text.DateFormat;
@@ -18,8 +17,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
 import java.text.Format;
-import java.text.MessageFormat$Field;
-import java.text.MessageFormat$FieldContainer;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -32,7 +29,7 @@ import java.util.Vector;
 
 public class MessageFormat
 extends Format {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 6479157306784022952L;
     private Locale locale = Locale.getDefault();
     private transient String[] strings;
     private int[] argumentNumbers;
@@ -166,7 +163,6 @@ extends Format {
         this.maxArgumentIndex = n4;
     }
 
-    @Override
     public Object clone() {
         MessageFormat messageFormat = (MessageFormat)super.clone();
         Format[] formatArray = new Format[this.formats.length];
@@ -200,7 +196,6 @@ extends Format {
         return this.locale.equals(messageFormat.locale) && Arrays.equals(this.strings, messageFormat.strings) && Arrays.equals(this.formats, messageFormat.formats);
     }
 
-    @Override
     public AttributedCharacterIterator formatToCharacterIterator(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -211,8 +206,8 @@ extends Format {
         AttributedString attributedString = new AttributedString(stringBuffer.toString());
         int n = 0;
         while (n < vector.size()) {
-            MessageFormat$FieldContainer messageFormat$FieldContainer = (MessageFormat$FieldContainer)vector.elementAt(n);
-            attributedString.addAttribute(messageFormat$FieldContainer.attribute, messageFormat$FieldContainer.value, messageFormat$FieldContainer.start, messageFormat$FieldContainer.end);
+            FieldContainer fieldContainer = (FieldContainer)vector.elementAt(n);
+            attributedString.addAttribute(fieldContainer.attribute, fieldContainer.value, fieldContainer.start, fieldContainer.end);
             ++n;
         }
         return attributedString.getIterator();
@@ -280,8 +275,8 @@ lbl30:
 
     private void handleArgumentField(int n, int n2, int n3, FieldPosition fieldPosition, Vector vector) {
         if (vector != null) {
-            vector.add(new MessageFormat$FieldContainer(n, n2, MessageFormat$Field.ARGUMENT, new Integer(n3)));
-        } else if (fieldPosition != null && fieldPosition.getFieldAttribute() == MessageFormat$Field.ARGUMENT && fieldPosition.getEndIndex() == 0) {
+            vector.add(new FieldContainer(n, n2, Field.ARGUMENT, new Integer(n3)));
+        } else if (fieldPosition != null && fieldPosition.getFieldAttribute() == Field.ARGUMENT && fieldPosition.getEndIndex() == 0) {
             fieldPosition.setBeginIndex(n);
             fieldPosition.setEndIndex(n2);
         }
@@ -295,16 +290,15 @@ lbl30:
                 int n3 = attributedCharacterIterator.getRunLimit();
                 Iterator iterator = attributedCharacterIterator.getAttributes().keySet().iterator();
                 while (iterator.hasNext()) {
-                    AttributedCharacterIterator$Attribute attributedCharacterIterator$Attribute = (AttributedCharacterIterator$Attribute)iterator.next();
-                    Object object2 = attributedCharacterIterator.getAttribute(attributedCharacterIterator$Attribute);
-                    vector.add(new MessageFormat$FieldContainer(n + n2, n + n3, attributedCharacterIterator$Attribute, object2));
+                    AttributedCharacterIterator.Attribute attribute = (AttributedCharacterIterator.Attribute)iterator.next();
+                    Object object2 = attributedCharacterIterator.getAttribute(attribute);
+                    vector.add(new FieldContainer(n + n2, n + n3, attribute, object2));
                 }
                 attributedCharacterIterator.setIndex(n3);
             }
         }
     }
 
-    @Override
     public final StringBuffer format(Object object, StringBuffer stringBuffer, FieldPosition fieldPosition) {
         return this.format((Object[])object, stringBuffer, fieldPosition);
     }
@@ -371,7 +365,7 @@ lbl30:
         return n + this.locale.hashCode();
     }
 
-    public Object[] parse(String string) {
+    public Object[] parse(String string) throws ParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Object[] objectArray = this.parse(string, parsePosition);
         if (parsePosition.getErrorIndex() != -1 || parsePosition.getIndex() == 0) {
@@ -434,7 +428,6 @@ lbl30:
         return objectArray;
     }
 
-    @Override
     public Object parseObject(String string, ParsePosition parsePosition) {
         return this.parse(string, parsePosition);
     }
@@ -685,13 +678,13 @@ lbl30:
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("argumentNumbers", this.argumentNumbers);
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("argumentNumbers", this.argumentNumbers);
         Format[] formatArray = this.formats;
-        objectOutputStream$PutField.put("formats", formatArray);
-        objectOutputStream$PutField.put("locale", this.locale);
-        objectOutputStream$PutField.put("maxOffset", this.maxOffset);
+        putField.put("formats", formatArray);
+        putField.put("locale", this.locale);
+        putField.put("maxOffset", this.maxOffset);
         int n = 0;
         int n2 = this.maxOffset + 1;
         int[] nArray = new int[n2];
@@ -705,19 +698,19 @@ lbl30:
         if (this.maxOffset + 1 < this.strings.length) {
             stringBuffer.append(this.strings[this.maxOffset + 1]);
         }
-        objectOutputStream$PutField.put("offsets", nArray);
-        objectOutputStream$PutField.put("pattern", stringBuffer.toString());
+        putField.put("offsets", nArray);
+        putField.put("pattern", stringBuffer.toString());
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        this.argumentNumbers = (int[])objectInputStream$GetField.get("argumentNumbers", null);
-        this.formats = (Format[])objectInputStream$GetField.get("formats", null);
-        this.locale = (Locale)objectInputStream$GetField.get("locale", null);
-        this.maxOffset = objectInputStream$GetField.get("maxOffset", 0);
-        int[] nArray = (int[])objectInputStream$GetField.get("offsets", null);
-        String string = (String)objectInputStream$GetField.get("pattern", null);
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        this.argumentNumbers = (int[])getField.get("argumentNumbers", null);
+        this.formats = (Format[])getField.get("formats", null);
+        this.locale = (Locale)getField.get("locale", null);
+        this.maxOffset = getField.get("maxOffset", 0);
+        int[] nArray = (int[])getField.get("offsets", null);
+        String string = (String)getField.get("pattern", null);
         int n = this.maxOffset < 0 ? (string.length() > 0 ? 1 : 0) : this.maxOffset + (nArray[this.maxOffset] == string.length() ? 1 : 2);
         this.strings = new String[n];
         int n2 = 0;
@@ -729,6 +722,40 @@ lbl30:
         }
         if (this.maxOffset + 1 < this.strings.length) {
             this.strings[this.strings.length - 1] = string.substring(n2, string.length());
+        }
+    }
+
+    public static class Field
+    extends Format.Field {
+        public static final Field ARGUMENT = new Field("message argument field");
+
+        protected Field(String string) {
+            super(string);
+        }
+
+        protected Object readResolve() throws InvalidObjectException {
+            String string = this.getName();
+            if (string == null) {
+                throw new InvalidObjectException(Msg.getString("K0344", "MessageFormat.Field"));
+            }
+            if (string.equals(ARGUMENT.getName())) {
+                return ARGUMENT;
+            }
+            throw new InvalidObjectException(Msg.getString("K0344", "MessageFormat.Field"));
+        }
+    }
+
+    private static class FieldContainer {
+        int start;
+        int end;
+        AttributedCharacterIterator.Attribute attribute;
+        Object value;
+
+        public FieldContainer(int n, int n2, AttributedCharacterIterator.Attribute attribute, Object object) {
+            this.start = n;
+            this.end = n2;
+            this.attribute = attribute;
+            this.value = object;
         }
     }
 }

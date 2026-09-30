@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.ViaPointListElement;
 
 public class ViaPointListElementSerializer {
-    public static void putOptionalViaPointListElement(ISerializer iSerializer, ViaPointListElement viaPointListElement) {
+    public static void putOptionalViaPointListElement(ISerializer iSerializer, ViaPointListElement viaPointListElement) throws SerializerException {
         boolean bl = viaPointListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class ViaPointListElementSerializer {
         }
     }
 
-    public static void putOptionalViaPointListElementVarArray(ISerializer iSerializer, ViaPointListElement[] viaPointListElementArray) {
+    public static void putOptionalViaPointListElementVarArray(ISerializer iSerializer, ViaPointListElement[] viaPointListElementArray) throws SerializerException {
         boolean bl = viaPointListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class ViaPointListElementSerializer {
         }
     }
 
-    public static ViaPointListElement getOptionalViaPointListElement(IDeserializer iDeserializer) {
+    public static ViaPointListElement getOptionalViaPointListElement(IDeserializer iDeserializer) throws SerializerException {
         ViaPointListElement viaPointListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class ViaPointListElementSerializer {
         return viaPointListElement;
     }
 
-    public static ViaPointListElement[] getOptionalViaPointListElementVarArray(IDeserializer iDeserializer) {
+    public static ViaPointListElement[] getOptionalViaPointListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         ViaPointListElement[] viaPointListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

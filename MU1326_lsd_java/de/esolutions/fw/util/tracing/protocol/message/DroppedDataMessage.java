@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 
@@ -22,13 +23,11 @@ extends AbstractMessage {
         super(MessageType.DROPPED_DATA);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt32(this.numDropped);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.numDropped = iDeserializer.getInt32();
     }
 
@@ -36,9 +35,8 @@ extends AbstractMessage {
         return this.numDropped;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
-        buffer.append(new StringBuffer().append("Dropped Data: num=").append(this.numDropped).toString());
+        buffer.append("Dropped Data: num=" + this.numDropped);
     }
 }
 

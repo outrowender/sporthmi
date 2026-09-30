@@ -3,37 +3,30 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.mastercontrol;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncMasterControlReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "02954bb2-63fb-44a0-b50d-cb235060c4b6";
+    public static final String IPL_COMM_INTERFACE_KEY = "e4f36342-c71e-54be-b822-4a56b5d0a9a1";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.01";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void factoryReset() {
-    }
+    public void factoryReset() throws MethodException;
 
-    default public void enterAppContext(int n, String string) {
-    }
+    public void enterAppContext(int var1, String var2) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateHUVersion(String string, boolean bl) {
-    }
+    public void updateHUVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateVIN(String string, boolean bl) {
-    }
+    public void updateVIN(String var1, boolean var2) throws MethodException;
 
-    default public void updateLockState(int n, boolean bl) {
-    }
+    public void updateLockState(int var1, boolean var2) throws MethodException;
 
-    default public void updateBlockState(int n, boolean bl) {
-    }
+    public void updateBlockState(int var1, boolean var2) throws MethodException;
 }
 

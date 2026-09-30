@@ -22,12 +22,12 @@ implements ITraceChannel {
     private ArrayList children;
     private TraceChannel parent;
     private int flags;
-    public static final int FLAG_INTERNAL;
-    public static final int FLAG_REGISTER;
-    public static final int FLAG_NO_REGISTER;
-    public static final int FLAG_RUNTIME;
-    public static final int FLAG_DEFAULT_CHANNEL;
-    private static final String chn;
+    public static final int FLAG_INTERNAL = 1;
+    public static final int FLAG_REGISTER = 2;
+    public static final int FLAG_NO_REGISTER = 0;
+    public static final int FLAG_RUNTIME = 4;
+    public static final int FLAG_DEFAULT_CHANNEL = 2;
+    private static final String chn = "Channel";
 
     public TraceChannel(String string) {
         this.init(string, (short)7, null);
@@ -51,12 +51,12 @@ implements ITraceChannel {
         this.cid = -1;
         this.parent = traceChannel;
         this.createFilterLevel = s;
-        TraceMe.msg(TraceMe.DEBUG, "Channel", "creating channel path='%1' level='%2'", string, TraceLevels.levelNames[this.filterLevel]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "creating channel path='%1' level='%2'", string, TraceLevels.levelNames[this.filterLevel]);
         TraceChannelList.getInstance().registerChannel(this);
     }
 
     public void shutdown() {
-        TraceMe.msg(TraceMe.DEBUG, "Channel", "shutdown channel path='%1' level='%2'", this.path, TraceLevels.levelNames[this.filterLevel]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "shutdown channel path='%1' level='%2'", this.path, TraceLevels.levelNames[this.filterLevel]);
         TraceChannelList.getInstance().unregisterChannel(this);
     }
 
@@ -133,14 +133,14 @@ implements ITraceChannel {
         this.client = iTraceClient;
         this.cid = n;
         this.filterLevel = s;
-        TraceMe.msg(TraceMe.DEBUG, "Channel", "bind channel '%1' level='%2'", this.path, TraceLevels.levelNames[s]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "bind channel '%1' level='%2'", this.path, TraceLevels.levelNames[s]);
     }
 
     public void unbind() {
         this.client = null;
         this.cid = -1;
         this.filterLevel = this.createFilterLevel;
-        TraceMe.msg(TraceMe.DEBUG, "Channel", "unbind channel '%1' level='%2'", this.path, TraceLevels.levelNames[this.filterLevel]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "unbind channel '%1' level='%2'", this.path, TraceLevels.levelNames[this.filterLevel]);
     }
 
     public boolean isBound() {
@@ -167,7 +167,7 @@ implements ITraceChannel {
     }
 
     public void setFilterLevel(short s) {
-        TraceMe.msg(TraceMe.DEBUG, "Channel", "  channel: <%1>%2 from level=%3 to level=%4", TraceLevels.levelNames[this.filterLevel], TraceLevels.levelNames[s], this.path, new Integer(this.cid), TraceLevels.levelNames[this.filterLevel]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "  channel: <%1>%2 from level=%3 to level=%4", TraceLevels.levelNames[this.filterLevel], TraceLevels.levelNames[s], this.path, new Integer(this.cid), TraceLevels.levelNames[this.filterLevel]);
         this.filterLevel = s;
     }
 
@@ -241,7 +241,6 @@ implements ITraceChannel {
         this.flags &= ~n;
     }
 
-    @Override
     public boolean log(short s, short s2, short s3, byte[] byArray) {
         if (this.filterLevel <= s) {
             return this.client.logMessage(this, s, s2, s3, byArray);
@@ -249,7 +248,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, byte[] byArray) {
         if (this.filterLevel <= s) {
             return this.client.logMessage(this, s, (short)0, s2, byArray);
@@ -257,7 +255,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, null);
@@ -265,7 +262,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object});
@@ -273,7 +269,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2});
@@ -281,7 +276,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3});
@@ -289,7 +283,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4});
@@ -297,7 +290,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5});
@@ -305,7 +297,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6});
@@ -313,7 +304,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7});
@@ -321,7 +311,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8});
@@ -329,7 +318,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9});
@@ -337,7 +325,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10});
@@ -345,7 +332,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10, Object object11) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10, object11});
@@ -353,7 +339,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10, Object object11, Object object12) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10, object11, object12});
@@ -361,7 +346,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10, Object object11, Object object12, Object object13) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10, object11, object12, object13});
@@ -369,7 +353,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10, Object object11, Object object12, Object object13, Object object14) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10, object11, object12, object13, object14});
@@ -377,7 +360,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10, Object object11, Object object12, Object object13, Object object14, Object object15) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10, object11, object12, object13, object14, object15});
@@ -385,7 +367,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, String string, Object[] objectArray) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, string, objectArray);
@@ -400,7 +381,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, null);
@@ -408,7 +388,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object});
@@ -416,7 +395,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2});
@@ -424,7 +402,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3});
@@ -432,7 +409,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4});
@@ -440,7 +416,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4, Object object5) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4, object5});
@@ -448,7 +423,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4, object5, object6});
@@ -456,7 +430,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4, object5, object6, object7});
@@ -464,7 +437,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8});
@@ -472,7 +444,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9});
@@ -480,7 +451,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object object, Object object2, Object object3, Object object4, Object object5, Object object6, Object object7, Object object8, Object object9, Object object10) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, new Object[]{object, object2, object3, object4, object5, object6, object7, object8, object9, object10});
@@ -488,7 +458,6 @@ implements ITraceChannel {
         return false;
     }
 
-    @Override
     public boolean log(short s, short s2, String string, Object[] objectArray) {
         if (this.filterLevel <= s) {
             return this.logMessage(s, s2, string, objectArray);

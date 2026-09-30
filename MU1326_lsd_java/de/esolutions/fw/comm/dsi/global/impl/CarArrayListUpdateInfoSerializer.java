@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarArrayListUpdateInfo;
 
 public class CarArrayListUpdateInfoSerializer {
-    public static void putOptionalCarArrayListUpdateInfo(ISerializer iSerializer, CarArrayListUpdateInfo carArrayListUpdateInfo) {
+    public static void putOptionalCarArrayListUpdateInfo(ISerializer iSerializer, CarArrayListUpdateInfo carArrayListUpdateInfo) throws SerializerException {
         boolean bl = carArrayListUpdateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CarArrayListUpdateInfoSerializer {
         }
     }
 
-    public static void putOptionalCarArrayListUpdateInfoVarArray(ISerializer iSerializer, CarArrayListUpdateInfo[] carArrayListUpdateInfoArray) {
+    public static void putOptionalCarArrayListUpdateInfoVarArray(ISerializer iSerializer, CarArrayListUpdateInfo[] carArrayListUpdateInfoArray) throws SerializerException {
         boolean bl = carArrayListUpdateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CarArrayListUpdateInfoSerializer {
         }
     }
 
-    public static CarArrayListUpdateInfo getOptionalCarArrayListUpdateInfo(IDeserializer iDeserializer) {
+    public static CarArrayListUpdateInfo getOptionalCarArrayListUpdateInfo(IDeserializer iDeserializer) throws SerializerException {
         CarArrayListUpdateInfo carArrayListUpdateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CarArrayListUpdateInfoSerializer {
         return carArrayListUpdateInfo;
     }
 
-    public static CarArrayListUpdateInfo[] getOptionalCarArrayListUpdateInfoVarArray(IDeserializer iDeserializer) {
+    public static CarArrayListUpdateInfo[] getOptionalCarArrayListUpdateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarArrayListUpdateInfo[] carArrayListUpdateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,7 +5,7 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 
 public class ExecutionException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7830266012832686185L;
 
     protected ExecutionException() {
     }

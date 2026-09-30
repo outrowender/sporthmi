@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarArrayListTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.HUDConfiguration;
 import org.dsi.ifc.global.CarArrayListTransmittableElements;
 
 public class HUDConfigurationSerializer {
-    public static void putOptionalHUDConfiguration(ISerializer iSerializer, HUDConfiguration hUDConfiguration) {
+    public static void putOptionalHUDConfiguration(ISerializer iSerializer, HUDConfiguration hUDConfiguration) throws SerializerException {
         boolean bl = hUDConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -91,7 +92,7 @@ public class HUDConfigurationSerializer {
         }
     }
 
-    public static void putOptionalHUDConfigurationVarArray(ISerializer iSerializer, HUDConfiguration[] hUDConfigurationArray) {
+    public static void putOptionalHUDConfigurationVarArray(ISerializer iSerializer, HUDConfiguration[] hUDConfigurationArray) throws SerializerException {
         boolean bl = hUDConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -102,7 +103,7 @@ public class HUDConfigurationSerializer {
         }
     }
 
-    public static HUDConfiguration getOptionalHUDConfiguration(IDeserializer iDeserializer) {
+    public static HUDConfiguration getOptionalHUDConfiguration(IDeserializer iDeserializer) throws SerializerException {
         HUDConfiguration hUDConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -185,7 +186,7 @@ public class HUDConfigurationSerializer {
         return hUDConfiguration;
     }
 
-    public static HUDConfiguration[] getOptionalHUDConfigurationVarArray(IDeserializer iDeserializer) {
+    public static HUDConfiguration[] getOptionalHUDConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         HUDConfiguration[] hUDConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

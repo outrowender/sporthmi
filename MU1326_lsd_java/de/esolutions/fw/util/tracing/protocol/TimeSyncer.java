@@ -7,6 +7,8 @@ import de.esolutions.fw.util.commons.traceme.TraceMe;
 import de.esolutions.fw.util.tracing.protocol.ITimeSyncSender;
 import de.esolutions.fw.util.tracing.protocol.ProtocolException;
 import de.esolutions.fw.util.tracing.protocol.message.TimeSyncMessage;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class TimeSyncer {
@@ -18,42 +20,42 @@ public class TimeSyncer {
     private long[] latencies;
     private long curDelta;
     private long curLatency;
-    private static final String chn;
+    private static final String chn = "TimeSyncer";
 
     public TimeSyncer(ITimeSyncSender iTimeSyncSender) {
         this.handler = iTimeSyncSender;
         this.syncValid = false;
     }
 
-    public void start(byte by) {
+    public void start(byte by) throws TransportException, IOException, InterruptedException, ProtocolException {
         this.serial = by;
         this.deltas = new long[this.serial + 1];
         this.latencies = new long[this.serial + 1];
         this.startTime = System.currentTimeMillis();
         this.handler.sendTimeSync(this.startTime, this.serial, (byte)0);
-        TraceMe.msg(TraceMe.INFO, "TimeSyncer", "start=%1", new Long(this.startTime));
+        TraceMe.msg(TraceMe.INFO, chn, "start=%1", new Long(this.startTime));
     }
 
-    public boolean handleIncomingMessage(TimeSyncMessage timeSyncMessage) {
+    public boolean handleIncomingMessage(TimeSyncMessage timeSyncMessage) throws TransportException, IOException, InterruptedException, ProtocolException {
         byte by = timeSyncMessage.getType();
         byte by2 = timeSyncMessage.getSerial();
         switch (by) {
             case 0: {
                 long l = System.currentTimeMillis();
                 this.handler.sendTimeSync(l, timeSyncMessage.getSerial(), (byte)1);
-                TraceMe.msg(TraceMe.INFO, "TimeSyncer", "ping reply: myTime=%1", new Long(l));
+                TraceMe.msg(TraceMe.INFO, chn, "ping reply: myTime=%1", new Long(l));
                 break;
             }
             case 1: {
                 long l = System.currentTimeMillis();
-                long l2 = (l + this.startTime) / 0;
+                long l2 = (l + this.startTime) / 2L;
                 long l3 = timeSyncMessage.getTimeStamp();
                 this.curDelta = l2 - l3;
                 this.curLatency = l2 - this.startTime;
                 this.syncValid = true;
                 this.deltas[by2] = this.curDelta;
                 this.latencies[by2] = this.curLatency;
-                TraceMe.msg(TraceMe.INFO, "TimeSyncer", "midTime=%1 otherMidTime=%2 curDelta=%3 curLatency=%4", new Long(l2), new Long(l3), new Long(this.curDelta), new Long(this.curLatency));
+                TraceMe.msg(TraceMe.INFO, chn, "midTime=%1 otherMidTime=%2 curDelta=%3 curLatency=%4", new Long(l2), new Long(l3), new Long(this.curDelta), new Long(this.curLatency));
                 if (by2 > 0) {
                     by2 = (byte)(by2 - 1);
                     this.startTime = l;
@@ -80,7 +82,7 @@ public class TimeSyncer {
         System.arraycopy((Object)this.latencies, 0, (Object)lArray, 0, n);
         Arrays.sort(lArray);
         int n2 = n / 2;
-        long l = n % 2 == 0 ? (lArray[n2] + lArray[n2 + 1]) / 0 : lArray[n2];
+        long l = n % 2 == 0 ? (lArray[n2] + lArray[n2 + 1]) / 2L : lArray[n2];
         long l2 = 0L;
         for (int i2 = 0; i2 < n; ++i2) {
             l2 += this.latencies[i2];
@@ -109,7 +111,7 @@ public class TimeSyncer {
         }
         this.curLatency = l;
         this.curDelta = l5;
-        TraceMe.msg(TraceMe.INFO, "TimeSyncer", "Updated latency: %1 delta: %2", new Long(this.curLatency), new Long(this.curDelta));
+        TraceMe.msg(TraceMe.INFO, chn, "Updated latency: %1 delta: %2", new Long(this.curLatency), new Long(this.curDelta));
     }
 
     public long getDelta() {

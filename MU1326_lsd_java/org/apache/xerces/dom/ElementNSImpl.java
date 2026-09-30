@@ -8,7 +8,6 @@ import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.dom.ElementImpl;
 import org.apache.xerces.dom.NodeImpl;
 import org.apache.xerces.util.URI;
-import org.apache.xerces.util.URI$MalformedURIException;
 import org.apache.xerces.xni.NamespaceContext;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.w3c.dom.Attr;
@@ -16,8 +15,8 @@ import org.w3c.dom.DOMException;
 
 public class ElementNSImpl
 extends ElementImpl {
-    static final long serialVersionUID;
-    static final String xmlURI;
+    static final long serialVersionUID = -9142310625494392642L;
+    static final String xmlURI = "http://www.w3.org/XML/1998/namespace";
     protected String namespaceURI;
     protected String localName;
     transient XSTypeDefinition type;
@@ -25,7 +24,7 @@ extends ElementImpl {
     protected ElementNSImpl() {
     }
 
-    protected ElementNSImpl(CoreDocumentImpl coreDocumentImpl, String string, String string2) {
+    protected ElementNSImpl(CoreDocumentImpl coreDocumentImpl, String string, String string2) throws DOMException {
         super(coreDocumentImpl, string2);
         this.setName(string, string2);
     }
@@ -65,7 +64,7 @@ extends ElementImpl {
         }
     }
 
-    protected ElementNSImpl(CoreDocumentImpl coreDocumentImpl, String string, String string2, String string3) {
+    protected ElementNSImpl(CoreDocumentImpl coreDocumentImpl, String string, String string2, String string3) throws DOMException {
         super(coreDocumentImpl, string2);
         this.localName = string3;
         this.namespaceURI = string;
@@ -98,7 +97,6 @@ extends ElementImpl {
         this.namespaceURI = string;
     }
 
-    @Override
     public String getNamespaceURI() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -106,7 +104,6 @@ extends ElementImpl {
         return this.namespaceURI;
     }
 
-    @Override
     public String getPrefix() {
         int n;
         if (this.needsSyncData()) {
@@ -115,8 +112,7 @@ extends ElementImpl {
         return (n = this.name.indexOf(58)) < 0 ? null : this.name.substring(0, n);
     }
 
-    @Override
-    public void setPrefix(String string) {
+    public void setPrefix(String string) throws DOMException {
         if (this.needsSyncData()) {
             this.synchronizeData();
         }
@@ -134,16 +130,15 @@ extends ElementImpl {
                     String string4 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NAMESPACE_ERR", null);
                     throw new DOMException(14, string4);
                 }
-                if (string.equals("xml") && !this.namespaceURI.equals("http://www.w3.org/XML/1998/namespace")) {
+                if (string.equals("xml") && !this.namespaceURI.equals(xmlURI)) {
                     String string5 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NAMESPACE_ERR", null);
                     throw new DOMException(14, string5);
                 }
             }
         }
-        this.name = string != null && string.length() != 0 ? new StringBuffer().append(string).append(":").append(this.localName).toString() : this.localName;
+        this.name = string != null && string.length() != 0 ? string + ":" + this.localName : this.localName;
     }
 
-    @Override
     public String getLocalName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -151,18 +146,17 @@ extends ElementImpl {
         return this.localName;
     }
 
-    @Override
     public String getBaseURI() {
         String string;
         Object object;
         if (this.needsSyncData()) {
             this.synchronizeData();
         }
-        if (this.attributes != null && (object = (Attr)this.attributes.getNamedItemNS("http://www.w3.org/XML/1998/namespace", "base")) != null && (string = object.getNodeValue()).length() != 0) {
+        if (this.attributes != null && (object = (Attr)this.attributes.getNamedItemNS(xmlURI, "base")) != null && (string = object.getNodeValue()).length() != 0) {
             try {
                 string = new URI(string).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 String string2;
                 NodeImpl nodeImpl = this.parentNode() != null ? this.parentNode() : this.ownerNode;
                 String string3 = string2 = nodeImpl != null ? nodeImpl.getBaseURI() : null;
@@ -170,7 +164,7 @@ extends ElementImpl {
                     try {
                         string = new URI(new URI(string2), string).toString();
                     }
-                    catch (URI$MalformedURIException uRI$MalformedURIException2) {
+                    catch (URI.MalformedURIException malformedURIException2) {
                         return null;
                     }
                     return string;
@@ -184,7 +178,7 @@ extends ElementImpl {
             try {
                 return new URI((String)object).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 return null;
             }
         }
@@ -193,14 +187,13 @@ extends ElementImpl {
             try {
                 return new URI(string).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 return null;
             }
         }
         return null;
     }
 
-    @Override
     public String getTypeName() {
         if (this.type != null) {
             // empty if block
@@ -208,7 +201,6 @@ extends ElementImpl {
         return null;
     }
 
-    @Override
     public String getTypeNamespace() {
         if (this.type != null) {
             return this.type.getNamespace();
@@ -216,7 +208,6 @@ extends ElementImpl {
         return null;
     }
 
-    @Override
     public boolean isDerivedFrom(String string, String string2, int n) {
         if (this.needsSyncData()) {
             this.synchronizeData();

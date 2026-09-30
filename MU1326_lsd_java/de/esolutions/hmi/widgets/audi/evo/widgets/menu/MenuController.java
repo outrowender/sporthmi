@@ -75,7 +75,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuSDSEventHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuSDSNumbersController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateDelta;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateRequest;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateRequest$MatchMenuChildWidget;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuViewport;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MultiLineMenuItemController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.SeparatingLines;
@@ -96,26 +95,26 @@ IViewSizeAnimatable,
 IFocusedPropertyProvider,
 SelectionProvider,
 SDSEventListener {
-    public static final int MENU_HEIGHT_IDX_SELECTION;
-    public static final int MENU_HEIGHT_IDX_TOTAL;
+    public static final int MENU_HEIGHT_IDX_SELECTION = 0;
+    public static final int MENU_HEIGHT_IDX_TOTAL = 1;
     private List menuCallbacks = null;
-    public static final int ROLE_CURSOR_FOCUS;
-    public static final int ROLE_CURSOR_SELECTION;
-    public static final int ROLE_SCROLLBAR;
-    public static final int ROLE_BACKGROUND;
-    public static final int ROLE_TOUCHFIELD;
-    public static final int ROLE_SDS_NUMBERS;
-    public static final int ROLE_NOT_MENU_ITEM;
-    public static final int ROLE_SEPARATING_LINES;
-    public static final int ROLE_TOUCHFIELD_MEDIA_RADIO;
-    public static final int ROLE_NOW_PLAYING_ONLY;
-    public static final int ROLE_ICON_C2;
-    public static final int ROLE_START_CALL;
-    public static final int ROLE_INFOLINE;
-    public static final int ROLE_TITLE;
-    public static final int ROLE_LONGPRESS;
-    public static final int ROLE_UNREACHABLE_ITEM_AT_END_OF_MENU;
-    public static final int ROLE_NOW_PLAYING_ONLY_CLIPPED;
+    public static final int ROLE_CURSOR_FOCUS = 1;
+    public static final int ROLE_CURSOR_SELECTION = 2;
+    public static final int ROLE_SCROLLBAR = 3;
+    public static final int ROLE_BACKGROUND = 4;
+    public static final int ROLE_TOUCHFIELD = 5;
+    public static final int ROLE_SDS_NUMBERS = 6;
+    public static final int ROLE_NOT_MENU_ITEM = 7;
+    public static final int ROLE_SEPARATING_LINES = 8;
+    public static final int ROLE_TOUCHFIELD_MEDIA_RADIO = 9;
+    public static final int ROLE_NOW_PLAYING_ONLY = 10;
+    public static final int ROLE_ICON_C2 = 11;
+    public static final int ROLE_START_CALL = 12;
+    public static final int ROLE_INFOLINE = 13;
+    public static final int ROLE_TITLE = 14;
+    public static final int ROLE_LONGPRESS = 15;
+    public static final int ROLE_UNREACHABLE_ITEM_AT_END_OF_MENU = 16;
+    public static final int ROLE_NOW_PLAYING_ONLY_CLIPPED = 17;
     private CompositeRenderer renderer;
     private AbstractWidget focusCursor;
     private AbstractWidget selectionCursor;
@@ -152,7 +151,7 @@ SDSEventListener {
     private boolean longpressAvailable = false;
     private int defaultDisabledInfolineTextId = -1;
     private int[] infolineTextIdsDisabled = null;
-    public static final float VIEW_SIZE_RESIZE_PART;
+    public static final float VIEW_SIZE_RESIZE_PART = 0.9f;
     private float viewSizeChangeContentOpacity = 1.0f;
     private boolean touchScrollMode;
     private boolean layoutDirty;
@@ -214,7 +213,6 @@ SDSEventListener {
         this.add(new InfolineTimerController(), 7);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -226,7 +224,6 @@ SDSEventListener {
         }
     }
 
-    @Override
     protected void afterConnected() {
         super.afterConnected();
         this.viewport = new MenuViewport(null, null);
@@ -244,9 +241,8 @@ SDSEventListener {
         this.notifySdsOnConnect();
     }
 
-    @Override
     protected void initializeWidget() {
-        menuLogCh.log(-2137614336, "MenuController#initializeWidget: %1", (Object)this);
+        menuLogCh.log(10000000, "MenuController#initializeWidget: %1", (Object)this);
         super.initializeWidget();
         this.focusCursorHideReasons = null;
         if (this.registerAsFocusPropertyProvider && this.isMainAreaMenu() && this.isVisible()) {
@@ -278,9 +274,8 @@ SDSEventListener {
         return this.terminal.getDrawerFocusManager();
     }
 
-    @Override
     public void setVisible(boolean bl) {
-        menuLogCh.log(-2137614336, "MenuController#setVisible(%1) - Called. %2", bl, (Object)this);
+        menuLogCh.log(10000000, "MenuController#setVisible(%1) - Called. %2", bl, (Object)this);
         if (this.registerAsFocusPropertyProvider && this.isMainAreaMenu() && this.terminal != null) {
             if (bl) {
                 this.getDrawerFocusManager().registerFocusPropertyProvider(this);
@@ -302,9 +297,8 @@ SDSEventListener {
         }
     }
 
-    @Override
     public void disconnecting() {
-        menuLogCh.log(-2137614336, "MenuController#disconnecting: %1", (Object)this);
+        menuLogCh.log(10000000, "MenuController#disconnecting: %1", (Object)this);
         if (this.isMainAreaMenu()) {
             this.getDrawerFocusManager().deRegisterFocusPropertyProvider(this);
         }
@@ -315,7 +309,6 @@ SDSEventListener {
         super.disconnecting();
     }
 
-    @Override
     public void predisconnecting() {
         if (this.hasMoveItem()) {
             this.cancelMoveMode();
@@ -325,29 +318,29 @@ SDSEventListener {
 
     private void notifySdsOnConnect() {
         if (!this.isMainAreaMenu()) {
-            menuLogCh.log(-2137614336, "MenuController#notifySdsOnConnect: Menu is not the main area menu (%1)", (Object)this);
+            menuLogCh.log(10000000, "MenuController#notifySdsOnConnect: Menu is not the main area menu (%1)", (Object)this);
             return;
         }
         if (!this.isSdsScreen()) {
-            menuLogCh.log(-2137614336, "MenuController#notifySdsOnConnect: Screen %2 is not a SDS screen (%1)", (Object)this, (long)this.getScreenId());
+            menuLogCh.log(10000000, "MenuController#notifySdsOnConnect: Screen %2 is not a SDS screen (%1)", (Object)this, (long)this.getScreenId());
             return;
         }
         if (!this.isActive()) {
-            menuLogCh.log(-2137614336, "MenuController#notifySdsOnConnect: Menu is not active (%1)", (Object)this);
+            menuLogCh.log(10000000, "MenuController#notifySdsOnConnect: Menu is not active (%1)", (Object)this);
             return;
         }
         if (!this.isVisibleRecursive()) {
-            menuLogCh.log(-2137614336, "MenuController#notifySdsOnConnect: Menu is not visible (%1)", (Object)this);
+            menuLogCh.log(10000000, "MenuController#notifySdsOnConnect: Menu is not visible (%1)", (Object)this);
             return;
         }
         if (AbstractWidget.sdsService == null) {
-            menuLogCh.log(-1601830656, "MenuController#notifySdsOnConnect: SDS Service is null (%1)", (Object)this);
+            menuLogCh.log(100000, "MenuController#notifySdsOnConnect: SDS Service is null (%1)", (Object)this);
             return;
         }
         boolean bl = this.mayMenuBeScrollable();
         int n = this.terminal.getTerminalID();
         int n2 = this.getScreenId();
-        menuLogCh.log(-2137614336, "MenuController#notifySdsOnConnect: Menu is scrollable: %3, screen ID: %1, terminal ID: %2", (long)n2, (long)n, bl);
+        menuLogCh.log(10000000, "MenuController#notifySdsOnConnect: Menu is scrollable: %3, screen ID: %1, terminal ID: %2", (long)n2, (long)n, bl);
         AbstractWidget.sdsService.screenConnected(n2, n, bl);
     }
 
@@ -373,9 +366,8 @@ SDSEventListener {
         return !menuViewport.contains((MenuItemIndex)object2) || !menuViewport.contains((MenuItemIndex)object);
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
-        menuLogCh.log(-2137614336, "MenuController#handleFocusChanged: focus event: %2, drawerState: %3. %1", (Object)this, (long)n, (long)n2);
+        menuLogCh.log(10000000, "MenuController#handleFocusChanged: focus event: %2, drawerState: %3. %1", (Object)this, (long)n, (long)n2);
         super.handleFocusChanged(n, n2, n3);
         if (n == 2) {
             this.keyEventHandler.focusGained();
@@ -410,7 +402,6 @@ SDSEventListener {
         this.relayout();
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.shouldRender()) {
             this.managePostponedRefresh();
@@ -469,7 +460,7 @@ SDSEventListener {
 
     public void managePostponedRefresh() {
         if (this.isLayoutItemsDirty()) {
-            menuLogCh.log(-2137614336, "MenuController#managePostPonedRefresh: refresh now. (%1)", (Object)this);
+            menuLogCh.log(10000000, "MenuController#managePostPonedRefresh: refresh now. (%1)", (Object)this);
             this.setLayoutItemsDirty(false);
             if (this.model instanceof ChoiceModelGUI) {
                 this.updateVisibleItemFromModel();
@@ -505,7 +496,7 @@ SDSEventListener {
     private void ensureMergeTimerRunning() {
         MenuMergeTimerController menuMergeTimerController = this.getCursorMergeWidget();
         if (menuMergeTimerController != null && !menuMergeTimerController.isTimerRunning()) {
-            menuLogCh.log(-2137614336, "MenuController#ensureMergeTimerRunning: merge timer is not running, so restart it");
+            menuLogCh.log(10000000, "MenuController#ensureMergeTimerRunning: merge timer is not running, so restart it");
             menuMergeTimerController.restartTimer();
         }
     }
@@ -536,7 +527,7 @@ SDSEventListener {
             ((IMenuItemMultiItem)((Object)abstractWidget)).destroyMenuItem(menuItemMetaData);
         } else {
             if (menuItemMetaData.widget != abstractWidget) {
-                throw new IllegalArgumentException(new StringBuffer().append("Specified widget and index are inconsistent: ").append(menuItemMetaData.index).append(": specified: ").append(menuItemMetaData.widget).append(", actual: ").append(abstractWidget).toString());
+                throw new IllegalArgumentException("Specified widget and index are inconsistent: " + menuItemMetaData.index + ": specified: " + menuItemMetaData.widget + ", actual: " + abstractWidget);
             }
             this.setMenuItemVisible(menuItemMetaData.widget, false);
         }
@@ -566,16 +557,15 @@ SDSEventListener {
         return abstractWidget instanceof IMenuItem;
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (!this.menuModelStatusOk()) {
-            menuLogCh.log(-1601830656, "MenuController#keyTurned: status of menuModel %1 is %2!", this.model, (long)((AbstractModel)this.model).getStatus());
+            menuLogCh.log(100000, "MenuController#keyTurned: status of menuModel %1 is %2!", this.model, (long)((AbstractModel)this.model).getStatus());
             return;
         }
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#keyTurned: received user event: %1 (%2)", (Object)wheelButtonEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#keyTurned: received user event: %1 (%2)", (Object)wheelButtonEvent, (Object)this);
         this.managePostponedRefresh();
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
@@ -585,9 +575,9 @@ SDSEventListener {
         if (this.hasFocusedItem()) {
             object = this.animationManager.getLayoutData().findAnimationItem(this.focusedIndex);
             if (object == null) {
-                menuLogCh.log(-1601830656, "MenuController#keyTurned: Focused item can not be found. Focused index: %1", (Object)this.focusedIndex);
+                menuLogCh.log(100000, "MenuController#keyTurned: Focused item can not be found. Focused index: %1", (Object)this.focusedIndex);
             } else if (!((MenuItemMetaData)object).isRealized()) {
-                menuLogCh.log(-2137614336, "MenuController#keyTurned: Focused item is not realized. Focused index: %1", (Object)this.focusedIndex);
+                menuLogCh.log(10000000, "MenuController#keyTurned: Focused item is not realized. Focused index: %1", (Object)this.focusedIndex);
             } else {
                 ((MenuItemMetaData)object).widget.keyTurned(wheelButtonEvent);
             }
@@ -605,17 +595,16 @@ SDSEventListener {
         return object instanceof TouchController;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         this.focusedIndexBeforeMerge = this.focusedIndex != null ? this.focusedIndex.widgetPart : -1;
         if (!this.menuModelStatusOk()) {
-            menuLogCh.log(-2137614336, "MenuController#keyPressed: ignore keyPress because of status of menuModel %1. Status: %2!", this.model, (long)((AbstractModel)this.model).getStatus());
+            menuLogCh.log(10000000, "MenuController#keyPressed: ignore keyPress because of status of menuModel %1. Status: %2!", this.model, (long)((AbstractModel)this.model).getStatus());
             return;
         }
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#keyPressed: received user event: %1, focused item: %2 (%3)", (Object)keyEvent, (Object)this.focusedIndex, (Object)this);
+        menuLogCh.log(10000000, "MenuController#keyPressed: received user event: %1, focused item: %2 (%3)", (Object)keyEvent, (Object)this.focusedIndex, (Object)this);
         int n = keyEvent.getKeyCode();
         if (n != 17 && n != 15) {
             if (this.isKeyCodeForOptionDrawer(n)) {
@@ -652,7 +641,7 @@ SDSEventListener {
         int n = keyEvent.getKeyCode();
         if (this.hasFocusedItem()) {
             if (this.animationManager.isScrollAnimationRunning()) {
-                menuLogCh.log(1078071040, "MenuController#keyPressed: ignore event, because scroll animation is running");
+                menuLogCh.log(1000000, "MenuController#keyPressed: ignore event, because scroll animation is running");
                 keyEvent.setSdsAction(3);
                 if (n == 17) {
                     keyEvent.consume(false);
@@ -736,17 +725,16 @@ SDSEventListener {
         return false;
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         AbstractWidgetController abstractWidgetController;
         if (!this.menuModelStatusOk()) {
-            menuLogCh.log(-1601830656, "MenuController#keyMoved: status of menuModel %1 is %2!", this.model, (long)((AbstractModel)this.model).getStatus());
+            menuLogCh.log(100000, "MenuController#keyMoved: status of menuModel %1 is %2!", this.model, (long)((AbstractModel)this.model).getStatus());
             return;
         }
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#keyMoved: received user event: %1 (%2)", (Object)joystickEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#keyMoved: received user event: %1 (%2)", (Object)joystickEvent, (Object)this);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
             abstractWidgetController = (AbstractWidgetController)object.next();
@@ -779,7 +767,7 @@ SDSEventListener {
         if (touchController != null && this.isActiveMenuItem(touchController)) {
             MenuItemIndex menuItemIndex = this.getMenuItemIndex(touchController);
             if (!this.hasFocusedItem() || !this.getFocusedIndex().equals(menuItemIndex)) {
-                menuLogCh.log(-2137614336, "MenuController#jumpToTouchInput: focus touchfield with index: %1", (Object)menuItemIndex);
+                menuLogCh.log(10000000, "MenuController#jumpToTouchInput: focus touchfield with index: %1", (Object)menuItemIndex);
                 this.focusItemImmediately(menuItemIndex, FocusAdvice.VIEWPORT_FIRST_POSITION);
                 return true;
             }
@@ -790,19 +778,18 @@ SDSEventListener {
     public void jumpToTop() {
         MenuItemIndex menuItemIndex = this.getFirstMenuItem();
         if (menuItemIndex == null) {
-            menuLogCh.log(-2137614336, "MenuController#jumpToTop: menu is empty");
+            menuLogCh.log(10000000, "MenuController#jumpToTop: menu is empty");
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#jumpToTop: focus first item: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuController#jumpToTop: focus first item: %1", (Object)menuItemIndex);
         this.focusItemImmediately(menuItemIndex, FocusAdvice.VIEWPORT_FIRST_POSITION);
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         Object object;
         int n = keyEvent.getKeyCode();
         if (!this.menuModelStatusOk()) {
-            menuLogCh.log(-2137614336, "MenuController#keyReleased: ignore keyRelease because of status of menuModel %1. Status: %2!", this.model, (long)((AbstractModel)this.model).getStatus());
+            menuLogCh.log(10000000, "MenuController#keyReleased: ignore keyRelease because of status of menuModel %1. Status: %2!", this.model, (long)((AbstractModel)this.model).getStatus());
             if (!this.isLongPressKeyEvent(n)) {
                 keyEvent.setSdsAction(3);
             }
@@ -811,7 +798,7 @@ SDSEventListener {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#keyReleased: received user event: %1 (%2)", (Object)keyEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#keyReleased: received user event: %1 (%2)", (Object)keyEvent, (Object)this);
         if (n != 17 && n != 15) {
             return;
         }
@@ -848,12 +835,11 @@ SDSEventListener {
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#touchPadCharactersRecognized: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#touchPadCharactersRecognized: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
         this.touchScrollMode |= this.keyEventHandler.isCursorSwipeGesture(touchEvent);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
@@ -869,12 +855,11 @@ SDSEventListener {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#touchPadPositionMoved: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#touchPadPositionMoved: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)object.next();
@@ -887,12 +872,11 @@ SDSEventListener {
         this.keyEventHandler.touchPadPositionMoved(touchEvent);
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#touchPadPressed: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#touchPadPressed: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)object.next();
@@ -907,12 +891,11 @@ SDSEventListener {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#touchPadReleased: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#touchPadReleased: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)object.next();
@@ -924,12 +907,11 @@ SDSEventListener {
         this.keyEventHandler.touchPadReleased(touchEvent);
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#touchPadApproached: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#touchPadApproached: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)object.next();
@@ -943,12 +925,11 @@ SDSEventListener {
         }
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
         if (!this.shouldHandleKeyEvents()) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#touchPadAbandoned: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#touchPadAbandoned: received user event: %1 (%2)", (Object)touchEvent, (Object)this);
         Object object = this.otherNonMenuItems.iterator();
         while (object.hasNext()) {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)object.next();
@@ -966,7 +947,6 @@ SDSEventListener {
         return this.hasState(39);
     }
 
-    @Override
     public void processSDSEvent(SDSEvent sDSEvent) {
         if (this.sdsEventHandler != null) {
             this.sdsEventHandler.processSDSEvent(sDSEvent);
@@ -997,15 +977,15 @@ SDSEventListener {
     public void mergeCursors(FocusAdvice focusAdvice) {
         this.managePostponedRefresh();
         if (!this.hasSelectedItem()) {
-            menuLogCh.log(-2137614336, "MenuController#mergeCursors: no selected item. Focus: %1", (Object)this.focusedIndex);
+            menuLogCh.log(10000000, "MenuController#mergeCursors: no selected item. Focus: %1", (Object)this.focusedIndex);
             return;
         }
         if (this.selectedIndex.equals(this.focusedIndex)) {
-            menuLogCh.log(-2137614336, "MenuController#mergeCursors: already merged at Index: %1 (focused ID: %2 --> %3)", (Object)this.selectedIndex, (Object)this.focusedUniqueID, (Object)this.selectedUniqueID);
+            menuLogCh.log(10000000, "MenuController#mergeCursors: already merged at Index: %1 (focused ID: %2 --> %3)", (Object)this.selectedIndex, (Object)this.focusedUniqueID, (Object)this.selectedUniqueID);
             this.focusedUniqueID = this.selectedUniqueID;
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#mergeCursors: merge cursors. focus: %1, selection: %2", (Object)this.focusedIndex, (Object)this.selectedIndex);
+        menuLogCh.log(10000000, "MenuController#mergeCursors: merge cursors. focus: %1, selection: %2", (Object)this.focusedIndex, (Object)this.selectedIndex);
         this.focusItemImmediately(this.selectedIndex, focusAdvice);
     }
 
@@ -1016,22 +996,22 @@ SDSEventListener {
             MenuItemIndex menuItemIndex;
             MenuItemIndex menuItemIndex2 = menuItemIndex = bl ? this.getLastMenuItem() : this.getFirstMenuItem();
             if (menuItemIndex != null) {
-                menuLogCh.log(-2137614336, "MenuController#scrollPage: menu was empty, direction: %1, so goto edge item: %2", (Object)string, (Object)menuItemIndex);
+                menuLogCh.log(10000000, "MenuController#scrollPage: menu was empty, direction: %1, so goto edge item: %2", (Object)string, (Object)menuItemIndex);
                 this.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
                 return true;
             }
-            menuLogCh.log(-2137614336, "MenuController#scrollPage: menu is empty, direction: %1", (Object)string);
+            menuLogCh.log(10000000, "MenuController#scrollPage: menu is empty, direction: %1", (Object)string);
             return false;
         }
         MenuItemIndex menuItemIndex = bl ? menuViewport.end : menuViewport.start;
         Iterator iterator = this.iterator(menuItemIndex, bl, false);
         if (!iterator.hasNext()) {
-            menuLogCh.log(-2137614336, "MenuController#scrollPage: end of menu reached at viewport: %2, direction: %1", (Object)string, (Object)menuViewport);
+            menuLogCh.log(10000000, "MenuController#scrollPage: end of menu reached at viewport: %2, direction: %1", (Object)string, (Object)menuViewport);
             return false;
         }
         MenuItemIndex menuItemIndex3 = (MenuItemIndex)iterator.next();
         MenuItemIndex menuItemIndex4 = this.calculateOppositeViewportItem(menuItemIndex3, bl);
-        menuLogCh.log(-2137614336, "MenuController#scrollPage: old viewport: %2, direction: %1, new viewport edge: %3", (Object)string, (Object)menuViewport, (Object)menuItemIndex4);
+        menuLogCh.log(10000000, "MenuController#scrollPage: old viewport: %2, direction: %1, new viewport edge: %3", (Object)string, (Object)menuViewport, (Object)menuItemIndex4);
         this.focusItemImmediately(menuItemIndex4, FocusAdvice.KEEP_POSITION);
         return true;
     }
@@ -1055,9 +1035,8 @@ SDSEventListener {
         return menuItemIndex2;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        menuLogCh.log(-2137614336, "MenuController#processModelUpdateEvent: received event: %1 (%2)", (Object)modelUpdateEvent, (Object)this);
+        menuLogCh.log(10000000, "MenuController#processModelUpdateEvent: received event: %1 (%2)", (Object)modelUpdateEvent, (Object)this);
         new MenuModelEventHandler(this, modelUpdateEvent).processEvent();
     }
 
@@ -1071,9 +1050,9 @@ SDSEventListener {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)this.getChild(n2);
             abstractWidgetController.setVisible(true);
             this.currentChoiceModelVisibleWidget = abstractWidgetController;
-            menuLogCh.log(-2137614336, "MenuController#updateVisibleItemFromModel: current visible item: %1 with ID %2", (long)n2, (long)n);
+            menuLogCh.log(10000000, "MenuController#updateVisibleItemFromModel: current visible item: %1 with ID %2", (long)n2, (long)n);
         } else {
-            menuLogCh.log(-1601830656, "MenuController#updateVisibleItemFromModel: Did not find a widget with widgetID=%1. Nothing will be set to visible!", (long)n);
+            menuLogCh.log(100000, "MenuController#updateVisibleItemFromModel: Did not find a widget with widgetID=%1. Nothing will be set to visible!", (long)n);
             this.currentChoiceModelVisibleWidget = null;
         }
     }
@@ -1093,7 +1072,7 @@ SDSEventListener {
 
     int getChildIndexForWidgetId(int n, boolean bl) {
         if (n == -1) {
-            menuLogCh.log(-1601830656, "MenuController#getChildForWidgetId: widgetId is -1");
+            menuLogCh.log(100000, "MenuController#getChildForWidgetId: widgetId is -1");
             return -1;
         }
         int n2 = 0;
@@ -1109,12 +1088,12 @@ SDSEventListener {
                         return n2;
                     }
                 } else {
-                    menuLogCh.log(-1601830656, "MenuController#getChildForWidgetId: menu item does not implement IMenuItem: %1 (%2)", (Object)abstractWidgetController, (Object)this);
+                    menuLogCh.log(100000, "MenuController#getChildForWidgetId: menu item does not implement IMenuItem: %1 (%2)", (Object)abstractWidgetController, (Object)this);
                 }
             }
             ++n2;
         }
-        menuLogCh.log(-1601830656, "MenuController#getChildForWidgetId: no widget found for ID %3, useFocusID: %2, (%1)", (Object)this, (Object)bl, (long)n);
+        menuLogCh.log(100000, "MenuController#getChildForWidgetId: no widget found for ID %3, useFocusID: %2, (%1)", (Object)this, (Object)bl, (long)n);
         return -1;
     }
 
@@ -1132,7 +1111,6 @@ SDSEventListener {
         return -1;
     }
 
-    @Override
     public void listModelChanged(ListController listController, ModelUpdateEvent modelUpdateEvent) {
         new MenuModelEventHandler(this, listController, modelUpdateEvent).processEvent();
     }
@@ -1140,13 +1118,12 @@ SDSEventListener {
     public void updateOptionDrawerFocusedProperty() {
         if (this.registerAsFocusPropertyProvider && this.isMainAreaMenu() && this.getDrawerFocusManager().getDrawerTargetState() == 8) {
             IFocusedPropertyObject iFocusedPropertyObject = this.getCurrentFocusedPropertyObject();
-            menuLogCh.log(-2137614336, "MenuController#updateOptionDrawerFocusedProperty: +++ start update options with focus property: %1. (%2)", (Object)iFocusedPropertyObject, (Object)this);
+            menuLogCh.log(10000000, "MenuController#updateOptionDrawerFocusedProperty: +++ start update options with focus property: %1. (%2)", (Object)iFocusedPropertyObject, (Object)this);
             this.terminal.getDrawerConditionEngine().setFocusedProperty(iFocusedPropertyObject);
-            menuLogCh.log(-2137614336, "MenuController#updateOptionDrawerFocusedProperty: --- finished update options with focus property: %1. (%2)", (Object)iFocusedPropertyObject, (Object)this);
+            menuLogCh.log(10000000, "MenuController#updateOptionDrawerFocusedProperty: --- finished update options with focus property: %1. (%2)", (Object)iFocusedPropertyObject, (Object)this);
         }
     }
 
-    @Override
     public void selectionChanged(AbstractWidgetController abstractWidgetController) {
         int n = this.getChildren().indexOf(abstractWidgetController);
         this.updateSelection(abstractWidgetController, n, null);
@@ -1156,10 +1133,10 @@ SDSEventListener {
     protected void updateSelection(AbstractWidgetController abstractWidgetController, int n, MenuUpdateDelta menuUpdateDelta) {
         MenuItemIndex menuItemIndex = this.getSelectionOfChild(abstractWidgetController, n);
         if (menuItemIndex != null) {
-            menuLogCh.log(-2137614336, "MenuController#updateSelection: changed selection to: %1 for child: %2", (Object)menuItemIndex, (Object)abstractWidgetController);
+            menuLogCh.log(10000000, "MenuController#updateSelection: changed selection to: %1 for child: %2", (Object)menuItemIndex, (Object)abstractWidgetController);
             this.setSelectedIndex(menuItemIndex, menuUpdateDelta);
         } else if (this.selectedIndex != null && this.selectedIndex.widget == n) {
-            menuLogCh.log(-2137614336, "MenuController#updateSelection: clear selection %1 from child: %2", (Object)this.selectedIndex, (Object)abstractWidgetController);
+            menuLogCh.log(10000000, "MenuController#updateSelection: clear selection %1 from child: %2", (Object)this.selectedIndex, (Object)abstractWidgetController);
             this.setSelectedIndex(null, menuUpdateDelta);
         }
     }
@@ -1204,7 +1181,7 @@ SDSEventListener {
 
     public void collapse(MenuItemIndex menuItemIndex, boolean bl) {
         if (menuItemIndex.equals(this.expandedItem)) {
-            menuLogCh.log(-2137614336, "MenuController#collapse: collapse expanded item %1 (%2)", (Object)menuItemIndex, (Object)this);
+            menuLogCh.log(10000000, "MenuController#collapse: collapse expanded item %1 (%2)", (Object)menuItemIndex, (Object)this);
             this.expandedItem = null;
             this.propagateExpansion(menuItemIndex, false);
             this.animationManager.heightChanged(menuItemIndex, this.createFocusAdviceForCursorPosition(), bl);
@@ -1214,10 +1191,10 @@ SDSEventListener {
 
     public void expand(MenuItemIndex menuItemIndex, boolean bl) {
         if (menuItemIndex.equals(this.expandedItem)) {
-            menuLogCh.log(-2137614336, "MenuController#expand: item %1 is already expanded (%2)", (Object)menuItemIndex, (Object)this);
+            menuLogCh.log(10000000, "MenuController#expand: item %1 is already expanded (%2)", (Object)menuItemIndex, (Object)this);
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#expand: expand item %1 (%2)", (Object)menuItemIndex, (Object)this);
+        menuLogCh.log(10000000, "MenuController#expand: expand item %1 (%2)", (Object)menuItemIndex, (Object)this);
         if (this.expandedItem != null) {
             this.collapse(this.expandedItem, bl);
         }
@@ -1229,7 +1206,7 @@ SDSEventListener {
 
     public void expandFocusedItem(boolean bl) {
         if (!this.hasFocusedItem()) {
-            menuLogCh.log(-1601830656, "MenuController#expandFocusedItem: there is no focused item (%1)", (Object)this);
+            menuLogCh.log(100000, "MenuController#expandFocusedItem: there is no focused item (%1)", (Object)this);
             return;
         }
         this.expand(this.focusedIndex, bl);
@@ -1263,11 +1240,11 @@ SDSEventListener {
             return false;
         }
         if (!this.hasFocusedItem()) {
-            menuLogCh.log(-1601830656, "MenuController#showInfolineOnFocusedItem: there is no focused item");
+            menuLogCh.log(100000, "MenuController#showInfolineOnFocusedItem: there is no focused item");
             return false;
         }
         if (this.infoline == null) {
-            menuLogCh.log(-1601830656, "MenuController#showInfolineOnFocusedItem: there is no infoLine widget in this menu");
+            menuLogCh.log(100000, "MenuController#showInfolineOnFocusedItem: there is no infoLine widget in this menu");
             return false;
         }
         AbstractWidget abstractWidget = this.getChild(this.focusedIndex.widget);
@@ -1278,19 +1255,19 @@ SDSEventListener {
         String string2 = this.getInfolineText(this.focusedIndex);
         boolean bl2 = Util.equals(this.infolineItemIndex, this.focusedIndex);
         if (Util.equals(string, string2) && bl2) {
-            menuLogCh.log(-2137614336, "MenuController#showInfolineOnFocusedItem: infoline text for item %1 has not changed: \"%2\"", (Object)this.focusedIndex, (Object)string2);
+            menuLogCh.log(10000000, "MenuController#showInfolineOnFocusedItem: infoline text for item %1 has not changed: \"%2\"", (Object)this.focusedIndex, (Object)string2);
             return this.isInfolineVisible();
         }
         if (string2 == null || string2.length() == 0) {
-            menuLogCh.log(-2137614336, "MenuController#showInfolineOnFocusedItem: item %1 has no infoline text", (Object)this.focusedIndex);
+            menuLogCh.log(10000000, "MenuController#showInfolineOnFocusedItem: item %1 has no infoline text", (Object)this.focusedIndex);
             if (this.isInfolineVisible()) {
                 this.hideInfoline(bl);
             }
             return false;
         }
-        menuLogCh.log(-2137614336, "MenuController#showInfolineOnFocusedItem: show infoline for item %2, immediately: %1, text: \"%3\"", bl, (Object)this.focusedIndex, (Object)string2);
+        menuLogCh.log(10000000, "MenuController#showInfolineOnFocusedItem: show infoline for item %2, immediately: %1, text: \"%3\"", bl, (Object)this.focusedIndex, (Object)string2);
         if (this.isInfolineVisible()) {
-            menuLogCh.log(-2137614336, "MenuController#showInfolineOnFocusedItem: old infoline was: item %1, \"%2\"", (Object)this.infolineItemIndex, (Object)string);
+            menuLogCh.log(10000000, "MenuController#showInfolineOnFocusedItem: old infoline was: item %1, \"%2\"", (Object)this.infolineItemIndex, (Object)string);
             if (!bl2) {
                 this.hideInfoline(true);
             }
@@ -1306,7 +1283,7 @@ SDSEventListener {
         if (this.infolineItemIndex == null) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#hideInfoline: hide infoline from item %2, immediately: %1", bl, (Object)this.infolineItemIndex);
+        menuLogCh.log(10000000, "MenuController#hideInfoline: hide infoline from item %2, immediately: %1", bl, (Object)this.infolineItemIndex);
         MenuItemIndex menuItemIndex = this.infolineItemIndex;
         if (!bl) {
             this.previousInfolineItemIndex = this.infolineItemIndex;
@@ -1320,7 +1297,7 @@ SDSEventListener {
 
     private void infolineChanged(MenuItemIndex menuItemIndex, boolean bl) {
         if (this.tryPostponeRefresh()) {
-            menuLogCh.log(-2137614336, "MenuController#infolineChanged: postpone refresh for index %1, (%2)", (Object)menuItemIndex, (Object)this);
+            menuLogCh.log(10000000, "MenuController#infolineChanged: postpone refresh for index %1, (%2)", (Object)menuItemIndex, (Object)this);
             this.previousInfolineItemIndex = null;
             if (!this.isInfolineVisible()) {
                 this.layout.getLayoutData().infolineHeightBefore = 0;
@@ -1427,7 +1404,7 @@ SDSEventListener {
     private void updateItemHeight(MenuItemMetaData menuItemMetaData) {
         int n;
         if (!menuItemMetaData.remove && menuItemMetaData.heightAfter != (n = this.getMenuItemHeight(menuItemMetaData, this.isExpanded(menuItemMetaData.index)))) {
-            menuLogCh.log(-2137614336, "MenuController#updateItemHeight: item %1 height changed from %2 to %3", (Object)menuItemMetaData, (long)menuItemMetaData.heightAfter, (long)n);
+            menuLogCh.log(10000000, "MenuController#updateItemHeight: item %1 height changed from %2 to %3", (Object)menuItemMetaData, (long)menuItemMetaData.heightAfter, (long)n);
             menuItemMetaData.heightAfter = n;
             if (this.isInfolineVisible()) {
                 this.layout.getLayoutData().infolineHeightAfter = this.getInfolinePreferredHeight();
@@ -1736,7 +1713,7 @@ SDSEventListener {
         if (!menuItemMetaData.isRealized()) {
             boolean bl2 = this.realizeMenuItem(menuItemMetaData);
             if (!bl2) {
-                menuLogCh.log(-1601830656, "MenuController#getFilledInsets: can not realize multiLine item: %1", (Object)menuItemMetaData);
+                menuLogCh.log(100000, "MenuController#getFilledInsets: can not realize multiLine item: %1", (Object)menuItemMetaData);
                 return 0;
             }
             this.setMenuItemVisible(menuItemMetaData.widget, false);
@@ -1745,7 +1722,7 @@ SDSEventListener {
             IMenuItemMultiLine iMenuItemMultiLine = (IMenuItemMultiLine)((Object)menuItemMetaData.widget);
             return iMenuItemMultiLine.getFilledInsets(bl);
         }
-        menuLogCh.log(-1601830656, "MenuController#getFilledInsets: multiLine item %1 has no MultiLineWidget: %2", (Object)menuItemMetaData, (Object)menuItemMetaData.widget);
+        menuLogCh.log(100000, "MenuController#getFilledInsets: multiLine item %1 has no MultiLineWidget: %2", (Object)menuItemMetaData, (Object)menuItemMetaData.widget);
         return 0;
     }
 
@@ -1770,7 +1747,7 @@ SDSEventListener {
         if (abstractWidgetController instanceof IMenuItemSingle) {
             return ((IMenuItemSingle)((Object)abstractWidgetController)).isFocusable();
         }
-        menuLogCh.log(-1601830656, "MenuController#isMenuItemFocusable: unknown menu item widget: %1", (Object)abstractWidgetController);
+        menuLogCh.log(100000, "MenuController#isMenuItemFocusable: unknown menu item widget: %1", (Object)abstractWidgetController);
         return true;
     }
 
@@ -1780,7 +1757,7 @@ SDSEventListener {
         if (abstractWidgetController instanceof IMenuItemMultiItem) {
             menuItemMetaData = ((IMenuItemMultiItem)((Object)abstractWidgetController)).createMenuItem(menuItemIndex.widgetPart);
             if (menuItemMetaData == null) {
-                menuLogCh.log(-1601830656, "MenuController#createMenuItem: item %1 could not be created. MultiWidget: %2", (Object)menuItemIndex, (Object)abstractWidgetController);
+                menuLogCh.log(100000, "MenuController#createMenuItem: item %1 could not be created. MultiWidget: %2", (Object)menuItemIndex, (Object)abstractWidgetController);
                 return null;
             }
             menuItemMetaData.index = menuItemIndex;
@@ -1796,7 +1773,7 @@ SDSEventListener {
                 menuItemMetaData.setInitialHeight(this.getMenuItemHeight(abstractWidgetController, this.isExpanded(menuItemIndex)));
             }
         }
-        menuLogCh.log(14808325, "MenuController#createMenuItem: item %1 created with height: %2", (Object)menuItemIndex, (long)menuItemMetaData.heightAfter);
+        menuLogCh.log(100000000, "MenuController#createMenuItem: item %1 created with height: %2", (Object)menuItemIndex, (long)menuItemMetaData.heightAfter);
         if (menuItemMetaData.isRealized()) {
             this.setMenuItemVisible(menuItemMetaData.widget, false);
         }
@@ -1884,7 +1861,6 @@ SDSEventListener {
         this.add(abstractWidget);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof IMenuCallback) {
             this.addCallback((IMenuCallback)((Object)abstractWidget));
@@ -1899,7 +1875,6 @@ SDSEventListener {
         this.childAdded(abstractWidget);
     }
 
-    @Override
     public void addWithPosition(AbstractWidget abstractWidget, int n) {
         if (abstractWidget instanceof IMenuCallback) {
             this.addCallback((IMenuCallback)((Object)abstractWidget));
@@ -1939,7 +1914,7 @@ SDSEventListener {
     private void checkRoleIsEmpty(int n, AbstractWidget abstractWidget) {
         AbstractWidget abstractWidget2 = this.getChildOfRole(n);
         if (abstractWidget2 != null) {
-            menuLogCh.log(-1601830656, "MenuController#add: two children with same role: %3, old child: %1, new child: %2", (Object)abstractWidget2, (Object)abstractWidget, (long)n);
+            menuLogCh.log(100000, "MenuController#add: two children with same role: %3, old child: %1, new child: %2", (Object)abstractWidget2, (Object)abstractWidget, (long)n);
         }
     }
 
@@ -1952,11 +1927,10 @@ SDSEventListener {
     }
 
     public void prepareForRemove() {
-        menuLogCh.log(-2137614336, "MenuController#prepareForRemove: prepare menu for removing items. %1", (Object)this);
+        menuLogCh.log(10000000, "MenuController#prepareForRemove: prepare menu for removing items. %1", (Object)this);
         this.setLayoutItemsDirty(true);
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         boolean bl;
         boolean bl2 = this.isMenuItem(abstractWidget);
@@ -2019,7 +1993,7 @@ SDSEventListener {
             menuLogCh.log(10000, "MenuController#adjustIndicesForRemoveItem: removed widget not found in children list: %1, (%2)", (Object)abstractWidget, (Object)this);
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#adjustIndicesForRemoveItem: removed menu child with index %3: %1, (%2)", (Object)abstractWidget, (Object)this, (long)n);
+        menuLogCh.log(10000000, "MenuController#adjustIndicesForRemoveItem: removed menu child with index %3: %1, (%2)", (Object)abstractWidget, (Object)this, (long)n);
         this.deactivateMoveMode();
         this.collapse(true);
         if (this.isInfolineVisible()) {
@@ -2033,7 +2007,7 @@ SDSEventListener {
         if (this.hasFocusedItem()) {
             object = this.focusedIndex.adjustForRemoveMenuChild(n);
             if (object == null) {
-                menuLogCh.log(-2137614336, "MenuController#adjustIndicesForRemoveItem: focused item %1 was removed", (Object)this.focusedIndex);
+                menuLogCh.log(10000000, "MenuController#adjustIndicesForRemoveItem: focused item %1 was removed", (Object)this.focusedIndex);
                 this.focusedUniqueID = null;
             }
             this.focusedIndex = object;
@@ -2169,7 +2143,7 @@ SDSEventListener {
     }
 
     public void setViewport(MenuViewport menuViewport) {
-        menuLogCh.log(-2137614336, "MenuController#setViewport: Viewport: %1  -->  %2", (Object)this.viewport, (Object)menuViewport);
+        menuLogCh.log(10000000, "MenuController#setViewport: Viewport: %1  -->  %2", (Object)this.viewport, (Object)menuViewport);
         if (menuViewport == null) {
             throw new IllegalArgumentException("Viewport must not be null.");
         }
@@ -2188,7 +2162,7 @@ SDSEventListener {
     public void setFocusedIndex(MenuItemIndex menuItemIndex) {
         MenuItemIndex menuItemIndex2 = this.focusedIndex;
         Long l = this.hasMoveItem() ? null : this.getUniqueIDForIndex(menuItemIndex);
-        menuLogCh.log(-2137614336, "MenuController#setFocusedIndex: focused index: %1  -->  %2 (ID: %3 --> %4)", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)this.focusedUniqueID, (Object)l);
+        menuLogCh.log(10000000, "MenuController#setFocusedIndex: focused index: %1  -->  %2 (ID: %3 --> %4)", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)this.focusedUniqueID, (Object)l);
         boolean bl = Util.equals(menuItemIndex2, menuItemIndex);
         boolean bl2 = this.focusedUniqueID != null && l != null ? this.focusedUniqueID.equals(l) : bl;
         this.focusedIndex = menuItemIndex;
@@ -2340,7 +2314,6 @@ SDSEventListener {
         }
     }
 
-    @Override
     public IFocusedPropertyObject getCurrentFocusedPropertyObject() {
         this.updateFocusedPropertyObject();
         return this.focusedPropertyObject;
@@ -2368,7 +2341,7 @@ SDSEventListener {
             Buffer buffer = new Buffer();
             buffer.append("has focusProperty: ").append(bl2).append(" (before: ").append(bl);
             buffer.append(", has NotContextSpecificOptions: ").append(bl3).append(")");
-            menuLogCh.log(-2137614336, "MenuController#updateFocusedPropertyObject: screen: %4, focus: %1, %2, focusProperty: %3", (Object)this.focusedIndex, (Object)buffer, (Object)this.focusedPropertyObject, (long)this.getScreenId());
+            menuLogCh.log(10000000, "MenuController#updateFocusedPropertyObject: screen: %4, focus: %1, %2, focusProperty: %3", (Object)this.focusedIndex, (Object)buffer, (Object)this.focusedPropertyObject, (long)this.getScreenId());
         }
         if (bl != bl2) {
             this.getDrawerFocusManager().updateOptionDrawerContent();
@@ -2390,7 +2363,7 @@ SDSEventListener {
             buffer.append(", hasNotContextSpecificOptions: ").append(bl2);
             buffer.append(", hasOptionsForFocusedItem: ").append(bl3);
             buffer.append(", optionDrawerCanOpen: ").append(bl);
-            menuLogCh.log(-2137614336, buffer.toString());
+            menuLogCh.log(10000000, buffer.toString());
         }
         return (bl2 || bl3) && bl;
     }
@@ -2402,28 +2375,28 @@ SDSEventListener {
 
     private boolean hasOptionsForFocusedItem() {
         if (!this.hasFocusedItem() || !this.hasFocusedPropertyObject()) {
-            menuLogCh.log(-2137614336, "MenuController#hasOptionsForFocusedItem !hasFocusedItem(): %1, !hasFocusedPropertyObject(): %2", !this.hasFocusedItem(), !this.hasFocusedPropertyObject());
+            menuLogCh.log(10000000, "MenuController#hasOptionsForFocusedItem !hasFocusedItem(): %1, !hasFocusedPropertyObject(): %2", !this.hasFocusedItem(), !this.hasFocusedPropertyObject());
             return false;
         }
         IDrawerFocusManagerEvo iDrawerFocusManagerEvo = this.getTerminalImpl().getDrawerFocusManager();
         if (iDrawerFocusManagerEvo == null) {
-            menuLogCh.log(-2137614336, "MenuController#hasOptionsForFocusedItem drawerManager == null");
+            menuLogCh.log(10000000, "MenuController#hasOptionsForFocusedItem drawerManager == null");
             return false;
         }
         DrawerController drawerController = (DrawerController)iDrawerFocusManagerEvo.getOptionDrawer();
         if (drawerController == null) {
-            menuLogCh.log(-2137614336, "MenuController#hasOptionsForFocusedItem optionsDrawer == null");
+            menuLogCh.log(10000000, "MenuController#hasOptionsForFocusedItem optionsDrawer == null");
             return false;
         }
         int n = drawerController.getContentType();
         switch (n) {
             case 0: {
-                menuLogCh.log(-2137614336, "MenuController#hasOptionsForFocusedItem DrawerController.CONTENT_TYPE_DEFAULT");
+                menuLogCh.log(10000000, "MenuController#hasOptionsForFocusedItem DrawerController.CONTENT_TYPE_DEFAULT");
                 return true;
             }
             case 1: {
                 AbstractWidget abstractWidget = this.getChild(this.focusedIndex.widget);
-                menuLogCh.log(-2137614336, "MenuController#hasOptionsForFocusedItem DrawerController.CONTENT_TYPE_SPELLER_OPTIONS");
+                menuLogCh.log(10000000, "MenuController#hasOptionsForFocusedItem DrawerController.CONTENT_TYPE_SPELLER_OPTIONS");
                 return abstractWidget instanceof TouchController;
             }
         }
@@ -2478,7 +2451,7 @@ SDSEventListener {
             if (n != -1) {
                 return new MenuItemIndex(menuItemIndex.widget, n);
             }
-            menuLogCh.log(-1601830656, "MenuController#getMenuItemIndexForUniqueID: unique ID %3 not found, use index %1 with ID %2", (Object)menuItemIndex, (Object)l2, (Object)l);
+            menuLogCh.log(100000, "MenuController#getMenuItemIndexForUniqueID: unique ID %3 not found, use index %1 with ID %2", (Object)menuItemIndex, (Object)l2, (Object)l);
             return menuItemIndex;
         }
         return menuItemIndex;
@@ -2500,7 +2473,7 @@ SDSEventListener {
         MenuItemIndex menuItemIndex2 = this.selectedIndex;
         Long l = this.selectedUniqueID;
         Long l2 = this.getUniqueIDForIndex(menuItemIndex);
-        menuLogCh.log(-2137614336, "MenuController#setSelectedIndex: selected index: %1  -->  %2 (ID %3 -> %4)", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)l, (Object)l2);
+        menuLogCh.log(10000000, "MenuController#setSelectedIndex: selected index: %1  -->  %2 (ID %3 -> %4)", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)l, (Object)l2);
         this.selectedIndex = menuItemIndex;
         this.selectedUniqueID = l2;
         if (this.selectedIndex != null) {
@@ -2510,7 +2483,7 @@ SDSEventListener {
     }
 
     void setInitialSelectedIndex(MenuItemIndex menuItemIndex) {
-        menuLogCh.log(-2137614336, "MenuController#setInitialSelectedIndex: initial selected index: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuController#setInitialSelectedIndex: initial selected index: %1", (Object)menuItemIndex);
         this.selectedIndex = menuItemIndex;
         this.selectedUniqueID = this.getUniqueIDForIndex(menuItemIndex);
     }
@@ -2568,7 +2541,6 @@ SDSEventListener {
         }
     }
 
-    @Override
     public int getPreferredHeight() {
         int n = super.getPreferredHeight();
         if (n != -1) {
@@ -2577,7 +2549,6 @@ SDSEventListener {
         return this.calculatedPreferredHeight;
     }
 
-    @Override
     public int getPreferredWidth() {
         int n = super.getPreferredWidth();
         if (n != -1) {
@@ -2586,7 +2557,6 @@ SDSEventListener {
         return this.calculatedPreferredWidth;
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         if (!this.isConnectedSubtree()) {
             return;
@@ -2607,15 +2577,15 @@ SDSEventListener {
         }
         this.updatePreferredSize();
         if (this.tryPostponeRefresh()) {
-            menuLogCh.log(-2137614336, "MenuController#invalidateLayout: postpone refresh. child widget: %1, (%2)", (Object)abstractWidget, (Object)this);
+            menuLogCh.log(10000000, "MenuController#invalidateLayout: postpone refresh. child widget: %1, (%2)", (Object)abstractWidget, (Object)this);
             return;
         }
         int n = this.getChildren().indexOf(abstractWidget);
         if (n == -1) {
-            menuLogCh.log(-1601830656, "MenuController#invalidateLayout: unknown child widget: %1 (%2)", (Object)abstractWidget, (Object)this);
+            menuLogCh.log(100000, "MenuController#invalidateLayout: unknown child widget: %1 (%2)", (Object)abstractWidget, (Object)this);
             this.refreshAllItems();
         } else {
-            menuLogCh.log(-2137614336, "MenuController#invalidateLayout: invalidate layout for child index: %3, widget: %1 (%2)", (Object)abstractWidget, (Object)this, (long)n);
+            menuLogCh.log(10000000, "MenuController#invalidateLayout: invalidate layout for child index: %3, widget: %1 (%2)", (Object)abstractWidget, (Object)this, (long)n);
             this.updateSelection((AbstractWidgetController)abstractWidget, n, null);
             this.refresh(n);
         }
@@ -2693,7 +2663,7 @@ SDSEventListener {
     public void refresh(int n) {
         AbstractWidget abstractWidget = this.getChild(n);
         this.updateMultiItemLength(abstractWidget);
-        this.animationManager.refresh(new MenuUpdateRequest$MatchMenuChildWidget(n));
+        this.animationManager.refresh(new MenuUpdateRequest.MatchMenuChildWidget(n));
         this.clearAllCaches();
     }
 
@@ -2709,18 +2679,16 @@ SDSEventListener {
         return menuItemIndex.equals(this.expandedItem);
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         AbstractWidgetController abstractWidgetController = (AbstractWidgetController)((Object)this.getInitContext().getScreen());
         if (abstractWidgetController instanceof AbstractScreenWidget && ((AbstractScreenWidget)abstractWidgetController).getSmallStageType() == 3) {
             return;
         }
-        this.viewSizeChangeContentOpacity = f2 <= 0x6666663F ? 0.0f : (f2 - 0x6666663F) / -791884739;
+        this.viewSizeChangeContentOpacity = f2 <= 0.9f ? 0.0f : (f2 - 0.9f) / 0.100000024f;
         this.handleStageChangeDuringAnimation(bl);
         this.relayout();
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         this.viewSizeChangeContentOpacity = 1.0f;
         this.handleStageChangeDuringAnimation(bl);
@@ -2747,7 +2715,7 @@ SDSEventListener {
         if (!bl && !bl4) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#handleStageChangeDuringAnimation: stage changed, update menu %1", (Object)this);
+        menuLogCh.log(10000000, "MenuController#handleStageChangeDuringAnimation: stage changed, update menu %1", (Object)this);
         if (this.isInfolineVisible()) {
             this.showInfolineOnFocusedItem(true);
         }
@@ -2824,19 +2792,19 @@ SDSEventListener {
             if (this.focusCursorHideReasons != null && this.focusCursorHideReasons.contains(object)) {
                 this.focusCursorHideReasons.remove(object);
             } else {
-                menuLogCh.log(-2137614336, "MenuController#setFocusCursorVisible: show cursor, but source '%1' was not in list of hide causes: %2", object, (Object)this.focusCursorHideReasons);
+                menuLogCh.log(10000000, "MenuController#setFocusCursorVisible: show cursor, but source '%1' was not in list of hide causes: %2", object, (Object)this.focusCursorHideReasons);
             }
         } else {
             if (this.focusCursorHideReasons == null) {
                 this.focusCursorHideReasons = new ArrayList(2);
             }
             if (this.focusCursorHideReasons.contains(object)) {
-                menuLogCh.log(-2137614336, "MenuController#setFocusCursorVisible: hide cursor, but source '%1' is already in list of hide causes: %2", object, (Object)this.focusCursorHideReasons);
+                menuLogCh.log(10000000, "MenuController#setFocusCursorVisible: hide cursor, but source '%1' is already in list of hide causes: %2", object, (Object)this.focusCursorHideReasons);
             } else {
                 this.focusCursorHideReasons.add(object);
             }
         }
-        menuLogCh.log(-2137614336, "MenuController#setFocusCursorVisible: visible: %1, reason: '%2', remaining hide reasons: %3", bl, object, (Object)this.focusCursorHideReasons);
+        menuLogCh.log(10000000, "MenuController#setFocusCursorVisible: visible: %1, reason: '%2', remaining hide reasons: %3", bl, object, (Object)this.focusCursorHideReasons);
         this.relayout();
     }
 
@@ -2848,7 +2816,6 @@ SDSEventListener {
         return this.viewSizeChangeContentOpacity;
     }
 
-    @Override
     public String getInternalInfo() {
         Buffer buffer = new Buffer();
         buffer.append(" focusedDisplayLine=\"");
@@ -2906,7 +2873,7 @@ SDSEventListener {
         if (this.isSDSActive() == bl) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuController#setSDSActive: SDS active: %1, has SDS numbers widget: %2 (%3)", (Object)bl, (Object)(this.sdsNumbersWidget != null ? 1 : 0), (Object)this);
+        menuLogCh.log(10000000, "MenuController#setSDSActive: SDS active: %1, has SDS numbers widget: %2 (%3)", (Object)bl, (Object)(this.sdsNumbersWidget != null ? 1 : 0), (Object)this);
         if (this.sdsEventHandler == null && bl) {
             this.createSDSEventHandler();
         }
@@ -2966,10 +2933,9 @@ SDSEventListener {
         return this.sdsEventHandler != null && this.sdsEventHandler.isSdsActive();
     }
 
-    @Override
     public IPresetPopupData getPresetPopupData() {
         if (this.focusedIndex == null) {
-            menuLogCh.log(1078071040, "MenuController#getPresetPopupData no focusedIndex - return null");
+            menuLogCh.log(1000000, "MenuController#getPresetPopupData no focusedIndex - return null");
             return null;
         }
         AbstractWidget abstractWidget = this.getChild(this.focusedIndex.widget);
@@ -2985,14 +2951,14 @@ SDSEventListener {
             this.restartCursorMergeTimerOnPresetPopup();
             return ((MenuItemController)abstractWidget).getPresetPopupData();
         }
-        menuLogCh.log(1078071040, "MenuController#getPresetPopupData unknown focused menu item: %1 ", (Object)abstractWidget);
+        menuLogCh.log(1000000, "MenuController#getPresetPopupData unknown focused menu item: %1 ", (Object)abstractWidget);
         return null;
     }
 
     private void restartCursorMergeTimerOnPresetPopup() {
         MenuMergeTimerController menuMergeTimerController = this.getCursorMergeWidget();
         if (menuMergeTimerController != null && menuMergeTimerController.isTimerRunning()) {
-            menuLogCh.log(-2137614336, "MenuController#getPresetPopupData: restart merge timer");
+            menuLogCh.log(10000000, "MenuController#getPresetPopupData: restart merge timer");
             menuMergeTimerController.restartTimer();
         }
     }
@@ -3008,16 +2974,16 @@ SDSEventListener {
             while (iterator.hasNext()) {
                 MenuItemIndex menuItemIndex3 = (MenuItemIndex)iterator.next();
                 if (this.isMenuItemFocusable(menuItemIndex3)) {
-                    menuLogCh.log(-2137614336, "MenuController#getUnfocusableVisibleEdge: use last unfocusable item %1 for source: %2", (Object)menuItemIndex2, (Object)menuItemIndex);
+                    menuLogCh.log(10000000, "MenuController#getUnfocusableVisibleEdge: use last unfocusable item %1 for source: %2", (Object)menuItemIndex2, (Object)menuItemIndex);
                     return menuItemIndex2;
                 }
                 if (!menuViewport.contains(menuItemIndex3)) {
-                    menuLogCh.log(-2137614336, "MenuController#getUnfocusableVisibleEdge: use last visible unfocusable item %1 for source: %2, viewport: %3", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)menuViewport);
+                    menuLogCh.log(10000000, "MenuController#getUnfocusableVisibleEdge: use last visible unfocusable item %1 for source: %2, viewport: %3", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)menuViewport);
                     return menuItemIndex2;
                 }
                 menuItemIndex2 = menuItemIndex3;
             }
-            menuLogCh.log(-2137614336, "MenuController#getUnfocusableVisibleEdge: use menu's last item %1 for source: %2", (Object)menuItemIndex2, (Object)menuItemIndex);
+            menuLogCh.log(10000000, "MenuController#getUnfocusableVisibleEdge: use menu's last item %1 for source: %2", (Object)menuItemIndex2, (Object)menuItemIndex);
             return menuItemIndex2;
         }
         return menuItemIndex;
@@ -3074,7 +3040,6 @@ SDSEventListener {
     public void adjustAnimationStartValuesForRestart() {
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         int n5 = this.width;
         if (n4 < 0) {
@@ -3085,14 +3050,12 @@ SDSEventListener {
         this.sizeChanged(n5, n6);
     }
 
-    @Override
     public void setWidth(int n) {
         int n2 = this.width;
         super.setWidth(n);
         this.sizeChanged(n2, this.height);
     }
 
-    @Override
     public void setHeight(int n) {
         if (n < 0) {
             n = this.getHeight();
@@ -3111,7 +3074,7 @@ SDSEventListener {
         }
         this.propagateSizeToMenuItems();
         if (this.tryPostponeRefresh()) {
-            menuLogCh.log(-2137614336, "MenuController#sizeChanged: postpone refresh (%1)", (Object)this);
+            menuLogCh.log(10000000, "MenuController#sizeChanged: postpone refresh (%1)", (Object)this);
         } else {
             this.refreshAllItems();
             this.relayout();
@@ -3217,7 +3180,7 @@ SDSEventListener {
     }
 
     public void cancelMoveMode() {
-        menuLogCh.log(-2137614336, "MenuController#cancelMoveMode: move source: %1, current focus: %2", (Object)this.moveItemIndex, (Object)this.focusedIndex);
+        menuLogCh.log(10000000, "MenuController#cancelMoveMode: move source: %1, current focus: %2", (Object)this.moveItemIndex, (Object)this.focusedIndex);
         this.focusItemImmediately(this.moveItemIndex, FocusAdvice.KEEP_POSITION);
         KeyEvent keyEvent = new KeyEvent(null, 10401, 17, this.getTerminal().getTerminalID());
         AbstractWidget abstractWidget = this.getChild(this.focusedIndex.widget);
@@ -3299,7 +3262,7 @@ SDSEventListener {
 
     public void setInfolineText(String string) {
         if (this.infoline == null) {
-            menuLogCh.log(-1601830656, "MenuController#setInfolineText: there is no infoLine widget in this menu");
+            menuLogCh.log(100000, "MenuController#setInfolineText: there is no infoLine widget in this menu");
             return;
         }
         this.infoline.setText(string);
@@ -3316,7 +3279,6 @@ SDSEventListener {
         return buffer.toString();
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
@@ -3352,7 +3314,6 @@ SDSEventListener {
         return this.openComboboxOpacity;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
         this.currentOptionIconVisibilityForViewSize = this.isOptionsIconVisibleForViewSize();
     }
@@ -3390,7 +3351,7 @@ SDSEventListener {
     }
 
     public boolean isRadiotextMenu() {
-        return this.modelID == -829947648 || this.modelID == -813170432 || this.modelID == 1854472448 || this.modelID == -796393216 || this.modelID == -1450704640;
+        return this.modelID == 100558 || this.modelID == 100559 || this.modelID == 100718 || this.modelID == 100560 || this.modelID == 100521;
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carplay.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carplay.Resource;
 
 public class ResourceSerializer {
-    public static void putOptionalResource(ISerializer iSerializer, Resource resource) {
+    public static void putOptionalResource(ISerializer iSerializer, Resource resource) throws SerializerException {
         boolean bl = resource == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ResourceSerializer {
         }
     }
 
-    public static void putOptionalResourceVarArray(ISerializer iSerializer, Resource[] resourceArray) {
+    public static void putOptionalResourceVarArray(ISerializer iSerializer, Resource[] resourceArray) throws SerializerException {
         boolean bl = resourceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ResourceSerializer {
         }
     }
 
-    public static Resource getOptionalResource(IDeserializer iDeserializer) {
+    public static Resource getOptionalResource(IDeserializer iDeserializer) throws SerializerException {
         Resource resource = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ResourceSerializer {
         return resource;
     }
 
-    public static Resource[] getOptionalResourceVarArray(IDeserializer iDeserializer) {
+    public static Resource[] getOptionalResourceVarArray(IDeserializer iDeserializer) throws SerializerException {
         Resource[] resourceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

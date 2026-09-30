@@ -99,7 +99,7 @@ public class ActiveStationInfo {
     }
 
     public String toString() {
-        return new StringBuffer("ActiveStationInfo{").append("id=").append(this.id).append(", stationName=").append(this.stationName).append(", channelName=").append(this.channelName).append(", stationConfig=").append("[").append(this.stationConfig == null ? "null" : new StringBuffer().append("size=").append(this.stationConfig.length).toString()).append("]").append(", stationFlags=").append("[").append(this.stationFlags == null ? "null" : new StringBuffer().append("size=").append(this.stationFlags.length).toString()).append("]").append(", currentProgram=").append(this.currentProgram).append(", nextProgram=").append(this.nextProgram).append(", audioChannels=").append("[").append(this.audioChannels == null ? "null" : Arrays.asList(this.audioChannels).toString()).append("]").append("}").toString();
+        return "ActiveStationInfo{" + "id=" + this.id + ", stationName=" + this.stationName + ", channelName=" + this.channelName + ", stationConfig=" + "[" + (this.stationConfig == null ? "null" : "size=" + this.stationConfig.length) + "]" + ", stationFlags=" + "[" + (this.stationFlags == null ? "null" : "size=" + this.stationFlags.length) + "]" + ", currentProgram=" + this.currentProgram + ", nextProgram=" + this.nextProgram + ", audioChannels=" + "[" + (this.audioChannels == null ? "null" : Arrays.asList(this.audioChannels).toString()) + "]" + "}";
     }
 }
 

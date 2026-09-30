@@ -25,28 +25,23 @@ implements DSIOnlinePicNav {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIOnlinePicNav == null ? (class$org$dsi$ifc$online$DSIOnlinePicNav = DSIOnlinePicNavProvider.class$("org.dsi.ifc.online.DSIOnlinePicNav")) : class$org$dsi$ifc$online$DSIOnlinePicNav).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIOnlinePicNavProxy(this.instance, (DSIOnlinePicNavReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void synchronize() {
         try {
             this.proxy.synchronize();
@@ -56,7 +51,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void abortSync() {
         try {
             this.proxy.abortSync();
@@ -66,7 +60,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void getPendingTransactions() {
         try {
             this.proxy.getPendingTransactions();
@@ -76,7 +69,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void setActiveProfile(int n) {
         try {
             this.proxy.setActiveProfile(n);
@@ -86,7 +78,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -96,7 +87,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -106,7 +96,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -116,7 +105,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -126,7 +114,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -136,7 +123,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -146,7 +132,6 @@ implements DSIOnlinePicNav {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

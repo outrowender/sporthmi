@@ -7,40 +7,35 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIObjectPush
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_OPPINCOMINGOBJECT;
-    public static final int ATTR_VCARDSRECEIVED;
-    public static final int RT_REQUESTOPPABORTSENDING;
-    public static final int RT_REQUESTOPPACCEPTOBJECT;
-    public static final int RT_REQUESTOPPSENDBINARY;
-    public static final int RT_REQUESTOPPSENDCONTACTS;
-    public static final int RT_REQUESTOPPSENDMESSAGES;
-    public static final int RP_RESPONSEOPPABORTSENDING;
-    public static final int RP_RESPONSEOPPACCEPTOBJECT;
-    public static final int RP_RESPONSEOPPSENDBINARY;
-    public static final int RP_RESPONSEOPPSENDCONTACTS;
-    public static final int RP_RESPONSEOPPSENDMESSAGES;
-    public static final int OBJECTTYPE_ADDRESS;
-    public static final int OBJECTTYPE_APPOINTMENT;
-    public static final int OBJECTTYPE_MESSAGE;
-    public static final int OBJECTTYPE_BINARY;
-    public static final int OBJECTTYPE_UNKNOWN;
-    public static final int OBJECTTYPE_TODO;
-    public static final int OBJECTTYPE_NOTE;
+    public static final String VERSION = "2.11.13";
+    public static final int ATTR_OPPINCOMINGOBJECT = 1;
+    public static final int ATTR_VCARDSRECEIVED = 2;
+    public static final int RT_REQUESTOPPABORTSENDING = 1000;
+    public static final int RT_REQUESTOPPACCEPTOBJECT = 1001;
+    public static final int RT_REQUESTOPPSENDBINARY = 1003;
+    public static final int RT_REQUESTOPPSENDCONTACTS = 1004;
+    public static final int RT_REQUESTOPPSENDMESSAGES = 1005;
+    public static final int RP_RESPONSEOPPABORTSENDING = 2000;
+    public static final int RP_RESPONSEOPPACCEPTOBJECT = 2001;
+    public static final int RP_RESPONSEOPPSENDBINARY = 2003;
+    public static final int RP_RESPONSEOPPSENDCONTACTS = 2004;
+    public static final int RP_RESPONSEOPPSENDMESSAGES = 2005;
+    public static final int OBJECTTYPE_ADDRESS = 0;
+    public static final int OBJECTTYPE_APPOINTMENT = 1;
+    public static final int OBJECTTYPE_MESSAGE = 2;
+    public static final int OBJECTTYPE_BINARY = 3;
+    public static final int OBJECTTYPE_UNKNOWN = 4;
+    public static final int OBJECTTYPE_TODO = 5;
+    public static final int OBJECTTYPE_NOTE = 6;
 
-    default public void requestOPPAbortSending() {
-    }
+    public void requestOPPAbortSending();
 
-    default public void requestOPPAcceptObject(String string, boolean bl) {
-    }
+    public void requestOPPAcceptObject(String var1, boolean var2);
 
-    default public void requestOPPSendContacts(String string, String string2) {
-    }
+    public void requestOPPSendContacts(String var1, String var2);
 
-    default public void requestOPPSendMessages(String string, int[] nArray) {
-    }
+    public void requestOPPSendMessages(String var1, int[] var2);
 
-    default public void requestOPPSendBinary(String string, String[] stringArray) {
-    }
+    public void requestOPPSendBinary(String var1, String[] var2);
 }
 

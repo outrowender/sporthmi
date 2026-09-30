@@ -3,8 +3,9 @@
  */
 package de.esolutions.fw.comm.asi.connectivity.networking;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface SdisAuthenticationS {
-    default public void sdisAuthenticationSuccessful(String string) {
-    }
+    public void sdisAuthenticationSuccessful(String var1) throws MethodException;
 }
 

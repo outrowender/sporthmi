@@ -7,10 +7,8 @@ import org.apache.xerces.xni.XMLResourceIdentifier;
 
 public interface XMLEntityDescription
 extends XMLResourceIdentifier {
-    default public void setEntityName(String string) {
-    }
+    public void setEntityName(String var1);
 
-    default public String getEntityName() {
-    }
+    public String getEntityName();
 }
 

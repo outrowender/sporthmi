@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.RGSConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RGSConfiguration;
 import org.dsi.ifc.carcomfort.RGSViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class RGSViewOptionsSerializer {
-    public static void putOptionalRGSViewOptions(ISerializer iSerializer, RGSViewOptions rGSViewOptions) {
+    public static void putOptionalRGSViewOptions(ISerializer iSerializer, RGSViewOptions rGSViewOptions) throws SerializerException {
         boolean bl = rGSViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class RGSViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalRGSViewOptionsVarArray(ISerializer iSerializer, RGSViewOptions[] rGSViewOptionsArray) {
+    public static void putOptionalRGSViewOptionsVarArray(ISerializer iSerializer, RGSViewOptions[] rGSViewOptionsArray) throws SerializerException {
         boolean bl = rGSViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class RGSViewOptionsSerializer {
         }
     }
 
-    public static RGSViewOptions getOptionalRGSViewOptions(IDeserializer iDeserializer) {
+    public static RGSViewOptions getOptionalRGSViewOptions(IDeserializer iDeserializer) throws SerializerException {
         RGSViewOptions rGSViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class RGSViewOptionsSerializer {
         return rGSViewOptions;
     }
 
-    public static RGSViewOptions[] getOptionalRGSViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static RGSViewOptions[] getOptionalRGSViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         RGSViewOptions[] rGSViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

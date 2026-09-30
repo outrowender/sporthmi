@@ -3,68 +3,49 @@
  */
 package de.esolutions.fw.comm.dsi.messaging;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIMessagingServiceConfigurationC {
-    default public void setPhoneSystemRingingVolumeRequest(int n) {
-    }
+    public void setPhoneSystemRingingVolumeRequest(int var1) throws MethodException;
 
-    default public void setPhoneSystemRingingTypeRequest(int n) {
-    }
+    public void setPhoneSystemRingingTypeRequest(int var1) throws MethodException;
 
-    default public void setSMSCNumberRequest(String string) {
-    }
+    public void setSMSCNumberRequest(String var1) throws MethodException;
 
-    default public void activateSmsDeliveryReportRequest(boolean bl) {
-    }
+    public void activateSmsDeliveryReportRequest(boolean var1) throws MethodException;
 
-    default public void activateStoreSmsOnSentRequest(boolean bl) {
-    }
+    public void activateStoreSmsOnSentRequest(boolean var1) throws MethodException;
 
-    default public void setShortMessageValidityPeriodRequest(int n) {
-    }
+    public void setShortMessageValidityPeriodRequest(int var1) throws MethodException;
 
-    default public void activateEmailIncludeOldMailInReplyRequest(boolean bl) {
-    }
+    public void activateEmailIncludeOldMailInReplyRequest(boolean var1) throws MethodException;
 
-    default public void activateEmailEmptySubjectNotificationRequest(boolean bl) {
-    }
+    public void activateEmailEmptySubjectNotificationRequest(boolean var1) throws MethodException;
 
-    default public void changeFolderViewModeRequest(int n) {
-    }
+    public void changeFolderViewModeRequest(int var1) throws MethodException;
 
-    default public void restoreFactorySettingsRequest() {
-    }
+    public void restoreFactorySettingsRequest() throws MethodException;
 
-    default public void setAccountPreferences(int n, String string) {
-    }
+    public void setAccountPreferences(int var1, String var2) throws MethodException;
 
-    default public void requestSetSmsIndications(boolean bl) {
-    }
+    public void requestSetSmsIndications(boolean var1) throws MethodException;
 
-    default public void requestSetEmailIndications(boolean bl) {
-    }
+    public void requestSetEmailIndications(boolean var1) throws MethodException;
 
-    default public void requestSetPushSms(boolean bl) {
-    }
+    public void requestSetPushSms(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

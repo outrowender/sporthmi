@@ -4,6 +4,7 @@
 package java.util.zip;
 
 import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.Checksum;
 
@@ -16,8 +17,7 @@ extends FilterInputStream {
         this.check = checksum;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.in.read();
         if (n != -1) {
             this.check.update(n);
@@ -25,8 +25,7 @@ extends FilterInputStream {
         return n;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         int n3 = this.in.read(byArray, n, n2);
         if (n3 != -1) {
             this.check.update(byArray, n, n3);
@@ -38,8 +37,7 @@ extends FilterInputStream {
         return this.check;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l < 1L) {
             return 0L;
         }

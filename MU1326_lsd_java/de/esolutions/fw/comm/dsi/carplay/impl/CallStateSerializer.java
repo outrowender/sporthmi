@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carplay.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carplay.CallState;
 
 public class CallStateSerializer {
-    public static void putOptionalCallState(ISerializer iSerializer, CallState callState) {
+    public static void putOptionalCallState(ISerializer iSerializer, CallState callState) throws SerializerException {
         boolean bl = callState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class CallStateSerializer {
         }
     }
 
-    public static void putOptionalCallStateVarArray(ISerializer iSerializer, CallState[] callStateArray) {
+    public static void putOptionalCallStateVarArray(ISerializer iSerializer, CallState[] callStateArray) throws SerializerException {
         boolean bl = callStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class CallStateSerializer {
         }
     }
 
-    public static CallState getOptionalCallState(IDeserializer iDeserializer) {
+    public static CallState getOptionalCallState(IDeserializer iDeserializer) throws SerializerException {
         CallState callState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class CallStateSerializer {
         return callState;
     }
 
-    public static CallState[] getOptionalCallStateVarArray(IDeserializer iDeserializer) {
+    public static CallState[] getOptionalCallStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         CallState[] callStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

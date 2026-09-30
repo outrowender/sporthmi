@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.FolderEntry;
 
 public class FolderEntrySerializer {
-    public static void putOptionalFolderEntry(ISerializer iSerializer, FolderEntry folderEntry) {
+    public static void putOptionalFolderEntry(ISerializer iSerializer, FolderEntry folderEntry) throws SerializerException {
         boolean bl = folderEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class FolderEntrySerializer {
         }
     }
 
-    public static void putOptionalFolderEntryVarArray(ISerializer iSerializer, FolderEntry[] folderEntryArray) {
+    public static void putOptionalFolderEntryVarArray(ISerializer iSerializer, FolderEntry[] folderEntryArray) throws SerializerException {
         boolean bl = folderEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class FolderEntrySerializer {
         }
     }
 
-    public static FolderEntry getOptionalFolderEntry(IDeserializer iDeserializer) {
+    public static FolderEntry getOptionalFolderEntry(IDeserializer iDeserializer) throws SerializerException {
         FolderEntry folderEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class FolderEntrySerializer {
         return folderEntry;
     }
 
-    public static FolderEntry[] getOptionalFolderEntryVarArray(IDeserializer iDeserializer) {
+    public static FolderEntry[] getOptionalFolderEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         FolderEntry[] folderEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

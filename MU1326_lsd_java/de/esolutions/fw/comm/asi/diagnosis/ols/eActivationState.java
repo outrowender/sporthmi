@@ -7,10 +7,10 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eActivationState
 extends IEnum {
-    public static final int ACTIVATION_STATE_NONE;
-    public static final int ACTIVATION_STATE_INACTIVE;
-    public static final int ACTIVATION_STATE_ACTIVATED;
-    public static final int ACTIVATION_STATE_EXPIRED;
-    public static final int ACTIVATION_STATE_NOT_AVAILABLE;
+    public static final int ACTIVATION_STATE_NONE = 0;
+    public static final int ACTIVATION_STATE_INACTIVE = 1;
+    public static final int ACTIVATION_STATE_ACTIVATED = 2;
+    public static final int ACTIVATION_STATE_EXPIRED = 3;
+    public static final int ACTIVATION_STATE_NOT_AVAILABLE = 255;
 }
 

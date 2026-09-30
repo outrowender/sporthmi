@@ -4,6 +4,7 @@
 package de.esolutions.fw.util.transport.socket;
 
 import de.esolutions.fw.util.transport.socket.ISocket;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -16,27 +17,22 @@ implements ISocket {
         this.socket = socket;
     }
 
-    @Override
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         return this.socket.getInputStream();
     }
 
-    @Override
-    public OutputStream getOutputStream() {
+    public OutputStream getOutputStream() throws IOException {
         return this.socket.getOutputStream();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.socket.close();
     }
 
-    @Override
     public Socket getSocket() {
         return this.socket;
     }
 
-    @Override
     public boolean isPlainSocket() {
         return true;
     }

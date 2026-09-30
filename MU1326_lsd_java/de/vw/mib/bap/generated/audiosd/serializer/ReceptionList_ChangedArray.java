@@ -14,40 +14,35 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ReceptionList_ChangedArray
 implements BAPChangedArray {
     public int elementType;
-    private static final int ELEMENT_TYPE_BITSIZE;
-    public static final int ELEMENT_TYPE_ENSEMBLES;
-    public static final int ELEMENT_TYPE_PRIMARY_SERVICES_ONLY;
-    public static final int ELEMENT_TYPE_SECONDARY_AND_PRIMARY_SERVICES;
-    public static final int ELEMENT_TYPE_FLAT_LIST;
-    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_AND_SECONDARY_SERVICES;
-    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_SERVICES_ONLY;
+    private static final int ELEMENT_TYPE_BITSIZE = 8;
+    public static final int ELEMENT_TYPE_ENSEMBLES = 0;
+    public static final int ELEMENT_TYPE_PRIMARY_SERVICES_ONLY = 1;
+    public static final int ELEMENT_TYPE_SECONDARY_AND_PRIMARY_SERVICES = 2;
+    public static final int ELEMENT_TYPE_FLAT_LIST = 3;
+    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_AND_SECONDARY_SERVICES = 4;
+    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_SERVICES_ONLY = 5;
     public int parent_Id;
-    private static final int PARENT_ID_BITSIZE;
+    private static final int PARENT_ID_BITSIZE = 16;
     private ArrayHeader arrayHeader = new ArrayHeader();
-    private BAPArrayData data = new BAPArrayData(-65536);
-    private static final int MAX_DATA_ELEMENTS;
+    private BAPArrayData data = new BAPArrayData(65535);
+    private static final int MAX_DATA_ELEMENTS = 65535;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new ReceptionList_Data(this.getArrayHeader());
     }
@@ -67,14 +62,12 @@ implements BAPChangedArray {
         this.parent_Id = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ReceptionList_ChangedArray receptionList_ChangedArray = (ReceptionList_ChangedArray)bAPEntity;
         return this.elementType == receptionList_ChangedArray.elementType && this.parent_Id == receptionList_ChangedArray.parent_Id && this.arrayHeader.equalTo(receptionList_ChangedArray.arrayHeader) && this.data.equalTo(receptionList_ChangedArray.data);
@@ -83,7 +76,6 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ReceptionList_ChangedArray:");
@@ -126,7 +118,6 @@ implements BAPChangedArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -135,7 +126,6 @@ implements BAPChangedArray {
         return n += this.data.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.elementType);
         bitStream.pushShort((short)this.parent_Id);
@@ -143,7 +133,6 @@ implements BAPChangedArray {
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.elementType = bitStream.popFrontByte();
         this.parent_Id = bitStream.popFrontShort();
@@ -162,7 +151,6 @@ implements BAPChangedArray {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return ReceptionList_ChangedArray.functionId();
     }

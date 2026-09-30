@@ -3,15 +3,15 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.LinkedList$Link;
-import java.util.LinkedList$LinkIterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -21,12 +21,12 @@ extends AbstractSequentialList
 implements List,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 876323262645176354L;
     transient int size = 0;
-    transient LinkedList$Link voidLink;
+    transient Link voidLink;
 
     public LinkedList() {
-        this.voidLink.previous = this.voidLink = new LinkedList$Link(null, null, null);
+        this.voidLink.previous = this.voidLink = new Link(null, null, null);
         this.voidLink.next = this.voidLink;
     }
 
@@ -35,28 +35,27 @@ Serializable {
         this.addAll(collection);
     }
 
-    @Override
     public void add(int n, Object object) {
         if (n >= 0 && n <= this.size) {
-            LinkedList$Link linkedList$Link;
+            Link link;
             int n2;
-            LinkedList$Link linkedList$Link2 = this.voidLink;
+            Link link2 = this.voidLink;
             if (n < this.size / 2) {
                 n2 = 0;
                 while (n2 <= n) {
-                    linkedList$Link2 = linkedList$Link2.next;
+                    link2 = link2.next;
                     ++n2;
                 }
             } else {
                 n2 = this.size;
                 while (n2 > n) {
-                    linkedList$Link2 = linkedList$Link2.previous;
+                    link2 = link2.previous;
                     --n2;
                 }
             }
-            LinkedList$Link linkedList$Link3 = linkedList$Link2.previous;
-            linkedList$Link3.next = linkedList$Link = new LinkedList$Link(object, linkedList$Link3, linkedList$Link2);
-            linkedList$Link2.previous = linkedList$Link;
+            Link link3 = link2.previous;
+            link3.next = link = new Link(object, link3, link2);
+            link2.previous = link;
             ++this.size;
             ++this.modCount;
         } else {
@@ -64,18 +63,16 @@ Serializable {
         }
     }
 
-    @Override
     public boolean add(Object object) {
-        LinkedList$Link linkedList$Link;
-        LinkedList$Link linkedList$Link2 = this.voidLink.previous;
-        this.voidLink.previous = linkedList$Link = new LinkedList$Link(object, linkedList$Link2, this.voidLink);
-        linkedList$Link2.next = linkedList$Link;
+        Link link;
+        Link link2 = this.voidLink.previous;
+        this.voidLink.previous = link = new Link(object, link2, this.voidLink);
+        link2.next = link;
         ++this.size;
         ++this.modCount;
         return true;
     }
 
-    @Override
     public boolean addAll(int n, Collection collection) {
         int n2 = collection.size();
         if (n2 == 0) {
@@ -83,29 +80,29 @@ Serializable {
         }
         if (n >= 0 && n <= this.size) {
             int n3;
-            LinkedList$Link linkedList$Link = this.voidLink;
+            Link link = this.voidLink;
             if (n < this.size / 2) {
                 n3 = 0;
                 while (n3 < n) {
-                    linkedList$Link = linkedList$Link.next;
+                    link = link.next;
                     ++n3;
                 }
             } else {
                 n3 = this.size;
                 while (n3 >= n) {
-                    linkedList$Link = linkedList$Link.previous;
+                    link = link.previous;
                     --n3;
                 }
             }
-            LinkedList$Link linkedList$Link2 = linkedList$Link.next;
+            Link link2 = link.next;
             Iterator iterator = collection.iterator();
             while (iterator.hasNext()) {
-                LinkedList$Link linkedList$Link3;
-                linkedList$Link.next = linkedList$Link3 = new LinkedList$Link(iterator.next(), linkedList$Link, null);
-                linkedList$Link = linkedList$Link3;
+                Link link3;
+                link.next = link3 = new Link(iterator.next(), link, null);
+                link = link3;
             }
-            linkedList$Link.next = linkedList$Link2;
-            linkedList$Link2.previous = linkedList$Link;
+            link.next = link2;
+            link2.previous = link;
             this.size += n2;
             ++this.modCount;
             return true;
@@ -113,45 +110,43 @@ Serializable {
         throw new IndexOutOfBoundsException();
     }
 
-    @Override
     public boolean addAll(Collection collection) {
         int n = collection.size();
         if (n == 0) {
             return false;
         }
-        LinkedList$Link linkedList$Link = this.voidLink.previous;
+        Link link = this.voidLink.previous;
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
-            LinkedList$Link linkedList$Link2;
-            linkedList$Link.next = linkedList$Link2 = new LinkedList$Link(iterator.next(), linkedList$Link, null);
-            linkedList$Link = linkedList$Link2;
+            Link link2;
+            link.next = link2 = new Link(iterator.next(), link, null);
+            link = link2;
         }
-        linkedList$Link.next = this.voidLink;
-        this.voidLink.previous = linkedList$Link;
+        link.next = this.voidLink;
+        this.voidLink.previous = link;
         this.size += n;
         ++this.modCount;
         return true;
     }
 
     public void addFirst(Object object) {
-        LinkedList$Link linkedList$Link;
-        LinkedList$Link linkedList$Link2 = this.voidLink.next;
-        this.voidLink.next = linkedList$Link = new LinkedList$Link(object, this.voidLink, linkedList$Link2);
-        linkedList$Link2.previous = linkedList$Link;
+        Link link;
+        Link link2 = this.voidLink.next;
+        this.voidLink.next = link = new Link(object, this.voidLink, link2);
+        link2.previous = link;
         ++this.size;
         ++this.modCount;
     }
 
     public void addLast(Object object) {
-        LinkedList$Link linkedList$Link;
-        LinkedList$Link linkedList$Link2 = this.voidLink.previous;
-        this.voidLink.previous = linkedList$Link = new LinkedList$Link(object, linkedList$Link2, this.voidLink);
-        linkedList$Link2.next = linkedList$Link;
+        Link link;
+        Link link2 = this.voidLink.previous;
+        this.voidLink.previous = link = new Link(object, link2, this.voidLink);
+        link2.next = link;
         ++this.size;
         ++this.modCount;
     }
 
-    @Override
     public void clear() {
         if (this.size > 0) {
             this.size = 0;
@@ -168,7 +163,6 @@ Serializable {
     /*
      * Unable to fully structure code
      */
-    @Override
     public boolean contains(Object var1_1) {
         block4: {
             var2_2 = this.voidLink.next;
@@ -197,40 +191,39 @@ lbl12:
         return false;
     }
 
-    @Override
     public Object get(int n) {
         if (n >= 0 && n < this.size) {
-            LinkedList$Link linkedList$Link = this.voidLink;
+            Link link = this.voidLink;
             if (n < this.size / 2) {
                 int n2 = 0;
                 while (n2 <= n) {
-                    linkedList$Link = linkedList$Link.next;
+                    link = link.next;
                     ++n2;
                 }
             } else {
                 int n3 = this.size;
                 while (n3 > n) {
-                    linkedList$Link = linkedList$Link.previous;
+                    link = link.previous;
                     --n3;
                 }
             }
-            return linkedList$Link.data;
+            return link.data;
         }
         throw new IndexOutOfBoundsException();
     }
 
     public Object getFirst() {
-        LinkedList$Link linkedList$Link = this.voidLink.next;
-        if (linkedList$Link != this.voidLink) {
-            return linkedList$Link.data;
+        Link link = this.voidLink.next;
+        if (link != this.voidLink) {
+            return link.data;
         }
         throw new NoSuchElementException();
     }
 
     public Object getLast() {
-        LinkedList$Link linkedList$Link = this.voidLink.previous;
-        if (linkedList$Link != this.voidLink) {
-            return linkedList$Link.data;
+        Link link = this.voidLink.previous;
+        if (link != this.voidLink) {
+            return link.data;
         }
         throw new NoSuchElementException();
     }
@@ -238,7 +231,6 @@ lbl12:
     /*
      * Unable to fully structure code
      */
-    @Override
     public int indexOf(Object var1_1) {
         block4: {
             var2_2 = 0;
@@ -273,7 +265,6 @@ lbl15:
     /*
      * Unable to fully structure code
      */
-    @Override
     public int lastIndexOf(Object var1_1) {
         block4: {
             var2_2 = this.size;
@@ -305,36 +296,34 @@ lbl15:
         return -1;
     }
 
-    @Override
     public ListIterator listIterator(int n) {
-        return new LinkedList$LinkIterator(this, n);
+        return new LinkIterator(this, n);
     }
 
-    @Override
     public Object remove(int n) {
         if (n >= 0 && n < this.size) {
-            LinkedList$Link linkedList$Link;
+            Link link;
             int n2;
-            LinkedList$Link linkedList$Link2 = this.voidLink;
+            Link link2 = this.voidLink;
             if (n < this.size / 2) {
                 n2 = 0;
                 while (n2 <= n) {
-                    linkedList$Link2 = linkedList$Link2.next;
+                    link2 = link2.next;
                     ++n2;
                 }
             } else {
                 n2 = this.size;
                 while (n2 > n) {
-                    linkedList$Link2 = linkedList$Link2.previous;
+                    link2 = link2.previous;
                     --n2;
                 }
             }
-            LinkedList$Link linkedList$Link3 = linkedList$Link2.previous;
-            linkedList$Link3.next = linkedList$Link = linkedList$Link2.next;
-            linkedList$Link.previous = linkedList$Link3;
+            Link link3 = link2.previous;
+            link3.next = link = link2.next;
+            link.previous = link3;
             --this.size;
             ++this.modCount;
-            return linkedList$Link2.data;
+            return link2.data;
         }
         throw new IndexOutOfBoundsException();
     }
@@ -342,7 +331,6 @@ lbl15:
     /*
      * Unable to fully structure code
      */
-    @Override
     public boolean remove(Object var1_1) {
         block3: {
             var2_2 = this.voidLink.next;
@@ -375,83 +363,79 @@ lbl8:
     }
 
     public Object removeFirst() {
-        LinkedList$Link linkedList$Link = this.voidLink.next;
-        if (linkedList$Link != this.voidLink) {
-            LinkedList$Link linkedList$Link2;
-            this.voidLink.next = linkedList$Link2 = linkedList$Link.next;
-            linkedList$Link2.previous = this.voidLink;
+        Link link = this.voidLink.next;
+        if (link != this.voidLink) {
+            Link link2;
+            this.voidLink.next = link2 = link.next;
+            link2.previous = this.voidLink;
             --this.size;
             ++this.modCount;
-            return linkedList$Link.data;
+            return link.data;
         }
         throw new NoSuchElementException();
     }
 
     public Object removeLast() {
-        LinkedList$Link linkedList$Link = this.voidLink.previous;
-        if (linkedList$Link != this.voidLink) {
-            LinkedList$Link linkedList$Link2;
-            this.voidLink.previous = linkedList$Link2 = linkedList$Link.previous;
-            linkedList$Link2.next = this.voidLink;
+        Link link = this.voidLink.previous;
+        if (link != this.voidLink) {
+            Link link2;
+            this.voidLink.previous = link2 = link.previous;
+            link2.next = this.voidLink;
             --this.size;
             ++this.modCount;
-            return linkedList$Link.data;
+            return link.data;
         }
         throw new NoSuchElementException();
     }
 
-    @Override
     public Object set(int n, Object object) {
         if (n >= 0 && n < this.size) {
             int n2;
-            LinkedList$Link linkedList$Link = this.voidLink;
+            Link link = this.voidLink;
             if (n < this.size / 2) {
                 n2 = 0;
                 while (n2 <= n) {
-                    linkedList$Link = linkedList$Link.next;
+                    link = link.next;
                     ++n2;
                 }
             } else {
                 n2 = this.size;
                 while (n2 > n) {
-                    linkedList$Link = linkedList$Link.previous;
+                    link = link.previous;
                     --n2;
                 }
             }
-            Object object2 = linkedList$Link.data;
-            linkedList$Link.data = object;
+            Object object2 = link.data;
+            link.data = object;
             return object2;
         }
         throw new IndexOutOfBoundsException();
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    @Override
     public Object[] toArray() {
         int n = 0;
         Object[] objectArray = new Object[this.size];
-        LinkedList$Link linkedList$Link = this.voidLink.next;
-        while (linkedList$Link != this.voidLink) {
-            objectArray[n++] = linkedList$Link.data;
-            linkedList$Link = linkedList$Link.next;
+        Link link = this.voidLink.next;
+        while (link != this.voidLink) {
+            objectArray[n++] = link.data;
+            link = link.next;
         }
         return objectArray;
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         int n = 0;
         if (this.size > objectArray.length) {
-            objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), this.size);
+            objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), this.size);
         }
-        LinkedList$Link linkedList$Link = this.voidLink.next;
-        while (linkedList$Link != this.voidLink) {
-            objectArray[n++] = linkedList$Link.data;
-            linkedList$Link = linkedList$Link.next;
+        Link link = this.voidLink.next;
+        while (link != this.voidLink) {
+            objectArray[n++] = link.data;
+            link = link.next;
         }
         if (n < objectArray.length) {
             objectArray[n] = null;
@@ -459,7 +443,7 @@ lbl8:
         return objectArray;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeInt(this.size);
         Iterator iterator = this.iterator();
@@ -468,18 +452,153 @@ lbl8:
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.size = objectInputStream.readInt();
-        LinkedList$Link linkedList$Link = this.voidLink = new LinkedList$Link(null, null, null);
+        Link link = this.voidLink = new Link(null, null, null);
         int n = this.size;
         while (--n >= 0) {
-            LinkedList$Link linkedList$Link2;
-            linkedList$Link.next = linkedList$Link2 = new LinkedList$Link(objectInputStream.readObject(), linkedList$Link, null);
-            linkedList$Link = linkedList$Link2;
+            Link link2;
+            link.next = link2 = new Link(objectInputStream.readObject(), link, null);
+            link = link2;
         }
-        linkedList$Link.next = this.voidLink;
-        this.voidLink.previous = linkedList$Link;
+        link.next = this.voidLink;
+        this.voidLink.previous = link;
+    }
+
+    private static final class Link {
+        Object data;
+        Link previous;
+        Link next;
+
+        Link(Object object, Link link, Link link2) {
+            this.data = object;
+            this.previous = link;
+            this.next = link2;
+        }
+    }
+
+    private static final class LinkIterator
+    implements ListIterator {
+        int pos;
+        int expectedModCount;
+        final LinkedList list;
+        Link link;
+        Link lastLink;
+
+        LinkIterator(LinkedList linkedList, int n) {
+            this.list = linkedList;
+            this.expectedModCount = this.list.modCount;
+            if (n >= 0 && n <= this.list.size) {
+                this.link = this.list.voidLink;
+                if (n < this.list.size / 2) {
+                    this.pos = -1;
+                    while (this.pos + 1 < n) {
+                        this.link = this.link.next;
+                        ++this.pos;
+                    }
+                } else {
+                    this.pos = this.list.size;
+                    while (this.pos >= n) {
+                        this.link = this.link.previous;
+                        --this.pos;
+                    }
+                }
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        public void add(Object object) {
+            if (this.expectedModCount == this.list.modCount) {
+                Link link;
+                Link link2 = this.link.next;
+                this.link.next = link = new Link(object, this.link, link2);
+                link2.previous = link;
+                this.link = link;
+                this.lastLink = null;
+                ++this.pos;
+                ++this.expectedModCount;
+                ++this.list.size;
+                ++this.list.modCount;
+            } else {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        public boolean hasNext() {
+            return this.link.next != this.list.voidLink;
+        }
+
+        public boolean hasPrevious() {
+            return this.link != this.list.voidLink;
+        }
+
+        public Object next() {
+            if (this.expectedModCount == this.list.modCount) {
+                Link link = this.link.next;
+                if (link != this.list.voidLink) {
+                    this.lastLink = this.link = link;
+                    ++this.pos;
+                    return this.link.data;
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public int nextIndex() {
+            return this.pos + 1;
+        }
+
+        public Object previous() {
+            if (this.expectedModCount == this.list.modCount) {
+                if (this.link != this.list.voidLink) {
+                    this.lastLink = this.link;
+                    this.link = this.link.previous;
+                    --this.pos;
+                    return this.lastLink.data;
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public int previousIndex() {
+            return this.pos;
+        }
+
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        public void remove() {
+            Link link;
+            if (this.expectedModCount != this.list.modCount) throw new ConcurrentModificationException();
+            if (this.lastLink == null) throw new IllegalStateException();
+            Link link2 = this.lastLink.next;
+            link2.previous = link = this.lastLink.previous;
+            link.next = link2;
+            if (this.lastLink == this.link) {
+                --this.pos;
+            }
+            this.link = link;
+            this.lastLink = null;
+            ++this.expectedModCount;
+            --this.list.size;
+            ++this.list.modCount;
+        }
+
+        public void set(Object object) {
+            if (this.expectedModCount == this.list.modCount) {
+                if (this.lastLink == null) {
+                    throw new IllegalStateException();
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+            this.lastLink.data = object;
+        }
     }
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.displaymanagement;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.displaymanagement.DSIDisplayManagementReply;
 import de.esolutions.fw.comm.dsi.displaymanagement.impl.DSIDisplayManagementReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIDisplayManagementReply {
         super(n, (class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener == null ? (class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener = DSIDisplayManagementDispatcher.class$("org.dsi.ifc.displaymanagement.DSIDisplayManagementListener")) : class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getExtents(int n, int n2, int n3) {
+    public void getExtents(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void activeContext(int n, int n2, int n3) {
+    public void activeContext(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void fadeStarted(int n, int n2) {
+    public void fadeStarted(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void fadeComplete(int n, int n2) {
+    public void fadeComplete(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getDisplayPower(int n, int n2) {
+    public void getDisplayPower(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,8 +106,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getDisplayBrightness(int n, int n2) {
+    public void getDisplayBrightness(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -128,8 +122,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getBrightness(int n, int n2) {
+    public void getBrightness(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -145,8 +138,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getContrast(int n, int n2) {
+    public void getContrast(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -162,8 +154,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getColor(int n, int n2) {
+    public void getColor(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -179,8 +170,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getTint(int n, int n2) {
+    public void getTint(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -196,8 +186,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void lockDisplayResult(int n) {
+    public void lockDisplayResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -213,8 +202,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void unlockDisplayResult(int n) {
+    public void unlockDisplayResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -230,8 +218,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void setCroppingResult(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11) {
+    public void setCroppingResult(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -247,8 +234,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getDisplayableInfo(int n, int n2, int n3) {
+    public void getDisplayableInfo(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -264,8 +250,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void takeScreenshotOnExternalStorageResult(int n, int n2, String string) {
+    public void takeScreenshotOnExternalStorageResult(int n, int n2, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -281,8 +266,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void setDisplayTypeResult(int n, int n2) {
+    public void setDisplayTypeResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -298,8 +282,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getDisplayTypeResult(int n, int n2) {
+    public void getDisplayTypeResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -315,8 +298,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void setUpdateRateResult(int n, int n2) {
+    public void setUpdateRateResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -332,8 +314,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void getUpdateRateResult(int n, int n2) {
+    public void getUpdateRateResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -349,8 +330,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void startComponentResult(int n, int n2, int n3, int n4) {
+    public void startComponentResult(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -366,8 +346,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void stopComponentResult(int n, int n2, int n3, int n4) {
+    public void stopComponentResult(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -383,8 +362,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void setAnnotationDataResponse(int n, int n2) {
+    public void setAnnotationDataResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -400,8 +378,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void initAnnotationsResponse(int n, int n2) {
+    public void initAnnotationsResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -417,8 +394,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void destroyImageDisplayableResponse(int n, int n2) {
+    public void destroyImageDisplayableResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -434,8 +410,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void requestUpdateImageDisplayableResponse(int n, int n2) {
+    public void requestUpdateImageDisplayableResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -451,8 +426,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void createImageDisplayableResponse(int n, int n2) {
+    public void createImageDisplayableResponse(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -468,8 +442,7 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -485,14 +458,13 @@ implements DSIDisplayManagementReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDisplayManagementListener dSIDisplayManagementListener = (DSIDisplayManagementListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDisplayManagementDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDisplayManagementDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDisplayManagementListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDisplayManagementDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDisplayManagementDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDisplayManagementListener, new Object[]{string, string2});
                     continue;
                 }

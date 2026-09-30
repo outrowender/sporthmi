@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.trafficregulation;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.trafficregulation.DSITrafficRegulationReply;
 import de.esolutions.fw.comm.dsi.trafficregulation.impl.DSITrafficRegulationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSITrafficRegulationReply {
         super(n, (class$org$dsi$ifc$trafficregulation$DSITrafficRegulationListener == null ? (class$org$dsi$ifc$trafficregulation$DSITrafficRegulationListener = DSITrafficRegulationDispatcher.class$("org.dsi.ifc.trafficregulation.DSITrafficRegulationListener")) : class$org$dsi$ifc$trafficregulation$DSITrafficRegulationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateCountrySpeedInformation(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) {
+    public void updateCountrySpeedInformation(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -59,8 +58,7 @@ implements DSITrafficRegulationReply {
         }
     }
 
-    @Override
-    public void updateCurrentTrafficSign(TrafficSignInformation trafficSignInformation, int n) {
+    public void updateCurrentTrafficSign(TrafficSignInformation trafficSignInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -88,8 +86,7 @@ implements DSITrafficRegulationReply {
         }
     }
 
-    @Override
-    public void updateTrafficSignOnRoute(TrafficSignInformationOnRoute[] trafficSignInformationOnRouteArray, int n) {
+    public void updateTrafficSignOnRoute(TrafficSignInformationOnRoute[] trafficSignInformationOnRouteArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -117,8 +114,7 @@ implements DSITrafficRegulationReply {
         }
     }
 
-    @Override
-    public void requestRoadClassSpeedInfoForCountryResult(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) {
+    public void requestRoadClassSpeedInfoForCountryResult(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -134,8 +130,7 @@ implements DSITrafficRegulationReply {
         }
     }
 
-    @Override
-    public void updateTrailerStatus(int n, int n2) {
+    public void updateTrailerStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -163,8 +158,7 @@ implements DSITrafficRegulationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -180,14 +174,13 @@ implements DSITrafficRegulationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITrafficRegulationListener dSITrafficRegulationListener = (DSITrafficRegulationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITrafficRegulationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITrafficRegulationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITrafficRegulationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITrafficRegulationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITrafficRegulationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITrafficRegulationListener, new Object[]{string, string2});
                     continue;
                 }

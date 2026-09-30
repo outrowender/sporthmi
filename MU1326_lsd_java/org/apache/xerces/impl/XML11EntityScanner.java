@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.impl;
 
+import java.io.IOException;
 import org.apache.xerces.impl.XMLEntityScanner;
 import org.apache.xerces.util.XML11Char;
 import org.apache.xerces.util.XMLChar;
@@ -12,8 +13,7 @@ import org.apache.xerces.xni.XMLString;
 
 public class XML11EntityScanner
 extends XMLEntityScanner {
-    @Override
-    public int peekChar() {
+    public int peekChar() throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }
@@ -24,8 +24,7 @@ extends XMLEntityScanner {
         return n;
     }
 
-    @Override
-    public int scanChar() {
+    public int scanChar() throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }
@@ -48,8 +47,7 @@ extends XMLEntityScanner {
         return n;
     }
 
-    @Override
-    public String scanNmtoken() {
+    public String scanNmtoken() throws IOException {
         char c2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -113,8 +111,7 @@ extends XMLEntityScanner {
         return string;
     }
 
-    @Override
-    public String scanName() {
+    public String scanName() throws IOException {
         char c2;
         int n;
         char c3;
@@ -215,8 +212,7 @@ extends XMLEntityScanner {
         return string;
     }
 
-    @Override
-    public String scanNCName() {
+    public String scanNCName() throws IOException {
         char c2;
         int n;
         char c3;
@@ -317,8 +313,7 @@ extends XMLEntityScanner {
         return string;
     }
 
-    @Override
-    public boolean scanQName(QName qName) {
+    public boolean scanQName(QName qName) throws IOException {
         Object object;
         char c2;
         int n;
@@ -456,8 +451,7 @@ extends XMLEntityScanner {
         return false;
     }
 
-    @Override
-    public int scanContent(XMLString xMLString) {
+    public int scanContent(XMLString xMLString) throws IOException {
         int n;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -543,8 +537,7 @@ extends XMLEntityScanner {
         return n3;
     }
 
-    @Override
-    public int scanLiteral(int n, XMLString xMLString) {
+    public int scanLiteral(int n, XMLString xMLString) throws IOException {
         int n2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -630,8 +623,7 @@ extends XMLEntityScanner {
         return n4;
     }
 
-    @Override
-    public boolean scanData(String string, XMLStringBuffer xMLStringBuffer) {
+    public boolean scanData(String string, XMLStringBuffer xMLStringBuffer) throws IOException {
         boolean bl = false;
         int n = string.length();
         char c2 = string.charAt(0);
@@ -781,8 +773,7 @@ extends XMLEntityScanner {
         return !bl;
     }
 
-    @Override
-    public boolean skipChar(int n) {
+    public boolean skipChar(int n) throws IOException {
         char c2;
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
@@ -819,8 +810,7 @@ extends XMLEntityScanner {
         return false;
     }
 
-    @Override
-    public boolean skipSpaces() {
+    public boolean skipSpaces() throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }
@@ -883,8 +873,7 @@ extends XMLEntityScanner {
         return false;
     }
 
-    @Override
-    public boolean skipString(String string) {
+    public boolean skipString(String string) throws IOException {
         if (this.fCurrentEntity.position == this.fCurrentEntity.count) {
             this.load(0, true);
         }

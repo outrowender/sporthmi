@@ -11,11 +11,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class VTANDecryption_StartResult
 implements StartResultMethod {
     public int asg_Id;
-    public static final int ASG_ID_C_GW_OCU;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG;
+    public static final int ASG_ID_C_GW_OCU = 2;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG = 0;
     public final BAPString vtandataEncrypted = new BAPString(700);
-    private static final int MAX_VTANDATAENCRYPTED_LENGTH;
+    private static final int MAX_VTANDATAENCRYPTED_LENGTH = 700;
 
     public VTANDecryption_StartResult() {
         this.internalReset();
@@ -31,13 +31,11 @@ implements StartResultMethod {
         this.asg_Id = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.vtandataEncrypted.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         VTANDecryption_StartResult vTANDecryption_StartResult = (VTANDecryption_StartResult)bAPEntity;
         return this.asg_Id == vTANDecryption_StartResult.asg_Id && this.vtandataEncrypted.equalTo(vTANDecryption_StartResult.vtandataEncrypted);
@@ -46,7 +44,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("VTANDecryption_StartResult");
@@ -55,18 +52,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.asg_Id);
         this.vtandataEncrypted.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontByte();
         this.vtandataEncrypted.deserialize(bitStream);
@@ -76,7 +70,6 @@ implements StartResultMethod {
         return 25;
     }
 
-    @Override
     public int getFunctionId() {
         return VTANDecryption_StartResult.functionId();
     }

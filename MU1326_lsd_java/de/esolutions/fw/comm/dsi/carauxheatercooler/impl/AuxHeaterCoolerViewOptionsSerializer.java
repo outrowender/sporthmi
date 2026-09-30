@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.AuxHeaterCoolerConfigur
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerConfiguration;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class AuxHeaterCoolerViewOptionsSerializer {
-    public static void putOptionalAuxHeaterCoolerViewOptions(ISerializer iSerializer, AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions) {
+    public static void putOptionalAuxHeaterCoolerViewOptions(ISerializer iSerializer, AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions) throws SerializerException {
         boolean bl = auxHeaterCoolerViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -63,7 +64,7 @@ public class AuxHeaterCoolerViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalAuxHeaterCoolerViewOptionsVarArray(ISerializer iSerializer, AuxHeaterCoolerViewOptions[] auxHeaterCoolerViewOptionsArray) {
+    public static void putOptionalAuxHeaterCoolerViewOptionsVarArray(ISerializer iSerializer, AuxHeaterCoolerViewOptions[] auxHeaterCoolerViewOptionsArray) throws SerializerException {
         boolean bl = auxHeaterCoolerViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -74,7 +75,7 @@ public class AuxHeaterCoolerViewOptionsSerializer {
         }
     }
 
-    public static AuxHeaterCoolerViewOptions getOptionalAuxHeaterCoolerViewOptions(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerViewOptions getOptionalAuxHeaterCoolerViewOptions(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -127,7 +128,7 @@ public class AuxHeaterCoolerViewOptionsSerializer {
         return auxHeaterCoolerViewOptions;
     }
 
-    public static AuxHeaterCoolerViewOptions[] getOptionalAuxHeaterCoolerViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerViewOptions[] getOptionalAuxHeaterCoolerViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerViewOptions[] auxHeaterCoolerViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

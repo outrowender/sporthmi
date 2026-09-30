@@ -15,13 +15,13 @@ public class GridListRow
 extends EvoListRow
 implements IGridListRow {
     private IGrid grid;
-    public static final int COLUMN_RECORD_SET;
-    public static final int COLUMN_FOCUSABLE;
-    public static final int COLUMN_DRAWER_PROPERTY;
-    public static final int COLUMN_GENERATION;
-    public static final int COLUMN_SHOW_SPEAKABLE_LINE_NUMBER;
-    public static final int COLUMN_INFO_LINE;
-    public static final int COLUMN_COUNT;
+    public static final int COLUMN_RECORD_SET = 0;
+    public static final int COLUMN_FOCUSABLE = 1;
+    public static final int COLUMN_DRAWER_PROPERTY = 2;
+    public static final int COLUMN_GENERATION = 3;
+    public static final int COLUMN_SHOW_SPEAKABLE_LINE_NUMBER = 4;
+    public static final int COLUMN_INFO_LINE = 5;
+    public static final int COLUMN_COUNT = 6;
     private boolean deletableIfOffscreen = false;
     private List rowsToInsertIfOffscreen = new ArrayList();
 
@@ -40,7 +40,6 @@ implements IGridListRow {
         this.setPropertyCell(2, PropertyListCell.EMPTY_CELL);
     }
 
-    @Override
     public EvoListRow copy() {
         return new GridListRow(this);
     }
@@ -55,7 +54,7 @@ implements IGridListRow {
 
     public final void setGridAndLayout(IGrid iGrid, int n) {
         if (iGrid == null) {
-            throw new IllegalArgumentException(new StringBuffer().append("ignoring: null given as new grid for old GridListRow=").append(this).toString());
+            throw new IllegalArgumentException("ignoring: null given as new grid for old GridListRow=" + this);
         }
         this.grid = iGrid;
         Object object = this.getCell(3);
@@ -75,12 +74,10 @@ implements IGridListRow {
         return this.grid;
     }
 
-    @Override
     public final Object getGridObject() {
         return this.grid;
     }
 
-    @Override
     public boolean isArtificial() {
         return this.grid != null && this.grid.isArtificial();
     }
@@ -90,7 +87,6 @@ implements IGridListRow {
         return GridListRow.calculateLayoutType(n);
     }
 
-    @Override
     public String getGridId() {
         return this.grid == null ? "" : this.grid.getId();
     }
@@ -119,11 +115,10 @@ implements IGridListRow {
         return gridListRow.getGridId().equals(this.getGridId());
     }
 
-    @Override
     public String toString() {
         int n = this.rowsToInsertIfOffscreen.size();
         GridListRow gridListRow = n == 0 ? null : (GridListRow)this.rowsToInsertIfOffscreen.get(0);
-        return new StringBuffer().append("GridListRow [uniqueId=").append(this.getUniqueID()).append(", deletableIfOffscreen=").append(this.deletableIfOffscreen).append(", rowsToInsertIfOffscreen=").append(n).append(", grid=").append(this.grid).append(", firstSubrow=").append(gridListRow).append("]").toString();
+        return "GridListRow [uniqueId=" + this.getUniqueID() + ", deletableIfOffscreen=" + this.deletableIfOffscreen + ", rowsToInsertIfOffscreen=" + n + ", grid=" + this.grid + ", firstSubrow=" + gridListRow + "]";
     }
 
     public static int calculateLayoutType(int n) {

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.search.impl;
 import de.esolutions.fw.comm.dsi.search.impl.SearchableSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.DataSet;
 import org.dsi.ifc.search.Searchable;
 
 public class DataSetSerializer {
-    public static void putOptionalDataSet(ISerializer iSerializer, DataSet dataSet) {
+    public static void putOptionalDataSet(ISerializer iSerializer, DataSet dataSet) throws SerializerException {
         boolean bl = dataSet == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class DataSetSerializer {
         }
     }
 
-    public static void putOptionalDataSetVarArray(ISerializer iSerializer, DataSet[] dataSetArray) {
+    public static void putOptionalDataSetVarArray(ISerializer iSerializer, DataSet[] dataSetArray) throws SerializerException {
         boolean bl = dataSetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class DataSetSerializer {
         }
     }
 
-    public static DataSet getOptionalDataSet(IDeserializer iDeserializer) {
+    public static DataSet getOptionalDataSet(IDeserializer iDeserializer) throws SerializerException {
         DataSet dataSet = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class DataSetSerializer {
         return dataSet;
     }
 
-    public static DataSet[] getOptionalDataSetVarArray(IDeserializer iDeserializer) {
+    public static DataSet[] getOptionalDataSetVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataSet[] dataSetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

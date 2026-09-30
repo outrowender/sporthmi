@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.LocatablePosition;
 
 public class LocatablePositionSerializer {
-    public static void putOptionalLocatablePosition(ISerializer iSerializer, LocatablePosition locatablePosition) {
+    public static void putOptionalLocatablePosition(ISerializer iSerializer, LocatablePosition locatablePosition) throws SerializerException {
         boolean bl = locatablePosition == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class LocatablePositionSerializer {
         }
     }
 
-    public static void putOptionalLocatablePositionVarArray(ISerializer iSerializer, LocatablePosition[] locatablePositionArray) {
+    public static void putOptionalLocatablePositionVarArray(ISerializer iSerializer, LocatablePosition[] locatablePositionArray) throws SerializerException {
         boolean bl = locatablePositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class LocatablePositionSerializer {
         }
     }
 
-    public static LocatablePosition getOptionalLocatablePosition(IDeserializer iDeserializer) {
+    public static LocatablePosition getOptionalLocatablePosition(IDeserializer iDeserializer) throws SerializerException {
         LocatablePosition locatablePosition = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class LocatablePositionSerializer {
         return locatablePosition;
     }
 
-    public static LocatablePosition[] getOptionalLocatablePositionVarArray(IDeserializer iDeserializer) {
+    public static LocatablePosition[] getOptionalLocatablePositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         LocatablePosition[] locatablePositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

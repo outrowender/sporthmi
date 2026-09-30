@@ -8,7 +8,6 @@ import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.EntityImpl;
 import org.apache.xerces.dom.ParentNode;
 import org.apache.xerces.util.URI;
-import org.apache.xerces.util.URI$MalformedURIException;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.EntityReference;
 import org.w3c.dom.NamedNodeMap;
@@ -17,7 +16,7 @@ import org.w3c.dom.Node;
 public class EntityReferenceImpl
 extends ParentNode
 implements EntityReference {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -7381452955687102062L;
     protected String name;
     protected String baseURI;
 
@@ -28,12 +27,10 @@ implements EntityReference {
         this.needsSyncChildren(true);
     }
 
-    @Override
     public short getNodeType() {
         return 5;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -41,14 +38,12 @@ implements EntityReference {
         return this.name;
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         EntityReferenceImpl entityReferenceImpl = (EntityReferenceImpl)super.cloneNode(bl);
         entityReferenceImpl.setReadOnly(true, bl);
         return entityReferenceImpl;
     }
 
-    @Override
     public String getBaseURI() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -64,7 +59,7 @@ implements EntityReference {
             try {
                 return new URI(this.baseURI).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 return null;
             }
         }
@@ -112,7 +107,6 @@ implements EntityReference {
         return "";
     }
 
-    @Override
     protected void synchronizeChildren() {
         NamedNodeMap namedNodeMap;
         this.needsSyncChildren(false);
@@ -131,7 +125,6 @@ implements EntityReference {
         }
     }
 
-    @Override
     public void setReadOnly(boolean bl, boolean bl2) {
         if (this.needsSyncData()) {
             this.synchronizeData();

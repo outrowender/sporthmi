@@ -9,12 +9,13 @@ import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.evo.widgets.MultilineTextFieldController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.IMLDimensions;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.MLDisplayData;
-import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.MultilineString$ArrList;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.SChar;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class MultilineString {
-    public static final int DEFAULT_NEW_LINE_WIDTH;
-    public static final int REFLOW_AHEAD_NO_LINES;
+    public static final int DEFAULT_NEW_LINE_WIDTH = 8;
+    public static final int REFLOW_AHEAD_NO_LINES = 3;
     private DoubleCursor m_cursor;
     private MultilineTextFieldController ctrl;
 
@@ -208,7 +209,7 @@ public class MultilineString {
 
     private void reflowHardBreak(MLDisplayData mLDisplayData) {
         mLDisplayData.currentFlowState = 6;
-        MultilineString$ArrList multilineString$ArrList = mLDisplayData.sCharLines;
+        ArrList arrList = mLDisplayData.sCharLines;
         short s = mLDisplayData.word[0];
         short s2 = mLDisplayData.word[1];
         int n = mLDisplayData.cursor.length() - 1;
@@ -218,7 +219,7 @@ public class MultilineString {
             if (sChar.w + mLDisplayData.lineWidth > mLDisplayData.maxLineWidth) {
                 ++mLDisplayData.currentLineIdx;
                 mLDisplayData.lineWidth = 0;
-                multilineString$ArrList.add(new short[]{mLDisplayData.lineStartIdx, (short)(s3 - 1)});
+                arrList.add(new short[]{mLDisplayData.lineStartIdx, (short)(s3 - 1)});
                 mLDisplayData.lineStartIdx = s3;
             }
             sChar.x = (short)mLDisplayData.lineWidth;
@@ -316,6 +317,27 @@ public class MultilineString {
             doubleCursor.lockLL(false);
         }
         return mLDisplayData2;
+    }
+
+    public static class ArrList
+    extends ArrayList {
+        private static final long serialVersionUID = -3482078958781764477L;
+
+        public ArrList() {
+            this(0);
+        }
+
+        public ArrList(int n) {
+            super(n);
+        }
+
+        public ArrList(Collection collection) {
+            super(collection);
+        }
+
+        public void removeRange(int n, int n2) {
+            super.removeRange(n, n2);
+        }
     }
 }
 

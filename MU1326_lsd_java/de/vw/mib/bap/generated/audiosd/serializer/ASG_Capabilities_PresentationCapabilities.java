@@ -8,10 +8,10 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ASG_Capabilities_PresentationCapabilities
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean sdarsLongPs;
     public boolean dabLongPs;
-    private static final int ASG_CAPABILITIES_PRESENTATION_CAPABILITIES_BITSIZE;
+    private static final int ASG_CAPABILITIES_PRESENTATION_CAPABILITIES_BITSIZE = 8;
 
     public ASG_Capabilities_PresentationCapabilities() {
         this.internalReset();
@@ -28,12 +28,10 @@ implements BAPEntity {
         this.dabLongPs = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ASG_Capabilities_PresentationCapabilities aSG_Capabilities_PresentationCapabilities = (ASG_Capabilities_PresentationCapabilities)bAPEntity;
         return this.sdarsLongPs == aSG_Capabilities_PresentationCapabilities.sdarsLongPs && this.dabLongPs == aSG_Capabilities_PresentationCapabilities.dabLongPs;
@@ -42,7 +40,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ASG_Capabilities_PresentationCapabilities:");
@@ -61,20 +58,17 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.sdarsLongPs);
         bitStream.pushBoolean(this.dabLongPs);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.sdarsLongPs = bitStream.popFrontBoolean();

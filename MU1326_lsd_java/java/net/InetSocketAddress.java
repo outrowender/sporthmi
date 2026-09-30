@@ -3,6 +3,7 @@
  */
 package java.net;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.SocketAddress;
@@ -10,7 +11,7 @@ import java.net.UnknownHostException;
 
 public class InetSocketAddress
 extends SocketAddress {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5076001401234631237L;
     private String hostName;
     private InetAddress addr;
     private int port;
@@ -20,7 +21,7 @@ extends SocketAddress {
     }
 
     public InetSocketAddress(InetAddress inetAddress, int n) {
-        if (n < 0 || n > -65536) {
+        if (n < 0 || n > 65535) {
             throw new IllegalArgumentException();
         }
         this.addr = inetAddress == null ? InetAddress.ANY : inetAddress;
@@ -28,7 +29,7 @@ extends SocketAddress {
     }
 
     public InetSocketAddress(String string, int n) {
-        if (string == null || n < 0 || n > -65536) {
+        if (string == null || n < 0 || n > 65535) {
             throw new IllegalArgumentException();
         }
         this.port = n;
@@ -61,7 +62,7 @@ extends SocketAddress {
 
     public String toString() {
         String string = this.addr != null ? this.addr.toString() : this.hostName;
-        return new StringBuffer(String.valueOf(string)).append(":").append(this.port).toString();
+        return String.valueOf(string) + ":" + this.port;
     }
 
     public final boolean equals(Object object) {
@@ -91,7 +92,7 @@ extends SocketAddress {
         return this.addr.hashCode() + this.port;
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         if (this.addr == null) {
             try {

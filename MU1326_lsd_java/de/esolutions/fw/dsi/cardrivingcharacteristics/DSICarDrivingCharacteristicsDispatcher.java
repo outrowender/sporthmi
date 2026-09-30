@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.cardrivingcharacteristics;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.DSICarDrivingCharacteristicsReply;
 import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.DSICarDrivingCharacteristicsReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -39,13 +40,11 @@ implements DSICarDrivingCharacteristicsReply {
         super(n, (class$org$dsi$ifc$cardrivingcharacteristics$DSICarDrivingCharacteristicsListener == null ? (class$org$dsi$ifc$cardrivingcharacteristics$DSICarDrivingCharacteristicsListener = DSICarDrivingCharacteristicsDispatcher.class$("org.dsi.ifc.cardrivingcharacteristics.DSICarDrivingCharacteristicsListener")) : class$org$dsi$ifc$cardrivingcharacteristics$DSICarDrivingCharacteristicsListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSuspensionControlViewOptions(SuspensionControlViewOptions suspensionControlViewOptions, int n) {
+    public void updateSuspensionControlViewOptions(SuspensionControlViewOptions suspensionControlViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -73,8 +72,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlLiftMode(boolean bl, int n) {
+    public void updateSuspensionControlLiftMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -102,8 +100,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlCarJackMode(boolean bl, int n) {
+    public void updateSuspensionControlCarJackMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -131,8 +128,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlTrailerMode(boolean bl, int n) {
+    public void updateSuspensionControlTrailerMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -160,8 +156,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlLoadingMode(boolean bl, int n) {
+    public void updateSuspensionControlLoadingMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -189,8 +184,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlActiveProfile(int n, int n2) {
+    public void updateSuspensionControlActiveProfile(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -218,8 +212,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlAccessibleAirProfiles(SuspensionControlAirProfiles suspensionControlAirProfiles, int n) {
+    public void updateSuspensionControlAccessibleAirProfiles(SuspensionControlAirProfiles suspensionControlAirProfiles, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -247,8 +240,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlAccessibleDRCProfiles(SuspensionControlDRCProfiles suspensionControlDRCProfiles, int n) {
+    public void updateSuspensionControlAccessibleDRCProfiles(SuspensionControlDRCProfiles suspensionControlDRCProfiles, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -276,8 +268,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlVehicleStatus(int n, int n2) {
+    public void updateSuspensionControlVehicleStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -305,8 +296,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlCurrentLevel(int n, int n2) {
+    public void updateSuspensionControlCurrentLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -334,8 +324,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlTargetLevel(int n, int n2) {
+    public void updateSuspensionControlTargetLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -363,8 +352,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlHeightInfo(SuspensionControlHeightInfo suspensionControlHeightInfo, int n) {
+    public void updateSuspensionControlHeightInfo(SuspensionControlHeightInfo suspensionControlHeightInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -392,8 +380,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlOperationMessages(SuspensionControlOperationMessages suspensionControlOperationMessages, int n) {
+    public void updateSuspensionControlOperationMessages(SuspensionControlOperationMessages suspensionControlOperationMessages, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -421,8 +408,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlSnowChainMode(boolean bl, int n) {
+    public void updateSuspensionControlSnowChainMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -450,8 +436,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlVehicleStateControl(boolean bl, int n) {
+    public void updateSuspensionControlVehicleStateControl(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -479,8 +464,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlActiveMode(int n, boolean bl, int n2) {
+    public void updateSuspensionControlActiveMode(int n, boolean bl, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -508,8 +492,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateeABCEasyEntry(boolean bl, int n) {
+    public void updateeABCEasyEntry(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -537,8 +520,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateeABCPitchControl(boolean bl, int n) {
+    public void updateeABCPitchControl(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -566,8 +548,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateeABCSpecialPosition(boolean bl, int n) {
+    public void updateeABCSpecialPosition(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -595,8 +576,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateeABCPreview(int n, int n2) {
+    public void updateeABCPreview(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -624,8 +604,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateeABCPreviewState(SuspensionControleABCPreview suspensionControleABCPreview, int n) {
+    public void updateeABCPreviewState(SuspensionControleABCPreview suspensionControleABCPreview, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -653,8 +632,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSuspensionControlActuatorInfo(SuspensionControlActuatorInfo suspensionControlActuatorInfo, int n) {
+    public void updateSuspensionControlActuatorInfo(SuspensionControlActuatorInfo suspensionControlActuatorInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -682,8 +660,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) {
+    public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -711,8 +688,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaActiveProfile(int n, int n2) {
+    public void updateCharismaActiveProfile(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -740,8 +716,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaActiveOperationMode(int n, int n2) {
+    public void updateCharismaActiveOperationMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -769,8 +744,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaListUpdateInfo(CharismaListUpdateInfo charismaListUpdateInfo, int n) {
+    public void updateCharismaListUpdateInfo(CharismaListUpdateInfo charismaListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -798,8 +772,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaContent(int n, int n2) {
+    public void updateCharismaContent(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -827,8 +800,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaTrailerDetection(boolean bl, int n) {
+    public void updateCharismaTrailerDetection(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -856,8 +828,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaTrailerSetting(boolean bl, int n) {
+    public void updateCharismaTrailerSetting(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -885,8 +856,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaProgButton(CharismaProgButton charismaProgButton, int n) {
+    public void updateCharismaProgButton(CharismaProgButton charismaProgButton, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -914,8 +884,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void responseCharismaListWithOptionMask(int n, int n2, int n3, CharismaSetupTableWithOptionMask[] charismaSetupTableWithOptionMaskArray) {
+    public void responseCharismaListWithOptionMask(int n, int n2, int n3, CharismaSetupTableWithOptionMask[] charismaSetupTableWithOptionMaskArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -931,8 +900,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void responseCharismaListWithoutOptionMask(int n, int n2, int n3, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) {
+    public void responseCharismaListWithoutOptionMask(int n, int n2, int n3, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -948,8 +916,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void requestCharismaPopup(int n) {
+    public void requestCharismaPopup(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -965,8 +932,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeCharismaPopup(int n) {
+    public void acknowledgeCharismaPopup(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -982,8 +948,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeCharismaSetFactoryDefault(boolean bl) {
+    public void acknowledgeCharismaSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -999,8 +964,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateCharismaSound(boolean bl, int n) {
+    public void updateCharismaSound(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -1028,8 +992,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADViewOptions(TADViewOptions tADViewOptions, int n) {
+    public void updateTADViewOptions(TADViewOptions tADViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -1057,8 +1020,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADContent(int n, int n2) {
+    public void updateTADContent(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -1086,8 +1048,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void requestTADPopup(int n) {
+    public void requestTADPopup(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1103,8 +1064,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeTADPopup(int n) {
+    public void acknowledgeTADPopup(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1120,8 +1080,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeTADSetFactoryDefault(boolean bl) {
+    public void acknowledgeTADSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1137,8 +1096,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeTADMaxMinAngleReset(boolean bl) {
+    public void acknowledgeTADMaxMinAngleReset(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1154,8 +1112,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo, int n) {
+    public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1183,8 +1140,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADCurrentRollAngle(float f2, int n) {
+    public void updateTADCurrentRollAngle(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1212,8 +1168,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADCurrentPitchAngle(float f2, int n) {
+    public void updateTADCurrentPitchAngle(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1241,8 +1196,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADPosMaxRollAngle(float f2, int n) {
+    public void updateTADPosMaxRollAngle(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1270,8 +1224,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADNegMaxRollAngle(float f2, int n) {
+    public void updateTADNegMaxRollAngle(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1299,8 +1252,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADPosMaxPitchAngle(float f2, int n) {
+    public void updateTADPosMaxPitchAngle(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1328,8 +1280,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateTADNegMaxPitchAngle(float f2, int n) {
+    public void updateTADNegMaxPitchAngle(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -1357,8 +1308,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSpoilerViewOptions(SpoilerViewOptions spoilerViewOptions, int n) {
+    public void updateSpoilerViewOptions(SpoilerViewOptions spoilerViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -1386,8 +1336,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSpoilerPositionSelection(int n, int n2) {
+    public void updateSpoilerPositionSelection(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -1415,8 +1364,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSpoilerState(SpoilerState spoilerState, int n) {
+    public void updateSpoilerState(SpoilerState spoilerState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1444,8 +1392,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSpoilerActuation(boolean bl, int n) {
+    public void updateSpoilerActuation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1473,8 +1420,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSpoilerMessages(int n, int n2) {
+    public void updateSpoilerMessages(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1502,8 +1448,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSpoilerSystemOnOff(boolean bl, int n) {
+    public void updateSpoilerSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1531,8 +1476,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeSpoilerSetFactoryDefault(boolean bl) {
+    public void acknowledgeSpoilerSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1548,8 +1492,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSoundViewOptions(SoundViewOptions soundViewOptions, int n) {
+    public void updateSoundViewOptions(SoundViewOptions soundViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -1577,8 +1520,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSoundStyle(int n, int n2) {
+    public void updateSoundStyle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -1606,8 +1548,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSoundSystemOnOff(boolean bl, int n) {
+    public void updateSoundSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1635,8 +1576,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void updateSoundOnOff(boolean bl, int n) {
+    public void updateSoundOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -1664,8 +1604,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void acknowledgeSoundSetFactoryDefault(boolean bl) {
+    public void acknowledgeSoundSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1681,8 +1620,7 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1698,14 +1636,13 @@ implements DSICarDrivingCharacteristicsReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarDrivingCharacteristicsListener dSICarDrivingCharacteristicsListener = (DSICarDrivingCharacteristicsListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarDrivingCharacteristicsDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarDrivingCharacteristicsDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarDrivingCharacteristicsListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarDrivingCharacteristicsDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarDrivingCharacteristicsDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarDrivingCharacteristicsListener, new Object[]{string, string2});
                     continue;
                 }

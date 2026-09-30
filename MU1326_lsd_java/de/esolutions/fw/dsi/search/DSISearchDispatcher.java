@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.search;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.search.DSISearchReply;
 import de.esolutions.fw.comm.dsi.search.impl.DSISearchReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSISearchReply {
         super(n, (class$org$dsi$ifc$search$DSISearchListener == null ? (class$org$dsi$ifc$search$DSISearchListener = DSISearchDispatcher.class$("org.dsi.ifc.search.DSISearchListener")) : class$org$dsi$ifc$search$DSISearchListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void requestSupportedCountriesResult(int n, Country[] countryArray) {
+    public void requestSupportedCountriesResult(int n, Country[] countryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -48,8 +47,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void searchResult(int n, SearchResult searchResult) {
+    public void searchResult(int n, SearchResult searchResult) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -65,8 +63,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void addToHistoryResult(int n) {
+    public void addToHistoryResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -82,8 +79,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void requestSuggestionResult(int n, int n2, Suggestion[] suggestionArray) {
+    public void requestSuggestionResult(int n, int n2, Suggestion[] suggestionArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -99,8 +95,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void cancelQueryResult(int n, int n2) {
+    public void cancelQueryResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -116,8 +111,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setCurrentPositionResult(int n) {
+    public void setCurrentPositionResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -133,8 +127,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setRoutePointsResult(int n) {
+    public void setRoutePointsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -150,8 +143,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setLanguageResult(int n) {
+    public void setLanguageResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -167,8 +159,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void updateSearchIsActive(int n, boolean bl, int n2) {
+    public void updateSearchIsActive(int n, boolean bl, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -196,8 +187,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) {
+    public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -225,8 +215,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setCarFunctionStatesResult(int n) {
+    public void setCarFunctionStatesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -242,8 +231,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setRadioStationsResult(int n, int n2) {
+    public void setRadioStationsResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -259,8 +247,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setSearchFilterResult(int n, int n2) {
+    public void setSearchFilterResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -276,8 +263,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setActiveProfileResult(int n) {
+    public void setActiveProfileResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -293,8 +279,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setActiveSearchCountriesResult(int n) {
+    public void setActiveSearchCountriesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -310,8 +295,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void resetToFactorySettingsResult(int n) {
+    public void resetToFactorySettingsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -327,8 +311,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void invalidateData(int[] nArray) {
+    public void invalidateData(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -344,8 +327,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void prepareSourcesResult(int n) {
+    public void prepareSourcesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -361,8 +343,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void removeFromHistoryResult(int n) {
+    public void removeFromHistoryResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -378,8 +359,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void removeAllFromHistoryResult(int n) {
+    public void removeAllFromHistoryResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -395,8 +375,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void removeAllFromHistoryBySourceResult(int n) {
+    public void removeAllFromHistoryBySourceResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -412,8 +391,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void resetAutocompletionResult(int n, int n2) {
+    public void resetAutocompletionResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -429,8 +407,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void sourceDataAvailabilityChanged(int n, boolean bl) {
+    public void sourceDataAvailabilityChanged(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -446,8 +423,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void createBackupFileResult(int n, String string) {
+    public void createBackupFileResult(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -463,8 +439,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void importBackupFileResult(int n, String string) {
+    public void importBackupFileResult(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -480,8 +455,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void setEnvironmentResult(int n) {
+    public void setEnvironmentResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -497,8 +471,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -526,8 +499,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -543,8 +515,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -560,8 +531,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -577,8 +547,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -594,8 +563,7 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -611,14 +579,13 @@ implements DSISearchReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISearchListener dSISearchListener = (DSISearchListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISearchDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISearchDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISearchListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISearchDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISearchDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISearchListener, new Object[]{string, string2});
                     continue;
                 }

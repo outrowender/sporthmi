@@ -3,77 +3,55 @@
  */
 package de.esolutions.fw.comm.dsi.bluetooth;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIBluetoothC {
-    default public void abortConnectService(String string) {
-    }
+    public void abortConnectService(String var1) throws MethodException;
 
-    default public void abortInquiry() {
-    }
+    public void abortInquiry() throws MethodException;
 
-    default public void requestAcceptIncomingServiceRequest(String string, int n, boolean bl) {
-    }
+    public void requestAcceptIncomingServiceRequest(String var1, int var2, boolean var3) throws MethodException;
 
-    default public void requestConnectService(String string, int n, int n2) {
-    }
+    public void requestConnectService(String var1, int var2, int var3) throws MethodException;
 
-    default public void requestConnectServiceToInstance(String string, int n, int n2) {
-    }
+    public void requestConnectServiceToInstance(String var1, int var2, int var3) throws MethodException;
 
-    default public void requestDisconnectService(String string, int n) {
-    }
+    public void requestDisconnectService(String var1, int var2) throws MethodException;
 
-    default public void requestGetServices(String string) {
-    }
+    public void requestGetServices(String var1) throws MethodException;
 
-    default public void requestInquiry(int n, int n2, int n3) {
-    }
+    public void requestInquiry(int var1, int var2, int var3) throws MethodException;
 
-    default public void requestPasskeyResponse(String string, String string2, int n) {
-    }
+    public void requestPasskeyResponse(String var1, String var2, int var3) throws MethodException;
 
-    default public void requestReconnectSuspend(boolean bl) {
-    }
+    public void requestReconnectSuspend(boolean var1) throws MethodException;
 
-    default public void requestRemoveAuthentication(String string) {
-    }
+    public void requestRemoveAuthentication(String var1) throws MethodException;
 
-    default public void requestRestoreFactorySettings() {
-    }
+    public void requestRestoreFactorySettings() throws MethodException;
 
-    default public void requestSetA2DPUserSetting(boolean bl) {
-    }
+    public void requestSetA2DPUserSetting(boolean var1) throws MethodException;
 
-    default public void requestSwitchBTState(int n) {
-    }
+    public void requestSwitchBTState(int var1) throws MethodException;
 
-    default public void setAccessibleMode(int n) {
-    }
+    public void setAccessibleMode(int var1) throws MethodException;
 
-    default public void setUserFriendlyName(String string) {
-    }
+    public void setUserFriendlyName(String var1) throws MethodException;
 
-    default public void requestSetPriorizedDeviceReconnect(boolean bl, String string) {
-    }
+    public void requestSetPriorizedDeviceReconnect(boolean var1, String var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -9,31 +9,22 @@ import org.dsi.ifc.online.LocatablePosition;
 
 public interface DSIOnlineTrafficListener
 extends DSIListener {
-    default public void updateConsumerReady(int n, int n2) {
-    }
+    public void updateConsumerReady(int var1, int var2);
 
-    default public void updateWantOnlineTrafficData(int n, int n2) {
-    }
+    public void updateWantOnlineTrafficData(int var1, int var2);
 
-    default public void getNewDataResult(int n, LocatablePosition[] locatablePositionArray) {
-    }
+    public void getNewDataResult(int var1, LocatablePosition[] var2);
 
-    default public void setNewDataResult(String string, int n) {
-    }
+    public void setNewDataResult(String var1, int var2);
 
-    default public void getNewSession() {
-    }
+    public void getNewSession();
 
-    default public void setTimeoutForFallbackResult(int n) {
-    }
+    public void setTimeoutForFallbackResult(int var1);
 
-    default public void getNewFCDInformationResult(FCDPosition fCDPosition) {
-    }
+    public void getNewFCDInformationResult(FCDPosition var1);
 
-    default public void getInventoryResult(String string) {
-    }
+    public void getInventoryResult(String var1);
 
-    default public void getDownloadFileResult(String string) {
-    }
+    public void getDownloadFileResult(String var1);
 }
 

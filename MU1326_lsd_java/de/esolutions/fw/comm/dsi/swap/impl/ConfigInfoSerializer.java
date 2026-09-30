@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.swap.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.swap.ConfigInfo;
 
 public class ConfigInfoSerializer {
-    public static void putOptionalConfigInfo(ISerializer iSerializer, ConfigInfo configInfo) {
+    public static void putOptionalConfigInfo(ISerializer iSerializer, ConfigInfo configInfo) throws SerializerException {
         boolean bl = configInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ConfigInfoSerializer {
         }
     }
 
-    public static void putOptionalConfigInfoVarArray(ISerializer iSerializer, ConfigInfo[] configInfoArray) {
+    public static void putOptionalConfigInfoVarArray(ISerializer iSerializer, ConfigInfo[] configInfoArray) throws SerializerException {
         boolean bl = configInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ConfigInfoSerializer {
         }
     }
 
-    public static ConfigInfo getOptionalConfigInfo(IDeserializer iDeserializer) {
+    public static ConfigInfo getOptionalConfigInfo(IDeserializer iDeserializer) throws SerializerException {
         ConfigInfo configInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ConfigInfoSerializer {
         return configInfo;
     }
 
-    public static ConfigInfo[] getOptionalConfigInfoVarArray(IDeserializer iDeserializer) {
+    public static ConfigInfo[] getOptionalConfigInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ConfigInfo[] configInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,7 +8,6 @@ import de.esolutions.fw.util.serializer.IDeserializableFactory;
 
 public interface IDeserializableArrayFactory
 extends IDeserializableFactory {
-    default public IDeserializable[] createDeserializableArray(int n) {
-    }
+    public IDeserializable[] createDeserializableArray(int var1);
 }
 

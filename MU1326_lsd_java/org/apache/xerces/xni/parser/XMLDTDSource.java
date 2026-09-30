@@ -6,10 +6,8 @@ package org.apache.xerces.xni.parser;
 import org.apache.xerces.xni.XMLDTDHandler;
 
 public interface XMLDTDSource {
-    default public void setDTDHandler(XMLDTDHandler xMLDTDHandler) {
-    }
+    public void setDTDHandler(XMLDTDHandler var1);
 
-    default public XMLDTDHandler getDTDHandler() {
-    }
+    public XMLDTDHandler getDTDHandler();
 }
 

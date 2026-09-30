@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PortalMessagingData;
 
 public class PortalMessagingDataSerializer {
-    public static void putOptionalPortalMessagingData(ISerializer iSerializer, PortalMessagingData portalMessagingData) {
+    public static void putOptionalPortalMessagingData(ISerializer iSerializer, PortalMessagingData portalMessagingData) throws SerializerException {
         boolean bl = portalMessagingData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class PortalMessagingDataSerializer {
         }
     }
 
-    public static void putOptionalPortalMessagingDataVarArray(ISerializer iSerializer, PortalMessagingData[] portalMessagingDataArray) {
+    public static void putOptionalPortalMessagingDataVarArray(ISerializer iSerializer, PortalMessagingData[] portalMessagingDataArray) throws SerializerException {
         boolean bl = portalMessagingDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class PortalMessagingDataSerializer {
         }
     }
 
-    public static PortalMessagingData getOptionalPortalMessagingData(IDeserializer iDeserializer) {
+    public static PortalMessagingData getOptionalPortalMessagingData(IDeserializer iDeserializer) throws SerializerException {
         PortalMessagingData portalMessagingData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class PortalMessagingDataSerializer {
         return portalMessagingData;
     }
 
-    public static PortalMessagingData[] getOptionalPortalMessagingDataVarArray(IDeserializer iDeserializer) {
+    public static PortalMessagingData[] getOptionalPortalMessagingDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PortalMessagingData[] portalMessagingDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

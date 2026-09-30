@@ -44,7 +44,7 @@ implements IProtocolActions {
     private boolean createTopLevelEntities;
     private boolean passiveMode = true;
     private IFileTransferReceiver fileTransferManager;
-    public static final String chn;
+    public static final String chn = "ConnectionFrontendHandler";
     static /* synthetic */ Class class$de$esolutions$fw$util$tracing$filetransfer$AbstractFileTransferManager;
 
     public ConnectionFrontendHandler(String string, Connection connection, TraceFrontend traceFrontend) {
@@ -99,7 +99,7 @@ implements IProtocolActions {
 
     public boolean connect() {
         if (this.isConnected) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "connect: already connected!");
+            TraceMe.msg(TraceMe.ERROR, chn, "connect: already connected!");
             return false;
         }
         try {
@@ -114,33 +114,33 @@ implements IProtocolActions {
                 this.fileTransferManager.setFileTransferSender(this.protocol);
             }
             if (!this.protocol.connect(this.passiveMode, false)) {
-                TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Protocol connect to client %1 failed!", this.peerName);
+                TraceMe.msg(TraceMe.ERROR, chn, "Protocol connect to client %1 failed!", this.peerName);
                 return false;
             }
             this.peerName = this.protocol.getPeerName();
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "connected to %1", this.peerName);
+            TraceMe.msg(TraceMe.INFO, chn, "connected to %1", this.peerName);
             this.isConnected = true;
             this.isValid = true;
             return true;
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "start connection failed with: %1", iOException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "start connection failed with: %1", iOException.getMessage());
             return false;
         }
         catch (TransportException transportException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "start connection failed with: %1", transportException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "start connection failed with: %1", transportException.getMessage());
             return false;
         }
         catch (SerializerException serializerException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "start connection failed with: %1", serializerException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "start connection failed with: %1", serializerException.getMessage());
             return false;
         }
         catch (ProtocolException protocolException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "start connection failed with: %1", protocolException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "start connection failed with: %1", protocolException.getMessage());
             return false;
         }
         catch (InterruptedException interruptedException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "start connection failed with: %1", interruptedException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "start connection failed with: %1", interruptedException.getMessage());
             return false;
         }
     }
@@ -151,51 +151,51 @@ implements IProtocolActions {
 
     public void disconnect() {
         if (!this.isConnected) {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disconnect: not connected!");
+            TraceMe.msg(TraceMe.INFO, chn, "disconnect: not connected!");
             return;
         }
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disconnect: protocol");
+        TraceMe.msg(TraceMe.INFO, chn, "disconnect: protocol");
         this.isConnected = false;
         this.isValid = false;
         try {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", new StringBuffer().append("protocol is in state: ").append(this.protocol.getState()).toString());
+            TraceMe.msg(TraceMe.INFO, chn, new StringBuffer().append("protocol is in state: ").append(this.protocol.getState()).toString());
             if (this.protocol.getState() == 1) {
                 this.protocol.disconnect();
             }
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "stop: failed IO disconnect", iOException.getMessage());
+            TraceMe.msg(TraceMe.WARN, chn, "stop: failed IO disconnect", iOException.getMessage());
         }
         catch (TransportException transportException) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "stop: failed transport disconnect: %1", transportException.getMessage());
+            TraceMe.msg(TraceMe.WARN, chn, "stop: failed transport disconnect: %1", transportException.getMessage());
         }
         catch (ProtocolException protocolException) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "stop: failed protocol disconnect: %1", protocolException.getMessage());
+            TraceMe.msg(TraceMe.WARN, chn, "stop: failed protocol disconnect: %1", protocolException.getMessage());
         }
         catch (InterruptedException interruptedException) {
             // empty catch block
         }
         try {
             if (this.doOpenClose) {
-                TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disconnect: connection close");
+                TraceMe.msg(TraceMe.INFO, chn, "disconnect: connection close");
                 this.connection.close(false);
             }
         }
         catch (TransportException transportException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "stop connection failed with: %1", transportException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "stop connection failed with: %1", transportException.getMessage());
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "stop connection failed with: %1", iOException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "stop connection failed with: %1", iOException.getMessage());
         }
         catch (InterruptedException interruptedException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "stop connection failed with: %1", interruptedException.getMessage());
+            TraceMe.msg(TraceMe.ERROR, chn, "stop connection failed with: %1", interruptedException.getMessage());
         }
         if (this.mapper != null) {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disconnect: disable all channels");
+            TraceMe.msg(TraceMe.INFO, chn, "disconnect: disable all channels");
             this.disableAllChannels();
             this.mapper = null;
         }
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disconnect: done");
+        TraceMe.msg(TraceMe.INFO, chn, "disconnect: done");
     }
 
     private void disableAllChannels() {
@@ -205,43 +205,43 @@ implements IProtocolActions {
         }
         for (int i2 = 0; i2 <= n; ++i2) {
             TraceEntityURI traceEntityURI = this.mapper.getInternalURI(i2);
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disable entity: %1", traceEntityURI);
+            TraceMe.msg(TraceMe.INFO, chn, "disable entity: %1", traceEntityURI);
             if (traceEntityURI == null) continue;
             this.frontend.disableEntity(traceEntityURI);
         }
         if (this.proc != null) {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disable entity: %1", this.proc);
+            TraceMe.msg(TraceMe.INFO, chn, "disable entity: %1", this.proc);
             this.frontend.disableEntity(this.proc);
         }
     }
 
     public AbstractMessage handleIncomingMessage() {
         if (!this.isValid) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "handleMessage(): not valid anymore!");
+            TraceMe.msg(TraceMe.WARN, chn, "handleMessage(): not valid anymore!");
             return null;
         }
         try {
             AbstractMessage abstractMessage = this.protocol.handleIncomingMessage();
             if (abstractMessage == null) {
-                TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "connection: end from transport");
+                TraceMe.msg(TraceMe.INFO, chn, "connection: end from transport");
                 this.isValid = false;
             } else if (abstractMessage instanceof ExitMessage) {
-                TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "connection: end from procotol");
+                TraceMe.msg(TraceMe.INFO, chn, "connection: end from procotol");
                 this.isValid = false;
             }
             return abstractMessage;
         }
         catch (InterruptedException interruptedException) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "dropping connection... interrupted");
+            TraceMe.msg(TraceMe.WARN, chn, "dropping connection... interrupted");
             return null;
         }
         catch (ProtocolException protocolException) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "dropping connection... protocol failed: %1", protocolException.getMessage());
+            TraceMe.msg(TraceMe.WARN, chn, "dropping connection... protocol failed: %1", protocolException.getMessage());
             this.isValid = false;
             return null;
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendHandler", "dropping connection... io problem: %1", iOException.getMessage());
+            TraceMe.msg(TraceMe.WARN, chn, "dropping connection... io problem: %1", iOException.getMessage());
             this.isValid = false;
             return null;
         }
@@ -255,15 +255,13 @@ implements IProtocolActions {
         return this.peerName;
     }
 
-    @Override
     public boolean handlePassiveInit() {
-        TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Client: PassiveInit: INVALID");
+        TraceMe.msg(TraceMe.ERROR, chn, "Client: PassiveInit: INVALID");
         return false;
     }
 
-    @Override
     public boolean handleInit(String string, int n) {
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Client: Init: name=%1 maxEntities=%2", string, new Integer(n));
+        TraceMe.msg(TraceMe.INFO, chn, "Client: Init: name=%1 maxEntities=%2", string, new Integer(n));
         this.mapper = new IDMapper(n);
         int n2 = this.frontend.getConfig().getMaxTimeZones();
         this.timeZoneMapper = new IDMapper(n2);
@@ -303,15 +301,13 @@ implements IProtocolActions {
         return true;
     }
 
-    @Override
     public void handleExit() {
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Client: Exit");
+        TraceMe.msg(TraceMe.INFO, chn, "Client: Exit");
         if (this.fileTransferManager != null) {
             this.fileTransferManager.handleInitExitMessage();
         }
     }
 
-    @Override
     public boolean handleCreateEntity(IExternalTraceEntity iExternalTraceEntity) {
         TraceEntityURI traceEntityURI = iExternalTraceEntity.getURI();
         TraceEntityURI traceEntityURI2 = iExternalTraceEntity.getParentURI();
@@ -322,113 +318,106 @@ implements IProtocolActions {
         short s = this.ignoreLevels ? (short)0 : iExternalTraceEntity.getFilterLevel();
         TraceEntityURIWithLevel traceEntityURIWithLevel = traceEntityURI.getType() == 1 && string.equals(this.procName) ? this.proc : this.frontend.createEntity(traceEntityURI.getType(), string, s, traceEntityURI3, entityBackRef);
         if (traceEntityURIWithLevel == null) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "*** FAILED *** Create Entity: ext=%1:%2@%3 parent=%4 -> int=%5 parent=%6", traceEntityURI, string, TraceLevels.levelNames[s], traceEntityURI2, traceEntityURIWithLevel, traceEntityURI3);
+            TraceMe.msg(TraceMe.ERROR, chn, "*** FAILED *** Create Entity: ext=%1:%2@%3 parent=%4 -> int=%5 parent=%6", traceEntityURI, string, TraceLevels.levelNames[s], traceEntityURI2, traceEntityURIWithLevel, traceEntityURI3);
             return false;
         }
         this.mapper.setMapping(traceEntityURI.getType(), traceEntityURI.getId(), traceEntityURIWithLevel.getId());
         TraceEntityURI traceEntityURI4 = this.mapper.getInternalURI(traceEntityURI.getId());
         if (traceEntityURI4 != null && traceEntityURI4.getId() != traceEntityURIWithLevel.getId()) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "******************* PROBLEM *****************: check=%1 ext=%2", new Integer(traceEntityURI4.getId()), new Integer(traceEntityURIWithLevel.getId()));
+            TraceMe.msg(TraceMe.ERROR, chn, "******************* PROBLEM *****************: check=%1 ext=%2", new Integer(traceEntityURI4.getId()), new Integer(traceEntityURIWithLevel.getId()));
         }
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "--- OK --- Create Entity: ext=%1:%2@%3 parent=%4 -> int=%5 parent=%6@%7", traceEntityURI, string, TraceLevels.levelNames[s], traceEntityURI2, traceEntityURIWithLevel, traceEntityURI3, TraceLevels.levelNames[traceEntityURIWithLevel.getLevel()]);
+        TraceMe.msg(TraceMe.INFO, chn, "--- OK --- Create Entity: ext=%1:%2@%3 parent=%4 -> int=%5 parent=%6@%7", traceEntityURI, string, TraceLevels.levelNames[s], traceEntityURI2, traceEntityURIWithLevel, traceEntityURI3, TraceLevels.levelNames[traceEntityURIWithLevel.getLevel()]);
         return true;
     }
 
-    @Override
     public boolean handleLogData(ITraceMessage iTraceMessage) {
         int n = this.mapper.getInternalID(iTraceMessage.getChannelID());
         int n2 = this.mapper.getInternalID(iTraceMessage.getThreadID());
         iTraceMessage.setChannelID(n);
         iTraceMessage.setThreadID(n2);
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Message int(Cid=%1,Tid=%2) level=%3: %4", new Integer(n), new Integer(n2), TraceLevels.levelNames[iTraceMessage.getLevel()], iTraceMessage.getMessageString());
+        TraceMe.msg(TraceMe.INFO, chn, "Message int(Cid=%1,Tid=%2) level=%3: %4", new Integer(n), new Integer(n2), TraceLevels.levelNames[iTraceMessage.getLevel()], iTraceMessage.getMessageString());
         this.frontend.log(iTraceMessage);
         return true;
     }
 
-    @Override
     public boolean handleToggleEntity(TraceEntityURI traceEntityURI, boolean bl) {
         int n = this.mapper.getInternalID(traceEntityURI.getId());
         TraceEntityURI traceEntityURI2 = new TraceEntityURI(traceEntityURI.getType(), n);
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Toggle Entity: %1 -> %2 on=%3", traceEntityURI, traceEntityURI2, new Boolean(bl));
+        TraceMe.msg(TraceMe.INFO, chn, "Toggle Entity: %1 -> %2 on=%3", traceEntityURI, traceEntityURI2, new Boolean(bl));
         boolean bl2 = bl ? this.frontend.enableEntity(traceEntityURI2) : this.frontend.disableEntity(traceEntityURI2);
         if (!bl2) {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", " -> ERROR");
+            TraceMe.msg(TraceMe.INFO, chn, " -> ERROR");
         }
         return true;
     }
 
-    @Override
     public boolean handleDroppedData(int n) {
         this.frontend.reportLostMessages(n);
         return true;
     }
 
-    @Override
     public boolean handleChangeLevel(TraceEntityURI traceEntityURI, short s) {
         TraceEntityURI traceEntityURI2 = this.mapper.getInternalURI(traceEntityURI);
         if (traceEntityURI2 != null) {
             if (!this.ignoreLevels) {
                 this.frontend.changeFilterLevel(traceEntityURI2, s);
             }
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Change Level: extUri=%1 intUri=%2 @%3", traceEntityURI, traceEntityURI2, TraceLevels.levelNames[s]);
+            TraceMe.msg(TraceMe.INFO, chn, "Change Level: extUri=%1 intUri=%2 @%3", traceEntityURI, traceEntityURI2, TraceLevels.levelNames[s]);
         } else {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Change Level: extUri=%1 no intUri!!", traceEntityURI);
+            TraceMe.msg(TraceMe.ERROR, chn, "Change Level: extUri=%1 no intUri!!", traceEntityURI);
         }
         return true;
     }
 
-    @Override
     public boolean handleExecuteCallback(int n, byte[] byArray) {
-        TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "UNEXPECTED Execute Callback: %1", new Integer(n));
+        TraceMe.msg(TraceMe.ERROR, chn, "UNEXPECTED Execute Callback: %1", new Integer(n));
         return true;
     }
 
-    @Override
     public boolean handleRegisterTimezone(int n, int n2, String string) {
         int n3 = this.frontend.registerTimeZone(n2, string);
         if (n3 == -1) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "*** Can't register timezone ***: res=%1 name=%2", new Integer(n2), string);
+            TraceMe.msg(TraceMe.ERROR, chn, "*** Can't register timezone ***: res=%1 name=%2", new Integer(n2), string);
             return false;
         }
         this.timeZoneMapper.setMapping((short)0, n, n3);
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Register TimeZone: intId=%1 extId=%2 res=%3 name=%4", new Integer(n3), new Integer(n), new Integer(n2), string);
+        TraceMe.msg(TraceMe.INFO, chn, "Register TimeZone: intId=%1 extId=%2 res=%3 name=%4", new Integer(n3), new Integer(n), new Integer(n2), string);
         return true;
     }
 
-    @Override
     public boolean handleUpdateTimezone(int n, long l, long l2) {
         int n2 = this.timeZoneMapper.getInternalID(n);
         if (n2 == -1) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "*** Can't update timezone ***: extId=%1", new Integer(n));
+            TraceMe.msg(TraceMe.ERROR, chn, "*** Can't update timezone ***: extId=%1", new Integer(n));
             return false;
         }
         this.frontend.updateTimeZone(n2, l, l2);
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Update TimeZone: intId=%1 extId=%2 tzTime=%3 coreTime=%4", new Integer(n2), new Integer(n), new Long(l), new Long(l2));
+        TraceMe.msg(TraceMe.INFO, chn, "Update TimeZone: intId=%1 extId=%2 tzTime=%3 coreTime=%4", new Integer(n2), new Integer(n), new Long(l), new Long(l2));
         return true;
     }
 
     public boolean executeCallbackExtUri(int n, byte[] byArray) {
         if (!this.isConnected) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "NOT CONNECTED: Execute Callback: %1", new Integer(n));
+            TraceMe.msg(TraceMe.ERROR, chn, "NOT CONNECTED: Execute Callback: %1", new Integer(n));
             return false;
         }
         try {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "Execute Callback: extId=%1", new Integer(n));
+            TraceMe.msg(TraceMe.INFO, chn, "Execute Callback: extId=%1", new Integer(n));
             this.protocol.sendExecuteCallback(n, byArray);
             return true;
         }
         catch (InterruptedException interruptedException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Executing Callback: %1", interruptedException);
+            TraceMe.msg(TraceMe.ERROR, chn, "Executing Callback: %1", interruptedException);
             this.isValid = false;
             return false;
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Executing Callback: %1", iOException);
+            TraceMe.msg(TraceMe.ERROR, chn, "Executing Callback: %1", iOException);
             this.isValid = false;
             return false;
         }
         catch (TransportException transportException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Executing Callback: %1", transportException);
+            TraceMe.msg(TraceMe.ERROR, chn, "Executing Callback: %1", transportException);
             this.isValid = false;
             return false;
         }
@@ -436,32 +425,31 @@ implements IProtocolActions {
 
     public boolean requestFilterLevelExtUri(TraceEntityURI traceEntityURI, short s) {
         if (!this.isConnected) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "NOT CONNECTED: Request Filter Level: %1", traceEntityURI);
+            TraceMe.msg(TraceMe.ERROR, chn, "NOT CONNECTED: Request Filter Level: %1", traceEntityURI);
             return false;
         }
         try {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "con: Request Filter Level: extUri=%1 level=%2", traceEntityURI, TraceLevels.levelNames[s]);
+            TraceMe.msg(TraceMe.INFO, chn, "con: Request Filter Level: extUri=%1 level=%2", traceEntityURI, TraceLevels.levelNames[s]);
             this.protocol.sendChangeLevel(traceEntityURI, s);
             return true;
         }
         catch (InterruptedException interruptedException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Changing Filter: %1", interruptedException);
+            TraceMe.msg(TraceMe.ERROR, chn, "Changing Filter: %1", interruptedException);
             this.isValid = false;
             return false;
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Changing Filter: %1", iOException);
+            TraceMe.msg(TraceMe.ERROR, chn, "Changing Filter: %1", iOException);
             this.isValid = false;
             return false;
         }
         catch (TransportException transportException) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "Changing Filter: %1", transportException);
+            TraceMe.msg(TraceMe.ERROR, chn, "Changing Filter: %1", transportException);
             this.isValid = false;
             return false;
         }
     }
 
-    @Override
     public boolean handleFileRequestMessage(int n, String string, byte by) {
         if (this.fileTransferManager != null) {
             this.fileTransferManager.handleFileRequestMessage(n, string, by);
@@ -470,7 +458,6 @@ implements IProtocolActions {
         return false;
     }
 
-    @Override
     public boolean handleFileStatusMessage(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
         if (this.fileTransferManager != null) {
             this.fileTransferManager.handleFileStatusMessage(n, string, by, l, l2, by2, byArray);
@@ -479,7 +466,6 @@ implements IProtocolActions {
         return false;
     }
 
-    @Override
     public boolean handleFileTransferMessage(int n, int n2, byte by, int n3, byte[] byArray) {
         if (this.fileTransferManager != null) {
             this.fileTransferManager.handleFileTransferMessage(n, n2, by, n3, byArray);

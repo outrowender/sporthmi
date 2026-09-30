@@ -6,10 +6,8 @@ package de.esolutions.hmi.widgets.audi.evo.online;
 import de.esolutions.hmi.widgets.audi.evo.online.IGridImageLocker;
 
 public interface MenuChangeFactory {
-    default public void changeMenu(Object object) {
-    }
+    public void changeMenu(Object var1);
 
-    default public void setImageLockController(IGridImageLocker iGridImageLocker) {
-    }
+    public void setImageLockController(IGridImageLocker var1);
 }
 

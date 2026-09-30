@@ -26,7 +26,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuScrollAnimationFuncti
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateDelta;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateManager;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateRequest;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateRequest$IMenuItemMatcher;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuViewport;
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,12 +37,12 @@ implements AnimationListener,
 ATIPEventListener,
 IWidgetLogChannel,
 WidgetConstants {
-    public static final int UNFOCUSABLE_CURSOR_GLASSPLATE_INSETS;
-    private static final int CURSOR_BOUNCE_NO_MOVE_DURATION;
-    private static final int ONE_ANIMATION_TARGET;
-    public static final int ANIMATION_TYPE;
-    public static final int DEFAULT_SCROLL_ANIMATION_INTERVAL;
-    static final int SCROLL_ANIMATION_INTERVAL;
+    public static final int UNFOCUSABLE_CURSOR_GLASSPLATE_INSETS = 5;
+    private static final int CURSOR_BOUNCE_NO_MOVE_DURATION = 150;
+    private static final int ONE_ANIMATION_TARGET = 1000;
+    public static final int ANIMATION_TYPE = 78;
+    public static final int DEFAULT_SCROLL_ANIMATION_INTERVAL = AbstractWidget.isVariantStd() ? 30 : 20;
+    static final int SCROLL_ANIMATION_INTERVAL = Integer.getInteger("scrollAnimationInterval", DEFAULT_SCROLL_ANIMATION_INTERVAL);
     private final MenuController menu;
     private AbstractAnimation animation;
     private AbstractAnimation cursorBounceAnimation;
@@ -134,9 +133,9 @@ WidgetConstants {
     }
 
     public void focus(MenuUpdateRequest menuUpdateRequest, boolean bl, boolean bl2, long l) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#focus: +++ Focus menu item: %2 (immediately: %1, complete request: %3)", (Object)bl, (Object)menuUpdateRequest.focusIndex, (Object)menuUpdateRequest);
+        menuLogCh.log(10000000, "MenuAnimationManager#focus: +++ Focus menu item: %2 (immediately: %1, complete request: %3)", (Object)bl, (Object)menuUpdateRequest.focusIndex, (Object)menuUpdateRequest);
         if (!this.focusChangeRequiresAction(menuUpdateRequest.focusIndex, menuUpdateRequest.focusAdvice)) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#focus: --- old and new focus are equal.");
+            menuLogCh.log(10000000, "MenuAnimationManager#focus: --- old and new focus are equal.");
             return;
         }
         if (!Util.equals(menuUpdateRequest.focusIndex, this.menu.getFocusedIndex())) {
@@ -154,7 +153,7 @@ WidgetConstants {
         this.adjustCursor(menuItemMetaData, this.layoutData.findAnimationItem(this.menu.getFocusedIndex()), bl6);
         boolean bl7 = !bl && bl5;
         this.handleAnimationsAfterUpdate(bl3, bl4 || bl7, bl2, this.isSlowViewportScrollingRunning(), true);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#focus: --- Focus finished for item: %1 (%2)", (Object)menuUpdateRequest.focusIndex, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuAnimationManager#focus: --- Focus finished for item: %1 (%2)", (Object)menuUpdateRequest.focusIndex, (Object)this.menu);
     }
 
     boolean focusChangeRequiresAction(MenuItemIndex menuItemIndex, FocusAdvice focusAdvice) {
@@ -181,10 +180,10 @@ WidgetConstants {
     }
 
     public void heightChanged(MenuItemIndex menuItemIndex, FocusAdvice focusAdvice, boolean bl) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#heightChanged: +++ height changed of item: %1, immediately: %2, (%3)", (Object)menuItemIndex, (Object)bl, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuAnimationManager#heightChanged: +++ height changed of item: %1, immediately: %2, (%3)", (Object)menuItemIndex, (Object)bl, (Object)this.menu);
         MenuItemMetaData menuItemMetaData = this.layoutData.findAnimationItem(menuItemIndex);
         if (menuItemMetaData == null || menuItemMetaData.remove) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#heightChanged: --- item %1 is not visible or removed. item: %2", (Object)menuItemIndex, (Object)menuItemMetaData);
+            menuLogCh.log(10000000, "MenuAnimationManager#heightChanged: --- item %1 is not visible or removed. item: %2", (Object)menuItemIndex, (Object)menuItemMetaData);
             return;
         }
         MenuItemIndex menuItemIndex2 = this.menu.getFocusedIndex();
@@ -192,10 +191,10 @@ WidgetConstants {
         int n = this.menu.getMenuItemHeight(menuItemMetaData, bl2);
         int n2 = this.menu.getInfolinePreferredHeight();
         if (menuItemMetaData.heightAfter == n && this.layoutData.infolineHeightAfter == n2) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#heightChanged: --- height has not changed: %1, infolineHeight: %2", (long)n, (long)n2);
+            menuLogCh.log(10000000, "MenuAnimationManager#heightChanged: --- height has not changed: %1, infolineHeight: %2", (long)n, (long)n2);
             return;
         }
-        menuLogCh.log(-2137614336, "MenuAnimationManager#heightChanged: height changed for item %1 from %2 to %3", (Object)menuItemMetaData, (long)menuItemMetaData.heightAfter, (long)n);
+        menuLogCh.log(10000000, "MenuAnimationManager#heightChanged: height changed for item %1 from %2 to %3", (Object)menuItemMetaData, (long)menuItemMetaData.heightAfter, (long)n);
         this.adjustAnimationStartValuesForRestart(!bl, this.getCurrentTime());
         boolean bl3 = this.isScrollingControlledBySeparateAnimation();
         this.setupItemsForHeightChange(menuItemMetaData, n, focusAdvice, bl);
@@ -203,7 +202,7 @@ WidgetConstants {
         MenuItemMetaData menuItemMetaData2 = this.layoutData.findAnimationItem(menuItemIndex2);
         this.adjustCursor(menuItemMetaData2, menuItemMetaData2, true);
         this.handleAnimationsAfterUpdate(!bl, !bl && bl3);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#heightChanged: --- height changed finished for item: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuAnimationManager#heightChanged: --- height changed finished for item: %1", (Object)menuItemIndex);
     }
 
     private void handleAnimationsAfterUpdate(boolean bl, boolean bl2) {
@@ -269,7 +268,7 @@ WidgetConstants {
         }
         this.setCursorHeightAfter(n3);
         this.setCursorOffsetAfter(n4);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#adjustCursor: change cursor height from %1 to %2, cursor offset: %3", (long)this.layoutData.cursorHeightAfter, (long)this.layoutData.cursorHeightAfter, (long)this.layoutData.cursorOffsetAfter);
+        menuLogCh.log(10000000, "MenuAnimationManager#adjustCursor: change cursor height from %1 to %2, cursor offset: %3", (long)this.layoutData.cursorHeightAfter, (long)this.layoutData.cursorHeightAfter, (long)this.layoutData.cursorOffsetAfter);
     }
 
     public int getFocusableHeightForItem(MenuItemIndex menuItemIndex) {
@@ -303,7 +302,7 @@ WidgetConstants {
 
     private int calculateUnfocusableLineHeightForPartialItem(MenuViewport menuViewport, MenuItemIndex menuItemIndex, MenuItemIndex menuItemIndex2, int n, boolean bl) {
         if (menuViewport.isEmpty()) {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#calculateUnfocusableLineHeightForPartialItem: viewport is empty. Focused item: %1", (Object)menuItemIndex);
+            menuLogCh.log(100000, "MenuAnimationManager#calculateUnfocusableLineHeightForPartialItem: viewport is empty. Focused item: %1", (Object)menuItemIndex);
             return 0;
         }
         if (this.layoutData.alignTop != bl) {
@@ -314,7 +313,7 @@ WidgetConstants {
         MenuItemMetaData menuItemMetaData = this.layoutData.findAnimationItem(menuItemIndex);
         MenuItemMetaData menuItemMetaData2 = this.layoutData.findAnimationItem(menuItemIndex3);
         if (menuItemMetaData == null || menuItemMetaData2 == null) {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#calculateUnfocusableLineHeightForPartialItem: item %1 or %2 not found in layoutItems: %3", (Object)menuItemIndex, (Object)menuItemIndex3, (Object)this.layoutData.layoutItems);
+            menuLogCh.log(100000, "MenuAnimationManager#calculateUnfocusableLineHeightForPartialItem: item %1 or %2 not found in layoutItems: %3", (Object)menuItemIndex, (Object)menuItemIndex3, (Object)this.layoutData.layoutItems);
             return 0;
         }
         int n3 = this.menu.getMenuItemGlassplateInsets(menuItemMetaData2, bl);
@@ -326,10 +325,10 @@ WidgetConstants {
     }
 
     public void remove(MenuItemIndex menuItemIndex, int n, MenuUpdateDelta menuUpdateDelta) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#remove: +++ Removed rows at: %1, length: %3 (%2)", (Object)menuItemIndex, (Object)this.menu, (long)n);
+        menuLogCh.log(10000000, "MenuAnimationManager#remove: +++ Removed rows at: %1, length: %3 (%2)", (Object)menuItemIndex, (Object)this.menu, (long)n);
         this.setupItemsForRemove(menuItemIndex, n);
         this.adjustIndicesForRemove(menuItemIndex, n, menuUpdateDelta);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#remove: --- Remove finished for item: %1, length: %2", (Object)menuItemIndex, (long)n);
+        menuLogCh.log(10000000, "MenuAnimationManager#remove: --- Remove finished for item: %1, length: %2", (Object)menuItemIndex, (long)n);
     }
 
     Iterator iteratorRemovedItems(MenuItemIndex menuItemIndex, int n) {
@@ -337,35 +336,35 @@ WidgetConstants {
     }
 
     public void add(MenuItemIndex menuItemIndex, int n, MenuUpdateDelta menuUpdateDelta) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#add: +++ Row added at index: %1, length: %3 (%2)", (Object)menuItemIndex, (Object)this.menu, (long)n);
+        menuLogCh.log(10000000, "MenuAnimationManager#add: +++ Row added at index: %1, length: %3 (%2)", (Object)menuItemIndex, (Object)this.menu, (long)n);
         this.adjustIndicesForAdd(menuItemIndex, n, menuUpdateDelta);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#add: --- Add finished for item: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuAnimationManager#add: --- Add finished for item: %1", (Object)menuItemIndex);
     }
 
     public int openFolder(MenuItemIndex menuItemIndex, int n, MenuUpdateDelta menuUpdateDelta) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#openFolder: +++ openFolder at parent item: %1, childrenCount: %3 (%2)", (Object)menuItemIndex, (Object)this.menu, (long)n);
+        menuLogCh.log(10000000, "MenuAnimationManager#openFolder: +++ openFolder at parent item: %1, childrenCount: %3 (%2)", (Object)menuItemIndex, (Object)this.menu, (long)n);
         MenuViewport menuViewport = menuUpdateDelta.getOldViewport();
         MenuItemIndex menuItemIndex2 = new MenuItemIndex(menuItemIndex.widget, menuItemIndex.widgetPart + 1);
         if (!menuViewport.contains(menuItemIndex)) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#openFolder: parent item %1 is outside of the viewport: %2 --> normal add", (Object)menuItemIndex, (Object)menuViewport);
+            menuLogCh.log(10000000, "MenuAnimationManager#openFolder: parent item %1 is outside of the viewport: %2 --> normal add", (Object)menuItemIndex, (Object)menuViewport);
             this.add(menuItemIndex2, n, menuUpdateDelta);
             return 0;
         }
         this.adjustIndicesForAdd(menuItemIndex2, n, menuUpdateDelta);
         int n2 = this.setupItemsForOpenFolder(menuItemIndex2, n, menuUpdateDelta);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#openFolder: --- openFolder finished for item: %1, new items height: %2", (Object)menuItemIndex, (long)n2);
+        menuLogCh.log(10000000, "MenuAnimationManager#openFolder: --- openFolder finished for item: %1, new items height: %2", (Object)menuItemIndex, (long)n2);
         return n2;
     }
 
-    public void refreshItemsForFastUpdate(MenuUpdateRequest$IMenuItemMatcher menuUpdateRequest$IMenuItemMatcher) {
-        MenuUpdateRequest menuUpdateRequest = new MenuUpdateRequest(this.getFocusedIndexWithStableRowId(), this.menu.createFocusAdviceForCursorPosition(), menuUpdateRequest$IMenuItemMatcher);
+    public void refreshItemsForFastUpdate(MenuUpdateRequest.IMenuItemMatcher iMenuItemMatcher) {
+        MenuUpdateRequest menuUpdateRequest = new MenuUpdateRequest(this.getFocusedIndexWithStableRowId(), this.menu.createFocusAdviceForCursorPosition(), iMenuItemMatcher);
         MenuUpdateDelta menuUpdateDelta = this.createDelta();
         this.adjustAnimationStartValuesForRestart(false, this.getCurrentTime());
         this.refreshItemsForFastUpdate(menuUpdateRequest, menuUpdateDelta, true, false);
     }
 
-    public void refresh(MenuUpdateRequest$IMenuItemMatcher menuUpdateRequest$IMenuItemMatcher) {
-        MenuUpdateRequest menuUpdateRequest = new MenuUpdateRequest(this.getFocusedIndexWithStableRowId(), this.menu.createFocusAdviceForCursorPosition(), menuUpdateRequest$IMenuItemMatcher);
+    public void refresh(MenuUpdateRequest.IMenuItemMatcher iMenuItemMatcher) {
+        MenuUpdateRequest menuUpdateRequest = new MenuUpdateRequest(this.getFocusedIndexWithStableRowId(), this.menu.createFocusAdviceForCursorPosition(), iMenuItemMatcher);
         MenuUpdateDelta menuUpdateDelta = this.createDelta();
         this.adjustAnimationStartValuesForRestart(false, this.getCurrentTime());
         this.refresh(menuUpdateRequest, menuUpdateDelta, true, false);
@@ -380,14 +379,14 @@ WidgetConstants {
     }
 
     public void refresh(MenuUpdateRequest menuUpdateRequest, MenuUpdateDelta menuUpdateDelta, boolean bl, boolean bl2) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#refresh: +++ Refresh items for request: %1, immediately: %2 (%3)", (Object)menuUpdateRequest, (Object)bl, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuAnimationManager#refresh: +++ Refresh items for request: %1, immediately: %2 (%3)", (Object)menuUpdateRequest, (Object)bl, (Object)this.menu);
         if (menuUpdateDelta.getOldViewport().isEmpty()) {
             MenuItemIndex menuItemIndex = this.menu.getFirstMenuItem();
             if (menuItemIndex != null) {
-                menuLogCh.log(-2137614336, "MenuAnimationManager#refresh: menu was empty, select first item: %1", (Object)menuItemIndex);
+                menuLogCh.log(10000000, "MenuAnimationManager#refresh: menu was empty, select first item: %1", (Object)menuItemIndex);
                 this.focus(menuItemIndex);
             } else {
-                menuLogCh.log(-2137614336, "MenuAnimationManager#refresh: menu was empty and stays empty");
+                menuLogCh.log(10000000, "MenuAnimationManager#refresh: menu was empty and stays empty");
             }
             return;
         }
@@ -397,7 +396,7 @@ WidgetConstants {
         MenuItemMetaData menuItemMetaData2 = this.layoutData.findAnimationItem(this.menu.getFocusedIndex());
         this.adjustCursor(menuItemMetaData, menuItemMetaData2, this.isShortAnimationRunning());
         this.handleAnimationsAfterUpdate(!bl && this.shouldStartShortAnimation(), !bl && bl2);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#refresh: --- Refresh finished");
+        menuLogCh.log(10000000, "MenuAnimationManager#refresh: --- Refresh finished");
     }
 
     private boolean shouldStartShortAnimation() {
@@ -423,7 +422,7 @@ WidgetConstants {
     }
 
     public void refreshItemsForFastUpdate(MenuUpdateRequest menuUpdateRequest, MenuUpdateDelta menuUpdateDelta, boolean bl, boolean bl2) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#refreshItemsForFastUpdate: +++ Refresh items heights for request: %1, immediately: %2 (%3)", (Object)menuUpdateRequest, (Object)bl, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuAnimationManager#refreshItemsForFastUpdate: +++ Refresh items heights for request: %1, immediately: %2 (%3)", (Object)menuUpdateRequest, (Object)bl, (Object)this.menu);
         boolean bl3 = this.tryFastUpdate(menuUpdateRequest, menuUpdateDelta);
         if (bl3) {
             MenuItemIndex menuItemIndex = this.menu.getFocusedIndex();
@@ -436,14 +435,14 @@ WidgetConstants {
         } else {
             this.refresh(menuUpdateRequest, menuUpdateDelta, bl, bl2);
         }
-        menuLogCh.log(-2137614336, "MenuAnimationManager#refreshItemsForFastUpdate: --- Refresh Items Heights finished");
+        menuLogCh.log(10000000, "MenuAnimationManager#refreshItemsForFastUpdate: --- Refresh Items Heights finished");
     }
 
     private boolean tryFastUpdate(MenuUpdateRequest menuUpdateRequest, MenuUpdateDelta menuUpdateDelta) {
         MenuItemIndex menuItemIndex = this.menu.getFocusedIndex();
         MenuItemIndex menuItemIndex2 = this.getFocusedIndexWithStableRowId();
         if (!Util.equals(menuItemIndex2, menuItemIndex)) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#tryFastUpdate: focus item must be changed from %1 to %2, so recalculate viewport", (Object)menuItemIndex, (Object)menuItemIndex2);
+            menuLogCh.log(10000000, "MenuAnimationManager#tryFastUpdate: focus item must be changed from %1 to %2, so recalculate viewport", (Object)menuItemIndex, (Object)menuItemIndex2);
             return false;
         }
         boolean bl = new MenuUpdateManager(this.menu, this.layoutData).updateItemsForFastUpdate(menuUpdateRequest, menuUpdateDelta);
@@ -451,13 +450,13 @@ WidgetConstants {
     }
 
     public void refreshAnimations(boolean bl) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#refreshAnimations: Refresh animations only. ScrollingWasRunning: %1 (%2)", bl, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuAnimationManager#refreshAnimations: Refresh animations only. ScrollingWasRunning: %1 (%2)", bl, (Object)this.menu);
         this.handleAnimationsAfterUpdate(this.shouldStartShortAnimation(), bl);
     }
 
     public void subclicksChanged() {
         boolean bl = this.menu.getLayout().isFocusCursorVisible();
-        menuLogCh.log(-2137614336, "MenuAnimationManager#subclicksChanged. Cursor visible: %1", bl);
+        menuLogCh.log(10000000, "MenuAnimationManager#subclicksChanged. Cursor visible: %1", bl);
         if (bl) {
             this.adjustAnimationStartValuesForRestart(true, this.getCurrentTime());
             boolean bl2 = this.isScrollingControlledBySeparateAnimation();
@@ -556,7 +555,7 @@ WidgetConstants {
         int n;
         int n2 = this.layoutData.getScrollDistance();
         if (this.isScrollingControlledByShortAnimation() && n2 != this.shortAnimationScrollDistance) {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#adjustScrollAnimationStartValuesForRestart: inconsistent shortAnimationScrollDistance (%1) and actual scroll distance (%2)", (long)this.shortAnimationScrollDistance, (long)n2);
+            menuLogCh.log(100000, "MenuAnimationManager#adjustScrollAnimationStartValuesForRestart: inconsistent shortAnimationScrollDistance (%1) and actual scroll distance (%2)", (long)this.shortAnimationScrollDistance, (long)n2);
             this.shortAnimationScrollDistance = 0;
         }
         boolean bl = this.isScrollingControlledByShortAnimation();
@@ -564,12 +563,12 @@ WidgetConstants {
             this.scrollAnimationFunction.updateProgress(l);
         }
         if (this.layoutData.viewportOffsetBefore != (n = this.getViewportOffset())) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#adjustScrollAnimationStartValuesForRestart: change viewportOffsetBefore: %1 -> %2", (long)this.layoutData.viewportOffsetBefore, (long)n);
+            menuLogCh.log(10000000, "MenuAnimationManager#adjustScrollAnimationStartValuesForRestart: change viewportOffsetBefore: %1 -> %2", (long)this.layoutData.viewportOffsetBefore, (long)n);
             this.layoutData.viewportOffsetBefore = n;
         }
         if (bl) {
             int n3 = this.layoutData.getScrollDistance();
-            menuLogCh.log(-2137614336, "MenuAnimationManager#adjustScrollAnimationStartValuesForRestart: change shortAnimationScrollDistance: %1 -> %2", (long)this.shortAnimationScrollDistance, (long)n3);
+            menuLogCh.log(10000000, "MenuAnimationManager#adjustScrollAnimationStartValuesForRestart: change shortAnimationScrollDistance: %1 -> %2", (long)this.shortAnimationScrollDistance, (long)n3);
             this.shortAnimationScrollDistance = n3;
         }
     }
@@ -600,12 +599,12 @@ WidgetConstants {
         if (menuItemIndex3 != null) {
             menuItemIndex2 = menuItemIndex3.adjustForRemove(menuItemIndex, n);
             menuUpdateDelta.setOldFocusedIndex(menuItemIndex2);
-            menuLogCh.log(-2137614336, "MenuAnimationManager#adjustIndicesForRemove: adjust focused index: %1 -> %2", (Object)menuItemIndex3, (Object)menuItemIndex2);
+            menuLogCh.log(10000000, "MenuAnimationManager#adjustIndicesForRemove: adjust focused index: %1 -> %2", (Object)menuItemIndex3, (Object)menuItemIndex2);
         }
         if ((menuItemIndex2 = menuUpdateDelta.getOldSelectedIndex()) != null) {
             object = menuItemIndex2.adjustForRemove(menuItemIndex, n);
             menuUpdateDelta.setOldSelectedIndex((MenuItemIndex)object);
-            menuLogCh.log(-2137614336, "MenuAnimationManager#adjustIndicesForRemove: adjust selected index: %1 -> %2", (Object)menuItemIndex2, object);
+            menuLogCh.log(10000000, "MenuAnimationManager#adjustIndicesForRemove: adjust selected index: %1 -> %2", (Object)menuItemIndex2, object);
         }
         object = menuUpdateDelta.getOldViewport();
         if (this.isItemRemoved(((MenuViewport)object).end, menuItemIndex, n)) {
@@ -637,12 +636,12 @@ WidgetConstants {
         if (menuItemIndex3 != null) {
             menuItemIndex2 = menuItemIndex3.adjustForAdd(menuItemIndex, n);
             menuUpdateDelta.setOldFocusedIndex(menuItemIndex2);
-            menuLogCh.log(-2137614336, "MenuAnimationManager#adjustIndicesForAdd: adjust focused index: %1 -> %2", (Object)menuItemIndex3, (Object)menuItemIndex2);
+            menuLogCh.log(10000000, "MenuAnimationManager#adjustIndicesForAdd: adjust focused index: %1 -> %2", (Object)menuItemIndex3, (Object)menuItemIndex2);
         }
         if ((menuItemIndex2 = menuUpdateDelta.getOldSelectedIndex()) != null) {
             object = menuItemIndex2.adjustForAdd(menuItemIndex, n);
             menuUpdateDelta.setOldSelectedIndex((MenuItemIndex)object);
-            menuLogCh.log(-2137614336, "MenuAnimationManager#adjustIndicesForAdd: adjust selected index: %1 -> %2", (Object)menuItemIndex2, object);
+            menuLogCh.log(10000000, "MenuAnimationManager#adjustIndicesForAdd: adjust selected index: %1 -> %2", (Object)menuItemIndex2, object);
         }
         this.adjustItemsIndicesForAdd(menuItemIndex, n);
         object = menuUpdateDelta.getOldViewport().adjustForAdd(menuItemIndex, n);
@@ -693,7 +692,7 @@ WidgetConstants {
         Long l = this.menu.getFocusedUniqueID();
         MenuItemIndex menuItemIndex2 = this.menu.getFocusedIndex();
         if (!menuItemIndex2.equals(menuItemIndex = this.menu.getMenuItemIndexForUniqueID(l, menuItemIndex2))) {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#getFocusedIndexWithStableRowId: expected item %1, but found item %2 for row ID %3", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)l);
+            menuLogCh.log(100000, "MenuAnimationManager#getFocusedIndexWithStableRowId: expected item %1, but found item %2 for row ID %3", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)l);
             return menuItemIndex;
         }
         return menuItemIndex2;
@@ -726,7 +725,7 @@ WidgetConstants {
         MenuItemIndex menuItemIndex;
         MenuViewport menuViewport = this.menu.getViewport();
         if (this.layoutData.layoutItems.isEmpty()) {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#setupItemsAnimated: layoutItems are empty. viewport: %1, focus: %2", (Object)menuViewport, (Object)this.menu.getFocusedIndex());
+            menuLogCh.log(100000, "MenuAnimationManager#setupItemsAnimated: layoutItems are empty. viewport: %1, focus: %2", (Object)menuViewport, (Object)this.menu.getFocusedIndex());
             return;
         }
         int n2 = this.layoutData.alignTop ? 0 : this.layoutData.layoutItems.size() - 1;
@@ -749,7 +748,7 @@ WidgetConstants {
             int n8 = n4 - n7;
             this.layoutData.viewportOffsetAfter = this.layoutData.viewportOffsetAfter + (this.layoutData.alignTop ? -n8 : n8);
         } else {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#setupItemsAnimated: viewport edge not found for viewport: %1", (Object)menuViewport);
+            menuLogCh.log(100000, "MenuAnimationManager#setupItemsAnimated: viewport edge not found for viewport: %1", (Object)menuViewport);
         }
     }
 
@@ -772,7 +771,7 @@ WidgetConstants {
         }
         this.layoutData.viewportOffsetBefore += n4;
         this.layoutData.viewportOffsetAfter += n4 + n2;
-        menuLogCh.log(-2137614336, "MenuAnimationManager#adjustViewportOffsetForAlignmentChange: menu alignment changed. adjust viewport offset by %1", (long)n4);
+        menuLogCh.log(10000000, "MenuAnimationManager#adjustViewportOffsetForAlignmentChange: menu alignment changed. adjust viewport offset by %1", (long)n4);
     }
 
     void setupItems(MenuUpdateRequest menuUpdateRequest, MenuUpdateDelta menuUpdateDelta) {
@@ -804,7 +803,7 @@ WidgetConstants {
             n2 += n3;
             n2 += this.menu.getLayout().getItemsGap();
         }
-        menuLogCh.log(-1601830656, "MenuAnimationManager#calculateHeightDistance: item %1 or %2 not found in layoutItems: %3", (Object)menuItemMetaData, (Object)menuItemMetaData2, (Object)this.layoutData.layoutItems);
+        menuLogCh.log(100000, "MenuAnimationManager#calculateHeightDistance: item %1 or %2 not found in layoutItems: %3", (Object)menuItemMetaData, (Object)menuItemMetaData2, (Object)this.layoutData.layoutItems);
         return 0;
     }
 
@@ -813,7 +812,7 @@ WidgetConstants {
         if (menuViewport.contains(menuItemIndex)) {
             return;
         }
-        menuLogCh.log(-2137614336, "MenuAnimationManager#startSlowViewportScrolling: +++ startSlowScroll to menu item: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuAnimationManager#startSlowViewportScrolling: +++ startSlowScroll to menu item: %1", (Object)menuItemIndex);
         MenuItemIndex menuItemIndex2 = this.menu.getFocusedIndex();
         this.adjustAnimationStartValuesForRestart(false, this.getCurrentTime());
         MenuUpdateRequest menuUpdateRequest = new MenuUpdateRequest(menuItemIndex, FocusAdvice.KEEP_POSITION, MenuUpdateRequest.UPDATE_NONE);
@@ -821,7 +820,7 @@ WidgetConstants {
         this.menu.setFocusedIndex(menuItemIndex2);
         this.handleAnimationsAfterUpdate(false, true, true, true, false);
         this.lastSlowScrollViewportOffset = this.getViewportOffset();
-        menuLogCh.log(-2137614336, "MenuAnimationManager#startSlowViewportScrolling: --- startSlowScroll finished for menu item: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuAnimationManager#startSlowViewportScrolling: --- startSlowScroll finished for menu item: %1", (Object)menuItemIndex);
     }
 
     public void deactivateSlowViewportScrolling() {
@@ -836,22 +835,22 @@ WidgetConstants {
 
     public void brakeFastViewportScrolling(boolean bl) {
         if (!this.isFastViewportScrollingRunning()) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#brakeFastViewportScrolling: no fast scroll running");
+            menuLogCh.log(10000000, "MenuAnimationManager#brakeFastViewportScrolling: no fast scroll running");
             return;
         }
-        menuLogCh.log(-2137614336, "MenuAnimationManager#brakeFastViewportScrolling: +++ brake fast scroll. hardBrake: %1 (%2)", bl, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuAnimationManager#brakeFastViewportScrolling: +++ brake fast scroll. hardBrake: %1 (%2)", bl, (Object)this.menu);
         MenuItemIndex menuItemIndex = this.menu.getFocusedIndex();
         long l = this.getCurrentTime();
         this.scrollAnimationFunction.updateProgress(l);
         this.menu.relayout();
-        menuLayoutLogCh.log(-2137614336, "MenuAnimationManager#brakeFastViewportScrolling: relayout menu to get current viewport");
+        menuLayoutLogCh.log(10000000, "MenuAnimationManager#brakeFastViewportScrolling: relayout menu to get current viewport");
         this.menu.manageLayout();
         MenuViewport menuViewport = this.menu.getLayout().getCurrentViewport();
         boolean bl2 = this.isViewportScrollingDownward();
         MenuItemIndex menuItemIndex2 = this.getBrakeItem(menuViewport, bl2, bl);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#brakeFastViewportScrolling: current visible item: %1, brake at item: %2, old destination: %3", (Object)menuViewport, (Object)menuItemIndex2, (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuAnimationManager#brakeFastViewportScrolling: current visible item: %1, brake at item: %2, old destination: %3", (Object)menuViewport, (Object)menuItemIndex2, (Object)menuItemIndex);
         if (menuItemIndex2 == null) {
-            menuLogCh.log(-1601830656, "MenuAnimationManager#brakeFastViewportScrolling: no newFocus found. Current layout-viewport: %1", (Object)menuViewport);
+            menuLogCh.log(100000, "MenuAnimationManager#brakeFastViewportScrolling: no newFocus found. Current layout-viewport: %1", (Object)menuViewport);
             return;
         }
         int n = this.menu.getMenuItemHeight(menuItemIndex2, false);
@@ -866,7 +865,7 @@ WidgetConstants {
             this.layoutData.cursorHeightBefore = this.layoutData.cursorHeightBefore;
             this.layoutData.cursorBorderVisibleBefore = this.layoutData.cursorBorderVisibleAfter;
         }
-        menuLogCh.log(-2137614336, "MenuAnimationManager#brakeFastViewportScrolling: --- brake fast scroll finished");
+        menuLogCh.log(10000000, "MenuAnimationManager#brakeFastViewportScrolling: --- brake fast scroll finished");
     }
 
     private MenuItemIndex getBrakeItem(MenuViewport menuViewport, boolean bl, boolean bl2) {
@@ -910,17 +909,17 @@ WidgetConstants {
         if (this.isCursorBounceRunning()) {
             if (this.isCursorBounceAnimationRunning()) {
                 if (this.cursorBounceTargetOffset != n) {
-                    menuLogCh.log(-2137614336, "MenuAnimationManager#startCursorBounce: restart cursor bounce. target: %1", (long)n);
+                    menuLogCh.log(10000000, "MenuAnimationManager#startCursorBounce: restart cursor bounce. target: %1", (long)n);
                     this.cursorBounceTargetOffset = n;
                     this.getCursorBounceAnimation().setTarget(n);
                 } else {
-                    menuLogCh.log(-2137614336, "MenuAnimationManager#startCursorBounce: cursor bounce already running. target: %1", (long)n);
+                    menuLogCh.log(10000000, "MenuAnimationManager#startCursorBounce: cursor bounce already running. target: %1", (long)n);
                 }
             } else {
                 this.restartCursorBounceNoMoveTimer();
             }
         } else {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#startCursorBounce: start cursor bounce. target: %1", (long)n);
+            menuLogCh.log(10000000, "MenuAnimationManager#startCursorBounce: start cursor bounce. target: %1", (long)n);
             this.cursorBounceTargetOffset = n;
             this.getCursorBounceAnimation().startDynamicAnimation(0.0f, n, 106, false, this.menu);
         }
@@ -966,7 +965,7 @@ WidgetConstants {
                 this.shortAnimationScrollDistance = n;
                 this.stopScrollAnimation();
             } else {
-                menuLogCh.log(-2137614336, "MenuAnimationManager#startAnimation: expected start scroll animation, but scroll distance %1 didn't change. shortScrollDistance: %2", (long)n, (long)this.shortAnimationScrollDistance);
+                menuLogCh.log(10000000, "MenuAnimationManager#startAnimation: expected start scroll animation, but scroll distance %1 didn't change. shortScrollDistance: %2", (long)n, (long)this.shortAnimationScrollDistance);
             }
         }
     }
@@ -991,7 +990,7 @@ WidgetConstants {
         Buffer buffer3 = this.logValueChange(this.layoutData.cursorHeightBefore, this.layoutData.cursorHeightAfter, null);
         Buffer buffer4 = new Buffer(100 + ((Buffer)object2).length() + ((Buffer)object).length() + buffer3.length());
         buffer4.append("Viewport offset: ").append(object2).append(", cursor offset: ").append(object).append(", cursor height: ").append(buffer3);
-        menuLogCh.log(-2137614336, "MenuAnimationManager#startAnimation: %1,  %2,   item heights: %3", (Object)buffer, (Object)buffer4, (Object)buffer2);
+        menuLogCh.log(10000000, "MenuAnimationManager#startAnimation: %1,  %2,   item heights: %3", (Object)buffer, (Object)buffer4, (Object)buffer2);
     }
 
     private Buffer logValueChange(int n, int n2, Buffer buffer) {
@@ -1007,14 +1006,14 @@ WidgetConstants {
 
     protected void startShortAnimation() {
         if (this.getAnimation().isAnimating()) {
-            this.getAnimation().setTarget(this.animation.getTarget() + 31300);
+            this.getAnimation().setTarget(this.animation.getTarget() + 1000.0f);
         } else {
-            this.getAnimation().startDynamicAnimation(0.0f, 31300, 78, false, this.menu);
+            this.getAnimation().startDynamicAnimation(0.0f, 1000.0f, 78, false, this.menu);
         }
     }
 
     protected void startScrollAnimation() {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#startScrollAnimation: start endless animation for scrolling. TimerInterval: %1 ms", (long)SCROLL_ANIMATION_INTERVAL);
+        menuLogCh.log(10000000, "MenuAnimationManager#startScrollAnimation: start endless animation for scrolling. TimerInterval: %1 ms", (long)SCROLL_ANIMATION_INTERVAL);
         this.getScrollAnimation().startEndlessAnimation(SCROLL_ANIMATION_INTERVAL, this.menu);
     }
 
@@ -1029,11 +1028,10 @@ WidgetConstants {
         if (this.cursorBounceNoMoveTimerEvent == null) {
             this.cursorBounceNoMoveTimerEvent = new TimerEvent(this);
         }
-        menuLogCh.log(-2137614336, "MenuAnimationManager#restartCursorBounceNoMoveTimer. Start timer with delay %1 ms", (long)0);
-        this.cursorBounceNoMoveTimerJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(this.cursorBounceNoMoveTimerEvent, 0);
+        menuLogCh.log(10000000, "MenuAnimationManager#restartCursorBounceNoMoveTimer. Start timer with delay %1 ms", 150L);
+        this.cursorBounceNoMoveTimerJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(this.cursorBounceNoMoveTimerEvent, 150L);
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         if (this.animationCallback != null) {
             this.animationCallback.animate(n, f2, n2);
@@ -1044,14 +1042,14 @@ WidgetConstants {
     public void animate(int n, float f2) {
         if (this.isScrollAnimation(n)) {
             this.scrollAnimationFunction.updateProgress(this.getCurrentTime());
-            menuLogCh.log(-2137614336, "MenuAnimationManager#animate: scroll animation. scroll distance: %1, progress: %2", (double)this.scrollAnimationFunction.getValue(), (double)this.scrollAnimationFunction.getProgress(), 0.0);
+            menuLogCh.log(10000000, "MenuAnimationManager#animate: scroll animation. scroll distance: %1, progress: %2", (double)this.scrollAnimationFunction.getValue(), (double)this.scrollAnimationFunction.getProgress(), 0.0);
             this.menu.getKeyEventHandler().animateSlowViewportScrolling(this.getSlowScrollViewportOffset());
             if (this.isScrollAnimationTargetReached()) {
                 this.resetSlowScrollMode();
                 this.stopScrollAnimation();
             }
         } else {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#animate: short animation of type: %1", (long)n);
+            menuLogCh.log(10000000, "MenuAnimationManager#animate: short animation of type: %1", (long)n);
             if (this.menu instanceof AnimationListener) {
                 ((AnimationListener)((Object)this.menu)).animate(n, f2, 0);
             }
@@ -1059,11 +1057,10 @@ WidgetConstants {
         this.menu.relayout();
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.cursorBounceNoMoveTimerEvent)) {
             this.cursorBounceNoMoveTimerJob = null;
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#processEvent: cursor bounce noMove timer fired. Start bounce step 3. Bounce offset: %2. (%1)", (Object)this.menu, (long)this.cursorBounceTargetOffset);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#processEvent: cursor bounce noMove timer fired. Start bounce step 3. Bounce offset: %2. (%1)", (Object)this.menu, (long)this.cursorBounceTargetOffset);
             int n = this.cursorBounceTargetOffset;
             this.cursorBounceTargetOffset = 0;
             this.getCursorBounceAnimation().startDynamicAnimation(n, 0.0f, 106, false, this.menu);
@@ -1083,7 +1080,7 @@ WidgetConstants {
 
     protected void stopScrollAnimation() {
         if (this.isScrollAnimationRunning()) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#stopScrollAnimation: stop endless animation for scrolling");
+            menuLogCh.log(10000000, "MenuAnimationManager#stopScrollAnimation: stop endless animation for scrolling");
             this.scrollAnimation.stopAnimation();
         }
     }
@@ -1181,7 +1178,7 @@ WidgetConstants {
         }
         if (!this.isShortAnimationRunning()) {
             if (n != n2) {
-                menuLogCh.log(-1601830656, "MenuAnimationManager#getAnimatedValue: No animation running, but source and target values are different: %1, %2", (long)n, (long)n2);
+                menuLogCh.log(100000, "MenuAnimationManager#getAnimatedValue: No animation running, but source and target values are different: %1, %2", (long)n, (long)n2);
             }
             return n2;
         }
@@ -1200,7 +1197,7 @@ WidgetConstants {
         }
         if (!this.isShortAnimationRunning()) {
             if (f2 != f3) {
-                menuLogCh.log(-1601830656, "MenuAnimationManager#getAnimatedValueF: No animation running, but source and target values are different: %1, %2", (double)f2, (double)f3, 0.0);
+                menuLogCh.log(100000, "MenuAnimationManager#getAnimatedValueF: No animation running, but source and target values are different: %1, %2", (double)f2, (double)f3, 0.0);
             }
             return f3;
         }
@@ -1217,16 +1214,14 @@ WidgetConstants {
         return Math.round(f2);
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
         if (this.animationCallback != null) {
             this.animationCallback.animationStarted(n, n2);
         }
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        menuLogCh.log(-2137614336, "MenuAnimationManager#animationFinished: animationType: %2, id: %3 (%1)", (Object)this.menu, (long)n, (long)n2);
+        menuLogCh.log(10000000, "MenuAnimationManager#animationFinished: animationType: %2, id: %3 (%1)", (Object)this.menu, (long)n, (long)n2);
         if (this.animationCallback != null) {
             this.animationCallback.animationFinished(n, n2);
         }
@@ -1245,18 +1240,18 @@ WidgetConstants {
             new MenuUpdateManager(this.menu, this.layoutData).destroyRemovedItems();
         } else if (n == 106) {
             if (!this.isCursorBounceTurnaroundReached()) {
-                menuLogCh.log(-2137614336, "MenuAnimationManager#animationFinished: cursor bounce step 1 finished, start timer for step 2. bounce offset: %2 (%1)", (Object)this.menu, (long)this.cursorBounceTargetOffset);
+                menuLogCh.log(10000000, "MenuAnimationManager#animationFinished: cursor bounce step 1 finished, start timer for step 2. bounce offset: %2 (%1)", (Object)this.menu, (long)this.cursorBounceTargetOffset);
                 this.restartCursorBounceNoMoveTimer();
             } else {
-                menuLogCh.log(-2137614336, "MenuAnimationManager#animationFinished: cursor bounce step 3 finished. (%1)", (Object)this.menu);
+                menuLogCh.log(10000000, "MenuAnimationManager#animationFinished: cursor bounce step 3 finished. (%1)", (Object)this.menu);
             }
         }
         if (!this.isAnimationRunning()) {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#animationFinished: last animation finished, do a full refresh (%1)", (Object)this.menu);
+            menuLogCh.log(10000000, "MenuAnimationManager#animationFinished: last animation finished, do a full refresh (%1)", (Object)this.menu);
             this.refresh(MenuUpdateRequest.UPDATE_ALL);
             this.menu.getItemFocusedPropagator().fireItemFocused();
         } else {
-            menuLogCh.log(-2137614336, "MenuAnimationManager#animationFinished: don't fireItemFocused at animation finished (type %1). short animation running: %2, scroll animation running: %3", (Object)Util.createInteger(n), (Object)this.isShortAnimationRunning(), (Object)this.isScrollAnimationRunning());
+            menuLogCh.log(10000000, "MenuAnimationManager#animationFinished: don't fireItemFocused at animation finished (type %1). short animation running: %2, scroll animation running: %3", (Object)Util.createInteger(n), (Object)this.isShortAnimationRunning(), (Object)this.isScrollAnimationRunning());
         }
         this.menu.relayout();
     }
@@ -1287,7 +1282,7 @@ WidgetConstants {
             if (menuItemMetaData2 != null) {
                 int n2 = this.calculateHeightDistance(menuItemMetaData, menuItemMetaData2, true, this.layoutData.alignTop);
                 if (n2 != 0 && !this.menu.hasMoveItem()) {
-                    menuLogCh.log(-1601830656, "MenuAnimationManager#destroyUnusedItems: no move cursor, but viewport offset is: %1", (long)(-n2));
+                    menuLogCh.log(100000, "MenuAnimationManager#destroyUnusedItems: no move cursor, but viewport offset is: %1", (long)(-n2));
                 }
                 this.layoutData.viewportOffsetAfter = -n2;
                 this.layoutData.viewportOffsetBefore = -n2;
@@ -1297,7 +1292,7 @@ WidgetConstants {
                 this.layoutData.viewportOffsetBefore = this.layoutData.viewportOffsetBefore + (this.layoutData.alignTop ? -n5 : n5);
                 this.layoutData.viewportOffsetAfter = this.layoutData.viewportOffsetAfter + (this.layoutData.alignTop ? -n5 : n5);
             } else {
-                menuLogCh.log(-1601830656, "MenuAnimationManager#destroyUnusedItems: viewport edge not found for viewport: %1", (Object)this.menu.getViewport());
+                menuLogCh.log(100000, "MenuAnimationManager#destroyUnusedItems: viewport edge not found for viewport: %1", (Object)this.menu.getViewport());
                 this.layoutData.viewportOffsetAfter = 0;
                 this.layoutData.viewportOffsetBefore = 0;
             }
@@ -1307,7 +1302,7 @@ WidgetConstants {
     public int getViewportOffset() {
         if (!this.isScrollAnimationRunning() && !this.isScrollingControlledByShortAnimation()) {
             if (this.layoutData.viewportOffsetBefore != this.layoutData.viewportOffsetAfter) {
-                menuLogCh.log(-1601830656, "MenuAnimationManager#getAnimatedValue: No animation running, but source and target values are different: %1, %2", (long)this.layoutData.viewportOffsetBefore, (long)this.layoutData.viewportOffsetAfter);
+                menuLogCh.log(100000, "MenuAnimationManager#getAnimatedValue: No animation running, but source and target values are different: %1, %2", (long)this.layoutData.viewportOffsetBefore, (long)this.layoutData.viewportOffsetAfter);
             }
             return this.layoutData.viewportOffsetAfter;
         }
@@ -1355,12 +1350,12 @@ WidgetConstants {
     }
 
     public float getMenuItemRenderOpacity(MenuItemMetaData menuItemMetaData) {
-        int n;
-        float f2 = this.getMenuItemOpacityRaw(menuItemMetaData);
-        if (f2 <= (n = 0x6666663F)) {
+        float f2;
+        float f3 = this.getMenuItemOpacityRaw(menuItemMetaData);
+        if (f3 <= (f2 = 0.9f)) {
             return 0.0f;
         }
-        return (f2 - n) / (1.0f - n);
+        return (f3 - f2) / (1.0f - f2);
     }
 
     public void setCursorOffsetAfter(int n) {
@@ -1422,11 +1417,6 @@ WidgetConstants {
 
     protected long getCurrentTime() {
         return AbstractWidget.framework.getMonotonicTime();
-    }
-
-    static {
-        DEFAULT_SCROLL_ANIMATION_INTERVAL = AbstractWidget.isVariantStd() ? 30 : 20;
-        SCROLL_ANIMATION_INTERVAL = Integer.getInteger("scrollAnimationInterval", DEFAULT_SCROLL_ANIMATION_INTERVAL);
     }
 }
 

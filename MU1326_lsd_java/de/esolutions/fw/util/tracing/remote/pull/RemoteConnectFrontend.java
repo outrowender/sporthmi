@@ -17,7 +17,7 @@ public class RemoteConnectFrontend
 extends AbstractRemoteFrontend
 implements IConnectionFrontendListener {
     private final ConnectionFrontendReconnectWorker worker;
-    private static final String chn;
+    private static final String chn = "RemoteConnectFrontend";
 
     public RemoteConnectFrontend(IConnectionFactory iConnectionFactory, TraceFrontend traceFrontend) {
         super(traceFrontend);
@@ -34,36 +34,30 @@ implements IConnectionFrontendListener {
         this.worker.removeListener(iConnectionFrontendListener);
     }
 
-    @Override
     public boolean start() {
         if (!super.start()) {
             return false;
         }
-        TraceMe.msg(TraceMe.INFO, "RemoteConnectFrontend", "start");
+        TraceMe.msg(TraceMe.INFO, chn, "start");
         return this.worker.start();
     }
 
-    @Override
     public void stop() {
-        TraceMe.msg(TraceMe.INFO, "RemoteConnectFrontend", "stop");
+        TraceMe.msg(TraceMe.INFO, chn, "stop");
         this.worker.stop();
         super.stop();
     }
 
-    @Override
     public void configureHandler(ConnectionFrontendHandler connectionFrontendHandler) {
         connectionFrontendHandler.setPassiveMode(false);
     }
 
-    @Override
     public void registerConnection(ConnectionFrontendHandler connectionFrontendHandler) {
     }
 
-    @Override
     public void unregisterConnection(ConnectionFrontendHandler connectionFrontendHandler) {
     }
 
-    @Override
     public void handleMessage(ConnectionFrontendHandler connectionFrontendHandler, AbstractMessage abstractMessage) {
     }
 }

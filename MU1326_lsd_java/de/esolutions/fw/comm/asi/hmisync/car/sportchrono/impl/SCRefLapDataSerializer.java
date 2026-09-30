@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCRefLapData;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SCRefLapDataSerializer {
-    public static void putOptionalSCRefLapData(ISerializer iSerializer, SCRefLapData sCRefLapData) {
+    public static void putOptionalSCRefLapData(ISerializer iSerializer, SCRefLapData sCRefLapData) throws SerializerException {
         boolean bl = sCRefLapData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SCRefLapDataSerializer {
         }
     }
 
-    public static void putOptionalSCRefLapDataVarArray(ISerializer iSerializer, SCRefLapData[] sCRefLapDataArray) {
+    public static void putOptionalSCRefLapDataVarArray(ISerializer iSerializer, SCRefLapData[] sCRefLapDataArray) throws SerializerException {
         boolean bl = sCRefLapDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SCRefLapDataSerializer {
         }
     }
 
-    public static SCRefLapData getOptionalSCRefLapData(IDeserializer iDeserializer) {
+    public static SCRefLapData getOptionalSCRefLapData(IDeserializer iDeserializer) throws SerializerException {
         SCRefLapData sCRefLapData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SCRefLapDataSerializer {
         return sCRefLapData;
     }
 
-    public static SCRefLapData[] getOptionalSCRefLapDataVarArray(IDeserializer iDeserializer) {
+    public static SCRefLapData[] getOptionalSCRefLapDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         SCRefLapData[] sCRefLapDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

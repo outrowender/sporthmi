@@ -10,10 +10,10 @@ import de.vw.mib.bap.stream.BitStream;
 public final class HangupCall_Result
 implements ResultMethod {
     public int hangupCall_Result;
-    public static final int HANGUP_CALL_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int HANGUP_CALL_RESULT_ABORT_SUCCESSFUL;
-    public static final int HANGUP_CALL_RESULT_NOT_SUCCESSFUL;
-    public static final int HANGUP_CALL_RESULT_SUCCESSFUL;
+    public static final int HANGUP_CALL_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int HANGUP_CALL_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int HANGUP_CALL_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int HANGUP_CALL_RESULT_SUCCESSFUL = 0;
 
     public HangupCall_Result() {
         this.internalReset();
@@ -29,12 +29,10 @@ implements ResultMethod {
         this.hangupCall_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         HangupCall_Result hangupCall_Result = (HangupCall_Result)bAPEntity;
         return this.hangupCall_Result == hangupCall_Result.hangupCall_Result;
@@ -43,12 +41,10 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public int getResultCode() {
         return this.hangupCall_Result;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("HangupCall_Result");
@@ -56,17 +52,14 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.hangupCall_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.hangupCall_Result = bitStream.popFrontByte();
     }
@@ -75,7 +68,6 @@ implements ResultMethod {
         return 18;
     }
 
-    @Override
     public int getFunctionId() {
         return HangupCall_Result.functionId();
     }

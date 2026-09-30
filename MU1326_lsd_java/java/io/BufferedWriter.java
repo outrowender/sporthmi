@@ -34,8 +34,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -50,8 +49,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -70,15 +68,14 @@ extends Writer {
         return this.out != null;
     }
 
-    public void newLine() {
+    public void newLine() throws IOException {
         this.write(this.lineSeparator, 0, this.lineSeparator.length());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(char[] cArray, int n, int n2) {
+    public void write(char[] cArray, int n, int n2) throws IOException {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
             synchronized (object) {
@@ -120,8 +117,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -139,8 +135,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(String string, int n, int n2) {
+    public void write(String string, int n, int n2) throws IOException {
         if (n >= 0 && n <= string.length() && n2 >= 0 && n2 <= string.length() - n) {
             Object object = this.lock;
             synchronized (object) {

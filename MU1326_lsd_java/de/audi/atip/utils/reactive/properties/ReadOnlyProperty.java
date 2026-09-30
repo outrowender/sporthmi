@@ -1,0 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.utils.reactive.properties;
+
+import de.audi.atip.utils.reactive.observables.Observable;
+import de.audi.atip.utils.reactive.properties.Gettable;
+import de.audi.atip.utils.reactive.properties.ObservableProperty;
+
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
+public interface ReadOnlyProperty<T>
+extends Observable<T>,
+Gettable<T>,
+ObservableProperty<T> {
+    @Override
+    public Observable<T> observeNonSticky();
+
+    @Override
+    public String getTag();
+}
+

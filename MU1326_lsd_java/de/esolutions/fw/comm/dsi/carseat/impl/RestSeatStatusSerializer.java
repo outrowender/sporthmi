@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.RestSeatStatus;
 
 public class RestSeatStatusSerializer {
-    public static void putOptionalRestSeatStatus(ISerializer iSerializer, RestSeatStatus restSeatStatus) {
+    public static void putOptionalRestSeatStatus(ISerializer iSerializer, RestSeatStatus restSeatStatus) throws SerializerException {
         boolean bl = restSeatStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RestSeatStatusSerializer {
         }
     }
 
-    public static void putOptionalRestSeatStatusVarArray(ISerializer iSerializer, RestSeatStatus[] restSeatStatusArray) {
+    public static void putOptionalRestSeatStatusVarArray(ISerializer iSerializer, RestSeatStatus[] restSeatStatusArray) throws SerializerException {
         boolean bl = restSeatStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RestSeatStatusSerializer {
         }
     }
 
-    public static RestSeatStatus getOptionalRestSeatStatus(IDeserializer iDeserializer) {
+    public static RestSeatStatus getOptionalRestSeatStatus(IDeserializer iDeserializer) throws SerializerException {
         RestSeatStatus restSeatStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RestSeatStatusSerializer {
         return restSeatStatus;
     }
 
-    public static RestSeatStatus[] getOptionalRestSeatStatusVarArray(IDeserializer iDeserializer) {
+    public static RestSeatStatus[] getOptionalRestSeatStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         RestSeatStatus[] restSeatStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -62,7 +62,7 @@ public class ClockTime {
     }
 
     public String toString() {
-        return new StringBuffer("ClockTime{").append("hours=").append(this.hours).append(", minutes=").append(this.minutes).append(", seconds=").append(this.seconds).append(", timeZone=").append(this.timeZone).append(", summerTime=").append(this.summerTime).append("}").toString();
+        return "ClockTime{" + "hours=" + this.hours + ", minutes=" + this.minutes + ", seconds=" + this.seconds + ", timeZone=" + this.timeZone + ", summerTime=" + this.summerTime + "}";
     }
 }
 

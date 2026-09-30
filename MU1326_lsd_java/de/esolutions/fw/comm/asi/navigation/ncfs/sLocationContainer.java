@@ -47,7 +47,7 @@ public class sLocationContainer {
     }
 
     public String toString() {
-        return new StringBuffer("sLocationContainer{").append("validLocationType=").append(this.validLocationType).append(", edgeLocation=").append(this.edgeLocation).append(", rectangleSetLocation=").append(this.rectangleSetLocation).append("}").toString();
+        return "sLocationContainer{" + "validLocationType=" + this.validLocationType + ", edgeLocation=" + this.edgeLocation + ", rectangleSetLocation=" + this.rectangleSetLocation + "}";
     }
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.networking;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.networking.DSIWLANReply;
 import de.esolutions.fw.comm.dsi.networking.impl.DSIWLANReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIWLANReply {
         super(n, (class$org$dsi$ifc$networking$DSIWLANListener == null ? (class$org$dsi$ifc$networking$DSIWLANListener = DSIWLANDispatcher.class$("org.dsi.ifc.networking.DSIWLANListener")) : class$org$dsi$ifc$networking$DSIWLANListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateRole(int n, int n2) {
+    public void updateRole(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -59,8 +58,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateRFActive(int n, int n2) {
+    public void updateRFActive(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -88,8 +86,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateNodeList(Node[] nodeArray, int n) {
+    public void updateNodeList(Node[] nodeArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -117,8 +114,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateProfile(Profile profile, int n) {
+    public void updateProfile(Profile profile, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -146,8 +142,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateWlanEnabled(boolean bl, int n) {
+    public void updateWlanEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -175,8 +170,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateStartupState(int n, int n2) {
+    public void updateStartupState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -204,8 +198,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateTrustedNetworks(String[] stringArray, String[] stringArray2, int[] nArray, int n) {
+    public void updateTrustedNetworks(String[] stringArray, String[] stringArray2, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -233,8 +226,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateDiscoveredNetwork(DiscoveredNetwork discoveredNetwork, int n) {
+    public void updateDiscoveredNetwork(DiscoveredNetwork discoveredNetwork, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -262,8 +254,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateConnectedNetwork(String string, String string2, int n, int n2) {
+    public void updateConnectedNetwork(String string, String string2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -291,8 +282,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseFactoryReset(int n) {
+    public void responseFactoryReset(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -308,8 +298,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseSetRole(int n) {
+    public void responseSetRole(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -325,8 +314,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseSetRFActive(int n) {
+    public void responseSetRFActive(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -342,8 +330,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseSetProfile(int n) {
+    public void responseSetProfile(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -359,8 +346,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseNetworkSearch(int n, int n2) {
+    public void responseNetworkSearch(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -376,8 +362,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseAbortSearch(int n) {
+    public void responseAbortSearch(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -393,8 +378,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseConnectNetwork(String string, String string2, int n) {
+    public void responseConnectNetwork(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -410,8 +394,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseDisconnectNetwork(String string, String string2, int n) {
+    public void responseDisconnectNetwork(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -427,8 +410,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseDeleteTrustedNetwork(String string, String string2, int n) {
+    public void responseDeleteTrustedNetwork(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -444,8 +426,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void responseActivateWps(int n) {
+    public void responseActivateWps(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -461,8 +442,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateWPSRunning(int n, int n2) {
+    public void updateWPSRunning(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -490,8 +470,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void updateWPSStoppedAndConnecting(String string, String string2, int n) {
+    public void updateWPSStoppedAndConnecting(String string, String string2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -519,8 +498,7 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -536,14 +514,13 @@ implements DSIWLANReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIWLANListener dSIWLANListener = (DSIWLANListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIWLANDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIWLANDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIWLANListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIWLANDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIWLANDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIWLANListener, new Object[]{string, string2});
                     continue;
                 }

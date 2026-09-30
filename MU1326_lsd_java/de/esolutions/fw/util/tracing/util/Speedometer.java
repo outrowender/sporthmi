@@ -4,10 +4,9 @@
 package de.esolutions.fw.util.tracing.util;
 
 import de.esolutions.fw.util.commons.Buffer;
-import de.esolutions.fw.util.tracing.util.Speedometer$Sample;
 
 public class Speedometer {
-    private final Speedometer$Sample[] samples;
+    private final Sample[] samples;
     private final int capacity;
     private int size;
     private int pos;
@@ -18,9 +17,9 @@ public class Speedometer {
 
     public Speedometer(int n) {
         this.capacity = n;
-        this.samples = new Speedometer$Sample[n];
+        this.samples = new Sample[n];
         for (int i2 = 0; i2 < n; ++i2) {
-            this.samples[i2] = new Speedometer$Sample(null);
+            this.samples[i2] = new Sample();
         }
         this.reset();
     }
@@ -115,6 +114,42 @@ public class Speedometer {
         buffer.append("/sc=");
         buffer.append(this.totalSamples);
         return buffer.toString();
+    }
+
+    private static class Sample {
+        private long delta;
+        private int count;
+        private long data;
+
+        private Sample() {
+        }
+
+        public void set(long l, long l2) {
+            this.delta = l;
+            this.data = l2;
+            this.count = 1;
+        }
+
+        public void add(long l) {
+            this.data += l;
+            ++this.count;
+        }
+
+        public long getDelta() {
+            return this.delta;
+        }
+
+        public int getCounter() {
+            return this.count;
+        }
+
+        public long getDataSum() {
+            return this.data;
+        }
+
+        public String toString() {
+            return new StringBuffer().append("d=").append(this.delta).append(",c=").append(this.count).append(",v=").append(this.data).toString();
+        }
     }
 }
 

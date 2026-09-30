@@ -14,13 +14,13 @@ implements StatusProperty {
     public OLBSettings_Olb_Setup olb_Setup = new OLBSettings_Olb_Setup();
     public OLBSettings_Olb_AvailableFunctions olb_AvailableFunctions = new OLBSettings_Olb_AvailableFunctions();
     public int extension1;
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
     public int extension3;
-    public static final int EXTENSION3_MIN;
+    public static final int EXTENSION3_MIN = 0;
     public int extension4;
-    public static final int EXTENSION4_MIN;
+    public static final int EXTENSION4_MIN = 0;
 
     public OLBSettings_Status() {
         this.internalReset();
@@ -39,14 +39,12 @@ implements StatusProperty {
         this.extension4 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.olb_Setup.reset();
         this.olb_AvailableFunctions.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OLBSettings_Status oLBSettings_Status = (OLBSettings_Status)bAPEntity;
         return this.olb_Setup.equalTo(oLBSettings_Status.olb_Setup) && this.olb_AvailableFunctions.equalTo(oLBSettings_Status.olb_AvailableFunctions) && this.extension1 == oLBSettings_Status.extension1 && this.extension2 == oLBSettings_Status.extension2 && this.extension3 == oLBSettings_Status.extension3 && this.extension4 == oLBSettings_Status.extension4;
@@ -55,25 +53,22 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OLBSettings_Status");
-        stringBuffer.append(new StringBuffer().append("\n - olb_Setup:").append(this.olb_Setup.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - olb_AvailableFunctions:").append(this.olb_AvailableFunctions.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension1:").append(this.extension1).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension2:").append(this.extension2).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension3:").append(this.extension3).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension4:").append(this.extension4).toString());
+        stringBuffer.append("\n - olb_Setup:" + this.olb_Setup.toString());
+        stringBuffer.append("\n - olb_AvailableFunctions:" + this.olb_AvailableFunctions.toString());
+        stringBuffer.append("\n - extension1:" + this.extension1);
+        stringBuffer.append("\n - extension2:" + this.extension2);
+        stringBuffer.append("\n - extension3:" + this.extension3);
+        stringBuffer.append("\n - extension4:" + this.extension4);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.olb_Setup.serialize(bitStream);
         this.olb_AvailableFunctions.serialize(bitStream);
@@ -83,7 +78,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.olb_Setup.deserialize(bitStream);
         this.olb_AvailableFunctions.deserialize(bitStream);
@@ -97,7 +91,6 @@ implements StatusProperty {
         return 34;
     }
 
-    @Override
     public int getFunctionId() {
         return OLBSettings_Status.functionId();
     }

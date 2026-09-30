@@ -6,6 +6,8 @@ package de.esolutions.fw.util.serializer.connection;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.transport.ITransport;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class Connection {
     protected ITransport transport;
@@ -30,16 +32,16 @@ public class Connection {
         return this.deserializer;
     }
 
-    public void open() {
+    public void open() throws TransportException, IOException, InterruptedException {
         this.transport.open();
     }
 
-    public void close(boolean bl) {
+    public void close(boolean bl) throws TransportException, IOException, InterruptedException {
         this.transport.close(bl);
     }
 
     public String getDescription() {
-        return new StringBuffer().append("[t=").append(this.transport.getDescription()).append(",sd=").append(this.serializer.getDescription()).append(",").append(this.deserializer.getDescription()).append("]").toString();
+        return "[t=" + this.transport.getDescription() + ",sd=" + this.serializer.getDescription() + "," + this.deserializer.getDescription() + "]";
     }
 }
 

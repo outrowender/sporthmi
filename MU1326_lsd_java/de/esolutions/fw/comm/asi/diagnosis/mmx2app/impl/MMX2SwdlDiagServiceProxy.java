@@ -3,17 +3,21 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SwdlDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SwdlDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SwdlDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SwdlDiagServiceProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SwdlDiagServiceProxy$2;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SwdlDiagServiceReplyService;
+import de.esolutions.fw.comm.asi.diagnosis.swdl.impl.sModuleVersionNumbersSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.swdl.sModuleVersionNumbers;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2SwdlDiagServiceProxy
 implements MMX2SwdlDiagService,
@@ -31,16 +35,24 @@ MMX2SwdlDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorSwdl(sClientResponseError sClientResponseError2) {
-        MMX2SwdlDiagServiceProxy$1 mMX2SwdlDiagServiceProxy$1 = new MMX2SwdlDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)8, mMX2SwdlDiagServiceProxy$1);
+    public void responseErrorSwdl(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void responseModuleVersionNumbers(sModuleVersionNumbers sModuleVersionNumbers2) {
-        MMX2SwdlDiagServiceProxy$2 mMX2SwdlDiagServiceProxy$2 = new MMX2SwdlDiagServiceProxy$2(this, sModuleVersionNumbers2);
-        this.proxy.remoteCallMethod((short)2, mMX2SwdlDiagServiceProxy$2);
+    public void responseModuleVersionNumbers(final sModuleVersionNumbers sModuleVersionNumbers2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sModuleVersionNumbersSerializer.putOptionalsModuleVersionNumbers(iSerializer, sModuleVersionNumbers2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 }
 

@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.carlight.impl.IntLightSetupColorsSerializer;
 import de.esolutions.fw.comm.dsi.carlight.impl.IntLightTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightConfig;
 import org.dsi.ifc.carlight.IntLightMembersIlluminationSet;
 import org.dsi.ifc.carlight.IntLightMembersMultiColor;
@@ -16,7 +17,7 @@ import org.dsi.ifc.carlight.IntLightSetupColors;
 import org.dsi.ifc.carlight.IntLightTransmittableElements;
 
 public class IntLightConfigSerializer {
-    public static void putOptionalIntLightConfig(ISerializer iSerializer, IntLightConfig intLightConfig) {
+    public static void putOptionalIntLightConfig(ISerializer iSerializer, IntLightConfig intLightConfig) throws SerializerException {
         boolean bl = intLightConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -81,7 +82,7 @@ public class IntLightConfigSerializer {
         }
     }
 
-    public static void putOptionalIntLightConfigVarArray(ISerializer iSerializer, IntLightConfig[] intLightConfigArray) {
+    public static void putOptionalIntLightConfigVarArray(ISerializer iSerializer, IntLightConfig[] intLightConfigArray) throws SerializerException {
         boolean bl = intLightConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -92,7 +93,7 @@ public class IntLightConfigSerializer {
         }
     }
 
-    public static IntLightConfig getOptionalIntLightConfig(IDeserializer iDeserializer) {
+    public static IntLightConfig getOptionalIntLightConfig(IDeserializer iDeserializer) throws SerializerException {
         IntLightConfig intLightConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -159,7 +160,7 @@ public class IntLightConfigSerializer {
         return intLightConfig;
     }
 
-    public static IntLightConfig[] getOptionalIntLightConfigVarArray(IDeserializer iDeserializer) {
+    public static IntLightConfig[] getOptionalIntLightConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightConfig[] intLightConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

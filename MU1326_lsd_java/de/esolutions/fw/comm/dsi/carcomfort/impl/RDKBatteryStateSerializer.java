@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKBatteryState;
 
 public class RDKBatteryStateSerializer {
-    public static void putOptionalRDKBatteryState(ISerializer iSerializer, RDKBatteryState rDKBatteryState) {
+    public static void putOptionalRDKBatteryState(ISerializer iSerializer, RDKBatteryState rDKBatteryState) throws SerializerException {
         boolean bl = rDKBatteryState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RDKBatteryStateSerializer {
         }
     }
 
-    public static void putOptionalRDKBatteryStateVarArray(ISerializer iSerializer, RDKBatteryState[] rDKBatteryStateArray) {
+    public static void putOptionalRDKBatteryStateVarArray(ISerializer iSerializer, RDKBatteryState[] rDKBatteryStateArray) throws SerializerException {
         boolean bl = rDKBatteryStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RDKBatteryStateSerializer {
         }
     }
 
-    public static RDKBatteryState getOptionalRDKBatteryState(IDeserializer iDeserializer) {
+    public static RDKBatteryState getOptionalRDKBatteryState(IDeserializer iDeserializer) throws SerializerException {
         RDKBatteryState rDKBatteryState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class RDKBatteryStateSerializer {
         return rDKBatteryState;
     }
 
-    public static RDKBatteryState[] getOptionalRDKBatteryStateVarArray(IDeserializer iDeserializer) {
+    public static RDKBatteryState[] getOptionalRDKBatteryStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKBatteryState[] rDKBatteryStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

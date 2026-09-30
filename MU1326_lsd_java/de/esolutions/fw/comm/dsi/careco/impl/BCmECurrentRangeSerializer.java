@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmECurrentRange;
 
 public class BCmECurrentRangeSerializer {
-    public static void putOptionalBCmECurrentRange(ISerializer iSerializer, BCmECurrentRange bCmECurrentRange) {
+    public static void putOptionalBCmECurrentRange(ISerializer iSerializer, BCmECurrentRange bCmECurrentRange) throws SerializerException {
         boolean bl = bCmECurrentRange == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class BCmECurrentRangeSerializer {
         }
     }
 
-    public static void putOptionalBCmECurrentRangeVarArray(ISerializer iSerializer, BCmECurrentRange[] bCmECurrentRangeArray) {
+    public static void putOptionalBCmECurrentRangeVarArray(ISerializer iSerializer, BCmECurrentRange[] bCmECurrentRangeArray) throws SerializerException {
         boolean bl = bCmECurrentRangeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class BCmECurrentRangeSerializer {
         }
     }
 
-    public static BCmECurrentRange getOptionalBCmECurrentRange(IDeserializer iDeserializer) {
+    public static BCmECurrentRange getOptionalBCmECurrentRange(IDeserializer iDeserializer) throws SerializerException {
         BCmECurrentRange bCmECurrentRange = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class BCmECurrentRangeSerializer {
         return bCmECurrentRange;
     }
 
-    public static BCmECurrentRange[] getOptionalBCmECurrentRangeVarArray(IDeserializer iDeserializer) {
+    public static BCmECurrentRange[] getOptionalBCmECurrentRangeVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmECurrentRange[] bCmECurrentRangeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

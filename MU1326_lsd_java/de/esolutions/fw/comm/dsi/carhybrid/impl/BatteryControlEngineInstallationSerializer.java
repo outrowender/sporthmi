@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlEngineInstallation;
 
 public class BatteryControlEngineInstallationSerializer {
-    public static void putOptionalBatteryControlEngineInstallation(ISerializer iSerializer, BatteryControlEngineInstallation batteryControlEngineInstallation) {
+    public static void putOptionalBatteryControlEngineInstallation(ISerializer iSerializer, BatteryControlEngineInstallation batteryControlEngineInstallation) throws SerializerException {
         boolean bl = batteryControlEngineInstallation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BatteryControlEngineInstallationSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlEngineInstallationVarArray(ISerializer iSerializer, BatteryControlEngineInstallation[] batteryControlEngineInstallationArray) {
+    public static void putOptionalBatteryControlEngineInstallationVarArray(ISerializer iSerializer, BatteryControlEngineInstallation[] batteryControlEngineInstallationArray) throws SerializerException {
         boolean bl = batteryControlEngineInstallationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BatteryControlEngineInstallationSerializer {
         }
     }
 
-    public static BatteryControlEngineInstallation getOptionalBatteryControlEngineInstallation(IDeserializer iDeserializer) {
+    public static BatteryControlEngineInstallation getOptionalBatteryControlEngineInstallation(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlEngineInstallation batteryControlEngineInstallation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BatteryControlEngineInstallationSerializer {
         return batteryControlEngineInstallation;
     }
 
-    public static BatteryControlEngineInstallation[] getOptionalBatteryControlEngineInstallationVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlEngineInstallation[] getOptionalBatteryControlEngineInstallationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlEngineInstallation[] batteryControlEngineInstallationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

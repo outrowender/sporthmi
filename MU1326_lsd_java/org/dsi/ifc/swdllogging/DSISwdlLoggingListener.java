@@ -7,19 +7,14 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSISwdlLoggingListener
 extends DSIListener {
-    default public void getHistory(String[] stringArray, int[] nArray) {
-    }
+    public void getHistory(String[] var1, int[] var2);
 
-    default public void setUpdate(int n) {
-    }
+    public void setUpdate(int var1);
 
-    default public void getGeneralInformation(boolean bl, String string, String string2, boolean bl2, String string3, String string4, int[] nArray, boolean bl3, int n, int[] nArray2) {
-    }
+    public void getGeneralInformation(boolean var1, String var2, String var3, boolean var4, String var5, String var6, int[] var7, boolean var8, int var9, int[] var10);
 
-    default public void getUnusualEvents(int[] nArray, String[] stringArray) {
-    }
+    public void getUnusualEvents(int[] var1, String[] var2);
 
-    default public void getUnusualEvent(int n, String string, String string2, String string3, byte by, int n2) {
-    }
+    public void getUnusualEvent(int var1, String var2, String var3, String var4, byte var5, int var6);
 }
 

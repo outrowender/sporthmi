@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoMidFrequent;
 
 public class DynamicVehicleInfoMidFrequentSerializer {
-    public static void putOptionalDynamicVehicleInfoMidFrequent(ISerializer iSerializer, DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent) {
+    public static void putOptionalDynamicVehicleInfoMidFrequent(ISerializer iSerializer, DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent) throws SerializerException {
         boolean bl = dynamicVehicleInfoMidFrequent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -71,7 +72,7 @@ public class DynamicVehicleInfoMidFrequentSerializer {
         }
     }
 
-    public static void putOptionalDynamicVehicleInfoMidFrequentVarArray(ISerializer iSerializer, DynamicVehicleInfoMidFrequent[] dynamicVehicleInfoMidFrequentArray) {
+    public static void putOptionalDynamicVehicleInfoMidFrequentVarArray(ISerializer iSerializer, DynamicVehicleInfoMidFrequent[] dynamicVehicleInfoMidFrequentArray) throws SerializerException {
         boolean bl = dynamicVehicleInfoMidFrequentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -82,7 +83,7 @@ public class DynamicVehicleInfoMidFrequentSerializer {
         }
     }
 
-    public static DynamicVehicleInfoMidFrequent getOptionalDynamicVehicleInfoMidFrequent(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoMidFrequent getOptionalDynamicVehicleInfoMidFrequent(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -147,7 +148,7 @@ public class DynamicVehicleInfoMidFrequentSerializer {
         return dynamicVehicleInfoMidFrequent;
     }
 
-    public static DynamicVehicleInfoMidFrequent[] getOptionalDynamicVehicleInfoMidFrequentVarArray(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoMidFrequent[] getOptionalDynamicVehicleInfoMidFrequentVarArray(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoMidFrequent[] dynamicVehicleInfoMidFrequentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

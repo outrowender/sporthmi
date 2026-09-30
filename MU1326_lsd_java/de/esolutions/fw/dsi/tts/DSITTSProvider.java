@@ -26,28 +26,23 @@ implements DSITTS {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$tts$DSITTS == null ? (class$org$dsi$ifc$tts$DSITTS = DSITTSProvider.class$("org.dsi.ifc.tts.DSITTS")) : class$org$dsi$ifc$tts$DSITTS).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITTSProxy(this.instance, (DSITTSReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void speakPrompt(short s, TTSPrompt tTSPrompt) {
         try {
             this.proxy.speakPrompt(s, tTSPrompt);
@@ -57,7 +52,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void setLanguage(short s, String string, int n, int n2, int n3) {
         try {
             this.proxy.setLanguage(s, string, n, n2, n3);
@@ -67,7 +61,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void init(short s) {
         try {
             this.proxy.init(s);
@@ -77,7 +70,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void requestAudioTrigger(short s, int n) {
         try {
             this.proxy.requestAudioTrigger(s, n);
@@ -87,7 +79,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void requestPlayTone(short s, int n) {
         try {
             this.proxy.requestPlayTone(s, n);
@@ -97,7 +88,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void requestSkipSpeaking(short s, int n, int n2) {
         try {
             this.proxy.requestSkipSpeaking(s, n, n2);
@@ -107,7 +97,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -117,7 +106,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -127,7 +115,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -137,7 +124,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -147,7 +133,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -157,7 +142,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -167,7 +151,6 @@ implements DSITTS {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

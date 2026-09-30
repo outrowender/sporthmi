@@ -10,14 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaBrowserControl_StartResult
 implements StartResultMethod {
     public int control;
-    private static final int CONTROL_BITSIZE;
-    public static final int CONTROL_GO_TO_CURRENT_FILE;
-    public static final int CONTROL_GO_TO_ROOT_DIRECTORY;
-    public static final int CONTROL_GO_TO_PARENT_DIRECTORY;
-    public static final int CONTROL_GO_TO_SOURCE;
-    public static final int CONTROL_OPEN_FOLDER_PLAYLIST;
+    private static final int CONTROL_BITSIZE = 8;
+    public static final int CONTROL_GO_TO_CURRENT_FILE = 0;
+    public static final int CONTROL_GO_TO_ROOT_DIRECTORY = 1;
+    public static final int CONTROL_GO_TO_PARENT_DIRECTORY = 2;
+    public static final int CONTROL_GO_TO_SOURCE = 3;
+    public static final int CONTROL_OPEN_FOLDER_PLAYLIST = 4;
     public int reference;
-    private static final int REFERENCE_BITSIZE;
+    private static final int REFERENCE_BITSIZE = 16;
 
     public MediaBrowserControl_StartResult() {
         this.internalReset();
@@ -34,12 +34,10 @@ implements StartResultMethod {
         this.reference = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaBrowserControl_StartResult mediaBrowserControl_StartResult = (MediaBrowserControl_StartResult)bAPEntity;
         return this.control == mediaBrowserControl_StartResult.control && this.reference == mediaBrowserControl_StartResult.reference;
@@ -48,7 +46,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaBrowserControl_StartResult:");
@@ -83,20 +80,17 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.control);
         bitStream.pushShort((short)this.reference);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.control = bitStream.popFrontByte();
         this.reference = bitStream.popFrontShort();
@@ -106,7 +100,6 @@ implements StartResultMethod {
         return 38;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaBrowserControl_StartResult.functionId();
     }

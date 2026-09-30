@@ -11,91 +11,62 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemMetaData;
 
 public interface IMenuItemMultiItem
 extends IMenuItemMulti {
-    default public void updateSubItemCount() {
-    }
+    public void updateSubItemCount();
 
-    default public int getItemIndexForUniqueID(long l) {
-    }
+    public int getItemIndexForUniqueID(long var1);
 
-    default public Long getUniqueIDForItemIndex(int n) {
-    }
+    public Long getUniqueIDForItemIndex(int var1);
 
-    default public MenuItemMetaData createMenuItem(int n) {
-    }
+    public MenuItemMetaData createMenuItem(int var1);
 
-    default public void destroyMenuItem(MenuItemMetaData menuItemMetaData) {
-    }
+    public void destroyMenuItem(MenuItemMetaData var1);
 
-    default public boolean realizeMenuItem(MenuItemMetaData menuItemMetaData) {
-    }
+    public boolean realizeMenuItem(MenuItemMetaData var1);
 
-    default public boolean updateMenuItem(MenuItemMetaData menuItemMetaData) {
-    }
+    public boolean updateMenuItem(MenuItemMetaData var1);
 
-    default public void showExtended(boolean bl, int n) {
-    }
+    public void showExtended(boolean var1, int var2);
 
-    default public int getSelectedIndex() {
-    }
+    public int getSelectedIndex();
 
-    default public void keyPressed(KeyEvent keyEvent, int n) {
-    }
+    public void keyPressed(KeyEvent var1, int var2);
 
-    default public void keyReleased(KeyEvent keyEvent, int n) {
-    }
+    public void keyReleased(KeyEvent var1, int var2);
 
-    default public void itemFocused(int n) {
-    }
+    public void itemFocused(int var1);
 
-    default public IFocusedPropertyObject getPropertiesForLine(int n) {
-    }
+    public IFocusedPropertyObject getPropertiesForLine(int var1);
 
-    default public IPresetPopupData getPresetPopupData(int n) {
-    }
+    public IPresetPopupData getPresetPopupData(int var1);
 
-    default public int getSdsItemSelectedAction(int n) {
-    }
+    public int getSdsItemSelectedAction(int var1);
 
-    default public boolean hasInfolineText(int n) {
-    }
+    public boolean hasInfolineText(int var1);
 
-    default public String getInfolineText(int n) {
-    }
+    public String getInfolineText(int var1);
 
-    default public boolean isEnabled(int n) {
-    }
+    public boolean isEnabled(int var1);
 
-    default public boolean isNowPlayingModeEnabled(int n) {
-    }
+    public boolean isNowPlayingModeEnabled(int var1);
 
-    default public int getPreferredMenuItemHeight(int n, boolean bl) {
-    }
+    public int getPreferredMenuItemHeight(int var1, boolean var2);
 
-    default public int getMargin(int n, boolean bl) {
-    }
+    public int getMargin(int var1, boolean var2);
 
-    default public int getGlassplateInsets(int n, boolean bl) {
-    }
+    public int getGlassplateInsets(int var1, boolean var2);
 
-    default public int getPreferredMenuItemHeight(MenuItemMetaData menuItemMetaData, boolean bl) {
-    }
+    public int getPreferredMenuItemHeight(MenuItemMetaData var1, boolean var2);
 
-    default public int getMargin(MenuItemMetaData menuItemMetaData, boolean bl) {
-    }
+    public int getMargin(MenuItemMetaData var1, boolean var2);
 
-    default public int getGlassplateInsets(MenuItemMetaData menuItemMetaData, boolean bl) {
-    }
+    public int getGlassplateInsets(MenuItemMetaData var1, boolean var2);
 
-    default public int getNoCursorArea(int n, boolean bl) {
-    }
+    public int getNoCursorArea(int var1, boolean var2);
 
-    default public int getNoCursorArea(MenuItemMetaData menuItemMetaData, boolean bl) {
-    }
+    public int getNoCursorArea(MenuItemMetaData var1, boolean var2);
 
-    default public boolean isFocusable(int n) {
-    }
+    public boolean isFocusable(int var1);
 
-    default public void setFocusedCursorBeforeMerge(int n) {
-    }
+    public void setFocusedCursorBeforeMerge(int var1);
 }
 

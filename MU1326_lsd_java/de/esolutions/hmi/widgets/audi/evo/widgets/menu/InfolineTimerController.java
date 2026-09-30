@@ -22,7 +22,6 @@ extends AbstractMenuIdleTimerController {
         this.idleTime = 11000;
     }
 
-    @Override
     protected void timerFired() {
         MenuController menuController = this.getMenu();
         if (menuController != null) {
@@ -31,17 +30,16 @@ extends AbstractMenuIdleTimerController {
         }
     }
 
-    @Override
     protected boolean shouldExecuteActionInMenu(MenuController menuController) {
         if (!super.shouldExecuteActionInMenu(menuController)) {
             return false;
         }
         if (!this.hasFocusedItem(menuController)) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: no focused item.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: no focused item.", (Object)this.logPrefix);
             return false;
         }
         if (this.isNowPlayingModeActive()) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: nowPlayingMode is active.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: nowPlayingMode is active.", (Object)this.logPrefix);
             this.restartTimer();
             return false;
         }

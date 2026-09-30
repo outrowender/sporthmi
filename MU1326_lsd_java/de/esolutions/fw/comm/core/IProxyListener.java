@@ -6,7 +6,6 @@ package de.esolutions.fw.comm.core;
 import de.esolutions.fw.comm.core.Proxy;
 
 public interface IProxyListener {
-    default public void proxyStateChanged(Proxy proxy, int n) {
-    }
+    public void proxyStateChanged(Proxy var1, int var2);
 }
 

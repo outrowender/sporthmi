@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIPoiOnlineSearch;
 import de.esolutions.fw.comm.dsi.online.DSIPoiOnlineSearchC;
 import de.esolutions.fw.comm.dsi.online.DSIPoiOnlineSearchReply;
-import de.esolutions.fw.comm.dsi.online.impl.DSIPoiOnlineSearchProxy$1;
 import de.esolutions.fw.comm.dsi.online.impl.DSIPoiOnlineSearchReplyService;
+import de.esolutions.fw.comm.dsi.online.impl.PoiOnlineSearchValuelistElementSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
@@ -32,8 +34,7 @@ DSIPoiOnlineSearchC {
         return this.proxy;
     }
 
-    @Override
-    public void poiStartSelectionZoom(String string, int n, int n2, int n3, int n4, int n5) {
+    public void poiStartSelectionZoom(String string, int n, int n2, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -49,8 +50,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void dynamicPoiStartSelectionZoom(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
+    public void dynamicPoiStartSelectionZoom(int n, int n2, int n3, int n4, int n5, int n6, int n7) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -67,8 +67,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void poiStartSelection(String string, int n, int n2, int n3, int n4) {
+    public void poiStartSelection(String string, int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -83,8 +82,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void dynamicPoiStartSelection(int n, int n2, int n3, int n4, int n5, int n6) {
+    public void dynamicPoiStartSelection(int n, int n2, int n3, int n4, int n5, int n6) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -100,13 +98,11 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void poiStopSelection() {
+    public void poiStopSelection() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void poiRequestValueList(int n, int n2) {
+    public void poiRequestValueList(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -118,8 +114,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void poiStartVoiceSelection(int n, int n2, int n3, int n4, boolean bl, int n5) {
+    public void poiStartVoiceSelection(int n, int n2, int n3, int n4, boolean bl, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -135,8 +130,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void poiRawVoiceDataAvailable(String string, int n) {
+    public void poiRawVoiceDataAvailable(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -148,19 +142,22 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void poiRequestSpellingSuggestion() {
+    public void poiRequestSpellingSuggestion() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void usedPoi(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, int n) {
-        DSIPoiOnlineSearchProxy$1 dSIPoiOnlineSearchProxy$1 = new DSIPoiOnlineSearchProxy$1(this, poiOnlineSearchValuelistElement, n);
-        this.proxy.remoteCallMethod((short)30, dSIPoiOnlineSearchProxy$1);
+    public void usedPoi(final PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PoiOnlineSearchValuelistElementSerializer.putOptionalPoiOnlineSearchValuelistElement(iSerializer, poiOnlineSearchValuelistElement);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)30, iSerializable);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -171,8 +168,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setFallbackLanguage(String string) {
+    public void setFallbackLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -183,13 +179,11 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void poiVoiceSearchActive() {
+    public void poiVoiceSearchActive() throws MethodException {
         this.proxy.remoteCallMethod((short)17, null);
     }
 
-    @Override
-    public void precheckDynamicPOICategory(int n) {
+    public void precheckDynamicPOICategory(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -200,8 +194,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -212,8 +205,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -224,13 +216,11 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -241,8 +231,7 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -253,13 +242,11 @@ DSIPoiOnlineSearchC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

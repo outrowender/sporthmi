@@ -5,19 +5,21 @@ package de.esolutions.fw.comm.asi.fec.impl;
 
 import de.esolutions.fw.comm.asi.fec.FecAppMMXReply;
 import de.esolutions.fw.comm.asi.fec.SFecState;
-import de.esolutions.fw.comm.asi.fec.impl.FecAppMMXReplyProxy$1;
-import de.esolutions.fw.comm.asi.fec.impl.FecAppMMXReplyProxy$2;
-import de.esolutions.fw.comm.asi.fec.impl.FecAppMMXReplyProxy$3;
+import de.esolutions.fw.comm.asi.fec.impl.SFecStateSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class FecAppMMXReplyProxy
 implements FecAppMMXReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.fec.FecAppMMX");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public FecAppMMXReplyProxy() {
@@ -25,27 +27,39 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void reportError(int n) {
-        FecAppMMXReplyProxy$1 fecAppMMXReplyProxy$1 = new FecAppMMXReplyProxy$1(this, n);
-        this.proxy.remoteCallMethod((short)3, fecAppMMXReplyProxy$1);
+    public void reportError(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void updateFECs(SFecState[] sFecStateArray) {
-        FecAppMMXReplyProxy$2 fecAppMMXReplyProxy$2 = new FecAppMMXReplyProxy$2(this, sFecStateArray);
-        this.proxy.remoteCallMethod((short)8, fecAppMMXReplyProxy$2);
+    public void updateFECs(final SFecState[] sFecStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SFecStateSerializer.putOptionalSFecStateVarArray(iSerializer, sFecStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void checkPkgSignature(String string, boolean bl) {
-        FecAppMMXReplyProxy$3 fecAppMMXReplyProxy$3 = new FecAppMMXReplyProxy$3(this, string, bl);
-        this.proxy.remoteCallMethod((short)1, fecAppMMXReplyProxy$3);
+    public void checkPkgSignature(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 }
 

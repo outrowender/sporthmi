@@ -6,19 +6,14 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter;
 import java.util.List;
 
 public interface ICharacterConverter {
-    default public void setUnconvertedCharacters(String string) {
-    }
+    public void setUnconvertedCharacters(String var1);
 
-    default public String getUnconvertedCharacters() {
-    }
+    public String getUnconvertedCharacters();
 
-    default public String getValidCharacters() {
-    }
+    public String getValidCharacters();
 
-    default public List getConversions() {
-    }
+    public List getConversions();
 
-    default public List getConversions(int n) {
-    }
+    public List getConversions(int var1);
 }
 

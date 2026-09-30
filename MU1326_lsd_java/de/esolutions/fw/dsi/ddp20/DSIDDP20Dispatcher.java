@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.ddp20;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.ddp20.DSIDDP20Reply;
 import de.esolutions.fw.comm.dsi.ddp20.impl.DSIDDP20ReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIDDP20Reply {
         super(n, (class$org$dsi$ifc$ddp20$DSIDDP20Listener == null ? (class$org$dsi$ifc$ddp20$DSIDDP20Listener = DSIDDP20Dispatcher.class$("org.dsi.ifc.ddp20.DSIDDP20Listener")) : class$org$dsi$ifc$ddp20$DSIDDP20Listener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateVersionInfo(VersionInfo versionInfo, int n) {
+    public void updateVersionInfo(VersionInfo versionInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIDDP20Reply {
         }
     }
 
-    @Override
-    public void updatePowerStatus(int n, int n2) {
+    public void updatePowerStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSIDDP20Reply {
         }
     }
 
-    @Override
-    public void updateDisplayStatus(DisplayStatus displayStatus, int n) {
+    public void updateDisplayStatus(DisplayStatus displayStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSIDDP20Reply {
         }
     }
 
-    @Override
-    public void updateBufferStatus(int n, int n2) {
+    public void updateBufferStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSIDDP20Reply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -162,14 +157,13 @@ implements DSIDDP20Reply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDDP20Listener dSIDDP20Listener = (DSIDDP20Listener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDDP20Dispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDDP20Dispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDDP20Listener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDDP20Dispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDDP20Dispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDDP20Listener, new Object[]{string, string2});
                     continue;
                 }

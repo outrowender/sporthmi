@@ -26,8 +26,7 @@ extends AbstractAsyncTransport {
         super(iTransport, transportWorker);
     }
 
-    @Override
-    public IReadable recv() {
+    public IReadable recv() throws IOException, TransportException, InterruptedException {
         RXTransportJob rXTransportJob;
         if (!this.isOpen()) {
             throw new TransportException("transport is not open!");
@@ -56,8 +55,7 @@ extends AbstractAsyncTransport {
         return rXTransportJob.getReadable();
     }
 
-    @Override
-    public void send(IWriter iWriter) {
+    public void send(IWriter iWriter) throws IOException, TransportException, InterruptedException {
         if (!this.isOpen()) {
             throw new TransportException("transport is not open!");
         }
@@ -82,8 +80,7 @@ extends AbstractAsyncTransport {
         }
     }
 
-    @Override
-    public void sendSync(IWriter iWriter) {
+    public void sendSync(IWriter iWriter) throws IOException, TransportException, InterruptedException {
         if (!this.isOpen()) {
             throw new TransportException("transport is not open!");
         }
@@ -110,8 +107,7 @@ extends AbstractAsyncTransport {
         }
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException, TransportException, InterruptedException {
         if (!this.isOpen()) {
             throw new TransportException("transport is not open!");
         }
@@ -136,9 +132,8 @@ extends AbstractAsyncTransport {
         }
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[Async:").append(this.transport.getDescription()).append("]").toString();
+        return "[Async:" + this.transport.getDescription() + "]";
     }
 }
 

@@ -12,7 +12,7 @@ import de.esolutions.fw.util.tracing.plugin.PluginRegistry;
 
 public class TraceConfigPlugin
 extends TraceConfigElement {
-    private static final String chn;
+    private static final String chn = "ConfigPlugin";
 
     public TraceConfigPlugin(String string, ConfigValue configValue, TraceConfig traceConfig) {
         super(string, configValue, traceConfig);
@@ -24,15 +24,15 @@ extends TraceConfigElement {
             try {
                 Class clazz = Class.forName(string);
                 ITracePlugin iTracePlugin = (ITracePlugin)clazz.newInstance();
-                TraceMe.msg(TraceMe.INFO, "ConfigPlugin", "created plugin instance of %1 for %2", string, this.getName());
+                TraceMe.msg(TraceMe.INFO, chn, "created plugin instance of %1 for %2", string, this.getName());
                 return iTracePlugin;
             }
             catch (ClassNotFoundException classNotFoundException) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigPlugin", "plugin class %1 NOT FOUND!", string);
+                TraceMe.msg(TraceMe.ERROR, chn, "plugin class %1 NOT FOUND!", string);
                 return null;
             }
             catch (Exception exception) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigPlugin", "can't instantiate plugin class %1: %2", string, exception);
+                TraceMe.msg(TraceMe.ERROR, chn, "can't instantiate plugin class %1: %2", string, exception);
                 return null;
             }
         }
@@ -40,19 +40,19 @@ extends TraceConfigElement {
         if (string2 != null) {
             ITracePlugin iTracePlugin = PluginRegistry.getInstance().createPlugin(string2);
             if (iTracePlugin == null) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigPlugin", "can't create default plugin: %1", string2);
+                TraceMe.msg(TraceMe.ERROR, chn, "can't create default plugin: %1", string2);
                 return null;
             }
-            TraceMe.msg(TraceMe.INFO, "ConfigPlugin", "created plugin instance of %1 for %2", string2, this.getName());
+            TraceMe.msg(TraceMe.INFO, chn, "created plugin instance of %1 for %2", string2, this.getName());
             return iTracePlugin;
         }
         String string3 = this.getName();
         ITracePlugin iTracePlugin = PluginRegistry.getInstance().createPlugin(string3);
         if (iTracePlugin != null) {
-            TraceMe.msg(TraceMe.INFO, "ConfigPlugin", "created plugin instance of %1 for %2", string3, this.getName());
+            TraceMe.msg(TraceMe.INFO, chn, "created plugin instance of %1 for %2", string3, this.getName());
             return iTracePlugin;
         }
-        TraceMe.msg(TraceMe.WARN, "ConfigPlugin", "ignoring plugin %1: neither class nor javaClass given!", this.getName());
+        TraceMe.msg(TraceMe.WARN, chn, "ignoring plugin %1: neither class nor javaClass given!", this.getName());
         return null;
     }
 }

@@ -31,10 +31,9 @@ AnimationListener {
 
     public OptionDrawerIconController() {
         this.ANIMATION_TYPE = 55;
-        this.ANIMATION_TARGET = 31300;
+        this.ANIMATION_TARGET = 1000.0f;
     }
 
-    @Override
     public void showDrawerItem(boolean bl, boolean bl2) {
         this.startOpacity = this.getRenderOpacity();
         this.targetOpacity = 1.0f;
@@ -49,9 +48,9 @@ AnimationListener {
         this.setVisible(true);
         AbstractAnimation abstractAnimation = this.getAnimation();
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, 55, false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, 55, false, this);
         }
     }
 
@@ -67,7 +66,6 @@ AnimationListener {
         return (AnimationController)this.getTerminal().getIAnimationController();
     }
 
-    @Override
     public void animate(int n, float f2) {
         if (n == 55) {
             AbstractAnimation abstractAnimation = this.getAnimation();
@@ -78,11 +76,9 @@ AnimationListener {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (n == 55) {
             float f2;
@@ -92,7 +88,6 @@ AnimationListener {
         }
     }
 
-    @Override
     public void hideDrawerItem(boolean bl, boolean bl2) {
         this.startOpacity = this.getRenderOpacity();
         this.targetOpacity = 0.0f;
@@ -103,13 +98,12 @@ AnimationListener {
         }
         AbstractAnimation abstractAnimation = this.getAnimation();
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, 55, false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, 55, false, this);
         }
     }
 
-    @Override
     public void setLayout(int n, int n2) {
         int n3;
         int n4;
@@ -137,7 +131,6 @@ AnimationListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -146,7 +139,6 @@ AnimationListener {
         this.renderer = compositeRenderer;
     }
 
-    @Override
     protected void destroyWidget() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -166,77 +158,61 @@ AnimationListener {
         this.add(cursorController);
     }
 
-    @Override
     public void setMMICombiSyncMode(int n) {
         this.mmiCombiSyncMode = n;
     }
 
-    @Override
     public int getMMICombiSyncMode() {
         return this.mmiCombiSyncMode;
     }
 
-    @Override
     public void setAnimationType(int n) {
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
     }
 
-    @Override
     public void setScreenChangeTarget(int n) {
     }
 
-    @Override
     public void screenChangeFinished() {
     }
 
-    @Override
     public void setDrawerAnimationMask(int n) {
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
     public void drawerSetDrawerAnimation(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 0;
     }
 
-    @Override
     public void setTransitionForward(boolean bl) {
     }
 
-    @Override
     public boolean isTransitionForward() {
         return false;
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
     }
 
     public void setInitialState(int n) {
     }
 
-    @Override
     public void hideDrawerItem() {
     }
 
-    @Override
     public void setDrawerAnimationType(int n) {
     }
 }

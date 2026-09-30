@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class AlertList_Attributes
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean alwaysOn;
     public boolean alertIsActivated;
 
@@ -27,12 +27,10 @@ implements BAPEntity {
         this.alertIsActivated = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AlertList_Attributes alertList_Attributes = (AlertList_Attributes)bAPEntity;
         return this.alwaysOn == alertList_Attributes.alwaysOn && this.alertIsActivated == alertList_Attributes.alertIsActivated;
@@ -41,28 +39,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AlertList_Attributes");
-        stringBuffer.append(new StringBuffer().append("\n - alwaysOn:").append(this.alwaysOn).toString());
-        stringBuffer.append(new StringBuffer().append("\n - alertIsActivated:").append(this.alertIsActivated).toString());
+        stringBuffer.append("\n - alwaysOn:" + this.alwaysOn);
+        stringBuffer.append("\n - alertIsActivated:" + this.alertIsActivated);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.alwaysOn);
         bitStream.pushBoolean(this.alertIsActivated);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.alwaysOn = bitStream.popFrontBoolean();

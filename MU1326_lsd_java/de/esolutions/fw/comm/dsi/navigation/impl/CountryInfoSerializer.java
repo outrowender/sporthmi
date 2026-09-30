@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.CountryInfo;
 
 public class CountryInfoSerializer {
-    public static void putOptionalCountryInfo(ISerializer iSerializer, CountryInfo countryInfo) {
+    public static void putOptionalCountryInfo(ISerializer iSerializer, CountryInfo countryInfo) throws SerializerException {
         boolean bl = countryInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CountryInfoSerializer {
         }
     }
 
-    public static void putOptionalCountryInfoVarArray(ISerializer iSerializer, CountryInfo[] countryInfoArray) {
+    public static void putOptionalCountryInfoVarArray(ISerializer iSerializer, CountryInfo[] countryInfoArray) throws SerializerException {
         boolean bl = countryInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CountryInfoSerializer {
         }
     }
 
-    public static CountryInfo getOptionalCountryInfo(IDeserializer iDeserializer) {
+    public static CountryInfo getOptionalCountryInfo(IDeserializer iDeserializer) throws SerializerException {
         CountryInfo countryInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CountryInfoSerializer {
         return countryInfo;
     }
 
-    public static CountryInfo[] getOptionalCountryInfoVarArray(IDeserializer iDeserializer) {
+    public static CountryInfo[] getOptionalCountryInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         CountryInfo[] countryInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

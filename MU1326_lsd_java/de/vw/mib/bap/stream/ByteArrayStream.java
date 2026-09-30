@@ -8,12 +8,12 @@ import java.nio.BufferUnderflowException;
 
 public class ByteArrayStream
 implements BitStream {
-    private static final int DEFAULT_SIZE;
-    private static final int DEFAULT_INCREMENT;
-    private static final int INT_BYTE_SIZE;
-    private static final int BYTE_MASK;
-    private static final int TRUE_INT_CONSTANT;
-    private static final int FALSE_INT_CONSTANT;
+    private static final int DEFAULT_SIZE = 10;
+    private static final int DEFAULT_INCREMENT = 5;
+    private static final int INT_BYTE_SIZE = 4;
+    private static final int BYTE_MASK = 255;
+    private static final int TRUE_INT_CONSTANT = 1;
+    private static final int FALSE_INT_CONSTANT = 0;
     private int bitsCount;
     private int bytesCount;
     private int bitsLeftCount;
@@ -41,24 +41,20 @@ implements BitStream {
         this.capacityIncrement = n2 <= 0 ? 5 : n2;
     }
 
-    @Override
     public void pushBoolean(boolean bl) {
         this.pushBits(1, bl ? (byte)1 : 0);
     }
 
-    @Override
     public void pushByte(byte by) {
         this.pushBits(8, by);
     }
 
-    @Override
     public void pushShort(short n) {
         int n2 = n;
         this.pushBits(8, (byte)(n2 & 0xFF));
         this.pushBits(8, (byte)((n2 >>>= 8) & 0xFF));
     }
 
-    @Override
     public void pushInt(int n) {
         int n2 = n;
         for (int i2 = 0; i2 < 4; ++i2) {
@@ -67,7 +63,6 @@ implements BitStream {
         }
     }
 
-    @Override
     public void pushBits(int n, int n2) {
         int n3;
         int n4 = n - 8;
@@ -79,7 +74,6 @@ implements BitStream {
         this.pushBits(n3, (byte)(n2 & 0xFF));
     }
 
-    @Override
     public void resetBits(int n) {
         int n2;
         for (n2 = n; n2 > 8; n2 -= 8) {
@@ -88,7 +82,6 @@ implements BitStream {
         this.pushBits(n2, (byte)0);
     }
 
-    @Override
     public void pushBytes(byte[] byArray) {
         this.ensureCapacity(byArray.length);
         int n = 8 - this.bitsCount;
@@ -156,7 +149,6 @@ implements BitStream {
         return this.bytesCount + (this.bitsCount != 0 ? 1 : 0);
     }
 
-    @Override
     public int bitSize() {
         return this.bytesCount * 8 + this.bitsCount;
     }
@@ -173,7 +165,6 @@ implements BitStream {
         }
     }
 
-    @Override
     public int popFrontBits(int n) {
         this.checkForBufferUnderflow(n);
         int n2 = 0;
@@ -204,7 +195,6 @@ implements BitStream {
         return n2;
     }
 
-    @Override
     public void discardBits(int n) {
         this.checkForBufferUnderflow(n);
         int n2 = 8 - this.bitsLeftCount;
@@ -217,12 +207,10 @@ implements BitStream {
         }
     }
 
-    @Override
     public boolean popFrontBoolean() {
         return this.popFrontBits(1) == 1;
     }
 
-    @Override
     public int popFrontByte() {
         this.checkForBufferUnderflow(8);
         return this.popFrontByteSafe();
@@ -239,7 +227,6 @@ implements BitStream {
         return n;
     }
 
-    @Override
     public byte[] popFrontBytes(int n) {
         this.checkForBufferUnderflow(n * 8);
         byte[] byArray = new byte[n];
@@ -254,7 +241,6 @@ implements BitStream {
         return byArray;
     }
 
-    @Override
     public int popFrontInt() {
         byte[] byArray = this.popFrontBytes(4);
         int n = 0;
@@ -265,7 +251,6 @@ implements BitStream {
         return n;
     }
 
-    @Override
     public int popFrontShort() {
         this.checkForBufferUnderflow(16);
         return this.popFrontByteSafe() | this.popFrontByteSafe() << 8;

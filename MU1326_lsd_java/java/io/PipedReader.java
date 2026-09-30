@@ -17,13 +17,13 @@ extends Reader {
     private char[] data = new char[1024];
     private int in = -1;
     private int out = 0;
-    private static final int PIPE_SIZE;
+    private static final int PIPE_SIZE = 1024;
     private boolean isConnected = false;
 
     public PipedReader() {
     }
 
-    public PipedReader(PipedWriter pipedWriter) {
+    public PipedReader(PipedWriter pipedWriter) throws IOException {
         this();
         this.connect(pipedWriter);
     }
@@ -31,8 +31,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.data != null) {
@@ -44,7 +43,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void connect(PipedWriter pipedWriter) {
+    public void connect(PipedWriter pipedWriter) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             pipedWriter.connect(this);
@@ -54,7 +53,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    void establishConnection(PipedWriter pipedWriter) {
+    void establishConnection(PipedWriter pipedWriter) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.data == null) {
@@ -67,8 +66,7 @@ extends Reader {
         }
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         char[] cArray = new char[1];
         int n = this.read(cArray, 0, 1);
         return n != -1 ? cArray[0] : n;
@@ -79,8 +77,7 @@ extends Reader {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
             synchronized (object) {
@@ -100,8 +97,8 @@ extends Reader {
                                 throw new IOException(Msg.getString("K0076"));
                             }
                             n3 = 0;
-                            super.notifyAll();
-                            this.lock.wait(0);
+                            this.notifyAll();
+                            this.lock.wait(1000L);
                         }
                     }
                     catch (InterruptedException interruptedException) {
@@ -142,8 +139,7 @@ extends Reader {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isConnected) {
@@ -156,15 +152,15 @@ extends Reader {
         }
     }
 
-    void receive(char c2) {
+    void receive(char c2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.data != null) {
                 this.lastWriter = Thread.currentThread();
                 try {
                     while (this.data != null && this.out == this.in) {
-                        super.notifyAll();
-                        super.wait(0);
+                        this.notifyAll();
+                        this.wait(1000L);
                         if (this.lastReader == null || this.lastReader.isAlive()) continue;
                         throw new IOException(Msg.getString("K0076"));
                     }
@@ -187,7 +183,7 @@ extends Reader {
         }
     }
 
-    void receive(char[] cArray, int n, int n2) {
+    void receive(char[] cArray, int n, int n2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.data != null) {
@@ -196,8 +192,8 @@ extends Reader {
                     int n3;
                     try {
                         while (this.data != null && this.out == this.in) {
-                            super.notifyAll();
-                            super.wait(0);
+                            this.notifyAll();
+                            this.wait(1000L);
                             if (this.lastReader == null || this.lastReader.isAlive()) continue;
                             throw new IOException(Msg.getString("K0076"));
                         }
@@ -247,7 +243,7 @@ extends Reader {
         Object object = this.lock;
         synchronized (object) {
             this.isClosed = true;
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
@@ -257,7 +253,7 @@ extends Reader {
     void flush() {
         Object object = this.lock;
         synchronized (object) {
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 }

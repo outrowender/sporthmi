@@ -24,8 +24,7 @@ implements BundleActivator {
     static /* synthetic */ Class class$de$esolutions$fw$util$tracing$TraceClient;
     static /* synthetic */ Class class$de$esolutions$fw$util$tracing$frontend$TraceFrontend;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(BundleContext bundleContext) throws Exception {
         TraceClient.init("hmi", "client", true);
         this.client = TraceClient.getTraceClient();
         if (this.client == null) {
@@ -43,8 +42,7 @@ implements BundleActivator {
         this.injectErrorCB = this.client.registerCallback("Inject Trace Error", new InjectErrorCallback(this.frontend));
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
         if (this.client != null) {
             this.client.unregisterCallback(this.dumpModelCB);
             this.client.unregisterCallback(this.injectErrorCB);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.RgTurnToInfo;
 
 public class RgTurnToInfoSerializer {
-    public static void putOptionalRgTurnToInfo(ISerializer iSerializer, RgTurnToInfo rgTurnToInfo) {
+    public static void putOptionalRgTurnToInfo(ISerializer iSerializer, RgTurnToInfo rgTurnToInfo) throws SerializerException {
         boolean bl = rgTurnToInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RgTurnToInfoSerializer {
         }
     }
 
-    public static void putOptionalRgTurnToInfoVarArray(ISerializer iSerializer, RgTurnToInfo[] rgTurnToInfoArray) {
+    public static void putOptionalRgTurnToInfoVarArray(ISerializer iSerializer, RgTurnToInfo[] rgTurnToInfoArray) throws SerializerException {
         boolean bl = rgTurnToInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RgTurnToInfoSerializer {
         }
     }
 
-    public static RgTurnToInfo getOptionalRgTurnToInfo(IDeserializer iDeserializer) {
+    public static RgTurnToInfo getOptionalRgTurnToInfo(IDeserializer iDeserializer) throws SerializerException {
         RgTurnToInfo rgTurnToInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class RgTurnToInfoSerializer {
         return rgTurnToInfo;
     }
 
-    public static RgTurnToInfo[] getOptionalRgTurnToInfoVarArray(IDeserializer iDeserializer) {
+    public static RgTurnToInfo[] getOptionalRgTurnToInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RgTurnToInfo[] rgTurnToInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

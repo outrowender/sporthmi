@@ -27,28 +27,23 @@ implements DSIFastListScrollingNavigation {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigation == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigation = DSIFastListScrollingNavigationProvider.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingNavigation")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigation).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIFastListScrollingNavigationProxy(this.instance, (DSIFastListScrollingNavigationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void pushFunctionAvailabilityNavigation(int n) {
         try {
             this.proxy.pushFunctionAvailabilityNavigation(n);
@@ -58,7 +53,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void pushMOSTOperationStateNavigation(int n) {
         try {
             this.proxy.pushMOSTOperationStateNavigation(n);
@@ -68,7 +62,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseNavBook(int n, int n2, int n3, int n4, int n5, long l, int n6, int n7, int n8, int n9, int n10, int n11, int n12) {
         try {
             this.proxy.responseNavBook(n, n2, n3, n4, n5, l, n6, n7, n8, n9, n10, n11, n12);
@@ -78,7 +71,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseNavBookArray(int n, int n2, DataAddress[] dataAddressArray) {
         try {
             this.proxy.responseNavBookArray(n, n2, dataAddressArray);
@@ -88,7 +80,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseGetInitialsNavigation(int n, int n2, int n3, int n4, DataInitials[] dataInitialsArray) {
         try {
             this.proxy.responseGetInitialsNavigation(n, n2, n3, n4, dataInitialsArray);
@@ -98,7 +89,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void pushLastDestList(int n, int n2, DataAddress[] dataAddressArray) {
         try {
             this.proxy.pushLastDestList(n, n2, dataAddressArray);
@@ -108,7 +98,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void pushUpdateFavoriteDestList(int n, int n2, DataAddress[] dataAddressArray) {
         try {
             this.proxy.pushUpdateFavoriteDestList(n, n2, dataAddressArray);
@@ -118,7 +107,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void pushCurrentListSizeNavigation(int n, int n2, int n3) {
         try {
             this.proxy.pushCurrentListSizeNavigation(n, n2, n3);
@@ -128,7 +116,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseNavBookJobs(int n, int n2, int n3) {
         try {
             this.proxy.responseNavBookJobs(n, n2, n3);
@@ -138,7 +125,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseNotifyCurrentListSizesNavigation(boolean bl) {
         try {
             this.proxy.responseNotifyCurrentListSizesNavigation(bl);
@@ -148,7 +134,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseNotifyFavoriteDestList(boolean bl) {
         try {
             this.proxy.responseNotifyFavoriteDestList(bl);
@@ -158,7 +143,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void responseNotifyLastDestList(boolean bl) {
         try {
             this.proxy.responseNotifyLastDestList(bl);
@@ -168,7 +152,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -178,7 +161,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -188,7 +170,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -198,7 +179,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -208,7 +188,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -218,7 +197,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -228,7 +206,6 @@ implements DSIFastListScrollingNavigation {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

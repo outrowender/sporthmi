@@ -3,48 +3,34 @@
  */
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ICharacterSpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerBand;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler;
 import java.util.List;
 
 public interface ITouchResultLine
-extends SpellerController$ISpellerBand {
-    default public void updateToggleButton(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
-    }
+extends SpellerController.ISpellerBand {
+    public void updateToggleButton(TouchCharSetAndTTSHandler var1);
 
-    default public boolean isToggleButton(SpellerController$ISpellerItem spellerController$ISpellerItem) {
-    }
+    public boolean isToggleButton(SpellerController.ISpellerItem var1);
 
-    default public SpellerController$ISpellerItem getToggleButton() {
-    }
+    public SpellerController.ISpellerItem getToggleButton();
 
-    default public SpellerController$ICharacterSpellerItem getSpaceItem() {
-    }
+    public SpellerController.ICharacterSpellerItem getSpaceItem();
 
-    default public void deleteOldResultItemsIfPresent() {
-    }
+    public void deleteOldResultItemsIfPresent();
 
-    default public void setSpaceItemEnabled(boolean bl) {
-    }
+    public void setSpaceItemEnabled(boolean var1);
 
-    default public void setResultItems(String string) {
-    }
+    public void setResultItems(String var1);
 
-    default public void setResultItems(List list) {
-    }
+    public void setResultItems(List var1);
 
-    default public boolean isResultItem(SpellerController$ISpellerItem spellerController$ISpellerItem) {
-    }
+    public boolean isResultItem(SpellerController.ISpellerItem var1);
 
-    default public String getFirstResultOrEmptyString() {
-    }
+    public String getFirstResultOrEmptyString();
 
-    default public boolean hasResultItems() {
-    }
+    public boolean hasResultItems();
 
-    default public List getResultItems() {
-    }
+    public List getResultItems();
 }
 

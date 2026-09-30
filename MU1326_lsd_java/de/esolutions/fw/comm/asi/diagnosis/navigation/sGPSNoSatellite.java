@@ -82,7 +82,7 @@ public class sGPSNoSatellite {
     }
 
     public String toString() {
-        return new StringBuffer("sGPSNoSatellite{").append("msg_id=").append(this.msg_id).append(", year=").append(this.year).append(", month=").append(this.month).append(", day=").append(this.day).append(", hour=").append(this.hour).append(", minute=").append(this.minute).append(", seconds=").append(this.seconds).append("}").toString();
+        return "sGPSNoSatellite{" + "msg_id=" + this.msg_id + ", year=" + this.year + ", month=" + this.month + ", day=" + this.day + ", hour=" + this.hour + ", minute=" + this.minute + ", seconds=" + this.seconds + "}";
     }
 }
 

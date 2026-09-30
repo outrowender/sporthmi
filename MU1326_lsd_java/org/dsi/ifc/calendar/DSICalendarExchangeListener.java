@@ -7,16 +7,12 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSICalendarExchangeListener
 extends DSIListener {
-    default public void parseICalResult(int n) {
-    }
+    public void parseICalResult(int var1);
 
-    default public void parseICalDirectoryResult(int[] nArray) {
-    }
+    public void parseICalDirectoryResult(int[] var1);
 
-    default public void exportICalResult(int n, String string) {
-    }
+    public void exportICalResult(int var1, String var2);
 
-    default public void finishExportResult(int n, long[] lArray, int n2, String string) {
-    }
+    public void finishExportResult(int var1, long[] var2, int var3, String var4);
 }
 

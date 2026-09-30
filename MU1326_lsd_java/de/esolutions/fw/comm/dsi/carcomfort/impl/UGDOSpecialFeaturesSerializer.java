@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOSpecialFeatures;
 
 public class UGDOSpecialFeaturesSerializer {
-    public static void putOptionalUGDOSpecialFeatures(ISerializer iSerializer, UGDOSpecialFeatures uGDOSpecialFeatures) {
+    public static void putOptionalUGDOSpecialFeatures(ISerializer iSerializer, UGDOSpecialFeatures uGDOSpecialFeatures) throws SerializerException {
         boolean bl = uGDOSpecialFeatures == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class UGDOSpecialFeaturesSerializer {
         }
     }
 
-    public static void putOptionalUGDOSpecialFeaturesVarArray(ISerializer iSerializer, UGDOSpecialFeatures[] uGDOSpecialFeaturesArray) {
+    public static void putOptionalUGDOSpecialFeaturesVarArray(ISerializer iSerializer, UGDOSpecialFeatures[] uGDOSpecialFeaturesArray) throws SerializerException {
         boolean bl = uGDOSpecialFeaturesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class UGDOSpecialFeaturesSerializer {
         }
     }
 
-    public static UGDOSpecialFeatures getOptionalUGDOSpecialFeatures(IDeserializer iDeserializer) {
+    public static UGDOSpecialFeatures getOptionalUGDOSpecialFeatures(IDeserializer iDeserializer) throws SerializerException {
         UGDOSpecialFeatures uGDOSpecialFeatures = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class UGDOSpecialFeaturesSerializer {
         return uGDOSpecialFeatures;
     }
 
-    public static UGDOSpecialFeatures[] getOptionalUGDOSpecialFeaturesVarArray(IDeserializer iDeserializer) {
+    public static UGDOSpecialFeatures[] getOptionalUGDOSpecialFeaturesVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOSpecialFeatures[] uGDOSpecialFeaturesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

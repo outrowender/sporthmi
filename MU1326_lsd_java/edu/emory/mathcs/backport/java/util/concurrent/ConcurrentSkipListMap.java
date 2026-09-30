@@ -3,22 +3,15 @@
  */
 package edu.emory.mathcs.backport.java.util.concurrent;
 
+import edu.emory.mathcs.backport.java.util.AbstractCollection;
 import edu.emory.mathcs.backport.java.util.AbstractMap;
-import edu.emory.mathcs.backport.java.util.AbstractMap$SimpleImmutableEntry;
+import edu.emory.mathcs.backport.java.util.AbstractSet;
+import edu.emory.mathcs.backport.java.util.Collections;
 import edu.emory.mathcs.backport.java.util.NavigableMap;
 import edu.emory.mathcs.backport.java.util.NavigableSet;
 import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentNavigableMap;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$ComparableUsingComparator;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$EntryIterator;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$EntrySet;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$HeadIndex;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$Index;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$KeyIterator;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$KeySet;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$Node;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$SubMap;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$ValueIterator;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$Values;
+import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListSet;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -28,30 +21,30 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 
 public class ConcurrentSkipListMap
 extends AbstractMap
 implements ConcurrentNavigableMap,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
-    private static final Random seedGenerator;
-    private static final Object BASE_HEADER;
-    private volatile transient ConcurrentSkipListMap$HeadIndex head;
+    private static final long serialVersionUID = -8627078645895051609L;
+    private static final Random seedGenerator = new Random();
+    private static final Object BASE_HEADER = new Object();
+    private volatile transient HeadIndex head;
     private final Comparator comparator;
     private transient int randomSeed;
-    private transient ConcurrentSkipListMap$KeySet keySet;
-    private transient ConcurrentSkipListMap$EntrySet entrySet;
-    private transient ConcurrentSkipListMap$Values values;
+    private transient KeySet keySet;
+    private transient EntrySet entrySet;
+    private transient Values values;
     private transient ConcurrentNavigableMap descendingMap;
-    private static final int EQ;
-    private static final int LT;
-    private static final int GT;
+    private static final int EQ = 1;
+    private static final int LT = 2;
+    private static final int GT = 0;
 
     final void initialize() {
         this.keySet = null;
@@ -59,28 +52,28 @@ Serializable {
         this.values = null;
         this.descendingMap = null;
         this.randomSeed = seedGenerator.nextInt() | 0x100;
-        this.head = new ConcurrentSkipListMap$HeadIndex(new ConcurrentSkipListMap$Node(null, BASE_HEADER, null), null, null, 1);
+        this.head = new HeadIndex(new Node(null, BASE_HEADER, null), null, null, 1);
     }
 
-    private synchronized boolean casHead(ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex, ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex2) {
-        if (this.head == concurrentSkipListMap$HeadIndex) {
-            this.head = concurrentSkipListMap$HeadIndex2;
+    private synchronized boolean casHead(HeadIndex headIndex, HeadIndex headIndex2) {
+        if (this.head == headIndex) {
+            this.head = headIndex2;
             return true;
         }
         return false;
     }
 
-    private Comparable comparable(Object object) {
+    private Comparable comparable(Object object) throws ClassCastException {
         if (object == null) {
             throw new NullPointerException();
         }
         if (this.comparator != null) {
-            return new ConcurrentSkipListMap$ComparableUsingComparator(object, this.comparator);
+            return new ComparableUsingComparator(object, this.comparator);
         }
         return (Comparable)object;
     }
 
-    int compare(Object object, Object object2) {
+    int compare(Object object, Object object2) throws ClassCastException {
         Comparator comparator = this.comparator;
         if (comparator != null) {
             return comparator.compare(object, object2);
@@ -102,43 +95,43 @@ Serializable {
         return !(object2 != null && this.compare(object, object2) < 0 || object3 != null && this.compare(object, object3) > 0);
     }
 
-    private ConcurrentSkipListMap$Node findPredecessor(Comparable comparable) {
+    private Node findPredecessor(Comparable comparable) {
         Object object;
         if (comparable == null) {
             throw new NullPointerException();
         }
         block0: while (true) {
             object = this.head;
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index = ((ConcurrentSkipListMap$Index)object).right;
+            Index index = ((Index)object).right;
             while (true) {
                 Object object2;
-                if (concurrentSkipListMap$Index != null) {
-                    object2 = concurrentSkipListMap$Index.node;
-                    Object object3 = ((ConcurrentSkipListMap$Node)object2).key;
-                    if (((ConcurrentSkipListMap$Node)object2).value == null) {
-                        if (!((ConcurrentSkipListMap$Index)object).unlink(concurrentSkipListMap$Index)) continue block0;
-                        concurrentSkipListMap$Index = ((ConcurrentSkipListMap$Index)object).right;
+                if (index != null) {
+                    object2 = index.node;
+                    Object object3 = ((Node)object2).key;
+                    if (((Node)object2).value == null) {
+                        if (!((Index)object).unlink(index)) continue block0;
+                        index = ((Index)object).right;
                         continue;
                     }
                     if (comparable.compareTo(object3) > 0) {
-                        object = concurrentSkipListMap$Index;
-                        concurrentSkipListMap$Index = concurrentSkipListMap$Index.right;
+                        object = index;
+                        index = index.right;
                         continue;
                     }
                 }
-                if ((object2 = ((ConcurrentSkipListMap$Index)object).down) == null) break block0;
+                if ((object2 = ((Index)object).down) == null) break block0;
                 object = object2;
-                concurrentSkipListMap$Index = ((ConcurrentSkipListMap$Index)object2).right;
+                index = ((Index)object2).right;
             }
             break;
         }
-        return ((ConcurrentSkipListMap$Index)object).node;
+        return ((Index)object).node;
     }
 
     /*
      * Unable to fully structure code
      */
-    private ConcurrentSkipListMap$Node findNode(Comparable var1_1) {
+    private Node findNode(Comparable var1_1) {
         block0: while (true) {
             var2_2 = this.findPredecessor(var1_1);
             var3_3 = var2_2.next;
@@ -173,85 +166,85 @@ Serializable {
         Object object2;
         int n;
         Object object3;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
+        Node node;
         Comparable comparable = this.comparable(object);
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node2 = null;
-        ConcurrentSkipListMap$Index concurrentSkipListMap$Index = this.head;
-        ConcurrentSkipListMap$Index concurrentSkipListMap$Index2 = concurrentSkipListMap$Index.right;
+        Node node2 = null;
+        Index index = this.head;
+        Index index2 = index.right;
         while (true) {
-            if (concurrentSkipListMap$Index2 != null && (concurrentSkipListMap$Node = concurrentSkipListMap$Index2.node) != concurrentSkipListMap$Node2 && (object3 = concurrentSkipListMap$Node.key) != null) {
+            if (index2 != null && (node = index2.node) != node2 && (object3 = node.key) != null) {
                 n = comparable.compareTo(object3);
                 if (n > 0) {
-                    concurrentSkipListMap$Index = concurrentSkipListMap$Index2;
-                    concurrentSkipListMap$Index2 = concurrentSkipListMap$Index2.right;
+                    index = index2;
+                    index2 = index2.right;
                     continue;
                 }
                 if (n == 0) {
-                    Object object4 = concurrentSkipListMap$Node.value;
+                    Object object4 = node.value;
                     return object4 != null ? object4 : this.getUsingFindNode(comparable);
                 }
-                concurrentSkipListMap$Node2 = concurrentSkipListMap$Node;
+                node2 = node;
             }
-            if ((object2 = concurrentSkipListMap$Index.down) == null) break;
-            concurrentSkipListMap$Index = object2;
-            concurrentSkipListMap$Index2 = ((ConcurrentSkipListMap$Index)object2).right;
+            if ((object2 = index.down) == null) break;
+            index = object2;
+            index2 = ((Index)object2).right;
         }
-        concurrentSkipListMap$Node = concurrentSkipListMap$Index.node.next;
-        while (concurrentSkipListMap$Node != null) {
-            object3 = concurrentSkipListMap$Node.key;
+        node = index.node.next;
+        while (node != null) {
+            object3 = node.key;
             if (object3 != null) {
                 n = comparable.compareTo(object3);
                 if (n == 0) {
-                    object2 = concurrentSkipListMap$Node.value;
+                    object2 = node.value;
                     return object2 != null ? object2 : this.getUsingFindNode(comparable);
                 }
                 if (n < 0) break;
             }
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node.next;
+            node = node.next;
         }
         return null;
     }
 
     private Object getUsingFindNode(Comparable comparable) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
+        Node node;
         Object object;
         do {
-            if ((concurrentSkipListMap$Node = this.findNode(comparable)) != null) continue;
+            if ((node = this.findNode(comparable)) != null) continue;
             return null;
-        } while ((object = concurrentSkipListMap$Node.value) == null);
+        } while ((object = node.value) == null);
         return object;
     }
 
     private Object doPut(Object object, Object object2, boolean bl) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
+        Node node;
         Comparable comparable = this.comparable(object);
         block0: while (true) {
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node2 = this.findPredecessor(comparable);
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node3 = concurrentSkipListMap$Node2.next;
-            while (concurrentSkipListMap$Node3 != null) {
-                concurrentSkipListMap$Node = concurrentSkipListMap$Node3.next;
-                if (concurrentSkipListMap$Node3 != concurrentSkipListMap$Node2.next) continue block0;
-                Object object3 = concurrentSkipListMap$Node3.value;
+            Node node2 = this.findPredecessor(comparable);
+            Node node3 = node2.next;
+            while (node3 != null) {
+                node = node3.next;
+                if (node3 != node2.next) continue block0;
+                Object object3 = node3.value;
                 if (object3 == null) {
-                    concurrentSkipListMap$Node3.helpDelete(concurrentSkipListMap$Node2, concurrentSkipListMap$Node);
+                    node3.helpDelete(node2, node);
                     continue block0;
                 }
-                if (object3 == concurrentSkipListMap$Node3 || concurrentSkipListMap$Node2.value == null) continue block0;
-                int n = comparable.compareTo(concurrentSkipListMap$Node3.key);
+                if (object3 == node3 || node2.value == null) continue block0;
+                int n = comparable.compareTo(node3.key);
                 if (n > 0) {
-                    concurrentSkipListMap$Node2 = concurrentSkipListMap$Node3;
-                    concurrentSkipListMap$Node3 = concurrentSkipListMap$Node;
+                    node2 = node3;
+                    node3 = node;
                     continue;
                 }
                 if (n != 0) break;
-                if (!bl && !concurrentSkipListMap$Node3.casValue(object3, object2)) continue block0;
+                if (!bl && !node3.casValue(object3, object2)) continue block0;
                 return object3;
             }
-            if (concurrentSkipListMap$Node2.casNext(concurrentSkipListMap$Node3, concurrentSkipListMap$Node = new ConcurrentSkipListMap$Node(object, object2, concurrentSkipListMap$Node3))) break;
+            if (node2.casNext(node3, node = new Node(object, object2, node3))) break;
         }
         int n = this.randomLevel();
         if (n > 0) {
-            this.insertIndex(concurrentSkipListMap$Node, n);
+            this.insertIndex(node, n);
         }
         return null;
     }
@@ -262,7 +255,7 @@ Serializable {
         n ^= n >>> 17;
         n ^= n << 5;
         this.randomSeed = n;
-        if ((n & 0x1800000) != 0) {
+        if ((n & 0x8001) != 0) {
             return 0;
         }
         int n2 = 1;
@@ -272,51 +265,51 @@ Serializable {
         return n2;
     }
 
-    private void insertIndex(ConcurrentSkipListMap$Node concurrentSkipListMap$Node, int n) {
-        ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex = this.head;
-        int n2 = concurrentSkipListMap$HeadIndex.level;
+    private void insertIndex(Node node, int n) {
+        HeadIndex headIndex = this.head;
+        int n2 = headIndex.level;
         if (n <= n2) {
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index = null;
+            Index index = null;
             for (int i2 = 1; i2 <= n; ++i2) {
-                concurrentSkipListMap$Index = new ConcurrentSkipListMap$Index(concurrentSkipListMap$Node, concurrentSkipListMap$Index, null);
+                index = new Index(node, index, null);
             }
-            this.addIndex(concurrentSkipListMap$Index, concurrentSkipListMap$HeadIndex, n);
+            this.addIndex(index, headIndex, n);
         } else {
             int n3;
-            ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex2;
-            ConcurrentSkipListMap$Index[] concurrentSkipListMap$IndexArray;
+            HeadIndex headIndex2;
+            Index[] indexArray;
             block7: {
                 int n4;
-                ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex3;
+                HeadIndex headIndex3;
                 n = n2 + 1;
-                concurrentSkipListMap$IndexArray = new ConcurrentSkipListMap$Index[n + 1];
-                ConcurrentSkipListMap$Index concurrentSkipListMap$Index = null;
+                indexArray = new Index[n + 1];
+                Index index = null;
                 for (int i3 = 1; i3 <= n; ++i3) {
-                    concurrentSkipListMap$IndexArray[i3] = concurrentSkipListMap$Index = new ConcurrentSkipListMap$Index(concurrentSkipListMap$Node, concurrentSkipListMap$Index, null);
+                    indexArray[i3] = index = new Index(node, index, null);
                 }
                 do {
-                    concurrentSkipListMap$HeadIndex2 = this.head;
-                    n4 = concurrentSkipListMap$HeadIndex2.level;
+                    headIndex2 = this.head;
+                    n4 = headIndex2.level;
                     if (n <= n4) {
                         n3 = n;
                         break block7;
                     }
-                    concurrentSkipListMap$HeadIndex3 = concurrentSkipListMap$HeadIndex2;
-                    ConcurrentSkipListMap$Node concurrentSkipListMap$Node2 = concurrentSkipListMap$HeadIndex2.node;
+                    headIndex3 = headIndex2;
+                    Node node2 = headIndex2.node;
                     for (int i4 = n4 + 1; i4 <= n; ++i4) {
-                        concurrentSkipListMap$HeadIndex3 = new ConcurrentSkipListMap$HeadIndex(concurrentSkipListMap$Node2, concurrentSkipListMap$HeadIndex3, concurrentSkipListMap$IndexArray[i4], i4);
+                        headIndex3 = new HeadIndex(node2, headIndex3, indexArray[i4], i4);
                     }
-                } while (!this.casHead(concurrentSkipListMap$HeadIndex2, concurrentSkipListMap$HeadIndex3));
+                } while (!this.casHead(headIndex2, headIndex3));
                 n3 = n4;
             }
-            this.addIndex(concurrentSkipListMap$IndexArray[n3], concurrentSkipListMap$HeadIndex2, n3);
+            this.addIndex(indexArray[n3], headIndex2, n3);
         }
     }
 
     /*
      * Unable to fully structure code
      */
-    private void addIndex(ConcurrentSkipListMap$Index var1_1, ConcurrentSkipListMap$HeadIndex var2_2, int var3_3) {
+    private void addIndex(Index var1_1, HeadIndex var2_2, int var3_3) {
         var4_4 = var3_3;
         var5_5 = this.comparable(var1_1.node.key);
         if (var5_5 == null) {
@@ -368,39 +361,39 @@ Serializable {
 
     final Object doRemove(Object object, Object object2) {
         Object object3;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node2;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node3;
+        Node node;
+        Node node2;
+        Node node3;
         Comparable comparable = this.comparable(object);
         block0: while (true) {
-            concurrentSkipListMap$Node3 = this.findPredecessor(comparable);
-            concurrentSkipListMap$Node2 = concurrentSkipListMap$Node3.next;
+            node3 = this.findPredecessor(comparable);
+            node2 = node3.next;
             while (true) {
-                if (concurrentSkipListMap$Node2 == null) {
+                if (node2 == null) {
                     return null;
                 }
-                concurrentSkipListMap$Node = concurrentSkipListMap$Node2.next;
-                if (concurrentSkipListMap$Node2 != concurrentSkipListMap$Node3.next) continue block0;
-                object3 = concurrentSkipListMap$Node2.value;
+                node = node2.next;
+                if (node2 != node3.next) continue block0;
+                object3 = node2.value;
                 if (object3 == null) {
-                    concurrentSkipListMap$Node2.helpDelete(concurrentSkipListMap$Node3, concurrentSkipListMap$Node);
+                    node2.helpDelete(node3, node);
                     continue block0;
                 }
-                if (object3 == concurrentSkipListMap$Node2 || concurrentSkipListMap$Node3.value == null) continue block0;
-                int n = comparable.compareTo(concurrentSkipListMap$Node2.key);
+                if (object3 == node2 || node3.value == null) continue block0;
+                int n = comparable.compareTo(node2.key);
                 if (n < 0) {
                     return null;
                 }
                 if (n <= 0) break;
-                concurrentSkipListMap$Node3 = concurrentSkipListMap$Node2;
-                concurrentSkipListMap$Node2 = concurrentSkipListMap$Node;
+                node3 = node2;
+                node2 = node;
             }
             if (object2 != null && !object2.equals(object3)) {
                 return null;
             }
-            if (concurrentSkipListMap$Node2.casValue(object3, null)) break;
+            if (node2.casValue(object3, null)) break;
         }
-        if (!concurrentSkipListMap$Node2.appendMarker(concurrentSkipListMap$Node) || !concurrentSkipListMap$Node3.casNext(concurrentSkipListMap$Node2, concurrentSkipListMap$Node)) {
+        if (!node2.appendMarker(node) || !node3.casNext(node2, node)) {
             this.findNode(comparable);
         } else {
             this.findPredecessor(comparable);
@@ -412,62 +405,62 @@ Serializable {
     }
 
     private void tryReduceLevel() {
-        ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex;
-        ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex2;
-        ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex3 = this.head;
-        if (concurrentSkipListMap$HeadIndex3.level > 3 && (concurrentSkipListMap$HeadIndex2 = (ConcurrentSkipListMap$HeadIndex)concurrentSkipListMap$HeadIndex3.down) != null && (concurrentSkipListMap$HeadIndex = (ConcurrentSkipListMap$HeadIndex)concurrentSkipListMap$HeadIndex2.down) != null && concurrentSkipListMap$HeadIndex.right == null && concurrentSkipListMap$HeadIndex2.right == null && concurrentSkipListMap$HeadIndex3.right == null && this.casHead(concurrentSkipListMap$HeadIndex3, concurrentSkipListMap$HeadIndex2) && concurrentSkipListMap$HeadIndex3.right != null) {
-            this.casHead(concurrentSkipListMap$HeadIndex2, concurrentSkipListMap$HeadIndex3);
+        HeadIndex headIndex;
+        HeadIndex headIndex2;
+        HeadIndex headIndex3 = this.head;
+        if (headIndex3.level > 3 && (headIndex2 = (HeadIndex)headIndex3.down) != null && (headIndex = (HeadIndex)headIndex2.down) != null && headIndex.right == null && headIndex2.right == null && headIndex3.right == null && this.casHead(headIndex3, headIndex2) && headIndex3.right != null) {
+            this.casHead(headIndex2, headIndex3);
         }
     }
 
-    ConcurrentSkipListMap$Node findFirst() {
+    Node findFirst() {
         while (true) {
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.head.node;
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node2 = concurrentSkipListMap$Node.next;
-            if (concurrentSkipListMap$Node2 == null) {
+            Node node = this.head.node;
+            Node node2 = node.next;
+            if (node2 == null) {
                 return null;
             }
-            if (concurrentSkipListMap$Node2.value != null) {
-                return concurrentSkipListMap$Node2;
+            if (node2.value != null) {
+                return node2;
             }
-            concurrentSkipListMap$Node2.helpDelete(concurrentSkipListMap$Node, concurrentSkipListMap$Node2.next);
+            node2.helpDelete(node, node2.next);
         }
     }
 
-    Map$Entry doRemoveFirstEntry() {
+    Map.Entry doRemoveFirstEntry() {
         Object object;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node2;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node3;
+        Node node;
+        Node node2;
+        Node node3;
         while (true) {
-            concurrentSkipListMap$Node3 = this.head.node;
-            concurrentSkipListMap$Node2 = concurrentSkipListMap$Node3.next;
-            if (concurrentSkipListMap$Node2 == null) {
+            node3 = this.head.node;
+            node2 = node3.next;
+            if (node2 == null) {
                 return null;
             }
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node2.next;
-            if (concurrentSkipListMap$Node2 != concurrentSkipListMap$Node3.next) continue;
-            object = concurrentSkipListMap$Node2.value;
+            node = node2.next;
+            if (node2 != node3.next) continue;
+            object = node2.value;
             if (object == null) {
-                concurrentSkipListMap$Node2.helpDelete(concurrentSkipListMap$Node3, concurrentSkipListMap$Node);
+                node2.helpDelete(node3, node);
                 continue;
             }
-            if (concurrentSkipListMap$Node2.casValue(object, null)) break;
+            if (node2.casValue(object, null)) break;
         }
-        if (!concurrentSkipListMap$Node2.appendMarker(concurrentSkipListMap$Node) || !concurrentSkipListMap$Node3.casNext(concurrentSkipListMap$Node2, concurrentSkipListMap$Node)) {
+        if (!node2.appendMarker(node) || !node3.casNext(node2, node)) {
             this.findFirst();
         }
         this.clearIndexToFirst();
-        return new AbstractMap$SimpleImmutableEntry(concurrentSkipListMap$Node2.key, object);
+        return new AbstractMap.SimpleImmutableEntry(node2.key, object);
     }
 
     private void clearIndexToFirst() {
         block0: while (true) {
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index = this.head;
+            Index index = this.head;
             do {
-                ConcurrentSkipListMap$Index concurrentSkipListMap$Index2;
-                if ((concurrentSkipListMap$Index2 = concurrentSkipListMap$Index.right) != null && concurrentSkipListMap$Index2.indexesDeletedNode() && !concurrentSkipListMap$Index.unlink(concurrentSkipListMap$Index2)) continue block0;
-            } while ((concurrentSkipListMap$Index = concurrentSkipListMap$Index.down) != null);
+                Index index2;
+                if ((index2 = index.right) != null && index2.indexesDeletedNode() && !index.unlink(index2)) continue block0;
+            } while ((index = index.down) != null);
             break;
         }
         if (this.head.right == null) {
@@ -475,100 +468,100 @@ Serializable {
         }
     }
 
-    ConcurrentSkipListMap$Node findLast() {
-        ConcurrentSkipListMap$Index concurrentSkipListMap$Index = this.head;
+    Node findLast() {
+        Index index = this.head;
         while (true) {
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index2;
-            if ((concurrentSkipListMap$Index2 = concurrentSkipListMap$Index.right) != null) {
-                if (concurrentSkipListMap$Index2.indexesDeletedNode()) {
-                    concurrentSkipListMap$Index.unlink(concurrentSkipListMap$Index2);
-                    concurrentSkipListMap$Index = this.head;
+            Index index2;
+            if ((index2 = index.right) != null) {
+                if (index2.indexesDeletedNode()) {
+                    index.unlink(index2);
+                    index = this.head;
                     continue;
                 }
-                concurrentSkipListMap$Index = concurrentSkipListMap$Index2;
+                index = index2;
                 continue;
             }
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index3 = concurrentSkipListMap$Index.down;
-            if (concurrentSkipListMap$Index3 != null) {
-                concurrentSkipListMap$Index = concurrentSkipListMap$Index3;
+            Index index3 = index.down;
+            if (index3 != null) {
+                index = index3;
                 continue;
             }
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node = concurrentSkipListMap$Index.node;
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node2 = concurrentSkipListMap$Node.next;
+            Node node = index.node;
+            Node node2 = node.next;
             while (true) {
-                if (concurrentSkipListMap$Node2 == null) {
-                    return concurrentSkipListMap$Node.isBaseHeader() ? null : concurrentSkipListMap$Node;
+                if (node2 == null) {
+                    return node.isBaseHeader() ? null : node;
                 }
-                ConcurrentSkipListMap$Node concurrentSkipListMap$Node3 = concurrentSkipListMap$Node2.next;
-                if (concurrentSkipListMap$Node2 != concurrentSkipListMap$Node.next) break;
-                Object object = concurrentSkipListMap$Node2.value;
+                Node node3 = node2.next;
+                if (node2 != node.next) break;
+                Object object = node2.value;
                 if (object == null) {
-                    concurrentSkipListMap$Node2.helpDelete(concurrentSkipListMap$Node, concurrentSkipListMap$Node3);
+                    node2.helpDelete(node, node3);
                     break;
                 }
-                if (object == concurrentSkipListMap$Node2 || concurrentSkipListMap$Node.value == null) break;
-                concurrentSkipListMap$Node = concurrentSkipListMap$Node2;
-                concurrentSkipListMap$Node2 = concurrentSkipListMap$Node3;
+                if (object == node2 || node.value == null) break;
+                node = node2;
+                node2 = node3;
             }
-            concurrentSkipListMap$Index = this.head;
+            index = this.head;
         }
     }
 
-    private ConcurrentSkipListMap$Node findPredecessorOfLast() {
-        ConcurrentSkipListMap$Index concurrentSkipListMap$Index;
+    private Node findPredecessorOfLast() {
+        Index index;
         block0: while (true) {
-            concurrentSkipListMap$Index = this.head;
+            index = this.head;
             while (true) {
-                ConcurrentSkipListMap$Index concurrentSkipListMap$Index2;
-                ConcurrentSkipListMap$Index concurrentSkipListMap$Index3;
-                if ((concurrentSkipListMap$Index3 = concurrentSkipListMap$Index.right) != null) {
-                    if (concurrentSkipListMap$Index3.indexesDeletedNode()) {
-                        concurrentSkipListMap$Index.unlink(concurrentSkipListMap$Index3);
+                Index index2;
+                Index index3;
+                if ((index3 = index.right) != null) {
+                    if (index3.indexesDeletedNode()) {
+                        index.unlink(index3);
                         continue block0;
                     }
-                    if (concurrentSkipListMap$Index3.node.next != null) {
-                        concurrentSkipListMap$Index = concurrentSkipListMap$Index3;
+                    if (index3.node.next != null) {
+                        index = index3;
                         continue;
                     }
                 }
-                if ((concurrentSkipListMap$Index2 = concurrentSkipListMap$Index.down) == null) break block0;
-                concurrentSkipListMap$Index = concurrentSkipListMap$Index2;
+                if ((index2 = index.down) == null) break block0;
+                index = index2;
             }
             break;
         }
-        return concurrentSkipListMap$Index.node;
+        return index.node;
     }
 
-    Map$Entry doRemoveLastEntry() {
+    Map.Entry doRemoveLastEntry() {
         Object object;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node2;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node3;
+        Node node;
+        Node node2;
+        Node node3;
         block0: while (true) {
-            concurrentSkipListMap$Node3 = this.findPredecessorOfLast();
-            concurrentSkipListMap$Node2 = concurrentSkipListMap$Node3.next;
-            if (concurrentSkipListMap$Node2 == null) {
-                if (!concurrentSkipListMap$Node3.isBaseHeader()) continue;
+            node3 = this.findPredecessorOfLast();
+            node2 = node3.next;
+            if (node2 == null) {
+                if (!node3.isBaseHeader()) continue;
                 return null;
             }
             while (true) {
-                concurrentSkipListMap$Node = concurrentSkipListMap$Node2.next;
-                if (concurrentSkipListMap$Node2 != concurrentSkipListMap$Node3.next) continue block0;
-                object = concurrentSkipListMap$Node2.value;
+                node = node2.next;
+                if (node2 != node3.next) continue block0;
+                object = node2.value;
                 if (object == null) {
-                    concurrentSkipListMap$Node2.helpDelete(concurrentSkipListMap$Node3, concurrentSkipListMap$Node);
+                    node2.helpDelete(node3, node);
                     continue block0;
                 }
-                if (object == concurrentSkipListMap$Node2 || concurrentSkipListMap$Node3.value == null) continue block0;
-                if (concurrentSkipListMap$Node == null) break;
-                concurrentSkipListMap$Node3 = concurrentSkipListMap$Node2;
-                concurrentSkipListMap$Node2 = concurrentSkipListMap$Node;
+                if (object == node2 || node3.value == null) continue block0;
+                if (node == null) break;
+                node3 = node2;
+                node2 = node;
             }
-            if (concurrentSkipListMap$Node2.casValue(object, null)) break;
+            if (node2.casValue(object, null)) break;
         }
-        Object object2 = concurrentSkipListMap$Node2.key;
+        Object object2 = node2.key;
         Comparable comparable = this.comparable(object2);
-        if (!concurrentSkipListMap$Node2.appendMarker(concurrentSkipListMap$Node) || !concurrentSkipListMap$Node3.casNext(concurrentSkipListMap$Node2, concurrentSkipListMap$Node)) {
+        if (!node2.appendMarker(node) || !node3.casNext(node2, node)) {
             this.findNode(comparable);
         } else {
             this.findPredecessor(comparable);
@@ -576,13 +569,13 @@ Serializable {
                 this.tryReduceLevel();
             }
         }
-        return new AbstractMap$SimpleImmutableEntry(object2, object);
+        return new AbstractMap.SimpleImmutableEntry(object2, object);
     }
 
     /*
      * Unable to fully structure code
      */
-    ConcurrentSkipListMap$Node findNear(Object var1_1, int var2_2) {
+    Node findNear(Object var1_1, int var2_2) {
         var3_3 = this.comparable(var1_1);
         block0: while (true) {
             var4_4 = this.findPredecessor(var3_3);
@@ -614,14 +607,14 @@ Serializable {
         }
     }
 
-    AbstractMap$SimpleImmutableEntry getNear(Object object, int n) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-        AbstractMap$SimpleImmutableEntry abstractMap$SimpleImmutableEntry;
+    AbstractMap.SimpleImmutableEntry getNear(Object object, int n) {
+        Node node;
+        AbstractMap.SimpleImmutableEntry simpleImmutableEntry;
         do {
-            if ((concurrentSkipListMap$Node = this.findNear(object, n)) != null) continue;
+            if ((node = this.findNear(object, n)) != null) continue;
             return null;
-        } while ((abstractMap$SimpleImmutableEntry = concurrentSkipListMap$Node.createSnapshot()) == null);
-        return abstractMap$SimpleImmutableEntry;
+        } while ((simpleImmutableEntry = node.createSnapshot()) == null);
+        return simpleImmutableEntry;
     }
 
     public ConcurrentSkipListMap() {
@@ -646,7 +639,6 @@ Serializable {
         this.buildFromSorted(sortedMap);
     }
 
-    @Override
     public Object clone() {
         ConcurrentSkipListMap concurrentSkipListMap = null;
         try {
@@ -664,81 +656,81 @@ Serializable {
         if (sortedMap == null) {
             throw new NullPointerException();
         }
-        ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex = this.head;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = concurrentSkipListMap$HeadIndex.node;
+        HeadIndex headIndex = this.head;
+        Node node = headIndex.node;
         ArrayList arrayList = new ArrayList();
-        for (int i2 = 0; i2 <= concurrentSkipListMap$HeadIndex.level; ++i2) {
+        for (int i2 = 0; i2 <= headIndex.level; ++i2) {
             arrayList.add(null);
         }
-        ConcurrentSkipListMap$Index concurrentSkipListMap$Index = concurrentSkipListMap$HeadIndex;
-        for (int i3 = concurrentSkipListMap$HeadIndex.level; i3 > 0; --i3) {
-            arrayList.set(i3, concurrentSkipListMap$Index);
-            concurrentSkipListMap$Index = concurrentSkipListMap$Index.down;
+        Index index = headIndex;
+        for (int i3 = headIndex.level; i3 > 0; --i3) {
+            arrayList.set(i3, index);
+            index = index.down;
         }
         Iterator iterator = sortedMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node2;
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
+            Node node2;
+            Map.Entry entry = (Map.Entry)iterator.next();
             int n = this.randomLevel();
-            if (n > concurrentSkipListMap$HeadIndex.level) {
-                n = concurrentSkipListMap$HeadIndex.level + 1;
+            if (n > headIndex.level) {
+                n = headIndex.level + 1;
             }
-            Object object = map$Entry.getKey();
-            Object object2 = map$Entry.getValue();
+            Object object = entry.getKey();
+            Object object2 = entry.getValue();
             if (object == null || object2 == null) {
                 throw new NullPointerException();
             }
-            concurrentSkipListMap$Node.next = concurrentSkipListMap$Node2 = new ConcurrentSkipListMap$Node(object, object2, null);
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node2;
+            node.next = node2 = new Node(object, object2, null);
+            node = node2;
             if (n <= 0) continue;
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index2 = null;
+            Index index2 = null;
             for (int i4 = 1; i4 <= n; ++i4) {
-                concurrentSkipListMap$Index2 = new ConcurrentSkipListMap$Index(concurrentSkipListMap$Node2, concurrentSkipListMap$Index2, null);
-                if (i4 > concurrentSkipListMap$HeadIndex.level) {
-                    concurrentSkipListMap$HeadIndex = new ConcurrentSkipListMap$HeadIndex(concurrentSkipListMap$HeadIndex.node, concurrentSkipListMap$HeadIndex, concurrentSkipListMap$Index2, i4);
+                index2 = new Index(node2, index2, null);
+                if (i4 > headIndex.level) {
+                    headIndex = new HeadIndex(headIndex.node, headIndex, index2, i4);
                 }
                 if (i4 < arrayList.size()) {
-                    ((ConcurrentSkipListMap$Index)arrayList.get((int)i4)).right = concurrentSkipListMap$Index2;
-                    arrayList.set(i4, concurrentSkipListMap$Index2);
+                    ((Index)arrayList.get((int)i4)).right = index2;
+                    arrayList.set(i4, index2);
                     continue;
                 }
-                arrayList.add(concurrentSkipListMap$Index2);
+                arrayList.add(index2);
             }
         }
-        this.head = concurrentSkipListMap$HeadIndex;
+        this.head = headIndex;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findFirst();
-        while (concurrentSkipListMap$Node != null) {
-            Object object = concurrentSkipListMap$Node.getValidValue();
+        Node node = this.findFirst();
+        while (node != null) {
+            Object object = node.getValidValue();
             if (object != null) {
-                objectOutputStream.writeObject(concurrentSkipListMap$Node.key);
+                objectOutputStream.writeObject(node.key);
                 objectOutputStream.writeObject(object);
             }
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node.next;
+            node = node.next;
         }
         objectOutputStream.writeObject(null);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         Object object;
         objectInputStream.defaultReadObject();
         this.initialize();
-        ConcurrentSkipListMap$HeadIndex concurrentSkipListMap$HeadIndex = this.head;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = concurrentSkipListMap$HeadIndex.node;
+        HeadIndex headIndex = this.head;
+        Node node = headIndex.node;
         ArrayList arrayList = new ArrayList();
-        for (int i2 = 0; i2 <= concurrentSkipListMap$HeadIndex.level; ++i2) {
+        for (int i2 = 0; i2 <= headIndex.level; ++i2) {
             arrayList.add(null);
         }
-        ConcurrentSkipListMap$Index concurrentSkipListMap$Index = concurrentSkipListMap$HeadIndex;
-        for (int i3 = concurrentSkipListMap$HeadIndex.level; i3 > 0; --i3) {
-            arrayList.set(i3, concurrentSkipListMap$Index);
-            concurrentSkipListMap$Index = concurrentSkipListMap$Index.down;
+        Index index = headIndex;
+        for (int i3 = headIndex.level; i3 > 0; --i3) {
+            arrayList.set(i3, index);
+            index = index.down;
         }
         while ((object = objectInputStream.readObject()) != null) {
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node2;
+            Node node2;
             Object object2 = objectInputStream.readObject();
             if (object2 == null) {
                 throw new NullPointerException();
@@ -746,40 +738,37 @@ Serializable {
             Object object3 = object;
             Object object4 = object2;
             int n = this.randomLevel();
-            if (n > concurrentSkipListMap$HeadIndex.level) {
-                n = concurrentSkipListMap$HeadIndex.level + 1;
+            if (n > headIndex.level) {
+                n = headIndex.level + 1;
             }
-            concurrentSkipListMap$Node.next = concurrentSkipListMap$Node2 = new ConcurrentSkipListMap$Node(object3, object4, null);
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node2;
+            node.next = node2 = new Node(object3, object4, null);
+            node = node2;
             if (n <= 0) continue;
-            ConcurrentSkipListMap$Index concurrentSkipListMap$Index2 = null;
+            Index index2 = null;
             for (int i4 = 1; i4 <= n; ++i4) {
-                concurrentSkipListMap$Index2 = new ConcurrentSkipListMap$Index(concurrentSkipListMap$Node2, concurrentSkipListMap$Index2, null);
-                if (i4 > concurrentSkipListMap$HeadIndex.level) {
-                    concurrentSkipListMap$HeadIndex = new ConcurrentSkipListMap$HeadIndex(concurrentSkipListMap$HeadIndex.node, concurrentSkipListMap$HeadIndex, concurrentSkipListMap$Index2, i4);
+                index2 = new Index(node2, index2, null);
+                if (i4 > headIndex.level) {
+                    headIndex = new HeadIndex(headIndex.node, headIndex, index2, i4);
                 }
                 if (i4 < arrayList.size()) {
-                    ((ConcurrentSkipListMap$Index)arrayList.get((int)i4)).right = concurrentSkipListMap$Index2;
-                    arrayList.set(i4, concurrentSkipListMap$Index2);
+                    ((Index)arrayList.get((int)i4)).right = index2;
+                    arrayList.set(i4, index2);
                     continue;
                 }
-                arrayList.add(concurrentSkipListMap$Index2);
+                arrayList.add(index2);
             }
         }
-        this.head = concurrentSkipListMap$HeadIndex;
+        this.head = headIndex;
     }
 
-    @Override
     public boolean containsKey(Object object) {
         return this.doGet(object) != null;
     }
 
-    @Override
     public Object get(Object object) {
         return this.doGet(object);
     }
 
-    @Override
     public Object put(Object object, Object object2) {
         if (object2 == null) {
             throw new NullPointerException();
@@ -787,86 +776,74 @@ Serializable {
         return this.doPut(object, object2, false);
     }
 
-    @Override
     public Object remove(Object object) {
         return this.doRemove(object, null);
     }
 
-    @Override
     public boolean containsValue(Object object) {
         if (object == null) {
             throw new NullPointerException();
         }
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findFirst();
-        while (concurrentSkipListMap$Node != null) {
-            Object object2 = concurrentSkipListMap$Node.getValidValue();
+        Node node = this.findFirst();
+        while (node != null) {
+            Object object2 = node.getValidValue();
             if (object2 != null && object.equals(object2)) {
                 return true;
             }
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node.next;
+            node = node.next;
         }
         return false;
     }
 
-    @Override
     public int size() {
         long l = 0L;
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findFirst();
-        while (concurrentSkipListMap$Node != null) {
-            if (concurrentSkipListMap$Node.getValidValue() != null) {
+        Node node = this.findFirst();
+        while (node != null) {
+            if (node.getValidValue() != null) {
                 ++l;
             }
-            concurrentSkipListMap$Node = concurrentSkipListMap$Node.next;
+            node = node.next;
         }
-        return l >= 0 ? -129 : (int)l;
+        return l >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)l;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.findFirst() == null;
     }
 
-    @Override
     public void clear() {
         this.initialize();
     }
 
-    @Override
     public Set keySet() {
-        ConcurrentSkipListMap$KeySet concurrentSkipListMap$KeySet = this.keySet;
-        return concurrentSkipListMap$KeySet != null ? concurrentSkipListMap$KeySet : (this.keySet = new ConcurrentSkipListMap$KeySet(this));
+        KeySet keySet = this.keySet;
+        return keySet != null ? keySet : (this.keySet = new KeySet(this));
     }
 
-    @Override
     public NavigableSet navigableKeySet() {
-        ConcurrentSkipListMap$KeySet concurrentSkipListMap$KeySet = this.keySet;
-        return concurrentSkipListMap$KeySet != null ? concurrentSkipListMap$KeySet : (this.keySet = new ConcurrentSkipListMap$KeySet(this));
+        KeySet keySet = this.keySet;
+        return keySet != null ? keySet : (this.keySet = new KeySet(this));
     }
 
-    @Override
     public Collection values() {
-        ConcurrentSkipListMap$Values concurrentSkipListMap$Values = this.values;
-        return concurrentSkipListMap$Values != null ? concurrentSkipListMap$Values : (this.values = new ConcurrentSkipListMap$Values(this));
+        Values values = this.values;
+        return values != null ? values : (this.values = new Values(this));
     }
 
-    @Override
     public Set entrySet() {
-        ConcurrentSkipListMap$EntrySet concurrentSkipListMap$EntrySet = this.entrySet;
-        return concurrentSkipListMap$EntrySet != null ? concurrentSkipListMap$EntrySet : (this.entrySet = new ConcurrentSkipListMap$EntrySet(this));
+        EntrySet entrySet = this.entrySet;
+        return entrySet != null ? entrySet : (this.entrySet = new EntrySet(this));
     }
 
-    @Override
     public NavigableMap descendingMap() {
         ConcurrentNavigableMap concurrentNavigableMap = this.descendingMap;
-        return concurrentNavigableMap != null ? concurrentNavigableMap : (this.descendingMap = new ConcurrentSkipListMap$SubMap(this, null, false, null, false, true));
+        return concurrentNavigableMap != null ? concurrentNavigableMap : (this.descendingMap = new SubMap(this, null, false, null, false, true));
     }
 
-    @Override
     public NavigableSet descendingKeySet() {
         return this.descendingMap().navigableKeySet();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;
@@ -876,18 +853,18 @@ Serializable {
         }
         Map map = (Map)object;
         try {
-            Map$Entry map$Entry;
+            Map.Entry entry;
             Iterator iterator = this.entrySet().iterator();
             while (iterator.hasNext()) {
-                map$Entry = (Map$Entry)iterator.next();
-                if (map$Entry.getValue().equals(map.get(map$Entry.getKey()))) continue;
+                entry = (Map.Entry)iterator.next();
+                if (entry.getValue().equals(map.get(entry.getKey()))) continue;
                 return false;
             }
             iterator = map.entrySet().iterator();
             while (iterator.hasNext()) {
-                map$Entry = (Map$Entry)iterator.next();
-                Object object2 = map$Entry.getKey();
-                Object object3 = map$Entry.getValue();
+                entry = (Map.Entry)iterator.next();
+                Object object2 = entry.getKey();
+                Object object3 = entry.getValue();
                 if (object2 != null && object3 != null && object3.equals(this.get(object2))) continue;
                 return false;
             }
@@ -901,7 +878,6 @@ Serializable {
         }
     }
 
-    @Override
     public Object putIfAbsent(Object object, Object object2) {
         if (object2 == null) {
             throw new NullPointerException();
@@ -909,7 +885,6 @@ Serializable {
         return this.doPut(object, object2, true);
     }
 
-    @Override
     public boolean remove(Object object, Object object2) {
         if (object == null) {
             throw new NullPointerException();
@@ -920,190 +895,167 @@ Serializable {
         return this.doRemove(object, object2) != null;
     }
 
-    @Override
     public boolean replace(Object object, Object object2, Object object3) {
         if (object2 == null || object3 == null) {
             throw new NullPointerException();
         }
         Comparable comparable = this.comparable(object);
         while (true) {
-            ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-            if ((concurrentSkipListMap$Node = this.findNode(comparable)) == null) {
+            Node node;
+            if ((node = this.findNode(comparable)) == null) {
                 return false;
             }
-            Object object4 = concurrentSkipListMap$Node.value;
+            Object object4 = node.value;
             if (object4 == null) continue;
             if (!object2.equals(object4)) {
                 return false;
             }
-            if (concurrentSkipListMap$Node.casValue(object4, object3)) break;
+            if (node.casValue(object4, object3)) break;
         }
         return true;
     }
 
-    @Override
     public Object replace(Object object, Object object2) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
+        Node node;
         Object object3;
         if (object2 == null) {
             throw new NullPointerException();
         }
         Comparable comparable = this.comparable(object);
         do {
-            if ((concurrentSkipListMap$Node = this.findNode(comparable)) != null) continue;
+            if ((node = this.findNode(comparable)) != null) continue;
             return null;
-        } while ((object3 = concurrentSkipListMap$Node.value) == null || !concurrentSkipListMap$Node.casValue(object3, object2));
+        } while ((object3 = node.value) == null || !node.casValue(object3, object2));
         return object3;
     }
 
-    @Override
     public Comparator comparator() {
         return this.comparator;
     }
 
-    @Override
     public Object firstKey() {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findFirst();
-        if (concurrentSkipListMap$Node == null) {
+        Node node = this.findFirst();
+        if (node == null) {
             throw new NoSuchElementException();
         }
-        return concurrentSkipListMap$Node.key;
+        return node.key;
     }
 
-    @Override
     public Object lastKey() {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findLast();
-        if (concurrentSkipListMap$Node == null) {
+        Node node = this.findLast();
+        if (node == null) {
             throw new NoSuchElementException();
         }
-        return concurrentSkipListMap$Node.key;
+        return node.key;
     }
 
-    @Override
     public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
         if (object == null || object2 == null) {
             throw new NullPointerException();
         }
-        return new ConcurrentSkipListMap$SubMap(this, object, bl, object2, bl2, false);
+        return new SubMap(this, object, bl, object2, bl2, false);
     }
 
-    @Override
     public NavigableMap headMap(Object object, boolean bl) {
         if (object == null) {
             throw new NullPointerException();
         }
-        return new ConcurrentSkipListMap$SubMap(this, null, false, object, bl, false);
+        return new SubMap(this, null, false, object, bl, false);
     }
 
-    @Override
     public NavigableMap tailMap(Object object, boolean bl) {
         if (object == null) {
             throw new NullPointerException();
         }
-        return new ConcurrentSkipListMap$SubMap(this, object, bl, null, false, false);
+        return new SubMap(this, object, bl, null, false, false);
     }
 
-    @Override
     public SortedMap subMap(Object object, Object object2) {
         return this.subMap(object, true, object2, false);
     }
 
-    @Override
     public SortedMap headMap(Object object) {
         return this.headMap(object, false);
     }
 
-    @Override
     public SortedMap tailMap(Object object) {
         return this.tailMap(object, true);
     }
 
-    @Override
-    public Map$Entry lowerEntry(Object object) {
+    public Map.Entry lowerEntry(Object object) {
         return this.getNear(object, 2);
     }
 
-    @Override
     public Object lowerKey(Object object) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findNear(object, 2);
-        return concurrentSkipListMap$Node == null ? null : concurrentSkipListMap$Node.key;
+        Node node = this.findNear(object, 2);
+        return node == null ? null : node.key;
     }
 
-    @Override
-    public Map$Entry floorEntry(Object object) {
+    public Map.Entry floorEntry(Object object) {
         return this.getNear(object, 3);
     }
 
-    @Override
     public Object floorKey(Object object) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findNear(object, 3);
-        return concurrentSkipListMap$Node == null ? null : concurrentSkipListMap$Node.key;
+        Node node = this.findNear(object, 3);
+        return node == null ? null : node.key;
     }
 
-    @Override
-    public Map$Entry ceilingEntry(Object object) {
+    public Map.Entry ceilingEntry(Object object) {
         return this.getNear(object, 1);
     }
 
-    @Override
     public Object ceilingKey(Object object) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findNear(object, 1);
-        return concurrentSkipListMap$Node == null ? null : concurrentSkipListMap$Node.key;
+        Node node = this.findNear(object, 1);
+        return node == null ? null : node.key;
     }
 
-    @Override
-    public Map$Entry higherEntry(Object object) {
+    public Map.Entry higherEntry(Object object) {
         return this.getNear(object, 0);
     }
 
-    @Override
     public Object higherKey(Object object) {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node = this.findNear(object, 0);
-        return concurrentSkipListMap$Node == null ? null : concurrentSkipListMap$Node.key;
+        Node node = this.findNear(object, 0);
+        return node == null ? null : node.key;
     }
 
-    @Override
-    public Map$Entry firstEntry() {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-        AbstractMap$SimpleImmutableEntry abstractMap$SimpleImmutableEntry;
+    public Map.Entry firstEntry() {
+        Node node;
+        AbstractMap.SimpleImmutableEntry simpleImmutableEntry;
         do {
-            if ((concurrentSkipListMap$Node = this.findFirst()) != null) continue;
+            if ((node = this.findFirst()) != null) continue;
             return null;
-        } while ((abstractMap$SimpleImmutableEntry = concurrentSkipListMap$Node.createSnapshot()) == null);
-        return abstractMap$SimpleImmutableEntry;
+        } while ((simpleImmutableEntry = node.createSnapshot()) == null);
+        return simpleImmutableEntry;
     }
 
-    @Override
-    public Map$Entry lastEntry() {
-        ConcurrentSkipListMap$Node concurrentSkipListMap$Node;
-        AbstractMap$SimpleImmutableEntry abstractMap$SimpleImmutableEntry;
+    public Map.Entry lastEntry() {
+        Node node;
+        AbstractMap.SimpleImmutableEntry simpleImmutableEntry;
         do {
-            if ((concurrentSkipListMap$Node = this.findLast()) != null) continue;
+            if ((node = this.findLast()) != null) continue;
             return null;
-        } while ((abstractMap$SimpleImmutableEntry = concurrentSkipListMap$Node.createSnapshot()) == null);
-        return abstractMap$SimpleImmutableEntry;
+        } while ((simpleImmutableEntry = node.createSnapshot()) == null);
+        return simpleImmutableEntry;
     }
 
-    @Override
-    public Map$Entry pollFirstEntry() {
+    public Map.Entry pollFirstEntry() {
         return this.doRemoveFirstEntry();
     }
 
-    @Override
-    public Map$Entry pollLastEntry() {
+    public Map.Entry pollLastEntry() {
         return this.doRemoveLastEntry();
     }
 
     Iterator keyIterator() {
-        return new ConcurrentSkipListMap$KeyIterator(this);
+        return new KeyIterator();
     }
 
     Iterator valueIterator() {
-        return new ConcurrentSkipListMap$ValueIterator(this);
+        return new ValueIterator();
     }
 
     Iterator entryIterator() {
-        return new ConcurrentSkipListMap$EntryIterator(this);
+        return new EntryIterator();
     }
 
     static final List toList(Collection collection) {
@@ -1115,13 +1067,1043 @@ Serializable {
         return arrayList;
     }
 
-    static /* synthetic */ Object access$000() {
-        return BASE_HEADER;
+    abstract class Iter
+    implements Iterator {
+        Node lastReturned;
+        Node next;
+        Object nextValue;
+
+        Iter() {
+            block1: {
+                Object object;
+                do {
+                    this.next = ConcurrentSkipListMap.this.findFirst();
+                    if (this.next == null) break block1;
+                } while ((object = this.next.value) == null || object == this.next);
+                this.nextValue = object;
+            }
+        }
+
+        public final boolean hasNext() {
+            return this.next != null;
+        }
+
+        final void advance() {
+            block2: {
+                Object object;
+                if (this.next == null) {
+                    throw new NoSuchElementException();
+                }
+                this.lastReturned = this.next;
+                do {
+                    this.next = this.next.next;
+                    if (this.next == null) break block2;
+                } while ((object = this.next.value) == null || object == this.next);
+                this.nextValue = object;
+            }
+        }
+
+        public void remove() {
+            Node node = this.lastReturned;
+            if (node == null) {
+                throw new IllegalStateException();
+            }
+            ConcurrentSkipListMap.this.remove(node.key);
+            this.lastReturned = null;
+        }
     }
 
-    static {
-        seedGenerator = new Random();
-        BASE_HEADER = new Object();
+    static final class Node {
+        final Object key;
+        volatile Object value;
+        volatile Node next;
+
+        Node(Object object, Object object2, Node node) {
+            this.key = object;
+            this.value = object2;
+            this.next = node;
+        }
+
+        Node(Node node) {
+            this.key = null;
+            this.value = this;
+            this.next = node;
+        }
+
+        synchronized boolean casValue(Object object, Object object2) {
+            if (this.value == object) {
+                this.value = object2;
+                return true;
+            }
+            return false;
+        }
+
+        synchronized boolean casNext(Node node, Node node2) {
+            if (this.next == node) {
+                this.next = node2;
+                return true;
+            }
+            return false;
+        }
+
+        boolean isMarker() {
+            return this.value == this;
+        }
+
+        boolean isBaseHeader() {
+            return this.value == BASE_HEADER;
+        }
+
+        boolean appendMarker(Node node) {
+            return this.casNext(node, new Node(node));
+        }
+
+        void helpDelete(Node node, Node node2) {
+            if (node2 == this.next && this == node.next) {
+                if (node2 == null || node2.value != node2) {
+                    this.appendMarker(node2);
+                } else {
+                    node.casNext(this, node2.next);
+                }
+            }
+        }
+
+        Object getValidValue() {
+            Object object = this.value;
+            if (object == this || object == BASE_HEADER) {
+                return null;
+            }
+            return object;
+        }
+
+        AbstractMap.SimpleImmutableEntry createSnapshot() {
+            Object object = this.getValidValue();
+            if (object == null) {
+                return null;
+            }
+            return new AbstractMap.SimpleImmutableEntry(this.key, object);
+        }
+    }
+
+    static class Index {
+        final Node node;
+        final Index down;
+        volatile Index right;
+
+        Index(Node node, Index index, Index index2) {
+            this.node = node;
+            this.down = index;
+            this.right = index2;
+        }
+
+        final synchronized boolean casRight(Index index, Index index2) {
+            if (this.right == index) {
+                this.right = index2;
+                return true;
+            }
+            return false;
+        }
+
+        final boolean indexesDeletedNode() {
+            return this.node.value == null;
+        }
+
+        final boolean link(Index index, Index index2) {
+            Node node = this.node;
+            index2.right = index;
+            return node.value != null && this.casRight(index, index2);
+        }
+
+        final boolean unlink(Index index) {
+            return !this.indexesDeletedNode() && this.casRight(index, index.right);
+        }
+    }
+
+    static final class KeySet
+    extends AbstractSet
+    implements NavigableSet {
+        private final ConcurrentNavigableMap m;
+
+        KeySet(ConcurrentNavigableMap concurrentNavigableMap) {
+            this.m = concurrentNavigableMap;
+        }
+
+        public int size() {
+            return this.m.size();
+        }
+
+        public boolean isEmpty() {
+            return this.m.isEmpty();
+        }
+
+        public boolean contains(Object object) {
+            return this.m.containsKey(object);
+        }
+
+        public boolean remove(Object object) {
+            return this.m.remove(object) != null;
+        }
+
+        public void clear() {
+            this.m.clear();
+        }
+
+        public Object lower(Object object) {
+            return this.m.lowerKey(object);
+        }
+
+        public Object floor(Object object) {
+            return this.m.floorKey(object);
+        }
+
+        public Object ceiling(Object object) {
+            return this.m.ceilingKey(object);
+        }
+
+        public Object higher(Object object) {
+            return this.m.higherKey(object);
+        }
+
+        public Comparator comparator() {
+            return this.m.comparator();
+        }
+
+        public Object first() {
+            return this.m.firstKey();
+        }
+
+        public Object last() {
+            return this.m.lastKey();
+        }
+
+        public Object pollFirst() {
+            Map.Entry entry = this.m.pollFirstEntry();
+            return entry == null ? null : entry.getKey();
+        }
+
+        public Object pollLast() {
+            Map.Entry entry = this.m.pollLastEntry();
+            return entry == null ? null : entry.getKey();
+        }
+
+        public Object[] toArray() {
+            return ConcurrentSkipListMap.toList(this).toArray();
+        }
+
+        public Object[] toArray(Object[] objectArray) {
+            return ConcurrentSkipListMap.toList(this).toArray(objectArray);
+        }
+
+        public Iterator iterator() {
+            if (this.m instanceof ConcurrentSkipListMap) {
+                return ((ConcurrentSkipListMap)this.m).keyIterator();
+            }
+            return ((SubMap)this.m).keyIterator();
+        }
+
+        public boolean equals(Object object) {
+            if (object == this) {
+                return true;
+            }
+            if (!(object instanceof Set)) {
+                return false;
+            }
+            Collection collection = (Collection)object;
+            try {
+                return this.containsAll(collection) && collection.containsAll(this);
+            }
+            catch (ClassCastException classCastException) {
+                return false;
+            }
+            catch (NullPointerException nullPointerException) {
+                return false;
+            }
+        }
+
+        public Iterator descendingIterator() {
+            return this.descendingSet().iterator();
+        }
+
+        public NavigableSet subSet(Object object, boolean bl, Object object2, boolean bl2) {
+            return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.subMap(object, bl, object2, bl2));
+        }
+
+        public NavigableSet headSet(Object object, boolean bl) {
+            return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.headMap(object, bl));
+        }
+
+        public NavigableSet tailSet(Object object, boolean bl) {
+            return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.tailMap(object, bl));
+        }
+
+        public SortedSet subSet(Object object, Object object2) {
+            return this.subSet(object, true, object2, false);
+        }
+
+        public SortedSet headSet(Object object) {
+            return this.headSet(object, false);
+        }
+
+        public SortedSet tailSet(Object object) {
+            return this.tailSet(object, true);
+        }
+
+        public NavigableSet descendingSet() {
+            return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.descendingMap());
+        }
+    }
+
+    static final class SubMap
+    extends AbstractMap
+    implements ConcurrentNavigableMap,
+    Cloneable,
+    Serializable {
+        private static final long serialVersionUID = -7647078645895051609L;
+        private final ConcurrentSkipListMap m;
+        private final Object lo;
+        private final Object hi;
+        private final boolean loInclusive;
+        private final boolean hiInclusive;
+        private final boolean isDescending;
+        private transient KeySet keySetView;
+        private transient Set entrySetView;
+        private transient Collection valuesView;
+
+        SubMap(ConcurrentSkipListMap concurrentSkipListMap, Object object, boolean bl, Object object2, boolean bl2, boolean bl3) {
+            if (object != null && object2 != null && concurrentSkipListMap.compare(object, object2) > 0) {
+                throw new IllegalArgumentException("inconsistent range");
+            }
+            this.m = concurrentSkipListMap;
+            this.lo = object;
+            this.hi = object2;
+            this.loInclusive = bl;
+            this.hiInclusive = bl2;
+            this.isDescending = bl3;
+        }
+
+        private boolean tooLow(Object object) {
+            int n;
+            return this.lo != null && ((n = this.m.compare(object, this.lo)) < 0 || n == 0 && !this.loInclusive);
+        }
+
+        private boolean tooHigh(Object object) {
+            int n;
+            return this.hi != null && ((n = this.m.compare(object, this.hi)) > 0 || n == 0 && !this.hiInclusive);
+        }
+
+        private boolean inBounds(Object object) {
+            return !this.tooLow(object) && !this.tooHigh(object);
+        }
+
+        private void checkKeyBounds(Object object) throws IllegalArgumentException {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            if (!this.inBounds(object)) {
+                throw new IllegalArgumentException("key out of range");
+            }
+        }
+
+        private boolean isBeforeEnd(Node node) {
+            if (node == null) {
+                return false;
+            }
+            if (this.hi == null) {
+                return true;
+            }
+            Object object = node.key;
+            if (object == null) {
+                return true;
+            }
+            int n = this.m.compare(object, this.hi);
+            return n <= 0 && (n != 0 || this.hiInclusive);
+        }
+
+        private Node loNode() {
+            if (this.lo == null) {
+                return this.m.findFirst();
+            }
+            if (this.loInclusive) {
+                return this.m.findNear(this.lo, 0 | 1);
+            }
+            return this.m.findNear(this.lo, 0);
+        }
+
+        private Node hiNode() {
+            if (this.hi == null) {
+                return this.m.findLast();
+            }
+            if (this.hiInclusive) {
+                return this.m.findNear(this.hi, 2 | 1);
+            }
+            return this.m.findNear(this.hi, 2);
+        }
+
+        private Object lowestKey() {
+            Node node = this.loNode();
+            if (this.isBeforeEnd(node)) {
+                return node.key;
+            }
+            throw new NoSuchElementException();
+        }
+
+        private Object highestKey() {
+            Object object;
+            Node node = this.hiNode();
+            if (node != null && this.inBounds(object = node.key)) {
+                return object;
+            }
+            throw new NoSuchElementException();
+        }
+
+        private Map.Entry lowestEntry() {
+            Node node;
+            AbstractMap.SimpleImmutableEntry simpleImmutableEntry;
+            do {
+                if (this.isBeforeEnd(node = this.loNode())) continue;
+                return null;
+            } while ((simpleImmutableEntry = node.createSnapshot()) == null);
+            return simpleImmutableEntry;
+        }
+
+        private Map.Entry highestEntry() {
+            Node node;
+            AbstractMap.SimpleImmutableEntry simpleImmutableEntry;
+            do {
+                if ((node = this.hiNode()) != null && this.inBounds(node.key)) continue;
+                return null;
+            } while ((simpleImmutableEntry = node.createSnapshot()) == null);
+            return simpleImmutableEntry;
+        }
+
+        private Map.Entry removeLowest() {
+            Object object;
+            Object object2;
+            do {
+                Node node;
+                if ((node = this.loNode()) == null) {
+                    return null;
+                }
+                object = node.key;
+                if (this.inBounds(object)) continue;
+                return null;
+            } while ((object2 = this.m.doRemove(object, null)) == null);
+            return new AbstractMap.SimpleImmutableEntry(object, object2);
+        }
+
+        private Map.Entry removeHighest() {
+            Object object;
+            Object object2;
+            do {
+                Node node;
+                if ((node = this.hiNode()) == null) {
+                    return null;
+                }
+                object = node.key;
+                if (this.inBounds(object)) continue;
+                return null;
+            } while ((object2 = this.m.doRemove(object, null)) == null);
+            return new AbstractMap.SimpleImmutableEntry(object, object2);
+        }
+
+        private Map.Entry getNearEntry(Object object, int n) {
+            Object object2;
+            Node node;
+            Object object3;
+            if (this.isDescending) {
+                n = (n & 2) == 0 ? (n |= 2) : (n &= ~2);
+            }
+            if (this.tooLow(object)) {
+                return (n & 2) != 0 ? null : this.lowestEntry();
+            }
+            if (this.tooHigh(object)) {
+                return (n & 2) != 0 ? this.highestEntry() : null;
+            }
+            do {
+                if ((node = this.m.findNear(object, n)) == null || !this.inBounds(node.key)) {
+                    return null;
+                }
+                object2 = node.key;
+            } while ((object3 = node.getValidValue()) == null);
+            return new AbstractMap.SimpleImmutableEntry(object2, object3);
+        }
+
+        private Object getNearKey(Object object, int n) {
+            Object object2;
+            Node node;
+            Object object3;
+            if (this.isDescending) {
+                n = (n & 2) == 0 ? (n |= 2) : (n &= ~2);
+            }
+            if (this.tooLow(object)) {
+                Node node2;
+                if ((n & 2) == 0 && this.isBeforeEnd(node2 = this.loNode())) {
+                    return node2.key;
+                }
+                return null;
+            }
+            if (this.tooHigh(object)) {
+                Object object4;
+                Node node3;
+                if ((n & 2) != 0 && (node3 = this.hiNode()) != null && this.inBounds(object4 = node3.key)) {
+                    return object4;
+                }
+                return null;
+            }
+            do {
+                if ((node = this.m.findNear(object, n)) == null || !this.inBounds(node.key)) {
+                    return null;
+                }
+                object2 = node.key;
+            } while ((object3 = node.getValidValue()) == null);
+            return object2;
+        }
+
+        public boolean containsKey(Object object) {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            Object object2 = object;
+            return this.inBounds(object2) && this.m.containsKey(object2);
+        }
+
+        public Object get(Object object) {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            Object object2 = object;
+            return !this.inBounds(object2) ? null : this.m.get(object2);
+        }
+
+        public Object put(Object object, Object object2) {
+            this.checkKeyBounds(object);
+            return this.m.put(object, object2);
+        }
+
+        public Object remove(Object object) {
+            Object object2 = object;
+            return !this.inBounds(object2) ? null : this.m.remove(object2);
+        }
+
+        public int size() {
+            long l = 0L;
+            Node node = this.loNode();
+            while (this.isBeforeEnd(node)) {
+                if (node.getValidValue() != null) {
+                    ++l;
+                }
+                node = node.next;
+            }
+            return l >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)l;
+        }
+
+        public boolean isEmpty() {
+            return !this.isBeforeEnd(this.loNode());
+        }
+
+        public boolean containsValue(Object object) {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            Node node = this.loNode();
+            while (this.isBeforeEnd(node)) {
+                Object object2 = node.getValidValue();
+                if (object2 != null && object.equals(object2)) {
+                    return true;
+                }
+                node = node.next;
+            }
+            return false;
+        }
+
+        public void clear() {
+            Node node = this.loNode();
+            while (this.isBeforeEnd(node)) {
+                if (node.getValidValue() != null) {
+                    this.m.remove(node.key);
+                }
+                node = node.next;
+            }
+        }
+
+        public Object putIfAbsent(Object object, Object object2) {
+            this.checkKeyBounds(object);
+            return this.m.putIfAbsent(object, object2);
+        }
+
+        public boolean remove(Object object, Object object2) {
+            Object object3 = object;
+            return this.inBounds(object3) && this.m.remove(object3, object2);
+        }
+
+        public boolean replace(Object object, Object object2, Object object3) {
+            this.checkKeyBounds(object);
+            return this.m.replace(object, object2, object3);
+        }
+
+        public Object replace(Object object, Object object2) {
+            this.checkKeyBounds(object);
+            return this.m.replace(object, object2);
+        }
+
+        public Comparator comparator() {
+            Comparator comparator = this.m.comparator();
+            if (this.isDescending) {
+                return Collections.reverseOrder(comparator);
+            }
+            return comparator;
+        }
+
+        private SubMap newSubMap(Object object, boolean bl, Object object2, boolean bl2) {
+            if (this.isDescending) {
+                Object object3 = object;
+                object = object2;
+                object2 = object3;
+                boolean bl3 = bl;
+                bl = bl2;
+                bl2 = bl3;
+            }
+            if (this.lo != null) {
+                if (object == null) {
+                    object = this.lo;
+                    bl = this.loInclusive;
+                } else {
+                    int n = this.m.compare(object, this.lo);
+                    if (n < 0 || n == 0 && !this.loInclusive && bl) {
+                        throw new IllegalArgumentException("key out of range");
+                    }
+                }
+            }
+            if (this.hi != null) {
+                if (object2 == null) {
+                    object2 = this.hi;
+                    bl2 = this.hiInclusive;
+                } else {
+                    int n = this.m.compare(object2, this.hi);
+                    if (n > 0 || n == 0 && !this.hiInclusive && bl2) {
+                        throw new IllegalArgumentException("key out of range");
+                    }
+                }
+            }
+            return new SubMap(this.m, object, bl, object2, bl2, this.isDescending);
+        }
+
+        public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
+            if (object == null || object2 == null) {
+                throw new NullPointerException();
+            }
+            return this.newSubMap(object, bl, object2, bl2);
+        }
+
+        public NavigableMap headMap(Object object, boolean bl) {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            return this.newSubMap(null, false, object, bl);
+        }
+
+        public NavigableMap tailMap(Object object, boolean bl) {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            return this.newSubMap(object, bl, null, false);
+        }
+
+        public SortedMap subMap(Object object, Object object2) {
+            return this.subMap(object, true, object2, false);
+        }
+
+        public SortedMap headMap(Object object) {
+            return this.headMap(object, false);
+        }
+
+        public SortedMap tailMap(Object object) {
+            return this.tailMap(object, true);
+        }
+
+        public NavigableMap descendingMap() {
+            return new SubMap(this.m, this.lo, this.loInclusive, this.hi, this.hiInclusive, !this.isDescending);
+        }
+
+        public Map.Entry ceilingEntry(Object object) {
+            return this.getNearEntry(object, 0 | 1);
+        }
+
+        public Object ceilingKey(Object object) {
+            return this.getNearKey(object, 0 | 1);
+        }
+
+        public Map.Entry lowerEntry(Object object) {
+            return this.getNearEntry(object, 2);
+        }
+
+        public Object lowerKey(Object object) {
+            return this.getNearKey(object, 2);
+        }
+
+        public Map.Entry floorEntry(Object object) {
+            return this.getNearEntry(object, 2 | 1);
+        }
+
+        public Object floorKey(Object object) {
+            return this.getNearKey(object, 2 | 1);
+        }
+
+        public Map.Entry higherEntry(Object object) {
+            return this.getNearEntry(object, 0);
+        }
+
+        public Object higherKey(Object object) {
+            return this.getNearKey(object, 0);
+        }
+
+        public Object firstKey() {
+            return this.isDescending ? this.highestKey() : this.lowestKey();
+        }
+
+        public Object lastKey() {
+            return this.isDescending ? this.lowestKey() : this.highestKey();
+        }
+
+        public Map.Entry firstEntry() {
+            return this.isDescending ? this.highestEntry() : this.lowestEntry();
+        }
+
+        public Map.Entry lastEntry() {
+            return this.isDescending ? this.lowestEntry() : this.highestEntry();
+        }
+
+        public Map.Entry pollFirstEntry() {
+            return this.isDescending ? this.removeHighest() : this.removeLowest();
+        }
+
+        public Map.Entry pollLastEntry() {
+            return this.isDescending ? this.removeLowest() : this.removeHighest();
+        }
+
+        public Set keySet() {
+            KeySet keySet = this.keySetView;
+            return keySet != null ? keySet : (this.keySetView = new KeySet(this));
+        }
+
+        public NavigableSet navigableKeySet() {
+            KeySet keySet = this.keySetView;
+            return keySet != null ? keySet : (this.keySetView = new KeySet(this));
+        }
+
+        public Collection values() {
+            Collection collection = this.valuesView;
+            return collection != null ? collection : (this.valuesView = new Values(this));
+        }
+
+        public Set entrySet() {
+            Set set = this.entrySetView;
+            return set != null ? set : (this.entrySetView = new EntrySet(this));
+        }
+
+        public NavigableSet descendingKeySet() {
+            return this.descendingMap().navigableKeySet();
+        }
+
+        Iterator keyIterator() {
+            return new SubMapKeyIterator();
+        }
+
+        Iterator valueIterator() {
+            return new SubMapValueIterator();
+        }
+
+        Iterator entryIterator() {
+            return new SubMapEntryIterator();
+        }
+
+        abstract class SubMapIter
+        implements Iterator {
+            Node lastReturned;
+            Node next;
+            Object nextValue;
+
+            SubMapIter() {
+                block3: {
+                    Object object;
+                    do {
+                        Node node = this.next = SubMap.this.isDescending ? SubMap.this.hiNode() : SubMap.this.loNode();
+                        if (this.next == null) break block3;
+                    } while ((object = this.next.value) == null || object == this.next);
+                    if (!SubMap.this.inBounds(this.next.key)) {
+                        this.next = null;
+                    } else {
+                        this.nextValue = object;
+                    }
+                }
+            }
+
+            public final boolean hasNext() {
+                return this.next != null;
+            }
+
+            final void advance() {
+                if (this.next == null) {
+                    throw new NoSuchElementException();
+                }
+                this.lastReturned = this.next;
+                if (SubMap.this.isDescending) {
+                    this.descend();
+                } else {
+                    this.ascend();
+                }
+            }
+
+            private void ascend() {
+                block3: {
+                    Object object;
+                    do {
+                        this.next = this.next.next;
+                        if (this.next == null) break block3;
+                    } while ((object = this.next.value) == null || object == this.next);
+                    if (SubMap.this.tooHigh(this.next.key)) {
+                        this.next = null;
+                    } else {
+                        this.nextValue = object;
+                    }
+                }
+            }
+
+            private void descend() {
+                block3: {
+                    Object object;
+                    do {
+                        this.next = SubMap.this.m.findNear(this.lastReturned.key, 2);
+                        if (this.next == null) break block3;
+                    } while ((object = this.next.value) == null || object == this.next);
+                    if (SubMap.this.tooLow(this.next.key)) {
+                        this.next = null;
+                    } else {
+                        this.nextValue = object;
+                    }
+                }
+            }
+
+            public void remove() {
+                Node node = this.lastReturned;
+                if (node == null) {
+                    throw new IllegalStateException();
+                }
+                SubMap.this.m.remove(node.key);
+                this.lastReturned = null;
+            }
+        }
+
+        final class SubMapKeyIterator
+        extends SubMapIter {
+            SubMapKeyIterator() {
+            }
+
+            public Object next() {
+                Node node = this.next;
+                this.advance();
+                return node.key;
+            }
+        }
+
+        final class SubMapEntryIterator
+        extends SubMapIter {
+            SubMapEntryIterator() {
+            }
+
+            public Object next() {
+                Node node = this.next;
+                Object object = this.nextValue;
+                this.advance();
+                return new AbstractMap.SimpleImmutableEntry(node.key, object);
+            }
+        }
+
+        final class SubMapValueIterator
+        extends SubMapIter {
+            SubMapValueIterator() {
+            }
+
+            public Object next() {
+                Object object = this.nextValue;
+                this.advance();
+                return object;
+            }
+        }
+    }
+
+    static final class Values
+    extends AbstractCollection {
+        private final ConcurrentNavigableMap m;
+
+        Values(ConcurrentNavigableMap concurrentNavigableMap) {
+            this.m = concurrentNavigableMap;
+        }
+
+        public Iterator iterator() {
+            if (this.m instanceof ConcurrentSkipListMap) {
+                return ((ConcurrentSkipListMap)this.m).valueIterator();
+            }
+            return ((SubMap)this.m).valueIterator();
+        }
+
+        public boolean isEmpty() {
+            return this.m.isEmpty();
+        }
+
+        public int size() {
+            return this.m.size();
+        }
+
+        public boolean contains(Object object) {
+            return this.m.containsValue(object);
+        }
+
+        public void clear() {
+            this.m.clear();
+        }
+
+        public Object[] toArray() {
+            return ConcurrentSkipListMap.toList(this).toArray();
+        }
+
+        public Object[] toArray(Object[] objectArray) {
+            return ConcurrentSkipListMap.toList(this).toArray(objectArray);
+        }
+    }
+
+    static final class EntrySet
+    extends AbstractSet {
+        private final ConcurrentNavigableMap m;
+
+        EntrySet(ConcurrentNavigableMap concurrentNavigableMap) {
+            this.m = concurrentNavigableMap;
+        }
+
+        public Iterator iterator() {
+            if (this.m instanceof ConcurrentSkipListMap) {
+                return ((ConcurrentSkipListMap)this.m).entryIterator();
+            }
+            return ((SubMap)this.m).entryIterator();
+        }
+
+        public boolean contains(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return false;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            Object object2 = this.m.get(entry.getKey());
+            return object2 != null && object2.equals(entry.getValue());
+        }
+
+        public boolean remove(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return false;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            return this.m.remove(entry.getKey(), entry.getValue());
+        }
+
+        public boolean isEmpty() {
+            return this.m.isEmpty();
+        }
+
+        public int size() {
+            return this.m.size();
+        }
+
+        public void clear() {
+            this.m.clear();
+        }
+
+        public boolean equals(Object object) {
+            if (object == this) {
+                return true;
+            }
+            if (!(object instanceof Set)) {
+                return false;
+            }
+            Collection collection = (Collection)object;
+            try {
+                return this.containsAll(collection) && collection.containsAll(this);
+            }
+            catch (ClassCastException classCastException) {
+                return false;
+            }
+            catch (NullPointerException nullPointerException) {
+                return false;
+            }
+        }
+
+        public Object[] toArray() {
+            return ConcurrentSkipListMap.toList(this).toArray();
+        }
+
+        public Object[] toArray(Object[] objectArray) {
+            return ConcurrentSkipListMap.toList(this).toArray(objectArray);
+        }
+    }
+
+    static final class HeadIndex
+    extends Index {
+        final int level;
+
+        HeadIndex(Node node, Index index, Index index2, int n) {
+            super(node, index, index2);
+            this.level = n;
+        }
+    }
+
+    final class KeyIterator
+    extends Iter {
+        KeyIterator() {
+        }
+
+        public Object next() {
+            Node node = this.next;
+            this.advance();
+            return node.key;
+        }
+    }
+
+    final class EntryIterator
+    extends Iter {
+        EntryIterator() {
+        }
+
+        public Object next() {
+            Node node = this.next;
+            Object object = this.nextValue;
+            this.advance();
+            return new AbstractMap.SimpleImmutableEntry(node.key, object);
+        }
+    }
+
+    final class ValueIterator
+    extends Iter {
+        ValueIterator() {
+        }
+
+        public Object next() {
+            Object object = this.nextValue;
+            this.advance();
+            return object;
+        }
+    }
+
+    static final class ComparableUsingComparator
+    implements Comparable {
+        final Object actualKey;
+        final Comparator cmp;
+
+        ComparableUsingComparator(Object object, Comparator comparator) {
+            this.actualKey = object;
+            this.cmp = comparator;
+        }
+
+        public int compareTo(Object object) {
+            return this.cmp.compare(this.actualKey, object);
+        }
     }
 }
 

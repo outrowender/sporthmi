@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.connectedradio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.connectedradio.RadioStationStream;
 
 public class RadioStationStreamSerializer {
-    public static void putOptionalRadioStationStream(ISerializer iSerializer, RadioStationStream radioStationStream) {
+    public static void putOptionalRadioStationStream(ISerializer iSerializer, RadioStationStream radioStationStream) throws SerializerException {
         boolean bl = radioStationStream == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RadioStationStreamSerializer {
         }
     }
 
-    public static void putOptionalRadioStationStreamVarArray(ISerializer iSerializer, RadioStationStream[] radioStationStreamArray) {
+    public static void putOptionalRadioStationStreamVarArray(ISerializer iSerializer, RadioStationStream[] radioStationStreamArray) throws SerializerException {
         boolean bl = radioStationStreamArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RadioStationStreamSerializer {
         }
     }
 
-    public static RadioStationStream getOptionalRadioStationStream(IDeserializer iDeserializer) {
+    public static RadioStationStream getOptionalRadioStationStream(IDeserializer iDeserializer) throws SerializerException {
         RadioStationStream radioStationStream = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RadioStationStreamSerializer {
         return radioStationStream;
     }
 
-    public static RadioStationStream[] getOptionalRadioStationStreamVarArray(IDeserializer iDeserializer) {
+    public static RadioStationStream[] getOptionalRadioStationStreamVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStationStream[] radioStationStreamArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

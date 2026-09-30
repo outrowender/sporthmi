@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.commons.error;
 
 public interface IRunnableWrapper {
-    default public Runnable wrap(Runnable runnable) {
-    }
+    public Runnable wrap(Runnable var1);
 }
 

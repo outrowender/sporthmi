@@ -10,9 +10,8 @@ import java.util.List;
 
 public class LetterOverSpecialCharBoostRule
 extends AbstractPRPRule {
-    private static final String ADDITIONAL_LETTERS;
+    private static final String ADDITIONAL_LETTERS = "', ";
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -26,12 +25,11 @@ extends AbstractPRPRule {
     private boolean letterOrDigitModified(char c2) {
         boolean bl = Character.isLetterOrDigit(c2);
         if (this.getInfoProvider().getKeyboardType() == 6) {
-            bl |= "', ".indexOf(c2) != -1;
+            bl |= ADDITIONAL_LETTERS.indexOf(c2) != -1;
         }
         return bl;
     }
 
-    @Override
     public String getRuleName() {
         return "Letter-Over-SpecialCharacter-Boost-Rule";
     }

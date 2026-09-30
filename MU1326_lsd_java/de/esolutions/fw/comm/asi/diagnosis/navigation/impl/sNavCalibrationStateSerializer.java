@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCalibrationState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNavCalibrationStateSerializer {
-    public static void putOptionalsNavCalibrationState(ISerializer iSerializer, sNavCalibrationState sNavCalibrationState2) {
+    public static void putOptionalsNavCalibrationState(ISerializer iSerializer, sNavCalibrationState sNavCalibrationState2) throws SerializerException {
         boolean bl = sNavCalibrationState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sNavCalibrationStateSerializer {
         }
     }
 
-    public static void putOptionalsNavCalibrationStateVarArray(ISerializer iSerializer, sNavCalibrationState[] sNavCalibrationStateArray) {
+    public static void putOptionalsNavCalibrationStateVarArray(ISerializer iSerializer, sNavCalibrationState[] sNavCalibrationStateArray) throws SerializerException {
         boolean bl = sNavCalibrationStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sNavCalibrationStateSerializer {
         }
     }
 
-    public static sNavCalibrationState getOptionalsNavCalibrationState(IDeserializer iDeserializer) {
+    public static sNavCalibrationState getOptionalsNavCalibrationState(IDeserializer iDeserializer) throws SerializerException {
         sNavCalibrationState sNavCalibrationState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sNavCalibrationStateSerializer {
         return sNavCalibrationState2;
     }
 
-    public static sNavCalibrationState[] getOptionalsNavCalibrationStateVarArray(IDeserializer iDeserializer) {
+    public static sNavCalibrationState[] getOptionalsNavCalibrationStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNavCalibrationState[] sNavCalibrationStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

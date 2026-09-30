@@ -7,16 +7,12 @@ import de.esolutions.hmi.widgets.audi.base.IEntertainmentDrawerGapEventHandler;
 import de.esolutions.hmi.widgets.audi.base.IStatusbarGapEventHandler;
 
 public interface IGapWidgetRegistry {
-    default public void setStatusbarGapEventHandler(IStatusbarGapEventHandler iStatusbarGapEventHandler) {
-    }
+    public void setStatusbarGapEventHandler(IStatusbarGapEventHandler var1);
 
-    default public IStatusbarGapEventHandler getStatusbarGapEventHandler() {
-    }
+    public IStatusbarGapEventHandler getStatusbarGapEventHandler();
 
-    default public void setEntertainmentDrawerGapEventHandler(IEntertainmentDrawerGapEventHandler iEntertainmentDrawerGapEventHandler) {
-    }
+    public void setEntertainmentDrawerGapEventHandler(IEntertainmentDrawerGapEventHandler var1);
 
-    default public IEntertainmentDrawerGapEventHandler getEntertainmentDrawerGapEventHandler() {
-    }
+    public IEntertainmentDrawerGapEventHandler getEntertainmentDrawerGapEventHandler();
 }
 

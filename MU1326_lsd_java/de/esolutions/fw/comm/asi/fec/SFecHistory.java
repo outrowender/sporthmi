@@ -42,7 +42,7 @@ public class SFecHistory {
     }
 
     public String toString() {
-        return new StringBuffer("SFecHistory{").append("fsid=").append(this.fsid).append(", timestamp=").append(this.timestamp).append(", activity=").append(this.activity).append("}").toString();
+        return "SFecHistory{" + "fsid=" + this.fsid + ", timestamp=" + this.timestamp + ", activity=" + this.activity + "}";
     }
 }
 

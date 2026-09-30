@@ -35,63 +35,55 @@ implements IStrokeMatchspellerProtocol {
         this.inputLocker = iInputLocker;
     }
 
-    @Override
     public void notifyMatchspellerStrokeConversionsAvailable() {
         this.inputLocker.setInputLock(false);
         if (this.strokeConversionsAvailableListener != null) {
             this.strokeConversionsAvailableListener.notifyMatchspellerStrokeConversionsAvailable();
         } else {
-            IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "StrokeMatchspellerProtocol#notifyMatchspellerStrokeConversionAvailable: no IStrokeConversionsAvailableListener set.");
+            IWidgetLogChannel.tpLogChannelInternal.log(100000, "StrokeMatchspellerProtocol#notifyMatchspellerStrokeConversionAvailable: no IStrokeConversionsAvailableListener set.");
         }
     }
 
-    @Override
     public void strokesChanged(String string, char c2) {
         if (IWidgetLogChannel.tpLogChannelInternal.isDebug()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "StrokeMatchspellerProtocol#strokesChanged [MODEL COMMUNICATION ->] calling strokesChanged with strokes \"%1\" and last char '%2'", (Object)string, (Object)StringUtility.sanitizeCharacterForLogging(c2));
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "StrokeMatchspellerProtocol#strokesChanged [MODEL COMMUNICATION ->] calling strokesChanged with strokes \"%1\" and last char '%2'", (Object)string, (Object)StringUtility.sanitizeCharacterForLogging(c2));
         }
         this.lastStrokesChanged = string;
         this.model.strokesChanged(this.terminal.getTerminalID(), string, c2);
     }
 
-    @Override
     public String getStrokes() {
         return this.lastStrokesChanged;
     }
 
-    @Override
     public void requestValidHanziCharsWindow(int n, int n2) {
         this.lastOffsetRequested = n;
         this.lastWindowSizeRequested = n2;
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "StrokeMatchspellerProtocol#requestValidHanziCharsWindow [MODEL COMMUNICATION ->] calling requestValidHanziCharsWindow with offset %1 and windowsize %2", (long)n, (long)n2);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "StrokeMatchspellerProtocol#requestValidHanziCharsWindow [MODEL COMMUNICATION ->] calling requestValidHanziCharsWindow with offset %1 and windowsize %2", (long)n, (long)n2);
         this.inputLocker.setInputLock(true);
         this.model.requestValidHanziCharsWindow(this.terminal.getTerminalID(), n, n2);
     }
 
-    @Override
     public int getTotalAmountOfHanziCharacters() {
         int n = this.model.getTotalAmountOfHanziCharacters();
         if (IWidgetLogChannel.tpLogChannelInternal.isDebug()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "#StrokeMatchspellerProtocol#getTotalAmountOfHanziCharacters: getTotalAmountOfHanziCharacters returned %1, last strokesChanged was called with '%2'.", (Object)String.valueOf(n), (Object)this.lastStrokesChanged);
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "#StrokeMatchspellerProtocol#getTotalAmountOfHanziCharacters: getTotalAmountOfHanziCharacters returned %1, last strokesChanged was called with '%2'.", (Object)String.valueOf(n), (Object)this.lastStrokesChanged);
         }
         return n;
     }
 
-    @Override
     public void setStrokeConversionsAvailableListener(IStrokeConversionsAvailableListener iStrokeConversionsAvailableListener) {
         this.strokeConversionsAvailableListener = iStrokeConversionsAvailableListener;
     }
 
-    @Override
     public String getValidHanziCharsWindowResult() {
         String string = this.model.getValidHanziCharsWindowResult();
         if (IWidgetLogChannel.tpLogChannelInternal.isDebug()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "#StrokeMatchspellerProtocol#getValidHanziCharsWindowResult: getValidHanziCharsWindowResult returned '%1', last strokesChanged was called with '%2', offset was %3, windowSize was %4.", (Object)string, (Object)this.lastStrokesChanged, (Object)String.valueOf(this.lastOffsetRequested), (Object)String.valueOf(this.lastWindowSizeRequested));
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "#StrokeMatchspellerProtocol#getValidHanziCharsWindowResult: getValidHanziCharsWindowResult returned '%1', last strokesChanged was called with '%2', offset was %3, windowSize was %4.", (Object)string, (Object)this.lastStrokesChanged, (Object)String.valueOf(this.lastOffsetRequested), (Object)String.valueOf(this.lastWindowSizeRequested));
         }
         return string;
     }
 
-    @Override
     public void notifyModelTextValueChanged() {
         String string = this.model.getText();
         String string2 = this.asianTouchInputData.getCurrentText();
@@ -109,7 +101,7 @@ implements IStrokeMatchspellerProtocol {
                 String string4 = string.substring(string2.length());
                 if (!string4.equals(string3 = this.asianTouchInputData.getUnconvertedCharacters())) {
                     if (!string4.startsWith(string3)) {
-                        IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "TouchControllerAsia#processModelUpdateEvent VALUE_UPDATED: stroke characters from model ('%1') do not start with current stroke chars ('%2'). Update event ignored!", (Object)string4, (Object)string3);
+                        IWidgetLogChannel.tpLogChannelInternal.log(100000, "TouchControllerAsia#processModelUpdateEvent VALUE_UPDATED: stroke characters from model ('%1') do not start with current stroke chars ('%2'). Update event ignored!", (Object)string4, (Object)string3);
                         this.asianTouchInputData.clearUnconvertedCharacters(false);
                         this.asianTouchInputData.appendUnconvertedCharacters(string4, false);
                     } else {

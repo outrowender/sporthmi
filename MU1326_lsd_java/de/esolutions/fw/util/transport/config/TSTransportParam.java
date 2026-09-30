@@ -33,7 +33,7 @@ public class TSTransportParam {
     }
 
     public String toString() {
-        return new StringBuffer().append("[TS:").append(this.mountpoint).append(", ").append(this.file).append("]").toString();
+        return "[TS:" + this.mountpoint + ", " + this.file + "]";
     }
 
     public boolean equals(Object object) {

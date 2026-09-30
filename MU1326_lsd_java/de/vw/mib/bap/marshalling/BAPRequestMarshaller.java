@@ -6,22 +6,16 @@ package de.vw.mib.bap.marshalling;
 import de.vw.mib.bap.datatypes.BAPEntity;
 
 public interface BAPRequestMarshaller {
-    default public void startResult(int n, BAPEntity bAPEntity) {
-    }
+    public void startResult(int var1, BAPEntity var2);
 
-    default public void abortResult(int n, BAPEntity bAPEntity) {
-    }
+    public void abortResult(int var1, BAPEntity var2);
 
-    default public void getEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void getEntity(int var1, BAPEntity var2);
 
-    default public void setGetEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void setGetEntity(int var1, BAPEntity var2);
 
-    default public void ackEntity(int n, BAPEntity bAPEntity) {
-    }
+    public void ackEntity(int var1, BAPEntity var2);
 
-    default public void writeHighLevelRetryError(int n, int n2) {
-    }
+    public void writeHighLevelRetryError(int var1, int var2);
 }
 

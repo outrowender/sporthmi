@@ -9,28 +9,20 @@ import org.dsi.ifc.organizer.DownloadInfo;
 
 public interface DSIAdbVCardExchangeListener
 extends DSIListener {
-    default public void updateExportCount(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateExportCount(DownloadInfo var1, int var2);
 
-    default public void updateImportCount(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateImportCount(DownloadInfo var1, int var2);
 
-    default public void importVCardResult(int n, int n2, int n3, int n4) {
-    }
+    public void importVCardResult(int var1, int var2, int var3, int var4);
 
-    default public void exportVCardResult(int n, int n2, int n3, int n4) {
-    }
+    public void exportVCardResult(int var1, int var2, int var3, int var4);
 
-    default public void exportSpellerVCardResult(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void exportSpellerVCardResult(int var1, int var2, int var3, int var4, int var5);
 
-    default public void createVCardResult(int n, long[] lArray, int n2, String string) {
-    }
+    public void createVCardResult(int var1, long[] var2, int var3, String var4);
 
-    default public void parseVCardResult(int n, AdbEntry[] adbEntryArray) {
-    }
+    public void parseVCardResult(int var1, AdbEntry[] var2);
 
-    default public void responseAbort(int n) {
-    }
+    public void responseAbort(int var1);
 }
 

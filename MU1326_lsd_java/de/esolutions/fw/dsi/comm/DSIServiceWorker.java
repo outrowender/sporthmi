@@ -5,7 +5,7 @@ package de.esolutions.fw.dsi.comm;
 
 import de.esolutions.fw.comm.core.IMethod;
 import de.esolutions.fw.comm.core.IService;
-import de.esolutions.fw.dsi.comm.DSIServiceWorker$ServiceJob;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.dsi.comm.IDSIServiceWorker;
 import de.esolutions.fw.dsi.tracing.Channels;
 import de.esolutions.fw.dsi.tracing.JobLogger;
@@ -29,7 +29,6 @@ implements IDSIServiceWorker {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void start() {
         int n = 0;
         Object object = this;
@@ -50,7 +49,6 @@ implements IDSIServiceWorker {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stop() {
         int n = 0;
         Object object = this;
@@ -74,12 +72,10 @@ implements IDSIServiceWorker {
         }
     }
 
-    @Override
     public synchronized int getUseCount() {
         return this.useCount;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
@@ -87,32 +83,50 @@ implements IDSIServiceWorker {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void enqueueCall(IMethod iMethod) {
         Channels.SERVICEWORKER.log((short)0, "-> Enqueing method call job to job dispatcher: name=%1, method=%2", (Object)this.name, (Object)iMethod);
         Object object = this.jobDispatcherLock;
         synchronized (object) {
             if (this.jobDispatcher != null) {
-                this.jobDispatcher.execute(new DSIServiceWorker$ServiceJob(iMethod));
+                this.jobDispatcher.execute(new ServiceJob(iMethod));
             }
         }
         Channels.SERVICEWORKER.log((short)0, "<- Done enqueing method call job to job dispatcher: name=%1, method=%2", (Object)this.name, (Object)iMethod);
     }
 
-    @Override
     public void registerService(IService iService) {
     }
 
-    @Override
     public void stubCountChanged(IService iService, int n) {
     }
 
-    @Override
     public void unregisterService(IService iService) {
     }
 
     public String toString() {
-        return new StringBuffer().append("ServiceWorker [name=").append(this.name).append("]").toString();
+        return "ServiceWorker [name=" + this.name + "]";
+    }
+
+    private static class ServiceJob
+    implements Runnable {
+        private IMethod method;
+
+        public String toString() {
+            return "ServiceJob [method=" + this.method.toString() + "]";
+        }
+
+        ServiceJob(IMethod iMethod) {
+            this.method = iMethod;
+        }
+
+        public void run() {
+            try {
+                this.method.invoke();
+            }
+            catch (MethodException methodException) {
+                Channels.SERVICEWORKER.log((short)4, "Error during service method invocation: service=%1, method=%2, rootCause=%3", this.method.getService(), (Object)this.method.toString(), (Object)methodException);
+            }
+        }
     }
 }
 

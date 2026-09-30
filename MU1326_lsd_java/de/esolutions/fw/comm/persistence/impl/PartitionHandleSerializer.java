@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.persistence.impl;
 import de.esolutions.fw.comm.persistence.PartitionHandle;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class PartitionHandleSerializer {
-    public static void putOptionalPartitionHandle(ISerializer iSerializer, PartitionHandle partitionHandle) {
+    public static void putOptionalPartitionHandle(ISerializer iSerializer, PartitionHandle partitionHandle) throws SerializerException {
         boolean bl = partitionHandle == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class PartitionHandleSerializer {
         }
     }
 
-    public static void putOptionalPartitionHandleVarArray(ISerializer iSerializer, PartitionHandle[] partitionHandleArray) {
+    public static void putOptionalPartitionHandleVarArray(ISerializer iSerializer, PartitionHandle[] partitionHandleArray) throws SerializerException {
         boolean bl = partitionHandleArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class PartitionHandleSerializer {
         }
     }
 
-    public static PartitionHandle getOptionalPartitionHandle(IDeserializer iDeserializer) {
+    public static PartitionHandle getOptionalPartitionHandle(IDeserializer iDeserializer) throws SerializerException {
         PartitionHandle partitionHandle = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class PartitionHandleSerializer {
         return partitionHandle;
     }
 
-    public static PartitionHandle[] getOptionalPartitionHandleVarArray(IDeserializer iDeserializer) {
+    public static PartitionHandle[] getOptionalPartitionHandleVarArray(IDeserializer iDeserializer) throws SerializerException {
         PartitionHandle[] partitionHandleArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

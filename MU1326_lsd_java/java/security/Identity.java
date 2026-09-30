@@ -16,7 +16,7 @@ import java.util.Vector;
 public abstract class Identity
 implements Principal,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 3609922007826600659L;
     String name;
     PublicKey publicKey;
     Vector certificates;
@@ -32,7 +32,7 @@ Serializable {
         this.certificates = new Vector();
     }
 
-    public Identity(String string, IdentityScope identityScope) {
+    public Identity(String string, IdentityScope identityScope) throws KeyManagementException {
         this(string);
         this.scope = identityScope;
         if (identityScope != null) {
@@ -48,7 +48,7 @@ Serializable {
         return this.publicKey;
     }
 
-    public void setPublicKey(PublicKey publicKey) {
+    public void setPublicKey(PublicKey publicKey) throws KeyManagementException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSecurityAccess("setIdentityPublicKey");
@@ -60,7 +60,6 @@ Serializable {
         this.certificates = new Vector();
     }
 
-    @Override
     public final String getName() {
         return this.name;
     }
@@ -81,7 +80,7 @@ Serializable {
         return (Certificate[])this.certificates.toArray(new Certificate[0]);
     }
 
-    public void addCertificate(Certificate certificate) {
+    public void addCertificate(Certificate certificate) throws KeyManagementException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSecurityAccess("addIdentityCertificate");
@@ -94,7 +93,7 @@ Serializable {
         this.certificates.add(certificate);
     }
 
-    public void removeCertificate(Certificate certificate) {
+    public void removeCertificate(Certificate certificate) throws KeyManagementException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSecurityAccess("removeIdentityCertificate");
@@ -105,7 +104,6 @@ Serializable {
         this.certificates.remove(certificate);
     }
 
-    @Override
     public final boolean equals(Object object) {
         boolean bl;
         if (this == object) {
@@ -139,13 +137,12 @@ Serializable {
         return bl3;
     }
 
-    @Override
     public String toString() {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSecurityAccess("printIdentity");
         }
-        return new StringBuffer("Name : ").append(this.getName()).append("\nPublic key : ").append(this.publicKey).toString();
+        return "Name : " + this.getName() + "\nPublic key : " + this.publicKey;
     }
 
     public String toString(boolean bl) {
@@ -161,12 +158,11 @@ Serializable {
                 stringBuffer.append(certificateArray[n].toString(false));
                 ++n;
             }
-            string = new StringBuffer(String.valueOf(string)).append(stringBuffer.toString()).toString();
+            string = String.valueOf(string) + stringBuffer.toString();
         }
         return string;
     }
 
-    @Override
     public int hashCode() {
         int n = 0;
         if (this.name != null) {

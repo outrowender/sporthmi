@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.LeagueEntry;
 
 public class LeagueEntrySerializer {
-    public static void putOptionalLeagueEntry(ISerializer iSerializer, LeagueEntry leagueEntry) {
+    public static void putOptionalLeagueEntry(ISerializer iSerializer, LeagueEntry leagueEntry) throws SerializerException {
         boolean bl = leagueEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class LeagueEntrySerializer {
         }
     }
 
-    public static void putOptionalLeagueEntryVarArray(ISerializer iSerializer, LeagueEntry[] leagueEntryArray) {
+    public static void putOptionalLeagueEntryVarArray(ISerializer iSerializer, LeagueEntry[] leagueEntryArray) throws SerializerException {
         boolean bl = leagueEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class LeagueEntrySerializer {
         }
     }
 
-    public static LeagueEntry getOptionalLeagueEntry(IDeserializer iDeserializer) {
+    public static LeagueEntry getOptionalLeagueEntry(IDeserializer iDeserializer) throws SerializerException {
         LeagueEntry leagueEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class LeagueEntrySerializer {
         return leagueEntry;
     }
 
-    public static LeagueEntry[] getOptionalLeagueEntryVarArray(IDeserializer iDeserializer) {
+    public static LeagueEntry[] getOptionalLeagueEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         LeagueEntry[] leagueEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

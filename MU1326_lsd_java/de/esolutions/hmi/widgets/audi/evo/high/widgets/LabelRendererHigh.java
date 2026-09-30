@@ -39,7 +39,6 @@ Alignment {
         this.controller = labelController;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -72,7 +71,6 @@ Alignment {
         this.applyProperties(redrawContextHigh);
     }
 
-    @Override
     public String calculateDisplayData(String string, boolean bl) {
         if (!this.controller.isConnected()) {
             return null;
@@ -167,13 +165,11 @@ Alignment {
         return n5;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNode();
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -190,7 +186,6 @@ Alignment {
         this.controller.setDateFormatMode(n);
     }
 
-    @Override
     public int getPreferredWidth() {
         String string = this.controller.getText();
         if (string == null || string.length() == 0) {
@@ -207,38 +202,31 @@ Alignment {
         return this.preferredWidth;
     }
 
-    @Override
     public int getPreferredHeight() {
         return EALManager.getFontHeightUppercase(this.getInheritedFont());
     }
 
-    @Override
     public int getPreferredLineHeight() {
         return this.getPreferredHeight();
     }
 
-    @Override
     public int getFontHeight() {
         return this.getPreferredHeight();
     }
 
-    @Override
     public String getText() {
         return this.text;
     }
 
-    @Override
     public void setAlignment(int n, int n2) {
         this.vAlign = n2;
         this.hAlign = n;
     }
 
-    @Override
     public void setFirstVisibleLine(int n) {
         logChannel.log(10000, "LabelRendererHigh#setFirstVisibleLine: firstRendereredLine is not supported in this renderer");
     }
 
-    @Override
     public int getBaseline() {
         IWrappedFont iWrappedFont = this.getInheritedFont();
         if ((HMITerminalEAL)this.controller.getTerminal() != null) {
@@ -264,23 +252,19 @@ Alignment {
         return n - 1;
     }
 
-    @Override
     public int getNumberOfRows(int n) {
         return 1;
     }
 
-    @Override
     public boolean hasContent() {
         String string = this.controller.getText();
         return string != null && string.length() > 0;
     }
 
-    @Override
     public boolean isTextDescriptorSupported() {
         return false;
     }
 
-    @Override
     public void setAutoWrap(int n) {
         logChannel.log(10000, "LabelRendererHigh#setAutoWrap: not supported in this renderer");
     }
@@ -289,11 +273,9 @@ Alignment {
         logChannel.log(10000, "LabelRendererHigh#setMaxLines: not supported in this renderer");
     }
 
-    @Override
     public void setLineHeight(int n) {
     }
 
-    @Override
     public int getLineHeight() {
         return 0;
     }

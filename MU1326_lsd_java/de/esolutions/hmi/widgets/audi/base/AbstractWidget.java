@@ -40,11 +40,11 @@ TouchPadEventListener,
 HMIView,
 IWidgetDiagnosis,
 IWidgetLogChannel {
-    public static final int STATE_INITIAL;
-    public static IFrameworkAccess framework;
-    public static IHMIServiceEvo hmiService;
-    public static SDSService sdsService;
-    protected static TTSSessionBasedService ttsService;
+    public static final int STATE_INITIAL = 615;
+    public static IFrameworkAccess framework = null;
+    public static IHMIServiceEvo hmiService = null;
+    public static SDSService sdsService = null;
+    protected static TTSSessionBasedService ttsService = null;
     public static WidgetsActivator widgetsActivator;
     protected AbstractScreenFactory screenFactory = null;
     protected AbstractWidget parent;
@@ -59,9 +59,9 @@ IWidgetLogChannel {
     protected int event = 0;
     protected int height = 0;
     protected int modelID = -1;
-    public static final int UNKNOWN;
-    public static final int CLOSED_OPTION_DRAWER;
-    public static final int OPEN_OPTION_DRAWER;
+    public static final int UNKNOWN = 0;
+    public static final int CLOSED_OPTION_DRAWER = 1;
+    public static final int OPEN_OPTION_DRAWER = 2;
     private int partOfOptionDrawer = 0;
     protected int role = 0;
     protected int widgetState = 615;
@@ -70,15 +70,14 @@ IWidgetLogChannel {
     protected int y = 0;
     protected HMITerminalImpl terminal;
     protected int depth;
-    public static final int FOCUS_LOST;
-    public static final int FOCUS_GAINED;
+    public static final int FOCUS_LOST = 1;
+    public static final int FOCUS_GAINED = 2;
     protected InitializationContext initContext;
 
     public void setActive(boolean bl) {
         this.widgetState = bl ? this.widgetState | 0x20 : this.widgetState & 0xFFFFFFDF;
     }
 
-    @Override
     public boolean isActive() {
         return (this.widgetState & 0x20) != 0;
     }
@@ -133,7 +132,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean isEnabled() {
         return (this.widgetState & 4) != 0;
     }
@@ -142,7 +140,6 @@ IWidgetLogChannel {
         this.widgetState = bl ? this.widgetState | 0x80 : this.widgetState & 0xFFFFFF7F;
     }
 
-    @Override
     public boolean isFocused() {
         return (this.widgetState & 0x80) != 0;
     }
@@ -163,7 +160,6 @@ IWidgetLogChannel {
         this.height = n;
     }
 
-    @Override
     public int getHeight() {
         return this.height;
     }
@@ -175,7 +171,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean isHighlighted() {
         return (this.widgetState & 8) != 0;
     }
@@ -184,7 +179,6 @@ IWidgetLogChannel {
         this.widgetState = bl ? this.widgetState | 0x100 : this.widgetState & 0xFFFFFEFF;
     }
 
-    @Override
     public boolean isFunctional() {
         return (this.widgetState & 0x100) != 0;
     }
@@ -194,7 +188,7 @@ IWidgetLogChannel {
     }
 
     public static void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
-        logChannel.log(-2137614336, "AbstractWidget#setTTSService ttsService: %1", (Object)ttsService);
+        logChannel.log(10000000, "AbstractWidget#setTTSService ttsService: %1", (Object)ttsService);
         ttsService = tTSSessionBasedService;
     }
 
@@ -215,7 +209,6 @@ IWidgetLogChannel {
         this.modelID = n;
     }
 
-    @Override
     public int getModelID() {
         return this.modelID;
     }
@@ -244,7 +237,6 @@ IWidgetLogChannel {
         this.colorIndices = nArray;
     }
 
-    @Override
     public int[] getColorIndices() {
         return this.colorIndices;
     }
@@ -260,7 +252,6 @@ IWidgetLogChannel {
         this.parent = null;
     }
 
-    @Override
     public void setStatus(int n) {
     }
 
@@ -279,7 +270,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean isVisible() {
         return (this.widgetState & 1) != 0;
     }
@@ -295,7 +285,6 @@ IWidgetLogChannel {
         this.width = n;
     }
 
-    @Override
     public int getWidth() {
         return this.width;
     }
@@ -304,7 +293,6 @@ IWidgetLogChannel {
         this.x = n;
     }
 
-    @Override
     public int getX() {
         return this.x;
     }
@@ -313,13 +301,11 @@ IWidgetLogChannel {
         this.y = n;
     }
 
-    @Override
     public int getY() {
         return this.y;
     }
 
-    public abstract void add(AbstractWidget abstractWidget) {
-    }
+    public abstract void add(AbstractWidget var1);
 
     public void setOpacity(float f2) {
         if (this.opacity != f2) {
@@ -390,7 +376,6 @@ IWidgetLogChannel {
         return n2 == n;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -401,7 +386,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -412,7 +396,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -423,7 +406,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -434,7 +416,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -445,7 +426,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -456,7 +436,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -467,7 +446,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -478,7 +456,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadPalmRecognized(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -489,7 +466,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -500,7 +476,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
         List list = this.getChildren();
         if (list != null) {
@@ -511,11 +486,9 @@ IWidgetLogChannel {
         }
     }
 
-    public abstract void render(RedrawContext redrawContext) {
-    }
+    public abstract void render(RedrawContext var1);
 
-    public abstract void renderIfDirty(RedrawContext redrawContext) {
-    }
+    public abstract void renderIfDirty(RedrawContext var1);
 
     public void managePaint(RedrawContext redrawContext) {
         if (this.isInvalid()) {
@@ -551,7 +524,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
     }
 
@@ -562,8 +534,7 @@ IWidgetLogChannel {
     public void processTextReplacementUpdateEvent() {
     }
 
-    public abstract void remove(AbstractWidget abstractWidget) {
-    }
+    public abstract void remove(AbstractWidget var1);
 
     public void triggerRepaint() {
         if (this.parent != null) {
@@ -683,14 +654,13 @@ IWidgetLogChannel {
     }
 
     protected static int getHexOpacityFromFloat(float f2) {
-        return (int)(f2 * 32579);
+        return (int)(f2 * 255.0f);
     }
 
     public int getRole() {
         return this.role;
     }
 
-    @Override
     public int getDepth() {
         return this.depth;
     }
@@ -706,19 +676,16 @@ IWidgetLogChannel {
         return false;
     }
 
-    @Override
     public List getDiagnosisChildren() {
         return this.getChildren();
     }
 
-    public abstract List getChildren() {
-    }
+    public abstract List getChildren();
 
     public void setTerminal(HMITerminalImpl hMITerminalImpl) {
         this.terminal = hMITerminalImpl;
     }
 
-    @Override
     public int[] getBitmapIndices() {
         if (this.bitmapIndices == null) {
             return null;
@@ -728,19 +695,16 @@ IWidgetLogChannel {
         return nArray;
     }
 
-    @Override
     public String getDiagnosisText() {
         return null;
     }
 
-    @Override
     public String getInternalInfo() {
         return null;
     }
 
-    @Override
     public String getClassName() {
-        String string = super.getClass().getName();
+        String string = this.getClass().getName();
         int n = string.lastIndexOf(46);
         if (n != -1) {
             return string.substring(n + 1);
@@ -963,13 +927,6 @@ IWidgetLogChannel {
 
     public static boolean isVariantStd() {
         return framework.getSysConst(523) == 0;
-    }
-
-    static {
-        framework = null;
-        hmiService = null;
-        sdsService = null;
-        ttsService = null;
     }
 }
 

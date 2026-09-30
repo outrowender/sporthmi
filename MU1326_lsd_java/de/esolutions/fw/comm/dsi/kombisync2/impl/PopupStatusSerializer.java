@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.kombisync2.impl.MenuContextSerializer;
 import de.esolutions.fw.comm.dsi.kombisync2.impl.PopupStatusFlagsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.MenuContext;
 import org.dsi.ifc.kombisync2.PopupStatus;
 import org.dsi.ifc.kombisync2.PopupStatusFlags;
 
 public class PopupStatusSerializer {
-    public static void putOptionalPopupStatus(ISerializer iSerializer, PopupStatus popupStatus) {
+    public static void putOptionalPopupStatus(ISerializer iSerializer, PopupStatus popupStatus) throws SerializerException {
         boolean bl = popupStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class PopupStatusSerializer {
         }
     }
 
-    public static void putOptionalPopupStatusVarArray(ISerializer iSerializer, PopupStatus[] popupStatusArray) {
+    public static void putOptionalPopupStatusVarArray(ISerializer iSerializer, PopupStatus[] popupStatusArray) throws SerializerException {
         boolean bl = popupStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class PopupStatusSerializer {
         }
     }
 
-    public static PopupStatus getOptionalPopupStatus(IDeserializer iDeserializer) {
+    public static PopupStatus getOptionalPopupStatus(IDeserializer iDeserializer) throws SerializerException {
         PopupStatus popupStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class PopupStatusSerializer {
         return popupStatus;
     }
 
-    public static PopupStatus[] getOptionalPopupStatusVarArray(IDeserializer iDeserializer) {
+    public static PopupStatus[] getOptionalPopupStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         PopupStatus[] popupStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

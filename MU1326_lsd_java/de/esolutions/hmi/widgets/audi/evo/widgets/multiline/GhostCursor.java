@@ -7,10 +7,10 @@ import de.audi.atip.hmi.model.texteditor.DoubleCursor;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.MLDisplayData;
 
 public class GhostCursor {
-    public static final int TYPE_START_PREF;
-    public static final int TYPE_NL_PREF;
-    public static final int TYPE_WORD;
-    public static final int TYPE_SUFFIX;
+    public static final int TYPE_START_PREF = 0;
+    public static final int TYPE_NL_PREF = 1;
+    public static final int TYPE_WORD = 2;
+    public static final int TYPE_SUFFIX = 3;
     private int currentWordType;
     private DoubleCursor m_cursor;
 

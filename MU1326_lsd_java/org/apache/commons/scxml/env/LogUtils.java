@@ -22,7 +22,7 @@ public final class LogUtils {
     public static String getTTPath(TransitionTarget transitionTarget) {
         TransitionTarget transitionTarget2 = transitionTarget.getParent();
         if (transitionTarget2 == null) {
-            return new StringBuffer().append("/").append(transitionTarget.getId()).toString();
+            return "/" + transitionTarget.getId();
         }
         LinkedList linkedList = new LinkedList();
         linkedList.addFirst(transitionTarget);

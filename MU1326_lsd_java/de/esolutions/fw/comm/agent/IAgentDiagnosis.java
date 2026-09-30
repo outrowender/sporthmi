@@ -8,16 +8,12 @@ import de.esolutions.fw.comm.agent.IAgentInfoProvider;
 import de.esolutions.fw.comm.agent.IAgentSnapshot;
 
 public interface IAgentDiagnosis {
-    default public IAgentSnapshot createSnapshot() {
-    }
+    public IAgentSnapshot createSnapshot();
 
-    default public IAgentErrorLog getErrorLog() {
-    }
+    public IAgentErrorLog getErrorLog();
 
-    default public void registerInfoProvider(IAgentInfoProvider iAgentInfoProvider) {
-    }
+    public void registerInfoProvider(IAgentInfoProvider var1);
 
-    default public void unregisterInfoProvider(IAgentInfoProvider iAgentInfoProvider) {
-    }
+    public void unregisterInfoProvider(IAgentInfoProvider var1);
 }
 

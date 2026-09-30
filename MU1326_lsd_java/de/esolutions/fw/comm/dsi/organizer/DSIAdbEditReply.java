@@ -3,61 +3,46 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.organizer.DataSet;
 
 public interface DSIAdbEditReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f0118e22-e5d7-5253-aeb9-0a19a9bcd4a4";
+    public static final String IPL_COMM_INTERFACE_KEY = "1fed00ad-7bf5-5ffc-850d-591deb7037aa";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.31";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.31";
 
-    default public void updateNewEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewEntryAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void updateNewPublicProfileEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewPublicProfileEntryAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void updateNewTopDestinationEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewTopDestinationEntryAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void updateNewPublicProfileTopDestEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewPublicProfileTopDestEntryAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void insertEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public void insertEntryResult(int var1, AdbEntry var2) throws MethodException;
 
-    default public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-    }
+    public void getEntriesResult(int var1, AdbEntry[] var2) throws MethodException;
 
-    default public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) {
-    }
+    public void getEntryDataSetsResult(int var1, DataSet[] var2) throws MethodException;
 
-    default public void changeEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public void changeEntryResult(int var1, AdbEntry var2) throws MethodException;
 
-    default public void copyEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public void copyEntryResult(int var1, AdbEntry var2) throws MethodException;
 
-    default public void deleteEntriesResult(int n) {
-    }
+    public void deleteEntriesResult(int var1) throws MethodException;
 
-    default public void setSpeedDialResult(int n) {
-    }
+    public void setSpeedDialResult(int var1) throws MethodException;
 
-    default public void deleteSpeedDialResult(int n) {
-    }
+    public void deleteSpeedDialResult(int var1) throws MethodException;
 
-    default public void getEntryByReferenceIdResult(int n, AdbEntry adbEntry) {
-    }
+    public void getEntryByReferenceIdResult(int var1, AdbEntry var2) throws MethodException;
 
-    default public void updateNewOnlineDestinationEntryAvailable(boolean bl, int n) {
-    }
+    public void updateNewOnlineDestinationEntryAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -7,13 +7,10 @@ import java.io.Serializable;
 
 public abstract class SecureRandomSpi
 implements Serializable {
-    protected abstract byte[] engineGenerateSeed(int n) {
-    }
+    protected abstract byte[] engineGenerateSeed(int var1);
 
-    protected abstract void engineNextBytes(byte[] byArray) {
-    }
+    protected abstract void engineNextBytes(byte[] var1);
 
-    protected abstract void engineSetSeed(byte[] byArray) {
-    }
+    protected abstract void engineSetSeed(byte[] var1);
 }
 

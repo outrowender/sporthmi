@@ -11,34 +11,24 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedViewport;
 import java.util.List;
 
 public interface IWrappedManagedNode {
-    default public INode2DManaged getNode() {
-    }
+    public INode2DManaged getNode();
 
-    default public ITexture enableOffscreen(int n, int n2, FlagTexture flagTexture) {
-    }
+    public ITexture enableOffscreen(int var1, int var2, FlagTexture var3);
 
-    default public boolean addViewport(IWrappedViewport iWrappedViewport) {
-    }
+    public boolean addViewport(IWrappedViewport var1);
 
-    default public boolean addToScreen(INode2D iNode2D, int n) {
-    }
+    public boolean addToScreen(INode2D var1, int var2);
 
-    default public boolean addAuto(INode2D iNode2D, int n) {
-    }
+    public boolean addAuto(INode2D var1, int var2);
 
-    default public boolean removeFromScreen(INode2D iNode2D) {
-    }
+    public boolean removeFromScreen(INode2D var1);
 
-    default public INode2D getChildByIndex(int n) {
-    }
+    public INode2D getChildByIndex(int var1);
 
-    default public boolean remove(IWrappedViewport iWrappedViewport) {
-    }
+    public boolean remove(IWrappedViewport var1);
 
-    default public List getViewports() {
-    }
+    public List getViewports();
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

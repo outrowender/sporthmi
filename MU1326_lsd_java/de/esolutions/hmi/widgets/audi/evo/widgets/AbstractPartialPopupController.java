@@ -43,8 +43,8 @@ extends AbstractWidgetController
 implements IPartialPopupControllerEvo,
 TimerListener,
 IScreenEvo {
-    private static final boolean DEFAULT_UPDATE_FROM_MODEL_ON_CONNECT;
-    public static final int PARTIAL_POPUP_SCREEN_ID;
+    private static final boolean DEFAULT_UPDATE_FROM_MODEL_ON_CONNECT = true;
+    public static final int PARTIAL_POPUP_SCREEN_ID = -1;
     protected int popupID;
     private int popupPrio;
     protected IPartialPopupManagerEvo popupManager;
@@ -89,7 +89,7 @@ IScreenEvo {
     private int focusedLayer = -1;
 
     public AbstractPartialPopupController() {
-        this.role |= 0x1000;
+        this.role |= 0x100000;
     }
 
     public AbstractPartialPopupController(int n) {
@@ -98,10 +98,9 @@ IScreenEvo {
     }
 
     public final String toString() {
-        return new StringBuffer().append(super.getClass().getName()).append(": Id=").append(this.getID()).toString();
+        return this.getClass().getName() + ": Id=" + this.getID();
     }
 
-    @Override
     public void triggerRepaint() {
         if (this.parent == null) {
             if (this.terminal != null) {
@@ -132,7 +131,6 @@ IScreenEvo {
         return this.autoHideTimer;
     }
 
-    @Override
     public void connected(boolean bl, boolean bl2) {
         boolean bl3 = this.updateFromModelOnConnect;
         this.updateFromModelOnConnect = bl2;
@@ -140,11 +138,10 @@ IScreenEvo {
         this.updateFromModelOnConnect = bl3;
     }
 
-    @Override
     protected void initializeWidget() {
         this.popupManager = this.terminal.getPartialPopupManagerEvo();
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#connecting partial popup with ID %1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#connecting partial popup with ID %1", (Object)this.getPopupName());
         }
         super.initializeWidget();
         this.registerPopup();
@@ -152,7 +149,6 @@ IScreenEvo {
         this.executeAllConditions();
     }
 
-    @Override
     protected void afterConnected() {
         super.afterConnected();
         if (this.updateFromModelOnConnect) {
@@ -167,10 +163,9 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void predisconnecting() {
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#predisconnecting partial popup with ID %1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#predisconnecting partial popup with ID %1", (Object)this.getPopupName());
         }
         this.cancelAutoHideTimer();
         this.deregisterPopup();
@@ -186,7 +181,6 @@ IScreenEvo {
         }
     }
 
-    @Override
     public boolean checkModelStatusAndInformPopupManager() {
         if (this.popupManager == null) {
             this.setVisible(false);
@@ -202,12 +196,12 @@ IScreenEvo {
             if (n != 0) {
                 int n2;
                 if (AbstractPartialPopupManager.LOGPOPUPS.isInfo()) {
-                    AbstractPartialPopupManager.LOGPOPUPS.log(1078071040, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1, modelValue is %2 -> showPopup()", (Object)this.getPopupName(), (long)n);
+                    AbstractPartialPopupManager.LOGPOPUPS.log(1000000, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1, modelValue is %2 -> showPopup()", (Object)this.getPopupName(), (long)n);
                 }
                 bl = (n2 = this.popupManager.showPopup(this.popupID)) == 1;
             } else {
                 if (AbstractPartialPopupManager.LOGPOPUPS.isInfo()) {
-                    AbstractPartialPopupManager.LOGPOPUPS.log(1078071040, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1 modelValue is 0 -> hidePopup()", (Object)this.getPopupName());
+                    AbstractPartialPopupManager.LOGPOPUPS.log(1000000, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1 modelValue is 0 -> hidePopup()", (Object)this.getPopupName());
                 }
                 bl = false;
                 this.popupManager.hidePopup(this.popupID);
@@ -223,13 +217,13 @@ IScreenEvo {
             if (!bl3) {
                 bl = true;
                 if (AbstractPartialPopupManager.LOGPOPUPS.isInfo()) {
-                    AbstractPartialPopupManager.LOGPOPUPS.log(1078071040, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1 modelValue is %2 -> showPopup()", (Object)this.getPopupName(), (long)n);
+                    AbstractPartialPopupManager.LOGPOPUPS.log(1000000, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1 modelValue is %2 -> showPopup()", (Object)this.getPopupName(), (long)n);
                 }
                 bl = (n3 = this.popupManager.showPopup(this.popupID)) == 1;
             } else {
                 bl = false;
                 if (AbstractPartialPopupManager.LOGPOPUPS.isInfo()) {
-                    AbstractPartialPopupManager.LOGPOPUPS.log(1078071040, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1 modelValue is %2 -> hidePopup()", (Object)this.getPopupName(), (long)n);
+                    AbstractPartialPopupManager.LOGPOPUPS.log(1000000, "AbstractPartialPopupController#checkModelStatusAndInformPopupManager popupID: %1 modelValue is %2 -> hidePopup()", (Object)this.getPopupName(), (long)n);
                 }
                 this.popupManager.hidePopup(this.popupID);
             }
@@ -237,12 +231,10 @@ IScreenEvo {
         return bl2 != bl;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.processModelUpdateEventWithBoolean(modelUpdateEvent);
     }
 
-    @Override
     public boolean processModelUpdateEventWithBoolean(ModelUpdateEvent modelUpdateEvent) {
         boolean bl = false;
         if (this.isEventFromOwnModel(modelUpdateEvent)) {
@@ -308,7 +300,7 @@ IScreenEvo {
         }
         if ((hMIViewArray2 = this.findConditionWidgets(n)) != null) {
             if (logChannel.isDebug()) {
-                logChannel.log(-2137614336, "AbstractPartialPopupController#propagateModelUpdateEvent: %1 conditionWidgets found for modelID %2", (long)hMIViewArray2.length, (long)modelUpdateEvent.getModelId());
+                logChannel.log(10000000, "AbstractPartialPopupController#propagateModelUpdateEvent: %1 conditionWidgets found for modelID %2", (long)hMIViewArray2.length, (long)modelUpdateEvent.getModelId());
             }
             this.screenFactory.executeCondition(n, this.popupID, hMIViewArray2, this.terminal.getTerminalID());
             bl = true;
@@ -326,7 +318,6 @@ IScreenEvo {
         this.invisibleChoiceValues = nArray;
     }
 
-    @Override
     public int getID() {
         return this.popupID;
     }
@@ -335,7 +326,6 @@ IScreenEvo {
         this.popupID = n;
     }
 
-    @Override
     public int getPriority() {
         if (this.zpmSlot != -1 && this.zpmPriority != -1) {
             if (this.popupManager == null) {
@@ -354,22 +344,20 @@ IScreenEvo {
         this.popupActive = bl;
     }
 
-    @Override
     public boolean isPopupActive() {
         return this.popupActive;
     }
 
-    @Override
     public int show(int n) {
         if (!this.isEnabled()) {
             if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#show not showing partial popup with ID %1 because it is disabled", (Object)this.getPopupName());
+                AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#show not showing partial popup with ID %1 because it is disabled", (Object)this.getPopupName());
             }
             return 2;
         }
         if (!this.isPopupActive()) {
             if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#show not showing partial popup with ID %1 because it is inactive", (Object)this.getPopupName());
+                AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#show not showing partial popup with ID %1 because it is inactive", (Object)this.getPopupName());
             }
             return 2;
         }
@@ -377,13 +365,11 @@ IScreenEvo {
         return 1;
     }
 
-    @Override
     public int hide(int n) {
         this.cancelAutoHideTimer();
         return 1;
     }
 
-    @Override
     public void setAutoHideTime(int n) {
         this.autoHideTime = n;
         if (this.autoHideTime > 0) {
@@ -393,34 +379,31 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer == this.getAutoHideTimer()) {
             if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#fireTimer called for popup with ID %1", (Object)this.getPopupName());
+                AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#fireTimer called for popup with ID %1", (Object)this.getPopupName());
             }
             this.popupManager.hidePopup(this.popupID);
             if (this.timerMode == 1) {
                 this.keyPressedOnModel(0);
             }
             if (IWidgetLogChannel.logRepaintCause.isDebug()) {
-                IWidgetLogChannel.logRepaintCause.log(-2137614336, "AbstractPartialPopupController#fireTimer: popup: %1, trigger repaint", (Object)this.getPopupName());
+                IWidgetLogChannel.logRepaintCause.log(10000000, "AbstractPartialPopupController#fireTimer: popup: %1, trigger repaint", (Object)this.getPopupName());
             }
             this.triggerRepaint();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#cancelTimer called for popup with ID %1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#cancelTimer called for popup with ID %1", (Object)this.getPopupName());
         }
     }
 
-    @Override
     public void restartAutoHideTimer() {
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(-2137614336, "AbstractPartialPopupController#restartAutoHideTimer called for popup with ID %1, autoHideTime is %2", (Object)this.getPopupName(), (long)this.autoHideTime);
+            AbstractPartialPopupManager.LOGPOPUPS.log(10000000, "AbstractPartialPopupController#restartAutoHideTimer called for popup with ID %1, autoHideTime is %2", (Object)this.getPopupName(), (long)this.autoHideTime);
         }
         if (this.autoHideTime > 0) {
             this.getAutoHideTimer().restart();
@@ -433,7 +416,6 @@ IScreenEvo {
         }
     }
 
-    @Override
     public int getStyle() {
         return this.style;
     }
@@ -442,27 +424,22 @@ IScreenEvo {
         this.style = n;
     }
 
-    @Override
     public int getType() {
         return this.type;
     }
 
-    @Override
     public void setType(int n) {
         this.type = n;
     }
 
-    @Override
     public void setScreenFactory(AbstractScreenFactory abstractScreenFactory) {
         this.screenFactory = abstractScreenFactory;
     }
 
-    @Override
     public int getCacheBehaviour() {
         return 0;
     }
 
-    @Override
     public int[] getConditionIDs() {
         return this.conditionIDs;
     }
@@ -476,12 +453,10 @@ IScreenEvo {
         return (AbstractWidget[])this.findWidgets(this.conditionWidgets, this.conditionIDs, n);
     }
 
-    @Override
     public int[] getViewIDs() {
         return this.viewModelIDs;
     }
 
-    @Override
     public int getEventID(int n) {
         int n2;
         if (this.modelIDs != null && this.eventIDs != null && this.modelIDs.length > 0 && this.modelIDs.length == this.eventIDs.length && (n2 = Arrays.binarySearch(this.modelIDs, n)) >= 0) {
@@ -490,33 +465,27 @@ IScreenEvo {
         return -1;
     }
 
-    @Override
     public int getEventProcessing() {
         return 0;
     }
 
-    @Override
     public int[] getReplacementIDs() {
         return this.replacementIDs;
     }
 
-    @Override
     public void setReplacementWidgets(int[] nArray, HMIView[][] hMIViewArray) {
         this.replacementIDs = nArray;
         this.replacementWidgets = hMIViewArray;
     }
 
-    @Override
     public AbstractScreenFactory getScreenFactory() {
         return this.screenFactory;
     }
 
-    @Override
     public HMITerminal getTerminal() {
         return this.terminal;
     }
 
-    @Override
     public int getTerminalID() {
         if (this.terminal != null) {
             return this.terminal.getTerminalID();
@@ -524,7 +493,6 @@ IScreenEvo {
         return 0;
     }
 
-    @Override
     public HMIView[] getViews() {
         HMIView[] hMIViewArray = null;
         if (this.views != null) {
@@ -547,44 +515,35 @@ IScreenEvo {
         return hMIViewArray;
     }
 
-    @Override
     public void setViews(int[] nArray, HMIView[][] hMIViewArray) {
         this.views = hMIViewArray;
         this.viewModelIDs = nArray;
     }
 
-    @Override
     public boolean hasErrorOccured() {
         return false;
     }
 
-    @Override
     public void paint() {
     }
 
-    @Override
     public void processSDSEvent(SDSEvent sDSEvent) {
     }
 
-    @Override
     public void setEventIDs(int[] nArray) {
         this.eventIDs = nArray;
     }
 
-    @Override
     public void setLocked(boolean bl) {
     }
 
-    @Override
     public void setModelIDs(int[] nArray) {
         this.modelIDs = nArray;
     }
 
-    @Override
     public void setState(int[] nArray) {
     }
 
-    @Override
     public void setTerminal(HMITerminal hMITerminal) {
         this.terminal = (HMITerminalImpl)hMITerminal;
     }
@@ -605,12 +564,10 @@ IScreenEvo {
         return this.findWidgets(this.replacementWidgets, this.replacementIDs, n);
     }
 
-    @Override
     public void setScreenType(int n) {
         this.type = n;
     }
 
-    @Override
     public int getScreenType() {
         return this.type;
     }
@@ -619,7 +576,6 @@ IScreenEvo {
         this.surviveScreenChange = bl;
     }
 
-    @Override
     public boolean survivesScreenChange() {
         return this.surviveScreenChange;
     }
@@ -632,32 +588,26 @@ IScreenEvo {
         return this.consumeHKAppChange;
     }
 
-    @Override
     public void setConsumeHKReturn(int n) {
         this.consumeHKReturn = n;
     }
 
-    @Override
     public void setConsumeDDSPress(int n) {
         this.consumeDDSPress = n;
     }
 
-    @Override
     public void setConsumeKeyTurned(int n) {
         this.consumeKeyTurned = n;
     }
 
-    @Override
     public void setConsumeSKPress(int n) {
         this.consumeSKPress = n;
     }
 
-    @Override
     public void setConsumeTouchPad(int n) {
         this.consumeTouchpad = n;
     }
 
-    @Override
     public void setConsumeGenericKeys(int n, int[] nArray) {
         this.consumeGeneric = n;
         this.consumeGenericKeyIDs = nArray;
@@ -675,13 +625,12 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (!this.isVisible()) {
             return;
         }
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug2()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(14808325, "AbstractPartialPopupController#keyPressed popupID=%1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(100000000, "AbstractPartialPopupController#keyPressed popupID=%1", (Object)this.getPopupName());
         }
         if (!this.shouldProcessEvent(keyEvent)) {
             return;
@@ -828,7 +777,7 @@ IScreenEvo {
                 break;
             }
             default: {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-1601830656, "AbstractPartialPopupController#keyPressed popupID=%1 consumeDDSPress=%2 - ignoring event", (Object)this.getPopupName(), (long)this.consumeDDSPress);
+                AbstractPartialPopupManager.LOGPOPUPS.log(100000, "AbstractPartialPopupController#keyPressed popupID=%1 consumeDDSPress=%2 - ignoring event", (Object)this.getPopupName(), (long)this.consumeDDSPress);
             }
         }
     }
@@ -862,13 +811,12 @@ IScreenEvo {
         return bl;
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (!this.isVisible()) {
             return;
         }
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug2()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(14808325, "AbstractPartialPopupController#keyReleased popupID=%2 evt.isConsumed: %1", keyEvent.isConsumed(), (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(100000000, "AbstractPartialPopupController#keyReleased popupID=%2 evt.isConsumed: %1", keyEvent.isConsumed(), (Object)this.getPopupName());
         }
         if (keyEvent.isConsumed()) {
             return;
@@ -892,13 +840,12 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (!this.isVisible()) {
             return;
         }
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug2()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(14808325, "AbstractPartialPopupController#keyTurned popupID=%1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(100000000, "AbstractPartialPopupController#keyTurned popupID=%1", (Object)this.getPopupName());
         }
         if (wheelButtonEvent.isConsumed()) {
             return;
@@ -943,18 +890,17 @@ IScreenEvo {
                 break;
             }
             default: {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-1601830656, "AbstractPartialPopupController#keyTurned popupID=%1 consumeKeyTurned=%2 - ignoring event", (Object)this.getPopupName(), (long)this.consumeKeyTurned);
+                AbstractPartialPopupManager.LOGPOPUPS.log(100000, "AbstractPartialPopupController#keyTurned popupID=%1 consumeKeyTurned=%2 - ignoring event", (Object)this.getPopupName(), (long)this.consumeKeyTurned);
             }
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         if (!this.isVisible()) {
             return;
         }
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug2()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(14808325, "AbstractPartialPopupController#keyMoved popupID=%1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(100000000, "AbstractPartialPopupController#keyMoved popupID=%1", (Object)this.getPopupName());
         }
         if (joystickEvent.isConsumed()) {
             return;
@@ -1000,7 +946,7 @@ IScreenEvo {
                 break;
             }
             default: {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-1601830656, "AbstractPartialPopupController#keyMoved popupID=%1 behaviour=%2 - ignoring event", (Object)this.getPopupName(), (long)n);
+                AbstractPartialPopupManager.LOGPOPUPS.log(100000, "AbstractPartialPopupController#keyMoved popupID=%1 behaviour=%2 - ignoring event", (Object)this.getPopupName(), (long)n);
             }
         }
     }
@@ -1010,7 +956,7 @@ IScreenEvo {
             return false;
         }
         if (AbstractPartialPopupManager.LOGPOPUPS.isDebug2()) {
-            AbstractPartialPopupManager.LOGPOPUPS.log(14808325, "AbstractPartialPopupController#handleTouchEvent popupID=%1", (Object)this.getPopupName());
+            AbstractPartialPopupManager.LOGPOPUPS.log(100000000, "AbstractPartialPopupController#handleTouchEvent popupID=%1", (Object)this.getPopupName());
         }
         if (touchEvent.isConsumed()) {
             return false;
@@ -1040,11 +986,10 @@ IScreenEvo {
                 return false;
             }
         }
-        AbstractPartialPopupManager.LOGPOPUPS.log(-1601830656, "AbstractPartialPopupController#handleTouchEvent popupID=%1 consumeTouchpad=%2 - ignoring event", (Object)this.getPopupName(), (long)this.consumeTouchpad);
+        AbstractPartialPopupManager.LOGPOPUPS.log(100000, "AbstractPartialPopupController#handleTouchEvent popupID=%1 consumeTouchpad=%2 - ignoring event", (Object)this.getPopupName(), (long)this.consumeTouchpad);
         return false;
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         boolean bl = this.handleTouchEvent(touchEvent);
         if (bl) {
@@ -1052,7 +997,6 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         boolean bl = this.handleTouchEvent(touchEvent);
         if (bl) {
@@ -1060,7 +1004,6 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         boolean bl = this.handleTouchEvent(touchEvent);
         if (bl) {
@@ -1068,7 +1011,6 @@ IScreenEvo {
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         boolean bl = this.handleTouchEvent(touchEvent);
         if (bl) {
@@ -1099,10 +1041,9 @@ IScreenEvo {
         return 0;
     }
 
-    @Override
     public void connected(IScreenData iScreenData) {
         if (logWidgetPerformance.isInfo()) {
-            logWidgetPerformance.log(1078071040, "AbstractPartialPopupController#connected id %1 start", (Object)this.getPopupName());
+            logWidgetPerformance.log(1000000, "AbstractPartialPopupController#connected id %1 start", (Object)this.getPopupName());
         }
         long l = framework.getMonotonicTime();
         if (this.initContext == null) {
@@ -1116,38 +1057,33 @@ IScreenEvo {
         this.connected(this.initContext);
         if (logWidgetPerformance.isInfo()) {
             long l2 = framework.getMonotonicTime();
-            logWidgetPerformance.log(1078071040, "AbstractPartialPopupController#connected id %1 finished, took %2 ms", (Object)this.getPopupName(), l2 - l);
+            logWidgetPerformance.log(1000000, "AbstractPartialPopupController#connected id %1 finished, took %2 ms", (Object)this.getPopupName(), l2 - l);
         }
     }
 
-    @Override
     public void disconnecting() {
         if (logWidgetPerformance.isInfo()) {
-            logWidgetPerformance.log(1078071040, "AbstractPartialPopupController#disconnecting id %1 start", (Object)this.getPopupName());
+            logWidgetPerformance.log(1000000, "AbstractPartialPopupController#disconnecting id %1 start", (Object)this.getPopupName());
         }
         long l = framework.getMonotonicTime();
         super.disconnecting();
         if (logWidgetPerformance.isInfo()) {
             long l2 = framework.getMonotonicTime();
-            logWidgetPerformance.log(1078071040, "AbstractPartialPopupController#disconnecting id %1 finished, took %2 ms", (Object)this.getPopupName(), l2 - l);
+            logWidgetPerformance.log(1000000, "AbstractPartialPopupController#disconnecting id %1 finished, took %2 ms", (Object)this.getPopupName(), l2 - l);
         }
     }
 
-    @Override
     public void hidePartialPopups(int[] nArray) {
     }
 
-    @Override
     public void showPartialPopups(int[] nArray) {
     }
 
-    @Override
     public void setHKReturnEvent(int n) {
         this.hkReturnEvent = n;
     }
 
-    public abstract void shiftHorizontal(int n) {
-    }
+    public abstract void shiftHorizontal(int var1);
 
     protected void executeAllConditions() {
         if (this.conditionIDs != null && this.conditionWidgets != null) {
@@ -1164,12 +1100,10 @@ IScreenEvo {
         }
     }
 
-    @Override
     public int[] getCurrentColorPalette() {
         return new int[0];
     }
 
-    @Override
     public void notifyPartialPopup(int n, int n2) {
     }
 
@@ -1181,45 +1115,36 @@ IScreenEvo {
         }
     }
 
-    @Override
     public int getSlot() {
         return this.slot;
     }
 
-    @Override
     public void setSlot(int n) {
         this.slot = n;
     }
 
-    @Override
     public boolean areAllPartialPopupsAllowed() {
         return true;
     }
 
-    @Override
     public boolean isPartialPopupBlocked(IPartialPopupController iPartialPopupController) {
         return false;
     }
 
-    @Override
     public void setShowPopupAfterConnecting(boolean bl) {
     }
 
-    @Override
     public void updateContexts(long[] lArray) {
     }
 
-    @Override
     public void setLayer(int n) {
         this.layer = n;
     }
 
-    @Override
     public int getlayer() {
         return this.layer;
     }
 
-    @Override
     public void processKeyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getID()) {
             case 10401: {
@@ -1241,12 +1166,11 @@ IScreenEvo {
                 break;
             }
             default: {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-1601830656, "AbstractPartialPopupController.processKeyEvent(%1) - invalid key event", (Object)keyEvent);
+                AbstractPartialPopupManager.LOGPOPUPS.log(100000, "AbstractPartialPopupController.processKeyEvent(%1) - invalid key event", (Object)keyEvent);
             }
         }
     }
 
-    @Override
     public void processTouchPadEvent(TouchEvent touchEvent) {
         switch (touchEvent.getID()) {
             case 10908: {
@@ -1282,12 +1206,11 @@ IScreenEvo {
                 break;
             }
             default: {
-                AbstractPartialPopupManager.LOGPOPUPS.log(-1601830656, "AbstractPartialPopupController.processTouchPadEvent(%1) - invalid touch event", (Object)touchEvent);
+                AbstractPartialPopupManager.LOGPOPUPS.log(100000, "AbstractPartialPopupController.processTouchPadEvent(%1) - invalid touch event", (Object)touchEvent);
             }
         }
     }
 
-    @Override
     public void processGestureEvent(GestureEvent gestureEvent) {
         this.triggerGestureEvent(gestureEvent);
     }
@@ -1332,7 +1255,6 @@ IScreenEvo {
         this.relatedToMainAreaFocus = bl;
     }
 
-    @Override
     public void updatedColorScheme(int n) {
     }
 
@@ -1343,7 +1265,6 @@ IScreenEvo {
         this.updateFromModelOnConnect = bl;
     }
 
-    @Override
     public int[] getHmiAppsToNotifyForVisibility() {
         return new int[0];
     }
@@ -1372,11 +1293,9 @@ IScreenEvo {
         this.tempGrayOut = this.greyOutBackground = bl;
     }
 
-    @Override
     public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof PopupDrawerController) {
             if (this.popupDrawerController != null) {
@@ -1387,33 +1306,27 @@ IScreenEvo {
         super.add(abstractWidget);
     }
 
-    @Override
     public boolean hasPopupDrawer() {
         return this.popupDrawerController != null;
     }
 
-    @Override
     public void updateDrawers(IScreenData iScreenData) {
     }
 
-    @Override
     public void setFocusedLayer(int n) {
         this.focusedLayer = n;
     }
 
-    @Override
     public void closePopupDrawer() {
         if (this.popupDrawerController != null) {
             this.popupDrawerController.closePopupDrawer();
         }
     }
 
-    @Override
     public boolean isFallbackScreenAllowed() {
         return this.allowsFallbackScreen;
     }
 
-    @Override
     public void setFallbackScreenAllowed(boolean bl) {
         this.allowsFallbackScreen = bl;
     }

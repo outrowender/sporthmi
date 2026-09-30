@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carauxheatercooler.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerErrorReason;
 
 public class AuxHeaterCoolerErrorReasonSerializer {
-    public static void putOptionalAuxHeaterCoolerErrorReason(ISerializer iSerializer, AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason) {
+    public static void putOptionalAuxHeaterCoolerErrorReason(ISerializer iSerializer, AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason) throws SerializerException {
         boolean bl = auxHeaterCoolerErrorReason == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AuxHeaterCoolerErrorReasonSerializer {
         }
     }
 
-    public static void putOptionalAuxHeaterCoolerErrorReasonVarArray(ISerializer iSerializer, AuxHeaterCoolerErrorReason[] auxHeaterCoolerErrorReasonArray) {
+    public static void putOptionalAuxHeaterCoolerErrorReasonVarArray(ISerializer iSerializer, AuxHeaterCoolerErrorReason[] auxHeaterCoolerErrorReasonArray) throws SerializerException {
         boolean bl = auxHeaterCoolerErrorReasonArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AuxHeaterCoolerErrorReasonSerializer {
         }
     }
 
-    public static AuxHeaterCoolerErrorReason getOptionalAuxHeaterCoolerErrorReason(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerErrorReason getOptionalAuxHeaterCoolerErrorReason(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class AuxHeaterCoolerErrorReasonSerializer {
         return auxHeaterCoolerErrorReason;
     }
 
-    public static AuxHeaterCoolerErrorReason[] getOptionalAuxHeaterCoolerErrorReasonVarArray(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerErrorReason[] getOptionalAuxHeaterCoolerErrorReasonVarArray(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerErrorReason[] auxHeaterCoolerErrorReasonArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

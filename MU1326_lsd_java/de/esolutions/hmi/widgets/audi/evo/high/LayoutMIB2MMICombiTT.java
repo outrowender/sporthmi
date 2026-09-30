@@ -12,69 +12,68 @@ import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 public class LayoutMIB2MMICombiTT
 implements Layout,
 WidgetConstants {
-    private static final int INPUTFIELD_SUGGESTION_OFFSET;
-    private static final int SPELLER_SUGGESTION_OFFSET;
-    private static final int DISPLAY_WIDTH;
-    private static final int DISPLAY_HEIGHT;
-    private static final String STANDARD_FONT_PLAIN;
-    private static final String STANDARD_FONT_BOLD;
-    private static final String STANDARD_FONT_LIGHT;
-    public static final int COMPOSITE_DEPTH_STATISTICS;
-    public static final int COMPOSITE_DEPTH_SCREEN_POPIN;
-    public static final int COMPOSITE_DEPTH_TA_OVERLAY;
-    public static final int COMPOSITE_DEPTH_OSD;
-    public static final int COMPOSITE_DEPTH_CURSOR;
-    public static final int COMPOSITE_DEPTH_SOFTKEY;
-    public static final int COMPOSITE_DEPTH_DRAWER;
-    public static final int COMPOSITE_DEPTH_SIDE_BAR_ITEMS;
-    public static final int COMPOSITE_DEPTH_TITLE_LINE;
-    public static final int COMPOSITE_DEPTH_STATUS_LINE;
-    public static final int COMPOSITE_DEPTH_SIDE_BAR;
-    public static final int COMPOSITE_DEPTH_MIXED_LIST;
-    public static final int COMPOSITE_DEPTH_COMBOBOX_OPEN;
-    public static final int COMPOSITE_DEPTH_TOOLTIP;
-    public static final int COMPOSITE_DEPTH_MENU;
-    public static final int COMPOSITE_DEPTH_SUBTITLE;
-    public static final int COMPOSITE_DEPTH_ROTARY;
-    public static final int COMPOSITE_DEPTH_SPELLER;
-    public static final int COMPOSITE_DEPTH_FUNC_WHEEL;
-    public static final int COMPOSITE_DEPTH_WIZARD_INFOBOX;
-    public static final int COMPOSITE_DEPTH_WIZARD;
-    public static final int COMPOSITE_DEPTH_WIZARD_TOOLTIP;
-    public static final int COMPOSITE_DEPTH_SCREEN_OVERLAY;
-    public static final int COMPOSITE_DEPTH_SCREEN_STANDARD;
-    public static final int COMPOSITE_DEPTH_SCREEN_BACKGROUND;
-    public static final int COMPOSITE_DEPTH_SCREENSHOT_FOREGROUND;
-    public static final int COMPOSITE_DEPTH_SCREENSHOT_BACKGROUND;
-    private static final float FACTOR_MAPPING_FONTSIZES;
-    private static final int MENU_LINE_WIDTH;
-    protected static final int[] DISTANCE_CONSTANTS;
-    private static final float[] FLOAT_CONSTANTS;
-    private static final int[] INTEGER_CONSTANTS;
-    private static final int[] TEXT_EXPORT_CONSTANTS;
-    private static final int ROW_HEIGHT;
-    private static final int ROW_OVERALL;
-    private static final int ROW_HEIGHT_TOOLTIP;
-    private static final int ROW_OVERALL_TOOLTIP;
-    private static final int[] TEXT_PATTERN_ONE_ROW;
-    private static final int[] TEXT_PATTERN_TWO_ROWS;
-    private static final int[] TEXT_PATTERN_THREE_ROWS;
-    private static final int[] TEXT_PATTERN_FOUR_ROWS;
-    private static final int[] TEXT_PATTERN_FIVE_ROWS;
-    private static final int[] TEXT_PATTERN_SIX_ROWS;
-    private static int[][] mainWizardIconDecoratorMapping;
-    private static int[] mainWizardTextOffset;
-    private static final int[] MAP_FONT_SIZES_TO_POINTS;
-    private static final int[] MAP_FONT_SIZES_TO_PIXELS;
-    private static final int[][] STATIC_BITMAP_PARAMETERS;
-    private static final int UNSUPPORTED_DEVELOPMENT_BUILD_IMAGE_ID;
-    private static final int TEXT_EXPORT_TEXT_ICON_GAP_VALUE;
-    public static final int TEXT_EXPORT_TEXT_GAP_TEXTFIELD_VALUE;
-    private static int[] instructionTextLayoutParams;
-    private static final String SPLASH_SCREEN_PATH;
-    private static final int[][] TIME_ZONE_IMAGE_POSITONS;
+    private static final int INPUTFIELD_SUGGESTION_OFFSET = 4;
+    private static final int SPELLER_SUGGESTION_OFFSET = 3;
+    private static final int DISPLAY_WIDTH = 1440;
+    private static final int DISPLAY_HEIGHT = 540;
+    private static final String STANDARD_FONT_PLAIN = System.getProperty("STANDARD_FONT_PLAIN", "AudiTypeDisplayHigh-Normal_10.ttf");
+    private static final String STANDARD_FONT_BOLD = System.getProperty("STANDARD_FONT_BOLD", "AudiTypeDisplayHigh-Bold_5.ttf");
+    private static final String STANDARD_FONT_LIGHT = System.getProperty("STANDARD_FONT_LIGHT", "AudiTypeDisplayHigh-Normal_10.ttf");
+    public static final int COMPOSITE_DEPTH_STATISTICS = -100;
+    public static final int COMPOSITE_DEPTH_SCREEN_POPIN = 5;
+    public static final int COMPOSITE_DEPTH_TA_OVERLAY = 0;
+    public static final int COMPOSITE_DEPTH_OSD = 5;
+    public static final int COMPOSITE_DEPTH_CURSOR = 65;
+    public static final int COMPOSITE_DEPTH_SOFTKEY = 100;
+    public static final int COMPOSITE_DEPTH_DRAWER = 55;
+    public static final int COMPOSITE_DEPTH_SIDE_BAR_ITEMS = 30;
+    public static final int COMPOSITE_DEPTH_TITLE_LINE = 40;
+    public static final int COMPOSITE_DEPTH_STATUS_LINE = 60;
+    public static final int COMPOSITE_DEPTH_SIDE_BAR = 40;
+    public static final int COMPOSITE_DEPTH_MIXED_LIST = 10;
+    public static final int COMPOSITE_DEPTH_COMBOBOX_OPEN = 50;
+    public static final int COMPOSITE_DEPTH_TOOLTIP = 7;
+    public static final int COMPOSITE_DEPTH_MENU = 60;
+    public static final int COMPOSITE_DEPTH_SUBTITLE = 60;
+    public static final int COMPOSITE_DEPTH_ROTARY = 60;
+    public static final int COMPOSITE_DEPTH_SPELLER = 60;
+    public static final int COMPOSITE_DEPTH_FUNC_WHEEL = 70;
+    public static final int COMPOSITE_DEPTH_WIZARD_INFOBOX = 70;
+    public static final int COMPOSITE_DEPTH_WIZARD = 80;
+    public static final int COMPOSITE_DEPTH_WIZARD_TOOLTIP = 40;
+    public static final int COMPOSITE_DEPTH_SCREEN_OVERLAY = 20;
+    public static final int COMPOSITE_DEPTH_SCREEN_STANDARD = 30;
+    public static final int COMPOSITE_DEPTH_SCREEN_BACKGROUND = 1000;
+    public static final int COMPOSITE_DEPTH_SCREENSHOT_FOREGROUND = 19;
+    public static final int COMPOSITE_DEPTH_SCREENSHOT_BACKGROUND = 31;
+    private static final float FACTOR_MAPPING_FONTSIZES = 1.360413f;
+    private static final int MENU_LINE_WIDTH = 800;
+    protected static final int[] DISTANCE_CONSTANTS = new int[230];
+    private static final float[] FLOAT_CONSTANTS = new float[18];
+    private static final int[] INTEGER_CONSTANTS = new int[132];
+    private static final int[] TEXT_EXPORT_CONSTANTS = new int[20];
+    private static final int ROW_HEIGHT = 45;
+    private static final int ROW_OVERALL = 50;
+    private static final int ROW_HEIGHT_TOOLTIP = 35;
+    private static final int ROW_OVERALL_TOOLTIP = 40;
+    private static final int[] TEXT_PATTERN_ONE_ROW = new int[]{0};
+    private static final int[] TEXT_PATTERN_TWO_ROWS = new int[]{0, 0};
+    private static final int[] TEXT_PATTERN_THREE_ROWS = new int[]{1, 0, 0};
+    private static final int[] TEXT_PATTERN_FOUR_ROWS = new int[]{1, 1, 0, 0};
+    private static final int[] TEXT_PATTERN_FIVE_ROWS = new int[]{1, 1, 1, 0, 0};
+    private static final int[] TEXT_PATTERN_SIX_ROWS = new int[]{2, 2, 1, 1, 0, 0};
+    private static int[][] mainWizardIconDecoratorMapping = null;
+    private static int[] mainWizardTextOffset = null;
+    private static final int[] MAP_FONT_SIZES_TO_POINTS = new int[]{0, 2, 3, 4, 6, 7, 9, 10, 11, 13, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 37, 38, 39, 41, 42, 44, 45, 46, 48, 49, 51, 52, 53, 54, 55, 56, 58, 59, 61, 62, 63, 65, 66, 68, 69, 70, 72, 73, 75, 76, 77, 79, 80, 81, 83, 84, 85, 87, 88};
+    private static final int[] MAP_FONT_SIZES_TO_PIXELS = new int[]{0, 1, 1, 2, 3, 4, 4, 5, 6, 6, 7, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 16, 17, 17, 18, 19, 19, 20, 21, 22, 22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 30, 30, 31, 32, 32, 33, 34, 35, 35, 36, 37, 37, 38, 39, 40, 41, 42, 43, 43, 44, 45, 45, 46, 47, 48, 48, 49, 50, 50, 51, 52, 53, 53, 54, 55, 55, 56, 57, 58, 58, 59, 60, 61, 61, 62, 63, 64, 64, 65};
+    private static final int[][] STATIC_BITMAP_PARAMETERS = new int[3][3];
+    private static final int UNSUPPORTED_DEVELOPMENT_BUILD_IMAGE_ID = HMIImageConstantsSystem.static_bitmap_unsupported_development_build;
+    private static final int TEXT_EXPORT_TEXT_ICON_GAP_VALUE = 22;
+    public static final int TEXT_EXPORT_TEXT_GAP_TEXTFIELD_VALUE = 17;
+    private static int[] instructionTextLayoutParams = null;
+    private static final String SPLASH_SCREEN_PATH = "/HBpersistence/Splashscreen.png";
+    private static final int[][] TIME_ZONE_IMAGE_POSITONS = new int[][]{{8, 24}, {285, 22}, {273, 15}, {276, 116}, {254, 19}, {224, 36}, {226, 5}, {241, 78}, {210, 44}, {230, 76}, {219, 70}, {199, 21}, {212, 68}, {196, 40}, {197, 67}, {181, 4}, {171, 27}, {147, 6}, {133, 10}, {127, 16}, {121, 160}, {88, 0}, {101, 53}, {86, 10}, {88, 94}, {73, 1}, {54, 3}, {30, 9}, {25, 27}, {0, 24}, {25, 113}, {2, 84}, {329, 117}};
 
-    @Override
     public int getRotationalDirection(int n) {
         switch (n) {
             default: {
@@ -88,7 +87,6 @@ WidgetConstants {
         return 1;
     }
 
-    @Override
     public String getFontName(int n) {
         switch (n) {
             case 0: {
@@ -329,24 +327,24 @@ WidgetConstants {
     }
 
     private static void initializeFloatConstants() {
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[0] = 32832;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[1] = 1718011455;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[2] = 2094637117;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[3] = 1718003263;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[4] = 41152;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[5] = 49216;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[6] = 32832;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[7] = 16448;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[8] = 32833;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[9] = 36929;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[13] = 63;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[12] = 63;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[11] = 63;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[10] = 63;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[0] = 4.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[1] = 1.55f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[2] = 0.07853982f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[3] = 1.3f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[4] = -5.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[5] = 6.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[6] = 4.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[7] = 3.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[8] = 16.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[9] = 18.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[13] = 0.5f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[12] = 0.5f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[11] = 0.5f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[10] = 0.5f;
         LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[14] = 1.0f;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[15] = 51266;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[16] = 1899850303;
-        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[17] = 33854;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[15] = 100.0f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[16] = 0.915f;
+        LayoutMIB2MMICombiTT.FLOAT_CONSTANTS[17] = 0.2578125f;
     }
 
     private static void initializeIntegerConstants() {
@@ -488,32 +486,26 @@ WidgetConstants {
         LayoutMIB2MMICombiTT.TEXT_EXPORT_CONSTANTS[18] = 9999;
     }
 
-    @Override
     public int[] getStaticBitmapParameters(int n) {
         return STATIC_BITMAP_PARAMETERS[n];
     }
 
-    @Override
     public int getRowHeight() {
         return 45;
     }
 
-    @Override
     public int getRowOverall() {
         return 50;
     }
 
-    @Override
     public int getRowHeightToolTip() {
         return 35;
     }
 
-    @Override
     public int getRowOverallToolTip() {
         return 40;
     }
 
-    @Override
     public int getDistance(int n) {
         try {
             return DISTANCE_CONSTANTS[n];
@@ -524,7 +516,6 @@ WidgetConstants {
         }
     }
 
-    @Override
     public int getDepth(int n) {
         switch (n) {
             case 1: {
@@ -609,11 +600,10 @@ WidgetConstants {
                 return 55;
             }
         }
-        AbstractWidget.logChannel.log(1078071040, "LayoutMIBHigh#getDepth type: %1 is not supported by this layout", (long)n);
+        AbstractWidget.logChannel.log(1000000, "LayoutMIBHigh#getDepth type: %1 is not supported by this layout", (long)n);
         return 0;
     }
 
-    @Override
     public float getFloatConstant(int n) {
         try {
             return FLOAT_CONSTANTS[n];
@@ -624,7 +614,6 @@ WidgetConstants {
         }
     }
 
-    @Override
     public int getTextExportWidth(int n) {
         try {
             return TEXT_EXPORT_CONSTANTS[n];
@@ -635,12 +624,10 @@ WidgetConstants {
         }
     }
 
-    @Override
     public int getMenuLineWidth() {
         return 800;
     }
 
-    @Override
     public int[] getTextPattern(int n) {
         switch (n) {
             case 1: {
@@ -662,11 +649,10 @@ WidgetConstants {
                 return TEXT_PATTERN_SIX_ROWS;
             }
         }
-        AbstractWidget.logChannel.log(-2137614336, "LayoutMIBHigh#getTextPattern no pattern for noOfRows: %1", (long)n);
+        AbstractWidget.logChannel.log(10000000, "LayoutMIBHigh#getTextPattern no pattern for noOfRows: %1", (long)n);
         return null;
     }
 
-    @Override
     public int getMappedFontSize(int n, int n2) {
         int[] nArray;
         if (n < 0) {
@@ -677,35 +663,32 @@ WidgetConstants {
             nArray = MAP_FONT_SIZES_TO_POINTS;
             if (n >= nArray.length) {
                 AbstractWidget.logChannel.log(10000, "LayoutMIBHigh#getMappedFontSize no mapping for font with pixel-size: %1", (long)n);
-                return (int)((float)n * 52604479);
+                return (int)((float)n * 1.360413f);
             }
             if (nArray[n] == 0) {
-                nArray[n] = (int)((float)n * 52604479);
+                nArray[n] = (int)((float)n * 1.360413f);
             }
         } else {
             nArray = MAP_FONT_SIZES_TO_PIXELS;
             if (n >= nArray.length) {
                 AbstractWidget.logChannel.log(10000, "LayoutMIBHigh#getMappedFontSize no mapping for font with point-size: %1", (long)n);
-                return (int)((float)n / 52604479);
+                return (int)((float)n / 1.360413f);
             }
             if (nArray[n] == 0) {
-                nArray[n] = (int)((float)n / 52604479);
+                nArray[n] = (int)((float)n / 1.360413f);
             }
         }
         return nArray[n];
     }
 
-    @Override
     public String getSplashscreenPath() {
-        return "/HBpersistence/Splashscreen.png";
+        return SPLASH_SCREEN_PATH;
     }
 
-    @Override
     public int[][] getTimeZoneImagePositions() {
         return TIME_ZONE_IMAGE_POSITONS;
     }
 
-    @Override
     public int[] getInstructionTextLayoutParams() {
         if (instructionTextLayoutParams == null) {
             instructionTextLayoutParams = new int[]{37, 79, 121, 163, 205, 247, 43, 85, 127, 169, 211, 42, 12, -3, 0, 27, 37, 4, 22, 15, 15, 35, 42, 17, 15, 15, 61, 103, 143, 143, 205, 247, 67, 109, 149, 149, 211, 42, 31, -3, 13, 13, 1, -7, 35, 0, 40, 35, 35, 30, 37, 4, 55};
@@ -713,7 +696,6 @@ WidgetConstants {
         return instructionTextLayoutParams;
     }
 
-    @Override
     public int getIntegerConstant(int n) {
         try {
             return INTEGER_CONSTANTS[n];
@@ -724,7 +706,6 @@ WidgetConstants {
         }
     }
 
-    @Override
     public int[][] getMainWizardIconDecoratorMapping() {
         if (mainWizardIconDecoratorMapping == null) {
             mainWizardIconDecoratorMapping = new int[][]{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {9, 9}, {10, 10}, {11, 11}, {12, 3}, {13, 3}, {14, 5}, {15, 5}, {17, 12}, {18, 12}, {19, 12}, {20, 12}};
@@ -732,7 +713,6 @@ WidgetConstants {
         return mainWizardIconDecoratorMapping;
     }
 
-    @Override
     public int[] getMainWizardTextOffset() {
         if (mainWizardTextOffset == null) {
             mainWizardTextOffset = new int[]{0, 0, 0, 0, 0};
@@ -740,38 +720,15 @@ WidgetConstants {
         return mainWizardTextOffset;
     }
 
-    @Override
     public int[] getDisplayablePosition(int n) {
         return new int[]{0, 0};
     }
 
-    @Override
     public int getUserHintLabelOffset() {
         return 37;
     }
 
     static {
-        STANDARD_FONT_PLAIN = System.getProperty("STANDARD_FONT_PLAIN", "AudiTypeDisplayHigh-Normal_10.ttf");
-        STANDARD_FONT_BOLD = System.getProperty("STANDARD_FONT_BOLD", "AudiTypeDisplayHigh-Bold_5.ttf");
-        STANDARD_FONT_LIGHT = System.getProperty("STANDARD_FONT_LIGHT", "AudiTypeDisplayHigh-Normal_10.ttf");
-        DISTANCE_CONSTANTS = new int[230];
-        FLOAT_CONSTANTS = new float[18];
-        INTEGER_CONSTANTS = new int[132];
-        TEXT_EXPORT_CONSTANTS = new int[20];
-        TEXT_PATTERN_ONE_ROW = new int[]{0};
-        TEXT_PATTERN_TWO_ROWS = new int[]{0, 0};
-        TEXT_PATTERN_THREE_ROWS = new int[]{1, 0, 0};
-        TEXT_PATTERN_FOUR_ROWS = new int[]{1, 1, 0, 0};
-        TEXT_PATTERN_FIVE_ROWS = new int[]{1, 1, 1, 0, 0};
-        TEXT_PATTERN_SIX_ROWS = new int[]{2, 2, 1, 1, 0, 0};
-        mainWizardIconDecoratorMapping = null;
-        mainWizardTextOffset = null;
-        MAP_FONT_SIZES_TO_POINTS = new int[]{0, 2, 3, 4, 6, 7, 9, 10, 11, 13, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 37, 38, 39, 41, 42, 44, 45, 46, 48, 49, 51, 52, 53, 54, 55, 56, 58, 59, 61, 62, 63, 65, 66, 68, 69, 70, 72, 73, 75, 76, 77, 79, 80, 81, 83, 84, 85, 87, 88};
-        MAP_FONT_SIZES_TO_PIXELS = new int[]{0, 1, 1, 2, 3, 4, 4, 5, 6, 6, 7, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 16, 17, 17, 18, 19, 19, 20, 21, 22, 22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 30, 30, 31, 32, 32, 33, 34, 35, 35, 36, 37, 37, 38, 39, 40, 41, 42, 43, 43, 44, 45, 45, 46, 47, 48, 48, 49, 50, 50, 51, 52, 53, 53, 54, 55, 55, 56, 57, 58, 58, 59, 60, 61, 61, 62, 63, 64, 64, 65};
-        STATIC_BITMAP_PARAMETERS = new int[3][3];
-        UNSUPPORTED_DEVELOPMENT_BUILD_IMAGE_ID = HMIImageConstantsSystem.static_bitmap_unsupported_development_build;
-        instructionTextLayoutParams = null;
-        TIME_ZONE_IMAGE_POSITONS = new int[][]{{8, 24}, {285, 22}, {273, 15}, {276, 116}, {254, 19}, {224, 36}, {226, 5}, {241, 78}, {210, 44}, {230, 76}, {219, 70}, {199, 21}, {212, 68}, {196, 40}, {197, 67}, {181, 4}, {171, 27}, {147, 6}, {133, 10}, {127, 16}, {121, 160}, {88, 0}, {101, 53}, {86, 10}, {88, 94}, {73, 1}, {54, 3}, {30, 9}, {25, 27}, {0, 24}, {25, 113}, {2, 84}, {329, 117}};
         LayoutMIB2MMICombiTT.initializeDistances();
         LayoutMIB2MMICombiTT.initializeFloatConstants();
         LayoutMIB2MMICombiTT.initializeIntegerConstants();

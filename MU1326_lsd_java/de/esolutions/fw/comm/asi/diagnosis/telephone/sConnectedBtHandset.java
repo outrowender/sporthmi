@@ -52,7 +52,7 @@ public class sConnectedBtHandset {
     }
 
     public String toString() {
-        return new StringBuffer("sConnectedBtHandset{").append("msg_id=").append(this.msg_id).append(", handsetNumber=").append(this.handsetNumber).append(", fieldStrengthRSSI=").append(this.fieldStrengthRSSI).append(", deviceName=").append(this.deviceName).append("}").toString();
+        return "sConnectedBtHandset{" + "msg_id=" + this.msg_id + ", handsetNumber=" + this.handsetNumber + ", fieldStrengthRSSI=" + this.fieldStrengthRSSI + ", deviceName=" + this.deviceName + "}";
     }
 }
 

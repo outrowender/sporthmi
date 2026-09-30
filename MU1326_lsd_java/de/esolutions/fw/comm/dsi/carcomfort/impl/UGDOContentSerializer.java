@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOContent;
 
 public class UGDOContentSerializer {
-    public static void putOptionalUGDOContent(ISerializer iSerializer, UGDOContent uGDOContent) {
+    public static void putOptionalUGDOContent(ISerializer iSerializer, UGDOContent uGDOContent) throws SerializerException {
         boolean bl = uGDOContent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class UGDOContentSerializer {
         }
     }
 
-    public static void putOptionalUGDOContentVarArray(ISerializer iSerializer, UGDOContent[] uGDOContentArray) {
+    public static void putOptionalUGDOContentVarArray(ISerializer iSerializer, UGDOContent[] uGDOContentArray) throws SerializerException {
         boolean bl = uGDOContentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class UGDOContentSerializer {
         }
     }
 
-    public static UGDOContent getOptionalUGDOContent(IDeserializer iDeserializer) {
+    public static UGDOContent getOptionalUGDOContent(IDeserializer iDeserializer) throws SerializerException {
         UGDOContent uGDOContent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class UGDOContentSerializer {
         return uGDOContent;
     }
 
-    public static UGDOContent[] getOptionalUGDOContentVarArray(IDeserializer iDeserializer) {
+    public static UGDOContent[] getOptionalUGDOContentVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOContent[] uGDOContentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

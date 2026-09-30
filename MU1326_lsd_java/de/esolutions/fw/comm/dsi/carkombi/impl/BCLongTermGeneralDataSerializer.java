@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.global.impl.CarBCSpeedSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCLongTermGeneralData;
 import org.dsi.ifc.global.CarBCDistance;
 import org.dsi.ifc.global.CarBCSpeed;
 import org.dsi.ifc.global.CarBCTime;
 
 public class BCLongTermGeneralDataSerializer {
-    public static void putOptionalBCLongTermGeneralData(ISerializer iSerializer, BCLongTermGeneralData bCLongTermGeneralData) {
+    public static void putOptionalBCLongTermGeneralData(ISerializer iSerializer, BCLongTermGeneralData bCLongTermGeneralData) throws SerializerException {
         boolean bl = bCLongTermGeneralData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BCLongTermGeneralDataSerializer {
         }
     }
 
-    public static void putOptionalBCLongTermGeneralDataVarArray(ISerializer iSerializer, BCLongTermGeneralData[] bCLongTermGeneralDataArray) {
+    public static void putOptionalBCLongTermGeneralDataVarArray(ISerializer iSerializer, BCLongTermGeneralData[] bCLongTermGeneralDataArray) throws SerializerException {
         boolean bl = bCLongTermGeneralDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BCLongTermGeneralDataSerializer {
         }
     }
 
-    public static BCLongTermGeneralData getOptionalBCLongTermGeneralData(IDeserializer iDeserializer) {
+    public static BCLongTermGeneralData getOptionalBCLongTermGeneralData(IDeserializer iDeserializer) throws SerializerException {
         BCLongTermGeneralData bCLongTermGeneralData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class BCLongTermGeneralDataSerializer {
         return bCLongTermGeneralData;
     }
 
-    public static BCLongTermGeneralData[] getOptionalBCLongTermGeneralDataVarArray(IDeserializer iDeserializer) {
+    public static BCLongTermGeneralData[] getOptionalBCLongTermGeneralDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCLongTermGeneralData[] bCLongTermGeneralDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

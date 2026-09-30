@@ -6,8 +6,8 @@ package de.esolutions.fw.util.commons;
 import java.util.Arrays;
 
 public abstract class AbstractSimpleIntMap {
-    protected static final int DEFAULT_SIZE;
-    protected static final int FREE_ENTRY_MARKER;
+    protected static final int DEFAULT_SIZE = 25;
+    protected static final int FREE_ENTRY_MARKER = Integer.MIN_VALUE;
     private final Object mutex = new Object();
     private int capacity;
     private int mappings = 0;
@@ -17,7 +17,7 @@ public abstract class AbstractSimpleIntMap {
     public AbstractSimpleIntMap(int n) {
         this.capacity = n;
         this.keys = new int[this.capacity];
-        Arrays.fill(this.keys, 128);
+        Arrays.fill(this.keys, Integer.MIN_VALUE);
     }
 
     /*
@@ -33,7 +33,7 @@ public abstract class AbstractSimpleIntMap {
                     int n2 = 0;
                     int n3 = n;
                     for (int i2 = this.keys.length; i2 >= 0; --i2) {
-                        if (this.keys[i2] != 128) {
+                        if (this.keys[i2] != Integer.MIN_VALUE) {
                             ++n2;
                             continue;
                         }
@@ -53,7 +53,7 @@ public abstract class AbstractSimpleIntMap {
         int[] nArray = new int[n];
         if (n > this.keys.length) {
             System.arraycopy((Object)this.keys, 0, (Object)nArray, 0, this.keys.length);
-            Arrays.fill(nArray, this.keys.length, nArray.length, 128);
+            Arrays.fill(nArray, this.keys.length, nArray.length, Integer.MIN_VALUE);
             this.keys = nArray;
         } else if (n < this.keys.length) {
             System.arraycopy((Object)this.keys, 0, (Object)nArray, 0, nArray.length);
@@ -61,8 +61,7 @@ public abstract class AbstractSimpleIntMap {
         }
     }
 
-    protected abstract void resizeValueArray(int n) {
-    }
+    protected abstract void resizeValueArray(int var1);
 
     public int getCapacity() {
         return this.capacity;
@@ -84,24 +83,22 @@ public abstract class AbstractSimpleIntMap {
     }
 
     private void clearKeys() {
-        Arrays.fill(this.keys, 128);
+        Arrays.fill(this.keys, Integer.MIN_VALUE);
     }
 
     protected void clearKey(int n) {
-        this.keys[n] = 128;
+        this.keys[n] = Integer.MIN_VALUE;
     }
 
-    protected abstract void clearValues() {
-    }
+    protected abstract void clearValues();
 
-    protected abstract void clearValue(int n) {
-    }
+    protected abstract void clearValue(int var1);
 
     public int[] getKeys() {
         int[] nArray = new int[this.mappings];
         int n = 0;
         for (int i2 = 0; i2 < this.keys.length; ++i2) {
-            if (this.keys[i2] == 128) continue;
+            if (this.keys[i2] == Integer.MIN_VALUE) continue;
             nArray[n] = this.keys[i2];
             ++n;
         }
@@ -129,7 +126,7 @@ public abstract class AbstractSimpleIntMap {
             n2 = this.nextFreeIndex;
             this.keys[n2] = n;
             ++this.mappings;
-            this.nextFreeIndex = this.getKeyIndex(128);
+            this.nextFreeIndex = this.getKeyIndex(Integer.MIN_VALUE);
             if (this.nextFreeIndex == -1) {
                 this.nextFreeIndex = this.capacity;
             }
@@ -150,7 +147,7 @@ public abstract class AbstractSimpleIntMap {
     }
 
     protected final void checkFreeEntryMarker(int n) {
-        if (n == 128) {
+        if (n == Integer.MIN_VALUE) {
             throw new IllegalArgumentException("Free entry marker is used as key or value!");
         }
     }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRServiceRegistration;
 
 public class OSRServiceRegistrationSerializer {
-    public static void putOptionalOSRServiceRegistration(ISerializer iSerializer, OSRServiceRegistration oSRServiceRegistration) {
+    public static void putOptionalOSRServiceRegistration(ISerializer iSerializer, OSRServiceRegistration oSRServiceRegistration) throws SerializerException {
         boolean bl = oSRServiceRegistration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class OSRServiceRegistrationSerializer {
         }
     }
 
-    public static void putOptionalOSRServiceRegistrationVarArray(ISerializer iSerializer, OSRServiceRegistration[] oSRServiceRegistrationArray) {
+    public static void putOptionalOSRServiceRegistrationVarArray(ISerializer iSerializer, OSRServiceRegistration[] oSRServiceRegistrationArray) throws SerializerException {
         boolean bl = oSRServiceRegistrationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class OSRServiceRegistrationSerializer {
         }
     }
 
-    public static OSRServiceRegistration getOptionalOSRServiceRegistration(IDeserializer iDeserializer) {
+    public static OSRServiceRegistration getOptionalOSRServiceRegistration(IDeserializer iDeserializer) throws SerializerException {
         OSRServiceRegistration oSRServiceRegistration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class OSRServiceRegistrationSerializer {
         return oSRServiceRegistration;
     }
 
-    public static OSRServiceRegistration[] getOptionalOSRServiceRegistrationVarArray(IDeserializer iDeserializer) {
+    public static OSRServiceRegistration[] getOptionalOSRServiceRegistrationVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRServiceRegistration[] oSRServiceRegistrationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

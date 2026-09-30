@@ -23,10 +23,10 @@ implements IConfigValueTracer {
     private static CommConfig configInstance;
     private String failString;
     private boolean isValid = true;
-    protected int cmd_drop_timeout = -527236096;
+    protected int cmd_drop_timeout = 300000;
     protected int cmd_retry_count = 10;
     protected int cmd_time_pulse = 5000;
-    protected int cmd_time_alive = 1625948160;
+    protected int cmd_time_alive = 60000;
     protected int cmd_queue_size = 1024;
     protected int proxy_pool_size = 256;
     protected int stub_pool_size = 256;
@@ -65,7 +65,7 @@ implements IConfigValueTracer {
             configInstance = new CommConfig();
             SystemConfig systemConfig = SystemConfig.getInstance();
             if (!systemConfig.isValid()) {
-                configInstance.setFailed(new StringBuffer().append("can't get system config: ").append(systemConfig.getFailString()).toString());
+                configInstance.setFailed("can't get system config: " + systemConfig.getFailString());
             } else if (configInstance.load(systemConfig.getFrameworkConfigProvider())) {
                 configInstance.traceValues();
             }
@@ -82,7 +82,7 @@ implements IConfigValueTracer {
         this.isValid = false;
         IConfigQuery iConfigQuery = frameworkConfigProvider.getPathQuery();
         if (iConfigQuery == null) {
-            this.failString = new StringBuffer().append("can't get query for fw config: ").append(frameworkConfigProvider.getFailString()).toString();
+            this.failString = "can't get query for fw config: " + frameworkConfigProvider.getFailString();
             return false;
         }
         this.isValid = true;
@@ -140,7 +140,6 @@ implements IConfigValueTracer {
         this.tracing = new CommConfigTracing(configPathQuery.getDictionary("tracing"));
     }
 
-    @Override
     public void traceValues() {
         CommAgentTracing.CONFIG.log((short)2, "cmd_drop_timeout   = %1 ms", new Integer(this.cmd_drop_timeout));
         CommAgentTracing.CONFIG.log((short)2, "cmd_retry_count    = %1", new Integer(this.cmd_retry_count));

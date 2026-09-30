@@ -4,13 +4,10 @@
 package de.esolutions.fw.util.tracing.filetransfer;
 
 public interface IFileTransferSender {
-    default public boolean sendFileRequest(int n, String string, byte by) {
-    }
+    public boolean sendFileRequest(int var1, String var2, byte var3);
 
-    default public boolean sendFileStatus(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
-    }
+    public boolean sendFileStatus(int var1, String var2, byte var3, long var4, long var6, byte var8, byte[] var9);
 
-    default public boolean sendFileTransfer(int n, int n2, byte by, int n3, byte[] byArray) {
-    }
+    public boolean sendFileTransfer(int var1, int var2, byte var3, int var4, byte[] var5);
 }
 

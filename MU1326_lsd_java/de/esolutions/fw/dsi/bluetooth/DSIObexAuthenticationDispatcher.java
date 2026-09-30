@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.bluetooth;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.bluetooth.DSIObexAuthenticationReply;
 import de.esolutions.fw.comm.dsi.bluetooth.impl.DSIObexAuthenticationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIObexAuthenticationReply {
         super(n, (class$org$dsi$ifc$bluetooth$DSIObexAuthenticationListener == null ? (class$org$dsi$ifc$bluetooth$DSIObexAuthenticationListener = DSIObexAuthenticationDispatcher.class$("org.dsi.ifc.bluetooth.DSIObexAuthenticationListener")) : class$org$dsi$ifc$bluetooth$DSIObexAuthenticationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void authenticationRequired(int n, boolean bl, String string) {
+    public void authenticationRequired(int n, boolean bl, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIObexAuthenticationReply {
         }
     }
 
-    @Override
-    public void indAuthentication(boolean bl) {
+    public void indAuthentication(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIObexAuthenticationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,14 +74,13 @@ implements DSIObexAuthenticationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIObexAuthenticationListener dSIObexAuthenticationListener = (DSIObexAuthenticationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIObexAuthenticationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIObexAuthenticationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIObexAuthenticationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIObexAuthenticationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIObexAuthenticationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIObexAuthenticationListener, new Object[]{string, string2});
                     continue;
                 }

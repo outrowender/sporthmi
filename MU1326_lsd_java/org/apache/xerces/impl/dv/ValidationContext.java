@@ -4,37 +4,26 @@
 package org.apache.xerces.impl.dv;
 
 public interface ValidationContext {
-    default public boolean needFacetChecking() {
-    }
+    public boolean needFacetChecking();
 
-    default public boolean needExtraChecking() {
-    }
+    public boolean needExtraChecking();
 
-    default public boolean needToNormalize() {
-    }
+    public boolean needToNormalize();
 
-    default public boolean useNamespaces() {
-    }
+    public boolean useNamespaces();
 
-    default public boolean isEntityDeclared(String string) {
-    }
+    public boolean isEntityDeclared(String var1);
 
-    default public boolean isEntityUnparsed(String string) {
-    }
+    public boolean isEntityUnparsed(String var1);
 
-    default public boolean isIdDeclared(String string) {
-    }
+    public boolean isIdDeclared(String var1);
 
-    default public void addId(String string) {
-    }
+    public void addId(String var1);
 
-    default public void addIdRef(String string) {
-    }
+    public void addIdRef(String var1);
 
-    default public String getSymbol(String string) {
-    }
+    public String getSymbol(String var1);
 
-    default public String getURI(String string) {
-    }
+    public String getURI(String var1);
 }
 

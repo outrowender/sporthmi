@@ -3,18 +3,27 @@
  */
 package org.apache.xerces.dom;
 
-import org.apache.xerces.dom.CharacterDataImpl$1;
 import org.apache.xerces.dom.ChildNode;
 import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public abstract class CharacterDataImpl
 extends ChildNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 7931170150428474230L;
     protected String data;
-    private static transient NodeList singletonNodeList;
+    private static transient NodeList singletonNodeList = new NodeList(){
+
+        public Node item(int n) {
+            return null;
+        }
+
+        public int getLength() {
+            return 0;
+        }
+    };
 
     public CharacterDataImpl() {
     }
@@ -24,12 +33,10 @@ extends ChildNode {
         this.data = string;
     }
 
-    @Override
     public NodeList getChildNodes() {
         return singletonNodeList;
     }
 
-    @Override
     public String getNodeValue() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -56,7 +63,6 @@ extends ChildNode {
         coreDocumentImpl.modifiedCharacterData(this, string3, string, bl);
     }
 
-    @Override
     public void setNodeValue(String string) {
         this.setNodeValueInternal(string);
         this.ownerDocument().replacedText(this);
@@ -69,7 +75,6 @@ extends ChildNode {
         return this.data;
     }
 
-    @Override
     public int getLength() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -88,14 +93,14 @@ extends ChildNode {
         if (this.needsSyncData()) {
             this.synchronizeData();
         }
-        this.setNodeValue(new StringBuffer().append(this.data).append(string).toString());
+        this.setNodeValue(this.data + string);
     }
 
-    public void deleteData(int n, int n2) {
+    public void deleteData(int n, int n2) throws DOMException {
         this.internalDeleteData(n, n2, false);
     }
 
-    void internalDeleteData(int n, int n2, boolean bl) {
+    void internalDeleteData(int n, int n2, boolean bl) throws DOMException {
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         if (coreDocumentImpl.errorChecking) {
             if (this.isReadOnly()) {
@@ -112,7 +117,7 @@ extends ChildNode {
         }
         int n3 = Math.max(this.data.length() - n2 - n, 0);
         try {
-            String string = new StringBuffer().append(this.data.substring(0, n)).append(n3 > 0 ? this.data.substring(n + n2, n + n2 + n3) : "").toString();
+            String string = this.data.substring(0, n) + (n3 > 0 ? this.data.substring(n + n2, n + n2 + n3) : "");
             this.setNodeValueInternal(string, bl);
             coreDocumentImpl.deletedText(this, n, n2);
         }
@@ -122,11 +127,11 @@ extends ChildNode {
         }
     }
 
-    public void insertData(int n, String string) {
+    public void insertData(int n, String string) throws DOMException {
         this.internalInsertData(n, string, false);
     }
 
-    void internalInsertData(int n, String string, boolean bl) {
+    void internalInsertData(int n, String string, boolean bl) throws DOMException {
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         if (coreDocumentImpl.errorChecking && this.isReadOnly()) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -146,7 +151,7 @@ extends ChildNode {
         }
     }
 
-    public void replaceData(int n, int n2, String string) {
+    public void replaceData(int n, int n2, String string) throws DOMException {
         CoreDocumentImpl coreDocumentImpl = this.ownerDocument();
         if (coreDocumentImpl.errorChecking && this.isReadOnly()) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -162,11 +167,11 @@ extends ChildNode {
         coreDocumentImpl.replacedCharacterData(this, string3, this.data);
     }
 
-    public void setData(String string) {
+    public void setData(String string) throws DOMException {
         this.setNodeValue(string);
     }
 
-    public String substringData(int n, int n2) {
+    public String substringData(int n, int n2) throws DOMException {
         if (this.needsSyncData()) {
             this.synchronizeData();
         }
@@ -177,10 +182,6 @@ extends ChildNode {
         }
         int n4 = Math.min(n + n2, n3);
         return this.data.substring(n, n4);
-    }
-
-    static {
-        singletonNodeList = new CharacterDataImpl$1();
     }
 }
 

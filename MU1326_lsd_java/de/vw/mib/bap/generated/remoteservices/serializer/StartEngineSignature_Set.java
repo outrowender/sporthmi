@@ -11,7 +11,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class StartEngineSignature_Set
 implements SetProperty {
     public final BAPString data = new BAPString(36);
-    private static final int MAX_DATA_LENGTH;
+    private static final int MAX_DATA_LENGTH = 36;
 
     public StartEngineSignature_Set() {
         this.internalReset();
@@ -26,13 +26,11 @@ implements SetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         StartEngineSignature_Set startEngineSignature_Set = (StartEngineSignature_Set)bAPEntity;
         return this.data.equalTo(startEngineSignature_Set.data);
@@ -41,7 +39,6 @@ implements SetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("StartEngineSignature_Set");
@@ -49,17 +46,14 @@ implements SetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.data.deserialize(bitStream);
     }
@@ -68,7 +62,6 @@ implements SetProperty {
         return 18;
     }
 
-    @Override
     public int getFunctionId() {
         return StartEngineSignature_Set.functionId();
     }

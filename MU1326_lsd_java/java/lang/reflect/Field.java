@@ -35,7 +35,7 @@ implements Member {
         return this.getType() == field.getType();
     }
 
-    public Object get(Object object) {
+    public Object get(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
@@ -46,8 +46,7 @@ implements Member {
         return !this.isAccessible() && (this.getModifiers() & 0xC) == 4;
     }
 
-    private native Object getImpl(Object object) {
-    }
+    private native Object getImpl(Object var1);
 
     private boolean samePackage(Class clazz) {
         if (this.declaringClass.equals(clazz)) {
@@ -58,7 +57,7 @@ implements Member {
         return string.equals(string2);
     }
 
-    private void doProtectedCheck(Class clazz, Object object) {
+    private void doProtectedCheck(Class clazz, Object object) throws IllegalAccessException {
         if (!this.samePackage(clazz) && !clazz.isInstance(object)) {
             if (!this.declaringClass.isInstance(object)) {
                 throw new IllegalArgumentException();
@@ -75,86 +74,75 @@ implements Member {
         return "";
     }
 
-    public boolean getBoolean(Object object) {
+    public boolean getBoolean(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getBooleanImpl(object);
     }
 
-    private native boolean getBooleanImpl(Object object) {
-    }
+    private native boolean getBooleanImpl(Object var1);
 
-    public byte getByte(Object object) {
+    public byte getByte(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getByteImpl(object);
     }
 
-    private native byte getByteImpl(Object object) {
-    }
+    private native byte getByteImpl(Object var1);
 
-    public char getChar(Object object) {
+    public char getChar(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getCharImpl(object);
     }
 
-    private native char getCharImpl(Object object) {
-    }
+    private native char getCharImpl(Object var1);
 
-    @Override
     public Class getDeclaringClass() {
         return this.declaringClass;
     }
 
-    public double getDouble(Object object) {
+    public double getDouble(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getDoubleImpl(object);
     }
 
-    private native double getDoubleImpl(Object object) {
-    }
+    private native double getDoubleImpl(Object var1);
 
-    public float getFloat(Object object) {
+    public float getFloat(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getFloatImpl(object);
     }
 
-    private native float getFloatImpl(Object object) {
-    }
+    private native float getFloatImpl(Object var1);
 
-    public int getInt(Object object) {
+    public int getInt(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getIntImpl(object);
     }
 
-    private native int getIntImpl(Object object) {
-    }
+    private native int getIntImpl(Object var1);
 
-    public long getLong(Object object) {
+    public long getLong(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getLongImpl(object);
     }
 
-    private native long getLongImpl(Object object) {
-    }
+    private native long getLongImpl(Object var1);
 
-    @Override
-    public native int getModifiers() {
-    }
+    public native int getModifiers();
 
-    @Override
     public String getName() {
         if (this.name != null) {
             return this.name;
@@ -162,22 +150,18 @@ implements Member {
         return this.getNameImpl();
     }
 
-    private native String getNameImpl() {
-    }
+    private native String getNameImpl();
 
-    public short getShort(Object object) {
+    public short getShort(Object object) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         return this.getShortImpl(object);
     }
 
-    private native short getShortImpl(Object object) {
-    }
+    private native short getShortImpl(Object var1);
 
-    @Override
-    native String getSignature() {
-    }
+    native String getSignature();
 
     public Class getType() {
         if (this.type != null) {
@@ -186,102 +170,92 @@ implements Member {
         return this.getTypeImpl();
     }
 
-    private native Class getTypeImpl() {
-    }
+    private native Class getTypeImpl();
 
     public int hashCode() {
         return this.getName().hashCode();
     }
 
-    public void set(Object object, Object object2) {
+    public void set(Object object, Object object2) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setImpl(object, object2);
     }
 
-    private native void setImpl(Object object, Object object2) {
-    }
+    private native void setImpl(Object var1, Object var2);
 
-    public void setBoolean(Object object, boolean bl) {
+    public void setBoolean(Object object, boolean bl) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setBooleanImpl(object, bl);
     }
 
-    private native void setBooleanImpl(Object object, boolean bl) {
-    }
+    private native void setBooleanImpl(Object var1, boolean var2);
 
-    public void setByte(Object object, byte by) {
+    public void setByte(Object object, byte by) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setByteImpl(object, by);
     }
 
-    private native void setByteImpl(Object object, byte by) {
-    }
+    private native void setByteImpl(Object var1, byte var2);
 
-    public void setChar(Object object, char c2) {
+    public void setChar(Object object, char c2) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setCharImpl(object, c2);
     }
 
-    private native void setCharImpl(Object object, char c2) {
-    }
+    private native void setCharImpl(Object var1, char var2);
 
-    public void setDouble(Object object, double d2) {
+    public void setDouble(Object object, double d2) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setDoubleImpl(object, d2);
     }
 
-    private native void setDoubleImpl(Object object, double d2) {
-    }
+    private native void setDoubleImpl(Object var1, double var2);
 
-    public void setFloat(Object object, float f2) {
+    public void setFloat(Object object, float f2) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setFloatImpl(object, f2);
     }
 
-    private native void setFloatImpl(Object object, float f2) {
-    }
+    private native void setFloatImpl(Object var1, float var2);
 
-    public void setInt(Object object, int n) {
+    public void setInt(Object object, int n) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setIntImpl(object, n);
     }
 
-    private native void setIntImpl(Object object, int n) {
-    }
+    private native void setIntImpl(Object var1, int var2);
 
-    public void setLong(Object object, long l) {
+    public void setLong(Object object, long l) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setLongImpl(object, l);
     }
 
-    private native void setLongImpl(Object object, long l) {
-    }
+    private native void setLongImpl(Object var1, long var2);
 
-    public void setShort(Object object, short s) {
+    public void setShort(Object object, short s) throws IllegalAccessException, IllegalArgumentException {
         if (this.requiresProtectedCheck()) {
             this.doProtectedCheck(Field.getStackClass(-1), object);
         }
         this.setShortImpl(object, s);
     }
 
-    private native void setShortImpl(Object object, short s) {
-    }
+    private native void setShortImpl(Object var1, short var2);
 
     public String toString() {
         int n = 0;

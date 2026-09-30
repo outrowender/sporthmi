@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carparkingsystem.impl.PDCCrashWarningFrontRearS
 import de.esolutions.fw.comm.dsi.carparkingsystem.impl.PDCCrashWarningRightLeftSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCCrashWarning;
 import org.dsi.ifc.carparkingsystem.PDCCrashWarningFrontRear;
 import org.dsi.ifc.carparkingsystem.PDCCrashWarningRightLeft;
 
 public class PDCCrashWarningSerializer {
-    public static void putOptionalPDCCrashWarning(ISerializer iSerializer, PDCCrashWarning pDCCrashWarning) {
+    public static void putOptionalPDCCrashWarning(ISerializer iSerializer, PDCCrashWarning pDCCrashWarning) throws SerializerException {
         boolean bl = pDCCrashWarning == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class PDCCrashWarningSerializer {
         }
     }
 
-    public static void putOptionalPDCCrashWarningVarArray(ISerializer iSerializer, PDCCrashWarning[] pDCCrashWarningArray) {
+    public static void putOptionalPDCCrashWarningVarArray(ISerializer iSerializer, PDCCrashWarning[] pDCCrashWarningArray) throws SerializerException {
         boolean bl = pDCCrashWarningArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class PDCCrashWarningSerializer {
         }
     }
 
-    public static PDCCrashWarning getOptionalPDCCrashWarning(IDeserializer iDeserializer) {
+    public static PDCCrashWarning getOptionalPDCCrashWarning(IDeserializer iDeserializer) throws SerializerException {
         PDCCrashWarning pDCCrashWarning = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class PDCCrashWarningSerializer {
         return pDCCrashWarning;
     }
 
-    public static PDCCrashWarning[] getOptionalPDCCrashWarningVarArray(IDeserializer iDeserializer) {
+    public static PDCCrashWarning[] getOptionalPDCCrashWarningVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCCrashWarning[] pDCCrashWarningArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

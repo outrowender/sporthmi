@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.calendar;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.calendar.DSICalendarExchangeReply;
 import de.esolutions.fw.comm.dsi.calendar.impl.DSICalendarExchangeReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSICalendarExchangeReply {
         super(n, (class$org$dsi$ifc$calendar$DSICalendarExchangeListener == null ? (class$org$dsi$ifc$calendar$DSICalendarExchangeListener = DSICalendarExchangeDispatcher.class$("org.dsi.ifc.calendar.DSICalendarExchangeListener")) : class$org$dsi$ifc$calendar$DSICalendarExchangeListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void parseICalResult(int n) {
+    public void parseICalResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSICalendarExchangeReply {
         }
     }
 
-    @Override
-    public void parseICalDirectoryResult(int[] nArray) {
+    public void parseICalDirectoryResult(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSICalendarExchangeReply {
         }
     }
 
-    @Override
-    public void exportICalResult(int n, String string) {
+    public void exportICalResult(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSICalendarExchangeReply {
         }
     }
 
-    @Override
-    public void finishExportResult(int n, long[] lArray, int n2, String string) {
+    public void finishExportResult(int n, long[] lArray, int n2, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSICalendarExchangeReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,14 +106,13 @@ implements DSICalendarExchangeReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICalendarExchangeListener dSICalendarExchangeListener = (DSICalendarExchangeListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICalendarExchangeDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICalendarExchangeDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICalendarExchangeListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICalendarExchangeDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICalendarExchangeDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICalendarExchangeListener, new Object[]{string, string2});
                     continue;
                 }

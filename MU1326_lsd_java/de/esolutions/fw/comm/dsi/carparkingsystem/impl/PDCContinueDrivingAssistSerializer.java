@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCContinueDrivingAssist;
 
 public class PDCContinueDrivingAssistSerializer {
-    public static void putOptionalPDCContinueDrivingAssist(ISerializer iSerializer, PDCContinueDrivingAssist pDCContinueDrivingAssist) {
+    public static void putOptionalPDCContinueDrivingAssist(ISerializer iSerializer, PDCContinueDrivingAssist pDCContinueDrivingAssist) throws SerializerException {
         boolean bl = pDCContinueDrivingAssist == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class PDCContinueDrivingAssistSerializer {
         }
     }
 
-    public static void putOptionalPDCContinueDrivingAssistVarArray(ISerializer iSerializer, PDCContinueDrivingAssist[] pDCContinueDrivingAssistArray) {
+    public static void putOptionalPDCContinueDrivingAssistVarArray(ISerializer iSerializer, PDCContinueDrivingAssist[] pDCContinueDrivingAssistArray) throws SerializerException {
         boolean bl = pDCContinueDrivingAssistArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class PDCContinueDrivingAssistSerializer {
         }
     }
 
-    public static PDCContinueDrivingAssist getOptionalPDCContinueDrivingAssist(IDeserializer iDeserializer) {
+    public static PDCContinueDrivingAssist getOptionalPDCContinueDrivingAssist(IDeserializer iDeserializer) throws SerializerException {
         PDCContinueDrivingAssist pDCContinueDrivingAssist = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class PDCContinueDrivingAssistSerializer {
         return pDCContinueDrivingAssist;
     }
 
-    public static PDCContinueDrivingAssist[] getOptionalPDCContinueDrivingAssistVarArray(IDeserializer iDeserializer) {
+    public static PDCContinueDrivingAssist[] getOptionalPDCContinueDrivingAssistVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCContinueDrivingAssist[] pDCContinueDrivingAssistArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,9 +10,9 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ConfirmEmergencyCall_StartResult
 implements StartResultMethod {
     public int control;
-    private static final int CONTROL_BITSIZE;
-    public static final int CONTROL_CONFIRM;
-    public static final int CONTROL_CANCEL;
+    private static final int CONTROL_BITSIZE = 8;
+    public static final int CONTROL_CONFIRM = 0;
+    public static final int CONTROL_CANCEL = 1;
 
     public ConfirmEmergencyCall_StartResult() {
         this.internalReset();
@@ -28,12 +28,10 @@ implements StartResultMethod {
         this.control = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ConfirmEmergencyCall_StartResult confirmEmergencyCall_StartResult = (ConfirmEmergencyCall_StartResult)bAPEntity;
         return this.control == confirmEmergencyCall_StartResult.control;
@@ -42,7 +40,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ConfirmEmergencyCall_StartResult:");
@@ -63,18 +60,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.control);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.control = bitStream.popFrontByte();
     }
@@ -83,7 +77,6 @@ implements StartResultMethod {
         return 28;
     }
 
-    @Override
     public int getFunctionId() {
         return ConfirmEmergencyCall_StartResult.functionId();
     }

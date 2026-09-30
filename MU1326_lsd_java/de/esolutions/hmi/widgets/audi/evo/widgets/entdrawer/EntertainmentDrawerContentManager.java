@@ -8,67 +8,66 @@ import de.audi.atip.hmi.model.list.GuiListRow;
 import de.audi.atip.hmi.model.list.TiledListModelGUI;
 import de.audi.atip.hmi.modelaccess.ListModelGUI;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$Source;
 import de.esolutions.hmi.widgets.audi.base.IDrawerManager;
 import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 
 public class EntertainmentDrawerContentManager
 implements WidgetConstants {
-    private static final int ID_REBASE;
-    private static final int RET_IDX_CONTENT;
-    private static final int RET_IDX_PRIO_POS;
-    private static final int NO_RET_IDX;
-    public static final int CONTENT_IDX_RADIO;
-    public static final int CONTENT_IDX_TA;
-    public static final int CONTENT_IDX_SDS;
-    public static final int CONTENT_IDX_NAVI;
-    public static final int CONTENT_IDX_PHONE;
-    public static final int CONTENT_IDX_APS;
-    public static final int CONTENT_IDX_MEDIA;
-    public static final int CONTENT_IDX_TV;
-    public static final int CONTENT_IDX_SDS_ADB;
-    public static final int CONTENT_IDX_SDS_MEDIA;
-    public static final int CONTENT_IDX_SDS_MESSAGING;
-    public static final int CONTENT_IDX_SDS_NAVI_ASIA_CNTW;
-    public static final int CONTENT_IDX_SDS_NAVI;
-    public static final int CONTENT_IDX_SDS_NAVI_POI_ONLINE;
-    public static final int CONTENT_IDX_SDS_PHONE;
-    public static final int CONTENT_IDX_SDS_RHMI;
-    public static final int CONTENT_IDX_SDS_TUNER;
-    public static final int CONTENT_IDX_SDS_NAVI_ASIA_JP;
-    public static final int CONTENT_IDX_SDS_NAVI_ASIA_KR;
-    public static final int CONTENT_IDX_SDIS;
-    public static final int CONTENT_IDX_TERMINAL_MODE;
-    public static final int CONTENT_IDX_TERMINAL_MODE_PHONE;
-    public static final int CONTENT_ID_TUNER;
-    public static final int CONTENT_ID_TA;
-    public static final int CONTENT_ID_SDS;
-    public static final int CONTENT_ID_NAVI;
-    public static final int CONTENT_ID_PHONE_NO_CALL;
-    public static final int CONTENT_ID_PHONE_ACTIVE_CALL;
-    public static final int CONTENT_ID_PHONE_INCOMING_CALL;
-    public static final int CONTENT_ID_APS;
-    public static final int CONTENT_ID_APS_REDUCED;
-    public static final int CONTENT_ID_MEDIA;
-    public static final int CONTENT_ID_TV;
-    public static final int CONTENT_ID_SDS_ADB;
-    public static final int CONTENT_ID_SDS_MEDIA;
-    public static final int CONTENT_ID_SDS_MESSAGING;
-    public static final int CONTENT_ID_SDS_NAVI_ASIA_CNTW;
-    public static final int CONTENT_ID_SDS_NAVI;
-    public static final int CONTENT_ID_SDS_NAVI_POI_ONLINE;
-    public static final int CONTENT_ID_SDS_PHONE;
-    public static final int CONTENT_ID_SDS_RHMI;
-    public static final int CONTENT_ID_SDS_TUNER;
-    public static final int CONTENT_ID_SDS_NAVI_ASIA_JP;
-    public static final int CONTENT_ID_SDS_NAVI_ASIA_KR;
-    public static final int CONTENT_ID_SDIS;
-    public static final int CONTENT_ID_TERMINAL_MODE;
-    public static final int CONTENT_ID_TERMINAL_MODE_PHONE;
-    public static final int CONTENT_ID_DEFAULT_AUDIO_SOURCE;
-    private static final int[] PRIO_2_CONTENT_LUT;
-    public static final AudioDrawerContext$Source[] AUDIO_CONTENT_TO_SOURCES_LUT;
-    private static int prevValue;
+    private static final int ID_REBASE = 1000;
+    private static final int RET_IDX_CONTENT = 0;
+    private static final int RET_IDX_PRIO_POS = 1;
+    private static final int NO_RET_IDX = 2;
+    public static final int CONTENT_IDX_RADIO = 0;
+    public static final int CONTENT_IDX_TA = 1;
+    public static final int CONTENT_IDX_SDS = 2;
+    public static final int CONTENT_IDX_NAVI = 3;
+    public static final int CONTENT_IDX_PHONE = 4;
+    public static final int CONTENT_IDX_APS = 5;
+    public static final int CONTENT_IDX_MEDIA = 6;
+    public static final int CONTENT_IDX_TV = 7;
+    public static final int CONTENT_IDX_SDS_ADB = 8;
+    public static final int CONTENT_IDX_SDS_MEDIA = 9;
+    public static final int CONTENT_IDX_SDS_MESSAGING = 10;
+    public static final int CONTENT_IDX_SDS_NAVI_ASIA_CNTW = 11;
+    public static final int CONTENT_IDX_SDS_NAVI = 12;
+    public static final int CONTENT_IDX_SDS_NAVI_POI_ONLINE = 13;
+    public static final int CONTENT_IDX_SDS_PHONE = 14;
+    public static final int CONTENT_IDX_SDS_RHMI = 15;
+    public static final int CONTENT_IDX_SDS_TUNER = 16;
+    public static final int CONTENT_IDX_SDS_NAVI_ASIA_JP = 17;
+    public static final int CONTENT_IDX_SDS_NAVI_ASIA_KR = 18;
+    public static final int CONTENT_IDX_SDIS = 19;
+    public static final int CONTENT_IDX_TERMINAL_MODE = 20;
+    public static final int CONTENT_IDX_TERMINAL_MODE_PHONE = 21;
+    public static final int CONTENT_ID_TUNER = 1001;
+    public static final int CONTENT_ID_TA = 2001;
+    public static final int CONTENT_ID_SDS = 3001;
+    public static final int CONTENT_ID_NAVI = 4001;
+    public static final int CONTENT_ID_PHONE_NO_CALL = 5001;
+    public static final int CONTENT_ID_PHONE_ACTIVE_CALL = 5002;
+    public static final int CONTENT_ID_PHONE_INCOMING_CALL = 5003;
+    public static final int CONTENT_ID_APS = 6001;
+    public static final int CONTENT_ID_APS_REDUCED = 6002;
+    public static final int CONTENT_ID_MEDIA = 7001;
+    public static final int CONTENT_ID_TV = 8001;
+    public static final int CONTENT_ID_SDS_ADB = 9001;
+    public static final int CONTENT_ID_SDS_MEDIA = 10001;
+    public static final int CONTENT_ID_SDS_MESSAGING = 11001;
+    public static final int CONTENT_ID_SDS_NAVI_ASIA_CNTW = 12001;
+    public static final int CONTENT_ID_SDS_NAVI = 13001;
+    public static final int CONTENT_ID_SDS_NAVI_POI_ONLINE = 14001;
+    public static final int CONTENT_ID_SDS_PHONE = 15001;
+    public static final int CONTENT_ID_SDS_RHMI = 16001;
+    public static final int CONTENT_ID_SDS_TUNER = 17001;
+    public static final int CONTENT_ID_SDS_NAVI_ASIA_JP = 18001;
+    public static final int CONTENT_ID_SDS_NAVI_ASIA_KR = 19001;
+    public static final int CONTENT_ID_SDIS = 20001;
+    public static final int CONTENT_ID_TERMINAL_MODE = 21001;
+    public static final int CONTENT_ID_TERMINAL_MODE_PHONE = 22001;
+    public static final int CONTENT_ID_DEFAULT_AUDIO_SOURCE = 9999;
+    private static final int[] PRIO_2_CONTENT_LUT = new int[]{5, 21, 4, 2, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 3, 1, 19, 6, 0, 7, 20, -1};
+    public static final AudioDrawerContext.Source[] AUDIO_CONTENT_TO_SOURCES_LUT = new AudioDrawerContext.Source[]{AudioDrawerContext.SOURCE_RADIO, AudioDrawerContext.SOURCE_TA, AudioDrawerContext.SOURCE_SDS_MAIN, AudioDrawerContext.SOURCE_NAVI, AudioDrawerContext.SOURCE_PHONE, AudioDrawerContext.SOURCE_MEDIA, AudioDrawerContext.SOURCE_APS, AudioDrawerContext.SOURCE_TV, AudioDrawerContext.SOURCE_SDS_ADB, AudioDrawerContext.SOURCE_SDS_MEDIA, AudioDrawerContext.SOURCE_SDS_MESSAGING, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_CNTW, AudioDrawerContext.SOURCE_SDS_NAVI, AudioDrawerContext.SOURCE_SDS_NAVI_POI_ONLINE, AudioDrawerContext.SOURCE_SDS_PHONE, AudioDrawerContext.SOURCE_SDS_RHMI, AudioDrawerContext.SOURCE_SDS_TUNER, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_JP, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_KR, AudioDrawerContext.SOURCE_SDIS, AudioDrawerContext.SOURCE_TERMINAL_MODE, AudioDrawerContext.SOURCE_TERMINAL_MODE_PHONE, AudioDrawerContext.SOURCE_NONE};
+    private static int prevValue = -1;
 
     private static int computeContentID(int[] nArray, int[] nArray2) {
         int n = -1;
@@ -197,12 +196,6 @@ implements WidgetConstants {
             }
         }
         return false;
-    }
-
-    static {
-        PRIO_2_CONTENT_LUT = new int[]{5, 21, 4, 2, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 3, 1, 19, 6, 0, 7, 20, -1};
-        AUDIO_CONTENT_TO_SOURCES_LUT = new AudioDrawerContext$Source[]{AudioDrawerContext.SOURCE_RADIO, AudioDrawerContext.SOURCE_TA, AudioDrawerContext.SOURCE_SDS_MAIN, AudioDrawerContext.SOURCE_NAVI, AudioDrawerContext.SOURCE_PHONE, AudioDrawerContext.SOURCE_MEDIA, AudioDrawerContext.SOURCE_APS, AudioDrawerContext.SOURCE_TV, AudioDrawerContext.SOURCE_SDS_ADB, AudioDrawerContext.SOURCE_SDS_MEDIA, AudioDrawerContext.SOURCE_SDS_MESSAGING, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_CNTW, AudioDrawerContext.SOURCE_SDS_NAVI, AudioDrawerContext.SOURCE_SDS_NAVI_POI_ONLINE, AudioDrawerContext.SOURCE_SDS_PHONE, AudioDrawerContext.SOURCE_SDS_RHMI, AudioDrawerContext.SOURCE_SDS_TUNER, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_JP, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_KR, AudioDrawerContext.SOURCE_SDIS, AudioDrawerContext.SOURCE_TERMINAL_MODE, AudioDrawerContext.SOURCE_TERMINAL_MODE_PHONE, AudioDrawerContext.SOURCE_NONE};
-        prevValue = -1;
     }
 }
 

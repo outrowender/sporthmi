@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public class AttributesBaseService
@@ -43,17 +42,14 @@ IAgentStateListener {
         Agent.registerAgentStateListener(this);
     }
 
-    @Override
     public void agentStarted(Agent agent) {
         agent.getAgentDiagnosis().registerInfoProvider(weakRefInfoProvider);
     }
 
-    @Override
     public void agentAboutToStop(Agent agent) {
         agent.getAgentDiagnosis().unregisterInfoProvider(weakRefInfoProvider);
     }
 
-    @Override
     public AgentInfoMap getAgentInfoMap() {
         AgentInfoMap agentInfoMap = new AgentInfoMap();
         AttributeServiceInfo attributeServiceInfo = new AttributeServiceInfo(0, this.notificationMap.size(), this.name, "Instance");
@@ -67,10 +63,10 @@ IAgentStateListener {
         Iterator iterator = set.iterator();
         ArrayList arrayList = new ArrayList();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            BitSet bitSet = (BitSet)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            BitSet bitSet = (BitSet)entry.getValue();
             if (!bitSet.get(n2)) continue;
-            arrayList.add(map$Entry.getKey());
+            arrayList.add(entry.getKey());
         }
         return arrayList;
     }
@@ -178,7 +174,6 @@ IAgentStateListener {
         }
     }
 
-    @Override
     public synchronized void proxyStateChanged(Proxy proxy, int n) {
         IProxyFrontend iProxyFrontend;
         if ((n == 2 || n == 3) && (iProxyFrontend = this.findReplyByProxy(proxy)) != null) {

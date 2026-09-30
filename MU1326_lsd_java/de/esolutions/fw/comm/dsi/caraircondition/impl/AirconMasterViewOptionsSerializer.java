@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconSteeringWheelHeaterV
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconMasterConfiguration;
 import org.dsi.ifc.caraircondition.AirconMasterViewOptions;
 import org.dsi.ifc.caraircondition.AirconSteeringWheelHeaterViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class AirconMasterViewOptionsSerializer {
-    public static void putOptionalAirconMasterViewOptions(ISerializer iSerializer, AirconMasterViewOptions airconMasterViewOptions) {
+    public static void putOptionalAirconMasterViewOptions(ISerializer iSerializer, AirconMasterViewOptions airconMasterViewOptions) throws SerializerException {
         boolean bl = airconMasterViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -87,7 +88,7 @@ public class AirconMasterViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalAirconMasterViewOptionsVarArray(ISerializer iSerializer, AirconMasterViewOptions[] airconMasterViewOptionsArray) {
+    public static void putOptionalAirconMasterViewOptionsVarArray(ISerializer iSerializer, AirconMasterViewOptions[] airconMasterViewOptionsArray) throws SerializerException {
         boolean bl = airconMasterViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -98,7 +99,7 @@ public class AirconMasterViewOptionsSerializer {
         }
     }
 
-    public static AirconMasterViewOptions getOptionalAirconMasterViewOptions(IDeserializer iDeserializer) {
+    public static AirconMasterViewOptions getOptionalAirconMasterViewOptions(IDeserializer iDeserializer) throws SerializerException {
         AirconMasterViewOptions airconMasterViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -173,7 +174,7 @@ public class AirconMasterViewOptionsSerializer {
         return airconMasterViewOptions;
     }
 
-    public static AirconMasterViewOptions[] getOptionalAirconMasterViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static AirconMasterViewOptions[] getOptionalAirconMasterViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconMasterViewOptions[] airconMasterViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

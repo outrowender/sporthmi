@@ -19,14 +19,14 @@ public class CountDownLatch {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void await() {
+    public void await() throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
         CountDownLatch countDownLatch = this;
         synchronized (countDownLatch) {
             while (this.count_ > 0) {
-                super.wait();
+                this.wait();
             }
         }
     }
@@ -34,7 +34,7 @@ public class CountDownLatch {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public boolean await(long l, TimeUnit timeUnit) {
+    public boolean await(long l, TimeUnit timeUnit) throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
@@ -62,7 +62,7 @@ public class CountDownLatch {
             return;
         }
         if (--this.count_ == 0) {
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
@@ -71,7 +71,7 @@ public class CountDownLatch {
     }
 
     public String toString() {
-        return new StringBuffer().append(super.toString()).append("[Count = ").append(this.getCount()).append("]").toString();
+        return super.toString() + "[Count = " + this.getCount() + "]";
     }
 }
 

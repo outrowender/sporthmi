@@ -7,10 +7,8 @@ import de.esolutions.fw.dsi.diag.IAdapterErrorLog;
 import de.esolutions.fw.dsi.diag.IAdapterSnapshot;
 
 public interface IAdapterDiagnosis {
-    default public IAdapterSnapshot createSnapshot() {
-    }
+    public IAdapterSnapshot createSnapshot();
 
-    default public IAdapterErrorLog getErrorLog() {
-    }
+    public IAdapterErrorLog getErrorLog();
 }
 

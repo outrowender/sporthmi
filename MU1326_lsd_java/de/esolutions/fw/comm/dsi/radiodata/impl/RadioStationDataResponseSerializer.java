@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radiodata.impl;
 import de.esolutions.fw.comm.dsi.radiodata.impl.RadioStationDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radiodata.RadioStationData;
 import org.dsi.ifc.radiodata.RadioStationDataResponse;
 
 public class RadioStationDataResponseSerializer {
-    public static void putOptionalRadioStationDataResponse(ISerializer iSerializer, RadioStationDataResponse radioStationDataResponse) {
+    public static void putOptionalRadioStationDataResponse(ISerializer iSerializer, RadioStationDataResponse radioStationDataResponse) throws SerializerException {
         boolean bl = radioStationDataResponse == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RadioStationDataResponseSerializer {
         }
     }
 
-    public static void putOptionalRadioStationDataResponseVarArray(ISerializer iSerializer, RadioStationDataResponse[] radioStationDataResponseArray) {
+    public static void putOptionalRadioStationDataResponseVarArray(ISerializer iSerializer, RadioStationDataResponse[] radioStationDataResponseArray) throws SerializerException {
         boolean bl = radioStationDataResponseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RadioStationDataResponseSerializer {
         }
     }
 
-    public static RadioStationDataResponse getOptionalRadioStationDataResponse(IDeserializer iDeserializer) {
+    public static RadioStationDataResponse getOptionalRadioStationDataResponse(IDeserializer iDeserializer) throws SerializerException {
         RadioStationDataResponse radioStationDataResponse = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class RadioStationDataResponseSerializer {
         return radioStationDataResponse;
     }
 
-    public static RadioStationDataResponse[] getOptionalRadioStationDataResponseVarArray(IDeserializer iDeserializer) {
+    public static RadioStationDataResponse[] getOptionalRadioStationDataResponseVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStationDataResponse[] radioStationDataResponseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -4,26 +4,22 @@
 package de.esolutions.fw.comm.asi.organizer.vcardexchange.impl;
 
 import de.esolutions.fw.comm.asi.organizer.vcardexchange.VCardParserReply;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$1;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$2;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$3;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$4;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$5;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$6;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$7;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$8;
-import de.esolutions.fw.comm.asi.organizer.vcardexchange.impl.VCardParserReplyProxy$9;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.organizer.impl.AdbEntrySerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public class VCardParserReplyProxy
 implements VCardParserReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.organizer.vcardexchange.VCardParser");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public VCardParserReplyProxy() {
@@ -31,63 +27,115 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void parseVCardResult(int n, AdbEntry adbEntry, int n2, int n3) {
-        VCardParserReplyProxy$1 vCardParserReplyProxy$1 = new VCardParserReplyProxy$1(this, n, adbEntry, n2, n3);
-        this.proxy.remoteCallMethod((short)27, vCardParserReplyProxy$1);
+    public void parseVCardResult(final int n, final AdbEntry adbEntry, final int n2, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                AdbEntrySerializer.putOptionalAdbEntry(iSerializer, adbEntry);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void parseVCardDirectoryResult(int n, AdbEntry[] adbEntryArray, int n2, int n3) {
-        VCardParserReplyProxy$2 vCardParserReplyProxy$2 = new VCardParserReplyProxy$2(this, n, adbEntryArray, n2, n3);
-        this.proxy.remoteCallMethod((short)26, vCardParserReplyProxy$2);
+    public void parseVCardDirectoryResult(final int n, final AdbEntry[] adbEntryArray, final int n2, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                AdbEntrySerializer.putOptionalAdbEntryVarArray(iSerializer, adbEntryArray);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void exportVCardResult(int n, String string, int n2) {
-        VCardParserReplyProxy$3 vCardParserReplyProxy$3 = new VCardParserReplyProxy$3(this, n, string, n2);
-        this.proxy.remoteCallMethod((short)4, vCardParserReplyProxy$3);
+    public void exportVCardResult(final int n, final String string, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 
-    @Override
-    public void exportSmallVCardResult(int n, String string, int n2) {
-        VCardParserReplyProxy$4 vCardParserReplyProxy$4 = new VCardParserReplyProxy$4(this, n, string, n2);
-        this.proxy.remoteCallMethod((short)2, vCardParserReplyProxy$4);
+    public void exportSmallVCardResult(final int n, final String string, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void parsingFinished(int n) {
-        VCardParserReplyProxy$5 vCardParserReplyProxy$5 = new VCardParserReplyProxy$5(this, n);
-        this.proxy.remoteCallMethod((short)12, vCardParserReplyProxy$5);
+    public void parsingFinished(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void exportFinished(int n, int n2) {
-        VCardParserReplyProxy$6 vCardParserReplyProxy$6 = new VCardParserReplyProxy$6(this, n, n2);
-        this.proxy.remoteCallMethod((short)22, vCardParserReplyProxy$6);
+    public void exportFinished(final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 
-    @Override
-    public void smallExportFinished(int n, long[] lArray, int n2, String string, int n3) {
-        VCardParserReplyProxy$7 vCardParserReplyProxy$7 = new VCardParserReplyProxy$7(this, n, lArray, n2, string, n3);
-        this.proxy.remoteCallMethod((short)17, vCardParserReplyProxy$7);
+    public void smallExportFinished(final int n, final long[] lArray, final int n2, final String string, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                iSerializer.putOptionalInt64VarArray(lArray);
+                iSerializer.putInt32(n2);
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void setBinaryContentTempPathResult(int n, String string) {
-        VCardParserReplyProxy$8 vCardParserReplyProxy$8 = new VCardParserReplyProxy$8(this, n, string);
-        this.proxy.remoteCallMethod((short)16, vCardParserReplyProxy$8);
+    public void setBinaryContentTempPathResult(final int n, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void setBinaryContentQuotaPerFileResult(int n, long l) {
-        VCardParserReplyProxy$9 vCardParserReplyProxy$9 = new VCardParserReplyProxy$9(this, n, l);
-        this.proxy.remoteCallMethod((short)14, vCardParserReplyProxy$9);
+    public void setBinaryContentQuotaPerFileResult(final int n, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                iSerializer.putInt64(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 }
 

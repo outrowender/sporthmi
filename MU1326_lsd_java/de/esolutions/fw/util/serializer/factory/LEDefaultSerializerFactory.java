@@ -15,22 +15,18 @@ import de.esolutions.fw.util.serializer.stream.LEDefaultSerializer;
 
 public class LEDefaultSerializerFactory
 implements ISerializerFactory {
-    @Override
     public IStreamDeserializer createStreamDeserializer() {
         return new LEDefaultDeserializer();
     }
 
-    @Override
     public IStreamSerializer createStreamSerializer() {
         return new LEDefaultSerializer();
     }
 
-    @Override
     public ISerializer createExtendedSerializer() {
         return new DefaultExtendedSerializer(this.createStreamSerializer());
     }
 
-    @Override
     public IDeserializer createExtendedDeserializer() {
         return new DefaultExtendedDeserializer(this.createStreamDeserializer());
     }

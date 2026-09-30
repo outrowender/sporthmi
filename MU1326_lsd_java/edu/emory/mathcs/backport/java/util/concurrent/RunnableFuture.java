@@ -8,8 +8,6 @@ import edu.emory.mathcs.backport.java.util.concurrent.Future;
 public interface RunnableFuture
 extends Runnable,
 Future {
-    @Override
-    default public void run() {
-    }
+    public void run();
 }
 

@@ -7,41 +7,76 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.commons.jexl.Expression;
+import org.apache.commons.jexl.ExpressionFactory;
 import org.apache.commons.scxml.Context;
 import org.apache.commons.scxml.Evaluator;
 import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.env.jexl.JexlContext;
-import org.apache.commons.scxml.env.jexl.JexlEvaluator$1;
-import org.apache.commons.scxml.env.jexl.JexlEvaluator$2;
-import org.apache.commons.scxml.env.jexl.JexlEvaluator$3;
-import org.apache.commons.scxml.env.jexl.JexlEvaluator$ExpressionBuilder;
 import org.w3c.dom.Node;
 
 public class JexlEvaluator
 implements Evaluator,
 Serializable {
-    private static final long serialVersionUID;
-    private static final String ERR_CTX_TYPE;
-    private static String inFct;
-    private static String dataFct;
-    private static String dataFctNode;
-    private static String dataFctNodeList;
-    private static String dataAsStringFct;
-    private static final JexlEvaluator$ExpressionBuilder EXPR_EVAL;
-    private static final JexlEvaluator$ExpressionBuilder EXPR_EVAL_COND;
-    private static final JexlEvaluator$ExpressionBuilder EXPR_EVAL_LOCATION;
+    private static final long serialVersionUID = 1L;
+    private static final String ERR_CTX_TYPE = "Error evaluating JEXL expression, Context must be a org.apache.commons.jexl.JexlContext";
+    private static String inFct = "In(";
+    private static String dataFct = "Data(";
+    private static String dataFctNode = "DataNode(";
+    private static String dataFctNodeList = "DataNodeList(";
+    private static String dataAsStringFct = "DataAsString(";
+    private static final ExpressionBuilder EXPR_EVAL = new ExpressionBuilder(){
+
+        public Expression build(String string) throws SCXMLExpressionException {
+            String string2 = JexlEvaluator.replaceAll(string, inFct, "_builtin.isMember(_ALL_STATES, ", false);
+            string2 = JexlEvaluator.replaceAll(string2, dataFct, "_builtin.data(_ALL_NAMESPACES, ", false);
+            string2 = JexlEvaluator.replaceCommonBuiltIns(string2);
+            try {
+                return ExpressionFactory.createExpression(string2);
+            }
+            catch (Exception exception) {
+                throw new SCXMLExpressionException(exception);
+            }
+        }
+    };
+    private static final ExpressionBuilder EXPR_EVAL_COND = new ExpressionBuilder(){
+
+        public Expression build(String string) throws SCXMLExpressionException {
+            String string2 = JexlEvaluator.replaceAll(string, inFct, "_builtin.isMember(_ALL_STATES, ", false);
+            string2 = JexlEvaluator.replaceAll(string2, dataFct, "_builtin.data(_ALL_NAMESPACES, ", false);
+            string2 = JexlEvaluator.replaceCommonBuiltIns(string2);
+            try {
+                return ExpressionFactory.createExpression(string2);
+            }
+            catch (Exception exception) {
+                throw new SCXMLExpressionException(exception);
+            }
+        }
+    };
+    private static final ExpressionBuilder EXPR_EVAL_LOCATION = new ExpressionBuilder(){
+
+        public Expression build(String string) throws SCXMLExpressionException {
+            String string2 = JexlEvaluator.replaceAll(string, inFct, "_builtin.isMember(_ALL_STATES, ", false);
+            string2 = JexlEvaluator.replaceAll(string2, dataFct, "_builtin.dataNode(_ALL_NAMESPACES, ", true);
+            string2 = JexlEvaluator.replaceCommonBuiltIns(string2);
+            try {
+                return ExpressionFactory.createExpression(string2);
+            }
+            catch (Exception exception) {
+                throw new SCXMLExpressionException(exception);
+            }
+        }
+    };
     static /* synthetic */ Class class$java$lang$Boolean;
     static /* synthetic */ Class class$org$w3c$dom$Node;
 
     JexlEvaluator() {
     }
 
-    protected Expression buildExpression(String string, JexlEvaluator$ExpressionBuilder jexlEvaluator$ExpressionBuilder) {
-        return jexlEvaluator$ExpressionBuilder.build(string);
+    protected Expression buildExpression(String string, ExpressionBuilder expressionBuilder) throws SCXMLExpressionException {
+        return expressionBuilder.build(string);
     }
 
-    @Override
-    public final Object eval(Context context, String string) {
+    public final Object eval(Context context, String string) throws SCXMLExpressionException {
         return this.eval(context, null, string, this.buildExpression(string, EXPR_EVAL));
     }
 
@@ -53,24 +88,21 @@ Serializable {
         return string2;
     }
 
-    @Override
-    public final Boolean evalCond(Context context, String string) {
+    public final Boolean evalCond(Context context, String string) throws SCXMLExpressionException {
         return (Boolean)this.eval(context, class$java$lang$Boolean == null ? (class$java$lang$Boolean = JexlEvaluator.class$("java.lang.Boolean")) : class$java$lang$Boolean, string, this.buildExpression(string, EXPR_EVAL_COND));
     }
 
-    @Override
-    public final Node evalLocation(Context context, String string) {
+    public final Node evalLocation(Context context, String string) throws SCXMLExpressionException {
         return (Node)this.eval(context, class$org$w3c$dom$Node == null ? (class$org$w3c$dom$Node = JexlEvaluator.class$("org.w3c.dom.Node")) : class$org$w3c$dom$Node, string, this.buildExpression(string, EXPR_EVAL_LOCATION));
     }
 
-    @Override
     public Context newContext(Context context) {
         return new JexlContext(context);
     }
 
-    protected final Object eval(Context context, Class clazz, String string, Expression expression) {
+    protected final Object eval(Context context, Class clazz, String string, Expression expression) throws SCXMLExpressionException {
         if (!(context instanceof JexlContext)) {
-            throw new SCXMLExpressionException("Error evaluating JEXL expression, Context must be a org.apache.commons.jexl.JexlContext");
+            throw new SCXMLExpressionException(ERR_CTX_TYPE);
         }
         if (expression == null) {
             return null;
@@ -114,18 +146,6 @@ Serializable {
         return stringBuffer.toString();
     }
 
-    static /* synthetic */ String access$000() {
-        return inFct;
-    }
-
-    static /* synthetic */ String access$100() {
-        return dataFct;
-    }
-
-    static /* synthetic */ String access$200(String string) {
-        return JexlEvaluator.replaceCommonBuiltIns(string);
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
@@ -135,15 +155,8 @@ Serializable {
         }
     }
 
-    static {
-        inFct = "In(";
-        dataFct = "Data(";
-        dataFctNode = "DataNode(";
-        dataFctNodeList = "DataNodeList(";
-        dataAsStringFct = "DataAsString(";
-        EXPR_EVAL = new JexlEvaluator$1();
-        EXPR_EVAL_COND = new JexlEvaluator$2();
-        EXPR_EVAL_LOCATION = new JexlEvaluator$3();
+    static interface ExpressionBuilder {
+        public Expression build(String var1) throws SCXMLExpressionException;
     }
 }
 

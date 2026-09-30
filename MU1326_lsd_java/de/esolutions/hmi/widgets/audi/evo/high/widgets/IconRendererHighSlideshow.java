@@ -20,7 +20,6 @@ extends IconRendererHighAsync {
         this.lastControllerWidth = iconController.getWidth();
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         super.renderNode(redrawContextHigh);
         if (this.node != null) {
@@ -28,7 +27,6 @@ extends IconRendererHighAsync {
         }
     }
 
-    @Override
     protected void calculatePosition(float[] fArray, RedrawContextHigh redrawContextHigh) {
         float f2 = IconRendererHighSlideshow.calculateNodeOffset(this.controller.getWidth(), this.node.getUnscaledWidth() * fArray[0], this.alignmentHoriz);
         float f3 = IconRendererHighSlideshow.calculateNodeOffset(this.controller.getHeight(), this.node.getUnscaledHeight() * fArray[1], this.alignmentVert);
@@ -43,7 +41,6 @@ extends IconRendererHighAsync {
         this.lastNodePosition = this.node.getX() + redrawContextHigh.parentNode.getX();
     }
 
-    @Override
     public void resourceLoadedCallback(int n, Object object, ATIPEvent aTIPEvent) {
         super.resourceLoadedCallback(n, object, aTIPEvent);
         AbstractWidget abstractWidget = this.controller.getParent();

@@ -23,10 +23,9 @@ extends AbstractNotification {
     }
 
     public String toString() {
-        return new StringBuffer().append("[ServiceListener:service=").append(this.service.getInstanceID()).append(",stubCount=").append(this.stubCount).append("]").toString();
+        return "[ServiceListener:service=" + this.service.getInstanceID() + ",stubCount=" + this.stubCount + "]";
     }
 
-    @Override
     public void performNotification() {
         CommAgentTracing.NOTIFICATION.log((short)1, "{ ServiceListenerNotification: service=%1 stubCount=%2", this.service.getInstanceID(), (Object)new Integer(this.stubCount));
         ListIterator listIterator = this.listeners.listIterator();

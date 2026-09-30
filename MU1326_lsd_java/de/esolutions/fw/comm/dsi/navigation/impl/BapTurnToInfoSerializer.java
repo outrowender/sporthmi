@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.BapTurnToInfo;
 
 public class BapTurnToInfoSerializer {
-    public static void putOptionalBapTurnToInfo(ISerializer iSerializer, BapTurnToInfo bapTurnToInfo) {
+    public static void putOptionalBapTurnToInfo(ISerializer iSerializer, BapTurnToInfo bapTurnToInfo) throws SerializerException {
         boolean bl = bapTurnToInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BapTurnToInfoSerializer {
         }
     }
 
-    public static void putOptionalBapTurnToInfoVarArray(ISerializer iSerializer, BapTurnToInfo[] bapTurnToInfoArray) {
+    public static void putOptionalBapTurnToInfoVarArray(ISerializer iSerializer, BapTurnToInfo[] bapTurnToInfoArray) throws SerializerException {
         boolean bl = bapTurnToInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BapTurnToInfoSerializer {
         }
     }
 
-    public static BapTurnToInfo getOptionalBapTurnToInfo(IDeserializer iDeserializer) {
+    public static BapTurnToInfo getOptionalBapTurnToInfo(IDeserializer iDeserializer) throws SerializerException {
         BapTurnToInfo bapTurnToInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BapTurnToInfoSerializer {
         return bapTurnToInfo;
     }
 
-    public static BapTurnToInfo[] getOptionalBapTurnToInfoVarArray(IDeserializer iDeserializer) {
+    public static BapTurnToInfo[] getOptionalBapTurnToInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         BapTurnToInfo[] bapTurnToInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

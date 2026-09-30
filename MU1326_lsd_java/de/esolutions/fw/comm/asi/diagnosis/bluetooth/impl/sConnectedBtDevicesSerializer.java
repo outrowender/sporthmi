@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sConnectedBtDevices;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sConnectedBtDevicesSerializer {
-    public static void putOptionalsConnectedBtDevices(ISerializer iSerializer, sConnectedBtDevices sConnectedBtDevices2) {
+    public static void putOptionalsConnectedBtDevices(ISerializer iSerializer, sConnectedBtDevices sConnectedBtDevices2) throws SerializerException {
         boolean bl = sConnectedBtDevices2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sConnectedBtDevicesSerializer {
         }
     }
 
-    public static void putOptionalsConnectedBtDevicesVarArray(ISerializer iSerializer, sConnectedBtDevices[] sConnectedBtDevicesArray) {
+    public static void putOptionalsConnectedBtDevicesVarArray(ISerializer iSerializer, sConnectedBtDevices[] sConnectedBtDevicesArray) throws SerializerException {
         boolean bl = sConnectedBtDevicesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sConnectedBtDevicesSerializer {
         }
     }
 
-    public static sConnectedBtDevices getOptionalsConnectedBtDevices(IDeserializer iDeserializer) {
+    public static sConnectedBtDevices getOptionalsConnectedBtDevices(IDeserializer iDeserializer) throws SerializerException {
         sConnectedBtDevices sConnectedBtDevices2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sConnectedBtDevicesSerializer {
         return sConnectedBtDevices2;
     }
 
-    public static sConnectedBtDevices[] getOptionalsConnectedBtDevicesVarArray(IDeserializer iDeserializer) {
+    public static sConnectedBtDevices[] getOptionalsConnectedBtDevicesVarArray(IDeserializer iDeserializer) throws SerializerException {
         sConnectedBtDevices[] sConnectedBtDevicesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

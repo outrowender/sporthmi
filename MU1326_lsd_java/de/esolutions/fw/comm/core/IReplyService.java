@@ -8,7 +8,6 @@ import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IReplyService
 extends IService {
-    default public void setInstanceID(ServiceInstanceID serviceInstanceID) {
-    }
+    public void setInstanceID(ServiceInstanceID var1);
 }
 

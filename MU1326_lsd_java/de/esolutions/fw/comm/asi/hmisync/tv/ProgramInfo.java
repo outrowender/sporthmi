@@ -82,7 +82,7 @@ public class ProgramInfo {
     }
 
     public String toString() {
-        return new StringBuffer("ProgramInfo{").append("name=").append(this.name).append(", startHour=").append(this.startHour).append(", startMinute=").append(this.startMinute).append(", startSecond=").append(this.startSecond).append(", endHour=").append(this.endHour).append(", endMinute=").append(this.endMinute).append(", endSecond=").append(this.endSecond).append("}").toString();
+        return "ProgramInfo{" + "name=" + this.name + ", startHour=" + this.startHour + ", startMinute=" + this.startMinute + ", startSecond=" + this.startSecond + ", endHour=" + this.endHour + ", endMinute=" + this.endMinute + ", endSecond=" + this.endSecond + "}";
     }
 }
 

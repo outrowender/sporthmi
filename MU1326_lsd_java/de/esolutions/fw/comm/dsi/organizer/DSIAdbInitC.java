@@ -3,65 +3,47 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAdbInitC {
-    default public void setDefaultPublicProfileVisibility(boolean bl) {
-    }
+    public void setDefaultPublicProfileVisibility(boolean var1) throws MethodException;
 
-    default public void setMaxLocalEntries(int n) {
-    }
+    public void setMaxLocalEntries(int var1) throws MethodException;
 
-    default public void setMaxPhoneEntries(int n) {
-    }
+    public void setMaxPhoneEntries(int var1) throws MethodException;
 
-    default public void setMaxTopDestEntries(int n) {
-    }
+    public void setMaxTopDestEntries(int var1) throws MethodException;
 
-    default public void setMaxSpeedDialEntries(int n) {
-    }
+    public void setMaxSpeedDialEntries(int var1) throws MethodException;
 
-    default public void setNumericalSpellerEnabled(boolean bl) {
-    }
+    public void setNumericalSpellerEnabled(boolean var1) throws MethodException;
 
-    default public void setAutoProfileAllocation(boolean bl) {
-    }
+    public void setAutoProfileAllocation(boolean var1) throws MethodException;
 
-    default public void finalizeConfiguration() {
-    }
+    public void finalizeConfiguration() throws MethodException;
 
-    default public void setSpeedDialType(int n) {
-    }
+    public void setSpeedDialType(int var1) throws MethodException;
 
-    default public void setProfileHandlingType(int n) {
-    }
+    public void setProfileHandlingType(int var1) throws MethodException;
 
-    default public void setDefaultSortOrder(int n) {
-    }
+    public void setDefaultSortOrder(int var1) throws MethodException;
 
-    default public void setOnlineDestinationEnabled(boolean bl) {
-    }
+    public void setOnlineDestinationEnabled(boolean var1) throws MethodException;
 
-    default public void setDefaultSOSButton(boolean bl) {
-    }
+    public void setDefaultSOSButton(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

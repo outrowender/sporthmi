@@ -41,70 +41,48 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionWidgetRenderer
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 
 public interface IRendererFactory {
-    default public int getUppercaseFontHeight(IRenderer iRenderer, int n) {
-    }
+    public int getUppercaseFontHeight(IRenderer var1, int var2);
 
-    default public LabelRenderer createLabelRenderer(LabelController labelController) {
-    }
+    public LabelRenderer createLabelRenderer(LabelController var1);
 
-    default public LabelRenderer createMultiLineLabelRenderer(LabelController labelController, int n) {
-    }
+    public LabelRenderer createMultiLineLabelRenderer(LabelController var1, int var2);
 
-    default public IconRenderer createIconRenderer(IconController iconController, int n, int n2) {
-    }
+    public IconRenderer createIconRenderer(IconController var1, int var2, int var3);
 
-    default public IconRenderer createIconRenderer(IconController iconController) {
-    }
+    public IconRenderer createIconRenderer(IconController var1);
 
-    default public CheckboxRenderer createCheckboxRenderer(CheckboxController checkboxController) {
-    }
+    public CheckboxRenderer createCheckboxRenderer(CheckboxController var1);
 
-    default public RadioButtonRenderer createRadioButtonRenderer(RadioButtonController radioButtonController) {
-    }
+    public RadioButtonRenderer createRadioButtonRenderer(RadioButtonController var1);
 
-    default public RotaryRenderer createRotaryRenderer(RotaryController rotaryController) {
-    }
+    public RotaryRenderer createRotaryRenderer(RotaryController var1);
 
-    default public CompositeRenderer createCompositeRenderer(AbstractWidgetController abstractWidgetController) {
-    }
+    public CompositeRenderer createCompositeRenderer(AbstractWidgetController var1);
 
-    default public CursorRenderer createFocusCursorRenderer(CursorController cursorController) {
-    }
+    public CursorRenderer createFocusCursorRenderer(CursorController var1);
 
-    default public CursorRenderer createSelectionCursorRenderer(CursorController cursorController) {
-    }
+    public CursorRenderer createSelectionCursorRenderer(CursorController var1);
 
-    default public ScrollbarRenderer createScrollbarRenderer(ScrollbarController scrollbarController) {
-    }
+    public ScrollbarRenderer createScrollbarRenderer(ScrollbarController var1);
 
-    default public GlassplateRenderer createGlassplateRenderer(GlassplateController glassplateController) {
-    }
+    public GlassplateRenderer createGlassplateRenderer(GlassplateController var1);
 
-    default public ComboBoxRenderer createComboRenderer(ComboBoxController comboBoxController, IRenderer iRenderer) {
-    }
+    public ComboBoxRenderer createComboRenderer(ComboBoxController var1, IRenderer var2);
 
-    default public CompositeRenderer createMenuRenderer(MenuController menuController) {
-    }
+    public CompositeRenderer createMenuRenderer(MenuController var1);
 
-    default public ITimeDateSetttingsRenderer createInternalCursorWidgetRenderer(AbstractInternalCursorWidgetController abstractInternalCursorWidgetController, IRenderer iRenderer, int[] nArray) {
-    }
+    public ITimeDateSetttingsRenderer createInternalCursorWidgetRenderer(AbstractInternalCursorWidgetController var1, IRenderer var2, int[] var3);
 
-    default public FormfieldInputRenderer createFormfieldInputRenderer(FormfieldInputController formfieldInputController, boolean bl, boolean bl2) {
-    }
+    public FormfieldInputRenderer createFormfieldInputRenderer(FormfieldInputController var1, boolean var2, boolean var3);
 
-    default public ComboBoxBackgroundRenderer createComboBoxBackgroundRenderer(ComboBoxBackgroundController comboBoxBackgroundController) {
-    }
+    public ComboBoxBackgroundRenderer createComboBoxBackgroundRenderer(ComboBoxBackgroundController var1);
 
-    default public InstructionTextRenderer createInstructionTextRenderer(InstructionTextContoller instructionTextContoller) {
-    }
+    public InstructionTextRenderer createInstructionTextRenderer(InstructionTextContoller var1);
 
-    default public IFingerTraceRenderer createFingerTraceRenderer(FingerTraceController fingerTraceController) {
-    }
+    public IFingerTraceRenderer createFingerTraceRenderer(FingerTraceController var1);
 
-    default public IConversionWidgetRenderer createConversionLineRenderer(ConversionLineController conversionLineController, IRenderer iRenderer) {
-    }
+    public IConversionWidgetRenderer createConversionLineRenderer(ConversionLineController var1, IRenderer var2);
 
-    default public ISpellerRenderer createSpellerRendererEuropeHigh(SpellerController spellerController, SpellerController spellerController2) {
-    }
+    public ISpellerRenderer createSpellerRendererEuropeHigh(SpellerController var1, SpellerController var2);
 }
 

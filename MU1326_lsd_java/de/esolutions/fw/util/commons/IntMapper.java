@@ -6,7 +6,7 @@ package de.esolutions.fw.util.commons;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class IntMapper {
-    private static final boolean DEBUG;
+    private static final boolean DEBUG = false;
     private int[][] map;
     private int[] defValue;
     private String name;
@@ -34,14 +34,14 @@ public class IntMapper {
     }
 
     private final String instanceName() {
-        return new StringBuffer().append("IntMapper[").append(this.name).append("]").toString();
+        return "IntMapper[" + this.name + "]";
     }
 
-    public void set(int n, int n2) {
+    public void set(int n, int n2) throws IndexOutOfBoundsException {
         if (0 <= n && n < this.length) {
             this.map[n][1] = n2;
         } else if (this.hasDefault) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append(this.instanceName()).append(".set: Index ").append(n).append(" found as key, ignored").toString());
+            throw new IndexOutOfBoundsException(this.instanceName() + ".set: Index " + n + " found as key, ignored");
         }
     }
 
@@ -53,7 +53,7 @@ public class IntMapper {
         return false;
     }
 
-    public int getValue(int n) {
+    public int getValue(int n) throws IndexOutOfBoundsException {
         for (int i2 = 0; i2 < this.length; ++i2) {
             if (n != this.map[i2][0]) continue;
             return this.map[i2][1];
@@ -61,10 +61,10 @@ public class IntMapper {
         if (this.hasDefault) {
             return this.defValue[1];
         }
-        throw new IndexOutOfBoundsException(new StringBuffer().append(this.instanceName()).append(" Index ").append(n).append(" not in map").toString());
+        throw new IndexOutOfBoundsException(this.instanceName() + " Index " + n + " not in map");
     }
 
-    public int getKey(int n) {
+    public int getKey(int n) throws IndexOutOfBoundsException {
         for (int i2 = 0; i2 < this.length; ++i2) {
             if (n != this.map[i2][1]) continue;
             return this.map[i2][0];
@@ -72,7 +72,7 @@ public class IntMapper {
         if (this.hasDefault) {
             return this.defValue[1];
         }
-        throw new IndexOutOfBoundsException(new StringBuffer().append(this.instanceName()).append(" Value ").append(n).append(" not in map").toString());
+        throw new IndexOutOfBoundsException(this.instanceName() + " Value " + n + " not in map");
     }
 
     public final String toString() {

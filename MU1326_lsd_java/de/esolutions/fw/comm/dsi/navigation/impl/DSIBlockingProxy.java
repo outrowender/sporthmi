@@ -7,12 +7,14 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
 import de.esolutions.fw.comm.dsi.navigation.DSIBlocking;
 import de.esolutions.fw.comm.dsi.navigation.DSIBlockingC;
 import de.esolutions.fw.comm.dsi.navigation.DSIBlockingReply;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSIBlockingProxy$1;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSIBlockingProxy$2;
 import de.esolutions.fw.comm.dsi.navigation.impl.DSIBlockingReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
@@ -34,14 +36,18 @@ DSIBlockingC {
         return this.proxy;
     }
 
-    @Override
-    public void blockArea(NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
-        DSIBlockingProxy$1 dSIBlockingProxy$1 = new DSIBlockingProxy$1(this, navLocationWgs84, navLocationWgs842);
-        this.proxy.remoteCallMethod((short)1, dSIBlockingProxy$1);
+    public void blockArea(final NavLocationWgs84 navLocationWgs84, final NavLocationWgs84 navLocationWgs842) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs842);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void blockRouteSegments(long l, long l2) {
+    public void blockRouteSegments(long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -53,14 +59,17 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void blockRoadSegments(NavLocation navLocation) {
-        DSIBlockingProxy$2 dSIBlockingProxy$2 = new DSIBlockingProxy$2(this, navLocation);
-        this.proxy.remoteCallMethod((short)3, dSIBlockingProxy$2);
+    public void blockRoadSegments(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void blockRouteBasedOnLength(int n, int n2) {
+    public void blockRouteBasedOnLength(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -72,8 +81,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void persistBlock(long[] lArray) {
+    public void persistBlock(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -84,8 +92,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void deleteBlock(long[] lArray) {
+    public void deleteBlock(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -96,8 +103,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setBlockDescription(long[] lArray, String string) {
+    public void setBlockDescription(long[] lArray, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -109,8 +115,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void getBoundingRectangleOfBlocks(long[] lArray) {
+    public void getBoundingRectangleOfBlocks(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -121,8 +126,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -133,8 +137,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -145,13 +148,11 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)20, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -162,8 +163,7 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -174,13 +174,11 @@ DSIBlockingC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

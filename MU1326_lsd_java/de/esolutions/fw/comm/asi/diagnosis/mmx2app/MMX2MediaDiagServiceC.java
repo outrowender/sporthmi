@@ -16,57 +16,41 @@ import de.esolutions.fw.comm.asi.diagnosis.media.sMediaRegionCodes;
 import de.esolutions.fw.comm.asi.diagnosis.media.sMediaTypeOpticalDrive;
 import de.esolutions.fw.comm.asi.diagnosis.media.sPmlState;
 import de.esolutions.fw.comm.asi.diagnosis.media.sUsbOvercurrent;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2MediaDiagServiceC {
-    default public void responseErrorMedia(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorMedia(sClientResponseError var1) throws MethodException;
 
-    default public void responseSubsystemState(sSubsystemState sSubsystemState2) {
-    }
+    public void responseSubsystemState(sSubsystemState var1) throws MethodException;
 
-    default public void responseMediaDBVersion(sMediaDBVersion sMediaDBVersion2) {
-    }
+    public void responseMediaDBVersion(sMediaDBVersion var1) throws MethodException;
 
-    default public void responseActiveMediaSourceState(sActiveMediaSourceState sActiveMediaSourceState2) {
-    }
+    public void responseActiveMediaSourceState(sActiveMediaSourceState var1) throws MethodException;
 
-    default public void responseMediaRegionCodes(sMediaRegionCodes sMediaRegionCodes2) {
-    }
+    public void responseMediaRegionCodes(sMediaRegionCodes var1) throws MethodException;
 
-    default public void responseMediaTypeOpticalDrive(sMediaTypeOpticalDrive sMediaTypeOpticalDrive2) {
-    }
+    public void responseMediaTypeOpticalDrive(sMediaTypeOpticalDrive var1) throws MethodException;
 
-    default public void responseUsbOvercurrent(sUsbOvercurrent sUsbOvercurrent2) {
-    }
+    public void responseUsbOvercurrent(sUsbOvercurrent var1) throws MethodException;
 
-    default public void responsePmlState(sPmlState sPmlState2) {
-    }
+    public void responsePmlState(sPmlState var1) throws MethodException;
 
-    default public void responseSparePartNumberMediaDB(sSparePartNumber sSparePartNumber2) {
-    }
+    public void responseSparePartNumberMediaDB(sSparePartNumber var1) throws MethodException;
 
-    default public void responseApplicationSoftwareVersionNumberMediaDB(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) {
-    }
+    public void responseApplicationSoftwareVersionNumberMediaDB(sApplicationSoftwareVersionNumber var1) throws MethodException;
 
-    default public void responseSerialNumberMediaDB(sSerialNumber sSerialNumber2) {
-    }
+    public void responseSerialNumberMediaDB(sSerialNumber var1) throws MethodException;
 
-    default public void responseSystemNameMediaDB(sSystemName sSystemName2) {
-    }
+    public void responseSystemNameMediaDB(sSystemName var1) throws MethodException;
 
-    default public void responseStatusUSBCommunication(long l, int n) {
-    }
+    public void responseStatusUSBCommunication(long var1, int var3) throws MethodException;
 
-    default public void responseUSBHubIdentification(long l, short[] sArray) {
-    }
+    public void responseUSBHubIdentification(long var1, short[] var3) throws MethodException;
 
-    default public void responseDTCPEncryptionState(long l, sDTCPState[] sDTCPStateArray) {
-    }
+    public void responseDTCPEncryptionState(long var1, sDTCPState[] var3) throws MethodException;
 
-    default public void responseDTCPKeytypeMMX(long l, int n) {
-    }
+    public void responseDTCPKeytypeMMX(long var1, int var3) throws MethodException;
 
-    default public void responseDTCPSRMInfo(long l, short s, int n, int n2) {
-    }
+    public void responseDTCPSRMInfo(long var1, short var3, int var4, int var5) throws MethodException;
 }
 

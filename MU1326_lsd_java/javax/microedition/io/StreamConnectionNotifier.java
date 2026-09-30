@@ -3,12 +3,12 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
 import javax.microedition.io.Connection;
 import javax.microedition.io.StreamConnection;
 
 public interface StreamConnectionNotifier
 extends Connection {
-    default public StreamConnection acceptAndOpen() {
-    }
+    public StreamConnection acceptAndOpen() throws IOException;
 }
 

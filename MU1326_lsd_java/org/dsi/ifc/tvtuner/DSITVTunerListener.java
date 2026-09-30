@@ -12,82 +12,56 @@ import org.dsi.ifc.tvtuner.StartUpConfig;
 
 public interface DSITVTunerListener
 extends DSIListener {
-    default public void updateTunerState(int n, int n2) {
-    }
+    public void updateTunerState(int var1, int var2);
 
-    default public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) {
-    }
+    public void updateServiceList(ServiceInfo[] var1, int var2);
 
-    default public void updateSelectedService(ProgramInfo programInfo, int n) {
-    }
+    public void updateSelectedService(ProgramInfo var1, int var2);
 
-    default public void updateSelectedSource(int n, int n2) {
-    }
+    public void updateSelectedSource(int var1, int var2);
 
-    default public void updateTVNormArea(int n, int n2) {
-    }
+    public void updateTVNormArea(int var1, int var2);
 
-    default public void updateAudioChannel(int n, int n2) {
-    }
+    public void updateAudioChannel(int var1, int var2);
 
-    default public void updateMuteState(int n, int n2) {
-    }
+    public void updateMuteState(int var1, int var2);
 
-    default public void updateInfoTextState(String string, int n) {
-    }
+    public void updateInfoTextState(String var1, int var2);
 
-    default public void updateTerminalMode(int n, int n2, int n3) {
-    }
+    public void updateTerminalMode(int var1, int var2, int var3);
 
-    default public void updateServiceLinking(boolean bl, int n) {
-    }
+    public void updateServiceLinking(boolean var1, int var2);
 
-    default public void updateTVNormList(int[] nArray, int n) {
-    }
+    public void updateTVNormList(int[] var1, int var2);
 
-    default public void updateTVNormAreaSubList(int[] nArray, int n) {
-    }
+    public void updateTVNormAreaSubList(int[] var1, int var2);
 
-    default public void updateAVNorm(int n, int n2) {
-    }
+    public void updateAVNorm(int var1, int var2);
 
-    default public void updateEWSInfoList(EWSInfo[] eWSInfoArray, int n) {
-    }
+    public void updateEWSInfoList(EWSInfo[] var1, int var2);
 
-    default public void selectService(int n) {
-    }
+    public void selectService(int var1);
 
-    default public void selectNextService(int n) {
-    }
+    public void selectNextService(int var1);
 
-    default public void abortSeek(int n) {
-    }
+    public void abortSeek(int var1);
 
-    default public void switchSource(int n) {
-    }
+    public void switchSource(int var1);
 
-    default public void updateSubtitle(boolean bl, int n) {
-    }
+    public void updateSubtitle(boolean var1, int var2);
 
-    default public void updateLogoList(LogoInfo[] logoInfoArray, int n) {
-    }
+    public void updateLogoList(LogoInfo[] var1, int var2);
 
-    default public void updateCASInfo(boolean bl, String string, int n) {
-    }
+    public void updateCASInfo(boolean var1, String var2, int var3);
 
-    default public void updateTuneStatus(boolean bl, boolean bl2, boolean bl3, int n) {
-    }
+    public void updateTuneStatus(boolean var1, boolean var2, boolean var3, int var4);
 
-    default public void updateMessageService(int n, int n2) {
-    }
+    public void updateMessageService(int var1, int var2);
 
-    default public void updateStartUpMUConfig(StartUpConfig startUpConfig, int n) {
-    }
+    public void updateStartUpMUConfig(StartUpConfig var1, int var2);
 
-    default public void updateTMTVKeyPanel(short s, short s2, int n) {
-    }
+    public void updateTMTVKeyPanel(short var1, short var2, int var3);
 
-    default public void updateBrowserListSort(int n, int n2) {
-    }
+    public void updateBrowserListSort(int var1, int var2);
 }
 

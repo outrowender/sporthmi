@@ -3,43 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.organizer.DownloadInfo;
 
 public interface DSIAdbVCardExchangeReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "652febaf-81ba-5aba-890b-6fa0da6c390d";
+    public static final String IPL_COMM_INTERFACE_KEY = "8eb87df5-6b8c-54e8-9d1e-dbfd4bda2e56";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.31";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.31";
 
-    default public void updateExportCount(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateExportCount(DownloadInfo var1, int var2) throws MethodException;
 
-    default public void updateImportCount(DownloadInfo downloadInfo, int n) {
-    }
+    public void updateImportCount(DownloadInfo var1, int var2) throws MethodException;
 
-    default public void importVCardResult(int n, int n2, int n3, int n4) {
-    }
+    public void importVCardResult(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void exportVCardResult(int n, int n2, int n3, int n4) {
-    }
+    public void exportVCardResult(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void exportSpellerVCardResult(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void exportSpellerVCardResult(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void createVCardResult(int n, long[] lArray, int n2, String string) {
-    }
+    public void createVCardResult(int var1, long[] var2, int var3, String var4) throws MethodException;
 
-    default public void parseVCardResult(int n, AdbEntry[] adbEntryArray) {
-    }
+    public void parseVCardResult(int var1, AdbEntry[] var2) throws MethodException;
 
-    default public void responseAbort(int n) {
-    }
+    public void responseAbort(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

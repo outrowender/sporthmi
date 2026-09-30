@@ -11,13 +11,12 @@ import java.util.Vector;
 
 class AllPermissionCollection
 extends PermissionCollection {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -4023755556366636806L;
     boolean all_allowed = false;
 
     AllPermissionCollection() {
     }
 
-    @Override
     public void add(Permission permission) {
         if (!(permission instanceof AllPermission)) {
             throw new IllegalArgumentException(permission.toString());
@@ -28,7 +27,6 @@ extends PermissionCollection {
         this.all_allowed = true;
     }
 
-    @Override
     public Enumeration elements() {
         Vector vector = new Vector();
         if (this.all_allowed) {
@@ -37,7 +35,6 @@ extends PermissionCollection {
         return vector.elements();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         return this.all_allowed;
     }

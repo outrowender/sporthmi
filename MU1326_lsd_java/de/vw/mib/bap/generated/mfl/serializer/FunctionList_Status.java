@@ -14,7 +14,7 @@ implements StatusProperty {
     public boolean fct_Bap_ConfigAvailable;
     public boolean fct_FunctionListAvailable;
     public boolean fct_HeartBeatAvailable;
-    private static final int RESERVED_BIT_5__13_BITSIZE;
+    private static final int RESERVED_BIT_5__13_BITSIZE = 9;
     public boolean fct_Fsg_SetupAvailable;
     public boolean fct_Fsg_OperationStateAvailable;
     public boolean fct_InstrumentClusterFunctionsAvailable;
@@ -22,8 +22,8 @@ implements StatusProperty {
     public boolean fct_KeyActionAvailable;
     public boolean fct_Pu_ContentAvailable;
     public boolean fct_Pu_ActionAvailable;
-    private static final int RESERVED_BIT_21__63_BITSIZE;
-    private static final int FUNCTION_LIST_STATUS_BITSIZE;
+    private static final int RESERVED_BIT_21__63_BITSIZE = 43;
+    private static final int FUNCTION_LIST_STATUS_BITSIZE = 64;
 
     public FunctionList_Status() {
         this.internalReset();
@@ -50,12 +50,10 @@ implements StatusProperty {
         this.fct_Pu_ActionAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_Status functionList_Status = (FunctionList_Status)bAPEntity;
         return this.reserved_bit_0 == functionList_Status.reserved_bit_0 && this.fct_GetAllAvailable == functionList_Status.fct_GetAllAvailable && this.fct_Bap_ConfigAvailable == functionList_Status.fct_Bap_ConfigAvailable && this.fct_FunctionListAvailable == functionList_Status.fct_FunctionListAvailable && this.fct_HeartBeatAvailable == functionList_Status.fct_HeartBeatAvailable && this.fct_Fsg_SetupAvailable == functionList_Status.fct_Fsg_SetupAvailable && this.fct_Fsg_OperationStateAvailable == functionList_Status.fct_Fsg_OperationStateAvailable && this.fct_InstrumentClusterFunctionsAvailable == functionList_Status.fct_InstrumentClusterFunctionsAvailable && this.fct_KeyConfigurationAvailable == functionList_Status.fct_KeyConfigurationAvailable && this.fct_KeyActionAvailable == functionList_Status.fct_KeyActionAvailable && this.fct_Pu_ContentAvailable == functionList_Status.fct_Pu_ContentAvailable && this.fct_Pu_ActionAvailable == functionList_Status.fct_Pu_ActionAvailable;
@@ -64,7 +62,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_Status:");
@@ -143,13 +140,11 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 64;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fct_GetAllAvailable);
@@ -167,7 +162,6 @@ implements StatusProperty {
         bitStream.resetBits(43);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fct_GetAllAvailable = bitStream.popFrontBoolean();
@@ -189,7 +183,6 @@ implements StatusProperty {
         return 3;
     }
 
-    @Override
     public int getFunctionId() {
         return FunctionList_Status.functionId();
     }

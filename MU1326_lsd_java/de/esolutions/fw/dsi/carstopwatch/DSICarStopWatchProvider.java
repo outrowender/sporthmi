@@ -26,28 +26,23 @@ implements DSICarStopWatch {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$carstopwatch$DSICarStopWatch == null ? (class$org$dsi$ifc$carstopwatch$DSICarStopWatch = DSICarStopWatchProvider.class$("org.dsi.ifc.carstopwatch.DSICarStopWatch")) : class$org$dsi$ifc$carstopwatch$DSICarStopWatch).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarStopWatchProxy(this.instance, (DSICarStopWatchReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setStopWatchFastestLapTime(StopWatchTime stopWatchTime) {
         try {
             this.proxy.setStopWatchFastestLapTime(stopWatchTime);
@@ -57,7 +52,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setStopWatchLapRating(int n) {
         try {
             this.proxy.setStopWatchLapRating(n);
@@ -67,7 +61,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setStopWatchLapProgress(float f2) {
         try {
             this.proxy.setStopWatchLapProgress(f2);
@@ -77,7 +70,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setStopWatchLapGPSTrigger() {
         try {
             this.proxy.setStopWatchLapGPSTrigger();
@@ -87,7 +79,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setStopWatchControl(int n) {
         try {
             this.proxy.setStopWatchControl(n);
@@ -97,7 +88,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setStopWatchSlowestLapTime(StopWatchTime stopWatchTime) {
         try {
             this.proxy.setStopWatchSlowestLapTime(stopWatchTime);
@@ -107,7 +97,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -117,7 +106,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -127,7 +115,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -137,7 +124,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -147,7 +133,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -157,7 +142,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -167,7 +151,6 @@ implements DSICarStopWatch {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

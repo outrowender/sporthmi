@@ -21,28 +21,24 @@ implements IWidgetKeyHandler {
         return this.keyHandler;
     }
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         if (this.keyHandler != null) {
             this.keyHandler.keyPressed(abstractWidgetController, keyEvent);
         }
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         if (this.keyHandler != null) {
             this.keyHandler.keyReleased(abstractWidgetController, keyEvent);
         }
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
         if (this.keyHandler != null) {
             this.keyHandler.keyTurned(abstractWidgetController, wheelButtonEvent);
         }
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
         if (this.keyHandler != null) {
             this.keyHandler.keyMoved(abstractWidgetController, joystickEvent);
@@ -52,9 +48,9 @@ implements IWidgetKeyHandler {
     public String toString() {
         String string = super.toString();
         if (this.keyHandler != null) {
-            return new StringBuffer().append(string).append(" [delegate: ").append(this.keyHandler).append("]").toString();
+            return string + " [delegate: " + this.keyHandler + "]";
         }
-        return new StringBuffer().append(string).append(" [no delegate]").toString();
+        return string + " [no delegate]";
     }
 }
 

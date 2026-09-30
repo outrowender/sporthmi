@@ -4,9 +4,9 @@
 package de.esolutions.fw.util.tracing;
 
 public class TraceModifiers {
-    public static final short NONE;
-    public static final short EXPAND_NOW;
-    public static final short SAFE_TRANSPORT;
-    public static final short USE_MASK;
+    public static final short NONE = 0;
+    public static final short EXPAND_NOW = 1;
+    public static final short SAFE_TRANSPORT = 2;
+    public static final short USE_MASK = 3;
 }
 

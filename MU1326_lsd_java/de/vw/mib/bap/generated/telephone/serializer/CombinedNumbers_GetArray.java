@@ -11,22 +11,20 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CombinedNumbers_GetArray
 implements BAPGetArray {
     public int asg_Id;
-    private static final int ASG_ID_BITSIZE;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER;
-    public static final int ASG_ID_HEAD_UP_DISPLAY;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_HEAD_UP_DISPLAY_TO_BE_EVALUATED_BY_ALL_ASGS;
+    private static final int ASG_ID_BITSIZE = 4;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE = 0;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER = 1;
+    public static final int ASG_ID_HEAD_UP_DISPLAY = 2;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER_TO_BE_EVALUATED_BY_ALL_ASGS = 9;
+    public static final int ASG_ID_HEAD_UP_DISPLAY_TO_BE_EVALUATED_BY_ALL_ASGS = 10;
     public int taid;
-    private static final int TAID_BITSIZE;
+    private static final int TAID_BITSIZE = 4;
     private ArrayHeader arrayHeader = new ArrayHeader();
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }
@@ -39,22 +37,18 @@ implements BAPGetArray {
         this.asg_Id = bl ? this.asg_Id | 8 : this.asg_Id & 7;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -74,13 +68,11 @@ implements BAPGetArray {
         this.taid = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CombinedNumbers_GetArray combinedNumbers_GetArray = (CombinedNumbers_GetArray)bAPEntity;
         return this.asg_Id == combinedNumbers_GetArray.asg_Id && this.taid == combinedNumbers_GetArray.taid && this.arrayHeader.equalTo(combinedNumbers_GetArray.arrayHeader);
@@ -89,7 +81,6 @@ implements BAPGetArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CombinedNumbers_GetArray:");
@@ -126,7 +117,6 @@ implements BAPGetArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 4;
@@ -134,14 +124,12 @@ implements BAPGetArray {
         return n += this.arrayHeader.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
         this.arrayHeader.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -152,7 +140,6 @@ implements BAPGetArray {
         return 49;
     }
 
-    @Override
     public int getFunctionId() {
         return CombinedNumbers_GetArray.functionId();
     }

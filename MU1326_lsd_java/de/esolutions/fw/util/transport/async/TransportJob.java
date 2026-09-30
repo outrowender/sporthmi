@@ -27,10 +27,9 @@ public abstract class TransportJob {
         return this.transport;
     }
 
-    protected abstract void doIO() {
-    }
+    protected abstract void doIO() throws TransportException, IOException, InterruptedException;
 
-    public boolean doTransport() {
+    public boolean doTransport() throws InterruptedException {
         try {
             this.doIO();
             this.setDone(true);
@@ -55,13 +54,13 @@ public abstract class TransportJob {
     private synchronized void setDone(boolean bl) {
         this.isDone = true;
         this.ok = bl;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     public synchronized boolean waitDone() {
         while (!this.isDone) {
             try {
-                super.wait();
+                this.wait();
             }
             catch (InterruptedException interruptedException) {}
         }

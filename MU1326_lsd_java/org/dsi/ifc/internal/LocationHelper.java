@@ -8,47 +8,47 @@ import org.dsi.ifc.global.NavLocationDescriptor;
 
 public class LocationHelper {
     private NavLocation m_NavLocation = null;
-    public static final int LAD_AdditionalFlags;
-    public static final int LAD_IsGeoPosFlag;
-    public static final int LAD_IsParentPOIFlag;
-    public static final int LAD_CityOfficialName;
-    public static final int LAD_StateName;
-    public static final int LAD_StateAbbreviation;
-    public static final int LAD_CountryCode;
-    public static final int LAD_CityTransliteration;
-    public static final int LAD_CityDestinationType;
-    public static final int LAD_SuburbOfficialName;
-    public static final int LAD_CityOfficialPhoneme;
-    public static final int LAD_CityExonymPhoneme;
-    public static final int LAD_SuburbOfficialPhoneme;
-    public static final int LAD_SuburbExonymPhoneme;
-    public static final int LAD_StreetPhoneme;
-    public static final int LAD_StreetAlternativePhoneme;
-    public static final int LAD_StatePhoneme;
-    public static final int LAD_StateAlternativePhoneme;
-    public static final int LAD_JunctionPhoneme;
-    public static final int LAD_JunctionAlternativePhoneme;
-    public static final int LAD_CountryOfficialPhoneme;
-    public static final int LAD_CountryExonymPhoneme;
-    public static final int LAD_SuburbTransliteration;
-    public static final int LAD_CityExonym;
-    public static final int LAD_POINamePhoneme;
-    public static final int LAD_SuburbExonym;
-    public static final int LAD_SuburbExonymTransliteration;
-    public static final int LAD_CityExonymTransliteration;
-    public static final int LAD_ISO3CountryCode;
-    public static final int LAD_PathToGPXFile;
-    public static final int LAD_LinkToTrackInGPXFile;
-    private static final String LocationAdditionalDataSeparator;
-    public static final int CountryCode_Invalid;
-    public static final int DESTINATION_TYPE_CITY_OFFICIAL_NAME;
-    public static final int DESTINATION_TYPE_CITY_EXONYM;
-    public static final int DESTINATION_TYPE_CITY_OFFICIAL_NAME_TRANSLITERATION;
-    public static final int DESTINATION_TYPE_CITY_EXONYM_TRANSLITERATION;
-    public static final int DESTINATION_TYPE_SUBURB_OFFICIAL_NAME;
-    public static final int DESTINATION_TYPE_SUBURB_EXONYM;
-    public static final int DESTINATION_TYPE_SUBURB_OFFICIAL_NAME_TRANSLITERATION;
-    public static final int DESTINATION_TYPE_SUBURB_EXONYM_TRANSLITERATION;
+    public static final int LAD_AdditionalFlags = 1;
+    public static final int LAD_IsGeoPosFlag = 5;
+    public static final int LAD_IsParentPOIFlag = 1001;
+    public static final int LAD_CityOfficialName = 2001;
+    public static final int LAD_StateName = 2002;
+    public static final int LAD_StateAbbreviation = 2003;
+    public static final int LAD_CountryCode = 2005;
+    public static final int LAD_CityTransliteration = 2008;
+    public static final int LAD_CityDestinationType = 2009;
+    public static final int LAD_SuburbOfficialName = 2010;
+    public static final int LAD_CityOfficialPhoneme = 2039;
+    public static final int LAD_CityExonymPhoneme = 2040;
+    public static final int LAD_SuburbOfficialPhoneme = 2041;
+    public static final int LAD_SuburbExonymPhoneme = 2042;
+    public static final int LAD_StreetPhoneme = 2043;
+    public static final int LAD_StreetAlternativePhoneme = 2044;
+    public static final int LAD_StatePhoneme = 2045;
+    public static final int LAD_StateAlternativePhoneme = 2046;
+    public static final int LAD_JunctionPhoneme = 2047;
+    public static final int LAD_JunctionAlternativePhoneme = 2048;
+    public static final int LAD_CountryOfficialPhoneme = 2049;
+    public static final int LAD_CountryExonymPhoneme = 2050;
+    public static final int LAD_SuburbTransliteration = 2055;
+    public static final int LAD_CityExonym = 2066;
+    public static final int LAD_POINamePhoneme = 2068;
+    public static final int LAD_SuburbExonym = 2069;
+    public static final int LAD_SuburbExonymTransliteration = 2070;
+    public static final int LAD_CityExonymTransliteration = 2071;
+    public static final int LAD_ISO3CountryCode = 2072;
+    public static final int LAD_PathToGPXFile = 2073;
+    public static final int LAD_LinkToTrackInGPXFile = 2074;
+    private static final String LocationAdditionalDataSeparator = ":";
+    public static final int CountryCode_Invalid = 0;
+    public static final int DESTINATION_TYPE_CITY_OFFICIAL_NAME = 6;
+    public static final int DESTINATION_TYPE_CITY_EXONYM = 7;
+    public static final int DESTINATION_TYPE_CITY_OFFICIAL_NAME_TRANSLITERATION = 8;
+    public static final int DESTINATION_TYPE_CITY_EXONYM_TRANSLITERATION = 9;
+    public static final int DESTINATION_TYPE_SUBURB_OFFICIAL_NAME = 11;
+    public static final int DESTINATION_TYPE_SUBURB_EXONYM = 12;
+    public static final int DESTINATION_TYPE_SUBURB_OFFICIAL_NAME_TRANSLITERATION = 13;
+    public static final int DESTINATION_TYPE_SUBURB_EXONYM_TRANSLITERATION = 14;
 
     public LocationHelper(NavLocation navLocation) {
         this.setLocation(navLocation);
@@ -189,7 +189,7 @@ public class LocationHelper {
     }
 
     private static String getLocationAdditionalData(int n) {
-        String string = new StringBuffer().append(String.valueOf(n)).append(":").toString();
+        String string = String.valueOf(n) + LocationAdditionalDataSeparator;
         return string;
     }
 

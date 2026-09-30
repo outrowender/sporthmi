@@ -27,28 +27,23 @@ implements DSICarAuxHeaterCooler {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$carauxheatercooler$DSICarAuxHeaterCooler == null ? (class$org$dsi$ifc$carauxheatercooler$DSICarAuxHeaterCooler = DSICarAuxHeaterCoolerProvider.class$("org.dsi.ifc.carauxheatercooler.DSICarAuxHeaterCooler")) : class$org$dsi$ifc$carauxheatercooler$DSICarAuxHeaterCooler).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarAuxHeaterCoolerProxy(this.instance, (DSICarAuxHeaterCoolerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setAuxHeaterCoolerOnOff(boolean bl) {
         try {
             this.proxy.setAuxHeaterCoolerOnOff(bl);
@@ -58,7 +53,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerRunningTime(short s) {
         try {
             this.proxy.setAuxHeaterCoolerRunningTime(s);
@@ -68,7 +62,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerMode(int n) {
         try {
             this.proxy.setAuxHeaterCoolerMode(n);
@@ -78,7 +71,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerDefaultStartMode(int n) {
         try {
             this.proxy.setAuxHeaterCoolerDefaultStartMode(n);
@@ -88,7 +80,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerEngineHeater(boolean bl) {
         try {
             this.proxy.setAuxHeaterCoolerEngineHeater(bl);
@@ -98,7 +89,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerActiveTimer(int n) {
         try {
             this.proxy.setAuxHeaterCoolerActiveTimer(n);
@@ -108,7 +98,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
         try {
             this.proxy.setAuxHeaterCoolerTimer1(auxHeaterCoolerTimer);
@@ -118,7 +107,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
         try {
             this.proxy.setAuxHeaterCoolerTimer2(auxHeaterCoolerTimer);
@@ -128,7 +116,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
         try {
             this.proxy.setAuxHeaterCoolerTimer3(auxHeaterCoolerTimer);
@@ -138,7 +125,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerPopup(int n) {
         try {
             this.proxy.setAuxHeaterCoolerPopup(n);
@@ -148,7 +134,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterSetFactoryDefault() {
         try {
             this.proxy.setAuxHeaterSetFactoryDefault();
@@ -158,7 +143,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning) {
         try {
             this.proxy.setAuxHeaterCoolerExtendedConditioning(auxHeaterCoolerExtendedConditioning);
@@ -168,7 +152,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerWindowHeating(boolean bl) {
         try {
             this.proxy.setAuxHeaterCoolerWindowHeating(bl);
@@ -178,7 +161,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerUnlockClimating(int n) {
         try {
             this.proxy.setAuxHeaterCoolerUnlockClimating(n);
@@ -188,7 +170,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerTargetTemperature(float f2) {
         try {
             this.proxy.setAuxHeaterCoolerTargetTemperature(f2);
@@ -198,7 +179,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setAuxHeaterCoolerAirQuality(boolean bl) {
         try {
             this.proxy.setAuxHeaterCoolerAirQuality(bl);
@@ -208,7 +188,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -218,7 +197,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -228,7 +206,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -238,7 +215,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -248,7 +224,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -258,7 +233,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -268,7 +242,6 @@ implements DSICarAuxHeaterCooler {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

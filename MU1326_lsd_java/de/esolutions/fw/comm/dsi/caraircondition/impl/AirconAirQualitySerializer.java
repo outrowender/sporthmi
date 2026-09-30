@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconAirQuality;
 
 public class AirconAirQualitySerializer {
-    public static void putOptionalAirconAirQuality(ISerializer iSerializer, AirconAirQuality airconAirQuality) {
+    public static void putOptionalAirconAirQuality(ISerializer iSerializer, AirconAirQuality airconAirQuality) throws SerializerException {
         boolean bl = airconAirQuality == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AirconAirQualitySerializer {
         }
     }
 
-    public static void putOptionalAirconAirQualityVarArray(ISerializer iSerializer, AirconAirQuality[] airconAirQualityArray) {
+    public static void putOptionalAirconAirQualityVarArray(ISerializer iSerializer, AirconAirQuality[] airconAirQualityArray) throws SerializerException {
         boolean bl = airconAirQualityArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AirconAirQualitySerializer {
         }
     }
 
-    public static AirconAirQuality getOptionalAirconAirQuality(IDeserializer iDeserializer) {
+    public static AirconAirQuality getOptionalAirconAirQuality(IDeserializer iDeserializer) throws SerializerException {
         AirconAirQuality airconAirQuality = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class AirconAirQualitySerializer {
         return airconAirQuality;
     }
 
-    public static AirconAirQuality[] getOptionalAirconAirQualityVarArray(IDeserializer iDeserializer) {
+    public static AirconAirQuality[] getOptionalAirconAirQualityVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconAirQuality[] airconAirQualityArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

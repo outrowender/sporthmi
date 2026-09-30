@@ -42,7 +42,7 @@ public class IntBaseType {
     }
 
     public String toString() {
-        return new StringBuffer("IntBaseType{").append("value=").append(this.value).append(", unit=").append(this.unit).append(", status=").append(this.status).append("}").toString();
+        return "IntBaseType{" + "value=" + this.value + ", unit=" + this.unit + ", status=" + this.status + "}";
     }
 }
 

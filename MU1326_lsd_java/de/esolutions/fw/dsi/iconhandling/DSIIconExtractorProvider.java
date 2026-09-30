@@ -25,28 +25,23 @@ implements DSIIconExtractor {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$iconhandling$DSIIconExtractor == null ? (class$org$dsi$ifc$iconhandling$DSIIconExtractor = DSIIconExtractorProvider.class$("org.dsi.ifc.iconhandling.DSIIconExtractor")) : class$org$dsi$ifc$iconhandling$DSIIconExtractor).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIIconExtractorProxy(this.instance, (DSIIconExtractorReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void resourceIdForTMCEventIcon(int n, int n2, int n3) {
         try {
             this.proxy.resourceIdForTMCEventIcon(n, n2, n3);
@@ -56,7 +51,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForPOIIcon(int n, int n2, int n3) {
         try {
             this.proxy.resourceIdForPOIIcon(n, n2, n3);
@@ -66,7 +60,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void renderingInformationForRoadIcon(int n, int n2, int n3) {
         try {
             this.proxy.renderingInformationForRoadIcon(n, n2, n3);
@@ -76,7 +69,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForTargetIcon(int n, int n2) {
         try {
             this.proxy.resourceIdForTargetIcon(n, n2);
@@ -86,7 +78,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForRoadClassIcon(int n, int n2, int n3) {
         try {
             this.proxy.resourceIdForRoadClassIcon(n, n2, n3);
@@ -96,7 +87,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForTrafficRegulationIcon(int n, int n2, int n3) {
         try {
             this.proxy.resourceIdForTrafficRegulationIcon(n, n2, n3);
@@ -106,7 +96,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void renderingInformationForExitIcon(int n, int n2, int n3) {
         try {
             this.proxy.renderingInformationForExitIcon(n, n2, n3);
@@ -116,7 +105,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForAdditionalIcon(int n, int n2, int n3) {
         try {
             this.proxy.resourceIdForAdditionalIcon(n, n2, n3);
@@ -126,7 +114,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForCountryIcon(int n, int n2) {
         try {
             this.proxy.resourceIdForCountryIcon(n, n2);
@@ -136,7 +123,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForTrafficRegulationIconWithSubindex(int n, int n2, int n3, int n4) {
         try {
             this.proxy.resourceIdForTrafficRegulationIconWithSubindex(n, n2, n3, n4);
@@ -146,7 +132,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void renderingInformationForExitIconWithVariant(int n, int n2, int n3, int n4) {
         try {
             this.proxy.renderingInformationForExitIconWithVariant(n, n2, n3, n4);
@@ -156,7 +141,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void setBrandIconStyle(int[] nArray, int n) {
         try {
             this.proxy.setBrandIconStyle(nArray, n);
@@ -166,7 +150,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForAdditionalTurnListIcon(int n, int n2, int n3, int n4) {
         try {
             this.proxy.resourceIdForAdditionalTurnListIcon(n, n2, n3, n4);
@@ -176,7 +159,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForTrafficSourceIcon(int n, int n2) {
         try {
             this.proxy.resourceIdForTrafficSourceIcon(n, n2);
@@ -186,7 +168,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForAreaWarningIcon(int n, int n2) {
         try {
             this.proxy.resourceIdForAreaWarningIcon(n, n2);
@@ -196,7 +177,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForComposedPOIIcon(int n, int n2, int n3, int[] nArray) {
         try {
             this.proxy.resourceIdForComposedPOIIcon(n, n2, n3, nArray);
@@ -206,7 +186,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void resourceIdForPOIIconFromRawData(int n, int n2, int n3) {
         try {
             this.proxy.resourceIdForPOIIconFromRawData(n, n2, n3);
@@ -216,7 +195,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -226,7 +204,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -236,7 +213,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -246,7 +222,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -256,7 +231,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -266,7 +240,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -276,7 +249,6 @@ implements DSIIconExtractor {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

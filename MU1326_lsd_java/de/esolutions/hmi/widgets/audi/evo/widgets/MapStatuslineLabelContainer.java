@@ -21,7 +21,6 @@ extends LayoutContainerController {
     private List labels = new ArrayList(2);
     private boolean isSetUp = false;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof IconController) {
             this.maneuverPoint = (IconController)abstractWidget;
@@ -31,7 +30,6 @@ extends LayoutContainerController {
         super.add(abstractWidget);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (!this.isSetUp) {

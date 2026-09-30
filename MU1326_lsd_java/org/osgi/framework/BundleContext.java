@@ -7,75 +7,56 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Dictionary;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.BundleListener;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkListener;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
 public interface BundleContext {
-    default public String getProperty(String string) {
-    }
+    public String getProperty(String var1);
 
-    default public Bundle getBundle() {
-    }
+    public Bundle getBundle();
 
-    default public Bundle installBundle(String string) {
-    }
+    public Bundle installBundle(String var1) throws BundleException;
 
-    default public Bundle installBundle(String string, InputStream inputStream) {
-    }
+    public Bundle installBundle(String var1, InputStream var2) throws BundleException;
 
-    default public Bundle getBundle(long l) {
-    }
+    public Bundle getBundle(long var1);
 
-    default public Bundle[] getBundles() {
-    }
+    public Bundle[] getBundles();
 
-    default public void addServiceListener(ServiceListener serviceListener, String string) {
-    }
+    public void addServiceListener(ServiceListener var1, String var2) throws InvalidSyntaxException;
 
-    default public void addServiceListener(ServiceListener serviceListener) {
-    }
+    public void addServiceListener(ServiceListener var1);
 
-    default public void removeServiceListener(ServiceListener serviceListener) {
-    }
+    public void removeServiceListener(ServiceListener var1);
 
-    default public void addBundleListener(BundleListener bundleListener) {
-    }
+    public void addBundleListener(BundleListener var1);
 
-    default public void removeBundleListener(BundleListener bundleListener) {
-    }
+    public void removeBundleListener(BundleListener var1);
 
-    default public void addFrameworkListener(FrameworkListener frameworkListener) {
-    }
+    public void addFrameworkListener(FrameworkListener var1);
 
-    default public void removeFrameworkListener(FrameworkListener frameworkListener) {
-    }
+    public void removeFrameworkListener(FrameworkListener var1);
 
-    default public ServiceRegistration registerService(String[] stringArray, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration registerService(String[] var1, Object var2, Dictionary var3);
 
-    default public ServiceRegistration registerService(String string, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration registerService(String var1, Object var2, Dictionary var3);
 
-    default public ServiceReference[] getServiceReferences(String string, String string2) {
-    }
+    public ServiceReference[] getServiceReferences(String var1, String var2) throws InvalidSyntaxException;
 
-    default public ServiceReference getServiceReference(String string) {
-    }
+    public ServiceReference getServiceReference(String var1);
 
-    default public Object getService(ServiceReference serviceReference) {
-    }
+    public Object getService(ServiceReference var1);
 
-    default public boolean ungetService(ServiceReference serviceReference) {
-    }
+    public boolean ungetService(ServiceReference var1);
 
-    default public File getDataFile(String string) {
-    }
+    public File getDataFile(String var1);
 
-    default public Filter createFilter(String string) {
-    }
+    public Filter createFilter(String var1) throws InvalidSyntaxException;
 }
 

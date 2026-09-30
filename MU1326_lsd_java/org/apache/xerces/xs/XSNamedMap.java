@@ -6,13 +6,10 @@ package org.apache.xerces.xs;
 import org.apache.xerces.xs.XSObject;
 
 public interface XSNamedMap {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public XSObject item(int n) {
-    }
+    public XSObject item(int var1);
 
-    default public XSObject itemByName(String string, String string2) {
-    }
+    public XSObject itemByName(String var1, String var2);
 }
 

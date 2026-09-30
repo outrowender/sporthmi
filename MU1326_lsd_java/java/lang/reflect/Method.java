@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.lang.reflect;
 
@@ -53,7 +50,6 @@ implements Member {
         return true;
     }
 
-    @Override
     public Class getDeclaringClass() {
         return this.declaringClass;
     }
@@ -65,12 +61,10 @@ implements Member {
         return (Class[])this.exceptionTypes.clone();
     }
 
-    @Override
     public int getModifiers() {
         return super.getModifiers();
     }
 
-    @Override
     public String getName() {
         if (this.name != null) {
             return this.name;
@@ -78,8 +72,7 @@ implements Member {
         return this.getNameImpl();
     }
 
-    private native String getNameImpl() {
-    }
+    private native String getNameImpl();
 
     public Class[] getParameterTypes() {
         if (this.parameterTypes == null) {
@@ -95,14 +88,13 @@ implements Member {
         return this.getReturnTypeImpl();
     }
 
-    private native Class getReturnTypeImpl() {
-    }
+    private native Class getReturnTypeImpl();
 
     public int hashCode() {
         return this.getName().hashCode() ^ this.getDeclaringClass().getName().hashCode();
     }
 
-    public Object invoke(Object object, Object[] objectArray) {
+    public Object invoke(Object object, Object[] objectArray) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Class clazz;
         Class clazz2 = this.getDeclaringClass();
         if ((this.getModifiers() & 8) == 0) {

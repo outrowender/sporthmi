@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.PhoneInformation;
 
 public class PhoneInformationSerializer {
-    public static void putOptionalPhoneInformation(ISerializer iSerializer, PhoneInformation phoneInformation) {
+    public static void putOptionalPhoneInformation(ISerializer iSerializer, PhoneInformation phoneInformation) throws SerializerException {
         boolean bl = phoneInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class PhoneInformationSerializer {
         }
     }
 
-    public static void putOptionalPhoneInformationVarArray(ISerializer iSerializer, PhoneInformation[] phoneInformationArray) {
+    public static void putOptionalPhoneInformationVarArray(ISerializer iSerializer, PhoneInformation[] phoneInformationArray) throws SerializerException {
         boolean bl = phoneInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class PhoneInformationSerializer {
         }
     }
 
-    public static PhoneInformation getOptionalPhoneInformation(IDeserializer iDeserializer) {
+    public static PhoneInformation getOptionalPhoneInformation(IDeserializer iDeserializer) throws SerializerException {
         PhoneInformation phoneInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -87,7 +88,7 @@ public class PhoneInformationSerializer {
         return phoneInformation;
     }
 
-    public static PhoneInformation[] getOptionalPhoneInformationVarArray(IDeserializer iDeserializer) {
+    public static PhoneInformation[] getOptionalPhoneInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         PhoneInformation[] phoneInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

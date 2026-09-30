@@ -4,6 +4,7 @@
 package java.security;
 
 import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
@@ -26,8 +27,7 @@ extends FilterInputStream {
         this.on = bl;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = super.read();
         if (this.on && n >= 0) {
             this.digest.engineUpdate((byte)n);
@@ -35,8 +35,7 @@ extends FilterInputStream {
         return n;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         int n3 = super.read(byArray, n, n2);
         if (this.on && n3 > 0) {
             this.digest.engineUpdate(byArray, n, n3);

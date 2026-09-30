@@ -285,7 +285,7 @@ public class SeatViewOptions {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(-259588096);
+        StringBuffer stringBuffer = new StringBuffer(34800);
         stringBuffer.append("SeatViewOptions");
         stringBuffer.append('(');
         stringBuffer.append("seatRadioKeyAutomatic");

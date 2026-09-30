@@ -14,34 +14,24 @@ import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSTypeDefinition;
 
 public interface XSNamespaceItem {
-    default public String getSchemaNamespace() {
-    }
+    public String getSchemaNamespace();
 
-    default public XSNamedMap getComponents(short s) {
-    }
+    public XSNamedMap getComponents(short var1);
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 
-    default public XSElementDeclaration getElementDeclaration(String string) {
-    }
+    public XSElementDeclaration getElementDeclaration(String var1);
 
-    default public XSAttributeDeclaration getAttributeDeclaration(String string) {
-    }
+    public XSAttributeDeclaration getAttributeDeclaration(String var1);
 
-    default public XSTypeDefinition getTypeDefinition(String string) {
-    }
+    public XSTypeDefinition getTypeDefinition(String var1);
 
-    default public XSAttributeGroupDefinition getAttributeGroup(String string) {
-    }
+    public XSAttributeGroupDefinition getAttributeGroup(String var1);
 
-    default public XSModelGroupDefinition getModelGroupDefinition(String string) {
-    }
+    public XSModelGroupDefinition getModelGroupDefinition(String var1);
 
-    default public XSNotationDeclaration getNotationDeclaration(String string) {
-    }
+    public XSNotationDeclaration getNotationDeclaration(String var1);
 
-    default public StringList getDocumentLocations() {
-    }
+    public StringList getDocumentLocations();
 }
 

@@ -5,15 +5,13 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sTestStatus;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2AppDtcTestServiceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2AppDtcTestServiceS {
-    default public void registerForDiagnosis(int n, long[] lArray, MMX2AppDtcTestServiceReply mMX2AppDtcTestServiceReply) {
-    }
+    public void registerForDiagnosis(int var1, long[] var2, MMX2AppDtcTestServiceReply var3) throws MethodException;
 
-    default public void deregisterForDiagnosis(MMX2AppDtcTestServiceReply mMX2AppDtcTestServiceReply) {
-    }
+    public void deregisterForDiagnosis(MMX2AppDtcTestServiceReply var1) throws MethodException;
 
-    default public void testStatus(sTestStatus sTestStatus2, MMX2AppDtcTestServiceReply mMX2AppDtcTestServiceReply) {
-    }
+    public void testStatus(sTestStatus var1, MMX2AppDtcTestServiceReply var2) throws MethodException;
 }
 

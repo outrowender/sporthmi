@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.BapManeuverDescriptor;
 
 public class BapManeuverDescriptorSerializer {
-    public static void putOptionalBapManeuverDescriptor(ISerializer iSerializer, BapManeuverDescriptor bapManeuverDescriptor) {
+    public static void putOptionalBapManeuverDescriptor(ISerializer iSerializer, BapManeuverDescriptor bapManeuverDescriptor) throws SerializerException {
         boolean bl = bapManeuverDescriptor == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BapManeuverDescriptorSerializer {
         }
     }
 
-    public static void putOptionalBapManeuverDescriptorVarArray(ISerializer iSerializer, BapManeuverDescriptor[] bapManeuverDescriptorArray) {
+    public static void putOptionalBapManeuverDescriptorVarArray(ISerializer iSerializer, BapManeuverDescriptor[] bapManeuverDescriptorArray) throws SerializerException {
         boolean bl = bapManeuverDescriptorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BapManeuverDescriptorSerializer {
         }
     }
 
-    public static BapManeuverDescriptor getOptionalBapManeuverDescriptor(IDeserializer iDeserializer) {
+    public static BapManeuverDescriptor getOptionalBapManeuverDescriptor(IDeserializer iDeserializer) throws SerializerException {
         BapManeuverDescriptor bapManeuverDescriptor = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BapManeuverDescriptorSerializer {
         return bapManeuverDescriptor;
     }
 
-    public static BapManeuverDescriptor[] getOptionalBapManeuverDescriptorVarArray(IDeserializer iDeserializer) {
+    public static BapManeuverDescriptor[] getOptionalBapManeuverDescriptorVarArray(IDeserializer iDeserializer) throws SerializerException {
         BapManeuverDescriptor[] bapManeuverDescriptorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

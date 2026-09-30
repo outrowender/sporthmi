@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.asiatrafficinfomenu;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.asiatrafficinfomenu.DSIAsiaTrafficInfoMenuReply;
 import de.esolutions.fw.comm.dsi.asiatrafficinfomenu.impl.DSIAsiaTrafficInfoMenuReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSIAsiaTrafficInfoMenuReply {
         super(n, (class$org$dsi$ifc$asiatrafficinfomenu$DSIAsiaTrafficInfoMenuListener == null ? (class$org$dsi$ifc$asiatrafficinfomenu$DSIAsiaTrafficInfoMenuListener = DSIAsiaTrafficInfoMenuDispatcher.class$("org.dsi.ifc.asiatrafficinfomenu.DSIAsiaTrafficInfoMenuListener")) : class$org$dsi$ifc$asiatrafficinfomenu$DSIAsiaTrafficInfoMenuListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateActiveInterrupts(Interrupt[] interruptArray, int n) {
+    public void updateActiveInterrupts(Interrupt[] interruptArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updateTrafficType(TrafficInformation[] trafficInformationArray, int n) {
+    public void updateTrafficType(TrafficInformation[] trafficInformationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -91,8 +89,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updatePrefecture(String string, int n) {
+    public void updatePrefecture(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -120,8 +117,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updateProbeDataSetting(boolean bl, int n) {
+    public void updateProbeDataSetting(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -149,8 +145,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updateFrequency(int n, int n2) {
+    public void updateFrequency(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -178,8 +173,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updateReceptionStatus(int n, int n2) {
+    public void updateReceptionStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -207,8 +201,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updateReceptionDate(DateTime dateTime, int n) {
+    public void updateReceptionDate(DateTime dateTime, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -236,8 +229,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) {
+    public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -253,8 +245,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void requestTrafficInformationDetailsResponse(int n, TrafficInformationDetails[] trafficInformationDetailsArray) {
+    public void requestTrafficInformationDetailsResponse(int n, TrafficInformationDetails[] trafficInformationDetailsArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -270,8 +261,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void updateReceivableStations(TunerData[] tunerDataArray, int n) {
+    public void updateReceivableStations(TunerData[] tunerDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -299,8 +289,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void setLanguageResponse(boolean bl) {
+    public void setLanguageResponse(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -316,8 +305,7 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -333,14 +321,13 @@ implements DSIAsiaTrafficInfoMenuReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAsiaTrafficInfoMenuListener dSIAsiaTrafficInfoMenuListener = (DSIAsiaTrafficInfoMenuListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAsiaTrafficInfoMenuDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAsiaTrafficInfoMenuDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAsiaTrafficInfoMenuListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAsiaTrafficInfoMenuDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAsiaTrafficInfoMenuDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAsiaTrafficInfoMenuListener, new Object[]{string, string2});
                     continue;
                 }

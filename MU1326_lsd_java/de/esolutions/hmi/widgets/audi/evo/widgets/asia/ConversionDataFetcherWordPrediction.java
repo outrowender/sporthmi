@@ -16,24 +16,20 @@ implements IWordPredictionDataFetcher {
         this.wordPredictionAccess = iWordPredictionAccess;
     }
 
-    @Override
     public void requestConversions(String string, char c2, int n, int n2, boolean bl) {
         this.wordPredictionAccess.getConversionAndSpellingImmediately(string, n + n2);
     }
 
-    @Override
     public void touchInputDataChanged(int n, boolean bl, String string, String string2) {
         if (3 == n && bl) {
             this.wordPredictionAccess.unconvertedTextChanged(string2, string, 36);
         }
     }
 
-    @Override
     public void candidateSelected(int n, int n2, String string, String string2) {
         this.wordPredictionAccess.selectedCandidate(string, n, string2, n2);
     }
 
-    @Override
     public void updateWordPredictionContext(String string, String string2, int n) {
         this.wordPredictionAccess.startContextBasedPrediction(string, string2, n);
     }

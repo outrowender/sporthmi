@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.Medium;
 
 public class MediumSerializer {
-    public static void putOptionalMedium(ISerializer iSerializer, Medium medium) {
+    public static void putOptionalMedium(ISerializer iSerializer, Medium medium) throws SerializerException {
         boolean bl = medium == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class MediumSerializer {
         }
     }
 
-    public static void putOptionalMediumVarArray(ISerializer iSerializer, Medium[] mediumArray) {
+    public static void putOptionalMediumVarArray(ISerializer iSerializer, Medium[] mediumArray) throws SerializerException {
         boolean bl = mediumArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class MediumSerializer {
         }
     }
 
-    public static Medium getOptionalMedium(IDeserializer iDeserializer) {
+    public static Medium getOptionalMedium(IDeserializer iDeserializer) throws SerializerException {
         Medium medium = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class MediumSerializer {
         return medium;
     }
 
-    public static Medium[] getOptionalMediumVarArray(IDeserializer iDeserializer) {
+    public static Medium[] getOptionalMediumVarArray(IDeserializer iDeserializer) throws SerializerException {
         Medium[] mediumArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

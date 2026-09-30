@@ -9,7 +9,7 @@ public class PoiOnlineRecognitionListElement {
 
     public PoiOnlineRecognitionListElement() {
         this.recognizedTerm = "";
-        this.confidenceLevel = 32959;
+        this.confidenceLevel = -1.0f;
     }
 
     public PoiOnlineRecognitionListElement(String string, float f2) {

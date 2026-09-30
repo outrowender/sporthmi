@@ -25,28 +25,23 @@ implements DSINAD {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$telephone$DSINAD == null ? (class$org$dsi$ifc$telephone$DSINAD = DSINADProvider.class$("org.dsi.ifc.telephone.DSINAD")) : class$org$dsi$ifc$telephone$DSINAD).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSINADProxy(this.instance, (DSINADReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestNetworkRegistration(String string, int n) {
         try {
             this.proxy.requestNetworkRegistration(string, n);
@@ -56,7 +51,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestAbortNetworkRegistration() {
         try {
             this.proxy.requestAbortNetworkRegistration();
@@ -66,7 +60,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestNetworkSearch() {
         try {
             this.proxy.requestNetworkSearch();
@@ -76,7 +69,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestAbortNetworkSearch() {
         try {
             this.proxy.requestAbortNetworkSearch();
@@ -86,7 +78,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestSetAutomaticPinEntryActive(boolean bl) {
         try {
             this.proxy.requestSetAutomaticPinEntryActive(bl);
@@ -96,7 +87,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestTelPower(int n) {
         try {
             this.proxy.requestTelPower(n);
@@ -106,7 +96,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestUnlockSIM(int n, String string, String string2) {
         try {
             this.proxy.requestUnlockSIM(n, string, string2);
@@ -116,7 +105,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestCheckSIMPINCode(String string) {
         try {
             this.proxy.requestCheckSIMPINCode(string);
@@ -126,7 +114,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestChangeSIMCode(int n, String string, String string2) {
         try {
             this.proxy.requestChangeSIMCode(n, string, string2);
@@ -136,7 +123,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void requestSIMPINRequired(String string, boolean bl) {
         try {
             this.proxy.requestSIMPINRequired(string, bl);
@@ -146,7 +132,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void restoreFactorySettings() {
         try {
             this.proxy.restoreFactorySettings();
@@ -156,7 +141,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -166,7 +150,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -176,7 +159,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -186,7 +168,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -196,7 +177,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -206,7 +186,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -216,7 +195,6 @@ implements DSINAD {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

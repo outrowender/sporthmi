@@ -19,14 +19,15 @@ import org.apache.commons.scxml.SCXMLHelper;
 import org.apache.commons.scxml.TriggerEvent;
 import org.apache.commons.scxml.model.Action;
 import org.apache.commons.scxml.model.ExternalContent;
+import org.apache.commons.scxml.model.ModelException;
 import org.apache.commons.scxml.model.TransitionTarget;
 
 public class Send
 extends Action
 implements ExternalContent {
-    private static final long serialVersionUID;
-    private static final String TARGETTYPE_SCXML;
-    private static final String EVENT_ERR_SEND_TARGETUNAVAILABLE;
+    private static final long serialVersionUID = 1L;
+    private static final String TARGETTYPE_SCXML = "scxml";
+    private static final String EVENT_ERR_SEND_TARGETUNAVAILABLE = "error.send.targetunavailable";
     private String sendid;
     private String target;
     private String targettype;
@@ -35,11 +36,11 @@ implements ExternalContent {
     private String namelist;
     private List externalNodes = new ArrayList();
     private String event;
-    private static final String MILLIS;
-    private static final String SECONDS;
-    private static final String MINUTES;
-    private static final long MILLIS_IN_A_SECOND;
-    private static final long MILLIS_IN_A_MINUTE;
+    private static final String MILLIS = "ms";
+    private static final String SECONDS = "s";
+    private static final String MINUTES = "m";
+    private static final long MILLIS_IN_A_SECOND = 1000L;
+    private static final long MILLIS_IN_A_MINUTE = 60000L;
 
     public final String getDelay() {
         return this.delay;
@@ -49,7 +50,6 @@ implements ExternalContent {
         this.delay = string;
     }
 
-    @Override
     public final List getExternalNodes() {
         return this.externalNodes;
     }
@@ -106,8 +106,7 @@ implements ExternalContent {
         return this.event;
     }
 
-    @Override
-    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
+    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) throws ModelException, SCXMLExpressionException {
         Object object;
         TransitionTarget transitionTarget = this.getParentTransitionTarget();
         Context context = sCInstance.getContext(transitionTarget);
@@ -119,16 +118,16 @@ implements ExternalContent {
         }
         String string = this.target;
         if (!SCXMLHelper.isStringEmpty(this.target) && SCXMLHelper.isStringEmpty(string = (String)evaluator.eval(context, this.target)) && log.isWarnEnabled()) {
-            log.warn(new StringBuffer().append("<send>: target expression \"").append(this.target).append("\" evaluated to null or empty String").toString());
+            log.warn("<send>: target expression \"" + this.target + "\" evaluated to null or empty String");
         }
         String string2 = this.targettype;
         if (!SCXMLHelper.isStringEmpty(this.targettype)) {
             string2 = (String)evaluator.eval(context, this.targettype);
             if (SCXMLHelper.isStringEmpty(string2) && log.isWarnEnabled()) {
-                log.warn(new StringBuffer().append("<send>: targettype expression \"").append(this.targettype).append("\" evaluated to null or empty String").toString());
+                log.warn("<send>: targettype expression \"" + this.targettype + "\" evaluated to null or empty String");
             }
         } else {
-            string2 = "scxml";
+            string2 = TARGETTYPE_SCXML;
         }
         HashMap hashMap = null;
         if (!SCXMLHelper.isStringEmpty(this.namelist)) {
@@ -138,7 +137,7 @@ implements ExternalContent {
                 String string3 = stringTokenizer.nextToken();
                 object = context.get(string3);
                 if (object == null) {
-                    errorReporter.onError("UNDEFINED_VARIABLE", new StringBuffer().append(string3).append(" = null").toString(), transitionTarget);
+                    errorReporter.onError("UNDEFINED_VARIABLE", string3 + " = null", transitionTarget);
                 }
                 hashMap.put(string3, object);
             }
@@ -150,45 +149,45 @@ implements ExternalContent {
         }
         object = this.event;
         if (!SCXMLHelper.isStringEmpty(this.event) && SCXMLHelper.isStringEmpty((String)(object = (String)evaluator.eval(context, this.event))) && log.isWarnEnabled()) {
-            log.warn(new StringBuffer().append("<send>: event expression \"").append(this.event).append("\" evaluated to null or empty String").toString());
+            log.warn("<send>: event expression \"" + this.event + "\" evaluated to null or empty String");
         }
-        if (string2 != null && string2.trim().equalsIgnoreCase("scxml")) {
+        if (string2 != null && string2.trim().equalsIgnoreCase(TARGETTYPE_SCXML)) {
             if (SCXMLHelper.isStringEmpty(string)) {
                 if (l == 0L) {
                     if (log.isDebugEnabled()) {
-                        log.debug(new StringBuffer().append("<send>: Enqueued event '").append((String)object).append("' with no delay").toString());
+                        log.debug("<send>: Enqueued event '" + (String)object + "' with no delay");
                     }
                     collection.add(new TriggerEvent((String)object, 3, hashMap));
                     return;
                 }
             } else {
                 if (log.isWarnEnabled()) {
-                    log.warn(new StringBuffer().append("<send>: Unavailable target - ").append(string).toString());
+                    log.warn("<send>: Unavailable target - " + string);
                 }
-                collection.add(new TriggerEvent("error.send.targetunavailable", 5));
+                collection.add(new TriggerEvent(EVENT_ERR_SEND_TARGETUNAVAILABLE, 5));
                 return;
             }
         }
         context.setLocal(Send.getNamespacesKey(), null);
         if (log.isDebugEnabled()) {
-            log.debug(new StringBuffer().append("<send>: Dispatching event '").append((String)object).append("' to target '").append(string).append("' of target type '").append(string2).append("' with suggested delay of ").append(l).append("ms").toString());
+            log.debug("<send>: Dispatching event '" + (String)object + "' to target '" + string + "' of target type '" + string2 + "' with suggested delay of " + l + MILLIS);
         }
         eventDispatcher.send(this.sendid, string, string2, (String)object, hashMap, object2, l, this.externalNodes);
     }
 
-    private long parseDelay(String string, Log log) {
+    private long parseDelay(String string, Log log) throws SCXMLExpressionException {
         long l = 0L;
         long l2 = 1L;
         if (!SCXMLHelper.isStringEmpty(string)) {
             String string2;
             String string3 = string2 = string.trim();
-            if (string2.endsWith("ms")) {
+            if (string2.endsWith(MILLIS)) {
                 string3 = string2.substring(0, string2.length() - 2);
-            } else if (string2.endsWith("s")) {
-                l2 = 0;
+            } else if (string2.endsWith(SECONDS)) {
+                l2 = 1000L;
                 string3 = string2.substring(0, string2.length() - 1);
-            } else if (string2.endsWith("m")) {
-                l2 = 0;
+            } else if (string2.endsWith(MINUTES)) {
+                l2 = 60000L;
                 string3 = string2.substring(0, string2.length() - 1);
             }
             try {

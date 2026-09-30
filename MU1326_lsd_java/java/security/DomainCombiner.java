@@ -6,7 +6,6 @@ package java.security;
 import java.security.ProtectionDomain;
 
 public interface DomainCombiner {
-    default public ProtectionDomain[] combine(ProtectionDomain[] protectionDomainArray, ProtectionDomain[] protectionDomainArray2) {
-    }
+    public ProtectionDomain[] combine(ProtectionDomain[] var1, ProtectionDomain[] var2);
 }
 

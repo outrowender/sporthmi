@@ -20,7 +20,6 @@ extends ServiceQueueWorker {
         this.listener = iAgentServiceWorkerListener;
     }
 
-    @Override
     public void stubCountChanged(IService iService, int n) {
         CommAgentTracing.BROKER.log((short)0, "AgentServiceWorker: stubCountChanged=%1", new Integer(n));
         if (n == 0) {
@@ -30,7 +29,6 @@ extends ServiceQueueWorker {
         }
     }
 
-    @Override
     protected void methodExceptionHandler(MethodException methodException) {
         this.listener.brokerCallFailed();
     }

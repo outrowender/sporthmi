@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterSupportedConsumptionUnits;
 
 public class UnitmasterSupportedConsumptionUnitsSerializer {
-    public static void putOptionalUnitmasterSupportedConsumptionUnits(ISerializer iSerializer, UnitmasterSupportedConsumptionUnits unitmasterSupportedConsumptionUnits) {
+    public static void putOptionalUnitmasterSupportedConsumptionUnits(ISerializer iSerializer, UnitmasterSupportedConsumptionUnits unitmasterSupportedConsumptionUnits) throws SerializerException {
         boolean bl = unitmasterSupportedConsumptionUnits == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class UnitmasterSupportedConsumptionUnitsSerializer {
         }
     }
 
-    public static void putOptionalUnitmasterSupportedConsumptionUnitsVarArray(ISerializer iSerializer, UnitmasterSupportedConsumptionUnits[] unitmasterSupportedConsumptionUnitsArray) {
+    public static void putOptionalUnitmasterSupportedConsumptionUnitsVarArray(ISerializer iSerializer, UnitmasterSupportedConsumptionUnits[] unitmasterSupportedConsumptionUnitsArray) throws SerializerException {
         boolean bl = unitmasterSupportedConsumptionUnitsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class UnitmasterSupportedConsumptionUnitsSerializer {
         }
     }
 
-    public static UnitmasterSupportedConsumptionUnits getOptionalUnitmasterSupportedConsumptionUnits(IDeserializer iDeserializer) {
+    public static UnitmasterSupportedConsumptionUnits getOptionalUnitmasterSupportedConsumptionUnits(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterSupportedConsumptionUnits unitmasterSupportedConsumptionUnits = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class UnitmasterSupportedConsumptionUnitsSerializer {
         return unitmasterSupportedConsumptionUnits;
     }
 
-    public static UnitmasterSupportedConsumptionUnits[] getOptionalUnitmasterSupportedConsumptionUnitsVarArray(IDeserializer iDeserializer) {
+    public static UnitmasterSupportedConsumptionUnits[] getOptionalUnitmasterSupportedConsumptionUnitsVarArray(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterSupportedConsumptionUnits[] unitmasterSupportedConsumptionUnitsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

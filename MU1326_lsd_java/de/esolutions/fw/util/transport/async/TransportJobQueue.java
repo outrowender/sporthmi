@@ -4,6 +4,7 @@
 package de.esolutions.fw.util.transport.async;
 
 import de.esolutions.fw.util.transport.async.TransportJob;
+import de.esolutions.fw.util.transport.exception.TransportException;
 import de.esolutions.fw.util.transport.exception.TransportQueueLimitException;
 import de.esolutions.fw.util.transport.exception.TransportQueueShutdownException;
 import java.util.ArrayList;
@@ -20,30 +21,30 @@ public final class TransportJobQueue {
 
     public final synchronized void shutdown() {
         this.shutdown = true;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     public final synchronized int size() {
         return this.queue.size();
     }
 
-    public final synchronized void put(TransportJob transportJob) {
+    public final synchronized void put(TransportJob transportJob) throws TransportException {
         if (this.shutdown) {
             throw new TransportQueueShutdownException("Can't put, queue is already shutdown");
         }
         if (this.limitJob > 0 && this.limitJob < this.size() + 1) {
-            throw new TransportQueueLimitException(new StringBuffer().append("Job limit exceeded: ").append(this.limitJob).toString());
+            throw new TransportQueueLimitException("Job limit exceeded: " + this.limitJob);
         }
         this.queue.add(transportJob);
-        super.notifyAll();
+        this.notifyAll();
     }
 
-    public final synchronized TransportJob get() {
+    public final synchronized TransportJob get() throws TransportQueueShutdownException, InterruptedException {
         while (this.queue.size() == 0) {
             if (this.shutdown) {
                 throw new TransportQueueShutdownException("Can't get, queue is already shutdown");
             }
-            super.wait();
+            this.wait();
         }
         TransportJob transportJob = (TransportJob)this.queue.remove(0);
         return transportJob;

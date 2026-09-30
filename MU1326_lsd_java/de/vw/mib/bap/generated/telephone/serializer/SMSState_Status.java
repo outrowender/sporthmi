@@ -10,17 +10,17 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SMSState_Status
 implements StatusProperty {
     public int simready;
-    private static final int SIM_READY_BITSIZE;
-    public static final int SIM_READY_SIM_DATA_NOT_YET_AVAILABLE;
-    public static final int SIM_READY_SIM_DATA_AVAILABLE;
+    private static final int SIM_READY_BITSIZE = 8;
+    public static final int SIM_READY_SIM_DATA_NOT_YET_AVAILABLE = 0;
+    public static final int SIM_READY_SIM_DATA_AVAILABLE = 1;
     public int storageState;
-    private static final int STORAGE_STATE_BITSIZE;
-    public static final int STORAGE_STATE_SMS_STORAGE_AVAILABLE;
-    public static final int STORAGE_STATE_SMS_STORAGE_FULL;
-    public static final int STORAGE_STATE_SMS_STORAGE_FULL_SMS_PENDING_1;
-    public static final int STORAGE_STATE_SMS_STORAGE_FULL_SMS_PENDING_2;
+    private static final int STORAGE_STATE_BITSIZE = 8;
+    public static final int STORAGE_STATE_SMS_STORAGE_AVAILABLE = 0;
+    public static final int STORAGE_STATE_SMS_STORAGE_FULL = 1;
+    public static final int STORAGE_STATE_SMS_STORAGE_FULL_SMS_PENDING_1 = 2;
+    public static final int STORAGE_STATE_SMS_STORAGE_FULL_SMS_PENDING_2 = 3;
     public int numberOfNewSms;
-    private static final int NUMBER_OF_NEW_SMS_BITSIZE;
+    private static final int NUMBER_OF_NEW_SMS_BITSIZE = 16;
 
     public SMSState_Status() {
         this.internalReset();
@@ -38,12 +38,10 @@ implements StatusProperty {
         this.numberOfNewSms = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SMSState_Status sMSState_Status = (SMSState_Status)bAPEntity;
         return this.simready == sMSState_Status.simready && this.storageState == sMSState_Status.storageState && this.numberOfNewSms == sMSState_Status.numberOfNewSms;
@@ -52,7 +50,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SMSState_Status:");
@@ -97,7 +94,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -105,14 +101,12 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.simready);
         bitStream.pushByte((byte)this.storageState);
         bitStream.pushShort((short)this.numberOfNewSms);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.simready = bitStream.popFrontByte();
         this.storageState = bitStream.popFrontByte();
@@ -123,7 +117,6 @@ implements StatusProperty {
         return 55;
     }
 
-    @Override
     public int getFunctionId() {
         return SMSState_Status.functionId();
     }

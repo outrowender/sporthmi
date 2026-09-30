@@ -21,7 +21,6 @@ implements KeySpec {
         return (byte[])this.encodedKey.clone();
     }
 
-    public abstract String getFormat() {
-    }
+    public abstract String getFormat();
 }
 

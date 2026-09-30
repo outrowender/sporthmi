@@ -32,7 +32,7 @@ public class sNadIMEI {
     }
 
     public String toString() {
-        return new StringBuffer("sNadIMEI{").append("msg_id=").append(this.msg_id).append(", nadIMEI=").append(this.nadIMEI).append("}").toString();
+        return "sNadIMEI{" + "msg_id=" + this.msg_id + ", nadIMEI=" + this.nadIMEI + "}";
     }
 }
 

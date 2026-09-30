@@ -4,10 +4,10 @@
 package de.esolutions.fw.comm.dsi.picturestore;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_VIEWERSTATE;
-    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_SCROLLMODE;
-    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_LISTPOSITION;
-    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_NUMENTRIES;
-    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_NUMSELECTEDENTRIES;
+    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_VIEWERSTATE = 1;
+    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_SCROLLMODE = 2;
+    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_LISTPOSITION = 3;
+    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_NUMENTRIES = 4;
+    public static final int ATTRIBUTE_ID_DSIPICTUREVIEWER_NUMSELECTEDENTRIES = 5;
 }
 

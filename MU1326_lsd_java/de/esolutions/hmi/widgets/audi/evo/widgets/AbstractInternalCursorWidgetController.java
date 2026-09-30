@@ -44,7 +44,6 @@ ITextDescriptorController {
         return "";
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.menu == null) {
@@ -55,9 +54,8 @@ ITextDescriptorController {
     protected void dimScreen(boolean bl) {
     }
 
-    @Override
     public void disconnecting() {
-        menuItemLogCh.log(-2137614336, "AbstractInternalCursorWidgetController#disconnecting %1, (%2)", (Object)this, (long)this.hashCode());
+        menuItemLogCh.log(10000000, "AbstractInternalCursorWidgetController#disconnecting %1, (%2)", (Object)this, (long)this.hashCode());
         this.cursorPosition = -1;
         if (this.isHighlighted()) {
             this.setHighlighted(false);
@@ -69,16 +67,12 @@ ITextDescriptorController {
         super.disconnecting();
     }
 
-    protected abstract void enterEditableMode() {
-    }
+    protected abstract void enterEditableMode();
 
-    protected abstract void exitEditableMode() {
-    }
+    protected abstract void exitEditableMode();
 
-    protected abstract void exitEditableModeWithoutSavings() {
-    }
+    protected abstract void exitEditableModeWithoutSavings();
 
-    @Override
     public int getBaseline() {
         return ((ITimeDateSetttingsRenderer)this.getRenderer()).getBaseline();
     }
@@ -109,7 +103,6 @@ ITextDescriptorController {
         return menuController;
     }
 
-    @Override
     public int getPreferredHeight() {
         ITimeDateSetttingsRenderer iTimeDateSetttingsRenderer = (ITimeDateSetttingsRenderer)this.getRenderer();
         if (iTimeDateSetttingsRenderer != null) {
@@ -118,7 +111,6 @@ ITextDescriptorController {
         return 0;
     }
 
-    @Override
     public int getPreferredWidth() {
         ITimeDateSetttingsRenderer iTimeDateSetttingsRenderer = (ITimeDateSetttingsRenderer)this.getRenderer();
         if (iTimeDateSetttingsRenderer != null) {
@@ -127,16 +119,12 @@ ITextDescriptorController {
         return 0;
     }
 
-    @Override
-    public abstract IRenderer getRenderer() {
-    }
+    public abstract IRenderer getRenderer();
 
-    public abstract boolean isInEditableMode() {
-    }
+    public abstract boolean isInEditableMode();
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        menuItemLogCh.log(-2137614336, "%1#keyPressed KeyCode = %2", (Object)this.getClassName(), (long)keyEvent.getKeyCode());
+        menuItemLogCh.log(10000000, "%1#keyPressed KeyCode = %2", (Object)this.getClassName(), (long)keyEvent.getKeyCode());
         if (keyEvent.getKeyCode() == 17) {
             if (this.isEnabled()) {
                 this.dds_pressed = true;
@@ -147,11 +135,8 @@ ITextDescriptorController {
         }
     }
 
-    @Override
-    public abstract void keyReleased(KeyEvent keyEvent) {
-    }
+    public abstract void keyReleased(KeyEvent var1);
 
-    @Override
     public final void keyTurned(WheelButtonEvent wheelButtonEvent) {
         int n = wheelButtonEvent.getClickCount();
         if (n == 0) {
@@ -172,18 +157,14 @@ ITextDescriptorController {
         }
     }
 
-    public abstract void keyTurned1(WheelButtonEvent wheelButtonEvent) {
-    }
+    public abstract void keyTurned1(WheelButtonEvent var1);
 
-    @Override
-    public abstract void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public abstract void processModelUpdateEvent(ModelUpdateEvent var1);
 
     public String getText(int n) {
         return this.getInitContext().getScreenFactory().getText(n);
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (!bl) {
             this.exitEditableModeWithoutSavings();
@@ -199,7 +180,7 @@ ITextDescriptorController {
     protected void switchONParentMenuCursor() {
         if (this.menu != null) {
             if (!this.menu.isFocusCursorVisible()) {
-                menuItemLogCh.log(-2137614336, "AbstractInternalCursorWidgetController#switchONParentMenuCursor");
+                menuItemLogCh.log(10000000, "AbstractInternalCursorWidgetController#switchONParentMenuCursor");
                 this.menu.setFocusCursorVisible(true, this.getCursorHideReason());
                 this.menu.setCompositesDirty(true);
             }
@@ -210,9 +191,9 @@ ITextDescriptorController {
     protected void switchOFFParentMenuCursor() {
         if (this.menu != null) {
             if (this.menu.isFocusCursorVisible()) {
-                menuItemLogCh.log(-2137614336, "AbstractInternalCursorWidgetController#switchOFFParentMenuCursor");
+                menuItemLogCh.log(10000000, "AbstractInternalCursorWidgetController#switchOFFParentMenuCursor");
                 this.menu.setFocusCursorVisible(false, this.getCursorHideReason());
-                logRepaintCause.log(-2137614336, "AbstractInternalCursorWidgetController#switchOFFParentMenuCursor: trigger repaint. screen id: %1", (long)this.getScreenId());
+                logRepaintCause.log(10000000, "AbstractInternalCursorWidgetController#switchOFFParentMenuCursor: trigger repaint. screen id: %1", (long)this.getScreenId());
                 this.menu.triggerRepaint();
             }
             this.cursorHidden = true;
@@ -223,7 +204,6 @@ ITextDescriptorController {
         return this;
     }
 
-    @Override
     public boolean hasBaseline() {
         return false;
     }

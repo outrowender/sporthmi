@@ -8,9 +8,9 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ActiveTrip_OriginGpsposition
 implements BAPEntity {
-    public static final int POSITION_LATITUDE_MIN;
+    public static final int POSITION_LATITUDE_MIN = -90;
     public int positionLatitude;
-    public static final int POSITION_LONGITUDE_MIN;
+    public static final int POSITION_LONGITUDE_MIN = -180;
     public int positionLongitude;
 
     public ActiveTrip_OriginGpsposition() {
@@ -28,12 +28,10 @@ implements BAPEntity {
         this.positionLongitude = -180;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveTrip_OriginGpsposition activeTrip_OriginGpsposition = (ActiveTrip_OriginGpsposition)bAPEntity;
         return this.positionLatitude == activeTrip_OriginGpsposition.positionLatitude && this.positionLongitude == activeTrip_OriginGpsposition.positionLongitude;
@@ -42,27 +40,23 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveTrip_OriginGpsposition");
-        stringBuffer.append(new StringBuffer().append("\n - positionLatitude:").append(this.positionLatitude).toString());
-        stringBuffer.append(new StringBuffer().append("\n - positionLongitude:").append(this.positionLongitude).toString());
+        stringBuffer.append("\n - positionLatitude:" + this.positionLatitude);
+        stringBuffer.append("\n - positionLongitude:" + this.positionLongitude);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushInt(this.positionLatitude);
         bitStream.pushInt(this.positionLongitude);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.positionLatitude = bitStream.popFrontInt();
         this.positionLongitude = bitStream.popFrontInt();

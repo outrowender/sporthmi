@@ -40,7 +40,6 @@ CharSequence {
         return this.arrayOffset;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             throw new NullPointerException("ob is null");
@@ -83,8 +82,7 @@ CharSequence {
         return object instanceof CharBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract char get() {
-    }
+    public abstract char get();
 
     public CharBuffer get(char[] cArray) {
         if (cArray == null) {
@@ -119,8 +117,7 @@ CharSequence {
         return this;
     }
 
-    public abstract char get(int n) {
-    }
+    public abstract char get(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -142,11 +139,9 @@ CharSequence {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract CharBuffer put(char c2) {
-    }
+    public abstract CharBuffer put(char var1);
 
     public final CharBuffer put(char[] cArray) {
         if (cArray == null) {
@@ -192,15 +187,12 @@ CharSequence {
         return this.put(cArray);
     }
 
-    public abstract CharBuffer put(int n, char c2) {
-    }
+    public abstract CharBuffer put(int var1, char var2);
 
-    public abstract CharBuffer slice() {
-    }
+    public abstract CharBuffer slice();
 
-    @Override
     public String toString() {
-        return new StringBuffer("java.nio.CharBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.CharBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static CharBuffer wrap(char[] cArray) {
@@ -223,12 +215,10 @@ CharSequence {
         return new CharBufferImpl(cArray, n, n2, cArray.length, 0);
     }
 
-    @Override
     public char charAt(int n) {
         return this.get(this.position() + n);
     }
 
-    @Override
     public int length() {
         return this.remaining();
     }
@@ -255,7 +245,6 @@ CharSequence {
         return this;
     }
 
-    public abstract ByteOrder order() {
-    }
+    public abstract ByteOrder order();
 }
 

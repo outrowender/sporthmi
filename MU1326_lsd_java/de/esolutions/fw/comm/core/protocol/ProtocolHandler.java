@@ -36,18 +36,21 @@ import de.esolutions.fw.comm.core.tracing.CommCoreTracing;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializable;
 import de.esolutions.fw.util.serializer.connection.Connection;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.transport.IReadable;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class ProtocolHandler {
-    public static final short DYNAMIC_AGENT_ID_BIT;
-    public static final int STATE_INIT;
-    public static final int STATE_CONNECTED;
-    public static final int STATE_EXIT;
-    public static final int STATE_DISCONNECTED;
-    public static final int STATE_ERROR;
-    public static final int STATE_DROPPED;
-    public static final byte PROTOCOL_V5;
+    public static final short DYNAMIC_AGENT_ID_BIT = Short.MIN_VALUE;
+    public static final int STATE_INIT = 0;
+    public static final int STATE_CONNECTED = 1;
+    public static final int STATE_EXIT = 2;
+    public static final int STATE_DISCONNECTED = 3;
+    public static final int STATE_ERROR = 4;
+    public static final int STATE_DROPPED = 5;
+    public static final byte PROTOCOL_V5 = 5;
     protected short agentID;
     protected short agentEpoch;
     protected short peerAgentID;
@@ -138,7 +141,7 @@ public class ProtocolHandler {
         this.brokerInstanceID = serviceInstanceID;
     }
 
-    public synchronized boolean disconnect() {
+    public synchronized boolean disconnect() throws ProtocolException, TransportException, IOException, InterruptedException {
         if (this.state != 1) {
             throw new ProtocolException("disconnect only allowed in CONNECTED state");
         }
@@ -146,52 +149,52 @@ public class ProtocolHandler {
         return true;
     }
 
-    public synchronized void sendCreateStub(short s, ServiceInstanceID serviceInstanceID) {
+    public synchronized void sendCreateStub(short s, ServiceInstanceID serviceInstanceID) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing CREATE_STUB: proxyID=%1 instanceID=%2", new Short(s), (Object)serviceInstanceID);
         this.sender.sendCreateStub(this.agentID, s, serviceInstanceID);
     }
 
-    public synchronized void sendProxyAlive(short s) {
+    public synchronized void sendProxyAlive(short s) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing PROXY_ALIVE: stubID=%1", new Short(s));
         this.sender.sendProxyAlive(s);
     }
 
-    public synchronized void sendDestroyStub(short s) {
+    public synchronized void sendDestroyStub(short s) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing DESTROY_STUB: stubID=%1", new Short(s));
         this.sender.sendDestroyStub(s);
     }
 
-    public synchronized void sendCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) {
+    public synchronized void sendCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)0, "  outgoing CALL_METHOD: stubID=%1 methodID=%2", new Short(s), (Object)new Short(s2));
         this.sender.sendCallMethod(s, s2, iSerializable, iCallMethodSerializeCallback);
     }
 
-    public synchronized void sendStubCreated(short s, short s2) {
+    public synchronized void sendStubCreated(short s, short s2) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing STUB_CREATED: proxyID=%1 stubID=%2", new Short(s), (Object)new Short(s2));
         this.sender.sendStubCreated(s, s2);
     }
 
-    public synchronized void sendRRStubCreated(short s, short s2, short s3) {
+    public synchronized void sendRRStubCreated(short s, short s2, short s3) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing RRSTUB_CREATED: proxyID=%1 stubID=%2 replyProxyID=%3", new Short(s), (Object)new Short(s2), (Object)new Short(s3));
         this.sender.sendRRStubCreated(s, s2, s3);
     }
 
-    public synchronized void sendCreateRRStub(short s, short s2, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2) {
+    public synchronized void sendCreateRRStub(short s, short s2, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing CREATE_RRSTUB: proxyID=%1 stubID=%2 agentID=%3 instanceID=%4 replyInstanceID=%5", new Short(s), (Object)new Short(s2), (Object)new Short(this.agentID), (Object)serviceInstanceID, (Object)serviceInstanceID2);
         this.sender.sendCreateRRStub(this.agentID, s, s2, serviceInstanceID, serviceInstanceID2);
     }
 
-    public synchronized void sendStubFailed(short s, byte by) {
+    public synchronized void sendStubFailed(short s, byte by) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing STUB_FAILED: proxyID=%1 errorCode=%2", new Short(s), (Object)new Byte(by));
         this.sender.sendStubFailed(s, by);
     }
 
-    public synchronized void sendPing() {
+    public synchronized void sendPing() throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing PING");
         this.sender.sendPing();
     }
 
-    public boolean handleIncomingMessage() {
+    public boolean handleIncomingMessage() throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         if (this.state != 1) {
             throw new ProtocolException("handle incoming message only allowed in CONNECTED state");
         }
@@ -199,7 +202,7 @@ public class ProtocolHandler {
         return this.dispatchMessage(abstractMessage);
     }
 
-    public AbstractMessage recvMessage() {
+    public AbstractMessage recvMessage() throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         return this.receiver.recvMessage();
     }
 
@@ -276,12 +279,12 @@ public class ProtocolHandler {
         return true;
     }
 
-    public synchronized void sendCostumMessage(byte by, byte[] byArray) {
+    public synchronized void sendCostumMessage(byte by, byte[] byArray) throws ProtocolException, TransportException, IOException, InterruptedException {
         CommCoreTracing.PROTOCOL.log((short)1, "  outgoing CUSTOM_MESSAGE: MessageType=%1", new Byte(by));
         this.sender.sendCustomMessage(by, byArray);
     }
 
-    public boolean connectActive(short s) {
+    public boolean connectActive(short s) throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         Object object;
         Object object2;
         if (this.state != 0) {
@@ -375,7 +378,7 @@ public class ProtocolHandler {
         return true;
     }
 
-    public boolean connectPassive() {
+    public boolean connectPassive() throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         CommCoreTracing.HANDSHAKE.log((short)1, "Handshake Passive: wait for INIT");
         boolean bl = false;
         do {
@@ -397,12 +400,12 @@ public class ProtocolHandler {
         return false;
     }
 
-    public boolean connectPassiveV6(HelloMessage helloMessage) {
+    public boolean connectPassiveV6(HelloMessage helloMessage) throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         this.sender.sendReject((short)2, RejectMessage.ERROR_NAMES[2]);
         return true;
     }
 
-    public boolean connectPassiveV5(InitMessage initMessage) {
+    public boolean connectPassiveV5(InitMessage initMessage) throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         IProtocolActions iProtocolActions;
         byte by = initMessage.getProtocolRevision();
         CommCoreTracing.HANDSHAKE.log((short)1, "Handshake Passive: got agent=%1 protocol=%2 own protocol %3", new Short(initMessage.getAgentID()), (Object)new Short(initMessage.getProtocolRevision()), (Object)new Short(this.protocolVersion));

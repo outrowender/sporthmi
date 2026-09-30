@@ -26,11 +26,11 @@ public abstract class AbstractFingerTraceRendererHigh
 extends AbstractRendererHigh
 implements IFingerTraceRenderer,
 IKanziTemplateRenderer {
-    public static final String NODE_FINGERTRACE_LINE_NAME;
-    protected static final int NODE_INDEX_LINE;
-    protected static final float TOUCHPAD_RESOLUTION_MIB2;
-    protected static final float TOUCHPAD_RESOLUTION_AB3;
-    protected static final String PROPERTY_FINGERTRACE_PEEPHOLE;
+    public static final String NODE_FINGERTRACE_LINE_NAME = "fingertraceLine";
+    protected static final int NODE_INDEX_LINE = 200;
+    protected static final float TOUCHPAD_RESOLUTION_MIB2 = 1024.0f;
+    protected static final float TOUCHPAD_RESOLUTION_AB3 = 256.0f;
+    protected static final String PROPERTY_FINGERTRACE_PEEPHOLE = "ft_peepHole";
     protected IWrappedNode3DQuickDraw line;
     protected float lineScalingFactorX = 1.0f;
     protected float lineScalingFactorY = 1.0f;
@@ -50,26 +50,22 @@ IKanziTemplateRenderer {
         return this.main;
     }
 
-    protected abstract float getScalingFactorX() {
-    }
+    protected abstract float getScalingFactorX();
 
-    protected abstract float getScalingFactorY() {
-    }
+    protected abstract float getScalingFactorY();
 
-    protected abstract float getLineWidth() {
-    }
+    protected abstract float getLineWidth();
 
     protected int getKbdType() {
         if (this.controller.getTerminal().getKbdService() != null) {
             this.kbdType = this.controller.getTerminal().getKbdService().getCurrentKeyboardType();
         } else {
-            IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "TouchRendererHigh#connect: no KbdService available - use ALL_IN_TOUCH as default keyboard type");
+            IWidgetLogChannel.tpLogChannelInternal.log(100000, "TouchRendererHigh#connect: no KbdService available - use ALL_IN_TOUCH as default keyboard type");
             this.kbdType = 6;
         }
         return this.kbdType;
     }
 
-    @Override
     public void showFingerTrace(float f2) {
         if (this.line != null) {
             this.line.setVisible(true);
@@ -77,16 +73,14 @@ IKanziTemplateRenderer {
         }
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.lineScalingFactorX = this.getScalingFactorX();
         this.lineScalingFactorY = this.getScalingFactorY();
-        this.tpResolution = this.getKbdType() == 15 ? 32835 : 32836;
+        this.tpResolution = this.getKbdType() == 15 ? 256.0f : 1024.0f;
         this.showLineBackground = false;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.shouldRender() || AbstractWidget.isVariantStd()) {
             return;
@@ -95,7 +89,6 @@ IKanziTemplateRenderer {
         this.applyProperties();
     }
 
-    @Override
     public void startLine(int n, int n2) {
         if (this.line != null) {
             this.line.getQuickDrawNode().addSeparator();
@@ -103,23 +96,18 @@ IKanziTemplateRenderer {
         }
     }
 
-    protected abstract void applyProperties() {
-    }
+    protected abstract void applyProperties();
 
-    protected abstract float getLinePointOffsetX() {
-    }
+    protected abstract float getLinePointOffsetX();
 
-    protected abstract float getLinePointOffsetY() {
-    }
+    protected abstract float getLinePointOffsetY();
 
-    @Override
     public void addPoint(int n, int n2) {
         if (this.line != null) {
             this.line.add((int)((float)n * this.lineScalingFactorX - this.getLinePointOffsetX()), (int)((float)n2 * this.lineScalingFactorY - this.getLinePointOffsetY()));
         }
     }
 
-    @Override
     public void clearLine() {
         if (this.line != null) {
             this.line.clearArea();
@@ -127,21 +115,17 @@ IKanziTemplateRenderer {
         }
     }
 
-    @Override
     public void removeFingerTrace() {
         this.clearLine();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
-    @Override
     public boolean isFingerTraceVisible() {
         return this.showLineBackground;
     }
@@ -163,11 +147,10 @@ IKanziTemplateRenderer {
         }
     }
 
-    protected abstract IWrappedNode3D createBackgroundNode() {
-    }
+    protected abstract IWrappedNode3D createBackgroundNode();
 
     private IWrappedNode3DQuickDraw createLineQuickDrawNode() {
-        IWrappedNode3DQuickDraw iWrappedNode3DQuickDraw = this.getEALManager().createQuickDrawNode3D(null, EALManager.createNodeName("fingertraceLine", this), this.getFingerTraceWidth() * 2, this.getFingerTraceHeight() * 2, 0);
+        IWrappedNode3DQuickDraw iWrappedNode3DQuickDraw = this.getEALManager().createQuickDrawNode3D(null, EALManager.createNodeName(NODE_FINGERTRACE_LINE_NAME, this), this.getFingerTraceWidth() * 2, this.getFingerTraceHeight() * 2, 0);
         if (iWrappedNode3DQuickDraw == null) {
             tpLogChannelInternal.log(10000, "AbstractFingerTraceRendererHigh#createLineQuickDrawNode: Could not create Finger trace line -> you need a Nvidia graphic card!!!");
             return null;
@@ -178,7 +161,7 @@ IKanziTemplateRenderer {
         iWrappedNode3DQuickDraw.setShouldFlipBack(!this.isLTR());
         iWrappedNode3DQuickDraw.setPosition(0.0f, 0.0f, 0.0f);
         iWrappedNode3DQuickDraw.setVisible(false);
-        iWrappedNode3DQuickDraw.setScale(63, 63, 1.0f);
+        iWrappedNode3DQuickDraw.setScale(0.5f, 0.5f, 1.0f);
         return iWrappedNode3DQuickDraw;
     }
 
@@ -199,7 +182,6 @@ IKanziTemplateRenderer {
         return iWrappedNode3D;
     }
 
-    @Override
     public void disconnect() {
         this.propertyCache.clearAll();
         if (this.line != null) {
@@ -213,18 +195,14 @@ IKanziTemplateRenderer {
         super.disconnect();
     }
 
-    @Override
     public void onviewSizeChanging() {
     }
 
-    @Override
     public void viewSizeChanged() {
     }
 
-    protected abstract int getFingerTraceWidth() {
-    }
+    protected abstract int getFingerTraceWidth();
 
-    protected abstract int getFingerTraceHeight() {
-    }
+    protected abstract int getFingerTraceHeight();
 }
 

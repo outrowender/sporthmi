@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingLockStatus;
 
 public class DoorLockingLockStatusSerializer {
-    public static void putOptionalDoorLockingLockStatus(ISerializer iSerializer, DoorLockingLockStatus doorLockingLockStatus) {
+    public static void putOptionalDoorLockingLockStatus(ISerializer iSerializer, DoorLockingLockStatus doorLockingLockStatus) throws SerializerException {
         boolean bl = doorLockingLockStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class DoorLockingLockStatusSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingLockStatusVarArray(ISerializer iSerializer, DoorLockingLockStatus[] doorLockingLockStatusArray) {
+    public static void putOptionalDoorLockingLockStatusVarArray(ISerializer iSerializer, DoorLockingLockStatus[] doorLockingLockStatusArray) throws SerializerException {
         boolean bl = doorLockingLockStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class DoorLockingLockStatusSerializer {
         }
     }
 
-    public static DoorLockingLockStatus getOptionalDoorLockingLockStatus(IDeserializer iDeserializer) {
+    public static DoorLockingLockStatus getOptionalDoorLockingLockStatus(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingLockStatus doorLockingLockStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class DoorLockingLockStatusSerializer {
         return doorLockingLockStatus;
     }
 
-    public static DoorLockingLockStatus[] getOptionalDoorLockingLockStatusVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingLockStatus[] getOptionalDoorLockingLockStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingLockStatus[] doorLockingLockStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

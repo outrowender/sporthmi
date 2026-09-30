@@ -52,7 +52,7 @@ public class sCommandSDS {
     }
 
     public String toString() {
-        return new StringBuffer("sCommandSDS{").append("msg_id=").append(this.msg_id).append(", confidence_level=").append(this.confidence_level).append(", signal_quality=").append(this.signal_quality).append(", last_command=").append(this.last_command).append("}").toString();
+        return "sCommandSDS{" + "msg_id=" + this.msg_id + ", confidence_level=" + this.confidence_level + ", signal_quality=" + this.signal_quality + ", last_command=" + this.last_command + "}";
     }
 }
 

@@ -3,17 +3,51 @@
  */
 package de.vw.mib.bap.array.asg.complete;
 
-import de.vw.mib.bap.array.asg.complete.ASGArrayListData$1;
+import de.vw.mib.bap.datatypes.ArrayHeader;
 import de.vw.mib.bap.datatypes.BAPArrayDataList;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
+import de.vw.mib.bap.datatypes.BAPEntity;
+import de.vw.mib.bap.stream.BitStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 class ASGArrayListData
 implements BAPArrayDataList {
-    public static final int INDEX_NOT_FOUND;
-    private static final BAPArrayElement EMPTY_ELEMENT;
+    public static final int INDEX_NOT_FOUND = -1;
+    private static final BAPArrayElement EMPTY_ELEMENT = new BAPArrayElement(){
+
+        public void serialize(BitStream bitStream) {
+        }
+
+        public void deserialize(BitStream bitStream) {
+        }
+
+        public int bitSize() {
+            return 0;
+        }
+
+        public void reset() {
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            return false;
+        }
+
+        public void setPos(int n) {
+        }
+
+        public void setArrayHeader(ArrayHeader arrayHeader) {
+        }
+
+        public int getPos() {
+            return 0;
+        }
+
+        public ArrayHeader getArrayHeader() {
+            return null;
+        }
+    };
     private ArrayList _arrayElements;
 
     ASGArrayListData() {
@@ -34,7 +68,6 @@ implements BAPArrayDataList {
         return this._arrayElements;
     }
 
-    @Override
     public int size() {
         return this.getArrayElements().size();
     }
@@ -116,24 +149,20 @@ implements BAPArrayDataList {
         return n2;
     }
 
-    @Override
     public BAPArrayElement get(int n) {
         return (BAPArrayElement)this.getArrayElements().get(n);
     }
 
-    @Override
     public BAPArrayDataList getElements(int n, int n2) {
         return new ASGArrayListData(this.getArrayElements().subList(n, n + n2));
     }
 
-    @Override
     public BAPArrayElement getLast() {
         ArrayList arrayList = this.getArrayElements();
         BAPArrayElement bAPArrayElement = !arrayList.isEmpty() ? (BAPArrayElement)arrayList.get(arrayList.size() - 1) : EMPTY_ELEMENT;
         return bAPArrayElement;
     }
 
-    @Override
     public BAPArrayElement getFirst() {
         ArrayList arrayList = this.getArrayElements();
         BAPArrayElement bAPArrayElement = !arrayList.isEmpty() ? (BAPArrayElement)arrayList.get(0) : EMPTY_ELEMENT;
@@ -177,30 +206,22 @@ implements BAPArrayDataList {
         return new ASGArrayListData(this.getArrayElements());
     }
 
-    @Override
     public Iterator getIterator() {
         return this.getArrayElements().iterator();
     }
 
-    @Override
     public BAPArrayElement[] toArray() {
         ArrayList arrayList = this.getArrayElements();
         Object[] objectArray = new BAPArrayElement[arrayList.size()];
         return (BAPArrayElement[])arrayList.toArray(objectArray);
     }
 
-    @Override
     public boolean addToList(List list) {
         return list.addAll(this.getArrayElements());
     }
 
-    @Override
     public boolean addToList(int n, List list) {
         return list.addAll(n, this.getArrayElements());
-    }
-
-    static {
-        EMPTY_ELEMENT = new ASGArrayListData$1();
     }
 }
 

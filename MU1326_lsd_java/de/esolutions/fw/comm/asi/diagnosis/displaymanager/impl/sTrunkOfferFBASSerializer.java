@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.displaymanager.impl;
 import de.esolutions.fw.comm.asi.diagnosis.displaymanager.sTrunkOfferFBAS;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTrunkOfferFBASSerializer {
-    public static void putOptionalsTrunkOfferFBAS(ISerializer iSerializer, sTrunkOfferFBAS sTrunkOfferFBAS2) {
+    public static void putOptionalsTrunkOfferFBAS(ISerializer iSerializer, sTrunkOfferFBAS sTrunkOfferFBAS2) throws SerializerException {
         boolean bl = sTrunkOfferFBAS2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sTrunkOfferFBASSerializer {
         }
     }
 
-    public static void putOptionalsTrunkOfferFBASVarArray(ISerializer iSerializer, sTrunkOfferFBAS[] sTrunkOfferFBASArray) {
+    public static void putOptionalsTrunkOfferFBASVarArray(ISerializer iSerializer, sTrunkOfferFBAS[] sTrunkOfferFBASArray) throws SerializerException {
         boolean bl = sTrunkOfferFBASArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sTrunkOfferFBASSerializer {
         }
     }
 
-    public static sTrunkOfferFBAS getOptionalsTrunkOfferFBAS(IDeserializer iDeserializer) {
+    public static sTrunkOfferFBAS getOptionalsTrunkOfferFBAS(IDeserializer iDeserializer) throws SerializerException {
         sTrunkOfferFBAS sTrunkOfferFBAS2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sTrunkOfferFBASSerializer {
         return sTrunkOfferFBAS2;
     }
 
-    public static sTrunkOfferFBAS[] getOptionalsTrunkOfferFBASVarArray(IDeserializer iDeserializer) {
+    public static sTrunkOfferFBAS[] getOptionalsTrunkOfferFBASVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTrunkOfferFBAS[] sTrunkOfferFBASArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

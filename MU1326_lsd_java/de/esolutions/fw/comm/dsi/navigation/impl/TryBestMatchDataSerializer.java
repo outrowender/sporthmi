@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.NavPhoneDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavPhoneData;
 import org.dsi.ifc.navigation.TryBestMatchData;
 
 public class TryBestMatchDataSerializer {
-    public static void putOptionalTryBestMatchData(ISerializer iSerializer, TryBestMatchData tryBestMatchData) {
+    public static void putOptionalTryBestMatchData(ISerializer iSerializer, TryBestMatchData tryBestMatchData) throws SerializerException {
         boolean bl = tryBestMatchData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class TryBestMatchDataSerializer {
         }
     }
 
-    public static void putOptionalTryBestMatchDataVarArray(ISerializer iSerializer, TryBestMatchData[] tryBestMatchDataArray) {
+    public static void putOptionalTryBestMatchDataVarArray(ISerializer iSerializer, TryBestMatchData[] tryBestMatchDataArray) throws SerializerException {
         boolean bl = tryBestMatchDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class TryBestMatchDataSerializer {
         }
     }
 
-    public static TryBestMatchData getOptionalTryBestMatchData(IDeserializer iDeserializer) {
+    public static TryBestMatchData getOptionalTryBestMatchData(IDeserializer iDeserializer) throws SerializerException {
         TryBestMatchData tryBestMatchData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class TryBestMatchDataSerializer {
         return tryBestMatchData;
     }
 
-    public static TryBestMatchData[] getOptionalTryBestMatchDataVarArray(IDeserializer iDeserializer) {
+    public static TryBestMatchData[] getOptionalTryBestMatchDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         TryBestMatchData[] tryBestMatchDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

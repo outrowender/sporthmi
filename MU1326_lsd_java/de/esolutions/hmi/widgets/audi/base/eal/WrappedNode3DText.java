@@ -24,18 +24,15 @@ implements IWrappedNode3DText {
         this.font = iWrappedFont;
     }
 
-    @Override
     public INode3D getNode() {
         this.setScale(this.scaleX, this.scaleY, this.scaleZ);
         return super.getNode();
     }
 
-    @Override
     public void setText(String string, IWrappedFont iWrappedFont) {
         this.setText(string, iWrappedFont, 10000, null);
     }
 
-    @Override
     public void setText(String string, IWrappedFont iWrappedFont, int n, EALManager eALManager) {
         if (string == null) {
             string = "";
@@ -48,15 +45,15 @@ implements IWrappedNode3DText {
         ITextLayout iTextLayout = EALManager.FONT_LAYOUT_WORKAROUND ? new ITextLayout(iWrappedFont.getSize()) : iWrappedFont.getLayout();
         iTextLayout.setMaximumLineCount(1L);
         if (n == 10000) {
-            iTextLayout.setMaximumSize(0, 0);
+            iTextLayout.setMaximumSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
             iTextLayout.setTruncation(false);
         } else {
-            iTextLayout.setMaximumSize(n, 0);
+            iTextLayout.setMaximumSize(n, Integer.MAX_VALUE);
             iTextLayout.setTruncation(true);
         }
         this.getTextNode().getInterfaceText().setText(iTextLayout, string);
         if (EALManager.FONT_LAYOUT_WORKAROUND) {
-            logChannel3DEngine.log(-2137614336, "WrappedNode3DText#setText: destroy text-layout %1", (Object)iTextLayout);
+            logChannel3DEngine.log(10000000, "WrappedNode3DText#setText: destroy text-layout %1", (Object)iTextLayout);
             if (!iTextLayout.destroy()) {
                 logChannel3DEngine.log(10000, "WrappedNode3DText#setText: text-layout %1 could not be destroyed", (Object)iTextLayout, new Throwable("Dummy Throwable for Stacktrace"));
             }
@@ -73,7 +70,6 @@ implements IWrappedNode3DText {
         this.setVisible(this.visible);
     }
 
-    @Override
     public void setColor(int n) {
         if (this.equalsColor(n)) {
             return;
@@ -91,22 +87,18 @@ implements IWrappedNode3DText {
         return this.color == n;
     }
 
-    @Override
     public float getOriginX() {
         return 0.0f;
     }
 
-    @Override
     public float getOriginY() {
         return 1.0f;
     }
 
-    @Override
     public IWrappedFont getFont() {
         return this.font;
     }
 
-    @Override
     public int getAbbreviateWidth() {
         return this.abbreviateWidth;
     }

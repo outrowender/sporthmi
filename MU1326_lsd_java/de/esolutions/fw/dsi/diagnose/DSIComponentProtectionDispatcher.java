@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.diagnose;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.diagnose.DSIComponentProtectionReply;
 import de.esolutions.fw.comm.dsi.diagnose.impl.DSIComponentProtectionReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIComponentProtectionReply {
         super(n, (class$org$dsi$ifc$diagnose$DSIComponentProtectionListener == null ? (class$org$dsi$ifc$diagnose$DSIComponentProtectionListener = DSIComponentProtectionDispatcher.class$("org.dsi.ifc.diagnose.DSIComponentProtectionListener")) : class$org$dsi$ifc$diagnose$DSIComponentProtectionListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void authStringResponse(String string, String string2, byte by) {
+    public void authStringResponse(String string, String string2, byte by) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIComponentProtectionReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,14 +58,13 @@ implements DSIComponentProtectionReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIComponentProtectionListener dSIComponentProtectionListener = (DSIComponentProtectionListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIComponentProtectionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIComponentProtectionDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIComponentProtectionListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIComponentProtectionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIComponentProtectionDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIComponentProtectionListener, new Object[]{string, string2});
                     continue;
                 }

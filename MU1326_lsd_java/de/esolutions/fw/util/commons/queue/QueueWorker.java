@@ -58,11 +58,10 @@ implements Runnable {
         return this.thread != null;
     }
 
-    protected boolean addToQueue(Object object) {
+    protected boolean addToQueue(Object object) throws QueueShutdownException {
         return this.queue.put(object);
     }
 
-    @Override
     public void run() {
         while (true) {
             try {
@@ -80,8 +79,7 @@ implements Runnable {
         }
     }
 
-    protected abstract void handleQueuedObject(Object object) {
-    }
+    protected abstract void handleQueuedObject(Object var1);
 
     public int queueSize() {
         return this.queue.size();

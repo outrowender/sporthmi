@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.controlcode.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Control_SetGet fSG_Control_SetGet = (FSG_Control_SetGet)bAPEntity;
         return this.controlcode.equalTo(fSG_Control_SetGet.controlcode);
@@ -40,25 +38,21 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Control_SetGet");
-        stringBuffer.append(new StringBuffer().append("\n - controlcode:").append(this.controlcode.toString()).toString());
+        stringBuffer.append("\n - controlcode:" + this.controlcode.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.controlcode.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.controlcode.deserialize(bitStream);
     }
@@ -67,7 +61,6 @@ implements SetGetProperty {
         return 13;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_Control_SetGet.functionId();
     }

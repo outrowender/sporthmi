@@ -32,7 +32,7 @@ public class ZeroEmissionEntry {
     }
 
     public String toString() {
-        return new StringBuffer("ZeroEmissionEntry{").append("values=").append("[").append(this.values == null ? "null" : new StringBuffer().append("size=").append(this.values.length).toString()).append("]").append(", state=").append(this.state).append("}").toString();
+        return "ZeroEmissionEntry{" + "values=" + "[" + (this.values == null ? "null" : "size=" + this.values.length) + "]" + ", state=" + this.state + "}";
     }
 }
 

@@ -8,16 +8,12 @@ import de.esolutions.hmi.widgets.audi.base.eal.IBaseWrappedNode3DText;
 
 public interface IWrappedNode3DTextMultiSection
 extends IBaseWrappedNode3DText {
-    default public void setText(String string) {
-    }
+    public void setText(String var1);
 
-    default public ITextLayout getLayout() {
-    }
+    public ITextLayout getLayout();
 
-    default public void notifyLayoutChanged(boolean bl) {
-    }
+    public void notifyLayoutChanged(boolean var1);
 
-    default public int[] getOnScreenCharPosition(int n) {
-    }
+    public int[] getOnScreenCharPosition(int var1);
 }
 

@@ -117,7 +117,7 @@ public class sLGIEvent {
     }
 
     public String toString() {
-        return new StringBuffer("sLGIEvent{").append("id=").append(this.id).append(", version=").append(this.version).append(", boundaries=").append(this.boundaries).append(", location=").append(this.location).append(", startAt=").append(this.startAt).append(", endAt=").append(this.endAt).append(", eventType=").append(this.eventType).append(", eventQuality=").append(this.eventQuality).append(", tileIds=").append("[").append(this.tileIds == null ? "null" : new StringBuffer().append("size=").append(this.tileIds.length).toString()).append("]").append(", minRoadclass=").append(this.minRoadclass).append("}").toString();
+        return "sLGIEvent{" + "id=" + this.id + ", version=" + this.version + ", boundaries=" + this.boundaries + ", location=" + this.location + ", startAt=" + this.startAt + ", endAt=" + this.endAt + ", eventType=" + this.eventType + ", eventQuality=" + this.eventQuality + ", tileIds=" + "[" + (this.tileIds == null ? "null" : "size=" + this.tileIds.length) + "]" + ", minRoadclass=" + this.minRoadclass + "}";
     }
 }
 

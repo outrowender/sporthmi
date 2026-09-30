@@ -7,7 +7,6 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIInfotainmentRecorderListener
 extends DSIListener {
-    default public void updateEnabledTriggers(boolean[] blArray, int n) {
-    }
+    public void updateEnabledTriggers(boolean[] var1, int var2);
 }
 

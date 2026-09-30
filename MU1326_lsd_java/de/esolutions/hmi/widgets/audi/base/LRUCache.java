@@ -4,25 +4,18 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface LRUCache {
-    default public Object get(Comparable comparable, int n, int n2) {
-    }
+    public Object get(Comparable var1, int var2, int var3);
 
-    default public void put(Comparable comparable, Object object, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void put(Comparable var1, Object var2, int var3, int var4, int var5, int var6, int var7);
 
-    default public Object[] elements() {
-    }
+    public Object[] elements();
 
-    default public int size() {
-    }
+    public int size();
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void decrementRefCounters(int n, int n2) {
-    }
+    public void decrementRefCounters(int var1, int var2);
 
-    default public long getStorageSize() {
-    }
+    public long getStorageSize();
 }
 

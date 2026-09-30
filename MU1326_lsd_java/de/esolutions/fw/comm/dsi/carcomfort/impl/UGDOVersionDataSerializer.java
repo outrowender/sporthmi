@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOVersionData;
 
 public class UGDOVersionDataSerializer {
-    public static void putOptionalUGDOVersionData(ISerializer iSerializer, UGDOVersionData uGDOVersionData) {
+    public static void putOptionalUGDOVersionData(ISerializer iSerializer, UGDOVersionData uGDOVersionData) throws SerializerException {
         boolean bl = uGDOVersionData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class UGDOVersionDataSerializer {
         }
     }
 
-    public static void putOptionalUGDOVersionDataVarArray(ISerializer iSerializer, UGDOVersionData[] uGDOVersionDataArray) {
+    public static void putOptionalUGDOVersionDataVarArray(ISerializer iSerializer, UGDOVersionData[] uGDOVersionDataArray) throws SerializerException {
         boolean bl = uGDOVersionDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class UGDOVersionDataSerializer {
         }
     }
 
-    public static UGDOVersionData getOptionalUGDOVersionData(IDeserializer iDeserializer) {
+    public static UGDOVersionData getOptionalUGDOVersionData(IDeserializer iDeserializer) throws SerializerException {
         UGDOVersionData uGDOVersionData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class UGDOVersionDataSerializer {
         return uGDOVersionData;
     }
 
-    public static UGDOVersionData[] getOptionalUGDOVersionDataVarArray(IDeserializer iDeserializer) {
+    public static UGDOVersionData[] getOptionalUGDOVersionDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOVersionData[] uGDOVersionDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -45,7 +45,6 @@ IPRPAsiaTrufflesInputRules {
         super(TouchCharacterDefinitionAsia.getInstance(), n, n2, iInputTextInfoProvider, n3, logChannel);
     }
 
-    @Override
     protected void setupRules(int n) {
         Object object = EXTERNAL_RULE_CONFIG.get(Util.createInteger(this.touchPadMode));
         if (object != null && ((int[])object).length > 0) {
@@ -219,7 +218,6 @@ IPRPAsiaTrufflesInputRules {
         }
     }
 
-    @Override
     protected AbstractPRPRule createRule(int n) {
         AbstractPRPRule abstractPRPRule;
         switch (n) {

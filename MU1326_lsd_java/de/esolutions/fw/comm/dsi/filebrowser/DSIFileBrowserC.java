@@ -3,106 +3,75 @@
  */
 package de.esolutions.fw.comm.dsi.filebrowser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.filebrowser.BrowsedFile;
 import org.dsi.ifc.filebrowser.BrowsedFileSet;
 import org.dsi.ifc.filebrowser.Path;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIFileBrowserC {
-    default public void start(Path path) {
-    }
+    public void start(Path var1) throws MethodException;
 
-    default public void setFileExtensionFilter(int n, String[] stringArray) {
-    }
+    public void setFileExtensionFilter(int var1, String[] var2) throws MethodException;
 
-    default public void setFileTypeFilter(int n, int n2) {
-    }
+    public void setFileTypeFilter(int var1, int var2) throws MethodException;
 
-    default public void stop(int n) {
-    }
+    public void stop(int var1) throws MethodException;
 
-    default public void getViewWindow(int n, int n2, int n3) {
-    }
+    public void getViewWindow(int var1, int var2, int var3) throws MethodException;
 
-    default public void getViewWindowWithPreviews(int n, int n2, int n3) {
-    }
+    public void getViewWindowWithPreviews(int var1, int var2, int var3) throws MethodException;
 
-    default public void getViewWindowFromFile(int n, int n2, BrowsedFile browsedFile, int n3) {
-    }
+    public void getViewWindowFromFile(int var1, int var2, BrowsedFile var3, int var4) throws MethodException;
 
-    default public void getResourceLocatorWindow(int n, int n2, int n3) {
-    }
+    public void getResourceLocatorWindow(int var1, int var2, int var3) throws MethodException;
 
-    default public void getSelectedFiles(int n) {
-    }
+    public void getSelectedFiles(int var1) throws MethodException;
 
-    default public void getResourceLocators(int n, BrowsedFileSet browsedFileSet) {
-    }
+    public void getResourceLocators(int var1, BrowsedFileSet var2) throws MethodException;
 
-    default public void getFileCount(int n) {
-    }
+    public void getFileCount(int var1) throws MethodException;
 
-    default public void getFileCountWithFileTypeFilter(int n, int n2) {
-    }
+    public void getFileCountWithFileTypeFilter(int var1, int var2) throws MethodException;
 
-    default public void setSelectionSingle(int n, BrowsedFile browsedFile, boolean bl) {
-    }
+    public void setSelectionSingle(int var1, BrowsedFile var2, boolean var3) throws MethodException;
 
-    default public void setSelection(int n, int n2) {
-    }
+    public void setSelection(int var1, int var2) throws MethodException;
 
-    default public void changeFolder(int n, Path path) {
-    }
+    public void changeFolder(int var1, Path var2) throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void startSpeller(int n, int n2) {
-    }
+    public void startSpeller(int var1, int var2) throws MethodException;
 
-    default public void addSpellerChars(int n, String string) {
-    }
+    public void addSpellerChars(int var1, String var2) throws MethodException;
 
-    default public void removeSpellerChar(int n) {
-    }
+    public void removeSpellerChar(int var1) throws MethodException;
 
-    default public void stopSpeller(int n) {
-    }
+    public void stopSpeller(int var1) throws MethodException;
 
-    default public void setFileTypeActive(boolean bl) {
-    }
+    public void setFileTypeActive(boolean var1) throws MethodException;
 
-    default public void validateSpellerChars(int n, String string) {
-    }
+    public void validateSpellerChars(int var1, String var2) throws MethodException;
 
-    default public void deleteAllPreviewFiles() {
-    }
+    public void deleteAllPreviewFiles() throws MethodException;
 
-    default public void createPreviewImage(ResourceLocator resourceLocator, int n, int n2) {
-    }
+    public void createPreviewImage(ResourceLocator var1, int var2, int var3) throws MethodException;
 
-    default public void cancelPreviewCreation() {
-    }
+    public void cancelPreviewCreation() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

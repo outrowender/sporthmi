@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.StartStopProhibitList;
 
 public class StartStopProhibitListSerializer {
-    public static void putOptionalStartStopProhibitList(ISerializer iSerializer, StartStopProhibitList startStopProhibitList) {
+    public static void putOptionalStartStopProhibitList(ISerializer iSerializer, StartStopProhibitList startStopProhibitList) throws SerializerException {
         boolean bl = startStopProhibitList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class StartStopProhibitListSerializer {
         }
     }
 
-    public static void putOptionalStartStopProhibitListVarArray(ISerializer iSerializer, StartStopProhibitList[] startStopProhibitListArray) {
+    public static void putOptionalStartStopProhibitListVarArray(ISerializer iSerializer, StartStopProhibitList[] startStopProhibitListArray) throws SerializerException {
         boolean bl = startStopProhibitListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class StartStopProhibitListSerializer {
         }
     }
 
-    public static StartStopProhibitList getOptionalStartStopProhibitList(IDeserializer iDeserializer) {
+    public static StartStopProhibitList getOptionalStartStopProhibitList(IDeserializer iDeserializer) throws SerializerException {
         StartStopProhibitList startStopProhibitList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class StartStopProhibitListSerializer {
         return startStopProhibitList;
     }
 
-    public static StartStopProhibitList[] getOptionalStartStopProhibitListVarArray(IDeserializer iDeserializer) {
+    public static StartStopProhibitList[] getOptionalStartStopProhibitListVarArray(IDeserializer iDeserializer) throws SerializerException {
         StartStopProhibitList[] startStopProhibitListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

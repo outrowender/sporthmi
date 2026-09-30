@@ -5,7 +5,6 @@ package de.esolutions.fw.comm.agent.diag;
 
 import de.esolutions.fw.comm.agent.diag.IInfoBase;
 import de.esolutions.fw.comm.agent.diag.InfoStream;
-import de.esolutions.fw.comm.agent.diag.InfoUtils$1;
 import de.esolutions.fw.comm.agent.diag.PrintUtils;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.ServiceUUID;
@@ -97,11 +96,11 @@ public class InfoUtils {
 
     public static void printInfos(IInfoBase[] iInfoBaseArray, InfoStream infoStream) {
         if (iInfoBaseArray != null && iInfoBaseArray.length > 0) {
-            infoStream.begin(new StringBuffer().append(iInfoBaseArray[0].getSimpleClassName()).append(": total=").append(iInfoBaseArray.length).toString());
+            infoStream.begin(iInfoBaseArray[0].getSimpleClassName() + ": total=" + iInfoBaseArray.length);
             if (infoStream.isBrief()) {
-                String[] stringArray = InfoUtils.getFieldNames(super.getClass());
+                String[] stringArray = InfoUtils.getFieldNames(iInfoBaseArray[0].getClass());
                 for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                    infoStream.print(new StringBuffer().append(i2).append("=").append(stringArray[i2]).toString());
+                    infoStream.print(i2 + "=" + stringArray[i2]);
                 }
             }
             for (int i3 = 0; i3 < iInfoBaseArray.length; ++i3) {
@@ -126,7 +125,12 @@ public class InfoUtils {
 
     public static void printInfoIDs(IInfoBase[] iInfoBaseArray, PrintStream printStream) {
         Buffer buffer = new Buffer();
-        PrintUtils.printArrayToBuffer(buffer, iInfoBaseArray, new InfoUtils$1());
+        PrintUtils.printArrayToBuffer(buffer, iInfoBaseArray, new PrintUtils.ValueGetter(){
+
+            public Object getValue(Object object) {
+                return new Integer(((IInfoBase)object).getID());
+            }
+        });
         printStream.println(buffer.toString());
     }
 }

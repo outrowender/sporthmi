@@ -3,14 +3,13 @@
  */
 package org.apache.xerces.xs.datatypes;
 
+import org.apache.xerces.xs.XSException;
+
 public interface ByteList {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public boolean contains(byte by) {
-    }
+    public boolean contains(byte var1);
 
-    default public byte item(int n) {
-    }
+    public byte item(int var1) throws XSException;
 }
 

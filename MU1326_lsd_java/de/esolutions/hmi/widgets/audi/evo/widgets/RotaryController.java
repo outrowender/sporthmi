@@ -41,7 +41,6 @@ extends AbstractWidgetController {
         return RangeModelKeyHandler.RANGE_MODEL_KEY_HANDLER_INSTANCE;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -50,13 +49,11 @@ extends AbstractWidgetController {
         this.renderer = rotaryRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateValues();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 4 || n == 22 || n == 14) {
@@ -105,13 +102,12 @@ extends AbstractWidgetController {
         return null;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         super.keyPressed(keyEvent);
         if (keyEvent.isConsumed()) {
             return;
         }
-        logChannel.log(-2137614336, "MenuItemWidget#keyPressed. Key code: %2, widget state: %3, model: %1", this.model, (long)keyEvent.getKeyCode(), (long)this.widgetState);
+        logChannel.log(10000000, "MenuItemWidget#keyPressed. Key code: %2, widget state: %3, model: %1", this.model, (long)keyEvent.getKeyCode(), (long)this.widgetState);
         boolean bl = this.hasState(36);
         if (bl && this.keyHandler != null) {
             this.keyHandler.keyPressed(this, keyEvent);
@@ -122,7 +118,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         super.keyReleased(keyEvent);
         if (keyEvent.isConsumed()) {
@@ -134,7 +129,6 @@ extends AbstractWidgetController {
         super.keyReleased(keyEvent);
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         super.keyTurned(wheelButtonEvent);
         if (wheelButtonEvent.isConsumed()) {
@@ -182,13 +176,11 @@ extends AbstractWidgetController {
         return this.scaleFactor;
     }
 
-    @Override
     public void setModel(HMIModelGUI hMIModelGUI) {
         this.model = hMIModelGUI;
         this.keyHandler = this.getKeyHandler();
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (bl != this.isEnabled()) {
             this.setCompositesDirty(true);

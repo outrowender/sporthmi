@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.CoverartInfo;
 
 public class CoverartInfoSerializer {
-    public static void putOptionalCoverartInfo(ISerializer iSerializer, CoverartInfo coverartInfo) {
+    public static void putOptionalCoverartInfo(ISerializer iSerializer, CoverartInfo coverartInfo) throws SerializerException {
         boolean bl = coverartInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CoverartInfoSerializer {
         }
     }
 
-    public static void putOptionalCoverartInfoVarArray(ISerializer iSerializer, CoverartInfo[] coverartInfoArray) {
+    public static void putOptionalCoverartInfoVarArray(ISerializer iSerializer, CoverartInfo[] coverartInfoArray) throws SerializerException {
         boolean bl = coverartInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CoverartInfoSerializer {
         }
     }
 
-    public static CoverartInfo getOptionalCoverartInfo(IDeserializer iDeserializer) {
+    public static CoverartInfo getOptionalCoverartInfo(IDeserializer iDeserializer) throws SerializerException {
         CoverartInfo coverartInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CoverartInfoSerializer {
         return coverartInfo;
     }
 
-    public static CoverartInfo[] getOptionalCoverartInfoVarArray(IDeserializer iDeserializer) {
+    public static CoverartInfo[] getOptionalCoverartInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         CoverartInfo[] coverartInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

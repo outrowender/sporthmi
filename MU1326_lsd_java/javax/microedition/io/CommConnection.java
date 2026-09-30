@@ -7,10 +7,8 @@ import javax.microedition.io.StreamConnection;
 
 public interface CommConnection
 extends StreamConnection {
-    default public int setBaudRate(int n) {
-    }
+    public int setBaudRate(int var1);
 
-    default public int getBaudRate() {
-    }
+    public int getBaudRate();
 }
 

@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RRStubCreatedMessage
 extends AbstractMessage {
@@ -21,19 +22,17 @@ extends AbstractMessage {
         this.replyProxyID = s3;
     }
 
-    public RRStubCreatedMessage(IDeserializer iDeserializer, boolean bl) {
+    public RRStubCreatedMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.RRSTUB_CREATED, iDeserializer, bl);
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.proxyID);
         iSerializer.putInt16(this.stubID);
         iSerializer.putInt16(this.replyProxyID);
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.proxyID = iDeserializer.getInt16();
         this.stubID = iDeserializer.getInt16();
         this.replyProxyID = iDeserializer.getInt16();

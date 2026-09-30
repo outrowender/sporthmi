@@ -9,33 +9,26 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 public interface IconRenderer
 extends IRenderer,
 PreferredSize {
-    public static final int SCALE_MODE_FIXED_FACTOR;
-    public static final int SCALE_MODE_AUTOSCALE_FIT;
-    public static final int SCALE_MODE_AUTOSCALE_FILL;
-    public static final int SCALE_MODE_AUTOSCALE_STRETCH;
-    public static final int AUTOSCALE_UP_AND_DOWN;
-    public static final int AUTOSCALE_ONLY_UP;
-    public static final int AUTOSCALE_ONLY_DOWN;
+    public static final int SCALE_MODE_FIXED_FACTOR = 0;
+    public static final int SCALE_MODE_AUTOSCALE_FIT = 1;
+    public static final int SCALE_MODE_AUTOSCALE_FILL = 2;
+    public static final int SCALE_MODE_AUTOSCALE_STRETCH = 3;
+    public static final int AUTOSCALE_UP_AND_DOWN = 0;
+    public static final int AUTOSCALE_ONLY_UP = 1;
+    public static final int AUTOSCALE_ONLY_DOWN = 2;
 
-    default public String getDiagnosisText() {
-    }
+    public String getDiagnosisText();
 
-    default public void setAlignment(int n, int n2) {
-    }
+    public void setAlignment(int var1, int var2);
 
-    default public void setScaleFactor(float f2, float f3) {
-    }
+    public void setScaleFactor(float var1, float var2);
 
-    default public void setScaleMode(int n) {
-    }
+    public void setScaleMode(int var1);
 
-    default public void setAutoscaleModification(int n) {
-    }
+    public void setAutoscaleModification(int var1);
 
-    default public void setRotationY(float f2) {
-    }
+    public void setRotationY(float var1);
 
-    default public void setRotationZ(float f2) {
-    }
+    public void setRotationZ(float var1);
 }
 

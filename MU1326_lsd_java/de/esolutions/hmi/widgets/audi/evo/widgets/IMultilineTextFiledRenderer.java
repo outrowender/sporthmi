@@ -7,25 +7,18 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IMultilineTextFiledRenderer
 extends IRenderer {
-    default public int getCharWidth(char c2) {
-    }
+    public int getCharWidth(char var1);
 
-    default public int getStringW(String string) {
-    }
+    public int getStringW(String var1);
 
-    default public int getLineHeight() {
-    }
+    public int getLineHeight();
 
-    default public int getLineOffsetY() {
-    }
+    public int getLineOffsetY();
 
-    default public int getYTranslation() {
-    }
+    public int getYTranslation();
 
-    default public float getAbsLineIdxPos(int n) {
-    }
+    public float getAbsLineIdxPos(int var1);
 
-    default public int getTextLength(String string) {
-    }
+    public int getTextLength(String var1);
 }
 

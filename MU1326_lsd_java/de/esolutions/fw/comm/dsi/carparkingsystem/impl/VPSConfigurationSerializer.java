@@ -11,6 +11,7 @@ import de.esolutions.fw.comm.dsi.carparkingsystem.impl.VPSSupportedSplitscreensS
 import de.esolutions.fw.comm.dsi.carparkingsystem.impl.VPSSupportedViewsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSConfiguration;
 import org.dsi.ifc.carparkingsystem.VPSSupportedBVModes;
 import org.dsi.ifc.carparkingsystem.VPSSupportedFVModes;
@@ -20,7 +21,7 @@ import org.dsi.ifc.carparkingsystem.VPSSupportedSplitscreens;
 import org.dsi.ifc.carparkingsystem.VPSSupportedViews;
 
 public class VPSConfigurationSerializer {
-    public static void putOptionalVPSConfiguration(ISerializer iSerializer, VPSConfiguration vPSConfiguration) {
+    public static void putOptionalVPSConfiguration(ISerializer iSerializer, VPSConfiguration vPSConfiguration) throws SerializerException {
         boolean bl = vPSConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class VPSConfigurationSerializer {
         }
     }
 
-    public static void putOptionalVPSConfigurationVarArray(ISerializer iSerializer, VPSConfiguration[] vPSConfigurationArray) {
+    public static void putOptionalVPSConfigurationVarArray(ISerializer iSerializer, VPSConfiguration[] vPSConfigurationArray) throws SerializerException {
         boolean bl = vPSConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class VPSConfigurationSerializer {
         }
     }
 
-    public static VPSConfiguration getOptionalVPSConfiguration(IDeserializer iDeserializer) {
+    public static VPSConfiguration getOptionalVPSConfiguration(IDeserializer iDeserializer) throws SerializerException {
         VPSConfiguration vPSConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class VPSConfigurationSerializer {
         return vPSConfiguration;
     }
 
-    public static VPSConfiguration[] getOptionalVPSConfigurationVarArray(IDeserializer iDeserializer) {
+    public static VPSConfiguration[] getOptionalVPSConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSConfiguration[] vPSConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

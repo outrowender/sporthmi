@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIOnlineTourImportListener
 extends DSIListener {
-    default public void indicateToursAvailable(int n) {
-    }
+    public void indicateToursAvailable(int var1);
 
-    default public void responseTourDownload(int n) {
-    }
+    public void responseTourDownload(int var1);
 
-    default public void indicateTourDownloadFinished(int n, String string, String string2, int n2) {
-    }
+    public void indicateTourDownloadFinished(int var1, String var2, String var3, int var4);
 }
 

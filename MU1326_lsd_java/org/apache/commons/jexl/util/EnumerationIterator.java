@@ -14,17 +14,14 @@ implements Iterator {
         this.enumeration = enumeration;
     }
 
-    @Override
     public Object next() {
         return this.enumeration.nextElement();
     }
 
-    @Override
     public boolean hasNext() {
         return this.enumeration.hasMoreElements();
     }
 
-    @Override
     public void remove() {
     }
 }

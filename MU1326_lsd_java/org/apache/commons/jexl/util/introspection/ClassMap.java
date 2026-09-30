@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.apache.commons.jexl.util.introspection;
 
@@ -10,13 +7,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Hashtable;
 import java.util.Map;
-import org.apache.commons.jexl.util.introspection.ClassMap$CacheMiss;
-import org.apache.commons.jexl.util.introspection.ClassMap$MethodInfo;
 import org.apache.commons.jexl.util.introspection.MethodMap;
-import org.apache.commons.jexl.util.introspection.MethodMap$AmbiguousException;
 
 public class ClassMap {
-    private static final ClassMap$CacheMiss CACHE_MISS = new ClassMap$CacheMiss(null);
+    private static final CacheMiss CACHE_MISS = new CacheMiss();
     private static final Object OBJECT = new Object();
     private Class clazz;
     private final Map methodCache = new Hashtable();
@@ -31,7 +25,7 @@ public class ClassMap {
         return this.clazz;
     }
 
-    public Method findMethod(String string, Object[] objectArray) {
+    public Method findMethod(String string, Object[] objectArray) throws MethodMap.AmbiguousException {
         String string2 = ClassMap.makeMethodKey(string, objectArray);
         Object object = this.methodCache.get(string2);
         if (object == CACHE_MISS) {
@@ -41,9 +35,9 @@ public class ClassMap {
             try {
                 object = this.methodMap.find(string, objectArray);
             }
-            catch (MethodMap$AmbiguousException methodMap$AmbiguousException) {
+            catch (MethodMap.AmbiguousException ambiguousException) {
                 this.methodCache.put(string2, CACHE_MISS);
-                throw methodMap$AmbiguousException;
+                throw ambiguousException;
             }
             if (object == null) {
                 this.methodCache.put(string2, CACHE_MISS);
@@ -124,34 +118,34 @@ public class ClassMap {
         if (Modifier.isPublic(clazz.getModifiers())) {
             return methodArray;
         }
-        ClassMap$MethodInfo[] classMap$MethodInfoArray = new ClassMap$MethodInfo[methodArray.length];
+        MethodInfo[] methodInfoArray = new MethodInfo[methodArray.length];
         int n = methodArray.length;
         while (n-- > 0) {
-            classMap$MethodInfoArray[n] = new ClassMap$MethodInfo(methodArray[n]);
+            methodInfoArray[n] = new MethodInfo(methodArray[n]);
         }
-        n = ClassMap.getAccessibleMethods(clazz, classMap$MethodInfoArray, 0);
+        n = ClassMap.getAccessibleMethods(clazz, methodInfoArray, 0);
         if (n < methodArray.length) {
             methodArray = new Method[n];
         }
         int n2 = 0;
-        for (int i2 = 0; i2 < classMap$MethodInfoArray.length; ++i2) {
-            ClassMap$MethodInfo classMap$MethodInfo = classMap$MethodInfoArray[i2];
-            if (!classMap$MethodInfo.upcast) continue;
-            methodArray[n2++] = classMap$MethodInfo.method;
+        for (int i2 = 0; i2 < methodInfoArray.length; ++i2) {
+            MethodInfo methodInfo = methodInfoArray[i2];
+            if (!methodInfo.upcast) continue;
+            methodArray[n2++] = methodInfo.method;
         }
         return methodArray;
     }
 
-    private static int getAccessibleMethods(Class clazz, ClassMap$MethodInfo[] classMap$MethodInfoArray, int n) {
+    private static int getAccessibleMethods(Class clazz, MethodInfo[] methodInfoArray, int n) {
         Class clazz2;
         Object object;
-        int n2 = classMap$MethodInfoArray.length;
+        int n2 = methodInfoArray.length;
         if (Modifier.isPublic(clazz.getModifiers())) {
             for (int i2 = 0; i2 < n2 && n < n2; ++i2) {
                 try {
-                    object = classMap$MethodInfoArray[i2];
-                    if (((ClassMap$MethodInfo)object).upcast) continue;
-                    ((ClassMap$MethodInfo)object).tryUpcasting(clazz);
+                    object = methodInfoArray[i2];
+                    if (((MethodInfo)object).upcast) continue;
+                    ((MethodInfo)object).tryUpcasting(clazz);
                     ++n;
                     continue;
                 }
@@ -163,13 +157,13 @@ public class ClassMap {
                 return n;
             }
         }
-        if ((clazz2 = clazz.getSuperclass()) != null && (n = ClassMap.getAccessibleMethods(clazz2, classMap$MethodInfoArray, n)) == n2) {
+        if ((clazz2 = clazz.getSuperclass()) != null && (n = ClassMap.getAccessibleMethods(clazz2, methodInfoArray, n)) == n2) {
             return n;
         }
         object = clazz.getInterfaces();
         int n3 = ((Class[])object).length;
         while (n3-- > 0) {
-            if ((n = ClassMap.getAccessibleMethods(object[n3], classMap$MethodInfoArray, n)) != n2) continue;
+            if ((n = ClassMap.getAccessibleMethods(object[n3], methodInfoArray, n)) != n2) continue;
             return n;
         }
         return n;
@@ -204,6 +198,31 @@ public class ClassMap {
             return method;
         }
         return null;
+    }
+
+    private static final class CacheMiss {
+        private CacheMiss() {
+        }
+    }
+
+    private static final class MethodInfo {
+        Method method = null;
+        String name;
+        Class[] parameterTypes;
+        boolean upcast;
+
+        MethodInfo(Method method) {
+            this.name = method.getName();
+            this.parameterTypes = method.getParameterTypes();
+            this.upcast = false;
+        }
+
+        void tryUpcasting(Class clazz) throws NoSuchMethodException {
+            this.method = clazz.getMethod(this.name, this.parameterTypes);
+            this.name = null;
+            this.parameterTypes = null;
+            this.upcast = true;
+        }
     }
 }
 

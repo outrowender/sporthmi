@@ -29,7 +29,6 @@ implements AnimationListener {
         this.m_value = 0;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         Iterator iterator = this.m_refKeySet.iterator();
         this.m_value = (this.m_value + 1) % this.noSteps;
@@ -40,7 +39,6 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
         Iterator iterator = this.m_refKeySet.iterator();
         while (iterator.hasNext()) {
@@ -49,7 +47,6 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         Iterator iterator = this.m_refKeySet.iterator();
         while (iterator.hasNext()) {

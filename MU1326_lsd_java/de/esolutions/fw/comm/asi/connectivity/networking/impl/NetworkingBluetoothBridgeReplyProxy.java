@@ -4,18 +4,20 @@
 package de.esolutions.fw.comm.asi.connectivity.networking.impl;
 
 import de.esolutions.fw.comm.asi.connectivity.networking.NetworkingBluetoothBridgeReply;
-import de.esolutions.fw.comm.asi.connectivity.networking.impl.NetworkingBluetoothBridgeReplyProxy$1;
-import de.esolutions.fw.comm.asi.connectivity.networking.impl.NetworkingBluetoothBridgeReplyProxy$2;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class NetworkingBluetoothBridgeReplyProxy
 implements NetworkingBluetoothBridgeReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.connectivity.networking.NetworkingBluetoothBridge");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public NetworkingBluetoothBridgeReplyProxy() {
@@ -23,21 +25,32 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void setConnectionState(long l, int n, int n2) {
-        NetworkingBluetoothBridgeReplyProxy$1 networkingBluetoothBridgeReplyProxy$1 = new NetworkingBluetoothBridgeReplyProxy$1(this, l, n, n2);
-        this.proxy.remoteCallMethod((short)0, networkingBluetoothBridgeReplyProxy$1);
+    public void setConnectionState(final long l, final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putEnum(n);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void setProfileConnectable(long l, int n, boolean bl) {
-        NetworkingBluetoothBridgeReplyProxy$2 networkingBluetoothBridgeReplyProxy$2 = new NetworkingBluetoothBridgeReplyProxy$2(this, l, n, bl);
-        this.proxy.remoteCallMethod((short)1, networkingBluetoothBridgeReplyProxy$2);
+    public void setProfileConnectable(final long l, final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putEnum(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 }
 

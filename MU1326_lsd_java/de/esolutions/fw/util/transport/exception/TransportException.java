@@ -5,7 +5,7 @@ package de.esolutions.fw.util.transport.exception;
 
 public class TransportException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public TransportException() {
     }

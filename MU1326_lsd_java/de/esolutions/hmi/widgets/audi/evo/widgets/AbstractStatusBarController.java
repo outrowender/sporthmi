@@ -29,62 +29,62 @@ import java.util.ArrayList;
 
 public abstract class AbstractStatusBarController
 extends AbstractWidgetController {
-    public static final int STYLE_STANDARD;
-    public static final int STYLE_MAP;
-    public static final int STYLE_NONE;
-    public static final int STYLE_SDS_ONLY;
-    public static final int TYPE_CLOCK;
-    public static final int TYPE_HFP_SIGNAL_STRENGTH;
-    public static final int TYPE_NAD_SIGNAL_STRENGTH;
-    public static final int TYPE_PHONE_STATUS;
-    public static final int TYPE_DATA_RATE;
-    public static final int TYPE_CONNECTIVITY;
-    public static final int TYPE_SYSTEM_UPDATE;
-    public static final int TYPE_NEW_MESSAGE;
-    public static final int TYPE_CALL_FORWARDING_ACTIVE;
-    public static final int TYPE_MUTE;
-    public static final int TYPE_BLUETOOTH_STATUS;
-    public static final int TYPE_ADDRESSBOOK1_IMPORT;
-    public static final int TYPE_GOOGLE_STATUS;
-    public static final int TYPE_TRAFFIC_SOURCE;
-    public static final int TYPE_JUKEBOX_IMPORT;
-    public static final int TYPE_MEDIA_MIX_MODE;
-    public static final int TYPE_MEDIA_REPEAT;
-    public static final int TYPE_GRACENOTE;
-    public static final int TYPE_ROAMING;
-    public static final int TYPE_PROVIDER_NAME;
-    public static final int TYPE_PROVIDER_LOGO;
-    public static final int TYPE_GOOGLE_TRADEMARK;
-    public static final int TYPE_WIRELESS_CHARGING;
-    public static final int TYPE_TRAFFIC_ANNOUNCEMENT;
-    public static final int TYPE_SDS_LABEL_G24;
-    public static final int TYPE_PROVIDER_LOGO_CONNECT;
-    public static final int TYPE_SMS_STORAGE_FULL;
-    public static final int TYPE_BLUETOOTH_MEDIA;
-    public static final int TYPE_ASIA_ETC;
-    public static final int TYPE_ASIA_VICS;
-    public static final int TYPE_ASIA_TPEG;
-    public static final int TYPE_ASIA_TTS;
-    public static final int TYPE_MODELSTUB_ESIM_USED;
-    public static final int TYPE_MODELSTUB_ESIM_STATE;
-    public static final int TYPE_DRAGON_LOGO;
-    public static final int TYPE_ADDRESSBOOK2_IMPORT;
-    public static final int TYPE_SELF_LEARNING_NAVIGATION;
-    public static final int TYPE_ADDRESSBOOK_IMPORT;
-    public static final int TYPE_BLUETOOTH_MEDIA_ON;
-    public static final int HMI_CONTEXT_CAR;
-    public static final int HMI_CONTEXT_TUNER;
-    public static final int HMI_CONTEXT_MEDIA;
-    public static final int HMI_CONTEXT_PHONE;
-    public static final int HMI_CONTEXT_NAVI;
-    public static final int HMI_CONTEXT_MAP;
-    public static final int HMI_CONTEXT_ONLINE;
-    public static final int HMI_CONTEXT_OFFICE;
-    public static final int HMI_CONTEXT_TONE;
-    public static final int HMI_CONTEXT_SETTINGS;
-    public static final int HMI_CONTEXT_NONE;
-    private static final int PROVIDER_NAME_THRESHOLD_VALUE;
-    private static final int DEFAULT_LEFT_GROUP_MIN_WIDTH;
+    public static final int STYLE_STANDARD = 0;
+    public static final int STYLE_MAP = 1;
+    public static final int STYLE_NONE = 2;
+    public static final int STYLE_SDS_ONLY = 3;
+    public static final int TYPE_CLOCK = 1;
+    public static final int TYPE_HFP_SIGNAL_STRENGTH = 2;
+    public static final int TYPE_NAD_SIGNAL_STRENGTH = 3;
+    public static final int TYPE_PHONE_STATUS = 4;
+    public static final int TYPE_DATA_RATE = 5;
+    public static final int TYPE_CONNECTIVITY = 6;
+    public static final int TYPE_SYSTEM_UPDATE = 7;
+    public static final int TYPE_NEW_MESSAGE = 33;
+    public static final int TYPE_CALL_FORWARDING_ACTIVE = 38;
+    public static final int TYPE_MUTE = 39;
+    public static final int TYPE_BLUETOOTH_STATUS = 8;
+    public static final int TYPE_ADDRESSBOOK1_IMPORT = 9;
+    public static final int TYPE_GOOGLE_STATUS = 10;
+    public static final int TYPE_TRAFFIC_SOURCE = 11;
+    public static final int TYPE_JUKEBOX_IMPORT = 12;
+    public static final int TYPE_MEDIA_MIX_MODE = 13;
+    public static final int TYPE_MEDIA_REPEAT = 14;
+    public static final int TYPE_GRACENOTE = 15;
+    public static final int TYPE_ROAMING = 16;
+    public static final int TYPE_PROVIDER_NAME = 17;
+    public static final int TYPE_PROVIDER_LOGO = 18;
+    public static final int TYPE_GOOGLE_TRADEMARK = 19;
+    public static final int TYPE_WIRELESS_CHARGING = 20;
+    public static final int TYPE_TRAFFIC_ANNOUNCEMENT = 21;
+    public static final int TYPE_SDS_LABEL_G24 = 22;
+    public static final int TYPE_PROVIDER_LOGO_CONNECT = 23;
+    public static final int TYPE_SMS_STORAGE_FULL = 24;
+    public static final int TYPE_BLUETOOTH_MEDIA = 25;
+    public static final int TYPE_ASIA_ETC = 26;
+    public static final int TYPE_ASIA_VICS = 27;
+    public static final int TYPE_ASIA_TPEG = 28;
+    public static final int TYPE_ASIA_TTS = 29;
+    public static final int TYPE_MODELSTUB_ESIM_USED = 30;
+    public static final int TYPE_MODELSTUB_ESIM_STATE = 31;
+    public static final int TYPE_DRAGON_LOGO = 32;
+    public static final int TYPE_ADDRESSBOOK2_IMPORT = 34;
+    public static final int TYPE_SELF_LEARNING_NAVIGATION = 35;
+    public static final int TYPE_ADDRESSBOOK_IMPORT = 36;
+    public static final int TYPE_BLUETOOTH_MEDIA_ON = 37;
+    public static final int HMI_CONTEXT_CAR = 0;
+    public static final int HMI_CONTEXT_TUNER = 1;
+    public static final int HMI_CONTEXT_MEDIA = 2;
+    public static final int HMI_CONTEXT_PHONE = 3;
+    public static final int HMI_CONTEXT_NAVI = 4;
+    public static final int HMI_CONTEXT_MAP = 5;
+    public static final int HMI_CONTEXT_ONLINE = 6;
+    public static final int HMI_CONTEXT_OFFICE = 7;
+    public static final int HMI_CONTEXT_TONE = 8;
+    public static final int HMI_CONTEXT_SETTINGS = 9;
+    public static final int HMI_CONTEXT_NONE = -1;
+    private static final int PROVIDER_NAME_THRESHOLD_VALUE = 50;
+    private static final int DEFAULT_LEFT_GROUP_MIN_WIDTH = 195;
     protected int renderStyle = 0;
     protected int currentHMIContext = -1;
     protected static int iconGap;
@@ -194,26 +194,20 @@ extends AbstractWidgetController {
     protected LayoutContainerController leftGroupContainer;
     private ModelStubController eSimUsedChoiceModelStub;
     private ModelStubController eSimStateChoiceModelStub;
-    private static final int NAD_MODE_VOICE_DATA;
-    private static final int TELMODE_HFP;
-    private static final int ACTIVE_WITH_NEW_EVENT;
+    private static final int NAD_MODE_VOICE_DATA = 0;
+    private static final int TELMODE_HFP = 0;
+    private static final int ACTIVE_WITH_NEW_EVENT = 2;
 
-    protected abstract LayoutContainerController getRightGroupContainer() {
-    }
+    protected abstract LayoutContainerController getRightGroupContainer();
 
-    protected abstract LayoutContainerController getLeftGroupContainer() {
-    }
+    protected abstract LayoutContainerController getLeftGroupContainer();
 
-    protected abstract int getCurrentGapWidth() {
-    }
+    protected abstract int getCurrentGapWidth();
 
-    protected abstract int getMinGapWidth() {
-    }
+    protected abstract int getMinGapWidth();
 
-    protected abstract boolean isViewSizeChanging() {
-    }
+    protected abstract boolean isViewSizeChanging();
 
-    @Override
     protected void initializeWidget() {
         this.initLayoutValues();
         if (this.rightGroupContainer == null) {
@@ -450,20 +444,18 @@ extends AbstractWidgetController {
         this.doRightGroupPriorisation();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         super.processModelUpdateEvent(modelUpdateEvent);
         this.doLeftGroupPriorisation();
         this.doRightGroupPriorisation();
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof ModelStubController) {
-            if (((ModelStubController)abstractWidget).getModelID() == -601479680) {
+            if (((ModelStubController)abstractWidget).getModelID() == 2500316) {
                 this.eSimUsedChoiceModelStub = (ModelStubController)abstractWidget;
-            } else if (((ModelStubController)abstractWidget).getModelID() == -668588544) {
+            } else if (((ModelStubController)abstractWidget).getModelID() == 2500312) {
                 this.eSimStateChoiceModelStub = (ModelStubController)abstractWidget;
             }
         }
@@ -504,7 +496,7 @@ extends AbstractWidgetController {
                     this.iconSystemUpdate = (ProgressIconController)abstractWidget;
                     break;
                 }
-                logMessagingStatusBar.log(10000, "AbstractStatusBarController#add Widget %1 of type: TYPE_SYSTEM_UPDATE is no instance of ProgressIconController! could not be added to status bar", (Object)super.getClass().getName());
+                logMessagingStatusBar.log(10000, "AbstractStatusBarController#add Widget %1 of type: TYPE_SYSTEM_UPDATE is no instance of ProgressIconController! could not be added to status bar", (Object)abstractWidget.getClass().getName());
                 break;
             }
             case 38: {
@@ -524,7 +516,7 @@ extends AbstractWidgetController {
                     this.iconGoogleProgress = (ProgressIconController)abstractWidget;
                     break;
                 }
-                logMessagingStatusBar.log(10000, "AbstractStatusBarController#add Widget %1 of type: TYPE_GOOGLE_STATUS is no instance of ProgressIconController! could not be added to status bar", (Object)super.getClass().getName());
+                logMessagingStatusBar.log(10000, "AbstractStatusBarController#add Widget %1 of type: TYPE_GOOGLE_STATUS is no instance of ProgressIconController! could not be added to status bar", (Object)abstractWidget.getClass().getName());
                 break;
             }
             case 19: {
@@ -576,7 +568,7 @@ extends AbstractWidgetController {
                     this.iconJukeboxImport = (ProgressIconController)abstractWidget;
                     break;
                 }
-                logMessagingStatusBar.log(10000, "AbstractStatusBarController#add Widget %1 of type: TYPE_JUKEBOX_IMPORT is no instance of ProgressIconController! could not be added to status bar", (Object)super.getClass().getName());
+                logMessagingStatusBar.log(10000, "AbstractStatusBarController#add Widget %1 of type: TYPE_JUKEBOX_IMPORT is no instance of ProgressIconController! could not be added to status bar", (Object)abstractWidget.getClass().getName());
                 break;
             }
             case 20: {
@@ -624,7 +616,7 @@ extends AbstractWidgetController {
                 break;
             }
             default: {
-                logMessagingStatusBar.log(-1601830656, "AbstractStatusBarController#add unknown cell type %1", (long)n);
+                logMessagingStatusBar.log(100000, "AbstractStatusBarController#add unknown cell type %1", (long)n);
             }
         }
     }
@@ -675,7 +667,7 @@ extends AbstractWidgetController {
         this.adb1ImportVisible = this.checkChildVisibilityViaStatus(this.iconAddressbook1Import);
         this.adb2ImportVisible = this.checkChildVisibilityViaStatus(this.iconAddressbook2Import);
         this.trafficSourceVisible = this.checkChildVisibilityViaValue(this.iconTrafficSource);
-        logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#updateIconVisibility Visibility of traffic Icon = %2 is : %1", this.trafficSourceVisible, (Object)this.iconTrafficSource);
+        logMessagingStatusBar.log(1000000, "AbstractStatusBarController#updateIconVisibility Visibility of traffic Icon = %2 is : %1", this.trafficSourceVisible, (Object)this.iconTrafficSource);
         this.mediaImportVisible = this.checkChildVisibilityViaValue(this.iconJukeboxImport);
         this.mediaMixVisible = this.checkChildVisibilityViaValue(this.iconMediaMix);
         this.mediaRepeatVisible = this.checkChildVisibilityViaValue(this.iconMediaRepeat);
@@ -706,7 +698,7 @@ extends AbstractWidgetController {
             this.labelProvidernameText = this.labelProvidername.getText();
         }
         if (bl25 || this.hasIconChanged(bl, this.iconBluetooth, this.bluetoothState) || this.hasIconChanged(bl2, this.iconAddressbookImport, this.adbImportState) || this.hasIconChanged(bl3, this.iconAddressbook1Import, this.adb1ImportState) || this.hasIconChanged(bl4, this.iconAddressbook2Import, this.adb2ImportState) || this.hasIconChanged(bl5, this.iconGoogleProgress, this.googleProgressState) || this.hasIconChanged(bl6, this.iconTrafficSource, this.trafficSourceState) || this.hasIconChanged(bl7, this.iconJukeboxImport, this.mediaImportState) || this.hasIconChanged(bl8, this.iconMediaMix, this.mediaMixState) || this.hasIconChanged(bl9, this.iconMediaRepeat, this.mediaRepeatState) || this.hasIconChanged(bl10, this.iconGracenote, this.gracenoteState) || this.hasIconChanged(bl11, this.iconRoaming, this.roamingState) || this.hasIconChanged(bl12, this.iconProviderLogo, this.providerLogoState) || this.hasIconChanged(bl13, this.labelProvidername, this.providerNameState) || this.hasIconChanged(bl14, this.iconGoogleTrademark, this.googleTrademarkState) || this.hasIconChanged(bl15, this.iconWirelessCharging, this.wirelessChargingState) || this.hasIconChanged(bl16, this.iconProviderLogoConnect, this.providerLogoConnectState) || this.hasIconChanged(bl17, this.iconSMSStorageFull, this.smsStorageFullState) || this.hasIconChanged(bl18, this.iconBluetoothMedia, this.bluetoothMediaState) || this.hasIconChanged(bl19, this.iconAsiaVICS, this.asiaVICSState) || this.hasIconChanged(bl20, this.iconAsiaTTS, this.asiaTTSState) || this.hasIconChanged(bl21, this.iconAsiaTPEG, this.asiaTPEGState) || this.hasIconChanged(bl22, this.iconDragonLogo, this.dragonLogoState) || this.hasIconChanged(bl23, this.iconSelfLearningNavigation, this.selfLearningNavigationState) || this.hasIconChanged(bl24, this.iconBluetoothMediaOn, this.bluetoothMediaOnState)) {
-            logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#setIconVisibility notifyEntertainmentDrawerGapChanged");
+            logMessagingStatusBar.log(1000000, "AbstractStatusBarController#setIconVisibility notifyEntertainmentDrawerGapChanged");
             this.notifyEntertainmentDrawerGapChanged();
         }
         if ((entertainmentDrawerOpenCloseController = this.getEntertainmentDrawer()) != null && this.rightGroupContainer != null && this.leftGroupContainer != null) {
@@ -743,30 +735,30 @@ extends AbstractWidgetController {
             this.rightGroupContainer.layout();
         }
         if (logMessagingStatusBar.isDebug()) {
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of bluetooth to: %1", bl);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of adressbook import to: %1", bl2);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of adressbook 1 import to: %1", bl3);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of adressbook 2 import to: %1", bl4);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of googleProcess to: %1", bl5);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of trafficSource to: %1", bl6);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of mediaMix to: %1", bl8);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of mediaRepeat to: %1", bl9);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of jukeBoxImport to: %1", bl7);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of gracenote to: %1", bl10);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of roaming to: %1", bl11);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of providerLogo to: %1", bl12);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of providerName to: %1", bl13);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of googleTrademark to: %1", bl14);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of wirelessCharging to: %1", bl15);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of providerLogoConnect to: %1", bl16);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of smsStorageFull to: %1", bl17);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of bluetoothMedia to: %1", bl18);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of VIC to: %1", bl19);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of TTS to: %1", bl20);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of TPEG to: %1", bl21);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of Dragon-Logo to: %1", bl22);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of Self Learning Navigation to: %1", bl23);
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setIconVisibility Set visibility of Bluetooth Media On to: %1", bl24);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of bluetooth to: %1", bl);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of adressbook import to: %1", bl2);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of adressbook 1 import to: %1", bl3);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of adressbook 2 import to: %1", bl4);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of googleProcess to: %1", bl5);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of trafficSource to: %1", bl6);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of mediaMix to: %1", bl8);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of mediaRepeat to: %1", bl9);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of jukeBoxImport to: %1", bl7);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of gracenote to: %1", bl10);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of roaming to: %1", bl11);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of providerLogo to: %1", bl12);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of providerName to: %1", bl13);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of googleTrademark to: %1", bl14);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of wirelessCharging to: %1", bl15);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of providerLogoConnect to: %1", bl16);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of smsStorageFull to: %1", bl17);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of bluetoothMedia to: %1", bl18);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of VIC to: %1", bl19);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of TTS to: %1", bl20);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of TPEG to: %1", bl21);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of Dragon-Logo to: %1", bl22);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of Self Learning Navigation to: %1", bl23);
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setIconVisibility Set visibility of Bluetooth Media On to: %1", bl24);
         }
     }
 
@@ -807,32 +799,32 @@ extends AbstractWidgetController {
         this.neededRightGroupSpace = iconGap;
         switch (this.currentHMIContext) {
             case 9: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_SETTINGS");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_SETTINGS");
                 this.setAllIconVisibility(false);
                 break;
             }
             case 8: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_TONE");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_TONE");
                 this.setAllIconVisibility(false);
                 break;
             }
             case 0: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_CAR");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_CAR");
                 this.setAllIconVisibility(false);
                 break;
             }
             case 1: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_TUNER");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_TUNER");
                 this.setAllIconVisibility(false);
                 break;
             }
             case -1: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_NONE");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_NONE");
                 this.setAllIconVisibility(false);
                 break;
             }
             case 4: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_DESTINATION");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_DESTINATION");
                 if (!this.isViewSizeChanging() && !this.isSDSVisible()) {
                     this.adbImportVisible = this.getVisibilityOnScreen(this.iconAddressbookImport, this.adbImportState, this.adbImportVisible);
                     this.adb1ImportVisible = this.getVisibilityOnScreen(this.iconAddressbook1Import, this.adb1ImportState, this.adb1ImportVisible);
@@ -876,11 +868,11 @@ extends AbstractWidgetController {
                 break;
             }
             case 5: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_MAP");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_MAP");
                 if (!this.isViewSizeChanging() && !this.isSDSVisible()) {
-                    logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#doRightGroupPriorisation  Get the new visiblity of the icon = : %1 with state =%2 ", (Object)this.iconTrafficSource, (long)this.trafficSourceState);
+                    logMessagingStatusBar.log(1000000, "AbstractStatusBarController#doRightGroupPriorisation  Get the new visiblity of the icon = : %1 with state =%2 ", (Object)this.iconTrafficSource, (long)this.trafficSourceState);
                     this.trafficSourceVisible = this.getVisibilityOnScreen(this.iconTrafficSource, this.trafficSourceState, this.trafficSourceVisible);
-                    logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#doRightGroupPriorisation  iconTrafficSource new visibility on screen : %1 ", this.trafficSourceVisible);
+                    logMessagingStatusBar.log(1000000, "AbstractStatusBarController#doRightGroupPriorisation  iconTrafficSource new visibility on screen : %1 ", this.trafficSourceVisible);
                     this.asiaVICSVisible = this.getVisibilityOnScreen(this.iconAsiaVICS, this.asiaVICSState, this.asiaVICSVisible);
                     this.asiaTTSVisible = this.getVisibilityOnScreen(this.iconAsiaTTS, this.asiaTTSState, this.asiaTTSVisible);
                     this.asiaTPEGVisible = this.getVisibilityOnScreen(this.iconAsiaTPEG, this.asiaTPEGState, this.asiaTPEGVisible);
@@ -928,7 +920,7 @@ extends AbstractWidgetController {
                 abstractWidgetControllerArray[6] = this.iconGoogleTrademark;
                 this.removeSpace(abstractWidgetControllerArray, blArray);
                 this.trafficSourceVisible = blArray[0];
-                logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#doRightGroupPriorisation iconTrafficSource new visibility : %1", this.trafficSourceVisible);
+                logMessagingStatusBar.log(1000000, "AbstractStatusBarController#doRightGroupPriorisation iconTrafficSource new visibility : %1", this.trafficSourceVisible);
                 this.asiaVICSVisible = blArray[1];
                 this.asiaTTSVisible = blArray[2];
                 this.asiaTPEGVisible = blArray[3];
@@ -939,7 +931,7 @@ extends AbstractWidgetController {
                 break;
             }
             case 2: {
-                logMessagingStatusBar.log(-2137614336, "Statusbar#doPriorisation currentHMIContext is HMI_CONTEXT_MEDIA");
+                logMessagingStatusBar.log(10000000, "Statusbar#doPriorisation currentHMIContext is HMI_CONTEXT_MEDIA");
                 if (!this.isViewSizeChanging() && !this.isSDSVisible()) {
                     this.bluetoothMediaVisible = this.getVisibilityOnScreen(this.iconBluetoothMedia, this.bluetoothMediaState, this.bluetoothMediaVisible);
                     this.bluetoothMediaOnVisible = this.getVisibilityOnScreen(this.iconBluetoothMediaOn, this.bluetoothMediaOnState, this.bluetoothMediaOnVisible);
@@ -995,10 +987,10 @@ extends AbstractWidgetController {
                 break;
             }
             case 7: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_ADRESSBOOK");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_ADRESSBOOK");
             }
             case 3: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_PHONE");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_PHONE");
                 if (!this.isViewSizeChanging() && !this.isSDSVisible()) {
                     this.bluetoothVisible = this.getVisibilityOnScreen(this.iconBluetooth, this.bluetoothState, this.bluetoothVisible);
                     this.wirelessChargingVisible = this.getVisibilityOnScreen(this.iconWirelessCharging, this.wirelessChargingState, this.wirelessChargingVisible);
@@ -1055,7 +1047,7 @@ extends AbstractWidgetController {
                 break;
             }
             case 6: {
-                logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_CONNECT");
+                logMessagingStatusBar.log(10000000, "AbstractStatusBarController#doRightGroupPriorisation currentHMIContext is HMI_CONTEXT_CONNECT");
                 if (!this.isViewSizeChanging() && !this.isSDSVisible()) {
                     this.providerLogoConnectVisible = this.getVisibilityOnScreen(this.iconProviderLogoConnect, this.providerLogoConnectState, this.providerLogoConnectVisible);
                     this.googleTrademarkVisible = this.getVisibilityOnScreen(this.iconGoogleTrademark, this.googleTrademarkState, this.googleTrademarkVisible);
@@ -1079,7 +1071,7 @@ extends AbstractWidgetController {
                 break;
             }
             default: {
-                logMessagingStatusBar.log(-1601830656, "AbstractStatusBarController#doRightGroupPriorisation unknown hmiContext %1", (long)this.currentHMIContext);
+                logMessagingStatusBar.log(100000, "AbstractStatusBarController#doRightGroupPriorisation unknown hmiContext %1", (long)this.currentHMIContext);
             }
         }
     }
@@ -1091,7 +1083,7 @@ extends AbstractWidgetController {
         boolean bl3 = this.checkChildVisibilityViaValue(this.iconPhoneStatus);
         boolean bl4 = this.checkChildVisibilityViaValue(this.iconPhoneSignalStrength);
         int n = hmiService.getChoiceModel(494).getValue();
-        ChoiceModelApp choiceModelApp = hmiService.getChoiceModel(1385497600);
+        ChoiceModelApp choiceModelApp = hmiService.getChoiceModel(300370);
         int n2 = choiceModelApp != null ? choiceModelApp.getValue() : 0;
         int n3 = hmiService.getChoiceModel(3836).getValue();
         if (n == 0 && n2 != 0) {
@@ -1225,9 +1217,9 @@ extends AbstractWidgetController {
     private boolean overwriteVisibilityByEsim(boolean bl) {
         ChoiceModelGUI choiceModelGUI;
         ChoiceModelGUI choiceModelGUI2;
-        logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#overwriteVisibilityByEsim(%1) - Called.", bl);
+        logMessagingStatusBar.log(10000000, "AbstractStatusBarController#overwriteVisibilityByEsim(%1) - Called.", bl);
         if (this.eSimUsedChoiceModelStub == null || this.eSimStateChoiceModelStub == null) {
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#overwriteVisibilityByEsim() - No model stubs set, returning original value");
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#overwriteVisibilityByEsim() - No model stubs set, returning original value");
             return bl;
         }
         try {
@@ -1239,14 +1231,14 @@ extends AbstractWidgetController {
             return bl;
         }
         if (choiceModelGUI2 == null || choiceModelGUI == null) {
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#overwriteVisibilityByEsim() - No models from stubs retrieved returning orginal visibility");
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#overwriteVisibilityByEsim() - No models from stubs retrieved returning orginal visibility");
             return bl;
         }
         if (choiceModelGUI2.getValue() == 1 && choiceModelGUI.getValue() == 3) {
-            logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#overwriteVisibilityByEsim() - 'Used' = 1 and 'State' = 3, returning fix value: false");
+            logMessagingStatusBar.log(10000000, "AbstractStatusBarController#overwriteVisibilityByEsim() - 'Used' = 1 and 'State' = 3, returning fix value: false");
             return false;
         }
-        logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#overwriteVisibilityByEsim() - 'Used' != 1 and/or 'State' != 3, returning original value: %1", bl);
+        logMessagingStatusBar.log(10000000, "AbstractStatusBarController#overwriteVisibilityByEsim() - 'Used' != 1 and/or 'State' != 3, returning original value: %1", bl);
         return bl;
     }
 
@@ -1293,18 +1285,18 @@ extends AbstractWidgetController {
                         blArray[n] = false;
                         this.neededRightGroupSpace -= abstractWidgetControllerArray[n].getPreferredWidth() + iconGap;
                     }
-                    logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#removeSpace visibility for the lablelprovidername=%2 is = %1", blArray[n], (Object)abstractWidgetControllerArray[n]);
-                    logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#removeSpace neededRightGroupSpace=%1 ", (long)this.neededRightGroupSpace);
+                    logMessagingStatusBar.log(1000000, "AbstractStatusBarController#removeSpace visibility for the lablelprovidername=%2 is = %1", blArray[n], (Object)abstractWidgetControllerArray[n]);
+                    logMessagingStatusBar.log(1000000, "AbstractStatusBarController#removeSpace neededRightGroupSpace=%1 ", (long)this.neededRightGroupSpace);
                 } else {
                     if (!this.labelProvidername.isVisible() || !this.labelProvidername.isOnScreen()) {
                         blArray[n] = false;
                         this.neededRightGroupSpace -= abstractWidgetControllerArray[n].getWidth() + iconGap;
                     }
-                    logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#removeSpace visibility for the icon %2 (labelProvidername is not same as icon)and is = %1 ", blArray[n], (Object)abstractWidgetControllerArray[n]);
-                    logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#removeSpace neededRightGroupSpace=%1 ", (long)this.neededRightGroupSpace);
+                    logMessagingStatusBar.log(1000000, "AbstractStatusBarController#removeSpace visibility for the icon %2 (labelProvidername is not same as icon)and is = %1 ", blArray[n], (Object)abstractWidgetControllerArray[n]);
+                    logMessagingStatusBar.log(1000000, "AbstractStatusBarController#removeSpace neededRightGroupSpace=%1 ", (long)this.neededRightGroupSpace);
                 }
             } else {
-                logMessagingStatusBar.log(1078071040, "AbstractStatusBarController#removeSpace visibility for the icon=%1 is = %2", blArray[n], (Object)abstractWidgetControllerArray[n]);
+                logMessagingStatusBar.log(1000000, "AbstractStatusBarController#removeSpace visibility for the icon=%1 is = %2", blArray[n], (Object)abstractWidgetControllerArray[n]);
             }
             if (++n < abstractWidgetControllerArray.length) continue;
             break;
@@ -1312,7 +1304,7 @@ extends AbstractWidgetController {
     }
 
     public void setLocalPartOpacity(float f2) {
-        logMessagingStatusBar.log(-2137614336, "AbstractStatusBarController#setLocalPartOpacity Set opacity to %1", (double)f2);
+        logMessagingStatusBar.log(10000000, "AbstractStatusBarController#setLocalPartOpacity Set opacity to %1", (double)f2);
         if (this.labelProvidername != null) {
             this.labelProvidername.setOpacity(f2);
         }
@@ -1421,7 +1413,6 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

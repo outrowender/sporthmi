@@ -47,55 +47,54 @@ public class ConfigReaderRegistry {
         return (IConfigReader)this.readerMap.get(string.toLowerCase());
     }
 
-    public ConfigValue readFromFile(String string) {
+    public ConfigValue readFromFile(String string) throws ReadConfigException {
         return this.readFromFile(string, new ConfigDictionary());
     }
 
-    public ConfigValue readFromMemory(String string, byte[] byArray) {
+    public ConfigValue readFromMemory(String string, byte[] byArray) throws ReadConfigException {
         return this.readFromMemory(string, byArray, new ConfigDictionary());
     }
 
-    public synchronized ConfigValue readFromFile(String string, ConfigDictionary configDictionary) {
+    public synchronized ConfigValue readFromFile(String string, ConfigDictionary configDictionary) throws ReadConfigException {
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(string);
         }
         catch (FileNotFoundException fileNotFoundException) {
-            throw new ReadConfigException(new StringBuffer().append("File not found: ").append(string).toString());
+            throw new ReadConfigException("File not found: " + string);
         }
         return this.readFromInputStream(fileInputStream, string, configDictionary);
     }
 
-    public ConfigValue readFromResource(String string) {
+    public ConfigValue readFromResource(String string) throws ReadConfigException {
         return this.readFromResource(string, new ConfigDictionary());
     }
 
-    public synchronized ConfigValue readFromResource(String string, ConfigDictionary configDictionary) {
-        InputStream inputStream = super.getClass().getResourceAsStream(string);
+    public synchronized ConfigValue readFromResource(String string, ConfigDictionary configDictionary) throws ReadConfigException {
+        InputStream inputStream = this.getClass().getResourceAsStream(string);
         return this.readFromInputStream(inputStream, string, configDictionary);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private ConfigValue readFromInputStream(InputStream inputStream, String string, ConfigDictionary configDictionary) {
+    private ConfigValue readFromInputStream(InputStream inputStream, String string, ConfigDictionary configDictionary) throws ReadConfigException {
+        ConfigValue configValue;
         int n = string.lastIndexOf(".");
         if (n == -1) {
-            throw new ReadConfigException(new StringBuffer().append("No file extension given for resource/file: ").append(string).toString());
+            throw new ReadConfigException("No file extension given for resource/file: " + string);
         }
         String string2 = string.substring(n + 1);
         IConfigReader iConfigReader = this.queryReader(string2);
         if (iConfigReader == null) {
-            throw new ReadConfigException(new StringBuffer().append("No reader for file found for resource: ").append(string).toString());
+            throw new ReadConfigException("No reader for file found for resource: " + string);
         }
         if (inputStream == null) {
-            throw new ReadConfigException(new StringBuffer().append("No resource/file found: ").append(string).toString());
+            throw new ReadConfigException("No resource/file found: " + string);
         }
         try {
-            ConfigValue configValue;
-            ConfigValue configValue2 = configValue = iConfigReader.readFromInputStream(inputStream, configDictionary);
-            inputStream.close();
-            return configValue2;
+            ConfigValue configValue2;
+            configValue = configValue2 = iConfigReader.readFromInputStream(inputStream, configDictionary);
         }
         catch (Throwable throwable) {
             try {
@@ -103,15 +102,17 @@ public class ConfigReaderRegistry {
                 throw throwable;
             }
             catch (IOException iOException) {
-                throw new ReadConfigException(new StringBuffer().append("IO: ").append(iOException.getMessage()).toString());
+                throw new ReadConfigException("IO: " + iOException.getMessage());
             }
         }
+        inputStream.close();
+        return configValue;
     }
 
-    public synchronized ConfigValue readFromMemory(String string, byte[] byArray, ConfigDictionary configDictionary) {
+    public synchronized ConfigValue readFromMemory(String string, byte[] byArray, ConfigDictionary configDictionary) throws ReadConfigException {
         IConfigReader iConfigReader = this.queryReader(string);
         if (iConfigReader == null) {
-            throw new ReadConfigException(new StringBuffer().append("No reader for extension found: ").append(string).toString());
+            throw new ReadConfigException("No reader for extension found: " + string);
         }
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byArray);
@@ -120,7 +121,7 @@ public class ConfigReaderRegistry {
             return configValue;
         }
         catch (IOException iOException) {
-            throw new ReadConfigException(new StringBuffer().append("IO: ").append(iOException.getMessage()).toString());
+            throw new ReadConfigException("IO: " + iOException.getMessage());
         }
     }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.ListChangedInformation;
 
 public class ListChangedInformationSerializer {
-    public static void putOptionalListChangedInformation(ISerializer iSerializer, ListChangedInformation listChangedInformation) {
+    public static void putOptionalListChangedInformation(ISerializer iSerializer, ListChangedInformation listChangedInformation) throws SerializerException {
         boolean bl = listChangedInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ListChangedInformationSerializer {
         }
     }
 
-    public static void putOptionalListChangedInformationVarArray(ISerializer iSerializer, ListChangedInformation[] listChangedInformationArray) {
+    public static void putOptionalListChangedInformationVarArray(ISerializer iSerializer, ListChangedInformation[] listChangedInformationArray) throws SerializerException {
         boolean bl = listChangedInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ListChangedInformationSerializer {
         }
     }
 
-    public static ListChangedInformation getOptionalListChangedInformation(IDeserializer iDeserializer) {
+    public static ListChangedInformation getOptionalListChangedInformation(IDeserializer iDeserializer) throws SerializerException {
         ListChangedInformation listChangedInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ListChangedInformationSerializer {
         return listChangedInformation;
     }
 
-    public static ListChangedInformation[] getOptionalListChangedInformationVarArray(IDeserializer iDeserializer) {
+    public static ListChangedInformation[] getOptionalListChangedInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         ListChangedInformation[] listChangedInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

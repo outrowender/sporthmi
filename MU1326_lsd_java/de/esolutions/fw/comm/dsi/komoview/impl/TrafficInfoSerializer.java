@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.komoview.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.komoview.TrafficInfo;
 
 public class TrafficInfoSerializer {
-    public static void putOptionalTrafficInfo(ISerializer iSerializer, TrafficInfo trafficInfo) {
+    public static void putOptionalTrafficInfo(ISerializer iSerializer, TrafficInfo trafficInfo) throws SerializerException {
         boolean bl = trafficInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TrafficInfoSerializer {
         }
     }
 
-    public static void putOptionalTrafficInfoVarArray(ISerializer iSerializer, TrafficInfo[] trafficInfoArray) {
+    public static void putOptionalTrafficInfoVarArray(ISerializer iSerializer, TrafficInfo[] trafficInfoArray) throws SerializerException {
         boolean bl = trafficInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TrafficInfoSerializer {
         }
     }
 
-    public static TrafficInfo getOptionalTrafficInfo(IDeserializer iDeserializer) {
+    public static TrafficInfo getOptionalTrafficInfo(IDeserializer iDeserializer) throws SerializerException {
         TrafficInfo trafficInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class TrafficInfoSerializer {
         return trafficInfo;
     }
 
-    public static TrafficInfo[] getOptionalTrafficInfoVarArray(IDeserializer iDeserializer) {
+    public static TrafficInfo[] getOptionalTrafficInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficInfo[] trafficInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

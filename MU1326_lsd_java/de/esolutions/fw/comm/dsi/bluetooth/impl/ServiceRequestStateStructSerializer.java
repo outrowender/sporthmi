@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.ServiceRequestStateStruct;
 
 public class ServiceRequestStateStructSerializer {
-    public static void putOptionalServiceRequestStateStruct(ISerializer iSerializer, ServiceRequestStateStruct serviceRequestStateStruct) {
+    public static void putOptionalServiceRequestStateStruct(ISerializer iSerializer, ServiceRequestStateStruct serviceRequestStateStruct) throws SerializerException {
         boolean bl = serviceRequestStateStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ServiceRequestStateStructSerializer {
         }
     }
 
-    public static void putOptionalServiceRequestStateStructVarArray(ISerializer iSerializer, ServiceRequestStateStruct[] serviceRequestStateStructArray) {
+    public static void putOptionalServiceRequestStateStructVarArray(ISerializer iSerializer, ServiceRequestStateStruct[] serviceRequestStateStructArray) throws SerializerException {
         boolean bl = serviceRequestStateStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ServiceRequestStateStructSerializer {
         }
     }
 
-    public static ServiceRequestStateStruct getOptionalServiceRequestStateStruct(IDeserializer iDeserializer) {
+    public static ServiceRequestStateStruct getOptionalServiceRequestStateStruct(IDeserializer iDeserializer) throws SerializerException {
         ServiceRequestStateStruct serviceRequestStateStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ServiceRequestStateStructSerializer {
         return serviceRequestStateStruct;
     }
 
-    public static ServiceRequestStateStruct[] getOptionalServiceRequestStateStructVarArray(IDeserializer iDeserializer) {
+    public static ServiceRequestStateStruct[] getOptionalServiceRequestStateStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceRequestStateStruct[] serviceRequestStateStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

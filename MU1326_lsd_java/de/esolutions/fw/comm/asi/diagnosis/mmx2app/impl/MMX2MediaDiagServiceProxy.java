@@ -3,12 +3,25 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sApplicationSoftwareVersionNumberSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sSerialNumberSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sSparePartNumberSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sSubsystemStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sSystemNameSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sApplicationSoftwareVersionNumber;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSerialNumber;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSparePartNumber;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSubsystemState;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSystemName;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sActiveMediaSourceStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sDTCPStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sMediaDBVersionSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sMediaRegionCodesSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sMediaTypeOpticalDriveSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sPmlStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.media.impl.sUsbOvercurrentSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.media.sActiveMediaSourceState;
 import de.esolutions.fw.comm.asi.diagnosis.media.sDTCPState;
 import de.esolutions.fw.comm.asi.diagnosis.media.sMediaDBVersion;
@@ -19,24 +32,13 @@ import de.esolutions.fw.comm.asi.diagnosis.media.sUsbOvercurrent;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2MediaDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2MediaDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2MediaDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$10;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$11;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$12;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$13;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$3;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$4;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$5;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$6;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$7;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$8;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceProxy$9;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2MediaDiagServiceReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -56,80 +58,127 @@ MMX2MediaDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorMedia(sClientResponseError sClientResponseError2) {
-        MMX2MediaDiagServiceProxy$1 mMX2MediaDiagServiceProxy$1 = new MMX2MediaDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)42, mMX2MediaDiagServiceProxy$1);
+    public void responseErrorMedia(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)42, iSerializable);
     }
 
-    @Override
-    public void responseSubsystemState(sSubsystemState sSubsystemState2) {
-        MMX2MediaDiagServiceProxy$2 mMX2MediaDiagServiceProxy$2 = new MMX2MediaDiagServiceProxy$2(this, sSubsystemState2);
-        this.proxy.remoteCallMethod((short)34, mMX2MediaDiagServiceProxy$2);
+    public void responseSubsystemState(final sSubsystemState sSubsystemState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sSubsystemStateSerializer.putOptionalsSubsystemState(iSerializer, sSubsystemState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)34, iSerializable);
     }
 
-    @Override
-    public void responseMediaDBVersion(sMediaDBVersion sMediaDBVersion2) {
-        MMX2MediaDiagServiceProxy$3 mMX2MediaDiagServiceProxy$3 = new MMX2MediaDiagServiceProxy$3(this, sMediaDBVersion2);
-        this.proxy.remoteCallMethod((short)8, mMX2MediaDiagServiceProxy$3);
+    public void responseMediaDBVersion(final sMediaDBVersion sMediaDBVersion2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sMediaDBVersionSerializer.putOptionalsMediaDBVersion(iSerializer, sMediaDBVersion2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void responseActiveMediaSourceState(sActiveMediaSourceState sActiveMediaSourceState2) {
-        MMX2MediaDiagServiceProxy$4 mMX2MediaDiagServiceProxy$4 = new MMX2MediaDiagServiceProxy$4(this, sActiveMediaSourceState2);
-        this.proxy.remoteCallMethod((short)6, mMX2MediaDiagServiceProxy$4);
+    public void responseActiveMediaSourceState(final sActiveMediaSourceState sActiveMediaSourceState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sActiveMediaSourceStateSerializer.putOptionalsActiveMediaSourceState(iSerializer, sActiveMediaSourceState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void responseMediaRegionCodes(sMediaRegionCodes sMediaRegionCodes2) {
-        MMX2MediaDiagServiceProxy$5 mMX2MediaDiagServiceProxy$5 = new MMX2MediaDiagServiceProxy$5(this, sMediaRegionCodes2);
-        this.proxy.remoteCallMethod((short)9, mMX2MediaDiagServiceProxy$5);
+    public void responseMediaRegionCodes(final sMediaRegionCodes sMediaRegionCodes2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sMediaRegionCodesSerializer.putOptionalsMediaRegionCodes(iSerializer, sMediaRegionCodes2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void responseMediaTypeOpticalDrive(sMediaTypeOpticalDrive sMediaTypeOpticalDrive2) {
-        MMX2MediaDiagServiceProxy$6 mMX2MediaDiagServiceProxy$6 = new MMX2MediaDiagServiceProxy$6(this, sMediaTypeOpticalDrive2);
-        this.proxy.remoteCallMethod((short)29, mMX2MediaDiagServiceProxy$6);
+    public void responseMediaTypeOpticalDrive(final sMediaTypeOpticalDrive sMediaTypeOpticalDrive2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sMediaTypeOpticalDriveSerializer.putOptionalsMediaTypeOpticalDrive(iSerializer, sMediaTypeOpticalDrive2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)29, iSerializable);
     }
 
-    @Override
-    public void responseUsbOvercurrent(sUsbOvercurrent sUsbOvercurrent2) {
-        MMX2MediaDiagServiceProxy$7 mMX2MediaDiagServiceProxy$7 = new MMX2MediaDiagServiceProxy$7(this, sUsbOvercurrent2);
-        this.proxy.remoteCallMethod((short)17, mMX2MediaDiagServiceProxy$7);
+    public void responseUsbOvercurrent(final sUsbOvercurrent sUsbOvercurrent2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sUsbOvercurrentSerializer.putOptionalsUsbOvercurrent(iSerializer, sUsbOvercurrent2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void responsePmlState(sPmlState sPmlState2) {
-        MMX2MediaDiagServiceProxy$8 mMX2MediaDiagServiceProxy$8 = new MMX2MediaDiagServiceProxy$8(this, sPmlState2);
-        this.proxy.remoteCallMethod((short)33, mMX2MediaDiagServiceProxy$8);
+    public void responsePmlState(final sPmlState sPmlState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sPmlStateSerializer.putOptionalsPmlState(iSerializer, sPmlState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)33, iSerializable);
     }
 
-    @Override
-    public void responseSparePartNumberMediaDB(sSparePartNumber sSparePartNumber2) {
-        MMX2MediaDiagServiceProxy$9 mMX2MediaDiagServiceProxy$9 = new MMX2MediaDiagServiceProxy$9(this, sSparePartNumber2);
-        this.proxy.remoteCallMethod((short)36, mMX2MediaDiagServiceProxy$9);
+    public void responseSparePartNumberMediaDB(final sSparePartNumber sSparePartNumber2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sSparePartNumberSerializer.putOptionalsSparePartNumber(iSerializer, sSparePartNumber2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void responseApplicationSoftwareVersionNumberMediaDB(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) {
-        MMX2MediaDiagServiceProxy$10 mMX2MediaDiagServiceProxy$10 = new MMX2MediaDiagServiceProxy$10(this, sApplicationSoftwareVersionNumber2);
-        this.proxy.remoteCallMethod((short)22, mMX2MediaDiagServiceProxy$10);
+    public void responseApplicationSoftwareVersionNumberMediaDB(final sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sApplicationSoftwareVersionNumberSerializer.putOptionalsApplicationSoftwareVersionNumber(iSerializer, sApplicationSoftwareVersionNumber2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 
-    @Override
-    public void responseSerialNumberMediaDB(sSerialNumber sSerialNumber2) {
-        MMX2MediaDiagServiceProxy$11 mMX2MediaDiagServiceProxy$11 = new MMX2MediaDiagServiceProxy$11(this, sSerialNumber2);
-        this.proxy.remoteCallMethod((short)25, mMX2MediaDiagServiceProxy$11);
+    public void responseSerialNumberMediaDB(final sSerialNumber sSerialNumber2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sSerialNumberSerializer.putOptionalsSerialNumber(iSerializer, sSerialNumber2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void responseSystemNameMediaDB(sSystemName sSystemName2) {
-        MMX2MediaDiagServiceProxy$12 mMX2MediaDiagServiceProxy$12 = new MMX2MediaDiagServiceProxy$12(this, sSystemName2);
-        this.proxy.remoteCallMethod((short)26, mMX2MediaDiagServiceProxy$12);
+    public void responseSystemNameMediaDB(final sSystemName sSystemName2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sSystemNameSerializer.putOptionalsSystemName(iSerializer, sSystemName2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void responseStatusUSBCommunication(long l, int n) {
+    public void responseStatusUSBCommunication(long l, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -141,8 +190,7 @@ MMX2MediaDiagServiceC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void responseUSBHubIdentification(long l, short[] sArray) {
+    public void responseUSBHubIdentification(long l, short[] sArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -154,14 +202,18 @@ MMX2MediaDiagServiceC {
         this.proxy.remoteCallMethod((short)41, genericSerializable);
     }
 
-    @Override
-    public void responseDTCPEncryptionState(long l, sDTCPState[] sDTCPStateArray) {
-        MMX2MediaDiagServiceProxy$13 mMX2MediaDiagServiceProxy$13 = new MMX2MediaDiagServiceProxy$13(this, l, sDTCPStateArray);
-        this.proxy.remoteCallMethod((short)50, mMX2MediaDiagServiceProxy$13);
+    public void responseDTCPEncryptionState(final long l, final sDTCPState[] sDTCPStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                sDTCPStateSerializer.putOptionalsDTCPStateVarArray(iSerializer, sDTCPStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)50, iSerializable);
     }
 
-    @Override
-    public void responseDTCPKeytypeMMX(long l, int n) {
+    public void responseDTCPKeytypeMMX(long l, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -173,8 +225,7 @@ MMX2MediaDiagServiceC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void responseDTCPSRMInfo(long l, short s, int n, int n2) {
+    public void responseDTCPSRMInfo(long l, short s, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);

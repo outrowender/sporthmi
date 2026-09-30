@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.PriceInfo;
 
 public class PriceInfoSerializer {
-    public static void putOptionalPriceInfo(ISerializer iSerializer, PriceInfo priceInfo) {
+    public static void putOptionalPriceInfo(ISerializer iSerializer, PriceInfo priceInfo) throws SerializerException {
         boolean bl = priceInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PriceInfoSerializer {
         }
     }
 
-    public static void putOptionalPriceInfoVarArray(ISerializer iSerializer, PriceInfo[] priceInfoArray) {
+    public static void putOptionalPriceInfoVarArray(ISerializer iSerializer, PriceInfo[] priceInfoArray) throws SerializerException {
         boolean bl = priceInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PriceInfoSerializer {
         }
     }
 
-    public static PriceInfo getOptionalPriceInfo(IDeserializer iDeserializer) {
+    public static PriceInfo getOptionalPriceInfo(IDeserializer iDeserializer) throws SerializerException {
         PriceInfo priceInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PriceInfoSerializer {
         return priceInfo;
     }
 
-    public static PriceInfo[] getOptionalPriceInfoVarArray(IDeserializer iDeserializer) {
+    public static PriceInfo[] getOptionalPriceInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PriceInfo[] priceInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

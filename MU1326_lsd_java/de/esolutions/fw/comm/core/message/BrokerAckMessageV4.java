@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.message.BrokerAckMessageV3;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BrokerAckMessageV4
 extends BrokerAckMessageV3 {
@@ -19,19 +20,17 @@ extends BrokerAckMessageV3 {
         this.assignedAgentEpoch = s3;
     }
 
-    public BrokerAckMessageV4(IDeserializer iDeserializer, boolean bl) {
+    public BrokerAckMessageV4(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(iDeserializer, bl);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         super.serializeElements(iSerializer);
         iSerializer.putInt16(this.assignedAgentID);
         iSerializer.putInt16(this.assignedAgentEpoch);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         super.deserializeElements(iDeserializer);
         this.assignedAgentID = iDeserializer.getInt16();
         this.assignedAgentEpoch = iDeserializer.getInt16();

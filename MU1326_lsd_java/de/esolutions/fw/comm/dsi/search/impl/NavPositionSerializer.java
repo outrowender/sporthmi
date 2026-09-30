@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.NavPosition;
 
 public class NavPositionSerializer {
-    public static void putOptionalNavPosition(ISerializer iSerializer, NavPosition navPosition) {
+    public static void putOptionalNavPosition(ISerializer iSerializer, NavPosition navPosition) throws SerializerException {
         boolean bl = navPosition == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NavPositionSerializer {
         }
     }
 
-    public static void putOptionalNavPositionVarArray(ISerializer iSerializer, NavPosition[] navPositionArray) {
+    public static void putOptionalNavPositionVarArray(ISerializer iSerializer, NavPosition[] navPositionArray) throws SerializerException {
         boolean bl = navPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NavPositionSerializer {
         }
     }
 
-    public static NavPosition getOptionalNavPosition(IDeserializer iDeserializer) {
+    public static NavPosition getOptionalNavPosition(IDeserializer iDeserializer) throws SerializerException {
         NavPosition navPosition = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NavPositionSerializer {
         return navPosition;
     }
 
-    public static NavPosition[] getOptionalNavPositionVarArray(IDeserializer iDeserializer) {
+    public static NavPosition[] getOptionalNavPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavPosition[] navPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

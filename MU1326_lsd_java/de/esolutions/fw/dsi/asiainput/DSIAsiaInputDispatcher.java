@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.asiainput;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.asiainput.DSIAsiaInputReply;
 import de.esolutions.fw.comm.dsi.asiainput.impl.DSIAsiaInputReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIAsiaInputReply {
         super(n, (class$org$dsi$ifc$asiainput$DSIAsiaInputListener == null ? (class$org$dsi$ifc$asiainput$DSIAsiaInputListener = DSIAsiaInputDispatcher.class$("org.dsi.ifc.asiainput.DSIAsiaInputListener")) : class$org$dsi$ifc$asiainput$DSIAsiaInputListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void initialized(int n) {
+    public void initialized(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getVersionInfo(String string, String string2) {
+    public void getVersionInfo(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void builtCandidates(int n) {
+    public void builtCandidates(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getSpelling(String string) {
+    public void getSpelling(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getCandidates(String[] stringArray) {
+    public void getCandidates(String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,8 +106,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void selectedCandidate(int n, int n2) {
+    public void selectedCandidate(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -128,8 +122,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void indicateErrorStatus(int n) {
+    public void indicateErrorStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -145,8 +138,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void indicateDataInvalidated(int n) {
+    public void indicateDataInvalidated(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -162,8 +154,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getIntParameter(int n, int n2) {
+    public void getIntParameter(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -179,8 +170,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getBooleanParameter(int n, boolean bl) {
+    public void getBooleanParameter(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -196,8 +186,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void setIntParameterResult(int n, int n2, int n3) {
+    public void setIntParameterResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -213,8 +202,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void setBooleanParameterResult(int n, boolean bl, int n2) {
+    public void setBooleanParameterResult(int n, boolean bl, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -230,8 +218,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void setStringParameterResult(int n, String string, int n2) {
+    public void setStringParameterResult(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -247,8 +234,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getStringParameter(int n, String string) {
+    public void getStringParameter(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -264,8 +250,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void setAdditionalWordDatabasesResult(int n) {
+    public void setAdditionalWordDatabasesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -281,8 +266,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void setUserDatabaseStateResult(int n, int n2, int n3) {
+    public void setUserDatabaseStateResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -298,8 +282,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void resetToFactorySettingsResult(int n) {
+    public void resetToFactorySettingsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -315,8 +298,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void getSegmentation(String string) {
+    public void getSegmentation(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -332,8 +314,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void responseSegmentationForTruffles(String string) {
+    public void responseSegmentationForTruffles(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -349,8 +330,7 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -366,14 +346,13 @@ implements DSIAsiaInputReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAsiaInputListener dSIAsiaInputListener = (DSIAsiaInputListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAsiaInputDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAsiaInputDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAsiaInputListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAsiaInputDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAsiaInputDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAsiaInputListener, new Object[]{string, string2});
                     continue;
                 }

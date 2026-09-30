@@ -5,16 +5,14 @@ package de.esolutions.fw.comm.core;
 
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.message.ICallMethodSerializeCallback;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.util.serializer.ISerializable;
 
 public interface IProxyBackend {
-    default public void remoteCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) {
-    }
+    public void remoteCallMethod(short var1, short var2, ISerializable var3, ICallMethodSerializeCallback var4) throws MethodException;
 
-    default public void proxyAliveDone(Proxy proxy) {
-    }
+    public void proxyAliveDone(Proxy var1);
 
-    default public short getPeerAgentID() {
-    }
+    public short getPeerAgentID();
 }
 

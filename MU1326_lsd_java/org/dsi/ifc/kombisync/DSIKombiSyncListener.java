@@ -10,25 +10,18 @@ import org.dsi.ifc.kombisync.KombiPopupStatus;
 
 public interface DSIKombiSyncListener
 extends DSIListener {
-    default public void updateKombiCommunicationState(boolean bl, int n) {
-    }
+    public void updateKombiCommunicationState(boolean var1, int var2);
 
-    default public void updateKombiMessageStateDisplayStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayStatus(int var1, int var2);
 
-    default public void updateKombiMessageStateDisplayRequest(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayRequest(int var1, int var2);
 
-    default public void updateKombiMessageStatePopupStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupStatus(int var1, int var2);
 
-    default public void responseKombiDisplayStatus(KombiDisplayStatus kombiDisplayStatus, int n) {
-    }
+    public void responseKombiDisplayStatus(KombiDisplayStatus var1, int var2);
 
-    default public void responseKombiDisplayRequest(KombiDisplayRequest kombiDisplayRequest) {
-    }
+    public void responseKombiDisplayRequest(KombiDisplayRequest var1);
 
-    default public void responseKombiPopupStatus(KombiPopupStatus kombiPopupStatus, int n) {
-    }
+    public void responseKombiPopupStatus(KombiPopupStatus var1, int var2);
 }
 

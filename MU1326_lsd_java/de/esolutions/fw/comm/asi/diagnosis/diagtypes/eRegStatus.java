@@ -7,9 +7,9 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eRegStatus
 extends IEnum {
-    public static final int REG_OK;
-    public static final int REG_CLIENT_ALREADY_REGISTERED;
-    public static final int REG_CLIENT_ID_ALREADY_REGISTERED;
-    public static final int REG_ERROR;
+    public static final int REG_OK = 0;
+    public static final int REG_CLIENT_ALREADY_REGISTERED = 1;
+    public static final int REG_CLIENT_ID_ALREADY_REGISTERED = 2;
+    public static final int REG_ERROR = 3;
 }
 

@@ -7,43 +7,36 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAudioManagement
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_FADETOCONNECTION;
-    public static final int RT_RELEASECONNECTION;
-    public static final int RT_GETACTIVECONNECTION;
-    public static final int RT_GETACTIVEENTERTAINMENTCONNECTION;
-    public static final int RT_REQUESTCONNECTION;
-    public static final int RT_SETVOLUMELOCK;
-    public static final int RT_GETVOLUMELOCK;
-    public static final int ATTR_AMAVAILABLE;
-    public static final int ATTR_ACTIVECONNECTION;
-    public static final int ATTR_ACTIVEENTERTAINMENTCONNECTION;
-    public static final int RP_ERRORCONNECTION;
-    public static final int RP_FADEDIN;
-    public static final int RP_PAUSECONNECTION;
-    public static final int RP_STARTCONNECTION;
-    public static final int RP_STOPCONNECTION;
-    public static final int RP_RESPONSEVOLUMELOCK;
+    public static final String VERSION = "2.11.45";
+    public static final int RT_FADETOCONNECTION = 1000;
+    public static final int RT_RELEASECONNECTION = 1001;
+    public static final int RT_GETACTIVECONNECTION = 1002;
+    public static final int RT_GETACTIVEENTERTAINMENTCONNECTION = 1003;
+    public static final int RT_REQUESTCONNECTION = 1004;
+    public static final int RT_SETVOLUMELOCK = 1005;
+    public static final int RT_GETVOLUMELOCK = 1006;
+    public static final int ATTR_AMAVAILABLE = 1;
+    public static final int ATTR_ACTIVECONNECTION = 2;
+    public static final int ATTR_ACTIVEENTERTAINMENTCONNECTION = 3;
+    public static final int RP_ERRORCONNECTION = 2000;
+    public static final int RP_FADEDIN = 2001;
+    public static final int RP_PAUSECONNECTION = 2002;
+    public static final int RP_STARTCONNECTION = 2003;
+    public static final int RP_STOPCONNECTION = 2004;
+    public static final int RP_RESPONSEVOLUMELOCK = 2006;
 
-    default public void fadeToConnection(int n, int n2) {
-    }
+    public void fadeToConnection(int var1, int var2);
 
-    default public void releaseConnection(int n, int n2) {
-    }
+    public void releaseConnection(int var1, int var2);
 
-    default public void getActiveConnection(int n) {
-    }
+    public void getActiveConnection(int var1);
 
-    default public void getActiveEntertainmentConnection(int n) {
-    }
+    public void getActiveEntertainmentConnection(int var1);
 
-    default public void requestConnection(int n, int n2, int n3) {
-    }
+    public void requestConnection(int var1, int var2, int var3);
 
-    default public void setVolumelock(int n, int n2, boolean bl) {
-    }
+    public void setVolumelock(int var1, int var2, boolean var3);
 
-    default public void getVolumelock(int n, int n2) {
-    }
+    public void getVolumelock(int var1, int var2);
 }
 

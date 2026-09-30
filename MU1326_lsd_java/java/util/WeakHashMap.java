@@ -4,26 +4,28 @@
 package java.util;
 
 import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.util.AbstractCollection;
 import java.util.AbstractMap;
+import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.WeakHashMap$1;
-import java.util.WeakHashMap$3;
-import java.util.WeakHashMap$5;
-import java.util.WeakHashMap$Entry;
 
 public class WeakHashMap
 extends AbstractMap
 implements Map {
     private final ReferenceQueue referenceQueue;
     int elementCount;
-    WeakHashMap$Entry[] elementData;
+    Entry[] elementData;
     private final int loadFactor;
     private int threshold;
     transient int modCount = 0;
-    private static final int DEFAULT_SIZE;
+    private static final int DEFAULT_SIZE = 16;
 
     public WeakHashMap() {
         this(16);
@@ -34,7 +36,7 @@ implements Map {
             throw new IllegalArgumentException();
         }
         this.elementCount = 0;
-        this.elementData = new WeakHashMap$Entry[n == 0 ? 1 : n];
+        this.elementData = new Entry[n == 0 ? 1 : n];
         this.loadFactor = 7500;
         this.computeMaxSize();
         this.referenceQueue = new ReferenceQueue();
@@ -45,8 +47,8 @@ implements Map {
             throw new IllegalArgumentException();
         }
         this.elementCount = 0;
-        this.elementData = new WeakHashMap$Entry[n == 0 ? 1 : n];
-        this.loadFactor = (int)(f2 * 4201542);
+        this.elementData = new Entry[n == 0 ? 1 : n];
+        this.loadFactor = (int)(f2 * 10000.0f);
         this.computeMaxSize();
         this.referenceQueue = new ReferenceQueue();
     }
@@ -56,7 +58,6 @@ implements Map {
         this.putAll(map);
     }
 
-    @Override
     public void clear() {
         if (this.elementCount > 0) {
             this.elementCount = 0;
@@ -68,178 +69,257 @@ implements Map {
     }
 
     private void computeMaxSize() {
-        this.threshold = (int)((long)this.elementData.length * (long)this.loadFactor / 0);
+        this.threshold = (int)((long)this.elementData.length * (long)this.loadFactor / 10000L);
     }
 
-    @Override
     public boolean containsKey(Object object) {
         return this.getEntry(object) != null;
     }
 
-    @Override
     public Set entrySet() {
         this.poll();
-        return new WeakHashMap$1(this);
+        return new AbstractSet(){
+
+            public int size() {
+                return WeakHashMap.this.size();
+            }
+
+            public void clear() {
+                WeakHashMap.this.clear();
+            }
+
+            public boolean remove(Object object) {
+                if (this.contains(object)) {
+                    WeakHashMap.this.remove(((Map.Entry)object).getKey());
+                    return true;
+                }
+                return false;
+            }
+
+            public boolean contains(Object object) {
+                Object object2;
+                Entry entry;
+                if (object instanceof Map.Entry && (entry = WeakHashMap.this.getEntry(((Map.Entry)object).getKey())) != null && ((object2 = entry.get()) != null || entry.isNull)) {
+                    return object.equals(entry);
+                }
+                return false;
+            }
+
+            public Iterator iterator() {
+                return new HashIterator(new Entry.Type(){
+
+                    public Object get(Map.Entry entry) {
+                        return entry;
+                    }
+                });
+            }
+        };
     }
 
-    @Override
     public Set keySet() {
         this.poll();
         if (this.keySet == null) {
-            this.keySet = new WeakHashMap$3(this);
+            this.keySet = new AbstractSet(){
+
+                public boolean contains(Object object) {
+                    return WeakHashMap.this.containsKey(object);
+                }
+
+                public int size() {
+                    return WeakHashMap.this.size();
+                }
+
+                public void clear() {
+                    WeakHashMap.this.clear();
+                }
+
+                public boolean remove(Object object) {
+                    if (WeakHashMap.this.containsKey(object)) {
+                        WeakHashMap.this.remove(object);
+                        return true;
+                    }
+                    return false;
+                }
+
+                public Iterator iterator() {
+                    return new HashIterator(new Entry.Type(){
+
+                        public Object get(Map.Entry entry) {
+                            return entry.getKey();
+                        }
+                    });
+                }
+            };
         }
         return this.keySet;
     }
 
-    @Override
     public Collection values() {
         this.poll();
         if (this.valuesCollection == null) {
-            this.valuesCollection = new WeakHashMap$5(this);
+            this.valuesCollection = new AbstractCollection(){
+
+                public int size() {
+                    return WeakHashMap.this.size();
+                }
+
+                public void clear() {
+                    WeakHashMap.this.clear();
+                }
+
+                public boolean contains(Object object) {
+                    return WeakHashMap.this.containsValue(object);
+                }
+
+                public Iterator iterator() {
+                    return new HashIterator(new Entry.Type(){
+
+                        public Object get(Map.Entry entry) {
+                            return entry.getValue();
+                        }
+                    });
+                }
+            };
         }
         return this.valuesCollection;
     }
 
-    @Override
     public Object get(Object object) {
         this.poll();
         if (object != null) {
-            int n = (object.hashCode() & 0xFFFFFF7F) % this.elementData.length;
-            WeakHashMap$Entry weakHashMap$Entry = this.elementData[n];
-            while (weakHashMap$Entry != null) {
-                if (object.equals(weakHashMap$Entry.get())) {
-                    return weakHashMap$Entry.value;
+            int n = (object.hashCode() & Integer.MAX_VALUE) % this.elementData.length;
+            Entry entry = this.elementData[n];
+            while (entry != null) {
+                if (object.equals(entry.get())) {
+                    return entry.value;
                 }
-                weakHashMap$Entry = weakHashMap$Entry.next;
+                entry = entry.next;
             }
             return null;
         }
-        WeakHashMap$Entry weakHashMap$Entry = this.elementData[0];
-        while (weakHashMap$Entry != null) {
-            if (weakHashMap$Entry.isNull) {
-                return weakHashMap$Entry.value;
+        Entry entry = this.elementData[0];
+        while (entry != null) {
+            if (entry.isNull) {
+                return entry.value;
             }
-            weakHashMap$Entry = weakHashMap$Entry.next;
+            entry = entry.next;
         }
         return null;
     }
 
-    WeakHashMap$Entry getEntry(Object object) {
+    Entry getEntry(Object object) {
         this.poll();
         if (object != null) {
-            int n = (object.hashCode() & 0xFFFFFF7F) % this.elementData.length;
-            WeakHashMap$Entry weakHashMap$Entry = this.elementData[n];
-            while (weakHashMap$Entry != null) {
-                if (object.equals(weakHashMap$Entry.get())) {
-                    return weakHashMap$Entry;
+            int n = (object.hashCode() & Integer.MAX_VALUE) % this.elementData.length;
+            Entry entry = this.elementData[n];
+            while (entry != null) {
+                if (object.equals(entry.get())) {
+                    return entry;
                 }
-                weakHashMap$Entry = weakHashMap$Entry.next;
+                entry = entry.next;
             }
             return null;
         }
-        WeakHashMap$Entry weakHashMap$Entry = this.elementData[0];
-        while (weakHashMap$Entry != null) {
-            if (weakHashMap$Entry.isNull) {
-                return weakHashMap$Entry;
+        Entry entry = this.elementData[0];
+        while (entry != null) {
+            if (entry.isNull) {
+                return entry;
             }
-            weakHashMap$Entry = weakHashMap$Entry.next;
+            entry = entry.next;
         }
         return null;
     }
 
-    @Override
     public boolean containsValue(Object object) {
         this.poll();
         if (object != null) {
             int n = this.elementData.length;
             while (--n >= 0) {
-                WeakHashMap$Entry weakHashMap$Entry = this.elementData[n];
-                while (weakHashMap$Entry != null) {
-                    Object object2 = weakHashMap$Entry.get();
-                    if ((object2 != null || weakHashMap$Entry.isNull) && object.equals(weakHashMap$Entry.value)) {
+                Entry entry = this.elementData[n];
+                while (entry != null) {
+                    Object object2 = entry.get();
+                    if ((object2 != null || entry.isNull) && object.equals(entry.value)) {
                         return true;
                     }
-                    weakHashMap$Entry = weakHashMap$Entry.next;
+                    entry = entry.next;
                 }
             }
         } else {
             int n = this.elementData.length;
             while (--n >= 0) {
-                WeakHashMap$Entry weakHashMap$Entry = this.elementData[n];
-                while (weakHashMap$Entry != null) {
-                    Object object3 = weakHashMap$Entry.get();
-                    if ((object3 != null || weakHashMap$Entry.isNull) && weakHashMap$Entry.value == null) {
+                Entry entry = this.elementData[n];
+                while (entry != null) {
+                    Object object3 = entry.get();
+                    if ((object3 != null || entry.isNull) && entry.value == null) {
                         return true;
                     }
-                    weakHashMap$Entry = weakHashMap$Entry.next;
+                    entry = entry.next;
                 }
             }
         }
         return false;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size() == 0;
     }
 
     void poll() {
-        WeakHashMap$Entry weakHashMap$Entry;
-        while ((weakHashMap$Entry = (WeakHashMap$Entry)this.referenceQueue.poll()) != null) {
-            this.removeEntry(weakHashMap$Entry);
+        Entry entry;
+        while ((entry = (Entry)this.referenceQueue.poll()) != null) {
+            this.removeEntry(entry);
         }
     }
 
-    void removeEntry(WeakHashMap$Entry weakHashMap$Entry) {
-        WeakHashMap$Entry weakHashMap$Entry2 = null;
-        int n = (weakHashMap$Entry.hash & 0xFFFFFF7F) % this.elementData.length;
-        WeakHashMap$Entry weakHashMap$Entry3 = this.elementData[n];
-        while (weakHashMap$Entry3 != null) {
-            if (weakHashMap$Entry == weakHashMap$Entry3) {
+    void removeEntry(Entry entry) {
+        Entry entry2 = null;
+        int n = (entry.hash & Integer.MAX_VALUE) % this.elementData.length;
+        Entry entry3 = this.elementData[n];
+        while (entry3 != null) {
+            if (entry == entry3) {
                 ++this.modCount;
-                if (weakHashMap$Entry2 == null) {
-                    this.elementData[n] = weakHashMap$Entry3.next;
+                if (entry2 == null) {
+                    this.elementData[n] = entry3.next;
                 } else {
-                    weakHashMap$Entry2.next = weakHashMap$Entry3.next;
+                    entry2.next = entry3.next;
                 }
                 --this.elementCount;
                 break;
             }
-            weakHashMap$Entry2 = weakHashMap$Entry3;
-            weakHashMap$Entry3 = weakHashMap$Entry3.next;
+            entry2 = entry3;
+            entry3 = entry3.next;
         }
     }
 
-    @Override
     public Object put(Object object, Object object2) {
-        WeakHashMap$Entry weakHashMap$Entry;
+        Entry entry;
         this.poll();
         int n = 0;
         if (object != null) {
-            n = (object.hashCode() & 0xFFFFFF7F) % this.elementData.length;
-            weakHashMap$Entry = this.elementData[n];
-            while (weakHashMap$Entry != null && !object.equals(weakHashMap$Entry.get())) {
-                weakHashMap$Entry = weakHashMap$Entry.next;
+            n = (object.hashCode() & Integer.MAX_VALUE) % this.elementData.length;
+            entry = this.elementData[n];
+            while (entry != null && !object.equals(entry.get())) {
+                entry = entry.next;
             }
         } else {
-            weakHashMap$Entry = this.elementData[0];
-            while (weakHashMap$Entry != null && !weakHashMap$Entry.isNull) {
-                weakHashMap$Entry = weakHashMap$Entry.next;
+            entry = this.elementData[0];
+            while (entry != null && !entry.isNull) {
+                entry = entry.next;
             }
         }
-        if (weakHashMap$Entry == null) {
+        if (entry == null) {
             ++this.modCount;
             if (++this.elementCount > this.threshold) {
                 this.rehash();
-                n = object == null ? 0 : (object.hashCode() & 0xFFFFFF7F) % this.elementData.length;
+                n = object == null ? 0 : (object.hashCode() & Integer.MAX_VALUE) % this.elementData.length;
             }
-            weakHashMap$Entry = new WeakHashMap$Entry(object, object2, this.referenceQueue);
-            weakHashMap$Entry.next = this.elementData[n];
-            this.elementData[n] = weakHashMap$Entry;
+            entry = new Entry(object, object2, this.referenceQueue);
+            entry.next = this.elementData[n];
+            this.elementData[n] = entry;
             return null;
         }
-        Object object3 = weakHashMap$Entry.value;
-        weakHashMap$Entry.value = object2;
+        Object object3 = entry.value;
+        entry.value = object2;
         return object3;
     }
 
@@ -248,60 +328,171 @@ implements Map {
         if (n == 0) {
             n = 1;
         }
-        WeakHashMap$Entry[] weakHashMap$EntryArray = new WeakHashMap$Entry[n];
+        Entry[] entryArray = new Entry[n];
         int n2 = 0;
         while (n2 < this.elementData.length) {
-            WeakHashMap$Entry weakHashMap$Entry = this.elementData[n2];
-            while (weakHashMap$Entry != null) {
-                int n3 = weakHashMap$Entry.isNull ? 0 : (weakHashMap$Entry.hash & 0xFFFFFF7F) % n;
-                WeakHashMap$Entry weakHashMap$Entry2 = weakHashMap$Entry.next;
-                weakHashMap$Entry.next = weakHashMap$EntryArray[n3];
-                weakHashMap$EntryArray[n3] = weakHashMap$Entry;
-                weakHashMap$Entry = weakHashMap$Entry2;
+            Entry entry = this.elementData[n2];
+            while (entry != null) {
+                int n3 = entry.isNull ? 0 : (entry.hash & Integer.MAX_VALUE) % n;
+                Entry entry2 = entry.next;
+                entry.next = entryArray[n3];
+                entryArray[n3] = entry;
+                entry = entry2;
             }
             ++n2;
         }
-        this.elementData = weakHashMap$EntryArray;
+        this.elementData = entryArray;
         this.computeMaxSize();
     }
 
-    @Override
     public Object remove(Object object) {
-        WeakHashMap$Entry weakHashMap$Entry;
+        Entry entry;
         this.poll();
         int n = 0;
-        WeakHashMap$Entry weakHashMap$Entry2 = null;
+        Entry entry2 = null;
         if (object != null) {
-            n = (object.hashCode() & 0xFFFFFF7F) % this.elementData.length;
-            weakHashMap$Entry = this.elementData[n];
-            while (weakHashMap$Entry != null && !object.equals(weakHashMap$Entry.get())) {
-                weakHashMap$Entry2 = weakHashMap$Entry;
-                weakHashMap$Entry = weakHashMap$Entry.next;
+            n = (object.hashCode() & Integer.MAX_VALUE) % this.elementData.length;
+            entry = this.elementData[n];
+            while (entry != null && !object.equals(entry.get())) {
+                entry2 = entry;
+                entry = entry.next;
             }
         } else {
-            weakHashMap$Entry = this.elementData[0];
-            while (weakHashMap$Entry != null && !weakHashMap$Entry.isNull) {
-                weakHashMap$Entry2 = weakHashMap$Entry;
-                weakHashMap$Entry = weakHashMap$Entry.next;
+            entry = this.elementData[0];
+            while (entry != null && !entry.isNull) {
+                entry2 = entry;
+                entry = entry.next;
             }
         }
-        if (weakHashMap$Entry != null) {
+        if (entry != null) {
             ++this.modCount;
-            if (weakHashMap$Entry2 == null) {
-                this.elementData[n] = weakHashMap$Entry.next;
+            if (entry2 == null) {
+                this.elementData[n] = entry.next;
             } else {
-                weakHashMap$Entry2.next = weakHashMap$Entry.next;
+                entry2.next = entry.next;
             }
             --this.elementCount;
-            return weakHashMap$Entry.value;
+            return entry.value;
         }
         return null;
     }
 
-    @Override
     public int size() {
         this.poll();
         return this.elementCount;
+    }
+
+    private static final class Entry
+    extends WeakReference
+    implements Map.Entry {
+        int hash;
+        boolean isNull;
+        Object value;
+        Entry next;
+
+        Entry(Object object, Object object2, ReferenceQueue referenceQueue) {
+            super(object, referenceQueue);
+            this.isNull = object == null;
+            this.hash = this.isNull ? 0 : object.hashCode();
+            this.value = object2;
+        }
+
+        public Object getKey() {
+            return super.get();
+        }
+
+        public Object getValue() {
+            return this.value;
+        }
+
+        public Object setValue(Object object) {
+            Object object2 = this.value;
+            this.value = object;
+            return object2;
+        }
+
+        public boolean equals(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return false;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            Object object2 = super.get();
+            return (object2 == null ? object2 == entry.getKey() : object2.equals(entry.getKey())) && (this.value == null ? this.value == entry.getValue() : this.value.equals(entry.getValue()));
+        }
+
+        public int hashCode() {
+            return this.hash + (this.value == null ? 0 : this.value.hashCode());
+        }
+
+        public String toString() {
+            return super.get() + "=" + this.value;
+        }
+
+        static interface Type {
+            public Object get(Map.Entry var1);
+        }
+    }
+
+    class HashIterator
+    implements Iterator {
+        private int position = 0;
+        private int expectedModCount;
+        private Entry currentEntry;
+        private Entry nextEntry;
+        private Object nextKey;
+        final Entry.Type type;
+
+        HashIterator(Entry.Type type) {
+            this.type = type;
+            this.expectedModCount = WeakHashMap.this.modCount;
+        }
+
+        public boolean hasNext() {
+            if (this.nextEntry != null) {
+                return true;
+            }
+            while (true) {
+                if (this.nextEntry == null) {
+                    while (this.position < WeakHashMap.this.elementData.length) {
+                        if ((this.nextEntry = WeakHashMap.this.elementData[this.position++]) != null) break;
+                    }
+                    if (this.nextEntry == null) {
+                        return false;
+                    }
+                }
+                this.nextKey = this.nextEntry.get();
+                if (this.nextKey != null || this.nextEntry.isNull) {
+                    return true;
+                }
+                this.nextEntry = this.nextEntry.next;
+            }
+        }
+
+        public Object next() {
+            if (this.expectedModCount == WeakHashMap.this.modCount) {
+                if (this.hasNext()) {
+                    this.currentEntry = this.nextEntry;
+                    this.nextEntry = this.currentEntry.next;
+                    Object object = this.type.get(this.currentEntry);
+                    this.nextKey = null;
+                    return object;
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        public void remove() {
+            if (this.expectedModCount != WeakHashMap.this.modCount) throw new ConcurrentModificationException();
+            if (this.currentEntry == null) throw new IllegalStateException();
+            WeakHashMap.this.removeEntry(this.currentEntry);
+            this.currentEntry = null;
+            ++this.expectedModCount;
+        }
     }
 }
 

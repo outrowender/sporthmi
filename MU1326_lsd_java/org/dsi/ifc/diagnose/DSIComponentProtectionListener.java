@@ -7,7 +7,6 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIComponentProtectionListener
 extends DSIListener {
-    default public void authStringResponse(String string, String string2, byte by) {
-    }
+    public void authStringResponse(String var1, String var2, byte var3);
 }
 

@@ -21,7 +21,7 @@ public class TraceMessageBuffer {
         if (!bl) {
             while (this.buffer.isFull()) {
                 try {
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {}
             }
@@ -123,7 +123,7 @@ public class TraceMessageBuffer {
             ++n2;
         }
         if (n2 > 0) {
-            super.notifyAll();
+            this.notifyAll();
         }
         return n2;
     }

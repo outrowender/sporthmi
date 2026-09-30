@@ -4,7 +4,6 @@
 package org.apache.xerces.dom;
 
 import java.lang.ref.SoftReference;
-import org.apache.xerces.dom.CoreDOMImplementationImpl$RevalidationHandlerHolder;
 import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.DOMInputImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
@@ -27,7 +26,7 @@ import org.w3c.dom.ls.LSSerializer;
 public class CoreDOMImplementationImpl
 implements DOMImplementation,
 DOMImplementationLS {
-    private static final int SIZE;
+    private static final int SIZE = 2;
     private SoftReference[] schemaValidators = new SoftReference[2];
     private SoftReference[] xml10DTDValidators = new SoftReference[2];
     private SoftReference[] xml11DTDValidators = new SoftReference[2];
@@ -44,13 +43,12 @@ DOMImplementationLS {
     private int xml10DTDLoaderCurrentSize = 2;
     private int xml11DTDLoaderCurrentSize = 2;
     private int docAndDoctypeCounter = 0;
-    static CoreDOMImplementationImpl singleton;
+    static CoreDOMImplementationImpl singleton = new CoreDOMImplementationImpl();
 
     public static DOMImplementation getDOMImplementation() {
         return singleton;
     }
 
-    @Override
     public boolean hasFeature(String string, String string2) {
         boolean bl;
         boolean bl2 = bl = string2 == null || string2.length() == 0;
@@ -74,7 +72,6 @@ DOMImplementationLS {
         return string.equalsIgnoreCase("Core") && (bl || string2.equals("1.0") || string2.equals("2.0") || string2.equals("3.0")) || string.equalsIgnoreCase("XML") && (bl || string2.equals("1.0") || string2.equals("2.0") || string2.equals("3.0")) || string.equalsIgnoreCase("LS") && (bl || string2.equals("3.0"));
     }
 
-    @Override
     public DocumentType createDocumentType(String string, String string2, String string3) {
         this.checkQName(string);
         return new DocumentTypeImpl(null, string, string2, string3);
@@ -113,8 +110,7 @@ DOMImplementationLS {
         }
     }
 
-    @Override
-    public Document createDocument(String string, String string2, DocumentType documentType) {
+    public Document createDocument(String string, String string2, DocumentType documentType) throws DOMException {
         if (documentType != null && documentType.getOwnerDocument() != null) {
             String string3 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "WRONG_DOCUMENT_ERR", null);
             throw new DOMException(4, string3);
@@ -125,7 +121,6 @@ DOMImplementationLS {
         return coreDocumentImpl;
     }
 
-    @Override
     public Object getFeature(String string, String string2) {
         if (singleton.hasFeature(string, string2)) {
             if (string.equalsIgnoreCase("+XPath")) {
@@ -147,17 +142,14 @@ DOMImplementationLS {
         return null;
     }
 
-    @Override
-    public LSParser createLSParser(short s, String string) {
+    public LSParser createLSParser(short s, String string) throws DOMException {
         return null;
     }
 
-    @Override
     public LSSerializer createLSSerializer() {
         return null;
     }
 
-    @Override
     public LSInput createLSInput() {
         return new DOMInputImpl();
     }
@@ -166,10 +158,10 @@ DOMImplementationLS {
         if (string == "http://www.w3.org/2001/XMLSchema") {
             while (this.freeSchemaValidatorIndex >= 0) {
                 SoftReference softReference = this.schemaValidators[this.freeSchemaValidatorIndex];
-                CoreDOMImplementationImpl$RevalidationHandlerHolder coreDOMImplementationImpl$RevalidationHandlerHolder = (CoreDOMImplementationImpl$RevalidationHandlerHolder)softReference.get();
-                if (coreDOMImplementationImpl$RevalidationHandlerHolder != null && coreDOMImplementationImpl$RevalidationHandlerHolder.handler != null) {
-                    RevalidationHandler revalidationHandler = coreDOMImplementationImpl$RevalidationHandlerHolder.handler;
-                    coreDOMImplementationImpl$RevalidationHandlerHolder.handler = null;
+                RevalidationHandlerHolder revalidationHandlerHolder = (RevalidationHandlerHolder)softReference.get();
+                if (revalidationHandlerHolder != null && revalidationHandlerHolder.handler != null) {
+                    RevalidationHandler revalidationHandler = revalidationHandlerHolder.handler;
+                    revalidationHandlerHolder.handler = null;
                     --this.freeSchemaValidatorIndex;
                     return revalidationHandler;
                 }
@@ -181,10 +173,10 @@ DOMImplementationLS {
             if ("1.1".equals(string2)) {
                 while (this.freeXML11DTDValidatorIndex >= 0) {
                     SoftReference softReference = this.xml11DTDValidators[this.freeXML11DTDValidatorIndex];
-                    CoreDOMImplementationImpl$RevalidationHandlerHolder coreDOMImplementationImpl$RevalidationHandlerHolder = (CoreDOMImplementationImpl$RevalidationHandlerHolder)softReference.get();
-                    if (coreDOMImplementationImpl$RevalidationHandlerHolder != null && coreDOMImplementationImpl$RevalidationHandlerHolder.handler != null) {
-                        RevalidationHandler revalidationHandler = coreDOMImplementationImpl$RevalidationHandlerHolder.handler;
-                        coreDOMImplementationImpl$RevalidationHandlerHolder.handler = null;
+                    RevalidationHandlerHolder revalidationHandlerHolder = (RevalidationHandlerHolder)softReference.get();
+                    if (revalidationHandlerHolder != null && revalidationHandlerHolder.handler != null) {
+                        RevalidationHandler revalidationHandler = revalidationHandlerHolder.handler;
+                        revalidationHandlerHolder.handler = null;
                         --this.freeXML11DTDValidatorIndex;
                         return revalidationHandler;
                     }
@@ -194,10 +186,10 @@ DOMImplementationLS {
             }
             while (this.freeXML10DTDValidatorIndex >= 0) {
                 SoftReference softReference = this.xml10DTDValidators[this.freeXML10DTDValidatorIndex];
-                CoreDOMImplementationImpl$RevalidationHandlerHolder coreDOMImplementationImpl$RevalidationHandlerHolder = (CoreDOMImplementationImpl$RevalidationHandlerHolder)softReference.get();
-                if (coreDOMImplementationImpl$RevalidationHandlerHolder != null && coreDOMImplementationImpl$RevalidationHandlerHolder.handler != null) {
-                    RevalidationHandler revalidationHandler = coreDOMImplementationImpl$RevalidationHandlerHolder.handler;
-                    coreDOMImplementationImpl$RevalidationHandlerHolder.handler = null;
+                RevalidationHandlerHolder revalidationHandlerHolder = (RevalidationHandlerHolder)softReference.get();
+                if (revalidationHandlerHolder != null && revalidationHandlerHolder.handler != null) {
+                    RevalidationHandler revalidationHandler = revalidationHandlerHolder.handler;
+                    revalidationHandlerHolder.handler = null;
                     --this.freeXML10DTDValidatorIndex;
                     return revalidationHandler;
                 }
@@ -210,7 +202,7 @@ DOMImplementationLS {
 
     synchronized void releaseValidator(String string, String string2, RevalidationHandler revalidationHandler) {
         if (string == "http://www.w3.org/2001/XMLSchema") {
-            CoreDOMImplementationImpl$RevalidationHandlerHolder coreDOMImplementationImpl$RevalidationHandlerHolder;
+            RevalidationHandlerHolder revalidationHandlerHolder;
             SoftReference[] softReferenceArray;
             ++this.freeSchemaValidatorIndex;
             if (this.schemaValidators.length == this.freeSchemaValidatorIndex) {
@@ -219,14 +211,14 @@ DOMImplementationLS {
                 System.arraycopy((Object)this.schemaValidators, 0, (Object)softReferenceArray, 0, this.schemaValidators.length);
                 this.schemaValidators = softReferenceArray;
             }
-            if ((softReferenceArray = this.schemaValidators[this.freeSchemaValidatorIndex]) != null && (coreDOMImplementationImpl$RevalidationHandlerHolder = (CoreDOMImplementationImpl$RevalidationHandlerHolder)softReferenceArray.get()) != null) {
-                coreDOMImplementationImpl$RevalidationHandlerHolder.handler = revalidationHandler;
+            if ((softReferenceArray = this.schemaValidators[this.freeSchemaValidatorIndex]) != null && (revalidationHandlerHolder = (RevalidationHandlerHolder)softReferenceArray.get()) != null) {
+                revalidationHandlerHolder.handler = revalidationHandler;
                 return;
             }
-            this.schemaValidators[this.freeSchemaValidatorIndex] = new SoftReference(new CoreDOMImplementationImpl$RevalidationHandlerHolder(revalidationHandler));
+            this.schemaValidators[this.freeSchemaValidatorIndex] = new SoftReference(new RevalidationHandlerHolder(revalidationHandler));
         } else if (string == "http://www.w3.org/TR/REC-xml") {
             if ("1.1".equals(string2)) {
-                CoreDOMImplementationImpl$RevalidationHandlerHolder coreDOMImplementationImpl$RevalidationHandlerHolder;
+                RevalidationHandlerHolder revalidationHandlerHolder;
                 SoftReference[] softReferenceArray;
                 ++this.freeXML11DTDValidatorIndex;
                 if (this.xml11DTDValidators.length == this.freeXML11DTDValidatorIndex) {
@@ -235,13 +227,13 @@ DOMImplementationLS {
                     System.arraycopy((Object)this.xml11DTDValidators, 0, (Object)softReferenceArray, 0, this.xml11DTDValidators.length);
                     this.xml11DTDValidators = softReferenceArray;
                 }
-                if ((softReferenceArray = this.xml11DTDValidators[this.freeXML11DTDValidatorIndex]) != null && (coreDOMImplementationImpl$RevalidationHandlerHolder = (CoreDOMImplementationImpl$RevalidationHandlerHolder)softReferenceArray.get()) != null) {
-                    coreDOMImplementationImpl$RevalidationHandlerHolder.handler = revalidationHandler;
+                if ((softReferenceArray = this.xml11DTDValidators[this.freeXML11DTDValidatorIndex]) != null && (revalidationHandlerHolder = (RevalidationHandlerHolder)softReferenceArray.get()) != null) {
+                    revalidationHandlerHolder.handler = revalidationHandler;
                     return;
                 }
-                this.xml11DTDValidators[this.freeXML11DTDValidatorIndex] = new SoftReference(new CoreDOMImplementationImpl$RevalidationHandlerHolder(revalidationHandler));
+                this.xml11DTDValidators[this.freeXML11DTDValidatorIndex] = new SoftReference(new RevalidationHandlerHolder(revalidationHandler));
             } else {
-                CoreDOMImplementationImpl$RevalidationHandlerHolder coreDOMImplementationImpl$RevalidationHandlerHolder;
+                RevalidationHandlerHolder revalidationHandlerHolder;
                 SoftReference[] softReferenceArray;
                 ++this.freeXML10DTDValidatorIndex;
                 if (this.xml10DTDValidators.length == this.freeXML10DTDValidatorIndex) {
@@ -250,11 +242,11 @@ DOMImplementationLS {
                     System.arraycopy((Object)this.xml10DTDValidators, 0, (Object)softReferenceArray, 0, this.xml10DTDValidators.length);
                     this.xml10DTDValidators = softReferenceArray;
                 }
-                if ((softReferenceArray = this.xml10DTDValidators[this.freeXML10DTDValidatorIndex]) != null && (coreDOMImplementationImpl$RevalidationHandlerHolder = (CoreDOMImplementationImpl$RevalidationHandlerHolder)softReferenceArray.get()) != null) {
-                    coreDOMImplementationImpl$RevalidationHandlerHolder.handler = revalidationHandler;
+                if ((softReferenceArray = this.xml10DTDValidators[this.freeXML10DTDValidatorIndex]) != null && (revalidationHandlerHolder = (RevalidationHandlerHolder)softReferenceArray.get()) != null) {
+                    revalidationHandlerHolder.handler = revalidationHandler;
                     return;
                 }
-                this.xml10DTDValidators[this.freeXML10DTDValidatorIndex] = new SoftReference(new CoreDOMImplementationImpl$RevalidationHandlerHolder(revalidationHandler));
+                this.xml10DTDValidators[this.freeXML10DTDValidatorIndex] = new SoftReference(new RevalidationHandlerHolder(revalidationHandler));
             }
         }
     }
@@ -274,13 +266,24 @@ DOMImplementationLS {
         return ++this.docAndDoctypeCounter;
     }
 
-    @Override
     public LSOutput createLSOutput() {
         return new DOMOutputImpl();
     }
 
-    static {
-        singleton = new CoreDOMImplementationImpl();
+    static class XMLDTDLoaderHolder {
+        Object loader;
+
+        XMLDTDLoaderHolder(Object object) {
+            this.loader = object;
+        }
+    }
+
+    static class RevalidationHandlerHolder {
+        RevalidationHandler handler;
+
+        RevalidationHandlerHolder(RevalidationHandler revalidationHandler) {
+            this.handler = revalidationHandler;
+        }
     }
 }
 

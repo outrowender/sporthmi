@@ -17,10 +17,9 @@ extends InputStream {
         FileInputStream.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
-    public FileInputStream(File file) {
+    public FileInputStream(File file) throws FileNotFoundException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkRead(file.getPath());
@@ -43,7 +42,7 @@ extends InputStream {
         this.fd = fileDescriptor;
     }
 
-    public FileInputStream(String string) {
+    public FileInputStream(String string) throws FileNotFoundException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkRead(string);
@@ -54,63 +53,51 @@ extends InputStream {
         }
     }
 
-    @Override
-    public native int available() {
-    }
+    public native int available();
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.closeImpl();
     }
 
-    private native void closeImpl() {
-    }
+    private native void closeImpl();
 
-    protected void finalize() {
+    protected void finalize() throws IOException {
         if (this.fd != null) {
             this.close();
         }
     }
 
-    public final FileDescriptor getFD() {
+    public final FileDescriptor getFD() throws IOException {
         if (this.fd != null) {
             return this.fd;
         }
         throw new IOException();
     }
 
-    private native int openImpl(byte[] byArray) {
-    }
+    private native int openImpl(byte[] var1);
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         if (this.fd != null) {
             return this.readByteImpl(this.getFD().descriptor);
         }
         throw new IOException();
     }
 
-    private native int readByteImpl(long l) {
-    }
+    private native int readByteImpl(long var1);
 
-    @Override
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         return this.read(byArray, 0, byArray.length);
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.fd != null) {
             return this.readImpl(byArray, n, n2, this.getFD().descriptor);
         }
         throw new IOException();
     }
 
-    private native int readImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native int readImpl(byte[] var1, int var2, int var3, long var4);
 
-    @Override
-    public native long skip(long l) {
-    }
+    public native long skip(long var1);
 }
 

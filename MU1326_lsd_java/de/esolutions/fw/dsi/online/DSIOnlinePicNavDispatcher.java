@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.online;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIOnlinePicNavReply;
 import de.esolutions.fw.comm.dsi.online.impl.DSIOnlinePicNavReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIOnlinePicNavReply {
         super(n, (class$org$dsi$ifc$online$DSIOnlinePicNavListener == null ? (class$org$dsi$ifc$online$DSIOnlinePicNavListener = DSIOnlinePicNavDispatcher.class$("org.dsi.ifc.online.DSIOnlinePicNavListener")) : class$org$dsi$ifc$online$DSIOnlinePicNavListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSyncStatus(int n, int n2) {
+    public void updateSyncStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -57,8 +56,7 @@ implements DSIOnlinePicNavReply {
         }
     }
 
-    @Override
-    public void synchronizeResult(int n, PicNavSyncInfo picNavSyncInfo) {
+    public void synchronizeResult(int n, PicNavSyncInfo picNavSyncInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -74,8 +72,7 @@ implements DSIOnlinePicNavReply {
         }
     }
 
-    @Override
-    public void getPendingTransactionsResult(int n, PicNavSyncInfo picNavSyncInfo) {
+    public void getPendingTransactionsResult(int n, PicNavSyncInfo picNavSyncInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -91,8 +88,7 @@ implements DSIOnlinePicNavReply {
         }
     }
 
-    @Override
-    public void setActiveProfileResult(int n) {
+    public void setActiveProfileResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -108,8 +104,7 @@ implements DSIOnlinePicNavReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -125,14 +120,13 @@ implements DSIOnlinePicNavReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIOnlinePicNavListener dSIOnlinePicNavListener = (DSIOnlinePicNavListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlinePicNavDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlinePicNavDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIOnlinePicNavListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlinePicNavDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlinePicNavDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIOnlinePicNavListener, new Object[]{string, string2});
                     continue;
                 }

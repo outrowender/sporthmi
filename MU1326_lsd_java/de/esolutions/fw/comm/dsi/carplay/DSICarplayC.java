@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carplay;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carplay.AppState;
 import org.dsi.ifc.carplay.AppStateRequest;
 import org.dsi.ifc.carplay.Resource;
@@ -11,64 +12,44 @@ import org.dsi.ifc.carplay.ServiceConfiguration;
 import org.dsi.ifc.carplay.TouchEvent;
 
 public interface DSICarplayC {
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1) throws MethodException;
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2) throws MethodException;
 
-    default public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
-    }
+    public void postTouchEvent(int var1, int var2, TouchEvent[] var3) throws MethodException;
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1) throws MethodException;
 
-    default public void postCharacterEvent(int n, String[] stringArray) {
-    }
+    public void postCharacterEvent(int var1, String[] var2) throws MethodException;
 
-    default public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
-    }
+    public void requestModeChange(ResourceRequest[] var1, AppStateRequest[] var2, String var3) throws MethodException;
 
-    default public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseUpdateMode(Resource[] var1, AppState[] var2) throws MethodException;
 
-    default public void responseBTDeactivation() {
-    }
+    public void responseBTDeactivation() throws MethodException;
 
-    default public void requestUI(int n) {
-    }
+    public void requestUI(int var1) throws MethodException;
 
-    default public void requestNightMode(boolean bl) {
-    }
+    public void requestNightMode(boolean var1) throws MethodException;
 
-    default public void requestSIRIAction(int n) {
-    }
+    public void requestSIRIAction(int var1) throws MethodException;
 
-    default public void responseUpdateMainAudioType(int n) {
-    }
+    public void responseUpdateMainAudioType(int var1) throws MethodException;
 
-    default public void requestUI2(String string) {
-    }
+    public void requestUI2(String var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

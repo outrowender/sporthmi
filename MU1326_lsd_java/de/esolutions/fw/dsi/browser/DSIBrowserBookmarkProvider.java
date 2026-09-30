@@ -27,28 +27,23 @@ implements DSIBrowserBookmark {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$browser$DSIBrowserBookmark == null ? (class$org$dsi$ifc$browser$DSIBrowserBookmark = DSIBrowserBookmarkProvider.class$("org.dsi.ifc.browser.DSIBrowserBookmark")) : class$org$dsi$ifc$browser$DSIBrowserBookmark).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIBrowserBookmarkProxy(this.instance, (DSIBrowserBookmarkReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void listBookmarks(String string) {
         try {
             this.proxy.listBookmarks(string);
@@ -58,7 +53,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void addBookmark(Bookmark bookmark) {
         try {
             this.proxy.addBookmark(bookmark);
@@ -68,7 +62,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void editBookmark(Bookmark bookmark, Bookmark bookmark2) {
         try {
             this.proxy.editBookmark(bookmark, bookmark2);
@@ -78,7 +71,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void deleteBookmark(Bookmark bookmark) {
         try {
             this.proxy.deleteBookmark(bookmark);
@@ -88,7 +80,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void createFolder(Bookmark bookmark) {
         try {
             this.proxy.createFolder(bookmark);
@@ -98,7 +89,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void deleteFolder(String string) {
         try {
             this.proxy.deleteFolder(string);
@@ -108,7 +98,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void renameFolder(String string, String string2) {
         try {
             this.proxy.renameFolder(string, string2);
@@ -118,7 +107,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void exportBookmarks(PathInfo pathInfo) {
         try {
             this.proxy.exportBookmarks(pathInfo);
@@ -128,7 +116,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void importBookmarks(PathInfo pathInfo, boolean bl, boolean bl2) {
         try {
             this.proxy.importBookmarks(pathInfo, bl, bl2);
@@ -138,7 +125,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void getQuotaInformation() {
         try {
             this.proxy.getQuotaInformation();
@@ -148,7 +134,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -158,7 +143,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -168,7 +152,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -178,7 +161,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -188,7 +170,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -198,7 +179,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -208,7 +188,6 @@ implements DSIBrowserBookmark {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

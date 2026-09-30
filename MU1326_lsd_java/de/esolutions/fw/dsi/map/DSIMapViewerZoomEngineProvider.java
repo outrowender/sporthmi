@@ -27,28 +27,23 @@ implements DSIMapViewerZoomEngine {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$map$DSIMapViewerZoomEngine == null ? (class$org$dsi$ifc$map$DSIMapViewerZoomEngine = DSIMapViewerZoomEngineProvider.class$("org.dsi.ifc.map.DSIMapViewerZoomEngine")) : class$org$dsi$ifc$map$DSIMapViewerZoomEngine).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMapViewerZoomEngineProxy(this.instance, (DSIMapViewerZoomEngineReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void autoZoomEnable(boolean bl) {
         try {
             this.proxy.autoZoomEnable(bl);
@@ -58,7 +53,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void manoeuvreZoomEnable(boolean bl) {
         try {
             this.proxy.manoeuvreZoomEnable(bl);
@@ -68,7 +62,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setViewType(int n) {
         try {
             this.proxy.setViewType(n);
@@ -78,7 +71,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setCarPosition(Point point) {
         try {
             this.proxy.setCarPosition(point);
@@ -88,7 +80,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setMapRotation(short s) {
         try {
             this.proxy.setMapRotation(s);
@@ -98,7 +89,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setMapOrientation(int n, Point point) {
         try {
             this.proxy.setMapOrientation(n, point);
@@ -108,7 +98,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setZoomArea(Rect rect) {
         try {
             this.proxy.setZoomArea(rect);
@@ -118,7 +107,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -128,7 +116,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -138,7 +125,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -148,7 +134,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -158,7 +143,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -168,7 +152,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -178,7 +161,6 @@ implements DSIMapViewerZoomEngine {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

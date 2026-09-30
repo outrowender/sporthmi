@@ -16,7 +16,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public final class NotificationRegistry
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Map regs = new HashMap();
 
     synchronized void addListener(Object object, SCXMLListener sCXMLListener) {

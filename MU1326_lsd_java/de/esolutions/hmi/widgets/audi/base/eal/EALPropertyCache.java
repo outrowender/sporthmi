@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public class EALPropertyCache {
@@ -34,7 +33,7 @@ public class EALPropertyCache {
     private IProperty getProperty(INode iNode, String string) {
         IProperty iProperty;
         if (iNode == null) {
-            this.lc.log(-1601830656, "EALPropertyCache#getProperty: node is null for key '%1'", (Object)string);
+            this.lc.log(100000, "EALPropertyCache#getProperty: node is null for key '%1'", (Object)string);
             return null;
         }
         Map map = (Map)this.properties.get(iNode);
@@ -203,7 +202,7 @@ public class EALPropertyCache {
             return false;
         }
         if (colorRGBAf2 == null) {
-            this.lc.log(-1601830656, "EALPropertyCache#setProperty: color is null for key '%1'", (Object)string);
+            this.lc.log(100000, "EALPropertyCache#setProperty: color is null for key '%1'", (Object)string);
             return false;
         }
         IProperty iProperty = this.getProperty(iNode, string);
@@ -258,21 +257,21 @@ public class EALPropertyCache {
     public void clearAll() {
         Iterator iterator = this.properties.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            INode iNode = (INode)map$Entry.getKey();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            INode iNode = (INode)entry.getKey();
             boolean bl = this.checkNode(iNode);
             this.clearTextureProperties(iNode);
             String string = bl ? iNode.getName() : "<disposed node>";
-            this.lc.log(-2137614336, "EALPropertyCache#clearAll: disposing properties from node '%1'", (Object)string);
-            Map map = (Map)map$Entry.getValue();
+            this.lc.log(10000000, "EALPropertyCache#clearAll: disposing properties from node '%1'", (Object)string);
+            Map map = (Map)entry.getValue();
             if (map == null) continue;
             Iterator iterator2 = map.entrySet().iterator();
             while (iterator2.hasNext()) {
-                Map$Entry map$Entry2 = (Map$Entry)iterator2.next();
-                String string2 = (String)map$Entry2.getKey();
-                IProperty iProperty = (IProperty)map$Entry2.getValue();
+                Map.Entry entry2 = (Map.Entry)iterator2.next();
+                String string2 = (String)entry2.getKey();
+                IProperty iProperty = (IProperty)entry2.getValue();
                 if (iProperty == null) continue;
-                this.lc.log(-2137614336, "EALPropertyCache#clearAll: disposing property '%1' from node '%2'", (Object)string2, (Object)string);
+                this.lc.log(10000000, "EALPropertyCache#clearAll: disposing property '%1' from node '%2'", (Object)string2, (Object)string);
                 iProperty.dispose();
             }
         }
@@ -292,16 +291,16 @@ public class EALPropertyCache {
         this.clearTextureProperties(iNode);
         Map map = (Map)this.properties.remove(iNode);
         if (map == null) {
-            this.lc.log(1078071040, "EALPropertyCache#clear: properties for node '%1' already cleared", (Object)string);
+            this.lc.log(1000000, "EALPropertyCache#clear: properties for node '%1' already cleared", (Object)string);
             return;
         }
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            String string2 = (String)map$Entry.getKey();
-            IProperty iProperty = (IProperty)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String string2 = (String)entry.getKey();
+            IProperty iProperty = (IProperty)entry.getValue();
             if (iProperty == null) continue;
-            this.lc.log(-2137614336, "EALPropertyCache#clear: disposing property '%1' from node '%2'", (Object)string2, (Object)string);
+            this.lc.log(10000000, "EALPropertyCache#clear: disposing property '%1' from node '%2'", (Object)string2, (Object)string);
             iProperty.dispose();
         }
     }
@@ -312,7 +311,7 @@ public class EALPropertyCache {
 
     public boolean setColorProperty(IWrappedNode3D iWrappedNode3D, String string, int n) {
         if (iWrappedNode3D == null) {
-            this.lc.log(-1601830656, "EALPropertyCache#setColorProperty: wrappedNode is null for key '%1'", (Object)string);
+            this.lc.log(100000, "EALPropertyCache#setColorProperty: wrappedNode is null for key '%1'", (Object)string);
             return false;
         }
         return this.setColorProperty(iWrappedNode3D.getNode(), string, n);
@@ -328,11 +327,11 @@ public class EALPropertyCache {
 
     public boolean setProperty(IWrappedNode3D iWrappedNode3D, String string, colorRGBAf colorRGBAf2) {
         if (colorRGBAf2 == null) {
-            this.lc.log(-1601830656, "EALPropertyCache#setProperty: color is null for key '%1'", (Object)string);
+            this.lc.log(100000, "EALPropertyCache#setProperty: color is null for key '%1'", (Object)string);
             return false;
         }
         if (iWrappedNode3D == null) {
-            this.lc.log(-1601830656, "EALPropertyCache#setProperty: wrappedNode is null for key '%1'", (Object)string);
+            this.lc.log(100000, "EALPropertyCache#setProperty: wrappedNode is null for key '%1'", (Object)string);
             return false;
         }
         return this.setProperty((INode)iWrappedNode3D.getNode(), string, colorRGBAf2);
@@ -345,7 +344,7 @@ public class EALPropertyCache {
         return bl;
     }
 
-    public float getFloatProperty(IWrappedNode3D iWrappedNode3D, String string) {
+    public float getFloatProperty(IWrappedNode3D iWrappedNode3D, String string) throws IllegalArgumentException {
         IProperty iProperty = this.tryToGetProperty(iWrappedNode3D, string, propertyType_t.PROPERTYTYPE_FLOAT);
         return iProperty.getFloat();
     }

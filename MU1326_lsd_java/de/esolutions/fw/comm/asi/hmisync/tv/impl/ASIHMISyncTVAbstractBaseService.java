@@ -11,17 +11,18 @@ import de.esolutions.fw.comm.asi.hmisync.tv.KeySet;
 import de.esolutions.fw.comm.asi.hmisync.tv.ParentalSettings;
 import de.esolutions.fw.comm.asi.hmisync.tv.ProgramInfo;
 import de.esolutions.fw.comm.asi.hmisync.tv.StationInfo;
-import de.esolutions.fw.comm.asi.hmisync.tv.impl.ASIHMISyncTVAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncTVAbstractBaseService
 implements ASIHMISyncTVS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.tv.ASIHMISyncTV");
-    private static final int attributesCount;
+    private static final int attributesCount = 11;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -151,39 +152,33 @@ implements ASIHMISyncTVS {
     }
 
     public ASIHMISyncTVAbstractBaseService() {
-        ASIHMISyncTVAbstractBaseService$AttributesBitMapProvider aSIHMISyncTVAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncTVAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncTV", aSIHMISyncTVAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncTV", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncTVReply aSIHMISyncTVReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncTVReply);
         this.sendAttributeUpdate(l, aSIHMISyncTVReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncTVReply aSIHMISyncTVReply) {
         this.baseService.setNotification(aSIHMISyncTVReply);
         this.sendAttributeUpdate(aSIHMISyncTVReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncTVReply aSIHMISyncTVReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncTVReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncTVReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncTVReply aSIHMISyncTVReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncTVReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncTVReply aSIHMISyncTVReply) {
         this.baseService.clearNotification(aSIHMISyncTVReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncTVReply aSIHMISyncTVReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncTVReply);
     }
@@ -215,27 +210,27 @@ implements ASIHMISyncTVS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncTVReply aSIHMISyncTVReply) {
         try {
-            if (l == 0) {
+            if (l == 12L) {
                 aSIHMISyncTVReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncTVReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncTVReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 23L) {
                 aSIHMISyncTVReply.updateStationInfo(this.StationInfo, this.StationInfo_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncTVReply.updateActiveStationInfo(this.ActiveStationInfo, this.ActiveStationInfo_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncTVReply.updateActiveTVStationState(this.ActiveTVStationState, this.ActiveTVStationState_valid);
-            } else if (l == 0) {
+            } else if (l == 24L) {
                 aSIHMISyncTVReply.updateTunerConfig(this.TunerConfig, this.TunerConfig_valid);
-            } else if (l == 0) {
+            } else if (l == 14L) {
                 aSIHMISyncTVReply.updatePanelKeySet(this.PanelKeySet, this.PanelKeySet_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncTVReply.updateSeekStatus(this.SeekStatus, this.SeekStatus_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncTVReply.updateTerminalMode(this.TerminalMode, this.TerminalMode_valid);
-            } else if (l == 0) {
+            } else if (l == 15L) {
                 aSIHMISyncTVReply.updateParentalSettings(this.ParentalSettings, this.ParentalSettings_valid);
             } else {
                 System.out.println("unexpected");
@@ -246,11 +241,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncTVAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(12);
@@ -264,11 +259,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -287,11 +282,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -310,11 +305,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateStationInfo(StationInfo[] stationInfoArray) {
+    public void updateStationInfo(StationInfo[] stationInfoArray) throws MethodException {
         this.updateStationInfo(stationInfoArray, true);
     }
 
-    public void updateStationInfo(StationInfo[] stationInfoArray, boolean bl) {
+    public void updateStationInfo(StationInfo[] stationInfoArray, boolean bl) throws MethodException {
         if (stationInfoArray != null) {
             this.StationInfo = new StationInfo[stationInfoArray.length];
             for (int i2 = 0; i2 < stationInfoArray.length; ++i2) {
@@ -335,11 +330,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateActiveStationInfo(ActiveStationInfo activeStationInfo) {
+    public void updateActiveStationInfo(ActiveStationInfo activeStationInfo) throws MethodException {
         this.updateActiveStationInfo(activeStationInfo, true);
     }
 
-    public void updateActiveStationInfo(ActiveStationInfo activeStationInfo, boolean bl) {
+    public void updateActiveStationInfo(ActiveStationInfo activeStationInfo, boolean bl) throws MethodException {
         this.ActiveStationInfo = ASIHMISyncTVAbstractBaseService.copyActiveStationInfo(activeStationInfo);
         this.ActiveStationInfo_valid = bl;
         List list = this.baseService.getNotifications(21);
@@ -353,11 +348,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateActiveTVStationState(long l) {
+    public void updateActiveTVStationState(long l) throws MethodException {
         this.updateActiveTVStationState(l, true);
     }
 
-    public void updateActiveTVStationState(long l, boolean bl) {
+    public void updateActiveTVStationState(long l, boolean bl) throws MethodException {
         this.ActiveTVStationState = l;
         this.ActiveTVStationState_valid = bl;
         List list = this.baseService.getNotifications(22);
@@ -371,11 +366,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateTunerConfig(long l) {
+    public void updateTunerConfig(long l) throws MethodException {
         this.updateTunerConfig(l, true);
     }
 
-    public void updateTunerConfig(long l, boolean bl) {
+    public void updateTunerConfig(long l, boolean bl) throws MethodException {
         this.TunerConfig = l;
         this.TunerConfig_valid = bl;
         List list = this.baseService.getNotifications(24);
@@ -389,11 +384,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updatePanelKeySet(KeySet[] keySetArray) {
+    public void updatePanelKeySet(KeySet[] keySetArray) throws MethodException {
         this.updatePanelKeySet(keySetArray, true);
     }
 
-    public void updatePanelKeySet(KeySet[] keySetArray, boolean bl) {
+    public void updatePanelKeySet(KeySet[] keySetArray, boolean bl) throws MethodException {
         if (keySetArray != null) {
             this.PanelKeySet = new KeySet[keySetArray.length];
             for (int i2 = 0; i2 < keySetArray.length; ++i2) {
@@ -414,11 +409,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateSeekStatus(byte by) {
+    public void updateSeekStatus(byte by) throws MethodException {
         this.updateSeekStatus(by, true);
     }
 
-    public void updateSeekStatus(byte by, boolean bl) {
+    public void updateSeekStatus(byte by, boolean bl) throws MethodException {
         this.SeekStatus = by;
         this.SeekStatus_valid = bl;
         List list = this.baseService.getNotifications(16);
@@ -432,11 +427,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateTerminalMode(byte by) {
+    public void updateTerminalMode(byte by) throws MethodException {
         this.updateTerminalMode(by, true);
     }
 
-    public void updateTerminalMode(byte by, boolean bl) {
+    public void updateTerminalMode(byte by, boolean bl) throws MethodException {
         this.TerminalMode = by;
         this.TerminalMode_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -450,11 +445,11 @@ implements ASIHMISyncTVS {
         }
     }
 
-    public void updateParentalSettings(ParentalSettings parentalSettings) {
+    public void updateParentalSettings(ParentalSettings parentalSettings) throws MethodException {
         this.updateParentalSettings(parentalSettings, true);
     }
 
-    public void updateParentalSettings(ParentalSettings parentalSettings, boolean bl) {
+    public void updateParentalSettings(ParentalSettings parentalSettings, boolean bl) throws MethodException {
         this.ParentalSettings = ASIHMISyncTVAbstractBaseService.copyParentalSettings(parentalSettings);
         this.ParentalSettings_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -465,6 +460,34 @@ implements ASIHMISyncTVS {
                 aSIHMISyncTVReply.updateParentalSettings(parentalSettings, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(12L), new Integer(0));
+            this.map.put(new Long(20L), new Integer(1));
+            this.map.put(new Long(19L), new Integer(2));
+            this.map.put(new Long(23L), new Integer(3));
+            this.map.put(new Long(21L), new Integer(4));
+            this.map.put(new Long(22L), new Integer(5));
+            this.map.put(new Long(24L), new Integer(6));
+            this.map.put(new Long(14L), new Integer(7));
+            this.map.put(new Long(16L), new Integer(8));
+            this.map.put(new Long(18L), new Integer(9));
+            this.map.put(new Long(15L), new Integer(10));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 11;
         }
     }
 }

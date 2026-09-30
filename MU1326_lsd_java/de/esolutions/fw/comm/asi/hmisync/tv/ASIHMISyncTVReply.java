@@ -7,44 +7,34 @@ import de.esolutions.fw.comm.asi.hmisync.tv.ActiveStationInfo;
 import de.esolutions.fw.comm.asi.hmisync.tv.KeySet;
 import de.esolutions.fw.comm.asi.hmisync.tv.ParentalSettings;
 import de.esolutions.fw.comm.asi.hmisync.tv.StationInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncTVReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f3fc2e4b-d25f-4479-9da4-6be3da7c1a1e";
+    public static final String IPL_COMM_INTERFACE_KEY = "7b078b73-244f-5129-b88a-1c945501d223";
+    public static final String IPL_COMM_INTERFACE_VERSION = "3.4.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateStationInfo(StationInfo[] stationInfoArray, boolean bl) {
-    }
+    public void updateStationInfo(StationInfo[] var1, boolean var2) throws MethodException;
 
-    default public void updateActiveStationInfo(ActiveStationInfo activeStationInfo, boolean bl) {
-    }
+    public void updateActiveStationInfo(ActiveStationInfo var1, boolean var2) throws MethodException;
 
-    default public void updateActiveTVStationState(long l, boolean bl) {
-    }
+    public void updateActiveTVStationState(long var1, boolean var3) throws MethodException;
 
-    default public void updateTunerConfig(long l, boolean bl) {
-    }
+    public void updateTunerConfig(long var1, boolean var3) throws MethodException;
 
-    default public void updatePanelKeySet(KeySet[] keySetArray, boolean bl) {
-    }
+    public void updatePanelKeySet(KeySet[] var1, boolean var2) throws MethodException;
 
-    default public void updateSeekStatus(byte by, boolean bl) {
-    }
+    public void updateSeekStatus(byte var1, boolean var2) throws MethodException;
 
-    default public void updateTerminalMode(byte by, boolean bl) {
-    }
+    public void updateTerminalMode(byte var1, boolean var2) throws MethodException;
 
-    default public void updateParentalSettings(ParentalSettings parentalSettings, boolean bl) {
-    }
+    public void updateParentalSettings(ParentalSettings var1, boolean var2) throws MethodException;
 }
 

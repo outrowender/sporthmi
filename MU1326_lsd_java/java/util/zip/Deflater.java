@@ -4,16 +4,16 @@
 package java.util.zip;
 
 public class Deflater {
-    public static final int BEST_COMPRESSION;
-    public static final int BEST_SPEED;
-    public static final int DEFAULT_COMPRESSION;
-    public static final int DEFAULT_STRATEGY;
-    public static final int DEFLATED;
-    public static final int FILTERED;
-    public static final int HUFFMAN_ONLY;
-    public static final int NO_COMPRESSION;
-    private static final int Z_NO_FLUSH;
-    private static final int Z_FINISH;
+    public static final int BEST_COMPRESSION = 9;
+    public static final int BEST_SPEED = 1;
+    public static final int DEFAULT_COMPRESSION = -1;
+    public static final int DEFAULT_STRATEGY = 0;
+    public static final int DEFLATED = 8;
+    public static final int FILTERED = 1;
+    public static final int HUFFMAN_ONLY = 2;
+    public static final int NO_COMPRESSION = 0;
+    private static final int Z_NO_FLUSH = 0;
+    private static final int Z_FINISH = 4;
     private int flushParm = 0;
     private boolean noHeader = false;
     private boolean finished = false;
@@ -28,8 +28,7 @@ public class Deflater {
         Deflater.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     public int deflate(byte[] byArray) {
         return this.deflate(byArray, 0, byArray.length);
@@ -45,11 +44,9 @@ public class Deflater {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    private synchronized native int deflateImpl(byte[] byArray, int n, int n2, long l, int n3) {
-    }
+    private synchronized native int deflateImpl(byte[] var1, int var2, int var3, long var4, int var6);
 
-    private synchronized native void endImpl(long l) {
-    }
+    private synchronized native void endImpl(long var1);
 
     public synchronized void end() {
         if (this.streamHandle != -1L) {
@@ -78,8 +75,7 @@ public class Deflater {
         return this.getAdlerImpl(this.streamHandle);
     }
 
-    private synchronized native int getAdlerImpl(long l) {
-    }
+    private synchronized native int getAdlerImpl(long var1);
 
     public synchronized int getTotalIn() {
         if (this.streamHandle == -1L) {
@@ -88,8 +84,7 @@ public class Deflater {
         return this.getTotalInImpl(this.streamHandle);
     }
 
-    private synchronized native int getTotalInImpl(long l) {
-    }
+    private synchronized native int getTotalInImpl(long var1);
 
     public synchronized int getTotalOut() {
         if (this.streamHandle == -1L) {
@@ -98,8 +93,7 @@ public class Deflater {
         return this.getTotalOutImpl(this.streamHandle);
     }
 
-    private synchronized native int getTotalOutImpl(long l) {
-    }
+    private synchronized native int getTotalOutImpl(long var1);
 
     public boolean needsInput() {
         if (this.inputBuffer == null) {
@@ -118,8 +112,7 @@ public class Deflater {
         this.inputBuffer = null;
     }
 
-    private synchronized native void resetImpl(long l) {
-    }
+    private synchronized native void resetImpl(long var1);
 
     public void setDictionary(byte[] byArray) {
         this.setDictionary(byArray, 0, byArray.length);
@@ -135,8 +128,7 @@ public class Deflater {
         this.setDictionaryImpl(byArray, n, n2, this.streamHandle);
     }
 
-    private synchronized native void setDictionaryImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private synchronized native void setDictionaryImpl(byte[] var1, int var2, int var3, long var4);
 
     public void setInput(byte[] byArray) {
         this.setInput(byArray, 0, byArray.length);
@@ -159,11 +151,9 @@ public class Deflater {
         this.setInputImpl(byArray, n, n2, this.streamHandle);
     }
 
-    private synchronized native void setLevelsImpl(int n, int n2, long l) {
-    }
+    private synchronized native void setLevelsImpl(int var1, int var2, long var3);
 
-    private synchronized native void setInputImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private synchronized native void setInputImpl(byte[] var1, int var2, int var3, long var4);
 
     public synchronized void setLevel(int n) {
         if (n < -1 || n > 9) {
@@ -202,7 +192,6 @@ public class Deflater {
         this(n, false);
     }
 
-    private native long createStream(int n, int n2, boolean bl) {
-    }
+    private native long createStream(int var1, int var2, boolean var3);
 }
 

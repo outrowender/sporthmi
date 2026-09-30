@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class AtomicBoolean
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4654671469794556979L;
     private volatile int value;
 
     public AtomicBoolean(boolean bl) {

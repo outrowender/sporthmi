@@ -82,7 +82,7 @@ public class SFecDetails {
     }
 
     public String toString() {
-        return new StringBuffer("SFecDetails{").append("fsid=").append(this.fsid).append(", index=").append(this.index).append(", state=").append(this.state).append(", version=").append(this.version).append(", vin=").append(this.vin).append(", vcrn=").append(this.vcrn).append(", date=").append(this.date).append("}").toString();
+        return "SFecDetails{" + "fsid=" + this.fsid + ", index=" + this.index + ", state=" + this.state + ", version=" + this.version + ", vin=" + this.vin + ", vcrn=" + this.vcrn + ", date=" + this.date + "}";
     }
 }
 

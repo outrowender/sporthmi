@@ -3,68 +3,49 @@
  */
 package de.esolutions.fw.comm.dsi.keypanel;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKeyPanelC {
-    default public void setIllumination(int n, int n2, int n3) {
-    }
+    public void setIllumination(int var1, int var2, int var3) throws MethodException;
 
-    default public void setHapticFeedback(int n, int n2, int n3) {
-    }
+    public void setHapticFeedback(int var1, int var2, int var3) throws MethodException;
 
-    default public void setTMDisplayState(boolean bl) {
-    }
+    public void setTMDisplayState(boolean var1) throws MethodException;
 
-    default public void setRecognizerLanguage(int n, String string) {
-    }
+    public void setRecognizerLanguage(int var1, String var2) throws MethodException;
 
-    default public void setRecognizerLanguage2(int n, String string, int n2) {
-    }
+    public void setRecognizerLanguage2(int var1, String var2, int var3) throws MethodException;
 
-    default public void setRecognizerMode(int n, int n2) {
-    }
+    public void setRecognizerMode(int var1, int var2) throws MethodException;
 
-    default public void clearRecognizer(int n) {
-    }
+    public void clearRecognizer(int var1) throws MethodException;
 
-    default public void setGenericSetting(int n, int n2, int n3) {
-    }
+    public void setGenericSetting(int var1, int var2, int var3) throws MethodException;
 
-    default public void resetDevice(int n) {
-    }
+    public void resetDevice(int var1) throws MethodException;
 
-    default public void requestGenericSetting(int n, int n2) {
-    }
+    public void requestGenericSetting(int var1, int var2) throws MethodException;
 
-    default public void requestLastKey(int n) {
-    }
+    public void requestLastKey(int var1) throws MethodException;
 
-    default public void getVersionInfo(int n, int n2) {
-    }
+    public void getVersionInfo(int var1, int var2) throws MethodException;
 
-    default public void setTouchSensitiveArea(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void setTouchSensitiveArea(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void getProperty(int n, int n2, int n3) {
-    }
+    public void getProperty(int var1, int var2, int var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -5,7 +5,7 @@ package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$PlaceholderItemEntry;
+import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ extends ContainerController {
     private IconController mapBackgroundAbove;
     private IconController mapBackgroundBelow;
 
-    public void setPreviewIcons(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry, Collection collection) {
+    public void setPreviewIcons(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry, Collection collection) {
         this.previewItems.clear();
-        this.selectedItemEntry = abstractPlaceholderMenuController$PlaceholderItemEntry;
+        this.selectedItemEntry = placeholderItemEntry;
         if (collection != null) {
             this.previewItems.addAll(collection);
         }
@@ -39,8 +39,8 @@ extends ContainerController {
             int n6 = n5 - 1;
             int n7 = 0;
             for (n2 = 0; n2 < this.previewItems.size(); ++n2) {
-                AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = (AbstractPlaceholderMenuController$PlaceholderItemEntry)this.previewItems.get(n2);
-                if (!abstractPlaceholderMenuController$PlaceholderItemEntry.equals(this.selectedItemEntry)) continue;
+                AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = (AbstractPlaceholderMenuController.PlaceholderItemEntry)this.previewItems.get(n2);
+                if (!placeholderItemEntry.equals(this.selectedItemEntry)) continue;
                 n7 = n2;
                 break;
             }
@@ -125,8 +125,8 @@ extends ContainerController {
     }
 
     private void setPreviewIconOnScreen(int n, IconController iconController) {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = (AbstractPlaceholderMenuController$PlaceholderItemEntry)this.previewItems.get(n);
-        Object object = abstractPlaceholderMenuController$PlaceholderItemEntry.getIconData(2);
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = (AbstractPlaceholderMenuController.PlaceholderItemEntry)this.previewItems.get(n);
+        Object object = placeholderItemEntry.getIconData(2);
         if (object != null) {
             if (object instanceof Integer) {
                 int n2 = (Integer)object;
@@ -135,12 +135,11 @@ extends ContainerController {
             iconController.setOnScreen(true);
         } else {
             iconController.setOnScreen(false);
-            IWidgetLogChannel.logSelectionDrawerController.log(10000, "SelectionDrawerPreviewIconController#updateIcons icondata for entry %1 is null, probably GUIDE error", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry.getLabelText());
+            IWidgetLogChannel.logSelectionDrawerController.log(10000, "SelectionDrawerPreviewIconController#updateIcons icondata for entry %1 is null, probably GUIDE error", (Object)placeholderItemEntry.getLabelText());
         }
         iconController.setCompositesDirty(true);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget, int n) {
         if (n == 4) {
             if (abstractWidget instanceof IconController) {

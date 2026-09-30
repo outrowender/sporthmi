@@ -10,13 +10,10 @@ import de.esolutions.fw.comm.core.method.IMethodHandler;
 
 public interface IService
 extends IMethodHandler {
-    default public ServiceInstanceID getInstanceID() {
-    }
+    public ServiceInstanceID getInstanceID();
 
-    default public IProxyFrontend createReplyProxy() {
-    }
+    public IProxyFrontend createReplyProxy();
 
-    default public CallContext getCallContext() {
-    }
+    public CallContext getCallContext();
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconMasterConfiguration;
 
 public class AirconMasterConfigurationSerializer {
-    public static void putOptionalAirconMasterConfiguration(ISerializer iSerializer, AirconMasterConfiguration airconMasterConfiguration) {
+    public static void putOptionalAirconMasterConfiguration(ISerializer iSerializer, AirconMasterConfiguration airconMasterConfiguration) throws SerializerException {
         boolean bl = airconMasterConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -47,7 +48,7 @@ public class AirconMasterConfigurationSerializer {
         }
     }
 
-    public static void putOptionalAirconMasterConfigurationVarArray(ISerializer iSerializer, AirconMasterConfiguration[] airconMasterConfigurationArray) {
+    public static void putOptionalAirconMasterConfigurationVarArray(ISerializer iSerializer, AirconMasterConfiguration[] airconMasterConfigurationArray) throws SerializerException {
         boolean bl = airconMasterConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -58,7 +59,7 @@ public class AirconMasterConfigurationSerializer {
         }
     }
 
-    public static AirconMasterConfiguration getOptionalAirconMasterConfiguration(IDeserializer iDeserializer) {
+    public static AirconMasterConfiguration getOptionalAirconMasterConfiguration(IDeserializer iDeserializer) throws SerializerException {
         AirconMasterConfiguration airconMasterConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class AirconMasterConfigurationSerializer {
         return airconMasterConfiguration;
     }
 
-    public static AirconMasterConfiguration[] getOptionalAirconMasterConfigurationVarArray(IDeserializer iDeserializer) {
+    public static AirconMasterConfiguration[] getOptionalAirconMasterConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconMasterConfiguration[] airconMasterConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

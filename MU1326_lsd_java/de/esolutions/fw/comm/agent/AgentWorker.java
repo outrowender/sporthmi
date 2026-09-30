@@ -4,11 +4,8 @@
 package de.esolutions.fw.comm.agent;
 
 import de.esolutions.fw.comm.agent.Agent;
+import de.esolutions.fw.comm.agent.AgentException;
 import de.esolutions.fw.comm.agent.AgentLifecycleDispatcher;
-import de.esolutions.fw.comm.agent.AgentWorker$1;
-import de.esolutions.fw.comm.agent.AgentWorker$2;
-import de.esolutions.fw.comm.agent.AgentWorker$3;
-import de.esolutions.fw.comm.agent.AgentWorker$AgentTimer;
 import de.esolutions.fw.comm.agent.IAgentDiagnosis;
 import de.esolutions.fw.comm.agent.agentdir.AgentDirectory;
 import de.esolutions.fw.comm.agent.broker.AgentBrokerManager;
@@ -52,6 +49,8 @@ import de.esolutions.fw.comm.agent.directory.IServiceDirectory;
 import de.esolutions.fw.comm.agent.directory.IServiceQueryReply;
 import de.esolutions.fw.comm.agent.directory.VolatileServiceDirectory;
 import de.esolutions.fw.comm.agent.naming.INameService;
+import de.esolutions.fw.comm.agent.notification.INotification;
+import de.esolutions.fw.comm.agent.notification.INotificationCallback;
 import de.esolutions.fw.comm.agent.notification.NotificationCenter;
 import de.esolutions.fw.comm.agent.service.IServiceHandlerCallback;
 import de.esolutions.fw.comm.agent.service.IServiceHandlerListener;
@@ -89,7 +88,6 @@ import de.esolutions.fw.util.tracing.ITraceCallback;
 import de.esolutions.fw.util.tracing.TraceClient;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public final class AgentWorker
@@ -124,12 +122,12 @@ ITraceCallback {
     private int returnCode;
     private String errorString;
     private SpawnList spawnList;
-    private AgentWorker$AgentTimer timer;
+    private AgentTimer timer;
     private int aliveCounter;
     private int aliveRate;
     private AgentBrokerManager brokerManager;
-    private static final int REPLY_HANDLE_MASK;
-    private static final short LOCAL_AGENT;
+    private static final int REPLY_HANDLE_MASK = Integer.MIN_VALUE;
+    private static final short LOCAL_AGENT = 0;
     private MemWatch memWatch;
     private final ServiceIKChecker ikChecker;
     private final AgentErrorLog errorLog;
@@ -175,7 +173,7 @@ ITraceCallback {
         if (n < 100) {
             n = 100;
         }
-        this.timer = new AgentWorker$AgentTimer(this, this.commandQueue, n);
+        this.timer = new AgentTimer(this.commandQueue, n);
         this.timer.start();
         this.aliveRate = commConfig.getCommandTimeAlive() / n;
         this.aliveCounter = 0;
@@ -211,11 +209,11 @@ ITraceCallback {
         this.agentReconnect = bl;
     }
 
-    public boolean waitUntilAlive() {
+    public boolean waitUntilAlive() throws InterruptedException, AgentException {
         return this.lifecycle.waitUntilAlive();
     }
 
-    public boolean waitUntilDead() {
+    public boolean waitUntilDead() throws InterruptedException, AgentException {
         return this.lifecycle.waitUntilDead();
     }
 
@@ -260,7 +258,7 @@ ITraceCallback {
     }
 
     protected void enqueueCommand(Command command) {
-        CommAgentTracing.AGENT.log((short)0, "enqueueCommand: %1 ", (Object)super.getClass().getName());
+        CommAgentTracing.AGENT.log((short)0, "enqueueCommand: %1 ", (Object)command.getClass().getName());
         try {
             command.setCreateTime(this.monoTime.getCurrentTime());
             if (this.commandQueue.put(command)) {
@@ -283,7 +281,7 @@ ITraceCallback {
     private void setReplyServiceHandle(IReplyService iReplyService) {
         ServiceInstanceID serviceInstanceID = iReplyService.getInstanceID();
         int n = serviceInstanceID.getHandle();
-        serviceInstanceID = new ServiceInstanceID(serviceInstanceID.getServiceUUID(), n |= 0x80 | this.clientPool.getMyAgentID() << 16, serviceInstanceID.getInterfaceKey());
+        serviceInstanceID = new ServiceInstanceID(serviceInstanceID.getServiceUUID(), n |= Integer.MIN_VALUE | this.clientPool.getMyAgentID() << 16, serviceInstanceID.getInterfaceKey());
         iReplyService.setInstanceID(serviceInstanceID);
     }
 
@@ -301,9 +299,9 @@ ITraceCallback {
             Set set = map.entrySet();
             Iterator iterator = set.iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                short s = (Short)map$Entry.getKey();
-                ServiceInstanceID[] serviceInstanceIDArray = (ServiceInstanceID[])map$Entry.getValue();
+                Map.Entry entry = (Map.Entry)iterator.next();
+                short s = (Short)entry.getKey();
+                ServiceInstanceID[] serviceInstanceIDArray = (ServiceInstanceID[])entry.getValue();
                 for (int i2 = 0; i2 < serviceInstanceIDArray.length; ++i2) {
                     this.registerRemoteService(serviceInstanceIDArray[i2], s, true);
                     CommAgentTracing.CONFIG.log((short)2, "registering static service %1 for agent %2", serviceInstanceIDArray[i2], (Object)new Short(s));
@@ -312,12 +310,10 @@ ITraceCallback {
         }
     }
 
-    @Override
     public void registerRemoteReplyService(ServiceInstanceID serviceInstanceID, short s) {
         this.registerRemoteService(serviceInstanceID, s, true);
     }
 
-    @Override
     public void unregisterRemoteReplyService(ServiceInstanceID serviceInstanceID, short s) {
         this.registerRemoteService(serviceInstanceID, s, false);
     }
@@ -334,27 +330,22 @@ ITraceCallback {
         this.enqueueCommand(new RegisterServiceListenerCommand(iService, iServiceListener, bl));
     }
 
-    @Override
     public void registerProxyListener(Proxy proxy, IProxyListener iProxyListener, boolean bl) {
         this.enqueueCommand(new RegisterProxyListenerCommand(proxy, iProxyListener, bl));
     }
 
-    @Override
     public void serviceUpdate(BrokerServiceUpdate[] brokerServiceUpdateArray) {
         this.enqueueCommand(new BrokerServiceUdpateCommand(brokerServiceUpdateArray));
     }
 
-    @Override
     public void agentUpdate(BrokerAgentUpdate[] brokerAgentUpdateArray) {
         this.enqueueCommand(new BrokerAgentUpdateCommand(brokerAgentUpdateArray));
     }
 
-    @Override
     public void connectProxy(Proxy proxy) {
         this.enqueueCommand(new ConnectProxyCommand(proxy));
     }
 
-    @Override
     public void disconnectProxy(Proxy proxy) {
         this.enqueueCommand(new DisconnectProxyCommand(proxy));
     }
@@ -389,7 +380,6 @@ ITraceCallback {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean doRegisterService(IService iService, IServiceWorker iServiceWorker, boolean bl) {
         Object object;
         ServiceInstanceID serviceInstanceID = iService.getInstanceID();
@@ -432,7 +422,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doRegisterRemoteService(ServiceInstanceID serviceInstanceID, short s, boolean bl) {
         DirectoryEntry directoryEntry = new DirectoryEntry(serviceInstanceID, s);
         if (bl) {
@@ -454,7 +443,6 @@ ITraceCallback {
         return s;
     }
 
-    @Override
     public boolean doRegisterServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener, boolean bl) {
         if (bl) {
             this.notificationCenter.registerServiceInstanceListener(serviceInstanceID, iServiceInstanceListener);
@@ -476,7 +464,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doRegisterServiceListener(IService iService, IServiceListener iServiceListener, boolean bl) {
         if (bl) {
             int n;
@@ -492,7 +479,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doRegisterProxyListener(Proxy proxy, IProxyListener iProxyListener, boolean bl) {
         if (bl) {
             this.notificationCenter.registerProxyListener(proxy, iProxyListener);
@@ -504,7 +490,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doBrokerAgentUpdate(BrokerAgentUpdate[] brokerAgentUpdateArray) {
         int n = 0;
         if (brokerAgentUpdateArray != null) {
@@ -523,7 +508,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doBrokerServiceUpdate(BrokerServiceUpdate[] brokerServiceUpdateArray) {
         int n = 0;
         if (brokerServiceUpdateArray != null) {
@@ -593,7 +577,6 @@ ITraceCallback {
         }
     }
 
-    @Override
     public void clientHandlerStateUpdate(IClientHandler iClientHandler, boolean bl) {
         this.enqueueCommand(new ClientHandlerUpdateCommand(iClientHandler, bl));
     }
@@ -607,7 +590,6 @@ ITraceCallback {
         return iService;
     }
 
-    @Override
     public boolean doClientHandlerUpdate(IClientHandler iClientHandler, boolean bl) {
         CommAgentTracing.AGENT.log((short)1, "client handler update (my agent id=%1, epoch=%2) (peer agent id=%3, epoch=%4) connected=%5", new Short(iClientHandler.getMyAssignedAgentID()), (Object)new Short(iClientHandler.getMyAssignedAgentEpoch()), (Object)new Short(iClientHandler.getPeerAgentID()), (Object)new Short(iClientHandler.getPeerAgentEpoch()), (Object)new Boolean(bl));
         Command[] commandArray = this.postponedClientCommands.retrieveCommands(iClientHandler);
@@ -630,7 +612,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doQueryService(ServiceInstanceID serviceInstanceID, IServiceQueryReply iServiceQueryReply) {
         DirectoryEntry[] directoryEntryArray = this.serviceDirectory.locateService(serviceInstanceID);
         if (directoryEntryArray == null || directoryEntryArray.length == 0) {
@@ -643,7 +624,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public void dropQueryService(ServiceInstanceID serviceInstanceID, IServiceQueryReply iServiceQueryReply, boolean bl) {
         if (!bl && serviceInstanceID.getServiceUUID().isZero()) {
             DirectoryEntry[] directoryEntryArray = this.serviceDirectory.getAllEntries();
@@ -660,7 +640,6 @@ ITraceCallback {
         }
     }
 
-    @Override
     public boolean doConnectProxy(Proxy proxy) {
         Object object;
         short s;
@@ -719,13 +698,11 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public void dropConnectProxy(Proxy proxy, boolean bl) {
         CommAgentTracing.AGENT.log((short)3, "service N/A: dropped proxy=%1", proxy.getInstanceID());
         proxy.getLifecycle().setError(3);
     }
 
-    @Override
     public boolean doSetupProxy(Proxy proxy, IClientHandler iClientHandler) {
         if (iClientHandler.isConnected()) {
             CommAgentTracing.AGENT.log((short)1, "setting up proxy %1 via agent %2", proxy.getInstanceID(), (Object)new Short(iClientHandler.getPeerAgentID()));
@@ -762,13 +739,11 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public void dropSetupProxy(Proxy proxy, boolean bl) {
         CommAgentTracing.AGENT.log((short)4, "connection not available -> dropped proxy=%1", proxy.getInstanceID());
         proxy.getLifecycle().setError(6);
     }
 
-    @Override
     public boolean doDisconnectProxy(Proxy proxy) {
         IClientHandler iClientHandler = (IClientHandler)proxy.getBackend();
         if (iClientHandler != null) {
@@ -783,7 +758,6 @@ ITraceCallback {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean doLookupService(ServiceInstanceID serviceInstanceID) {
         if (!serviceInstanceID.getServiceUUID().isZero()) {
             this.serviceDirectory.addEmptyService(serviceInstanceID);
@@ -799,8 +773,7 @@ ITraceCallback {
         return true;
     }
 
-    @Override
-    public void proxyStateChanged(Proxy proxy, int n) {
+    public void proxyStateChanged(final Proxy proxy, int n) {
         boolean bl;
         IReplyService iReplyService = proxy.getReplyService();
         if (iReplyService != null && (n == 2 || n == 3)) {
@@ -812,11 +785,16 @@ ITraceCallback {
                 CommAgentTracing.AGENT.log((short)1, "proxy dead/error -> reply service was not registered %1", iReplyService.getInstanceID());
             }
         }
-        AgentWorker$1 agentWorker$1 = null;
+        INotificationCallback iNotificationCallback = null;
         if (n == 1) {
-            agentWorker$1 = new AgentWorker$1(this, proxy);
+            iNotificationCallback = new INotificationCallback(){
+
+                public void doneNotification(INotification iNotification) {
+                    proxy.getBackend().proxyAliveDone(proxy);
+                }
+            };
         }
-        if (!(bl = this.notificationCenter.reportProxyStateChanged(proxy, n, agentWorker$1)) && agentWorker$1 != null) {
+        if (!(bl = this.notificationCenter.reportProxyStateChanged(proxy, n, iNotificationCallback)) && iNotificationCallback != null) {
             proxy.getBackend().proxyAliveDone(proxy);
         }
         if (n == 2 || n == 3) {
@@ -834,20 +812,28 @@ ITraceCallback {
         }
     }
 
-    @Override
-    public void serviceStubAttached(IService iService, int n, IStub iStub, IServiceHandlerCallback iServiceHandlerCallback) {
-        AgentWorker$2 agentWorker$2 = new AgentWorker$2(this, iServiceHandlerCallback);
+    public void serviceStubAttached(IService iService, int n, IStub iStub, final IServiceHandlerCallback iServiceHandlerCallback) {
+        INotificationCallback iNotificationCallback = new INotificationCallback(){
+
+            public void doneNotification(INotification iNotification) {
+                iServiceHandlerCallback.completedCall();
+            }
+        };
         this.notificationCenter.reportServiceStubCountChanged(iService, n);
-        if (!this.notificationCenter.reportServiceStubAttached(iStub, agentWorker$2)) {
+        if (!this.notificationCenter.reportServiceStubAttached(iStub, iNotificationCallback)) {
             iServiceHandlerCallback.completedCall();
         }
     }
 
-    @Override
-    public void serviceStubDetached(IService iService, int n, IStub iStub, IServiceHandlerCallback iServiceHandlerCallback) {
-        AgentWorker$3 agentWorker$3 = new AgentWorker$3(this, iServiceHandlerCallback);
+    public void serviceStubDetached(IService iService, int n, IStub iStub, final IServiceHandlerCallback iServiceHandlerCallback) {
+        INotificationCallback iNotificationCallback = new INotificationCallback(){
+
+            public void doneNotification(INotification iNotification) {
+                iServiceHandlerCallback.completedCall();
+            }
+        };
         this.notificationCenter.reportServiceStubCountChanged(iService, n);
-        if (!this.notificationCenter.reportServiceStubDetached(iStub, agentWorker$3)) {
+        if (!this.notificationCenter.reportServiceStubDetached(iStub, iNotificationCallback)) {
             iServiceHandlerCallback.completedCall();
         }
     }
@@ -879,7 +865,6 @@ ITraceCallback {
         }
     }
 
-    @Override
     public boolean doTimer() {
         int n = this.config.getCommandDropTimeout();
         long l = this.monoTime.getCurrentTime();
@@ -903,7 +888,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doConnectBrokerLink() {
         CommAgentTracing.AGENT.log((short)2, "do: trying to connect broker");
         IClientHandler iClientHandler = this.brokerManager.connect(this.nameService, this.clientPool);
@@ -917,7 +901,6 @@ ITraceCallback {
         this.enqueueCommand(new SetupBrokerLinkCommand(iClientHandler));
     }
 
-    @Override
     public boolean doSetupBrokerLink(IClientHandler iClientHandler) {
         CommAgentTracing.AGENT.log((short)2, "do: trying to setup broker");
         if (this.brokerManager.setup(iClientHandler)) {
@@ -950,12 +933,10 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public void dropSetupBrokerLink(IClientHandler iClientHandler) {
         this.brokerManager.brokerLinkDropped();
     }
 
-    @Override
     public boolean doForceDisconnect(short s) {
         if (this.brokerManager != null && s == this.brokerManager.getBrokerAgentID()) {
             short s2 = this.brokerManager.getBrokerAgentID();
@@ -969,7 +950,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public void run() {
         CommAgentTracing.AGENT.log((short)2, "start: commAgent for agent=#%1 withBroker=%2", new Short(this.myAgentID), (Object)new Boolean(this.withBroker));
         if (!this.setupSpawnFactories()) {
@@ -1133,7 +1113,6 @@ ITraceCallback {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean doBrokerProxyAlive() {
         Object object = this.brokerLock;
         synchronized (object) {
@@ -1163,7 +1142,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public boolean doQuit() {
         CommAgentTracing.AGENT.log((short)0, "+ quit");
         this.unregisterLocalServices();
@@ -1212,7 +1190,6 @@ ITraceCallback {
         return true;
     }
 
-    @Override
     public Short getAgentIdProposal() {
         return this.lifecycleDispatcher.getAgentIdProposal();
     }
@@ -1229,7 +1206,6 @@ ITraceCallback {
         return this.totalCommandCount;
     }
 
-    @Override
     public void executeTraceCallback(int n, byte[] byArray) {
         if (n == this.dumpModelCB) {
             this.clientPool.dumpProxiesAndConnections();
@@ -1237,12 +1213,55 @@ ITraceCallback {
         }
     }
 
-    static /* synthetic */ IRunnableWrapper access$000(AgentWorker agentWorker) {
-        return agentWorker.runnableWrapper;
-    }
+    protected class AgentTimer
+    implements Runnable {
+        private final Queue queue;
+        private final int timePulse;
+        private Thread timerThread;
+        private boolean stay = true;
 
-    static /* synthetic */ MemWatch access$100(AgentWorker agentWorker) {
-        return agentWorker.memWatch;
+        public AgentTimer(Queue queue, int n) {
+            this.queue = queue;
+            this.timePulse = n;
+        }
+
+        public void start() {
+            this.stay = true;
+            this.timerThread = new Thread(AgentWorker.this.runnableWrapper.wrap(this), "commTimer");
+            this.timerThread.start();
+        }
+
+        public void stop() {
+            this.stay = false;
+            this.timerThread.interrupt();
+            try {
+                this.timerThread.join();
+            }
+            catch (InterruptedException interruptedException) {
+                // empty catch block
+            }
+        }
+
+        public void run() {
+            while (this.stay) {
+                try {
+                    Thread.sleep(this.timePulse);
+                }
+                catch (InterruptedException interruptedException) {
+                    // empty catch block
+                }
+                if (AgentWorker.this.memWatch != null) {
+                    AgentWorker.this.memWatch.check();
+                }
+                try {
+                    if (!this.queue.put(new TimerCommand())) continue;
+                    CommAgentTracing.AGENT.log((short)3, "Enqueueing timer command in high water range! queue size=%1", new Integer(this.queue.size()));
+                }
+                catch (QueueShutdownException queueShutdownException) {
+                    CommAgentTracing.AGENT.log((short)4, "Timer command: %1", queueShutdownException);
+                }
+            }
+        }
     }
 }
 

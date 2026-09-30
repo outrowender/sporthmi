@@ -10,19 +10,14 @@ import org.apache.commons.jexl.util.introspection.VelPropertyGet;
 import org.apache.commons.jexl.util.introspection.VelPropertySet;
 
 public interface Uberspect {
-    default public void init() {
-    }
+    public void init() throws Exception;
 
-    default public Iterator getIterator(Object object, Info info) {
-    }
+    public Iterator getIterator(Object var1, Info var2) throws Exception;
 
-    default public VelMethod getMethod(Object object, String string, Object[] objectArray, Info info) {
-    }
+    public VelMethod getMethod(Object var1, String var2, Object[] var3, Info var4) throws Exception;
 
-    default public VelPropertyGet getPropertyGet(Object object, String string, Info info) {
-    }
+    public VelPropertyGet getPropertyGet(Object var1, String var2, Info var3) throws Exception;
 
-    default public VelPropertySet getPropertySet(Object object, String string, Object object2, Info info) {
-    }
+    public VelPropertySet getPropertySet(Object var1, String var2, Object var3, Info var4) throws Exception;
 }
 

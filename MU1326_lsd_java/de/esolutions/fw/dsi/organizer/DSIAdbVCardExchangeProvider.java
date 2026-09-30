@@ -26,28 +26,23 @@ implements DSIAdbVCardExchange {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbVCardExchange == null ? (class$org$dsi$ifc$organizer$DSIAdbVCardExchange = DSIAdbVCardExchangeProvider.class$("org.dsi.ifc.organizer.DSIAdbVCardExchange")) : class$org$dsi$ifc$organizer$DSIAdbVCardExchange).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbVCardExchangeProxy(this.instance, (DSIAdbVCardExchangeReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void importVCard(ResourceLocator[] resourceLocatorArray, int n) {
         try {
             this.proxy.importVCard(resourceLocatorArray, n);
@@ -57,7 +52,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void exportVCard(int n, String string, long[] lArray, int n2) {
         try {
             this.proxy.exportVCard(n, string, lArray, n2);
@@ -67,7 +61,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void exportSpellerVCard(int n, int n2, String string, long[] lArray, int n3) {
         try {
             this.proxy.exportSpellerVCard(n, n2, string, lArray, n3);
@@ -77,7 +70,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void createVCard(int n, long[] lArray, int n2) {
         try {
             this.proxy.createVCard(n, lArray, n2);
@@ -87,7 +79,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void parseVCard(String string) {
         try {
             this.proxy.parseVCard(string);
@@ -97,7 +88,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void requestAbort(int n) {
         try {
             this.proxy.requestAbort(n);
@@ -107,7 +97,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -127,7 +115,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -137,7 +124,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -157,7 +142,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -167,7 +151,6 @@ implements DSIAdbVCardExchange {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

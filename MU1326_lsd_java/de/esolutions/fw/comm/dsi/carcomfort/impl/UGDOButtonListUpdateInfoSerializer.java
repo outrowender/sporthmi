@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOButtonListUpdateInfo;
 
 public class UGDOButtonListUpdateInfoSerializer {
-    public static void putOptionalUGDOButtonListUpdateInfo(ISerializer iSerializer, UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo) {
+    public static void putOptionalUGDOButtonListUpdateInfo(ISerializer iSerializer, UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo) throws SerializerException {
         boolean bl = uGDOButtonListUpdateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class UGDOButtonListUpdateInfoSerializer {
         }
     }
 
-    public static void putOptionalUGDOButtonListUpdateInfoVarArray(ISerializer iSerializer, UGDOButtonListUpdateInfo[] uGDOButtonListUpdateInfoArray) {
+    public static void putOptionalUGDOButtonListUpdateInfoVarArray(ISerializer iSerializer, UGDOButtonListUpdateInfo[] uGDOButtonListUpdateInfoArray) throws SerializerException {
         boolean bl = uGDOButtonListUpdateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class UGDOButtonListUpdateInfoSerializer {
         }
     }
 
-    public static UGDOButtonListUpdateInfo getOptionalUGDOButtonListUpdateInfo(IDeserializer iDeserializer) {
+    public static UGDOButtonListUpdateInfo getOptionalUGDOButtonListUpdateInfo(IDeserializer iDeserializer) throws SerializerException {
         UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class UGDOButtonListUpdateInfoSerializer {
         return uGDOButtonListUpdateInfo;
     }
 
-    public static UGDOButtonListUpdateInfo[] getOptionalUGDOButtonListUpdateInfoVarArray(IDeserializer iDeserializer) {
+    public static UGDOButtonListUpdateInfo[] getOptionalUGDOButtonListUpdateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOButtonListUpdateInfo[] uGDOButtonListUpdateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

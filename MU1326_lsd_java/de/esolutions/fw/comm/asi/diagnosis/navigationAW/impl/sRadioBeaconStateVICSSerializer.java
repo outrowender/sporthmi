@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigationAW.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sRadioBeaconStateVICS;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sRadioBeaconStateVICSSerializer {
-    public static void putOptionalsRadioBeaconStateVICS(ISerializer iSerializer, sRadioBeaconStateVICS sRadioBeaconStateVICS2) {
+    public static void putOptionalsRadioBeaconStateVICS(ISerializer iSerializer, sRadioBeaconStateVICS sRadioBeaconStateVICS2) throws SerializerException {
         boolean bl = sRadioBeaconStateVICS2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class sRadioBeaconStateVICSSerializer {
         }
     }
 
-    public static void putOptionalsRadioBeaconStateVICSVarArray(ISerializer iSerializer, sRadioBeaconStateVICS[] sRadioBeaconStateVICSArray) {
+    public static void putOptionalsRadioBeaconStateVICSVarArray(ISerializer iSerializer, sRadioBeaconStateVICS[] sRadioBeaconStateVICSArray) throws SerializerException {
         boolean bl = sRadioBeaconStateVICSArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class sRadioBeaconStateVICSSerializer {
         }
     }
 
-    public static sRadioBeaconStateVICS getOptionalsRadioBeaconStateVICS(IDeserializer iDeserializer) {
+    public static sRadioBeaconStateVICS getOptionalsRadioBeaconStateVICS(IDeserializer iDeserializer) throws SerializerException {
         sRadioBeaconStateVICS sRadioBeaconStateVICS2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class sRadioBeaconStateVICSSerializer {
         return sRadioBeaconStateVICS2;
     }
 
-    public static sRadioBeaconStateVICS[] getOptionalsRadioBeaconStateVICSVarArray(IDeserializer iDeserializer) {
+    public static sRadioBeaconStateVICS[] getOptionalsRadioBeaconStateVICSVarArray(IDeserializer iDeserializer) throws SerializerException {
         sRadioBeaconStateVICS[] sRadioBeaconStateVICSArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

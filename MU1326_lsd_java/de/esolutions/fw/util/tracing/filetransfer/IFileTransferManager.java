@@ -8,25 +8,18 @@ import de.esolutions.fw.util.tracing.filetransfer.file.IFile;
 import de.esolutions.fw.util.tracing.filetransfer.file.IFileFactory;
 
 public interface IFileTransferManager {
-    default public void registerListener(IFileTransferListener iFileTransferListener) {
-    }
+    public void registerListener(IFileTransferListener var1);
 
-    default public void unregisterListener(IFileTransferListener iFileTransferListener) {
-    }
+    public void unregisterListener(IFileTransferListener var1);
 
-    default public void setFileFactory(IFileFactory iFileFactory) {
-    }
+    public void setFileFactory(IFileFactory var1);
 
-    default public String getDownloadDirectory() {
-    }
+    public String getDownloadDirectory();
 
-    default public boolean uploadFile(IFile iFile) {
-    }
+    public boolean uploadFile(IFile var1);
 
-    default public boolean requestFileStatus(String string, IFile iFile) {
-    }
+    public boolean requestFileStatus(String var1, IFile var2);
 
-    default public boolean requestFileDownload(String string, IFile iFile) {
-    }
+    public boolean requestFileDownload(String var1, IFile var2);
 }
 

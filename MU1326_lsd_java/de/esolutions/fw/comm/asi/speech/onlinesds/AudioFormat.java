@@ -62,7 +62,7 @@ public class AudioFormat {
     }
 
     public String toString() {
-        return new StringBuffer("AudioFormat{").append("sampleRate=").append(this.sampleRate).append(", nChannels=").append(this.nChannels).append(", bitsPerSample=").append(this.bitsPerSample).append(", format=").append(this.format).append(", endianness=").append(this.endianness).append("}").toString();
+        return "AudioFormat{" + "sampleRate=" + this.sampleRate + ", nChannels=" + this.nChannels + ", bitsPerSample=" + this.bitsPerSample + ", format=" + this.format + ", endianness=" + this.endianness + "}";
     }
 }
 

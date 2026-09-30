@@ -28,16 +28,11 @@ import de.esolutions.hmi.widgets.audi.evo.prpframework.IPRPEngine;
 import de.esolutions.hmi.widgets.audi.evo.widgets.FingerTraceController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IFingerTraceRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ButtonItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerBand;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ToggleCharsetButtonItem;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerDebugInfo;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory$TimerListenerImplAsia;
+import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractToneAndCaseTogglingTable;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractToneAndCaseTogglingTable$ICharacterWithToneAndCase;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AsianInputMethod;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionDataFetcherFreetext;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionDataFetcherStrokeMatchspeller;
@@ -57,8 +52,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ITouchResultLine;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IWordPredictionDataFetcher;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerBandState;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia$SpellerBandImplAsia;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia$TouchResultsLine;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.StrokeMatchspellerProtocol;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.TouchControllerFocusState;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework.PRPEngineAsia;
@@ -76,14 +69,14 @@ implements IWordPredictionServiceListener,
 IConversionMatrixPreparationFinishedListener,
 IMenuCallback {
     private static final String BACKSPACE = Character.toString('\b');
-    public static final char WORD_PREDICTION_SEPARATOR;
+    public static final char WORD_PREDICTION_SEPARATOR = '\'';
     private TouchControllerFocusState currentFocusState = TouchControllerFocusState.INPUT_LINE_FOCUS;
     private ConversionLineController conversionLine = null;
     private SpellerControllerAsia asianSpeller;
     private final ITouchInputDataAsia asianTouchInputData;
     private IConversionDataFetcher conversionDataFetcher;
     protected final IConversionCandidateSelectionHandler touchControllerAsSelectionHandler;
-    protected final TouchControllerListenerFactory$TimerListenerImplAsia timerListenerAsia;
+    protected final TouchControllerListenerFactory.TimerListenerImplAsia timerListenerAsia;
     private Buffer cacheLastblockedTouchInputCharacter = null;
     private IStrokeMatchspellerProtocol strokeMatchspellerProtocol = null;
     private int currentInputModeSetForMatchspeller = 0;
@@ -100,19 +93,17 @@ IMenuCallback {
         super(iTouchInputDataAsia);
         this.asianTouchInputData = iTouchInputDataAsia;
         this.touchControllerAsSelectionHandler = this.listenerFactory.createConversionCandidateSelectionHandler();
-        this.timerListenerAsia = (TouchControllerListenerFactory$TimerListenerImplAsia)this.timerListener;
+        this.timerListenerAsia = (TouchControllerListenerFactory.TimerListenerImplAsia)this.timerListener;
         this.conversionMatrixModel = new ConversionMatrixModel();
         this.isWordPredictionAvailable = bl;
         this.partialConversionHelper = iPartialConversionHelper;
         this.showFocusStateDebugInfo();
     }
 
-    @Override
     protected TouchCharSetAndTTSHandler createTouchCharsetAndTTSHandler() {
         return new TouchCharSetAndTTSHandler(this.terminal, true);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.isMapcodeOrMatchPhoneNumber()) {
@@ -141,7 +132,6 @@ IMenuCallback {
         TouchControllerDebugInfo.showFocusStateDebugInfo(this.terminal, this, spellerBandState, this.currentFocusState);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.showFocusStateDebugInfo();
@@ -154,7 +144,7 @@ IMenuCallback {
         n = this.getTouchUtil().convertMatchspellerInputMode(n);
         if (this.isMatchspellerModel() && this.currentInputModeSetForMatchspeller != n) {
             this.currentInputModeSetForMatchspeller = n;
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#notifyMatchspellerModelAboutInputModeChange [MODEL COMMUNICATION ->] calling inputModeTPChanged with mode %1 (%2 is speller mode, %3 is HWR mode)", (long)n, 0L, 1L);
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#notifyMatchspellerModelAboutInputModeChange [MODEL COMMUNICATION ->] calling inputModeTPChanged with mode %1 (%2 is speller mode, %3 is HWR mode)", (long)n, 0L, 1L);
             ((MatchspellerModelGUI)this.model).inputModeTPChanged(n, this.terminal.getTerminalID());
             TouchControllerDebugInfo.showInputModeDebugInfo(this.terminal, this, this.currentInputModeSetForMatchspeller);
         }
@@ -168,7 +158,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void initConnect(InitializationContext initializationContext) {
         super.initConnect(initializationContext);
         if (this.conversionLine == null) {
@@ -186,7 +175,7 @@ IMenuCallback {
     }
 
     private void initializeConversionDataFetcher(AsianInputMethod asianInputMethod) {
-        tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#initializeConversionDataFetcher: initial conversion data fetcher");
+        tpLogChannelInternal.log(10000000, "TouchControllerAsia#initializeConversionDataFetcher: initial conversion data fetcher");
         boolean bl = this.conversionDataFetcher != null;
         boolean bl2 = this.isMatchspellerModel() && asianInputMethod == AsianInputMethod.STROKE;
         this.strokeMatchspellerProtocol = null;
@@ -213,7 +202,7 @@ IMenuCallback {
                 this.conversionDataFetcher = conversionDataFetcherFreetext;
             }
             if (tpLogChannelInternal.isDebug()) {
-                tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#initializeConversionDataFetcher: using data fetcher ( %1 )", (Object)super.getClass().getName());
+                tpLogChannelInternal.log(10000000, "TouchControllerAsia#initializeConversionDataFetcher: using data fetcher ( %1 )", (Object)this.conversionDataFetcher.getClass().getName());
             }
             this.asianTouchInputData.registerDataChangeListener(this.conversionDataFetcher);
             this.conversionDataFetcher.registerConversionFetcherListener(this.conversionLine);
@@ -221,7 +210,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void setTouchpadMode(int n) {
         super.setTouchpadMode(n);
         if (this.isTruffleSearch()) {
@@ -230,7 +218,6 @@ IMenuCallback {
         TouchControllerDebugInfo.showTouchModeDebugInfo(this.terminal, this, this.getTouchpadMode());
     }
 
-    @Override
     public void setWidth(int n) {
         int n2 = this.asianSpeller.getWidth();
         super.setWidth(n);
@@ -255,7 +242,6 @@ IMenuCallback {
         super.addFingerTraceWidget(fingerTraceController);
     }
 
-    @Override
     protected void closeSpeller(boolean bl, boolean bl2) {
         super.closeSpeller(bl, bl2);
         this.asianTouchInputData.spellerClosed();
@@ -265,7 +251,6 @@ IMenuCallback {
         this.setFocusState(TouchControllerFocusState.INPUT_LINE_FOCUS);
     }
 
-    @Override
     protected void openSpeller(boolean bl) {
         if (this.getCurrentFocusState() == TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS || this.getCurrentFocusState() == TouchControllerFocusState.TOUCH_PREDICTION_LINE_FOCUS) {
             this.asianSpeller.changeSpellerState(SpellerBandState.DEFAULT_SPELLER);
@@ -280,7 +265,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void setSpeller(SpellerController spellerController) {
         super.setSpeller(spellerController);
         if (!(spellerController instanceof SpellerControllerAsia)) {
@@ -291,7 +275,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void processTouchResult(String string) {
         if (!this.isInputLocked()) {
             if (this.asianSpeller != null) {
@@ -303,7 +286,7 @@ IMenuCallback {
                     return;
                 }
                 if (TouchControllerAsia.isOnlyBackSpace(string)) {
-                    tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#forwardTouchpadCharactersToSpeller: forwardTouchpadCharactersToSpeller with result \\b");
+                    tpLogChannelInternal.log(10000000, "#TouchControllerAsia#forwardTouchpadCharactersToSpeller: forwardTouchpadCharactersToSpeller with result \\b");
                     if (!this.asianTouchInputData.hasNonRegularCharacters()) {
                         this.handleDeletionForTruffleButton();
                         this.setEmptyWordPredictionContext();
@@ -319,10 +302,10 @@ IMenuCallback {
                             this.isImplicityAccept = true;
                         } else {
                             if (this.currentInputModeSetForMatchspeller == 1) {
-                                tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#processTouchResult [MODEL COMMUNICATION ->] calling nonAlphaNumTPCharsChanged with \"%1\"", (Object)string);
+                                tpLogChannelInternal.log(10000000, "TouchControllerAsia#processTouchResult [MODEL COMMUNICATION ->] calling nonAlphaNumTPCharsChanged with \"%1\"", (Object)string);
                                 ((MatchspellerModelGUI)this.model).nonAlphaNumTPCharsChanged(string, this.terminal.getTerminalID());
                             } else {
-                                tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#processTouchResult: calling mode_speller filteredRecognizedCharacters = %1", (Object)string);
+                                tpLogChannelInternal.log(10000000, "TouchControllerAsia#processTouchResult: calling mode_speller filteredRecognizedCharacters = %1", (Object)string);
                                 string = this.filterAgainstValidChars(string);
                                 if (!StringUtilities.isNullOrEmpty(string)) {
                                     this.openTouchResultLine(string);
@@ -339,7 +322,7 @@ IMenuCallback {
                     }
                 }
             } else {
-                tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#processTouchResult: Speller is NULL and call super#processTouchResult");
+                tpLogChannelInternal.log(10000000, "#TouchControllerAsia#processTouchResult: Speller is NULL and call super#processTouchResult");
                 super.processTouchResult(string);
             }
             this.updateInfoLineState(false);
@@ -362,12 +345,10 @@ IMenuCallback {
         return this.prpEngineForMatchspellerFiltering;
     }
 
-    @Override
     protected boolean needRequestBigStageForTouchResult(String string) {
         return !TouchControllerAsia.isOnlyBackSpace(string);
     }
 
-    @Override
     protected void processEmptyTouchResult() {
         this.asianTouchInputData.acceptTouchResultPreview();
         this.forwardTouchpadCharactersToSpeller("");
@@ -387,7 +368,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void changeCharset(int n) {
         super.changeCharset(n);
         if (n == 0) {
@@ -405,7 +385,7 @@ IMenuCallback {
 
     private void forwardTouchpadCharactersToSpeller(String string) {
         if (!this.isTextMaxLengthMet()) {
-            tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#forwardTouchpadCharactersToSpeller: Last valid chars [%1]", (Object)string);
+            tpLogChannelInternal.log(10000000, "#TouchControllerAsia#forwardTouchpadCharactersToSpeller: Last valid chars [%1]", (Object)string);
             this.asianSpeller.touchPadFilteredCharactersRecognized(string);
             if (this.isMatchspellerModel()) {
                 boolean bl = false;
@@ -440,7 +420,7 @@ IMenuCallback {
         }
         char c2 = string.charAt(0);
         String string2 = Character.toString(c2);
-        tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#forwardTouchpadCharactersToSpeller: max text length reached speak char('%1') followed by negative tone", (Object)string2);
+        tpLogChannelInternal.log(10000000, "TouchControllerAsia#forwardTouchpadCharactersToSpeller: max text length reached speak char('%1') followed by negative tone", (Object)string2);
         if (this.fingerTraceWidget.isMinStrokeReached()) {
             this.getTouchUtil().speakCharWithNegativeTone(string2);
         }
@@ -463,7 +443,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected boolean shouldShowSpaceHint(char c2) {
         return this.checkInputCondition() && c2 != '\b';
     }
@@ -488,13 +467,12 @@ IMenuCallback {
         return bl;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (this.isMatchspellerModel()) {
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#processModelUpdateEvent [MODEL COMMUNICATION <-] processing event %1", (Object)modelUpdateEvent);
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#processModelUpdateEvent [MODEL COMMUNICATION <-] processing event %1", (Object)modelUpdateEvent);
             if (modelUpdateEvent.getUpdateType() == 17) {
                 String string = ((MatchspellerModelGUI)this.model).getValidNonAlphaNumTPCharacters(this.terminal.getTerminalID());
-                tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#processModelUpdateEvent: VALID_TP_CHARS_CHANGED, validNonAlphaNumTPCharacters=\"%1\"", (Object)string);
+                tpLogChannelInternal.log(10000000, "TouchControllerAsia#processModelUpdateEvent: VALID_TP_CHARS_CHANGED, validNonAlphaNumTPCharacters=\"%1\"", (Object)string);
                 if (string != null) {
                     if (string.length() == 0) {
                         if (this.currentFocusState == TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS) {
@@ -518,7 +496,7 @@ IMenuCallback {
                 }
                 modelUpdateEvent.consume();
             } else if (modelUpdateEvent.getUpdateType() == 19 && this.strokeMatchspellerProtocol != null) {
-                tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#processModelUpdateEvent: VALID_CONVERSION_CHARS_CHANGED, isWaitingForMatchSpellerDataBack=%1", this.isInputLocked());
+                tpLogChannelInternal.log(10000000, "#TouchControllerAsia#processModelUpdateEvent: VALID_CONVERSION_CHARS_CHANGED, isWaitingForMatchSpellerDataBack=%1", this.isInputLocked());
                 this.strokeMatchspellerProtocol.notifyMatchspellerStrokeConversionsAvailable();
                 modelUpdateEvent.consume();
             } else if (modelUpdateEvent.getUpdateType() == 1) {
@@ -532,20 +510,19 @@ IMenuCallback {
                 super.processModelUpdateEvent(modelUpdateEvent);
                 this.setToggleCharSetButtonEnabledForMatchSpeller();
             }
-            tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#processModelUpdateEvent: event was consumed: %1", modelUpdateEvent.isConsumed());
+            tpLogChannelInternal.log(10000000, "#TouchControllerAsia#processModelUpdateEvent: event was consumed: %1", modelUpdateEvent.isConsumed());
         }
         if (!modelUpdateEvent.isConsumed() || modelUpdateEvent.getUpdateType() == 10) {
             super.processModelUpdateEvent(modelUpdateEvent);
         }
         if (!this.isInputLocked() && modelUpdateEvent.isConsumed() && this.isMatchspellerModel() && this.isImplicityAccept) {
-            tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#processModelUpdateEvent: processing touch event after model updated because of implicitly acception of touch preview,  chars are [%1]", (Object)this.cachedTouchEvent.getRecognizedCharacters());
+            tpLogChannelInternal.log(10000000, "#TouchControllerAsia#processModelUpdateEvent: processing touch event after model updated because of implicitly acception of touch preview,  chars are [%1]", (Object)this.cachedTouchEvent.getRecognizedCharacters());
             this.isImplicityAccept = false;
             this.asianSpeller.touchPadFilteredCharactersRecognized("");
             this.touchPadCharactersRecognizedAction(this.cachedTouchEvent, true);
         }
     }
 
-    @Override
     protected void updateSuggestions() {
         if (this.model instanceof SpellerModelGUI) {
             if (this.isTruffleSearch() && !this.blockSuggestions) {
@@ -556,7 +533,7 @@ IMenuCallback {
                     string = this.inputFieldData.doCaseBalancingForSuggestion(string);
                 }
                 if (tpLogChannelInternal.isDebug()) {
-                    tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#updateSuggestions: set new suggestion=%1 / current text is: %2", (Object)string, (Object)this.inputFieldData.getCurrentText());
+                    tpLogChannelInternal.log(10000000, "TouchControllerAsia#updateSuggestions: set new suggestion=%1 / current text is: %2", (Object)string, (Object)this.inputFieldData.getCurrentText());
                 }
                 this.asianTouchInputData.setSuggestion(string);
                 this.updateSuggestionParts();
@@ -583,18 +560,15 @@ IMenuCallback {
         return !this.isWordPredictionAvailable() || !this.isTruffleSearch() || this.asianTouchInputData.getCurrentText().length() < 1 && this.getCurrentFocusState() != TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS || this.isSpellerClosed();
     }
 
-    @Override
     public void clearSuggestion() {
         this.asianTouchInputData.setSuggestion(null);
         this.updateSuggestionParts();
     }
 
-    @Override
     public String getCurrentSuggestion() {
         return this.asianTouchInputData.getSuggestion();
     }
 
-    @Override
     public boolean suggestionsAvailable() {
         return this.asianTouchInputData.isSuggestionValid() && this.isSpellerOpen();
     }
@@ -606,7 +580,7 @@ IMenuCallback {
             if (this.prpEngine != null) {
                 string = this.prpEngine.getSpeechTopMatch();
             }
-            tpLogChannelInternal.log(14808325, "#TouchControllerAsia#speakHighConfidenceCharIfApplies: charToSpeak=\"%1\"", (Object)string);
+            tpLogChannelInternal.log(100000000, "#TouchControllerAsia#speakHighConfidenceCharIfApplies: charToSpeak=\"%1\"", (Object)string);
             if (!StringUtilities.isNullOrEmpty(string)) {
                 this.getTouchUtil().speakCharWithNegativeTone(string);
             }
@@ -616,15 +590,15 @@ IMenuCallback {
     protected void setToggleCharSetButtonEnabledForMatchSpeller() {
         if (this.isMatchspellerModel() && (this.getTouchUtil().isTraditionalChineseSystemLanguage() || this.getTouchUtil().isSystemLanguageKorean())) {
             boolean bl = this.isCharSetToggleButtonEnabled(this.getMatchSpellerValidChars());
-            SpellerController$ToggleCharsetButtonItem spellerController$ToggleCharsetButtonItem = this.asianSpeller.getCharsetToggleButton();
-            if (spellerController$ToggleCharsetButtonItem != null && spellerController$ToggleCharsetButtonItem.isEnabled() != bl) {
-                spellerController$ToggleCharsetButtonItem.setEnabled(bl);
+            SpellerController.ToggleCharsetButtonItem toggleCharsetButtonItem = this.asianSpeller.getCharsetToggleButton();
+            if (toggleCharsetButtonItem != null && toggleCharsetButtonItem.isEnabled() != bl) {
+                toggleCharsetButtonItem.setEnabled(bl);
             }
         }
     }
 
     private void openTouchResultLine(String string) {
-        tpLogChannelInternal.log(-2137614336, "#TouchControllerAsia#openTouchResultLine: validNonAlphaNumTPCharacters: %1", (Object)string);
+        tpLogChannelInternal.log(10000000, "#TouchControllerAsia#openTouchResultLine: validNonAlphaNumTPCharacters: %1", (Object)string);
         if (!this.isTextMaxLengthMet()) {
             this.setFocusState(TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS);
         } else if (TouchControllerAsia.isOnlyBackSpace(string)) {
@@ -636,7 +610,6 @@ IMenuCallback {
         this.forwardTouchpadCharactersToSpeller(string);
     }
 
-    @Override
     protected void propagateValidChars(boolean bl) {
         if (this.currentFocusState == TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS) {
             if (this.isMatchspellerModel()) {
@@ -656,7 +629,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void stringEntered(String string, String[] stringArray) {
         boolean bl;
         boolean bl2 = '\b' == TouchControllerAsia.getMostPlausibleCharacter(string) && this.asianTouchInputData.hasNonRegularCharacters();
@@ -700,12 +672,10 @@ IMenuCallback {
         this.handleDeletionForTruffleButton();
     }
 
-    @Override
     protected boolean shouldSpellerCloseAfterTouchInput() {
         return false;
     }
 
-    @Override
     protected IPRPEngine getPRPEngine(int n) {
         return new PRPEngineAsia(super.getTouchpadMode(), this.asianSpeller.getSpellerMode(), super.getInputData(), n, logPRPEngine);
     }
@@ -720,7 +690,6 @@ IMenuCallback {
         return "";
     }
 
-    @Override
     protected void handleTurnEvent(WheelButtonEvent wheelButtonEvent) {
         this.currentFocusState.getKeyHandler().handleKeyTurn(this, wheelButtonEvent);
         if (!wheelButtonEvent.isConsumed()) {
@@ -751,7 +720,6 @@ IMenuCallback {
         return this.asianTouchInputData.getFullText();
     }
 
-    @Override
     protected void handleMoveEvent(JoystickEvent joystickEvent) {
         this.currentFocusState.getKeyHandler().handleKeyMove(this, joystickEvent);
         if (!joystickEvent.isConsumed()) {
@@ -759,7 +727,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void handlePressedEvent(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == 17 && this.isSpellerClosed()) {
             this.openSpeller(true);
@@ -774,7 +741,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void handleHKBackShortPress() {
         if (this.currentFocusState == TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS || this.currentFocusState == TouchControllerFocusState.TOUCH_PREDICTION_LINE_FOCUS) {
             this.asianSpeller.clearTouchResultsFromBand();
@@ -790,13 +756,11 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void handleHKBackLongPress() {
         super.handleHKBackLongPress();
         this.partialConversionHelper.reset();
     }
 
-    @Override
     protected void setLanguage(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
         boolean bl;
         super.setLanguage(touchCharSetAndTTSHandler);
@@ -831,13 +795,13 @@ IMenuCallback {
         if (touchControllerFocusState == TouchControllerFocusState.TOUCH_RESULT_LINE_FOCUS && this.asianSpeller.getCurrentSpellerState() == SpellerBandState.TOUCH_PREDICTION_LINE) {
             touchControllerFocusState2 = TouchControllerFocusState.TOUCH_PREDICTION_LINE_FOCUS;
             if (tpLogChannelInternal.isDebug()) {
-                tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#setFocusState: argument was %1, but speller is in prediction line state -> turned it into %2", (Object)touchControllerFocusState, (Object)touchControllerFocusState2);
+                tpLogChannelInternal.log(10000000, "TouchControllerAsia#setFocusState: argument was %1, but speller is in prediction line state -> turned it into %2", (Object)touchControllerFocusState, (Object)touchControllerFocusState2);
             }
         } else {
             touchControllerFocusState2 = touchControllerFocusState;
         }
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#setFocusState: changing focus state from %1 to %2", (Object)this.currentFocusState, (Object)touchControllerFocusState2);
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#setFocusState: changing focus state from %1 to %2", (Object)this.currentFocusState, (Object)touchControllerFocusState2);
         }
         this.currentFocusState = touchControllerFocusState2;
         this.showFocusStateDebugInfo();
@@ -879,22 +843,18 @@ IMenuCallback {
         return this.currentFocusState;
     }
 
-    @Override
     protected SpellerController getSpeller() {
         return this.asianSpeller;
     }
 
-    @Override
     protected int getRightDrawerCategoryForThisWidget() {
-        return 1807115728;
+        return -798640533;
     }
 
-    @Override
     protected boolean isRightDrawerConditionSpellerOpen() {
         return this.getCurrentFocusState() == TouchControllerFocusState.SPELLER_LINE_FOCUS || this.getCurrentFocusState() == TouchControllerFocusState.CONVERSION_LINE_FOCUS;
     }
 
-    @Override
     protected boolean isCharsetSwitchingAvailable() {
         boolean bl = super.isCharsetSwitchingAvailable();
         if (bl && this.isMatchspellerModel()) {
@@ -906,17 +866,15 @@ IMenuCallback {
         return bl;
     }
 
-    @Override
     public void predisconnecting() {
         this.setMatrixPopupVisible(false);
         this.wordPredictionAccess.spellerDisconnected();
         super.predisconnecting();
     }
 
-    @Override
     public void disconnecting() {
         if (tpLogChannelInternal.isDebug2()) {
-            tpLogChannelInternal.log(14808325, "TouchControllerAsia#disconnecting: Disconnecting");
+            tpLogChannelInternal.log(100000000, "TouchControllerAsia#disconnecting: Disconnecting");
         }
         this.asianTouchInputData.clear(false);
         this.setConversionLineVisible(false);
@@ -931,7 +889,6 @@ IMenuCallback {
         TouchControllerDebugInfo.clear(this.terminal);
     }
 
-    @Override
     protected void handleBigStageAndSpellerOpen() {
         super.handleBigStageAndSpellerOpen();
         this.updateInputDescriptionLineVisibility(true);
@@ -952,7 +909,7 @@ IMenuCallback {
     }
 
     public void showMatrixPopup() {
-        tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#showMatrixPopup tried to open the conversion matrix with unconverted characters: %1", (Object)this.asianTouchInputData.getUnconvertedCharacters());
+        tpLogChannelInternal.log(10000000, "TouchControllerAsia#showMatrixPopup tried to open the conversion matrix with unconverted characters: %1", (Object)this.asianTouchInputData.getUnconvertedCharacters());
         this.connectMatrixModelToMatrixController();
         this.conversionMatrixModel.setIsActivated(true);
         this.setConversionLineVisible(false);
@@ -976,14 +933,13 @@ IMenuCallback {
         if (this.conversionLine != null) {
             this.conversionLine.setConversionLineVisible(bl);
         } else {
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#setConversionLineVisible tried to set the conversion line visibility to %1, but the controller was null.", bl);
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#setConversionLineVisible tried to set the conversion line visibility to %1, but the controller was null.", bl);
         }
     }
 
-    @Override
     protected void handleTouchInputDataChanged(int n, boolean bl, String string, String string2) {
         if (tpLogChannelInternal.isDebug2()) {
-            tpLogChannelInternal.log(14808325, "TouchControllerAsia#handleTouchInputDataChanged TouchInputDataAsia update type = %1 / modelNotification = %2 / old text = %3 / new text = %4.", (Object)String.valueOf(n), (Object)String.valueOf(bl), (Object)string, (Object)string2);
+            tpLogChannelInternal.log(100000000, "TouchControllerAsia#handleTouchInputDataChanged TouchInputDataAsia update type = %1 / modelNotification = %2 / old text = %3 / new text = %4.", (Object)String.valueOf(n), (Object)String.valueOf(bl), (Object)string, (Object)string2);
         }
         if (n == 2 && !this.suppressTTSOutput() && !StringUtilities.isNullOrEmpty(string2)) {
             if (StringUtilities.isNullOrEmpty(string)) {
@@ -1022,8 +978,8 @@ IMenuCallback {
         String string;
         String string2;
         if (this.asianTouchInputData.getTextLength() > 0 && AbstractToneAndCaseTogglingTable.hasToneOrCaseVariance(string2 = (string = this.asianTouchInputData.getCurrentText()).substring(string.length() - 1))) {
-            AbstractToneAndCaseTogglingTable$ICharacterWithToneAndCase abstractToneAndCaseTogglingTable$ICharacterWithToneAndCase = AbstractToneAndCaseTogglingTable.getCharWithToneAndCaseForJPLang(string2);
-            String string3 = String.valueOf(abstractToneAndCaseTogglingTable$ICharacterWithToneAndCase.getNextCharWithStatus().getCurrentStatusChar());
+            AbstractToneAndCaseTogglingTable.ICharacterWithToneAndCase iCharacterWithToneAndCase = AbstractToneAndCaseTogglingTable.getCharWithToneAndCaseForJPLang(string2);
+            String string3 = String.valueOf(iCharacterWithToneAndCase.getNextCharWithStatus().getCurrentStatusChar());
             this.asianTouchInputData.delete(false);
             this.asianTouchInputData.appendRegularCharacters(string3, true);
         }
@@ -1033,13 +989,12 @@ IMenuCallback {
         String string;
         String string2;
         if (this.asianTouchInputData.hasUnconvertedCharacters() && AbstractToneAndCaseTogglingTable.hasToneOrCaseVariance(string2 = (string = this.asianTouchInputData.getUnconvertedCharacters()).substring(string.length() - 1))) {
-            AbstractToneAndCaseTogglingTable$ICharacterWithToneAndCase abstractToneAndCaseTogglingTable$ICharacterWithToneAndCase = AbstractToneAndCaseTogglingTable.getCharWithToneAndCaseForJPLang(string2);
-            String string3 = String.valueOf(abstractToneAndCaseTogglingTable$ICharacterWithToneAndCase.getNextCharWithStatus().getCurrentStatusChar());
+            AbstractToneAndCaseTogglingTable.ICharacterWithToneAndCase iCharacterWithToneAndCase = AbstractToneAndCaseTogglingTable.getCharWithToneAndCaseForJPLang(string2);
+            String string3 = String.valueOf(iCharacterWithToneAndCase.getNextCharWithStatus().getCurrentStatusChar());
             this.asianTouchInputData.replaceLastUnconvertedCharacter(string3);
         }
     }
 
-    @Override
     public void handleSpellerLastMode() {
         if (this.spellerLastMode == 1 && this.isEnabled()) {
             super.handleSpellerLastMode();
@@ -1080,7 +1035,6 @@ IMenuCallback {
         return this.getTouchpadMode() == 23 && (TouchControllerAsia.isJp() || TouchControllerAsia.isKr());
     }
 
-    @Override
     protected boolean checkIfModelUpdateChangesText(String string) {
         if (this.isTruffleSearch()) {
             String string2 = StringUtility.concatenate(this.asianTouchInputData.getCurrentText(), this.asianTouchInputData.getTouchResultPreview());
@@ -1094,9 +1048,9 @@ IMenuCallback {
         return bl;
     }
 
-    public void forceFocusOnItem(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
-        if (spellerController$SpellerButtonType.isCharsetToggleButton()) {
-            this.asianSpeller.focusToCharSetToggleButtonIfPossible(spellerController$SpellerButtonType);
+    public void forceFocusOnItem(SpellerController.SpellerButtonType spellerButtonType) {
+        if (spellerButtonType.isCharsetToggleButton()) {
+            this.asianSpeller.focusToCharSetToggleButtonIfPossible(spellerButtonType);
         }
     }
 
@@ -1106,10 +1060,10 @@ IMenuCallback {
 
     private boolean isCharSetToggleButtonEnabled(String string) {
         boolean bl = false;
-        SpellerController$ISpellerBand spellerController$ISpellerBand = this.asianSpeller.getCurrentSpellerBand();
-        if (spellerController$ISpellerBand instanceof SpellerControllerAsia$SpellerBandImplAsia) {
-            SpellerControllerAsia$SpellerBandImplAsia spellerControllerAsia$SpellerBandImplAsia = (SpellerControllerAsia$SpellerBandImplAsia)spellerController$ISpellerBand;
-            int n = spellerControllerAsia$SpellerBandImplAsia.getSpellerBandInternalLanguage();
+        SpellerController.ISpellerBand iSpellerBand = this.asianSpeller.getCurrentSpellerBand();
+        if (iSpellerBand instanceof SpellerControllerAsia.SpellerBandImplAsia) {
+            SpellerControllerAsia.SpellerBandImplAsia spellerBandImplAsia = (SpellerControllerAsia.SpellerBandImplAsia)iSpellerBand;
+            int n = spellerBandImplAsia.getSpellerBandInternalLanguage();
             if (n == 15) {
                 bl = StringUtility.containsAny(string, "\u4e00\u4e28\u4e3f\u4e36\u4e59".toCharArray(), false);
             } else if (n == 25) {
@@ -1126,12 +1080,10 @@ IMenuCallback {
         return bl;
     }
 
-    @Override
     protected boolean getIsTouchpadKeypanelWithActiveStatus() {
         return this.terminal.getKbdService().isTouchKeypanel() && !this.isJPMapCode() && !this.isMatchedPhoneNumber();
     }
 
-    @Override
     protected boolean isTextMaxLengthMet() {
         int n = this.asianTouchInputData.getMaximumTextLength();
         boolean bl = false;
@@ -1139,7 +1091,6 @@ IMenuCallback {
         return bl;
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         if (this.isMapcodeOrMatchPhoneNumber()) {
             touchEvent.consume();
@@ -1149,9 +1100,8 @@ IMenuCallback {
         super.touchPadCharactersRecognized(touchEvent);
     }
 
-    @Override
     protected void handleAutoCompletion(String string) {
-        tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#handleAutoCompletion: completion = %1", (Object)string);
+        tpLogChannelInternal.log(10000000, "TouchControllerAsia#handleAutoCompletion: completion = %1", (Object)string);
         if (this.isSpellerClosed()) {
             this.openSpeller(true);
         } else if (string != null && !StringUtilities.isNullOrEmpty(string)) {
@@ -1160,7 +1110,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected String getCurrentTextForSuggestion() {
         return this.asianTouchInputData.getFullText();
     }
@@ -1176,32 +1125,29 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void updatePRPEngineWithLanguageIndex() {
         int n = this.getTouchUtil().getSystemLanguage();
         this.prpEngine = this.getPRPEngine(n);
     }
 
-    @Override
     protected void userHintPosUpdate(IUserHintHandler iUserHintHandler) {
         if (this.isG22High() || this.isG21()) {
             int n = -5;
             int n2 = TouchControllerAsia.getAbsoluteX(this) + this.getWidth();
             int n3 = TouchControllerAsia.getAbsoluteY(this) + this.getHeight() + n;
-            tpLogChannelInternal.log(-2137614336, new StringBuffer().append("TouchController#showUserHintAnimation: getAbsoluteY(this): ").append(TouchControllerAsia.getAbsoluteY(this)).append(", this.getHeight(): ").append(this.getHeight()).append(", getHintYOffset():").append(n).toString());
-            tpLogChannelInternal.log(-2137614336, new StringBuffer().append("TouchController#showUserHintAnimation: rightBorderWidget: ").append(n2).append(", bottomBorderOfWidget: ").append(n3).toString());
+            tpLogChannelInternal.log(10000000, "TouchController#showUserHintAnimation: getAbsoluteY(this): " + TouchControllerAsia.getAbsoluteY(this) + ", this.getHeight(): " + this.getHeight() + ", getHintYOffset():" + n);
+            tpLogChannelInternal.log(10000000, "TouchController#showUserHintAnimation: rightBorderWidget: " + n2 + ", bottomBorderOfWidget: " + n3);
             iUserHintHandler.updateUserHintPos(TouchControllerAsia.getAbsoluteX(this) + this.getWidth(), TouchControllerAsia.getAbsoluteY(this) + this.getHeight() + n);
         } else if (this.isG24MMIKombi()) {
             int n = 6;
             int n4 = TouchControllerAsia.getAbsoluteX(this) + this.getWidth();
             int n5 = TouchControllerAsia.getAbsoluteY(this) + this.getHeight() + n;
-            tpLogChannelInternal.log(-2137614336, new StringBuffer().append("TouchController#showUserHintAnimation: getAbsoluteY(this): ").append(TouchControllerAsia.getAbsoluteY(this)).append(", this.getHeight(): ").append(this.getHeight()).append(", getHintYOffset():").append(n).toString());
-            tpLogChannelInternal.log(-2137614336, new StringBuffer().append("TouchController#showUserHintAnimation: rightBorderWidget: ").append(n4).append(", bottomBorderOfWidget: ").append(n5).toString());
+            tpLogChannelInternal.log(10000000, "TouchController#showUserHintAnimation: getAbsoluteY(this): " + TouchControllerAsia.getAbsoluteY(this) + ", this.getHeight(): " + this.getHeight() + ", getHintYOffset():" + n);
+            tpLogChannelInternal.log(10000000, "TouchController#showUserHintAnimation: rightBorderWidget: " + n4 + ", bottomBorderOfWidget: " + n5);
             iUserHintHandler.updateUserHintPos(TouchControllerAsia.getAbsoluteX(this) + this.getWidth(), TouchControllerAsia.getAbsoluteY(this) + this.getHeight() + n);
         }
     }
 
-    @Override
     protected int getHintYOffset() {
         if (this.isG22High()) {
             if (!this.isSpellerClosed()) {
@@ -1230,13 +1176,12 @@ IMenuCallback {
         return AbstractWidget.isScreenResolution800();
     }
 
-    @Override
     public void updateCandidates(String[] stringArray) {
         if (!this.isConnected()) {
             return;
         }
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#updateCandidates: new candidates (%1)", (Object)stringArray);
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#updateCandidates: new candidates (%1)", (Object)stringArray);
         }
         if (this.conversionDataFetcher instanceof ConversionDataFetcherWordPrediction) {
             String string;
@@ -1255,14 +1200,13 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void onWordPredictionServiceReady() {
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#onWordPredictionServiceReady: Word prediction service ready");
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#onWordPredictionServiceReady: Word prediction service ready");
         }
         if (this.isWordPredictionAvailable) {
             if (tpLogChannelInternal.isDebug()) {
-                tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#onWordPredictionServiceReady: switch to new data fetcher");
+                tpLogChannelInternal.log(10000000, "TouchControllerAsia#onWordPredictionServiceReady: switch to new data fetcher");
             }
             this.registerSpellerForWordPrediction();
         }
@@ -1273,7 +1217,6 @@ IMenuCallback {
         this.wordPredictionAccess.spellerConnected(this.getTouchUtil().getSystemLanguage(), stringArray);
     }
 
-    @Override
     public void setModel(Object object) {
         super.setModel(object);
         if (this.isMatchSpellerMode()) {
@@ -1281,7 +1224,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void setModel(HMIModelGUI hMIModelGUI) {
         this.setModel((Object)hMIModelGUI);
     }
@@ -1303,19 +1245,17 @@ IMenuCallback {
         return this.wordPredictionAccess != IWordPredictionAccess.NULL;
     }
 
-    @Override
     public void updateSpelling(String string) {
         if (!this.isConnected()) {
             return;
         }
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#updateSpelling: new spelling (%1)", (Object)string);
+            tpLogChannelInternal.log(10000000, "TouchControllerAsia#updateSpelling: new spelling (%1)", (Object)string);
         }
         this.partialConversionHelper.handlePartialConversion(string, this.asianTouchInputData, this.wordPredictionAccess);
         this.checkShowSpaceHint();
     }
 
-    @Override
     public void updateAutoConvertedCharacters(String string) {
         if (!this.isConnected()) {
             return;
@@ -1323,7 +1263,6 @@ IMenuCallback {
         this.asianTouchInputData.appendRegularCharacters(string, true);
     }
 
-    @Override
     public void handleError(String string) {
         tpLogChannelInternal.log(10000, "TouchControllerAsia#handleError: %1", (Object)string);
         this.handleWordPredictionOutage();
@@ -1354,7 +1293,6 @@ IMenuCallback {
         this.partialConversionHelper.setCurrentSelectedPredictionChars(string);
     }
 
-    @Override
     public void clear(boolean bl) {
         super.clear(bl);
         if (this.shouldUseWordPrediction() && !this.asianTouchInputData.hasNonRegularCharacters()) {
@@ -1362,7 +1300,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     protected void clearInputData(boolean bl) {
         if (bl) {
             this.asianTouchInputData.clearModelTriggered();
@@ -1374,7 +1311,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void onWordPredictionServiceRemoved() {
         this.handleWordPredictionOutage();
     }
@@ -1391,7 +1327,6 @@ IMenuCallback {
         this.partialConversionHelper.reset();
     }
 
-    @Override
     public boolean showJumpDownToListArrow() {
         boolean bl = super.showJumpDownToListArrow();
         return bl && this.getCurrentFocusState() != TouchControllerFocusState.CONVERSION_LINE_FOCUS;
@@ -1401,7 +1336,6 @@ IMenuCallback {
         this.toneLowerCaseButtonValidChars = string;
     }
 
-    @Override
     public void matrixPreparationFinished() {
         String string = this.asianTouchInputData.getUnconvertedCharacters();
         this.conversionMatrixModel.updateUnconvertedChars(string);
@@ -1413,7 +1347,6 @@ IMenuCallback {
         return this.partialConversionHelper;
     }
 
-    @Override
     protected void speakAutocompletion() {
         MatchspellerModelGUI matchspellerModelGUI = (MatchspellerModelGUI)this.model;
         if (!matchspellerModelGUI.isFullMatch()) {
@@ -1421,7 +1354,6 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void keepCloseMatrix() {
         this.conversionMatrixModel.setIsActivated(false);
         this.conversionMatrixModel.removeConversionMatrixPreparationFinishedListener();
@@ -1437,7 +1369,6 @@ IMenuCallback {
         return this.isWordPredictionAvailable;
     }
 
-    @Override
     protected boolean isLatinOnly() {
         boolean bl = super.isLatinOnly();
         bl |= this.getTouchpadMode() == 80 || this.getTouchpadMode() == 97;
@@ -1452,8 +1383,8 @@ IMenuCallback {
     }
 
     private boolean touchPredictionLineShowSuggestionBackground() {
-        SpellerController$ButtonItem spellerController$ButtonItem = (SpellerController$ButtonItem)this.asianSpeller.getTouchPredictionLine().getTruffleButton();
-        return this.getCurrentFocusState() == TouchControllerFocusState.TOUCH_PREDICTION_LINE_FOCUS && this.asianSpeller.getCurrentCursorTarget() == spellerController$ButtonItem && spellerController$ButtonItem.isEnabled();
+        SpellerController.ButtonItem buttonItem = (SpellerController.ButtonItem)this.asianSpeller.getTouchPredictionLine().getTruffleButton();
+        return this.getCurrentFocusState() == TouchControllerFocusState.TOUCH_PREDICTION_LINE_FOCUS && this.asianSpeller.getCurrentCursorTarget() == buttonItem && buttonItem.isEnabled();
     }
 
     private boolean conversionLineWithCandidatesShowSuggestionBackground() {
@@ -1464,38 +1395,30 @@ IMenuCallback {
         return this.getConversionLine().isSingleTruffleButtonShowed() && ConversionLineController.TRUFFLE_BUTTON_ITEM.isEnabled();
     }
 
-    @Override
     public void menuLayouted() {
         this.getConversionLine().setSizeChanged(true);
         IFingerTraceRenderer iFingerTraceRenderer = (IFingerTraceRenderer)this.fingerTraceWidget.getRenderer();
         iFingerTraceRenderer.viewSizeChanged();
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (this.isMapcodeOrMatchPhoneNumber()) {
             return;
@@ -1503,22 +1426,18 @@ IMenuCallback {
         super.touchPadPositionMoved(touchEvent);
     }
 
-    @Override
     public boolean isStartContextBasedPredictionValid() {
         return this.shouldUseWordPrediction() && !this.touchUtil.isEnglishSystemLanguage();
     }
 
-    @Override
     public int getLanguageIndicatorIconIndex() {
         return 0;
     }
 
-    @Override
     protected boolean shouldBlockJump5Rule() {
         return this.isImplicityAccept;
     }
 
-    @Override
     protected void postActionsKeyTurn() {
     }
 }

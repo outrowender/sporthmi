@@ -8,28 +8,20 @@ import de.esolutions.fw.dsi.diag.DispatcherInfo;
 import de.esolutions.fw.dsi.diag.ProviderInfo;
 
 public interface IAdapterErrorLog {
-    default public void addDispatcherError(DispatcherInfo dispatcherInfo) {
-    }
+    public void addDispatcherError(DispatcherInfo var1);
 
-    default public IInfoBase[] getDispatcherErrors() {
-    }
+    public IInfoBase[] getDispatcherErrors();
 
-    default public int getNumDroppedDispatcherErrors() {
-    }
+    public int getNumDroppedDispatcherErrors();
 
-    default public int getAbsoluteDispatcherErrors() {
-    }
+    public int getAbsoluteDispatcherErrors();
 
-    default public void addProviderError(ProviderInfo providerInfo) {
-    }
+    public void addProviderError(ProviderInfo var1);
 
-    default public IInfoBase[] getProviderErrors() {
-    }
+    public IInfoBase[] getProviderErrors();
 
-    default public int getNumDroppedProviderErrors() {
-    }
+    public int getNumDroppedProviderErrors();
 
-    default public int getAbsoluteProviderErrors() {
-    }
+    public int getAbsoluteProviderErrors();
 }
 

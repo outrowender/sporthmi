@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.ValueListStatus;
 
 public class ValueListStatusSerializer {
-    public static void putOptionalValueListStatus(ISerializer iSerializer, ValueListStatus valueListStatus) {
+    public static void putOptionalValueListStatus(ISerializer iSerializer, ValueListStatus valueListStatus) throws SerializerException {
         boolean bl = valueListStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ValueListStatusSerializer {
         }
     }
 
-    public static void putOptionalValueListStatusVarArray(ISerializer iSerializer, ValueListStatus[] valueListStatusArray) {
+    public static void putOptionalValueListStatusVarArray(ISerializer iSerializer, ValueListStatus[] valueListStatusArray) throws SerializerException {
         boolean bl = valueListStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ValueListStatusSerializer {
         }
     }
 
-    public static ValueListStatus getOptionalValueListStatus(IDeserializer iDeserializer) {
+    public static ValueListStatus getOptionalValueListStatus(IDeserializer iDeserializer) throws SerializerException {
         ValueListStatus valueListStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ValueListStatusSerializer {
         return valueListStatus;
     }
 
-    public static ValueListStatus[] getOptionalValueListStatusVarArray(IDeserializer iDeserializer) {
+    public static ValueListStatus[] getOptionalValueListStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         ValueListStatus[] valueListStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

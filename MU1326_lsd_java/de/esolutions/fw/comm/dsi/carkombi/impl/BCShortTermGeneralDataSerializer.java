@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.global.impl.CarBCSpeedSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCShortTermGeneralData;
 import org.dsi.ifc.global.CarBCDistance;
 import org.dsi.ifc.global.CarBCSpeed;
 import org.dsi.ifc.global.CarBCTime;
 
 public class BCShortTermGeneralDataSerializer {
-    public static void putOptionalBCShortTermGeneralData(ISerializer iSerializer, BCShortTermGeneralData bCShortTermGeneralData) {
+    public static void putOptionalBCShortTermGeneralData(ISerializer iSerializer, BCShortTermGeneralData bCShortTermGeneralData) throws SerializerException {
         boolean bl = bCShortTermGeneralData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BCShortTermGeneralDataSerializer {
         }
     }
 
-    public static void putOptionalBCShortTermGeneralDataVarArray(ISerializer iSerializer, BCShortTermGeneralData[] bCShortTermGeneralDataArray) {
+    public static void putOptionalBCShortTermGeneralDataVarArray(ISerializer iSerializer, BCShortTermGeneralData[] bCShortTermGeneralDataArray) throws SerializerException {
         boolean bl = bCShortTermGeneralDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BCShortTermGeneralDataSerializer {
         }
     }
 
-    public static BCShortTermGeneralData getOptionalBCShortTermGeneralData(IDeserializer iDeserializer) {
+    public static BCShortTermGeneralData getOptionalBCShortTermGeneralData(IDeserializer iDeserializer) throws SerializerException {
         BCShortTermGeneralData bCShortTermGeneralData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class BCShortTermGeneralDataSerializer {
         return bCShortTermGeneralData;
     }
 
-    public static BCShortTermGeneralData[] getOptionalBCShortTermGeneralDataVarArray(IDeserializer iDeserializer) {
+    public static BCShortTermGeneralData[] getOptionalBCShortTermGeneralDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCShortTermGeneralData[] bCShortTermGeneralDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

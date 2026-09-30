@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SwitcherDataBackForward;
 
 public class SwitcherDataBackForwardSerializer {
-    public static void putOptionalSwitcherDataBackForward(ISerializer iSerializer, SwitcherDataBackForward switcherDataBackForward) {
+    public static void putOptionalSwitcherDataBackForward(ISerializer iSerializer, SwitcherDataBackForward switcherDataBackForward) throws SerializerException {
         boolean bl = switcherDataBackForward == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class SwitcherDataBackForwardSerializer {
         }
     }
 
-    public static void putOptionalSwitcherDataBackForwardVarArray(ISerializer iSerializer, SwitcherDataBackForward[] switcherDataBackForwardArray) {
+    public static void putOptionalSwitcherDataBackForwardVarArray(ISerializer iSerializer, SwitcherDataBackForward[] switcherDataBackForwardArray) throws SerializerException {
         boolean bl = switcherDataBackForwardArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class SwitcherDataBackForwardSerializer {
         }
     }
 
-    public static SwitcherDataBackForward getOptionalSwitcherDataBackForward(IDeserializer iDeserializer) {
+    public static SwitcherDataBackForward getOptionalSwitcherDataBackForward(IDeserializer iDeserializer) throws SerializerException {
         SwitcherDataBackForward switcherDataBackForward = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class SwitcherDataBackForwardSerializer {
         return switcherDataBackForward;
     }
 
-    public static SwitcherDataBackForward[] getOptionalSwitcherDataBackForwardVarArray(IDeserializer iDeserializer) {
+    public static SwitcherDataBackForward[] getOptionalSwitcherDataBackForwardVarArray(IDeserializer iDeserializer) throws SerializerException {
         SwitcherDataBackForward[] switcherDataBackForwardArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

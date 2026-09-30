@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.media;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIRadioTaggingReply;
 import de.esolutions.fw.comm.dsi.media.impl.DSIRadioTaggingReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIRadioTaggingReply {
         super(n, (class$org$dsi$ifc$media$DSIRadioTaggingListener == null ? (class$org$dsi$ifc$media$DSIRadioTaggingListener = DSIRadioTaggingDispatcher.class$("org.dsi.ifc.media.DSIRadioTaggingListener")) : class$org$dsi$ifc$media$DSIRadioTaggingListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void tagResult(int n) {
+    public void tagResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIRadioTaggingReply {
         }
     }
 
-    @Override
-    public void updateCompatibleDevAvail(int n, int n2) {
+    public void updateCompatibleDevAvail(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -73,8 +71,7 @@ implements DSIRadioTaggingReply {
         }
     }
 
-    @Override
-    public void groupTagsResult(int n, int n2) {
+    public void groupTagsResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -90,8 +87,7 @@ implements DSIRadioTaggingReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -107,14 +103,13 @@ implements DSIRadioTaggingReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIRadioTaggingListener dSIRadioTaggingListener = (DSIRadioTaggingListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIRadioTaggingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIRadioTaggingDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIRadioTaggingListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIRadioTaggingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIRadioTaggingDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIRadioTaggingListener, new Object[]{string, string2});
                     continue;
                 }

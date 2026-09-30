@@ -22,9 +22,9 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.balancefader.ValuePair;
 public class BalanceFaderRendererHigh
 extends AbstractRendererHigh
 implements IBalanceFaderRenderer {
-    private static final float VISIBLE;
-    private static final float INVISIBLE;
-    private static final int BACKGROUND_IMAGE_INDEX;
+    private static final float VISIBLE = 1.0f;
+    private static final float INVISIBLE = 0.0f;
+    private static final int BACKGROUND_IMAGE_INDEX = 0;
     private static boolean isProjectMerged;
     private static IWrappedNode3D rootNodeOnscreen;
     private static INode2D rootNodeOffscreen;
@@ -40,7 +40,6 @@ implements IBalanceFaderRenderer {
         this.propertyCache = new EALPropertyCache();
     }
 
-    @Override
     public void disconnect() {
         this.destroyBackgroundImage();
         this.removeRootNodeFromScenegraph();
@@ -69,7 +68,6 @@ implements IBalanceFaderRenderer {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.shouldRender() || this.controller.getOpacity() == 0.0f) {
             return;
@@ -89,7 +87,7 @@ implements IBalanceFaderRenderer {
             rootNodeOnscreen = new WrappedNode3D(this.getEALManager().getShortcutNode3D("balanceFader_OnScreenRoot"), 1.0f, 1.0f, false, 0, this.isLTR());
             rootNodeOffscreen = this.getEALManager().getShortcutNode2D("balanceFader_ViewportOffScreen");
         } else {
-            logBalanceFader.log(-2137614336, "BalanceFaderRendererHigh#loadResources: project already merged");
+            logBalanceFader.log(10000000, "BalanceFaderRendererHigh#loadResources: project already merged");
         }
         this.backgroundNode = new WrappedNode3D(this.getEALManager().getShortcutNode3D("balanceFader_Background_Texture"), 1.0f, 1.0f, false, 0, this.isLTR());
         INode3D iNode3D = rootNodeOnscreen.getNode().getParent();
@@ -98,21 +96,21 @@ implements IBalanceFaderRenderer {
         }
         iNode3D.dispose();
         redrawContextHigh.parentNode.getNode().add(rootNodeOnscreen.getNode());
-        logBalanceFader.log(1078071040, "BalanceFaderRendererHigh#loadResources: resources loaded");
+        logBalanceFader.log(1000000, "BalanceFaderRendererHigh#loadResources: resources loaded");
         this.resourcesLoaded = true;
     }
 
     private void mergeKzbProject() {
-        logBalanceFader.log(1078071040, "BalanceFaderRendererHigh#loadResources: merging project");
+        logBalanceFader.log(1000000, "BalanceFaderRendererHigh#loadResources: merging project");
         int n = this.getInitContext().getScreenID();
         INode2D iNode2D = this.getEALManager().mergeProject(2, 180, n);
         if (iNode2D == null) {
-            logBalanceFader.log(1078071040, "BalanceFaderRendererHigh#loadResources: could not merge project");
+            logBalanceFader.log(1000000, "BalanceFaderRendererHigh#loadResources: could not merge project");
             return;
         }
         this.disposeNode(iNode2D);
         isProjectMerged = true;
-        logBalanceFader.log(1078071040, "BalanceFaderRendererHigh#loadResources: project merged");
+        logBalanceFader.log(1000000, "BalanceFaderRendererHigh#loadResources: project merged");
     }
 
     private void disposeNode(INode iNode) {
@@ -131,7 +129,7 @@ implements IBalanceFaderRenderer {
 
     private void applyProperties() {
         if (!this.resourcesLoaded) {
-            logBalanceFader.log(1078071040, "BalanceFaderRendererHigh#applyProperties: could not apply properties: resources not loaded");
+            logBalanceFader.log(1000000, "BalanceFaderRendererHigh#applyProperties: could not apply properties: resources not loaded");
             return;
         }
         if (!this.isInitialized) {
@@ -153,7 +151,7 @@ implements IBalanceFaderRenderer {
         if (textureDescription != null) {
             this.backgroundImage = this.getEALManager().createImage3D(this.backgroundNode, "BalanceFaderInterieur", textureDescription, 0, true, (Object)this);
             if (this.backgroundImage == null) {
-                logBalanceFader.log(1078071040, "BalanceFaderRendererHigh#applyBackgroundImage texture null ");
+                logBalanceFader.log(1000000, "BalanceFaderRendererHigh#applyBackgroundImage texture null ");
             }
         }
     }
@@ -231,7 +229,6 @@ implements IBalanceFaderRenderer {
         return "BalanceFader";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

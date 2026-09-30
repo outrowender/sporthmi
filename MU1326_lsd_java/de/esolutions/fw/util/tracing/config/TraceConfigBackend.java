@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class TraceConfigBackend
 extends TraceConfigElement {
-    private static final String chn;
+    private static final String chn = "ConfigBackend";
     private final TraceConfigLevels levels;
 
     public TraceConfigBackend(String string, ConfigValue configValue, TraceConfig traceConfig) {
@@ -35,15 +35,15 @@ extends TraceConfigElement {
             try {
                 Class clazz = Class.forName(string);
                 ITraceBackend iTraceBackend = (ITraceBackend)clazz.newInstance();
-                TraceMe.msg(TraceMe.INFO, "ConfigBackend", "created backend instance of %1 for %2", string, this.getName());
+                TraceMe.msg(TraceMe.INFO, chn, "created backend instance of %1 for %2", string, this.getName());
                 return iTraceBackend;
             }
             catch (ClassNotFoundException classNotFoundException) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigBackend", "backend class %1 NOT FOUND!", string);
+                TraceMe.msg(TraceMe.ERROR, chn, "backend class %1 NOT FOUND!", string);
                 return null;
             }
             catch (Exception exception) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigBackend", "can't instantiate backend class %1: %2", string, exception);
+                TraceMe.msg(TraceMe.ERROR, chn, "can't instantiate backend class %1: %2", string, exception);
                 return null;
             }
         }
@@ -51,19 +51,19 @@ extends TraceConfigElement {
         if (string2 != null) {
             ITraceBackend iTraceBackend = BackendRegistry.getInstance().createBackend(string2);
             if (iTraceBackend == null) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigBackend", "can't create default backend: %1", string2);
+                TraceMe.msg(TraceMe.ERROR, chn, "can't create default backend: %1", string2);
                 return null;
             }
-            TraceMe.msg(TraceMe.INFO, "ConfigBackend", "created backend instance of %1 for %2", string2, this.getName());
+            TraceMe.msg(TraceMe.INFO, chn, "created backend instance of %1 for %2", string2, this.getName());
             return iTraceBackend;
         }
         String string3 = this.getName();
         ITraceBackend iTraceBackend = BackendRegistry.getInstance().createBackend(string3);
         if (iTraceBackend != null) {
-            TraceMe.msg(TraceMe.INFO, "ConfigBackend", "created backend instance of %1 for %2", string3, this.getName());
+            TraceMe.msg(TraceMe.INFO, chn, "created backend instance of %1 for %2", string3, this.getName());
             return iTraceBackend;
         }
-        TraceMe.msg(TraceMe.ERROR, "ConfigBackend", "ignoring backend %1: neither class nor javaClass given!", this.getName());
+        TraceMe.msg(TraceMe.ERROR, chn, "ignoring backend %1: neither class nor javaClass given!", this.getName());
         return null;
     }
 

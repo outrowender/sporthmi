@@ -23,10 +23,10 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.entdrawer.EntertainmentDrawerS
 public class SplitGlassplateRendererHigh
 extends AbstractKanziTemplateRenderer
 implements GlassplateRenderer {
-    private static final String EAL_NODE_NAME;
-    private static final int MIN_SDS_GLASSPLATE_HEIGHT;
-    private static final int PARKING_DISCLAIMER_Y_OFFSET_OPENED;
-    private static final int PARKING_DISCLAIMER_Y_OFFSET_CLOSED;
+    private static final String EAL_NODE_NAME = "entdrawer_splitglasspane";
+    private static final int MIN_SDS_GLASSPLATE_HEIGHT = 20;
+    private static final int PARKING_DISCLAIMER_Y_OFFSET_OPENED = 8;
+    private static final int PARKING_DISCLAIMER_Y_OFFSET_CLOSED = 3;
     private final SplitGlassplateController controller;
     private IWrappedTexture blackBackgroundTexture;
     protected IWrappedNode3D sdsGlassplate = null;
@@ -36,7 +36,6 @@ implements GlassplateRenderer {
         this.controller = splitGlassplateController;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
         if (this.node == null) {
@@ -62,7 +61,6 @@ implements GlassplateRenderer {
         return this.blackBackgroundTexture;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -76,13 +74,13 @@ implements GlassplateRenderer {
         this.node.setPosition(f2, bl ? 0.0f : (float)n2, 0.0f);
         this.setProperty("gp_contentFBOwidth", SplitGlassplateRendererHigh.getOffscreenWidth());
         this.setProperty("gp_contentFBOheight", SplitGlassplateRendererHigh.getOffscreenHeight());
-        logChannel.log(-2137614336, "SplitGlassplateRendererHigh#applyProperties set offscreenFBOSize width: %1, height: %2", (long)SplitGlassplateRendererHigh.getOffscreenWidth(), (long)SplitGlassplateRendererHigh.getOffscreenHeight());
+        logChannel.log(10000000, "SplitGlassplateRendererHigh#applyProperties set offscreenFBOSize width: %1, height: %2", (long)SplitGlassplateRendererHigh.getOffscreenWidth(), (long)SplitGlassplateRendererHigh.getOffscreenHeight());
         this.setProperty("gp_width", n3);
         this.setProperty("gp_height", n4);
         this.setProperty("gp_separatorPos", this.controller.getSeparatorPosition());
         this.setProperty("gp_SDS_commandline_small", bl ? 1.0f : 0.0f);
         if (entertainmentDrawerState2 != null && entertainmentDrawerState2.getContent() != null && EntertainmentDrawerContentManager.isAPSAudioSource(entertainmentDrawerState2.getContent().getAudioSource())) {
-            this.setProperty("gp_headerOffsetY", 16450);
+            this.setProperty("gp_headerOffsetY", 48.0f);
         } else {
             this.setProperty("gp_headerOffsetY", 0.0f);
         }
@@ -104,24 +102,21 @@ implements GlassplateRenderer {
             this.sdsGlassplate = this.getEALManager().createTemplateInstanceNode(this.node, string, 0.0f, 0.0f, 6, "Prefabs/generic_glassPlate_entertainmentDrawer_commands", this.getInitContext().getScreenID());
         }
         if (this.sdsGlassplate != null && this.sdsGlassplate.isValid()) {
-            this.sdsGlassplate.setVisible(bl && entertainmentDrawerState.getYTranslation() > 41025);
+            this.sdsGlassplate.setVisible(bl && entertainmentDrawerState.getYTranslation() > 20.0f);
             if (bl) {
-                this.propertyCache.setProperty(this.sdsGlassplate, "gp_height", Math.max(entertainmentDrawerState.getYTranslation(), (float)41025));
+                this.propertyCache.setProperty(this.sdsGlassplate, "gp_height", Math.max(entertainmentDrawerState.getYTranslation(), 20.0f));
                 this.propertyCache.setProperty(this.sdsGlassplate, "gp_width", (float)n);
             }
         }
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void applyPropertiesParking(int n, EntertainmentDrawerState entertainmentDrawerState) {
         int n2 = 0;
         int n3 = 0;
         boolean bl = false;
         AbstractWidgetController abstractWidgetController = this.controller.getDisclaimer();
         if (abstractWidgetController != null && (bl = abstractWidgetController.isVisible())) {
-            n2 = (int)((float)(-abstractWidgetController.getHeight()) + (entertainmentDrawerState.getYTranslation() > 41025 ? (int)(-entertainmentDrawerState.getYTranslation() + 65) : 16448));
+            n2 = (int)((float)(-abstractWidgetController.getHeight()) + (entertainmentDrawerState.getYTranslation() > 20.0f ? -entertainmentDrawerState.getYTranslation() + 8.0f : 3.0f));
             n3 = abstractWidgetController.getHeight();
             abstractWidgetController.setBounds(-n / 2, n2, n, abstractWidgetController.getHeight());
         }
@@ -141,22 +136,18 @@ implements GlassplateRenderer {
         }
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/generic_glassPlate_entertainmentDrawer";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "entdrawer_splitglasspane";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public void disconnect() {
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {
@@ -173,7 +164,6 @@ implements GlassplateRenderer {
     public void setSDSCommandLineValue(float f2) {
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

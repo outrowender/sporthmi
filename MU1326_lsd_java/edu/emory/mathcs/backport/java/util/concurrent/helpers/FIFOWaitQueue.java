@@ -4,7 +4,6 @@
 package edu.emory.mathcs.backport.java.util.concurrent.helpers;
 
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.WaitQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.helpers.WaitQueue$WaitNode;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,86 +11,79 @@ import java.util.Collection;
 public class FIFOWaitQueue
 extends WaitQueue
 implements Serializable {
-    private static final long serialVersionUID;
-    protected transient WaitQueue$WaitNode head_ = null;
-    protected transient WaitQueue$WaitNode tail_ = null;
+    private static final long serialVersionUID = 2416444691925378811L;
+    protected transient WaitQueue.WaitNode head_ = null;
+    protected transient WaitQueue.WaitNode tail_ = null;
 
-    @Override
-    public void insert(WaitQueue$WaitNode waitQueue$WaitNode) {
+    public void insert(WaitQueue.WaitNode waitNode) {
         if (this.tail_ == null) {
-            this.head_ = this.tail_ = waitQueue$WaitNode;
+            this.head_ = this.tail_ = waitNode;
         } else {
-            this.tail_.next = waitQueue$WaitNode;
-            this.tail_ = waitQueue$WaitNode;
+            this.tail_.next = waitNode;
+            this.tail_ = waitNode;
         }
     }
 
-    @Override
-    public WaitQueue$WaitNode extract() {
+    public WaitQueue.WaitNode extract() {
         if (this.head_ == null) {
             return null;
         }
-        WaitQueue$WaitNode waitQueue$WaitNode = this.head_;
-        this.head_ = waitQueue$WaitNode.next;
+        WaitQueue.WaitNode waitNode = this.head_;
+        this.head_ = waitNode.next;
         if (this.head_ == null) {
             this.tail_ = null;
         }
-        waitQueue$WaitNode.next = null;
-        return waitQueue$WaitNode;
+        waitNode.next = null;
+        return waitNode;
     }
 
-    @Override
-    public void putBack(WaitQueue$WaitNode waitQueue$WaitNode) {
-        waitQueue$WaitNode.next = this.head_;
-        this.head_ = waitQueue$WaitNode;
+    public void putBack(WaitQueue.WaitNode waitNode) {
+        waitNode.next = this.head_;
+        this.head_ = waitNode;
         if (this.tail_ == null) {
-            this.tail_ = waitQueue$WaitNode;
+            this.tail_ = waitNode;
         }
     }
 
-    @Override
     public boolean hasNodes() {
         return this.head_ != null;
     }
 
-    @Override
     public int getLength() {
         int n = 0;
-        WaitQueue$WaitNode waitQueue$WaitNode = this.head_;
-        while (waitQueue$WaitNode != null) {
-            if (waitQueue$WaitNode.waiting) {
+        WaitQueue.WaitNode waitNode = this.head_;
+        while (waitNode != null) {
+            if (waitNode.waiting) {
                 ++n;
             }
-            waitQueue$WaitNode = waitQueue$WaitNode.next;
+            waitNode = waitNode.next;
         }
         return n;
     }
 
-    @Override
     public Collection getWaitingThreads() {
         ArrayList arrayList = new ArrayList();
         boolean bl = false;
-        WaitQueue$WaitNode waitQueue$WaitNode = this.head_;
-        while (waitQueue$WaitNode != null) {
-            if (waitQueue$WaitNode.waiting) {
-                arrayList.add(waitQueue$WaitNode.owner);
+        WaitQueue.WaitNode waitNode = this.head_;
+        while (waitNode != null) {
+            if (waitNode.waiting) {
+                arrayList.add(waitNode.owner);
             }
-            waitQueue$WaitNode = waitQueue$WaitNode.next;
+            waitNode = waitNode.next;
         }
         return arrayList;
     }
 
-    @Override
     public boolean isWaiting(Thread thread) {
         if (thread == null) {
             throw new NullPointerException();
         }
-        WaitQueue$WaitNode waitQueue$WaitNode = this.head_;
-        while (waitQueue$WaitNode != null) {
-            if (waitQueue$WaitNode.waiting && waitQueue$WaitNode.owner == thread) {
+        WaitQueue.WaitNode waitNode = this.head_;
+        while (waitNode != null) {
+            if (waitNode.waiting && waitNode.owner == thread) {
                 return true;
             }
-            waitQueue$WaitNode = waitQueue$WaitNode.next;
+            waitNode = waitNode.next;
         }
         return false;
     }

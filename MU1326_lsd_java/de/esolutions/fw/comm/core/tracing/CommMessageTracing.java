@@ -13,16 +13,16 @@ import de.esolutions.fw.util.tracing.TraceChannel;
 import de.esolutions.fw.util.transport.buffer.TransportBuffer;
 
 public class CommMessageTracing {
-    public static final short UNDEFINED_AGENT_ID;
-    public static final short UNDEFINED_ENTITY_ID;
-    public static final int TRUNCATED_PAYLOAD_SIZE;
-    public static final byte COMM_TRACING_PROTOCOL_V0;
-    public static final byte COMM_TRACING_PROTOCOL_V1;
-    public static final byte COMM_TRACING_PROTOCOL_V2;
-    public static final byte FLAG_REPLY;
-    public static final byte FLAG_RELATED;
-    public static final byte FLAG_UUID;
-    public static final byte FLAG_IKEY;
+    public static final short UNDEFINED_AGENT_ID = 0;
+    public static final short UNDEFINED_ENTITY_ID = -1;
+    public static final int TRUNCATED_PAYLOAD_SIZE = 1024;
+    public static final byte COMM_TRACING_PROTOCOL_V0 = 0;
+    public static final byte COMM_TRACING_PROTOCOL_V1 = 1;
+    public static final byte COMM_TRACING_PROTOCOL_V2 = 2;
+    public static final byte FLAG_REPLY = 1;
+    public static final byte FLAG_RELATED = 2;
+    public static final byte FLAG_UUID = 4;
+    public static final byte FLAG_IKEY = 8;
     private byte version = 1;
     private byte flagMask = 0;
     private int truncatedPayloadSize = 1024;
@@ -90,7 +90,7 @@ public class CommMessageTracing {
         this.log(traceChannel, iStreamSerializer, s, proxy.getProxyID(), s2, subBuffer, by, serviceInstanceID, serviceInstanceID2, n);
     }
 
-    private SubBuffer createHeader(IStreamSerializer iStreamSerializer, short s, short s2, short s3, byte by, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2, int n) {
+    private SubBuffer createHeader(IStreamSerializer iStreamSerializer, short s, short s2, short s3, byte by, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2, int n) throws SerializerException {
         int n2;
         TransportBuffer transportBuffer = new TransportBuffer(128);
         iStreamSerializer.attachBuffer(transportBuffer);

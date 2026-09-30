@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.kombisync.impl;
 import de.esolutions.fw.comm.dsi.kombisync.impl.MenuContextSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync.KombiDisplayStatus;
 import org.dsi.ifc.kombisync.MenuContext;
 
 public class KombiDisplayStatusSerializer {
-    public static void putOptionalKombiDisplayStatus(ISerializer iSerializer, KombiDisplayStatus kombiDisplayStatus) {
+    public static void putOptionalKombiDisplayStatus(ISerializer iSerializer, KombiDisplayStatus kombiDisplayStatus) throws SerializerException {
         boolean bl = kombiDisplayStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class KombiDisplayStatusSerializer {
         }
     }
 
-    public static void putOptionalKombiDisplayStatusVarArray(ISerializer iSerializer, KombiDisplayStatus[] kombiDisplayStatusArray) {
+    public static void putOptionalKombiDisplayStatusVarArray(ISerializer iSerializer, KombiDisplayStatus[] kombiDisplayStatusArray) throws SerializerException {
         boolean bl = kombiDisplayStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class KombiDisplayStatusSerializer {
         }
     }
 
-    public static KombiDisplayStatus getOptionalKombiDisplayStatus(IDeserializer iDeserializer) {
+    public static KombiDisplayStatus getOptionalKombiDisplayStatus(IDeserializer iDeserializer) throws SerializerException {
         KombiDisplayStatus kombiDisplayStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -81,7 +82,7 @@ public class KombiDisplayStatusSerializer {
         return kombiDisplayStatus;
     }
 
-    public static KombiDisplayStatus[] getOptionalKombiDisplayStatusVarArray(IDeserializer iDeserializer) {
+    public static KombiDisplayStatus[] getOptionalKombiDisplayStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         KombiDisplayStatus[] kombiDisplayStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

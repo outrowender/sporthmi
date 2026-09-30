@@ -23,22 +23,22 @@ public class ServerSocket {
     private boolean isBound = false;
     private boolean isClosed = false;
 
-    public ServerSocket() {
+    public ServerSocket() throws IOException {
         this.impl = factory != null ? factory.createSocketImpl() : new PlainServerSocketImpl();
     }
 
-    public ServerSocket(int n) {
+    public ServerSocket(int n) throws IOException {
         this(n, ServerSocket.defaultBacklog(), InetAddress.ANY);
     }
 
-    public ServerSocket(int n, int n2) {
+    public ServerSocket(int n, int n2) throws IOException {
         this(n, n2, InetAddress.ANY);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public ServerSocket(int n, int n2, InetAddress inetAddress) {
+    public ServerSocket(int n, int n2, InetAddress inetAddress) throws IOException {
         this.checkListen(n);
         this.impl = factory != null ? factory.createSocketImpl() : new PlainServerSocketImpl();
         InetAddress inetAddress2 = inetAddress == null ? InetAddress.ANY : inetAddress;
@@ -61,7 +61,7 @@ public class ServerSocket {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public Socket accept() {
+    public Socket accept() throws IOException {
         this.checkClosedAndCreate(false);
         if (!this.isBound()) {
             throw new SocketException(Msg.getString("K031f"));
@@ -106,7 +106,7 @@ public class ServerSocket {
     }
 
     void checkListen(int n) {
-        if (n < 0 || n > -65536) {
+        if (n < 0 || n > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0325", n));
         }
         SecurityManager securityManager = System.getSecurityManager();
@@ -115,7 +115,7 @@ public class ServerSocket {
         }
     }
 
-    public void close() {
+    public void close() throws IOException {
         this.isClosed = true;
         this.impl.close();
     }
@@ -138,17 +138,17 @@ public class ServerSocket {
         return this.impl.getLocalPort();
     }
 
-    public synchronized int getSoTimeout() {
+    public synchronized int getSoTimeout() throws IOException {
         this.checkClosedAndCreate(true);
         return (Integer)this.impl.getOption(4102);
     }
 
-    protected final void implAccept(Socket socket) {
+    protected final void implAccept(Socket socket) throws IOException {
         this.impl.accept(socket.impl);
         socket.accepted();
     }
 
-    public static synchronized void setSocketFactory(SocketImplFactory socketImplFactory) {
+    public static synchronized void setSocketFactory(SocketImplFactory socketImplFactory) throws IOException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSetFactory();
@@ -159,7 +159,7 @@ public class ServerSocket {
         factory = socketImplFactory;
     }
 
-    public synchronized void setSoTimeout(int n) {
+    public synchronized void setSoTimeout(int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (n < 0) {
             throw new IllegalArgumentException(Msg.getString("K0036"));
@@ -176,14 +176,14 @@ public class ServerSocket {
         return stringBuffer.append("addr=").append(this.getInetAddress()).append(",port=0,localport=").append(this.getLocalPort()).append("]").toString();
     }
 
-    public void bind(SocketAddress socketAddress) {
+    public void bind(SocketAddress socketAddress) throws IOException {
         this.bind(socketAddress, ServerSocket.defaultBacklog());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void bind(SocketAddress socketAddress, int n) {
+    public void bind(SocketAddress socketAddress, int n) throws IOException {
         Object object;
         this.checkClosedAndCreate(true);
         if (this.isBound()) {
@@ -193,7 +193,7 @@ public class ServerSocket {
         InetAddress inetAddress = InetAddress.ANY;
         if (socketAddress != null) {
             if (!(socketAddress instanceof InetSocketAddress)) {
-                throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+                throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
             }
             object = (InetSocketAddress)socketAddress;
             inetAddress = ((InetSocketAddress)object).getAddress();
@@ -237,7 +237,7 @@ public class ServerSocket {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void checkClosedAndCreate(boolean bl) {
+    private void checkClosedAndCreate(boolean bl) throws SocketException {
         if (this.isClosed()) {
             throw new SocketException(Msg.getString("K003d"));
         }
@@ -262,17 +262,17 @@ public class ServerSocket {
         }
     }
 
-    public void setReuseAddress(boolean bl) {
+    public void setReuseAddress(boolean bl) throws SocketException {
         this.checkClosedAndCreate(true);
         this.impl.setOption(4, bl ? Boolean.TRUE : Boolean.FALSE);
     }
 
-    public boolean getReuseAddress() {
+    public boolean getReuseAddress() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Boolean)this.impl.getOption(4);
     }
 
-    public void setReceiveBufferSize(int n) {
+    public void setReceiveBufferSize(int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (n < 1) {
             throw new IllegalArgumentException(Msg.getString("K0035"));
@@ -280,7 +280,7 @@ public class ServerSocket {
         this.impl.setOption(4098, new Integer(n));
     }
 
-    public int getReceiveBufferSize() {
+    public int getReceiveBufferSize() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Integer)this.impl.getOption(4098);
     }

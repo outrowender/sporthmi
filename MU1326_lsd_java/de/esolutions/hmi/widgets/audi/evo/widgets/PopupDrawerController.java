@@ -9,34 +9,36 @@ import de.audi.atip.hmi.event.WheelButtonEvent;
 import de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerRenderer;
-import de.esolutions.hmi.widgets.audi.evo.widgets.PopupDrawerController$1;
 
 public class PopupDrawerController
 extends ContainerController {
-    @Override
     protected void initializeWidget() {
-        this.getDrawerFocusManager().registerPopupDrawerAction(new PopupDrawerController$1(this));
+        this.getDrawerFocusManager().registerPopupDrawerAction(new Runnable(){
+
+            public void run() {
+                PopupDrawerController.this.closePopupDrawer();
+                PopupDrawerController.this.triggerRepaint();
+            }
+        });
     }
 
-    @Override
     protected void destroyWidget() {
         this.getDrawerFocusManager().registerPopupDrawerAction(null);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (this.isDrawerOpened()) {
             if (this.isDrawerKey(n)) {
-                logDrawerFocusMain.log(1078071040, "PopupDrawerController#keyPressed closing popup drawer because drawer key pressed");
+                logDrawerFocusMain.log(1000000, "PopupDrawerController#keyPressed closing popup drawer because drawer key pressed");
                 this.closePopupDrawer();
                 keyEvent.consume();
                 return;
             }
-            logDrawerFocusMain.log(-2137614336, "PopupDrawerController#keyPressed processing events by children");
+            logDrawerFocusMain.log(10000000, "PopupDrawerController#keyPressed processing events by children");
             super.keyPressed(keyEvent);
             if (!keyEvent.isConsumed() && PopupDrawerController.isBackKey(n)) {
-                logDrawerFocusMain.log(1078071040, "PopupDrawerController#keyPressed closing popup drawer because back key pressed");
+                logDrawerFocusMain.log(1000000, "PopupDrawerController#keyPressed closing popup drawer because back key pressed");
                 this.closePopupDrawer();
                 keyEvent.consume();
                 return;
@@ -44,12 +46,12 @@ extends ContainerController {
             return;
         }
         if (this.isOptionDrawerKey(n) && this.areAllDrawersClosed()) {
-            logDrawerFocusMain.log(1078071040, "PopupDrawerController#keyPressed opening popup drawer because option drawer key pressed");
+            logDrawerFocusMain.log(1000000, "PopupDrawerController#keyPressed opening popup drawer because option drawer key pressed");
             this.openPopupDrawer();
             keyEvent.consume();
             return;
         }
-        logDrawerFocusMain.log(-2137614336, "PopupDrawerController#keyPressed not processing event %1", (Object)keyEvent);
+        logDrawerFocusMain.log(10000000, "PopupDrawerController#keyPressed not processing event %1", (Object)keyEvent);
     }
 
     public void closePopupDrawer() {
@@ -69,27 +71,26 @@ extends ContainerController {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         int n = joystickEvent.getDirection();
         if (this.isDrawerOpened()) {
             if (this.isDrawerDirection(n)) {
-                logDrawerFocusMain.log(1078071040, "PopupDrawerController#keyMoved closing popup drawer because key moved");
+                logDrawerFocusMain.log(1000000, "PopupDrawerController#keyMoved closing popup drawer because key moved");
                 this.closePopupDrawer();
                 joystickEvent.consume();
                 return;
             }
-            logDrawerFocusMain.log(-2137614336, "PopupDrawerController#keyMoved processing events by children");
+            logDrawerFocusMain.log(10000000, "PopupDrawerController#keyMoved processing events by children");
             super.keyPressed(joystickEvent);
             return;
         }
         if (this.isOptionDrawerDirection(n) && this.areAllDrawersClosed()) {
-            logDrawerFocusMain.log(1078071040, "PopupDrawerController#keyMoved opening popup drawer because key moved");
+            logDrawerFocusMain.log(1000000, "PopupDrawerController#keyMoved opening popup drawer because key moved");
             this.openPopupDrawer();
             joystickEvent.consume();
             return;
         }
-        logDrawerFocusMain.log(-2137614336, "PopupDrawerController#keyMoved not processing event %1", (Object)joystickEvent);
+        logDrawerFocusMain.log(10000000, "PopupDrawerController#keyMoved not processing event %1", (Object)joystickEvent);
     }
 
     private boolean isDrawerOpened() {
@@ -126,7 +127,6 @@ extends ContainerController {
         return n == 15;
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (this.isDrawerOpened()) {
             super.keyReleased(keyEvent);
@@ -134,7 +134,6 @@ extends ContainerController {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.isDrawerOpened()) {
             super.keyTurned(wheelButtonEvent);

@@ -8,131 +8,121 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIKombiPictureServer
 extends DSIBase {
-    public static final String VERSION;
-    public static final int SOURCETYPE_NOSOURCE;
-    public static final int SOURCETYPE_FM;
-    public static final int SOURCETYPE_AM;
-    public static final int SOURCETYPE_DAB;
-    public static final int SOURCETYPE_SDARS_XM;
-    public static final int SOURCETYPE_SDARS_SIRIUS;
-    public static final int SOURCETYPE_CD;
-    public static final int SOURCETYPE_CD_CHANGER;
-    public static final int SOURCETYPE_DVD;
-    public static final int SOURCETYPE_TV;
-    public static final int SOURCETYPE_HDD;
-    public static final int SOURCETYPE_SD;
-    public static final int SOURCETYPE_TPMEMO_TIM;
-    public static final int SOURCETYPE_AUX_IN_AUDIO;
-    public static final int SOURCETYPE_AUX_IN_VIDEO;
-    public static final int SOURCETYPE_PORTABLE_DEVICE;
-    public static final int SOURCETYPE_GENERIC_PLAYER;
-    public static final int SOURCETYPE_AM_TI;
-    public static final int SOURCETYPE_DVD_CHANGER;
-    public static final int SOURCETYPE_USB;
-    public static final int SOURCETYPE_JUKEBOX;
-    public static final int SOURCETYPE_BT_STREAM;
-    public static final int SOURCETYPE_BT_RCP;
-    public static final int SOURCETYPE_DVB_VIDEO;
-    public static final int SOURCETYPE_DVB_AUDIO;
-    public static final int SOURCETYPE_FLASHMEMORY;
-    public static final int SOURCETYPE_AUX_IN_VIDEO_TV;
-    public static final int SOURCETYPE_HDMI;
-    public static final int SOURCETYPE_ONLINE_MASS_STORAGE;
-    public static final int SOURCETYPE_ONLINE_RADIO;
-    public static final int SOURCETYPE_UNKNOWN;
-    public static final int COVERARTTYPE_NOPICTURE;
-    public static final int COVERARTTYPE_NORMAL;
-    public static final int COVERARTTYPE_DEFAULT;
-    public static final int ICONTYPE_ACTIVESOURCE;
-    public static final int ICONTYPE_SOURCELIST;
-    public static final int PHONEINSTANCE_MAIN;
-    public static final int PHONEINSTANCE_FIRST;
-    public static final int PHONEINSTANCE_SECOND;
-    public static final int PHONEINSTANCE_THIRD;
-    public static final int ID_INVALID;
-    public static final int ID_UNKNOWN;
-    public static final int ADDRESSTYPE_BAP;
-    public static final int ADDRESSTYPE_MOST;
-    public static final int IDTYPE_COVERART;
-    public static final int IDTYPE_ADDRESSBOOKCONTACT;
-    public static final int IDTYPE_STATIONART;
-    public static final int CALLID_NOCALL;
-    public static final int CALLID_UNKNOWN;
-    public static final int ACTIVECALLPICTURETYPE_NOPICTURE;
-    public static final int ACTIVECALLPICTURETYPE_CONTACT;
-    public static final int ACTIVECALLPICTURETYPE_INFO;
-    public static final int ACTIVECALLPICTURETYPE_SERVICE;
-    public static final int ACTIVECALLPICTURETYPE_EMERGENCY;
-    public static final int ACTIVECALLPICTURETYPE_CONFERENCE;
-    public static final int ACTIVECALLPICTURETYPE_DEFAULT;
-    public static final int ADBCONTACTPICTURETYPES_NOPICTURE;
-    public static final int ADBCONTACTPICTURETYPES_CONTACT;
-    public static final int ADBCONTACTPICTURETYPES_DEFAULT;
-    public static final int STATIONARTTYPE_NOPICTURE;
-    public static final int STATIONARTTYPE_NORMAL;
-    public static final int STATIONARTTYPE_DEFAULT;
-    public static final int RT_SETKOMBIHMIREADY;
-    public static final int RT_RESPONSECOVERART;
-    public static final int RT_RESPONSESTATIONART;
-    public static final int RT_RESPONSEACTIVECALLPICTURE;
-    public static final int RT_RESPONSEADBCONTACTPICTURE;
-    public static final int RT_RESPONSEINTERNALADDRESSID;
-    public static final int RT_RESPONSEPICTURESERVERABILITIES;
-    public static final int RT_RESPONSEPICTURESTREAM;
-    public static final int RT_RESPONSEACTIVECALLPICTUREINSTANCE;
-    public static final int RT_RESPONSEDYNAMICICON;
-    public static final int IN_INDICATIONCOVERART;
-    public static final int IN_INDICATIONSTATIONART;
-    public static final int IN_INDICATIONACTIVECALLPICTURE;
-    public static final int IN_INDICATIONINTERNALADDRESSID;
-    public static final int IN_INDICATIONADBCONTACTPICTURE;
-    public static final int IN_INDICATIONPICTURESTREAMABILITIES;
-    public static final int IN_INDICATIONPICTURESTREAM;
-    public static final int IN_INDICATIONACTIVECALLPICTUREINSTANCE;
-    public static final int IN_INDICATIONDYNAMICICON;
-    public static final int AVAILABLEPICTURESOURCES_ONLINEAVAILABLE;
-    public static final int AVAILABLEPICTURESOURCES_AUDIOAVAILABLE;
-    public static final int AVAILABLEPICTURESOURCES_NAVIGATIONAVAILABLE;
-    public static final int AVAILABLEPICTURESOURCES_TELEPHONEAVAILABLE;
-    public static final int AVAILABLEPICTURESOURCES_PICNAVAVAILABLE;
-    public static final int AVAILABLEPICTURESOURCES_BRANDINGAVAILABLE;
-    public static final int LISTPOSTYPE_ARBITRARY;
-    public static final int LISTPOSTYPE_8BYTE;
-    public static final int PSSOURCETYPE_ONLINE;
-    public static final int PSSOURCETYPE_AUDIO;
-    public static final int PSSOURCETYPE_NAVIGATION;
-    public static final int PSSOURCETYPE_TELEPHONE;
-    public static final int PSSOURCETYPE_PICNAV;
-    public static final int PSSOURCETYPE_BRANDING;
+    public static final String VERSION = "2.11.4";
+    public static final int SOURCETYPE_NOSOURCE = 0;
+    public static final int SOURCETYPE_FM = 1;
+    public static final int SOURCETYPE_AM = 2;
+    public static final int SOURCETYPE_DAB = 3;
+    public static final int SOURCETYPE_SDARS_XM = 4;
+    public static final int SOURCETYPE_SDARS_SIRIUS = 5;
+    public static final int SOURCETYPE_CD = 6;
+    public static final int SOURCETYPE_CD_CHANGER = 7;
+    public static final int SOURCETYPE_DVD = 8;
+    public static final int SOURCETYPE_TV = 9;
+    public static final int SOURCETYPE_HDD = 10;
+    public static final int SOURCETYPE_SD = 11;
+    public static final int SOURCETYPE_TPMEMO_TIM = 12;
+    public static final int SOURCETYPE_AUX_IN_AUDIO = 13;
+    public static final int SOURCETYPE_AUX_IN_VIDEO = 14;
+    public static final int SOURCETYPE_PORTABLE_DEVICE = 15;
+    public static final int SOURCETYPE_GENERIC_PLAYER = 16;
+    public static final int SOURCETYPE_AM_TI = 17;
+    public static final int SOURCETYPE_DVD_CHANGER = 18;
+    public static final int SOURCETYPE_USB = 19;
+    public static final int SOURCETYPE_JUKEBOX = 20;
+    public static final int SOURCETYPE_BT_STREAM = 21;
+    public static final int SOURCETYPE_BT_RCP = 22;
+    public static final int SOURCETYPE_DVB_VIDEO = 23;
+    public static final int SOURCETYPE_DVB_AUDIO = 24;
+    public static final int SOURCETYPE_FLASHMEMORY = 25;
+    public static final int SOURCETYPE_AUX_IN_VIDEO_TV = 32;
+    public static final int SOURCETYPE_HDMI = 33;
+    public static final int SOURCETYPE_ONLINE_MASS_STORAGE = 28;
+    public static final int SOURCETYPE_ONLINE_RADIO = 35;
+    public static final int SOURCETYPE_UNKNOWN = 255;
+    public static final int COVERARTTYPE_NOPICTURE = 0;
+    public static final int COVERARTTYPE_NORMAL = 1;
+    public static final int COVERARTTYPE_DEFAULT = 2;
+    public static final int ICONTYPE_ACTIVESOURCE = 0;
+    public static final int ICONTYPE_SOURCELIST = 1;
+    public static final int PHONEINSTANCE_MAIN = 0;
+    public static final int PHONEINSTANCE_FIRST = 1;
+    public static final int PHONEINSTANCE_SECOND = 2;
+    public static final int PHONEINSTANCE_THIRD = 3;
+    public static final int ID_INVALID = 0;
+    public static final int ID_UNKNOWN = 65535;
+    public static final int ADDRESSTYPE_BAP = 0;
+    public static final int ADDRESSTYPE_MOST = 1;
+    public static final int IDTYPE_COVERART = 0;
+    public static final int IDTYPE_ADDRESSBOOKCONTACT = 1;
+    public static final int IDTYPE_STATIONART = 2;
+    public static final int CALLID_NOCALL = 254;
+    public static final int CALLID_UNKNOWN = 255;
+    public static final int ACTIVECALLPICTURETYPE_NOPICTURE = 0;
+    public static final int ACTIVECALLPICTURETYPE_CONTACT = 1;
+    public static final int ACTIVECALLPICTURETYPE_INFO = 2;
+    public static final int ACTIVECALLPICTURETYPE_SERVICE = 3;
+    public static final int ACTIVECALLPICTURETYPE_EMERGENCY = 4;
+    public static final int ACTIVECALLPICTURETYPE_CONFERENCE = 5;
+    public static final int ACTIVECALLPICTURETYPE_DEFAULT = 6;
+    public static final int ADBCONTACTPICTURETYPES_NOPICTURE = 0;
+    public static final int ADBCONTACTPICTURETYPES_CONTACT = 1;
+    public static final int ADBCONTACTPICTURETYPES_DEFAULT = 2;
+    public static final int STATIONARTTYPE_NOPICTURE = 0;
+    public static final int STATIONARTTYPE_NORMAL = 1;
+    public static final int STATIONARTTYPE_DEFAULT = 2;
+    public static final int RT_SETKOMBIHMIREADY = 1000;
+    public static final int RT_RESPONSECOVERART = 1001;
+    public static final int RT_RESPONSESTATIONART = 1002;
+    public static final int RT_RESPONSEACTIVECALLPICTURE = 1003;
+    public static final int RT_RESPONSEADBCONTACTPICTURE = 1004;
+    public static final int RT_RESPONSEINTERNALADDRESSID = 1006;
+    public static final int RT_RESPONSEPICTURESERVERABILITIES = 1007;
+    public static final int RT_RESPONSEPICTURESTREAM = 1008;
+    public static final int RT_RESPONSEACTIVECALLPICTUREINSTANCE = 1009;
+    public static final int RT_RESPONSEDYNAMICICON = 1010;
+    public static final int IN_INDICATIONCOVERART = 3000;
+    public static final int IN_INDICATIONSTATIONART = 3001;
+    public static final int IN_INDICATIONACTIVECALLPICTURE = 3002;
+    public static final int IN_INDICATIONINTERNALADDRESSID = 3003;
+    public static final int IN_INDICATIONADBCONTACTPICTURE = 3004;
+    public static final int IN_INDICATIONPICTURESTREAMABILITIES = 3005;
+    public static final int IN_INDICATIONPICTURESTREAM = 3006;
+    public static final int IN_INDICATIONACTIVECALLPICTUREINSTANCE = 3007;
+    public static final int IN_INDICATIONDYNAMICICON = 3008;
+    public static final int AVAILABLEPICTURESOURCES_ONLINEAVAILABLE = 1;
+    public static final int AVAILABLEPICTURESOURCES_AUDIOAVAILABLE = 2;
+    public static final int AVAILABLEPICTURESOURCES_NAVIGATIONAVAILABLE = 4;
+    public static final int AVAILABLEPICTURESOURCES_TELEPHONEAVAILABLE = 8;
+    public static final int AVAILABLEPICTURESOURCES_PICNAVAVAILABLE = 16;
+    public static final int AVAILABLEPICTURESOURCES_BRANDINGAVAILABLE = 32;
+    public static final int LISTPOSTYPE_ARBITRARY = 0;
+    public static final int LISTPOSTYPE_8BYTE = 1;
+    public static final int PSSOURCETYPE_ONLINE = 0;
+    public static final int PSSOURCETYPE_AUDIO = 1;
+    public static final int PSSOURCETYPE_NAVIGATION = 2;
+    public static final int PSSOURCETYPE_TELEPHONE = 3;
+    public static final int PSSOURCETYPE_PICNAV = 4;
+    public static final int PSSOURCETYPE_BRANDING = 5;
 
-    default public void setKombiHmiReady() {
-    }
+    public void setKombiHmiReady();
 
-    default public void responseCoverArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseCoverArt(long var1, int var3, int var4, int var5, ResourceLocator var6);
 
-    default public void responseStationArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseStationArt(long var1, int var3, int var4, int var5, ResourceLocator var6);
 
-    default public void responseActiveCallPicture(int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void responseActiveCallPicture(int var1, int var2, ResourceLocator var3);
 
-    default public void responseActiveCallPictureInstance(int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseActiveCallPictureInstance(int var1, int var2, int var3, ResourceLocator var4);
 
-    default public void responseDynamicIcon(int n, int n2, boolean bl, ResourceLocator resourceLocator) {
-    }
+    public void responseDynamicIcon(int var1, int var2, boolean var3, ResourceLocator var4);
 
-    default public void responseAdbContactPicture(long l, int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void responseAdbContactPicture(long var1, int var3, int var4, ResourceLocator var5);
 
-    default public void responseInternalAddressID(long l, int n, int n2) {
-    }
+    public void responseInternalAddressID(long var1, int var3, int var4);
 
-    default public void responsePictureServerAbilities(int n) {
-    }
+    public void responsePictureServerAbilities(int var1);
 
-    default public void responsePictureStream(int n, short s, short s2, int n2, int n3, byte[] byArray) {
-    }
+    public void responsePictureStream(int var1, short var2, short var3, int var4, int var5, byte[] var6);
 }
 

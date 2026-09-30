@@ -28,11 +28,10 @@ Runnable {
     public TSSpawnTransportFactory(String string, String string2) {
         this.mountPoint = string;
         this.fileName = string2;
-        this.path = new StringBuffer().append(string).append("/spawn/").append(string2).toString();
+        this.path = string + "/spawn/" + string2;
     }
 
-    @Override
-    public void enableSpawning() {
+    public void enableSpawning() throws IOException {
         if (this.isEnabled) {
             return;
         }
@@ -45,7 +44,6 @@ Runnable {
         this.isEnabled = true;
     }
 
-    @Override
     public void disableSpawning() {
         if (!this.isEnabled) {
             return;
@@ -67,12 +65,10 @@ Runnable {
         }
     }
 
-    @Override
     public void setListener(ISpawnedTransportListener iSpawnedTransportListener) {
         this.listener = iSpawnedTransportListener;
     }
 
-    @Override
     public void run() {
         while (!this.stopNow) {
             try {
@@ -90,9 +86,8 @@ Runnable {
         }
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[TSP:listen=").append(this.path).append("]").toString();
+        return "[TSP:listen=" + this.path + "]";
     }
 }
 

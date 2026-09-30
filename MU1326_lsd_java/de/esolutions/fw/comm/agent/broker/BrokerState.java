@@ -6,13 +6,13 @@ package de.esolutions.fw.comm.agent.broker;
 import de.esolutions.fw.comm.agent.tracing.CommAgentTracing;
 
 public class BrokerState {
-    public static final int DISCONNECTED;
-    public static final int CONNECTING;
-    public static final int SETTING_UP;
-    public static final int WAITING_FOR_ALIVE;
-    public static final int OPERATIONAL;
-    public static final int PERM_ERROR;
-    public static final int SHUTTING_DOWN;
+    public static final int DISCONNECTED = 0;
+    public static final int CONNECTING = 1;
+    public static final int SETTING_UP = 2;
+    public static final int WAITING_FOR_ALIVE = 3;
+    public static final int OPERATIONAL = 4;
+    public static final int PERM_ERROR = 5;
+    public static final int SHUTTING_DOWN = 6;
     private final String[] names = new String[]{"DISCONNECTED", "CONNECTING", "SETTING_UP", "WAITING_FOR_ALIVE", "OPERATIONAL", "PERM_ERROR", "SHUTTING_DOWN"};
     private int state = 0;
     private String errorString;
@@ -50,7 +50,7 @@ public class BrokerState {
 
     public synchronized String toString() {
         if (this.errorString != null) {
-            return new StringBuffer().append(this.names[this.state]).append(": ").append(this.errorString).toString();
+            return this.names[this.state] + ": " + this.errorString;
         }
         return this.names[this.state];
     }

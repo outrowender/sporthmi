@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.radio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.radio.DSIDABTunerReply;
 import de.esolutions.fw.comm.dsi.radio.impl.DSIDABTunerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -36,13 +37,11 @@ implements DSIDABTunerReply {
         super(n, (class$org$dsi$ifc$radio$DSIDABTunerListener == null ? (class$org$dsi$ifc$radio$DSIDABTunerListener = DSIDABTunerDispatcher.class$("org.dsi.ifc.radio.DSIDABTunerListener")) : class$org$dsi$ifc$radio$DSIDABTunerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSelectedEnsemble(EnsembleInfo ensembleInfo, int n) {
+    public void updateSelectedEnsemble(EnsembleInfo ensembleInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -70,8 +69,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedService(ServiceInfo serviceInfo, int n) {
+    public void updateSelectedService(ServiceInfo serviceInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -99,8 +97,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedComponent(ComponentInfo componentInfo, int n) {
+    public void updateSelectedComponent(ComponentInfo componentInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -128,8 +125,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedFrequency(FrequencyInfo frequencyInfo, int n) {
+    public void updateSelectedFrequency(FrequencyInfo frequencyInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -157,8 +153,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateEnsembleList(EnsembleInfo[] ensembleInfoArray, int n) {
+    public void updateEnsembleList(EnsembleInfo[] ensembleInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -186,8 +181,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) {
+    public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -215,8 +209,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateComponentList(ComponentInfo[] componentInfoArray, int n) {
+    public void updateComponentList(ComponentInfo[] componentInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -244,8 +237,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateDataServiceList(DataServiceInfo[] dataServiceInfoArray, int n) {
+    public void updateDataServiceList(DataServiceInfo[] dataServiceInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -273,8 +265,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateFrequencyList(FrequencyInfo[] frequencyInfoArray, int n) {
+    public void updateFrequencyList(FrequencyInfo[] frequencyInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -302,8 +293,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateRadioText(DABRadioText dABRadioText, int n) {
+    public void updateRadioText(DABRadioText dABRadioText, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -331,8 +321,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateSyncStatus(int n, int n2) {
+    public void updateSyncStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -360,8 +349,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateQuality(short s, int n) {
+    public void updateQuality(short s, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -389,8 +377,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateDRCSwitchStatus(boolean bl, int n) {
+    public void updateDRCSwitchStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -418,8 +405,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateLinkingSwitchStatus(int n, int n2) {
+    public void updateLinkingSwitchStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -447,8 +433,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateFrequencyTableSwitchStatus(int n, int n2) {
+    public void updateFrequencyTableSwitchStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -476,8 +461,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateLinkingStatus(int n, int n2) {
+    public void updateLinkingStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -505,8 +489,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateLinkingUsageStatus(int n, int n2) {
+    public void updateLinkingUsageStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -534,8 +517,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateAudioStatus(AudioStatus audioStatus, int n) {
+    public void updateAudioStatus(AudioStatus audioStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -563,8 +545,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateDetectedDevice(int n, int n2) {
+    public void updateDetectedDevice(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -592,8 +573,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateQualityInfo(String string, int n) {
+    public void updateQualityInfo(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -621,8 +601,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void selectServiceStatus(int n) {
+    public void selectServiceStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -638,8 +617,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void seekServiceStatus(int n) {
+    public void seekServiceStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -655,8 +633,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void tuneEnsembleStatus(int n) {
+    public void tuneEnsembleStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -672,8 +649,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void selectDataServiceStatus(int n) {
+    public void selectDataServiceStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -689,8 +665,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateRadioTextPlusInfo(DABRadioTextPlusInfo dABRadioTextPlusInfo, int n) {
+    public void updateRadioTextPlusInfo(DABRadioTextPlusInfo dABRadioTextPlusInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -718,8 +693,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateDecodedDataService(DataServiceInfo dataServiceInfo, boolean bl, String string, int n) {
+    public void updateDecodedDataService(DataServiceInfo dataServiceInfo, boolean bl, String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -747,8 +721,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void forceLMUpdateStatus(int n) {
+    public void forceLMUpdateStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -764,8 +737,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void prepareTuningStatus(int n) {
+    public void prepareTuningStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -781,8 +753,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateEpgLogo(int[] nArray, ResourceLocator[] resourceLocatorArray, int n) {
+    public void updateEpgLogo(int[] nArray, ResourceLocator[] resourceLocatorArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -810,8 +781,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateEpgLogoList(EPGLogo[] ePGLogoArray, int n) {
+    public void updateEpgLogoList(EPGLogo[] ePGLogoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -839,8 +809,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo, int n) {
+    public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -868,8 +837,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateAvailability(int n, int n2) {
+    public void updateAvailability(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -897,8 +865,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateIntellitext(IntellitextMenu[] intellitextMenuArray, int n) {
+    public void updateIntellitext(IntellitextMenu[] intellitextMenuArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -926,8 +893,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateEPGMode(int n, int n2) {
+    public void updateEPGMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -955,8 +921,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateEPGListData(EPGShortInfo[] ePGShortInfoArray, int n) {
+    public void updateEPGListData(EPGShortInfo[] ePGShortInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -984,8 +949,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateEPGDetailData(EPGFullInfo ePGFullInfo, int n) {
+    public void updateEPGDetailData(EPGFullInfo ePGFullInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -1013,8 +977,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1042,8 +1005,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1059,8 +1021,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1076,8 +1037,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1093,8 +1053,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1110,8 +1069,7 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1127,14 +1085,13 @@ implements DSIDABTunerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDABTunerListener dSIDABTunerListener = (DSIDABTunerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDABTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDABTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDABTunerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDABTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDABTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDABTunerListener, new Object[]{string, string2});
                     continue;
                 }

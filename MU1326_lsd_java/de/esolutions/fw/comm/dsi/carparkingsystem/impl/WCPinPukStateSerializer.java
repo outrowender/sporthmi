@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.WCPinPukState;
 
 public class WCPinPukStateSerializer {
-    public static void putOptionalWCPinPukState(ISerializer iSerializer, WCPinPukState wCPinPukState) {
+    public static void putOptionalWCPinPukState(ISerializer iSerializer, WCPinPukState wCPinPukState) throws SerializerException {
         boolean bl = wCPinPukState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class WCPinPukStateSerializer {
         }
     }
 
-    public static void putOptionalWCPinPukStateVarArray(ISerializer iSerializer, WCPinPukState[] wCPinPukStateArray) {
+    public static void putOptionalWCPinPukStateVarArray(ISerializer iSerializer, WCPinPukState[] wCPinPukStateArray) throws SerializerException {
         boolean bl = wCPinPukStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class WCPinPukStateSerializer {
         }
     }
 
-    public static WCPinPukState getOptionalWCPinPukState(IDeserializer iDeserializer) {
+    public static WCPinPukState getOptionalWCPinPukState(IDeserializer iDeserializer) throws SerializerException {
         WCPinPukState wCPinPukState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class WCPinPukStateSerializer {
         return wCPinPukState;
     }
 
-    public static WCPinPukState[] getOptionalWCPinPukStateVarArray(IDeserializer iDeserializer) {
+    public static WCPinPukState[] getOptionalWCPinPukStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         WCPinPukState[] wCPinPukStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

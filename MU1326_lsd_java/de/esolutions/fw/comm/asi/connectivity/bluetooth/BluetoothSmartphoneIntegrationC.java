@@ -3,14 +3,13 @@
  */
 package de.esolutions.fw.comm.asi.connectivity.bluetooth;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface BluetoothSmartphoneIntegrationC {
-    default public void updateSmartphoneMode(int n, String[] stringArray) {
-    }
+    public void updateSmartphoneMode(int var1, String[] var2) throws MethodException;
 
-    default public void requestLocalBluetoothAddress() {
-    }
+    public void requestLocalBluetoothAddress() throws MethodException;
 
-    default public void requestPrepareConnect(String string) {
-    }
+    public void requestPrepareConnect(String var1) throws MethodException;
 }
 

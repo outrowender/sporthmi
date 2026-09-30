@@ -3,6 +3,7 @@
  */
 package java.security;
 
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactorySpi;
 import java.security.NoSuchAlgorithmException;
@@ -11,10 +12,11 @@ import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.PublicKey;
 import java.security.Security;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 public class KeyFactory {
-    private static final String KEY_PREFIX;
+    private static final String KEY_PREFIX = "KeyFactory.";
     private String algorithmName;
     private Provider provider;
     private KeyFactorySpi keyFactorySpi;
@@ -25,7 +27,7 @@ public class KeyFactory {
         this.keyFactorySpi = keyFactorySpi;
     }
 
-    private static KeyFactory createKeyFactory(Provider provider, Class clazz, String string) {
+    private static KeyFactory createKeyFactory(Provider provider, Class clazz, String string) throws NoSuchAlgorithmException {
         try {
             KeyFactorySpi keyFactorySpi = (KeyFactorySpi)clazz.newInstance();
             return new KeyFactory(keyFactorySpi, provider, string);
@@ -36,7 +38,7 @@ public class KeyFactory {
         throw new NoSuchAlgorithmException(string);
     }
 
-    public final PrivateKey generatePrivate(KeySpec keySpec) {
+    public final PrivateKey generatePrivate(KeySpec keySpec) throws InvalidKeySpecException {
         return this.keyFactorySpi.engineGeneratePrivate(keySpec);
     }
 
@@ -44,7 +46,7 @@ public class KeyFactory {
         return this.algorithmName;
     }
 
-    public static KeyFactory getInstance(String string, String string2) {
+    public static KeyFactory getInstance(String string, String string2) throws NoSuchAlgorithmException, NoSuchProviderException {
         if (string2 == null) {
             throw new IllegalArgumentException();
         }
@@ -61,14 +63,14 @@ public class KeyFactory {
         return KeyFactory.toKeyFactoryImplementation(string, provider);
     }
 
-    public static KeyFactory getInstance(String string, Provider provider) {
+    public static KeyFactory getInstance(String string, Provider provider) throws NoSuchAlgorithmException {
         if (string == null || provider == null) {
             throw new IllegalArgumentException();
         }
         return KeyFactory.toKeyFactoryImplementation(string, provider);
     }
 
-    public final KeySpec getKeySpec(Key key, Class clazz) {
+    public final KeySpec getKeySpec(Key key, Class clazz) throws InvalidKeySpecException {
         return this.keyFactorySpi.engineGetKeySpec(key, clazz);
     }
 
@@ -84,7 +86,7 @@ public class KeyFactory {
         this.provider = provider;
     }
 
-    private static KeyFactory toKeyFactoryImplementation(String string) {
+    private static KeyFactory toKeyFactoryImplementation(String string) throws NoSuchAlgorithmException {
         Provider[] providerArray = Security.getProviders();
         int n = 0;
         while (n < providerArray.length) {
@@ -99,10 +101,10 @@ public class KeyFactory {
         throw new NoSuchAlgorithmException(string);
     }
 
-    private static KeyFactory toKeyFactoryImplementation(String string, Provider provider) {
+    private static KeyFactory toKeyFactoryImplementation(String string, Provider provider) throws NoSuchAlgorithmException {
         String string2;
         try {
-            string2 = provider.lookupProperty("KeyFactory.", string);
+            string2 = provider.lookupProperty(KEY_PREFIX, string);
         }
         catch (ClassCastException classCastException) {
             throw new NoSuchAlgorithmException(string);
@@ -111,7 +113,7 @@ public class KeyFactory {
             throw new NoSuchAlgorithmException(string);
         }
         try {
-            Class clazz = Class.forName(string2, true, super.getClass().getClassLoader());
+            Class clazz = Class.forName(string2, true, provider.getClass().getClassLoader());
             return KeyFactory.createKeyFactory(provider, clazz, string);
         }
         catch (ClassNotFoundException classNotFoundException) {
@@ -119,15 +121,15 @@ public class KeyFactory {
         }
     }
 
-    public final Key translateKey(Key key) {
+    public final Key translateKey(Key key) throws InvalidKeyException {
         return this.keyFactorySpi.engineTranslateKey(key);
     }
 
-    public final PublicKey generatePublic(KeySpec keySpec) {
+    public final PublicKey generatePublic(KeySpec keySpec) throws InvalidKeySpecException {
         return this.keyFactorySpi.engineGeneratePublic(keySpec);
     }
 
-    public static KeyFactory getInstance(String string) {
+    public static KeyFactory getInstance(String string) throws NoSuchAlgorithmException {
         if (string == null) {
             throw new IllegalArgumentException();
         }

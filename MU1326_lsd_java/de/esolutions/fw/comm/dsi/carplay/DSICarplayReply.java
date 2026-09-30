@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carplay;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carplay.AppState;
 import org.dsi.ifc.carplay.CallState;
 import org.dsi.ifc.carplay.DeviceInfo;
@@ -13,60 +14,43 @@ import org.dsi.ifc.carplay.TrackData;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSICarplayReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "da412c88-5342-52b3-9176-facb675e1711";
+    public static final String IPL_COMM_INTERFACE_KEY = "366c0fdd-ac39-51f8-b0d4-a55cea6de432";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.10";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.10";
 
-    default public void updateMode(Resource[] resourceArray, AppState[] appStateArray, int n) {
-    }
+    public void updateMode(Resource[] var1, AppState[] var2, int var3) throws MethodException;
 
-    default public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray, int n) {
-    }
+    public void responseModeChange(Resource[] var1, AppState[] var2, int var3) throws MethodException;
 
-    default public void requestBTDeactivation(String string, int n) {
-    }
+    public void requestBTDeactivation(String var1, int var2) throws MethodException;
 
-    default public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
-    }
+    public void updateDeviceInfo(DeviceInfo var1, int var2) throws MethodException;
 
-    default public void updateCallState(CallState[] callStateArray, int n) {
-    }
+    public void updateCallState(CallState[] var1, int var2) throws MethodException;
 
-    default public void updateTelephonyState(TelephonyState telephonyState, int n) {
-    }
+    public void updateTelephonyState(TelephonyState var1, int var2) throws MethodException;
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2) throws MethodException;
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2) throws MethodException;
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2) throws MethodException;
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void updateTextInputState(int n, int n2) {
-    }
+    public void updateTextInputState(int var1, int var2) throws MethodException;
 
-    default public void duckAudio(int n, double d2) {
-    }
+    public void duckAudio(int var1, double var2) throws MethodException;
 
-    default public void unduckAudio(int n) {
-    }
+    public void unduckAudio(int var1) throws MethodException;
 
-    default public void oemAppSelected() {
-    }
+    public void oemAppSelected() throws MethodException;
 
-    default public void updateMainAudioType(int n, int n2) {
-    }
+    public void updateMainAudioType(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -62,7 +62,7 @@ public class CarPosition {
     }
 
     public String toString() {
-        return new StringBuffer("CarPosition{").append("longitude=").append(this.longitude).append(", latitude=").append(this.latitude).append(", angle=").append(this.angle).append(", speed=").append(this.speed).append(", height=").append(this.height).append("}").toString();
+        return "CarPosition{" + "longitude=" + this.longitude + ", latitude=" + this.latitude + ", angle=" + this.angle + ", speed=" + this.speed + ", height=" + this.height + "}";
     }
 }
 

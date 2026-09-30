@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.DisconnectReason;
 
 public class DisconnectReasonSerializer {
-    public static void putOptionalDisconnectReason(ISerializer iSerializer, DisconnectReason disconnectReason) {
+    public static void putOptionalDisconnectReason(ISerializer iSerializer, DisconnectReason disconnectReason) throws SerializerException {
         boolean bl = disconnectReason == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DisconnectReasonSerializer {
         }
     }
 
-    public static void putOptionalDisconnectReasonVarArray(ISerializer iSerializer, DisconnectReason[] disconnectReasonArray) {
+    public static void putOptionalDisconnectReasonVarArray(ISerializer iSerializer, DisconnectReason[] disconnectReasonArray) throws SerializerException {
         boolean bl = disconnectReasonArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DisconnectReasonSerializer {
         }
     }
 
-    public static DisconnectReason getOptionalDisconnectReason(IDeserializer iDeserializer) {
+    public static DisconnectReason getOptionalDisconnectReason(IDeserializer iDeserializer) throws SerializerException {
         DisconnectReason disconnectReason = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DisconnectReasonSerializer {
         return disconnectReason;
     }
 
-    public static DisconnectReason[] getOptionalDisconnectReasonVarArray(IDeserializer iDeserializer) {
+    public static DisconnectReason[] getOptionalDisconnectReasonVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisconnectReason[] disconnectReasonArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

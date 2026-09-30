@@ -4,7 +4,6 @@
 package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.ArrayBlockingQueue$Itr;
 import edu.emory.mathcs.backport.java.util.concurrent.BlockingQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
@@ -13,12 +12,13 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayBlockingQueue
 extends AbstractQueue
 implements BlockingQueue,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -817911632652898426L;
     private final Object[] items;
     private int takeIndex;
     private int putIndex;
@@ -91,7 +91,6 @@ Serializable {
         }
     }
 
-    @Override
     public boolean add(Object object) {
         return super.add(object);
     }
@@ -99,7 +98,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offer(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -123,8 +121,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void put(Object object) {
+    public void put(Object object) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -151,8 +148,7 @@ Serializable {
     /*
      * Exception decompiling
      */
-    @Override
-    public boolean offer(Object var1_1, long var2_2, TimeUnit var4_3) {
+    public boolean offer(Object var1_1, long var2_2, TimeUnit var4_3) throws InterruptedException {
         /*
          * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
          * 
@@ -178,7 +174,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object poll() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -199,8 +194,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object take() {
+    public Object take() throws InterruptedException {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lockInterruptibly();
         try {
@@ -225,8 +219,7 @@ Serializable {
     /*
      * Exception decompiling
      */
-    @Override
-    public Object poll(long var1_1, TimeUnit var3_2) {
+    public Object poll(long var1_1, TimeUnit var3_2) throws InterruptedException {
         /*
          * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
          * 
@@ -252,7 +245,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object peek() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -268,7 +260,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int size() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -284,7 +275,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int remainingCapacity() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -297,7 +287,6 @@ Serializable {
         }
     }
 
-    @Override
     public boolean remove(Object object) {
         if (object == null) {
             return false;
@@ -329,7 +318,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean contains(Object object) {
         if (object == null) {
             return false;
@@ -358,7 +346,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray() {
         Object[] objectArray = this.items;
         ReentrantLock reentrantLock = this.lock;
@@ -382,14 +369,13 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray(Object[] objectArray) {
         Object[] objectArray2 = this.items;
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
         try {
             if (objectArray.length < this.count) {
-                objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), this.count);
+                objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), this.count);
             }
             int n = 0;
             int n2 = this.takeIndex;
@@ -411,7 +397,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String toString() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -427,7 +412,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         Object[] objectArray = this.items;
         ReentrantLock reentrantLock = this.lock;
@@ -452,7 +436,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection) {
         if (collection == null) {
             throw new NullPointerException();
@@ -489,7 +472,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection, int n) {
         if (collection == null) {
             throw new NullPointerException();
@@ -530,37 +512,92 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Iterator iterator() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
         try {
-            ArrayBlockingQueue$Itr arrayBlockingQueue$Itr = new ArrayBlockingQueue$Itr(this);
-            return arrayBlockingQueue$Itr;
+            Itr itr = new Itr();
+            return itr;
         }
         finally {
             reentrantLock.unlock();
         }
     }
 
-    static /* synthetic */ int access$000(ArrayBlockingQueue arrayBlockingQueue) {
-        return arrayBlockingQueue.count;
-    }
+    private class Itr
+    implements Iterator {
+        private int nextIndex;
+        private Object nextItem;
+        private int lastRet = -1;
 
-    static /* synthetic */ int access$100(ArrayBlockingQueue arrayBlockingQueue) {
-        return arrayBlockingQueue.takeIndex;
-    }
+        Itr() {
+            if (ArrayBlockingQueue.this.count == 0) {
+                this.nextIndex = -1;
+            } else {
+                this.nextIndex = ArrayBlockingQueue.this.takeIndex;
+                this.nextItem = ArrayBlockingQueue.this.items[ArrayBlockingQueue.this.takeIndex];
+            }
+        }
 
-    static /* synthetic */ Object[] access$200(ArrayBlockingQueue arrayBlockingQueue) {
-        return arrayBlockingQueue.items;
-    }
+        public boolean hasNext() {
+            return this.nextIndex >= 0;
+        }
 
-    static /* synthetic */ int access$300(ArrayBlockingQueue arrayBlockingQueue) {
-        return arrayBlockingQueue.putIndex;
-    }
+        private void checkNext() {
+            if (this.nextIndex == ArrayBlockingQueue.this.putIndex) {
+                this.nextIndex = -1;
+                this.nextItem = null;
+            } else {
+                this.nextItem = ArrayBlockingQueue.this.items[this.nextIndex];
+                if (this.nextItem == null) {
+                    this.nextIndex = -1;
+                }
+            }
+        }
 
-    static /* synthetic */ ReentrantLock access$400(ArrayBlockingQueue arrayBlockingQueue) {
-        return arrayBlockingQueue.lock;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public Object next() {
+            ReentrantLock reentrantLock = ArrayBlockingQueue.this.lock;
+            reentrantLock.lock();
+            try {
+                if (this.nextIndex < 0) {
+                    throw new NoSuchElementException();
+                }
+                this.lastRet = this.nextIndex;
+                Object object = this.nextItem;
+                this.nextIndex = ArrayBlockingQueue.this.inc(this.nextIndex);
+                this.checkNext();
+                Object object2 = object;
+                return object2;
+            }
+            finally {
+                reentrantLock.unlock();
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void remove() {
+            ReentrantLock reentrantLock = ArrayBlockingQueue.this.lock;
+            reentrantLock.lock();
+            try {
+                int n = this.lastRet;
+                if (n == -1) {
+                    throw new IllegalStateException();
+                }
+                this.lastRet = -1;
+                int n2 = ArrayBlockingQueue.this.takeIndex;
+                ArrayBlockingQueue.this.removeAt(n);
+                this.nextIndex = n == n2 ? ArrayBlockingQueue.this.takeIndex : n;
+                this.checkNext();
+            }
+            finally {
+                reentrantLock.unlock();
+            }
+        }
     }
 }
 

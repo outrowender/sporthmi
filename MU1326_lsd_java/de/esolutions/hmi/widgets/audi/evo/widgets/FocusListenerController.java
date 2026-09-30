@@ -15,7 +15,6 @@ extends AbstractWidgetController {
     int notificationState = 508;
     private boolean focused;
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
@@ -61,9 +60,8 @@ extends AbstractWidgetController {
         this.setState(bl, 508);
     }
 
-    @Override
     public void handleFocusChanged(int n, int n2, int n3) {
-        logDrawerFocusMain.log(-2137614336, "FocusListenerController#handleFocusChanged focusEvent=%1, drawerState=%2", (long)n, (long)n2);
+        logDrawerFocusMain.log(10000000, "FocusListenerController#handleFocusChanged focusEvent=%1, drawerState=%2", (long)n, (long)n2);
         this.focused = n == 2;
         int n4 = DrawerFocusUtil.calculateChoiceValue(n, n2, n3);
         if (this.isFireConditionMet(n4)) {
@@ -73,10 +71,10 @@ extends AbstractWidgetController {
 
     private void fireUpdateChoiceModel(int n) {
         if (logDrawerFocusMain.isDebug()) {
-            logDrawerFocusMain.log(-2137614336, "FocusListenerController#fireUpdateChoiceModel choiceValue: %2 - Bin: %1", (Object)Integer.toBinaryString(n), (long)n);
+            logDrawerFocusMain.log(10000000, "FocusListenerController#fireUpdateChoiceModel choiceValue: %2 - Bin: %1", (Object)Integer.toBinaryString(n), (long)n);
         }
         if (this.model == null || !(this.model instanceof ChoiceModelGUI)) {
-            logDrawerFocusMain.log(-1601830656, "FocusListenerController#fireUpdateChoiceModel not a ChoiceModelGUI at %1: %2", this.model, (Object)this);
+            logDrawerFocusMain.log(100000, "FocusListenerController#fireUpdateChoiceModel not a ChoiceModelGUI at %1: %2", this.model, (Object)this);
             return;
         }
         ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)this.model;
@@ -97,7 +95,6 @@ extends AbstractWidgetController {
         return bl & bl2;
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         if (this.focused) {
@@ -109,7 +106,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void initializeWidget() {
         this.focused = false;
     }

@@ -20,15 +20,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 
 public class RouteBriefingDetailsButtonController
 extends MenuItemController {
-    private static final int HEIGHT;
-    private static final int WIDTH;
+    private static final int HEIGHT = 38;
+    private static final int WIDTH = 204;
     private IconController iconDetailsButton;
     private LabelController labelDetailsButton;
     private LabelController labelDetailsButtonNumbers;
-    private static final int STEP;
+    private static final int STEP = 1;
     private boolean isSetUp = false;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (!this.isSetUp) {
@@ -71,7 +70,6 @@ extends MenuItemController {
         this.add(this.labelDetailsButtonNumbers);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (this.model != null && this.hasState(36) && keyEvent.getKeyCode() == 17) {
             ((RangeModelGUI)this.model).increment(1, this.terminal.getTerminalID());
@@ -79,22 +77,19 @@ extends MenuItemController {
         keyEvent.consume();
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
     }
 
-    @Override
     public void setFocused(boolean bl) {
         super.setFocused(bl);
-        menuItemLogCh.log(-2137614336, "RouteBriefingDetailsButton#setFocused on index = %2. Focused = %1", bl, (long)0);
+        menuItemLogCh.log(10000000, "RouteBriefingDetailsButton#setFocused on index = %2. Focused = %1", bl, 2L);
         if (bl && this.hasState(36)) {
-            ((ListModelGUI)((Object)AbstractWidget.hmiService.getModel(1125910016))).itemFocused(2, 0, this.terminal.getTerminalID());
+            ((ListModelGUI)((Object)AbstractWidget.hmiService.getModel(400451))).itemFocused(2, 0, this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        mapOverlayLogCh.log(-2137614336, "RouteBriefingDetailsButton#ModelUpdateEvent %1", (Object)modelUpdateEvent);
+        mapOverlayLogCh.log(10000000, "RouteBriefingDetailsButton#ModelUpdateEvent %1", (Object)modelUpdateEvent);
         if (modelUpdateEvent.getUpdateType() == 1 || modelUpdateEvent.getUpdateType() == 4) {
             this.updateContent();
         }
@@ -104,7 +99,7 @@ extends MenuItemController {
         if (this.model != null && this.model instanceof RangeModelGUI) {
             int n = ((RangeModelGUI)this.model).getValue();
             int n2 = ((RangeModelGUI)this.model).getMaximum();
-            this.labelDetailsButtonNumbers.setText(new StringBuffer().append(n).append(" / ").append(n2).toString());
+            this.labelDetailsButtonNumbers.setText(n + " / " + n2);
         } else {
             if (this.model == null) {
                 mapOverlayLogCh.log(10000, "RouteBriefingDetailsButtonController#updateContent: model is null value");

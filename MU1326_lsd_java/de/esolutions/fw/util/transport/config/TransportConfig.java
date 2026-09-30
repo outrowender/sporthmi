@@ -37,7 +37,7 @@ public class TransportConfig {
 
     private TransportConfig() {
         if (!this.sysConfig.isValid()) {
-            this.failString = new StringBuffer().append("No valid system config: ").append(this.sysConfig.getFailString()).toString();
+            this.failString = "No valid system config: " + this.sysConfig.getFailString();
             return;
         }
         this.doTraceConfig = this.sysConfig.doTraceConfig();
@@ -50,7 +50,7 @@ public class TransportConfig {
         this.isValid = this.parse(this.sysConfig);
         if (this.doTraceConfig) {
             long l2 = iTimeSource.getCurrentTime();
-            System.out.println(new StringBuffer().append("TransportConfig: parse time ").append(l2 - l).append(" ms").toString());
+            System.out.println("TransportConfig: parse time " + (l2 - l) + " ms");
         }
     }
 
@@ -81,7 +81,7 @@ public class TransportConfig {
     public String[] getMyReachableNodes(String string) {
         Object[] objectArray;
         int n;
-        String string2 = new StringBuffer().append(this.myProcName).append(":").append(string).append(":").toString();
+        String string2 = this.myProcName + ":" + string + ":";
         int n2 = string2.length();
         HashSet hashSet = new HashSet();
         for (n = 0; n < this.myKeys.size(); ++n) {
@@ -107,24 +107,24 @@ public class TransportConfig {
 
     public ConfigValue[] getDictsForService(String string, String string2) {
         if (this.doTraceConfig) {
-            System.out.println(new StringBuffer().append("TransportConfig.getDictsForService: service=").append(string).append(" remoteProc=").append(string2).toString());
+            System.out.println("TransportConfig.getDictsForService: service=" + string + " remoteProc=" + string2);
         }
-        String string3 = new StringBuffer().append(string2).append(":").append(string).append(":").append(this.myNodeName).toString();
+        String string3 = string2 + ":" + string + ":" + this.myNodeName;
         ConfigValue configValue = (ConfigValue)this.procServiceMap.get(string3);
-        String string4 = new StringBuffer().append(string2).append(":").append(string).append(":*").toString();
+        String string4 = string2 + ":" + string + ":*";
         ConfigValue configValue2 = (ConfigValue)this.procServiceMap.get(string4);
         if (this.doTraceConfig) {
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string3).append(" -> ").append(configValue).toString());
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string4).append(" -> ").append(configValue2).toString());
+            System.out.println("  lookup: key=" + string3 + " -> " + configValue);
+            System.out.println("  lookup: key=" + string4 + " -> " + configValue2);
         }
         String string5 = this.sysConfig.getNodeForProc(string2);
-        String string6 = new StringBuffer().append(string5).append(":").append(string).append(":").append(this.myNodeName).toString();
+        String string6 = string5 + ":" + string + ":" + this.myNodeName;
         ConfigValue configValue3 = (ConfigValue)this.nodeServiceMap.get(string6);
-        String string7 = new StringBuffer().append(string5).append(":").append(string).append(":*").toString();
+        String string7 = string5 + ":" + string + ":*";
         ConfigValue configValue4 = (ConfigValue)this.nodeServiceMap.get(string7);
         if (this.doTraceConfig) {
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string6).append(" -> ").append(configValue3).toString());
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string7).append(" -> ").append(configValue4).toString());
+            System.out.println("  lookup: key=" + string6 + " -> " + configValue3);
+            System.out.println("  lookup: key=" + string7 + " -> " + configValue4);
         }
         if (configValue == null && configValue2 == null && configValue3 == null && configValue4 == null) {
             return null;
@@ -134,26 +134,26 @@ public class TransportConfig {
 
     public ConfigValue[] getDictsForMyService(String string, String string2) {
         if (this.doTraceConfig) {
-            System.out.println(new StringBuffer().append("TransportConfig.getDictsForMyService: service=").append(string).append(" offeredNode=").append(string2).toString());
+            System.out.println("TransportConfig.getDictsForMyService: service=" + string + " offeredNode=" + string2);
         }
-        String string3 = new StringBuffer().append(this.myProcName).append(":").append(string).append(":").append(string2).toString();
+        String string3 = this.myProcName + ":" + string + ":" + string2;
         ConfigValue configValue = (ConfigValue)this.myProcServiceMap.get(string3);
-        String string4 = new StringBuffer().append(this.myProcName).append(":").append(string).append(":*").toString();
+        String string4 = this.myProcName + ":" + string + ":*";
         ConfigValue configValue2 = (ConfigValue)this.myProcServiceMap.get(string4);
         if (this.doTraceConfig) {
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string3).append(" -> ").append(configValue).toString());
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string4).append(" -> ").append(configValue2).toString());
+            System.out.println("  lookup: key=" + string3 + " -> " + configValue);
+            System.out.println("  lookup: key=" + string4 + " -> " + configValue2);
         }
         if (configValue == null && configValue2 == null) {
             return null;
         }
-        String string5 = new StringBuffer().append(this.myNodeName).append(":").append(string).append(":").append(string2).toString();
+        String string5 = this.myNodeName + ":" + string + ":" + string2;
         ConfigValue configValue3 = (ConfigValue)this.nodeServiceMap.get(string5);
-        String string6 = new StringBuffer().append(this.myNodeName).append(":").append(string).append(":*").toString();
+        String string6 = this.myNodeName + ":" + string + ":*";
         ConfigValue configValue4 = (ConfigValue)this.nodeServiceMap.get(string6);
         if (this.doTraceConfig) {
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string5).append(" -> ").append(configValue3).toString());
-            System.out.println(new StringBuffer().append("  lookup: key=").append(string6).append(" -> ").append(configValue4).toString());
+            System.out.println("  lookup: key=" + string5 + " -> " + configValue3);
+            System.out.println("  lookup: key=" + string6 + " -> " + configValue4);
         }
         if (configValue == null && configValue2 == null && configValue3 == null && configValue4 == null) {
             return null;
@@ -195,12 +195,12 @@ public class TransportConfig {
             String string = stringArray2[i2];
             stringArray = configValue.getDictValue(string);
             if (stringArray == null || !stringArray.isDictionary()) {
-                this.failString = new StringBuffer().append("Invalid node ").append(string).toString();
+                this.failString = "Invalid node " + string;
                 return false;
             }
             object5 = stringArray.getDictValue("transport");
             if (object5 == null || !((ConfigValue)object5).isDictionary()) {
-                this.failString = new StringBuffer().append("No 'transport' in node ").append(string).toString();
+                this.failString = "No 'transport' in node " + string;
                 return false;
             }
             if (!string.equals("*")) {
@@ -212,7 +212,7 @@ public class TransportConfig {
                 hashSet.add(object4);
                 object3 = ((ConfigValue)object5).getDictValue((String)object4);
                 if (object3 == null || !((ConfigValue)object3).isDictionary()) {
-                    this.failString = new StringBuffer().append("Invalid 'service' ").append(string).append(":").append((String)object4).toString();
+                    this.failString = "Invalid 'service' " + string + ":" + (String)object4;
                     return false;
                 }
                 String[] stringArray4 = ((ConfigValue)object3).getAllDictKeys();
@@ -220,12 +220,12 @@ public class TransportConfig {
                     String string2 = stringArray4[i4];
                     object2 = ((ConfigValue)object3).getDictValue(string2);
                     if (object2 == null || !((ConfigValue)object2).isDictionary()) {
-                        this.failString = new StringBuffer().append("Invalid target 'node' in ").append(string).append(":").append((String)object4).append(":").append(string2).toString();
+                        this.failString = "Invalid target 'node' in " + string + ":" + (String)object4 + ":" + string2;
                         return false;
                     }
-                    object = new StringBuffer().append(string).append(":").append((String)object4).append(":").append(string2).toString();
+                    object = string + ":" + (String)object4 + ":" + string2;
                     if (this.doTraceConfig) {
-                        System.out.println(new StringBuffer().append("TransportConfig: node '").append((String)object).append("' is ").append(object2).toString());
+                        System.out.println("TransportConfig: node '" + (String)object + "' is " + object2);
                     }
                     this.nodeServiceMap.put(object, object2);
                     if (string2.equals("*")) continue;
@@ -244,7 +244,7 @@ public class TransportConfig {
             ConfigValue configValue3 = configValue2.getArrayValue(i5);
             if (configValue3 == null || (object4 = configValue3.getDictValue("transport")) == null) continue;
             if (!((ConfigValue)object4).isDictionary()) {
-                this.failString = new StringBuffer().append("Invalid transport in proc ").append(stringArray[i5]).toString();
+                this.failString = "Invalid transport in proc " + stringArray[i5];
                 return false;
             }
             object3 = stringArray[i5];
@@ -258,7 +258,7 @@ public class TransportConfig {
                 hashSet.add(object2);
                 object = ((ConfigValue)object4).getDictValue((String)object2);
                 if (object == null || !((ConfigValue)object).isDictionary()) {
-                    this.failString = new StringBuffer().append("Invalid 'service' ").append((String)object2).append(" in proc ").append(stringArray[i5]).toString();
+                    this.failString = "Invalid 'service' " + (String)object2 + " in proc " + stringArray[i5];
                     return false;
                 }
                 String[] stringArray6 = ((ConfigValue)object).getAllDictKeys();
@@ -266,19 +266,19 @@ public class TransportConfig {
                     String string = stringArray6[i7];
                     ConfigValue configValue4 = ((ConfigValue)object).getDictValue(string);
                     if (configValue4 == null || !configValue4.isDictionary()) {
-                        this.failString = new StringBuffer().append("Invalid target 'node' in ").append((String)object3).append(":").append((String)object2).append(":").append(string).toString();
+                        this.failString = "Invalid target 'node' in " + (String)object3 + ":" + (String)object2 + ":" + string;
                         return false;
                     }
-                    String string3 = new StringBuffer().append((String)object3).append(":").append((String)object2).append(":").append(string).toString();
+                    String string3 = (String)object3 + ":" + (String)object2 + ":" + string;
                     if (bl) {
                         if (this.doTraceConfig) {
-                            System.out.println(new StringBuffer().append("TransportConfig: mine '").append(string3).append("' is ").append(configValue4).toString());
+                            System.out.println("TransportConfig: mine '" + string3 + "' is " + configValue4);
                         }
                         this.myProcServiceMap.put(string3, configValue4);
                         this.myKeys.add(string3);
                     } else {
                         if (this.doTraceConfig) {
-                            System.out.println(new StringBuffer().append("TransportConfig: '").append(string3).append("' is ").append(configValue4).toString());
+                            System.out.println("TransportConfig: '" + string3 + "' is " + configValue4);
                         }
                         this.procServiceMap.put(string3, configValue4);
                     }

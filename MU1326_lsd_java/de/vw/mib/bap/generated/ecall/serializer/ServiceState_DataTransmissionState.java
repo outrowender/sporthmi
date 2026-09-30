@@ -38,12 +38,10 @@ implements BAPEntity {
         this.mdsMinimumDataSetSentViaSmsSuccessfully = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceState_DataTransmissionState serviceState_DataTransmissionState = (ServiceState_DataTransmissionState)bAPEntity;
         return this.dataTransmissionViaInbandModemFailed == serviceState_DataTransmissionState.dataTransmissionViaInbandModemFailed && this.dataSentViaInbandModemSuccessfully == serviceState_DataTransmissionState.dataSentViaInbandModemSuccessfully && this.dataTransmissionViaIpConnectionFailed == serviceState_DataTransmissionState.dataTransmissionViaIpConnectionFailed && this.dataSentSuccessfully == serviceState_DataTransmissionState.dataSentSuccessfully && this.mdsReceptionOnBackEndFailed == serviceState_DataTransmissionState.mdsReceptionOnBackEndFailed && this.mdsReceivedOnBackEndSuccessfully == serviceState_DataTransmissionState.mdsReceivedOnBackEndSuccessfully && this.mdsTransmissionViaSmsFailedE_g_NoNet == serviceState_DataTransmissionState.mdsTransmissionViaSmsFailedE_g_NoNet && this.mdsMinimumDataSetSentViaSmsSuccessfully == serviceState_DataTransmissionState.mdsMinimumDataSetSentViaSmsSuccessfully;
@@ -52,7 +50,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceState_DataTransmissionState");
@@ -67,12 +64,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.dataTransmissionViaInbandModemFailed);
         bitStream.pushBoolean(this.dataSentViaInbandModemSuccessfully);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.mdsMinimumDataSetSentViaSmsSuccessfully);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.dataTransmissionViaInbandModemFailed = bitStream.popFrontBoolean();
         this.dataSentViaInbandModemSuccessfully = bitStream.popFrontBoolean();

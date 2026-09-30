@@ -3,59 +3,43 @@
  */
 package de.esolutions.fw.comm.dsi.telephone;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSINADC {
-    default public void requestNetworkRegistration(String string, int n) {
-    }
+    public void requestNetworkRegistration(String var1, int var2) throws MethodException;
 
-    default public void requestAbortNetworkRegistration() {
-    }
+    public void requestAbortNetworkRegistration() throws MethodException;
 
-    default public void requestNetworkSearch() {
-    }
+    public void requestNetworkSearch() throws MethodException;
 
-    default public void requestAbortNetworkSearch() {
-    }
+    public void requestAbortNetworkSearch() throws MethodException;
 
-    default public void requestSetAutomaticPinEntryActive(boolean bl) {
-    }
+    public void requestSetAutomaticPinEntryActive(boolean var1) throws MethodException;
 
-    default public void requestTelPower(int n) {
-    }
+    public void requestTelPower(int var1) throws MethodException;
 
-    default public void requestUnlockSIM(int n, String string, String string2) {
-    }
+    public void requestUnlockSIM(int var1, String var2, String var3) throws MethodException;
 
-    default public void requestCheckSIMPINCode(String string) {
-    }
+    public void requestCheckSIMPINCode(String var1) throws MethodException;
 
-    default public void requestChangeSIMCode(int n, String string, String string2) {
-    }
+    public void requestChangeSIMCode(int var1, String var2, String var3) throws MethodException;
 
-    default public void requestSIMPINRequired(String string, boolean bl) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2) throws MethodException;
 
-    default public void restoreFactorySettings() {
-    }
+    public void restoreFactorySettings() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

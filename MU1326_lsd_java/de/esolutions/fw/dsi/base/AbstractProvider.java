@@ -9,7 +9,6 @@ import de.esolutions.fw.comm.core.IServiceWorker;
 import de.esolutions.fw.comm.core.Lifecycle;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.dsi.admin.IProviderService;
-import de.esolutions.fw.dsi.base.AbstractProvider$SlowReconnect;
 import de.esolutions.fw.dsi.base.AbstractProviderBase;
 import de.esolutions.fw.dsi.base.IDispatcher;
 import de.esolutions.fw.dsi.base.IProvider;
@@ -42,7 +41,7 @@ IProviderStateListener {
     private static final Timer reconnectTimer = new Timer();
     private ProviderState providerState = new ProviderState();
     private int slowReconnectTimeout;
-    private AbstractProvider$SlowReconnect reconnectTask;
+    private SlowReconnect reconnectTask;
     private boolean registered;
     protected int maxFastsReconnects = 10;
     protected int slowReconnectTimeoutStartVal = 1000;
@@ -92,13 +91,10 @@ IProviderStateListener {
         this.providerState.setListener(this);
     }
 
-    protected abstract Proxy createNewProxy() {
-    }
+    protected abstract Proxy createNewProxy();
 
-    protected abstract Proxy getProxy() {
-    }
+    protected abstract Proxy getProxy();
 
-    @Override
     public int getInstance() {
         int n = -1;
         if (this.getProxy() != null) {
@@ -107,12 +103,10 @@ IProviderStateListener {
         return n;
     }
 
-    @Override
     public final void addProviderStateListener(IProviderStateListener iProviderStateListener) {
         this.stateListeners.add(iProviderStateListener);
     }
 
-    @Override
     public final void removeProviderStateListener(IProviderStateListener iProviderStateListener) {
         this.stateListeners.remove(iProviderStateListener);
     }
@@ -122,7 +116,6 @@ IProviderStateListener {
         this.slowReconnectTimeout = this.slowReconnectTimeoutStartVal;
     }
 
-    @Override
     public void onConnecting(IProvider iProvider) {
         this.tracer.log((short)2, "ProviderState connecting");
         for (int i2 = 0; i2 < this.stateListeners.size(); ++i2) {
@@ -131,11 +124,10 @@ IProviderStateListener {
         }
     }
 
-    @Override
     public void onConnected(IProvider iProvider) {
         this.resetProxyReconnection();
         this.tracer.log((short)2, "ProviderState connected");
-        if (this.providerService.checkAndClearStopFlag(super.getClass().getName(), this.instance)) {
+        if (this.providerService.checkAndClearStopFlag(this.getClass().getName(), this.instance)) {
             this.tracer.log((short)2, "Provider connected but stop flag set disconnect");
             IDSIServiceWorker iDSIServiceWorker = this.stopProvider();
             this.providerService.stopServiceWorker(iDSIServiceWorker);
@@ -150,7 +142,6 @@ IProviderStateListener {
         }
     }
 
-    @Override
     public void onConnectionFailed(IProvider iProvider) {
         this.tracer.log((short)2, "ProviderState connection failed");
         for (int i2 = 0; i2 < this.stateListeners.size(); ++i2) {
@@ -160,7 +151,6 @@ IProviderStateListener {
         this.reconnectProxy();
     }
 
-    @Override
     public void onConnectionLost(IProvider iProvider) {
         this.tracer.log((short)2, "ProviderState connection lost");
         for (int i2 = 0; i2 < this.stateListeners.size(); ++i2) {
@@ -175,7 +165,6 @@ IProviderStateListener {
         this.tracer.log((short)1, "onConnectionLost: connectProxy !");
     }
 
-    @Override
     public void onDisconnected(IProvider iProvider) {
         this.tracer.log((short)2, "ProviderState disconnected");
         try {
@@ -183,7 +172,7 @@ IProviderStateListener {
             this.tracer.log((short)0, "COMM Proxy Listener unregistered: name=%1, instance=%2", (Object)this.getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
         }
         catch (Exception exception) {
-            this.tracer.log((short)4, "Error during COMM Proxy Listener unregistration: className=%1, instance=%2, error=%3", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
+            this.tracer.log((short)4, "Error during COMM Proxy Listener unregistration: className=%1, instance=%2, error=%3", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
             this.addProviderError("Error during COMM Proxy Listener unregistration");
         }
         for (int i2 = 0; i2 < this.stateListeners.size(); ++i2) {
@@ -192,7 +181,6 @@ IProviderStateListener {
         }
     }
 
-    @Override
     public void onDisconnecting(IProvider iProvider) {
         this.tracer.log((short)2, "ProviderState disconnecting");
         for (int i2 = 0; i2 < this.stateListeners.size(); ++i2) {
@@ -204,12 +192,10 @@ IProviderStateListener {
         this.disconnectProxy();
     }
 
-    @Override
     public final ProviderState getProviderState() {
         return this.providerState;
     }
 
-    @Override
     public final void startProvider(boolean bl, IDSIServiceWorker iDSIServiceWorker) {
         if (!this.providerState.startService()) {
             this.tracer.log((short)4, "Wrong provider state, cannot start provider: name=%1, instance=%2", (Object)this.getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
@@ -229,7 +215,6 @@ IProviderStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final IDSIServiceWorker stopProvider() {
         if (!this.providerState.stopService()) {
             this.tracer.log((short)4, "Wrong provider state, cannot stop provider: name=%1, instance=%2", (Object)this.getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
@@ -257,12 +242,12 @@ IProviderStateListener {
                 this.tracer.log((short)2, "DSI Dispatcher registered with service worker: instance=%1, worker=%2", (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)iServiceWorker.toString());
             } else {
                 this.agent.registerService(this.dispatcher.getService());
-                this.tracer.log((short)2, "DSI Dispatcher registered without special service worker: className=%1, instance=%2", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
+                this.tracer.log((short)2, "DSI Dispatcher registered without special service worker: className=%1, instance=%2", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
             }
-            this.tracer.log((short)2, "DSI Dispatcher registered as COMM service: className=%1, instance=%2", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
+            this.tracer.log((short)2, "DSI Dispatcher registered as COMM service: className=%1, instance=%2", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
         }
         catch (Exception exception) {
-            this.tracer.log((short)4, "Error during DSI Dispatcher COMM service registration: className=%1, instance=%2, error=%3", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
+            this.tracer.log((short)4, "Error during DSI Dispatcher COMM service registration: className=%1, instance=%2, error=%3", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
             this.addProviderError("Error during DSI Dispatcher COMM service registration");
         }
     }
@@ -273,7 +258,7 @@ IProviderStateListener {
             this.tracer.log((short)0, "COMM Proxy Listener registered: name=%1, instance=%2", (Object)this.getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
         }
         catch (Exception exception) {
-            this.tracer.log((short)4, "Error during COMM Proxy Listener registration: className=%1, instance=%2, error=%3", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
+            this.tracer.log((short)4, "Error during COMM Proxy Listener registration: className=%1, instance=%2, error=%3", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
             this.addProviderError("Error during COMM Proxy Listener registration");
         }
         boolean bl = this.getProxy().connectAsync();
@@ -297,7 +282,7 @@ IProviderStateListener {
                 this.tracer.log((short)2, "DSI Provider registered as OSGi service: service=%1, instance=%2", (Object)string, (Object)new Integer(n));
             }
             catch (Exception exception) {
-                this.tracer.log((short)4, "Problem during DSI Provider OSGi service registration: serviceName=%1, className=%2, instance=%3, error=%4", (Object)this.getName(), (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
+                this.tracer.log((short)4, "Problem during DSI Provider OSGi service registration: serviceName=%1, className=%2, instance=%3, error=%4", (Object)this.getName(), (Object)this.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
                 this.addProviderError("Problem during DSI Provider OSGi service registration");
             }
             this.registered = true;
@@ -321,15 +306,14 @@ IProviderStateListener {
     private final void unregisterDispatcher() {
         try {
             this.agent.unregisterService(this.dispatcher.getService());
-            this.tracer.log((short)2, "DSI Dispatcher unregistered as COMM service: className=%1, instance=%2", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
+            this.tracer.log((short)2, "DSI Dispatcher unregistered as COMM service: className=%1, instance=%2", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()));
         }
         catch (Exception exception) {
-            this.tracer.log((short)4, "Error during DSI Dispatcher COMM service unregistration: className=%1, instance=%2, error=%3", (Object)super.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
+            this.tracer.log((short)4, "Error during DSI Dispatcher COMM service unregistration: className=%1, instance=%2, error=%3", (Object)this.dispatcher.getClass().getName(), (Object)Integer.toString(this.getProxy().getInstanceID().getHandle()), (Object)exception.getMessage());
             this.addProviderError("Error during DSI Dispatcher COMM service unregistration");
         }
     }
 
-    @Override
     public final void proxyStateChanged(Proxy proxy, int n) {
         if (this.getProxy() == proxy && this.proxyState != n) {
             if (n == 3) {
@@ -428,12 +412,11 @@ IProviderStateListener {
             if (this.reconnectTask != null) {
                 this.reconnectTask.cancel();
             }
-            this.reconnectTask = new AbstractProvider$SlowReconnect(this);
+            this.reconnectTask = new SlowReconnect(this);
             reconnectTimer.schedule((TimerTask)this.reconnectTask, n);
         }
     }
 
-    @Override
     public ProviderInfo getProviderInfo(int n) {
         return this.createProviderInfo(n, null);
     }
@@ -451,13 +434,21 @@ IProviderStateListener {
         return providerInfo;
     }
 
-    @Override
     public IDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
-    static /* synthetic */ void access$000(AbstractProvider abstractProvider) {
-        abstractProvider.connectProxy();
+    private static class SlowReconnect
+    extends TimerTask {
+        private AbstractProvider provider;
+
+        public SlowReconnect(AbstractProvider abstractProvider) {
+            this.provider = abstractProvider;
+        }
+
+        public void run() {
+            this.provider.connectProxy();
+        }
     }
 }
 

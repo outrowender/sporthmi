@@ -8,7 +8,6 @@ import de.esolutions.fw.util.tracing.command.ITraceCommandExecutor;
 
 public class TerminateCommand
 implements ITraceCommand {
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         return true;
     }

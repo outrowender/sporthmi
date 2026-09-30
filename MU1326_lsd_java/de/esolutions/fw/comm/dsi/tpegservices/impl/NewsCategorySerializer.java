@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tpegservices.impl;
 import de.esolutions.fw.comm.dsi.tpegservices.impl.NewsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tpegservices.News;
 import org.dsi.ifc.tpegservices.NewsCategory;
 
 public class NewsCategorySerializer {
-    public static void putOptionalNewsCategory(ISerializer iSerializer, NewsCategory newsCategory) {
+    public static void putOptionalNewsCategory(ISerializer iSerializer, NewsCategory newsCategory) throws SerializerException {
         boolean bl = newsCategory == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class NewsCategorySerializer {
         }
     }
 
-    public static void putOptionalNewsCategoryVarArray(ISerializer iSerializer, NewsCategory[] newsCategoryArray) {
+    public static void putOptionalNewsCategoryVarArray(ISerializer iSerializer, NewsCategory[] newsCategoryArray) throws SerializerException {
         boolean bl = newsCategoryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class NewsCategorySerializer {
         }
     }
 
-    public static NewsCategory getOptionalNewsCategory(IDeserializer iDeserializer) {
+    public static NewsCategory getOptionalNewsCategory(IDeserializer iDeserializer) throws SerializerException {
         NewsCategory newsCategory = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class NewsCategorySerializer {
         return newsCategory;
     }
 
-    public static NewsCategory[] getOptionalNewsCategoryVarArray(IDeserializer iDeserializer) {
+    public static NewsCategory[] getOptionalNewsCategoryVarArray(IDeserializer iDeserializer) throws SerializerException {
         NewsCategory[] newsCategoryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

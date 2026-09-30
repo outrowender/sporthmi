@@ -14,59 +14,57 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AlertList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_CUSTOMER_NAME_ALERT_TYPE_SPEED_LIMIT_ZONE_SHAPE_ZONE_TYPE_ATTRIBUTES_FIRST_RADIUS_WIDTH_SECOND_RADIUS_HEIGHT_ROTATION_ANGLE_POSITION_LATITUDE_POSITION_LONGITUDE_START_END_PERIODIC_SCHEDULE_PERIODIC_START_TIME_PERIODIC_END_TIME_WEEK_INTERVAL;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int POS_MIN;
+    public static final int RECORD_ADDRESS_CUSTOMER_NAME_ALERT_TYPE_SPEED_LIMIT_ZONE_SHAPE_ZONE_TYPE_ATTRIBUTES_FIRST_RADIUS_WIDTH_SECOND_RADIUS_HEIGHT_ROTATION_ANGLE_POSITION_LATITUDE_POSITION_LONGITUDE_START_END_PERIODIC_SCHEDULE_PERIODIC_START_TIME_PERIODIC_END_TIME_WEEK_INTERVAL = 1;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int POS_MIN = 0;
     public int pos;
-    private static final int MAX_CUSTOMERNAME_LENGTH;
+    private static final int MAX_CUSTOMERNAME_LENGTH = 61;
     public final BAPString customerName;
-    public static final int ALERT_TYPE_UNKNOWN;
-    public static final int ALERT_TYPE_SPEED_ALERT;
-    public static final int ALERT_TYPE_GEOFENCE_ALERT;
-    public static final int ALERT_TYPE_VALET_ALERT;
-    public static final int ALERT_TYPE_CUREFEW_ALERT;
+    public static final int ALERT_TYPE_UNKNOWN = 0;
+    public static final int ALERT_TYPE_SPEED_ALERT = 1;
+    public static final int ALERT_TYPE_GEOFENCE_ALERT = 2;
+    public static final int ALERT_TYPE_VALET_ALERT = 3;
+    public static final int ALERT_TYPE_CUREFEW_ALERT = 4;
     public int alertType;
-    public static final int SPEED_LIMIT_MIN;
+    public static final int SPEED_LIMIT_MIN = 0;
     public int speedLimit;
-    public static final int ZONE_SHAPE_NOT_AVAILABLE;
-    public static final int ZONE_SHAPE_ELLIPSE;
-    public static final int ZONE_SHAPE_RECTANGLE;
+    public static final int ZONE_SHAPE_NOT_AVAILABLE = 0;
+    public static final int ZONE_SHAPE_ELLIPSE = 1;
+    public static final int ZONE_SHAPE_RECTANGLE = 2;
     public int zoneShape;
-    public static final int ZONE_TYPE_NOT_AVAILABLE;
-    public static final int ZONE_TYPE_GREEN_ZONE;
-    public static final int ZONE_TYPE_RED_ZONE;
+    public static final int ZONE_TYPE_NOT_AVAILABLE = 0;
+    public static final int ZONE_TYPE_GREEN_ZONE = 1;
+    public static final int ZONE_TYPE_RED_ZONE = 2;
     public int zoneType;
     public AlertList_Attributes attributes;
-    public static final int FIRST_RADIUS_WIDTH_MIN;
+    public static final int FIRST_RADIUS_WIDTH_MIN = 0;
     public int firstRadius_Width;
-    public static final int SECOND_RADIUS_HEIGHT_MIN;
+    public static final int SECOND_RADIUS_HEIGHT_MIN = 0;
     public int secondRadius_Height;
-    public static final int ROTATION_ANGLE_MIN;
+    public static final int ROTATION_ANGLE_MIN = 0;
     public int rotationAngle;
-    public static final int POSITION_LATITUDE_MIN;
+    public static final int POSITION_LATITUDE_MIN = -90;
     public int position_Latitude;
-    public static final int POSITION_LONGITUDE_MIN;
+    public static final int POSITION_LONGITUDE_MIN = -180;
     public int position_Longitude;
-    private static final int MAX_START_LENGTH;
+    private static final int MAX_START_LENGTH = 18;
     public final BAPString start;
-    private static final int MAX_END_LENGTH;
+    private static final int MAX_END_LENGTH = 18;
     public final BAPString end;
     public AlertList_PeriodicSchedule periodicSchedule;
-    private static final int MAX_PERIODICSTARTTIME_LENGTH;
+    private static final int MAX_PERIODICSTARTTIME_LENGTH = 6;
     public final BAPString periodicStartTime;
-    private static final int MAX_PERIODICENDTIME_LENGTH;
+    private static final int MAX_PERIODICENDTIME_LENGTH = 6;
     public final BAPString periodicEndTime;
-    public static final int WEEK_INTERVAL_MIN;
+    public static final int WEEK_INTERVAL_MIN = 0;
     public int weekInterval;
-    private static final int MAX_EXTENSION_LENGTH;
+    private static final int MAX_EXTENSION_LENGTH = 2;
     public final BAPString extension;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -104,7 +102,6 @@ implements BAPArrayElement {
         this.weekInterval = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -118,7 +115,6 @@ implements BAPArrayElement {
         this.extension.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AlertList_Data alertList_Data = (AlertList_Data)bAPEntity;
         return this.arrayHeader.equalTo(alertList_Data.arrayHeader) && this.pos == alertList_Data.pos && this.customerName.equalTo(alertList_Data.customerName) && this.alertType == alertList_Data.alertType && this.speedLimit == alertList_Data.speedLimit && this.zoneShape == alertList_Data.zoneShape && this.zoneType == alertList_Data.zoneType && this.attributes.equalTo(alertList_Data.attributes) && this.firstRadius_Width == alertList_Data.firstRadius_Width && this.secondRadius_Height == alertList_Data.secondRadius_Height && this.rotationAngle == alertList_Data.rotationAngle && this.position_Latitude == alertList_Data.position_Latitude && this.position_Longitude == alertList_Data.position_Longitude && this.start.equalTo(alertList_Data.start) && this.end.equalTo(alertList_Data.end) && this.periodicSchedule.equalTo(alertList_Data.periodicSchedule) && this.periodicStartTime.equalTo(alertList_Data.periodicStartTime) && this.periodicEndTime.equalTo(alertList_Data.periodicEndTime) && this.weekInterval == alertList_Data.weekInterval && this.extension.equalTo(alertList_Data.extension);
@@ -127,38 +123,35 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AlertList_Data");
-        stringBuffer.append(new StringBuffer().append("\n - pos:").append(this.pos).toString());
-        stringBuffer.append(new StringBuffer().append("\n - customerName:").append(this.customerName.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - alertType:").append(this.alertType).toString());
-        stringBuffer.append(new StringBuffer().append("\n - speedLimit:").append(this.speedLimit).toString());
-        stringBuffer.append(new StringBuffer().append("\n - zoneShape:").append(this.zoneShape).toString());
-        stringBuffer.append(new StringBuffer().append("\n - zoneType:").append(this.zoneType).toString());
-        stringBuffer.append(new StringBuffer().append("\n - attributes:").append(this.attributes.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - firstRadius_Width:").append(this.firstRadius_Width).toString());
-        stringBuffer.append(new StringBuffer().append("\n - secondRadius_Height:").append(this.secondRadius_Height).toString());
-        stringBuffer.append(new StringBuffer().append("\n - rotationAngle:").append(this.rotationAngle).toString());
-        stringBuffer.append(new StringBuffer().append("\n - position_Latitude:").append(this.position_Latitude).toString());
-        stringBuffer.append(new StringBuffer().append("\n - position_Longitude:").append(this.position_Longitude).toString());
-        stringBuffer.append(new StringBuffer().append("\n - start:").append(this.start.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - end:").append(this.end.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - periodicSchedule:").append(this.periodicSchedule.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - periodicStartTime:").append(this.periodicStartTime.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - periodicEndTime:").append(this.periodicEndTime.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - weekInterval:").append(this.weekInterval).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension:").append(this.extension.toString()).toString());
+        stringBuffer.append("\n - pos:" + this.pos);
+        stringBuffer.append("\n - customerName:" + this.customerName.toString());
+        stringBuffer.append("\n - alertType:" + this.alertType);
+        stringBuffer.append("\n - speedLimit:" + this.speedLimit);
+        stringBuffer.append("\n - zoneShape:" + this.zoneShape);
+        stringBuffer.append("\n - zoneType:" + this.zoneType);
+        stringBuffer.append("\n - attributes:" + this.attributes.toString());
+        stringBuffer.append("\n - firstRadius_Width:" + this.firstRadius_Width);
+        stringBuffer.append("\n - secondRadius_Height:" + this.secondRadius_Height);
+        stringBuffer.append("\n - rotationAngle:" + this.rotationAngle);
+        stringBuffer.append("\n - position_Latitude:" + this.position_Latitude);
+        stringBuffer.append("\n - position_Longitude:" + this.position_Longitude);
+        stringBuffer.append("\n - start:" + this.start.toString());
+        stringBuffer.append("\n - end:" + this.end.toString());
+        stringBuffer.append("\n - periodicSchedule:" + this.periodicSchedule.toString());
+        stringBuffer.append("\n - periodicStartTime:" + this.periodicStartTime.toString());
+        stringBuffer.append("\n - periodicEndTime:" + this.periodicEndTime.toString());
+        stringBuffer.append("\n - weekInterval:" + this.weekInterval);
+        stringBuffer.append("\n - extension:" + this.extension.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -189,7 +182,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -220,12 +212,10 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }

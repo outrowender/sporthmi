@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCSoundReproduction;
 
 public class PDCSoundReproductionSerializer {
-    public static void putOptionalPDCSoundReproduction(ISerializer iSerializer, PDCSoundReproduction pDCSoundReproduction) {
+    public static void putOptionalPDCSoundReproduction(ISerializer iSerializer, PDCSoundReproduction pDCSoundReproduction) throws SerializerException {
         boolean bl = pDCSoundReproduction == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCSoundReproductionSerializer {
         }
     }
 
-    public static void putOptionalPDCSoundReproductionVarArray(ISerializer iSerializer, PDCSoundReproduction[] pDCSoundReproductionArray) {
+    public static void putOptionalPDCSoundReproductionVarArray(ISerializer iSerializer, PDCSoundReproduction[] pDCSoundReproductionArray) throws SerializerException {
         boolean bl = pDCSoundReproductionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCSoundReproductionSerializer {
         }
     }
 
-    public static PDCSoundReproduction getOptionalPDCSoundReproduction(IDeserializer iDeserializer) {
+    public static PDCSoundReproduction getOptionalPDCSoundReproduction(IDeserializer iDeserializer) throws SerializerException {
         PDCSoundReproduction pDCSoundReproduction = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCSoundReproductionSerializer {
         return pDCSoundReproduction;
     }
 
-    public static PDCSoundReproduction[] getOptionalPDCSoundReproductionVarArray(IDeserializer iDeserializer) {
+    public static PDCSoundReproduction[] getOptionalPDCSoundReproductionVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCSoundReproduction[] pDCSoundReproductionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

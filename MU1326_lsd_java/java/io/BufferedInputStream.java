@@ -29,21 +29,19 @@ extends FilterInputStream {
         this.buf = new byte[n];
     }
 
-    @Override
-    public synchronized int available() {
+    public synchronized int available() throws IOException {
         if (this.buf == null) {
             throw new IOException(Msg.getString("K0059"));
         }
         return this.count - this.pos + this.in.available();
     }
 
-    @Override
-    public synchronized void close() {
+    public synchronized void close() throws IOException {
         super.close();
         this.buf = null;
     }
 
-    private int fillbuf() {
+    private int fillbuf() throws IOException {
         int n;
         if (this.markpos == -1 || this.pos - this.markpos >= this.marklimit) {
             int n2 = this.in.read(this.buf);
@@ -73,19 +71,16 @@ extends FilterInputStream {
         return n;
     }
 
-    @Override
     public synchronized void mark(int n) {
         this.marklimit = n;
         this.markpos = this.pos;
     }
 
-    @Override
     public boolean markSupported() {
         return true;
     }
 
-    @Override
-    public synchronized int read() {
+    public synchronized int read() throws IOException {
         if (this.buf != null) {
             if (this.pos >= this.count && this.fillbuf() == -1) {
                 return -1;
@@ -98,8 +93,7 @@ extends FilterInputStream {
         throw new IOException(Msg.getString("K0059"));
     }
 
-    @Override
-    public synchronized int read(byte[] byArray, int n, int n2) {
+    public synchronized int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.buf != null && byArray != null) {
             if (n >= 0 && n <= byArray.length && n2 >= 0 && n2 <= byArray.length - n) {
                 int n3;
@@ -150,8 +144,7 @@ extends FilterInputStream {
         throw new NullPointerException(Msg.getString("K0047"));
     }
 
-    @Override
-    public synchronized void reset() {
+    public synchronized void reset() throws IOException {
         if (this.markpos != -1) {
             if (this.buf == null) {
                 throw new IOException(Msg.getString("K0059"));
@@ -162,37 +155,31 @@ extends FilterInputStream {
         this.pos = this.markpos;
     }
 
-    @Override
-    public synchronized long skip(long l) {
+    public synchronized long skip(long l) throws IOException {
         if (l < 1L) {
-            long l2 = 0L;
-            return;
+            return 0L;
         }
         if ((long)(this.count - this.pos) >= l) {
             this.pos = (int)((long)this.pos + l);
-            long l3 = l;
-            return;
+            return l;
         }
-        long l4 = this.count - this.pos;
+        long l2 = this.count - this.pos;
         this.pos = this.count;
         if (this.markpos != -1) {
             if (l <= (long)this.marklimit) {
                 if (this.fillbuf() == -1) {
-                    long l5 = l4;
-                    return;
+                    return l2;
                 }
-                if ((long)(this.count - this.pos) >= l - l4) {
-                    this.pos = (int)((long)this.pos + (l - l4));
-                    long l6 = l;
-                    return;
+                if ((long)(this.count - this.pos) >= l - l2) {
+                    this.pos = (int)((long)this.pos + (l - l2));
+                    return l;
                 }
                 this.pos = this.count;
-                long l7 = l4 += (long)(this.count - this.pos);
-                return;
+                return l2 += (long)(this.count - this.pos);
             }
             this.markpos = -1;
         }
-        long l8 = l4 + this.in.skip(l - l4);
+        return l2 + this.in.skip(l - l2);
     }
 }
 

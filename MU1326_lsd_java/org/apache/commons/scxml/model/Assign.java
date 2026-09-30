@@ -15,6 +15,7 @@ import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.SCXMLHelper;
 import org.apache.commons.scxml.TriggerEvent;
 import org.apache.commons.scxml.model.Action;
+import org.apache.commons.scxml.model.ModelException;
 import org.apache.commons.scxml.model.PathResolverHolder;
 import org.apache.commons.scxml.model.TransitionTarget;
 import org.w3c.dom.Node;
@@ -22,7 +23,7 @@ import org.w3c.dom.Node;
 public class Assign
 extends Action
 implements PathResolverHolder {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String name;
     private String location;
     private String src;
@@ -61,18 +62,15 @@ implements PathResolverHolder {
         this.src = string;
     }
 
-    @Override
     public PathResolver getPathResolver() {
         return this.pathResolver;
     }
 
-    @Override
     public void setPathResolver(PathResolver pathResolver) {
         this.pathResolver = pathResolver;
     }
 
-    @Override
-    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
+    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) throws ModelException, SCXMLExpressionException {
         TransitionTarget transitionTarget = this.getParentTransitionTarget();
         Context context = sCInstance.getContext(transitionTarget);
         Evaluator evaluator = sCInstance.getEvaluator();
@@ -103,23 +101,23 @@ implements PathResolverHolder {
                     SCXMLHelper.setNodeValue(node, object2.toString());
                 }
                 if (log.isDebugEnabled()) {
-                    log.debug(new StringBuffer().append("<assign>: data node '").append(node.getNodeName()).append("' updated").toString());
+                    log.debug("<assign>: data node '" + node.getNodeName() + "' updated");
                 }
-                object = new TriggerEvent(new StringBuffer().append(this.name).append(".change").toString(), 2);
+                object = new TriggerEvent(this.name + ".change", 2);
                 collection.add(object);
             } else {
                 log.error("<assign>: location does not point to a <data> node");
             }
         } else if (!context.has(this.name)) {
-            errorReporter.onError("UNDEFINED_VARIABLE", new StringBuffer().append(this.name).append(" = null").toString(), transitionTarget);
+            errorReporter.onError("UNDEFINED_VARIABLE", this.name + " = null", transitionTarget);
         } else {
             Object object = null;
             object = this.src != null && this.src.trim().length() > 0 ? this.getSrcNode() : evaluator.eval(context, this.expr);
             context.set(this.name, object);
             if (log.isDebugEnabled()) {
-                log.debug(new StringBuffer().append("<assign>: Set variable '").append(this.name).append("' to '").append(String.valueOf(object)).append("'").toString());
+                log.debug("<assign>: Set variable '" + this.name + "' to '" + String.valueOf(object) + "'");
             }
-            TriggerEvent triggerEvent = new TriggerEvent(new StringBuffer().append(this.name).append(".change").toString(), 2);
+            TriggerEvent triggerEvent = new TriggerEvent(this.name + ".change", 2);
             collection.add(triggerEvent);
         }
         context.setLocal(Assign.getNamespacesKey(), null);

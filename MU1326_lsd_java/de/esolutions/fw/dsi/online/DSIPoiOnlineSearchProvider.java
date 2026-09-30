@@ -26,28 +26,23 @@ implements DSIPoiOnlineSearch {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIPoiOnlineSearch == null ? (class$org$dsi$ifc$online$DSIPoiOnlineSearch = DSIPoiOnlineSearchProvider.class$("org.dsi.ifc.online.DSIPoiOnlineSearch")) : class$org$dsi$ifc$online$DSIPoiOnlineSearch).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPoiOnlineSearchProxy(this.instance, (DSIPoiOnlineSearchReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void poiStartSelectionZoom(String string, int n, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.poiStartSelectionZoom(string, n, n2, n3, n4, n5);
@@ -57,7 +52,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void dynamicPoiStartSelectionZoom(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
         try {
             this.proxy.dynamicPoiStartSelectionZoom(n, n2, n3, n4, n5, n6, n7);
@@ -67,7 +61,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiStartSelection(String string, int n, int n2, int n3, int n4) {
         try {
             this.proxy.poiStartSelection(string, n, n2, n3, n4);
@@ -77,7 +70,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void dynamicPoiStartSelection(int n, int n2, int n3, int n4, int n5, int n6) {
         try {
             this.proxy.dynamicPoiStartSelection(n, n2, n3, n4, n5, n6);
@@ -87,7 +79,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiStopSelection() {
         try {
             this.proxy.poiStopSelection();
@@ -97,7 +88,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiRequestValueList(int n, int n2) {
         try {
             this.proxy.poiRequestValueList(n, n2);
@@ -107,7 +97,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiStartVoiceSelection(int n, int n2, int n3, int n4, boolean bl, int n5) {
         try {
             this.proxy.poiStartVoiceSelection(n, n2, n3, n4, bl, n5);
@@ -117,7 +106,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiRawVoiceDataAvailable(String string, int n) {
         try {
             this.proxy.poiRawVoiceDataAvailable(string, n);
@@ -127,7 +115,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiRequestSpellingSuggestion() {
         try {
             this.proxy.poiRequestSpellingSuggestion();
@@ -137,7 +124,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void usedPoi(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, int n) {
         try {
             this.proxy.usedPoi(poiOnlineSearchValuelistElement, n);
@@ -147,7 +133,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -157,7 +142,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void setFallbackLanguage(String string) {
         try {
             this.proxy.setFallbackLanguage(string);
@@ -167,7 +151,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void poiVoiceSearchActive() {
         try {
             this.proxy.poiVoiceSearchActive();
@@ -177,7 +160,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void precheckDynamicPOICategory(int n) {
         try {
             this.proxy.precheckDynamicPOICategory(n);
@@ -187,7 +169,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -197,7 +178,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -207,7 +187,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -217,7 +196,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -227,7 +205,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -237,7 +214,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -247,7 +223,6 @@ implements DSIPoiOnlineSearch {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

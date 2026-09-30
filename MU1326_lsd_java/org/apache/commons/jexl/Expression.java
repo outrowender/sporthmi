@@ -7,16 +7,12 @@ import org.apache.commons.jexl.JexlContext;
 import org.apache.commons.jexl.JexlExprResolver;
 
 public interface Expression {
-    default public Object evaluate(JexlContext jexlContext) {
-    }
+    public Object evaluate(JexlContext var1) throws Exception;
 
-    default public String getExpression() {
-    }
+    public String getExpression();
 
-    default public void addPreResolver(JexlExprResolver jexlExprResolver) {
-    }
+    public void addPreResolver(JexlExprResolver var1);
 
-    default public void addPostResolver(JexlExprResolver jexlExprResolver) {
-    }
+    public void addPostResolver(JexlExprResolver var1);
 }
 

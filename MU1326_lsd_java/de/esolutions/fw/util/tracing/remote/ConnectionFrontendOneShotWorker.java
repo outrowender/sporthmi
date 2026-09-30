@@ -13,7 +13,7 @@ public class ConnectionFrontendOneShotWorker
 extends ConnectionFrontendWorkerBase {
     private Connection connection;
     private ConnectionFrontendHandler handler;
-    public static final String chn;
+    public static final String chn = "ConnectionFrontendOneShotWorker";
 
     public ConnectionFrontendOneShotWorker(String string, Connection connection, TraceFrontend traceFrontend) {
         super(string, traceFrontend);
@@ -24,23 +24,22 @@ extends ConnectionFrontendWorkerBase {
         super.stop(this.handler);
     }
 
-    @Override
     protected void doRun() {
         this.handler = new ConnectionFrontendHandler(this.myName, this.connection, this.frontend);
         this.configureHandler(this.handler);
         if (this.handler.connect()) {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendOneShotWorker", "enter msg loop");
-            this.messageLoop("ConnectionFrontendOneShotWorker", this.handler);
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendOneShotWorker", "leave msg loop");
+            TraceMe.msg(TraceMe.INFO, chn, "enter msg loop");
+            this.messageLoop(chn, this.handler);
+            TraceMe.msg(TraceMe.INFO, chn, "leave msg loop");
             if (this.handler.isConnected()) {
                 this.handler.disconnect();
                 this.handler = null;
             }
         } else {
-            TraceMe.msg(TraceMe.WARN, "ConnectionFrontendOneShotWorker", "can't connect: %1", this.connection.getDescription());
+            TraceMe.msg(TraceMe.WARN, chn, "can't connect: %1", this.connection.getDescription());
         }
         this.keepRunning = false;
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendOneShotWorker", "Thread done.");
+        TraceMe.msg(TraceMe.INFO, chn, "Thread done.");
     }
 }
 

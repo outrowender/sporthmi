@@ -60,7 +60,7 @@ public class TraceConfigElement {
     }
 
     public String toString() {
-        return new StringBuffer().append("[name=").append(this.name).append(",defaultClass=").append(this.defaultClassName).append(",pluginClass=").append(this.pluginClassName).append(",enabled=").append(this.enabled).append("]").toString();
+        return "[name=" + this.name + ",defaultClass=" + this.defaultClassName + ",pluginClass=" + this.pluginClassName + ",enabled=" + this.enabled + "]";
     }
 }
 

@@ -44,334 +44,224 @@ import org.dsi.ifc.carcomfort.WiperViewOptions;
 
 public interface DSICarComfortListener
 extends DSIListener {
-    default public void updateRGSViewOptions(RGSViewOptions rGSViewOptions, int n) {
-    }
+    public void updateRGSViewOptions(RGSViewOptions var1, int var2);
 
-    default public void updateRGSBeltPretensionDataFront(RGSBeltPretensionData rGSBeltPretensionData, int n) {
-    }
+    public void updateRGSBeltPretensionDataFront(RGSBeltPretensionData var1, int var2);
 
-    default public void updateRGSBeltPretensionDataRear(RGSBeltPretensionData rGSBeltPretensionData, int n) {
-    }
+    public void updateRGSBeltPretensionDataRear(RGSBeltPretensionData var1, int var2);
 
-    default public void updateRGSPreCrashSystem(boolean bl, int n) {
-    }
+    public void updateRGSPreCrashSystem(boolean var1, int var2);
 
-    default public void acknowledgeRgsSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeRgsSetFactoryDefault(boolean var1);
 
-    default public void updateRGSPreSenseSystem(boolean bl, int n) {
-    }
+    public void updateRGSPreSenseSystem(boolean var1, int var2);
 
-    default public void updateRGSPreSenseWarning(int n, int n2) {
-    }
+    public void updateRGSPreSenseWarning(int var1, int var2);
 
-    default public void updateRGSLocalHazardDetection(RGSLocalHazardDetection rGSLocalHazardDetection, int n) {
-    }
+    public void updateRGSLocalHazardDetection(RGSLocalHazardDetection var1, int var2);
 
-    default public void updateDoorLockingViewOptions(DoorLockingViewOptions doorLockingViewOptions, int n) {
-    }
+    public void updateDoorLockingViewOptions(DoorLockingViewOptions var1, int var2);
 
-    default public void updateDoorLockingMessage(DoorLockingMessage doorLockingMessage, int n) {
-    }
+    public void updateDoorLockingMessage(DoorLockingMessage var1, int var2);
 
-    default public void updateDoorLockingLockStatus(DoorLockingLockStatus doorLockingLockStatus, int n) {
-    }
+    public void updateDoorLockingLockStatus(DoorLockingLockStatus var1, int var2);
 
-    default public void updateDoorLockingWindowStatus(DoorLockingWindowStatus doorLockingWindowStatus, int n) {
-    }
+    public void updateDoorLockingWindowStatus(DoorLockingWindowStatus var1, int var2);
 
-    default public void updateDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings doorLockingComfortOpenSettings, int n) {
-    }
+    public void updateDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings var1, int var2);
 
-    default public void updateDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings doorLockingTheftWarningSettings, int n) {
-    }
+    public void updateDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings var1, int var2);
 
-    default public void updateDoorLockingClBootOpen(boolean bl, int n) {
-    }
+    public void updateDoorLockingClBootOpen(boolean var1, int var2);
 
-    default public void updateDoorLockingBootOpen(boolean bl, int n) {
-    }
+    public void updateDoorLockingBootOpen(boolean var1, int var2);
 
-    default public void updateDoorLockingBootClose(boolean bl, int n) {
-    }
+    public void updateDoorLockingBootClose(boolean var1, int var2);
 
-    default public void updateDoorLockingUnlockingMode(int n, int n2) {
-    }
+    public void updateDoorLockingUnlockingMode(int var1, int var2);
 
-    default public void updateDoorLockingAutoLock(int n, int n2) {
-    }
+    public void updateDoorLockingAutoLock(int var1, int var2);
 
-    default public void updateDoorLockingAutoUnlock(boolean bl, int n) {
-    }
+    public void updateDoorLockingAutoUnlock(boolean var1, int var2);
 
-    default public void updateDoorLockingClBootLock(boolean bl, int n) {
-    }
+    public void updateDoorLockingClBootLock(boolean var1, int var2);
 
-    default public void updateDoorLockingMirrorProtection(boolean bl, int n) {
-    }
+    public void updateDoorLockingMirrorProtection(boolean var1, int var2);
 
-    default public void updateDoorLockingConfirmation(boolean bl, int n) {
-    }
+    public void updateDoorLockingConfirmation(boolean var1, int var2);
 
-    default public void updateDoorLockingRainClosing(boolean bl, int n) {
-    }
+    public void updateDoorLockingRainClosing(boolean var1, int var2);
 
-    default public void updateDoorLockingRearBlind(DoorLockingRearBlind doorLockingRearBlind, int n) {
-    }
+    public void updateDoorLockingRearBlind(DoorLockingRearBlind var1, int var2);
 
-    default public void acknowledgeDoorLockingSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeDoorLockingSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeDoorLockingRemoteLockUnlock(String string, boolean bl) {
-    }
+    public void acknowledgeDoorLockingRemoteLockUnlock(String var1, boolean var2);
 
-    default public void acknowledgeDoorLockingRemoteBlinking(boolean bl) {
-    }
+    public void acknowledgeDoorLockingRemoteBlinking(boolean var1);
 
-    default public void acknowledgeDoorLockingRemoteHorn(boolean bl) {
-    }
+    public void acknowledgeDoorLockingRemoteHorn(boolean var1);
 
-    default public void receivedDoorLockingRemoteLockUnlockSignatureVerification(String string) {
-    }
+    public void receivedDoorLockingRemoteLockUnlockSignatureVerification(String var1);
 
-    default public void receivedDoorLockingRemoteLockUnlockAuthentification(String string, int n) {
-    }
+    public void receivedDoorLockingRemoteLockUnlockAuthentification(String var1, int var2);
 
-    default public void responseDoorLockingUserListRA1(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, DoorLockingUserListRA1[] doorLockingUserListRA1Array) {
-    }
+    public void responseDoorLockingUserListRA1(DoorLockingUserListUpdateInfo var1, DoorLockingUserListRA1[] var2);
 
-    default public void responseDoorLockingUserListRAF(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int[] nArray) {
-    }
+    public void responseDoorLockingUserListRAF(DoorLockingUserListUpdateInfo var1, int[] var2);
 
-    default public void updateDoorLockingUserListUpdateInfo(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int n) {
-    }
+    public void updateDoorLockingUserListUpdateInfo(DoorLockingUserListUpdateInfo var1, int var2);
 
-    default public void updateDoorLockingUserListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateDoorLockingUserListTotalNumberOfElements(int var1, int var2);
 
-    default public void updateDoorLockingActiveUser(int n, int n2) {
-    }
+    public void updateDoorLockingActiveUser(int var1, int var2);
 
-    default public void updateDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff doorLockingUserProfileOnOff, int n) {
-    }
+    public void updateDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff var1, int var2);
 
-    default public void acknowledgeDoorLockingUserProfileControl(int n, boolean bl) {
-    }
+    public void acknowledgeDoorLockingUserProfileControl(int var1, boolean var2);
 
-    default public void updateDoorLockingUserProfileControlProcessing(boolean bl, int n, boolean bl2, int n2) {
-    }
+    public void updateDoorLockingUserProfileControlProcessing(boolean var1, int var2, boolean var3, int var4);
 
-    default public void updateDoorLockingWindowAutoClose(boolean bl, int n) {
-    }
+    public void updateDoorLockingWindowAutoClose(boolean var1, int var2);
 
-    default public void updateDoorLockingBlindsControl(int n, int n2) {
-    }
+    public void updateDoorLockingBlindsControl(int var1, int var2);
 
-    default public void updateDoorLockingBlindsControlExtended(DoorLockingBootBlindState doorLockingBootBlindState, int n) {
-    }
+    public void updateDoorLockingBlindsControlExtended(DoorLockingBootBlindState var1, int var2);
 
-    default public void updateDoorLockingLeftSideBlindControl(int n, int n2) {
-    }
+    public void updateDoorLockingLeftSideBlindControl(int var1, int var2);
 
-    default public void updateDoorLockingRightSideBlindControl(int n, int n2) {
-    }
+    public void updateDoorLockingRightSideBlindControl(int var1, int var2);
 
-    default public void updateDoorLockingTurnIndRepeat(boolean bl, int n) {
-    }
+    public void updateDoorLockingTurnIndRepeat(boolean var1, int var2);
 
-    default public void updateDoorLockingKeyless(boolean bl, int n) {
-    }
+    public void updateDoorLockingKeyless(boolean var1, int var2);
 
-    default public void updateWiperViewOptions(WiperViewOptions wiperViewOptions, int n) {
-    }
+    public void updateWiperViewOptions(WiperViewOptions var1, int var2);
 
-    default public void updateWiperServicePosition(boolean bl, int n) {
-    }
+    public void updateWiperServicePosition(boolean var1, int var2);
 
-    default public void updateWiperRainSensorOnOff(boolean bl, int n) {
-    }
+    public void updateWiperRainSensorOnOff(boolean var1, int var2);
 
-    default public void updateWiperRainSensorConfig(int n, int n2) {
-    }
+    public void updateWiperRainSensorConfig(int var1, int var2);
 
-    default public void updateWiperRearWiping(boolean bl, int n) {
-    }
+    public void updateWiperRearWiping(boolean var1, int var2);
 
-    default public void updateWiperTearsWiping(boolean bl, int n) {
-    }
+    public void updateWiperTearsWiping(boolean var1, int var2);
 
-    default public void updateWiperWinterPosition(boolean bl, int n) {
-    }
+    public void updateWiperWinterPosition(boolean var1, int var2);
 
-    default public void updateEasyEntrySteeringColumn(boolean bl, int n) {
-    }
+    public void updateEasyEntrySteeringColumn(boolean var1, int var2);
 
-    default public void acknowledgeWiperSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeWiperSetFactoryDefault(boolean var1);
 
-    default public void updateUGDOViewOptions(UGDOViewOptions uGDOViewOptions, int n) {
-    }
+    public void updateUGDOViewOptions(UGDOViewOptions var1, int var2);
 
-    default public void updateUGDOLearningData(UGDOLearningData uGDOLearningData, int n) {
-    }
+    public void updateUGDOLearningData(UGDOLearningData var1, int var2);
 
-    default public void updateUGDODestinationReached(UGDODestinationReached uGDODestinationReached, int n) {
-    }
+    public void updateUGDODestinationReached(UGDODestinationReached var1, int var2);
 
-    default public void updateUGDOOpenDoor(UGDOOpenDoor uGDOOpenDoor, int n) {
-    }
+    public void updateUGDOOpenDoor(UGDOOpenDoor var1, int var2);
 
-    default public void updateUGDOContent(UGDOContent uGDOContent, int n) {
-    }
+    public void updateUGDOContent(UGDOContent var1, int var2);
 
-    default public void updateUGDOVersionData(UGDOVersionData uGDOVersionData, int n) {
-    }
+    public void updateUGDOVersionData(UGDOVersionData var1, int var2);
 
-    default public void acknowledgeUGDOSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeUGDOSetFactoryDefault(boolean var1);
 
-    default public void updateUGDOButtonListUpdateInfo(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int n) {
-    }
+    public void updateUGDOButtonListUpdateInfo(UGDOButtonListUpdateInfo var1, int var2);
 
-    default public void updateUGDOButtonListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateUGDOButtonListTotalNumberOfElements(int var1, int var2);
 
-    default public void requestUGDOPopup(UGDOContent uGDOContent) {
-    }
+    public void requestUGDOPopup(UGDOContent var1);
 
-    default public void acknowledgeUGDOPopup(UGDOContent uGDOContent) {
-    }
+    public void acknowledgeUGDOPopup(UGDOContent var1);
 
-    default public void acknowledgeUGDODeleteButton(boolean bl) {
-    }
+    public void acknowledgeUGDODeleteButton(boolean var1);
 
-    default public void acknowledgeUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
-    }
+    public void acknowledgeUGDOSynchronisation(UGDOSynchronisation var1);
 
-    default public void acknowledgeUGDOLearning(int n, int n2) {
-    }
+    public void acknowledgeUGDOLearning(int var1, int var2);
 
-    default public void requestUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
-    }
+    public void requestUGDOSynchronisation(UGDOSynchronisation var1);
 
-    default public void responseUGDOButtonListRA0(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA0[] uGDOButtonListRA0Array) {
-    }
+    public void responseUGDOButtonListRA0(UGDOButtonListUpdateInfo var1, UGDOButtonListRA0[] var2);
 
-    default public void responseUGDOButtonListRA1(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA1[] uGDOButtonListRA1Array) {
-    }
+    public void responseUGDOButtonListRA1(UGDOButtonListUpdateInfo var1, UGDOButtonListRA1[] var2);
 
-    default public void responseUGDOButtonListRA2(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA2[] uGDOButtonListRA2Array) {
-    }
+    public void responseUGDOButtonListRA2(UGDOButtonListUpdateInfo var1, UGDOButtonListRA2[] var2);
 
-    default public void responseUGDOButtonListRA3(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA3[] uGDOButtonListRA3Array) {
-    }
+    public void responseUGDOButtonListRA3(UGDOButtonListUpdateInfo var1, UGDOButtonListRA3[] var2);
 
-    default public void responseUGDOButtonListRA4(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA4[] uGDOButtonListRA4Array) {
-    }
+    public void responseUGDOButtonListRA4(UGDOButtonListUpdateInfo var1, UGDOButtonListRA4[] var2);
 
-    default public void responseUGDOButtonListRA5(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA5[] uGDOButtonListRA5Array) {
-    }
+    public void responseUGDOButtonListRA5(UGDOButtonListUpdateInfo var1, UGDOButtonListRA5[] var2);
 
-    default public void responseUGDOButtonListRAF(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int[] nArray) {
-    }
+    public void responseUGDOButtonListRAF(UGDOButtonListUpdateInfo var1, int[] var2);
 
-    default public void updateRDKViewOptions(RDKViewOptions rDKViewOptions, int n) {
-    }
+    public void updateRDKViewOptions(RDKViewOptions var1, int var2);
 
-    default public void updateRDKSystemOnOff(boolean bl, int n) {
-    }
+    public void updateRDKSystemOnOff(boolean var1, int var2);
 
-    default public void updateRDKTireSetupTireList(RDKTireInfo[] rDKTireInfoArray, int n) {
-    }
+    public void updateRDKTireSetupTireList(RDKTireInfo[] var1, int var2);
 
-    default public void updateRDKTireSetupSelectedTire(int n, int n2) {
-    }
+    public void updateRDKTireSetupSelectedTire(int var1, int var2);
 
-    default public void updateRDKTireDisplay(RDKTireDisplayData rDKTireDisplayData, int n) {
-    }
+    public void updateRDKTireDisplay(RDKTireDisplayData var1, int var2);
 
-    default public void updateRDKSpeedLimit(int n, int n2) {
-    }
+    public void updateRDKSpeedLimit(int var1, int var2);
 
-    default public void responseRDKTireChanged(int n) {
-    }
+    public void responseRDKTireChanged(int var1);
 
-    default public void responseRDKPressureChanged(int n) {
-    }
+    public void responseRDKPressureChanged(int var1);
 
-    default public void responseRDKLifeMonitoring() {
-    }
+    public void responseRDKLifeMonitoring();
 
-    default public void updateRDKPressureLevel(byte by, int n) {
-    }
+    public void updateRDKPressureLevel(byte var1, int var2);
 
-    default public void acknowledgeRDKSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeRDKSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeRDKPressureChanged(boolean bl) {
-    }
+    public void acknowledgeRDKPressureChanged(boolean var1);
 
-    default public void updateMirrorViewOptions(MirrorViewOptions mirrorViewOptions, int n) {
-    }
+    public void updateMirrorViewOptions(MirrorViewOptions var1, int var2);
 
-    default public void updateMirrorLowering(boolean bl, int n) {
-    }
+    public void updateMirrorLowering(boolean var1, int var2);
 
-    default public void updateMirrorSyncAdjust(boolean bl, int n) {
-    }
+    public void updateMirrorSyncAdjust(boolean var1, int var2);
 
-    default public void updateMirrorFolding(boolean bl, int n) {
-    }
+    public void updateMirrorFolding(boolean var1, int var2);
 
-    default public void updateMirrorDimming(boolean bl, int n) {
-    }
+    public void updateMirrorDimming(boolean var1, int var2);
 
-    default public void updateMirrorHeating(boolean bl, int n) {
-    }
+    public void updateMirrorHeating(boolean var1, int var2);
 
-    default public void acknowledgeMirrorSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeMirrorSetFactoryDefault(boolean var1);
 
-    default public void updateBrakeViewOptions(BrakeViewOptions brakeViewOptions, int n) {
-    }
+    public void updateBrakeViewOptions(BrakeViewOptions var1, int var2);
 
-    default public void updateBrakeElectricalParking(boolean bl, int n) {
-    }
+    public void updateBrakeElectricalParking(boolean var1, int var2);
 
-    default public void updateBrakeAutoHold(int n, int n2) {
-    }
+    public void updateBrakeAutoHold(int var1, int var2);
 
-    default public void updateBrakeEscMode(int n, int n2) {
-    }
+    public void updateBrakeEscMode(int var1, int var2);
 
-    default public void updateBrakeHdcMode(boolean bl, int n) {
-    }
+    public void updateBrakeHdcMode(boolean var1, int var2);
 
-    default public void updateRDKDifferentialPressure(RDKWheelPressures rDKWheelPressures, int n) {
-    }
+    public void updateRDKDifferentialPressure(RDKWheelPressures var1, int var2);
 
-    default public void updateRDKResidualBatteryLifetime(RDKResidualBatteryLifetime rDKResidualBatteryLifetime, int n) {
-    }
+    public void updateRDKResidualBatteryLifetime(RDKResidualBatteryLifetime var1, int var2);
 
-    default public void acknowledgeDoorLockingPrompt(int n) {
-    }
+    public void acknowledgeDoorLockingPrompt(int var1);
 
-    default public void requestDoorLockingPrompt(int n) {
-    }
+    public void requestDoorLockingPrompt(int var1);
 
-    default public void updateDoorLockingPromptContent(int n, int n2) {
-    }
+    public void updateDoorLockingPromptContent(int var1, int var2);
 
-    default public void acknowledgeMascotSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeMascotSetFactoryDefault(boolean var1);
 
-    default public void updateMascotViewOptions(MascotViewOptions mascotViewOptions, int n) {
-    }
+    public void updateMascotViewOptions(MascotViewOptions var1, int var2);
 
-    default public void updateMascotControl(int n, int n2, int n3) {
-    }
+    public void updateMascotControl(int var1, int var2, int var3);
 
-    default public void updateMascotMode(int n, int n2) {
-    }
+    public void updateMascotMode(int var1, int var2);
 }
 

@@ -13,45 +13,32 @@ import java.util.List;
 
 public interface IInfiniteListModelAccess
 extends IListWidgetDataAccess {
-    public static final int REQUEST_ID_REMOTEHMI;
+    public static final int REQUEST_ID_REMOTEHMI = Integer.MIN_VALUE;
 
-    default public boolean isVisibleAreaOverlappingForbiddenArea() {
-    }
+    public boolean isVisibleAreaOverlappingForbiddenArea();
 
-    default public void updateInfiniteListData(IInfiniteListData iInfiniteListData, GridListRow[] gridListRowArray) {
-    }
+    public void updateInfiniteListData(IInfiniteListData var1, GridListRow[] var2);
 
-    default public long getFirstVisibleRowId() {
-    }
+    public long getFirstVisibleRowId();
 
-    default public long getLastVisibleRowId() {
-    }
+    public long getLastVisibleRowId();
 
-    default public void changeAllRowsToArtificialOrOriginal() {
-    }
+    public void changeAllRowsToArtificialOrOriginal();
 
-    default public void insertRowsAfter(int n, List list) {
-    }
+    public void insertRowsAfter(int var1, List var2);
 
-    default public ListController getListController() {
-    }
+    public ListController getListController();
 
-    default public void setListController(ListController listController) {
-    }
+    public void setListController(ListController var1);
 
-    default public IInfiniteListListener getInfiniteListListener() {
-    }
+    public IInfiniteListListener getInfiniteListListener();
 
-    default public BaseListModelListener getBaseListListener() {
-    }
+    public BaseListModelListener getBaseListListener();
 
-    default public boolean isResolvingRows() {
-    }
+    public boolean isResolvingRows();
 
-    default public boolean isResetting() {
-    }
+    public boolean isResetting();
 
-    default public void checkDelayedTasks() {
-    }
+    public void checkDelayedTasks();
 }
 

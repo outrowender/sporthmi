@@ -41,7 +41,6 @@ implements Runnable {
         }
     }
 
-    @Override
     public void run() {
         while (this.doRun) {
             try {

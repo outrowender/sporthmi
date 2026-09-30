@@ -25,7 +25,6 @@ import de.esolutions.hmi.widgets.audi.evo.prpframework.MinConfidenceFilterRule;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.MinStrokeLengthIsNotReachedRule;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.NumberLetterAlternationBoostRule;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.Oo0Rule;
-import de.esolutions.hmi.widgets.audi.evo.prpframework.PRPEngineEurope$RuleConfig;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.PhoneFirstSymbolRule;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.PlusTRule;
 import de.esolutions.hmi.widgets.audi.evo.prpframework.PunctuationMarkEnforcementRule;
@@ -168,7 +167,7 @@ implements IPRPEngine {
                     break;
                 }
                 case 18193: {
-                    this.rules.add(new PRPEngineEurope$RuleConfig(this, 10, ICharacterRegister.WHITELIST_ALLOWING_EVERYTHING));
+                    this.rules.add(new RuleConfig(10, ICharacterRegister.WHITELIST_ALLOWING_EVERYTHING));
                     break;
                 }
                 default: {
@@ -184,34 +183,32 @@ implements IPRPEngine {
             int n2 = nArray[i2];
             if (n2 == 10) {
                 iCharacterRegister = this.touchCharacterDefinition.getHWRSymbols(this.touchPadMode, this.spellerMode, n);
-                this.rules.add(new PRPEngineEurope$RuleConfig(this, 10, iCharacterRegister));
+                this.rules.add(new RuleConfig(10, iCharacterRegister));
                 continue;
             }
             if (n2 == 35) {
                 iCharacterRegister = this.touchCharacterDefinition.getHWRSymbols(this.touchPadMode, this.spellerMode, n);
-                this.rules.add(new PRPEngineEurope$RuleConfig(this, 35, iCharacterRegister));
+                this.rules.add(new RuleConfig(35, iCharacterRegister));
                 continue;
             }
             if (n2 == 11) {
                 iCharacterRegister = this.touchCharacterDefinition.getBlackList(this.touchPadMode, false);
-                this.rules.add(new PRPEngineEurope$RuleConfig(this, 11, iCharacterRegister));
+                this.rules.add(new RuleConfig(11, iCharacterRegister));
                 continue;
             }
             if (n2 == 12) {
                 iCharacterRegister = this.touchCharacterDefinition.getBlackList(this.touchPadMode, true);
-                this.rules.add(new PRPEngineEurope$RuleConfig(this, 12, iCharacterRegister));
+                this.rules.add(new RuleConfig(12, iCharacterRegister));
                 continue;
             }
-            this.rules.add(new PRPEngineEurope$RuleConfig(this, n2, null));
+            this.rules.add(new RuleConfig(n2, null));
         }
     }
 
-    @Override
     public void process(String string, int[] nArray, boolean bl) {
         this.process(string, nArray, null, bl);
     }
 
-    @Override
     public void process(String string, int[] nArray, String string2, boolean bl) {
         Object object;
         this.resultList = new ArrayList(string.length());
@@ -233,22 +230,22 @@ implements IPRPEngine {
         }
         Iterator iterator = this.rules.iterator();
         while (iterator.hasNext()) {
-            PRPEngineEurope$RuleConfig pRPEngineEurope$RuleConfig = (PRPEngineEurope$RuleConfig)iterator.next();
-            object = pRPEngineEurope$RuleConfig.getRule();
+            RuleConfig ruleConfig = (RuleConfig)iterator.next();
+            object = ruleConfig.getRule();
             if (this.shallExecute((AbstractPRPRule)object)) {
                 try {
                     long l = AbstractWidget.framework.getMonotonicTime();
-                    Object object2 = pRPEngineEurope$RuleConfig.getArgument();
-                    if (PRPEngineEurope$RuleConfig.access$000(pRPEngineEurope$RuleConfig) == 10 && string2 != null) {
+                    Object object2 = ruleConfig.getArgument();
+                    if (ruleConfig.ruleId == 10 && string2 != null) {
                         if (this.lc.isDebug()) {
-                            this.lc.log(-2137614336, "PRPEngine#executeRule: name=%1 ; using Matchspeller valid Chars and context characters (%2)for this rule!", (Object)((AbstractPRPRule)object).getRuleName(), object2);
+                            this.lc.log(10000000, "PRPEngine#executeRule: name=%1 ; using Matchspeller valid Chars and context characters (%2)for this rule!", (Object)((AbstractPRPRule)object).getRuleName(), object2);
                         }
                         ((AbstractPRPRule)object).execute(this.resultList, object2, bl);
                         object2 = string2;
                         ((WhiteListFilterRule)object).setCaseSensitive(false);
                     }
                     if (this.lc.isDebug()) {
-                        this.lc.log(-2137614336, "PRPEngine#executeRule: name=%1 ; argument=%2", (Object)((AbstractPRPRule)object).getRuleName(), object2);
+                        this.lc.log(10000000, "PRPEngine#executeRule: name=%1 ; argument=%2", (Object)((AbstractPRPRule)object).getRuleName(), object2);
                     }
                     if (((AbstractPRPRule)object).isMinimumStokeLengthSensitive() && bl) {
                         ((AbstractPRPRule)object).execute(this.resultList, object2);
@@ -258,17 +255,17 @@ implements IPRPEngine {
                     if (this.lc.isDebug()) {
                         long l2 = AbstractWidget.framework.getMonotonicTime() - l;
                         Collections.sort(this.resultList, Collections.reverseOrder());
-                        this.lc.log(-2137614336, "PRPEngine#executeRule: Result after rule=%1; time for execution: %2ms", (Object)this.dumpResult(), l2);
+                        this.lc.log(10000000, "PRPEngine#executeRule: Result after rule=%1; time for execution: %2ms", (Object)this.dumpResult(), l2);
                     }
-                    this.executedRuleset.add(pRPEngineEurope$RuleConfig);
+                    this.executedRuleset.add(ruleConfig);
                 }
                 catch (Exception exception) {
-                    this.lc.log(-1601830656, "PRPEngine#executeRule: skip rule '%1' because of exception %2 ", (Object)((AbstractPRPRule)object).getRuleName(), (Throwable)exception);
+                    this.lc.log(100000, "PRPEngine#executeRule: skip rule '%1' because of exception %2 ", (Object)((AbstractPRPRule)object).getRuleName(), (Throwable)exception);
                 }
                 continue;
             }
             if (!this.lc.isDebug()) continue;
-            this.lc.log(-2137614336, "PRPEngine#executeRule: skip rule '%1' because of it's validity (currentText=%2)", (Object)((AbstractPRPRule)object).getRuleName(), (Object)this.infoProvider.getCurrentText());
+            this.lc.log(10000000, "PRPEngine#executeRule: skip rule '%1' because of it's validity (currentText=%2)", (Object)((AbstractPRPRule)object).getRuleName(), (Object)this.infoProvider.getCurrentText());
         }
     }
 
@@ -410,7 +407,6 @@ implements IPRPEngine {
         return abstractPRPRule;
     }
 
-    @Override
     public String getResult() {
         Collections.sort(this.resultList, Collections.reverseOrder());
         Buffer buffer = new Buffer(this.resultList.size());
@@ -422,7 +418,6 @@ implements IPRPEngine {
         return buffer.toString();
     }
 
-    @Override
     public String dumpResult() {
         Buffer buffer = new Buffer(this.resultList.size());
         Iterator iterator = this.resultList.iterator();
@@ -436,7 +431,6 @@ implements IPRPEngine {
         return buffer.toString();
     }
 
-    @Override
     public void characterEntered(char c2) {
         if (this.smartDelete != null) {
             this.smartDelete.characterEntered(new RecognizerResult(c2, 100));
@@ -447,7 +441,6 @@ implements IPRPEngine {
         EXTERNAL_RULE_CONFIG.put(Util.createInteger(n), nArray);
     }
 
-    @Override
     public String getSpeechTopMatch() {
         if (this.speechFilter != null && this.speechFilter.getSpeechTopMatch() != null) {
             return String.valueOf(this.speechFilter.getSpeechTopMatch().getCharacter());
@@ -471,9 +464,34 @@ implements IPRPEngine {
         return this.smartDeleteCaseSensitive && this.touchPadMode != 52;
     }
 
-    @Override
     public List getExecutedRuleset() {
         return this.executedRuleset;
+    }
+
+    public class RuleConfig {
+        private AbstractPRPRule rule;
+        private int ruleId;
+        private Object arg;
+
+        public RuleConfig(int n, Object object) {
+            this.ruleId = n;
+            this.arg = object;
+        }
+
+        public Object getArgument() {
+            return this.arg;
+        }
+
+        public AbstractPRPRule getRule() {
+            if (this.rule == null) {
+                this.rule = PRPEngineEurope.this.createRule(this.ruleId);
+            }
+            return this.rule;
+        }
+
+        public int getRuleId() {
+            return this.ruleId;
+        }
     }
 }
 

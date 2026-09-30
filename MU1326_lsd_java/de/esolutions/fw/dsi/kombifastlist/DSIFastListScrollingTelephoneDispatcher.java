@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.kombifastlist;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingTelephoneReply;
 import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingTelephoneReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIFastListScrollingTelephoneReply {
         super(n, (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephoneListener == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephoneListener = DSIFastListScrollingTelephoneDispatcher.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingTelephoneListener")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephoneListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicationPhonebook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
+    public void indicationPhonebook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void indicationGetInitialsTelephone(int n, int n2, int n3, int n4) {
+    public void indicationGetInitialsTelephone(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void indicationNotifyFavoriteListPush(boolean bl, boolean bl2) {
+    public void indicationNotifyFavoriteListPush(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void indicationNotifyCombinedNumbersPush(boolean bl, boolean bl2) {
+    public void indicationNotifyCombinedNumbersPush(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -95,8 +91,7 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void indicationNotifyCurrentListSizeTelephone(boolean bl, boolean bl2) {
+    public void indicationNotifyCurrentListSizeTelephone(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -112,8 +107,7 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void indicationPhonebookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
+    public void indicationPhonebookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -129,8 +123,7 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -146,14 +139,13 @@ implements DSIFastListScrollingTelephoneReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIFastListScrollingTelephoneListener dSIFastListScrollingTelephoneListener = (DSIFastListScrollingTelephoneListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFastListScrollingTelephoneDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFastListScrollingTelephoneDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIFastListScrollingTelephoneListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFastListScrollingTelephoneDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFastListScrollingTelephoneDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIFastListScrollingTelephoneListener, new Object[]{string, string2});
                     continue;
                 }

@@ -3,43 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.audio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAudioManagementReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "55183b6f-9e82-5a18-bfde-ed5ae24f6c1c";
+    public static final String IPL_COMM_INTERFACE_KEY = "db006bf0-acd2-5747-8415-366ba32075fe";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.45";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.45";
 
-    default public void errorConnection(int n, int n2, int n3) {
-    }
+    public void errorConnection(int var1, int var2, int var3) throws MethodException;
 
-    default public void fadedIn(int n, int n2) {
-    }
+    public void fadedIn(int var1, int var2) throws MethodException;
 
-    default public void pauseConnection(int n, int n2) {
-    }
+    public void pauseConnection(int var1, int var2) throws MethodException;
 
-    default public void updateActiveConnection(int n, int n2, int n3) {
-    }
+    public void updateActiveConnection(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateActiveEntertainmentConnection(int n, int n2, int n3) {
-    }
+    public void updateActiveEntertainmentConnection(int var1, int var2, int var3) throws MethodException;
 
-    default public void startConnection(int n, int n2) {
-    }
+    public void startConnection(int var1, int var2) throws MethodException;
 
-    default public void stopConnection(int n, int n2) {
-    }
+    public void stopConnection(int var1, int var2) throws MethodException;
 
-    default public void updateAMAvailable(int n, int n2, int n3) {
-    }
+    public void updateAMAvailable(int var1, int var2, int var3) throws MethodException;
 
-    default public void responseVolumelock(int n, int n2, boolean bl) {
-    }
+    public void responseVolumelock(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

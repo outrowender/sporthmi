@@ -3,35 +3,27 @@
  */
 package de.esolutions.fw.comm.dsi.displaycontroller;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIDisplayControllerC {
-    default public void switchDisplayPower(int n, int n2, int n3) {
-    }
+    public void switchDisplayPower(int var1, int var2, int var3) throws MethodException;
 
-    default public void setDisplayBrightness(int n, int n2) {
-    }
+    public void setDisplayBrightness(int var1, int var2) throws MethodException;
 
-    default public void getDisplayBrightness(int n) {
-    }
+    public void getDisplayBrightness(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

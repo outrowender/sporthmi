@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface PartialPopupRenderer
 extends IRenderer {
-    default public void hide() {
-    }
+    public void hide();
 }
 

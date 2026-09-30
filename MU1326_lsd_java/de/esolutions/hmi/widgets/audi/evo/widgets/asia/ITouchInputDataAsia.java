@@ -11,101 +11,69 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AsianInputMethod;
 public interface ITouchInputDataAsia
 extends ITouchInputData,
 IInputTextInfoProviderAsia {
-    public static final String STROKE_JOKER_INPUT_STRING_MESSAGE;
-    public static final String STROKE_JOKER_STRING;
+    public static final String STROKE_JOKER_INPUT_STRING_MESSAGE = "*(-[[|]]Joker*:)";
+    public static final String STROKE_JOKER_STRING = "*";
 
-    default public void setInputMethod(AsianInputMethod asianInputMethod) {
-    }
+    public void setInputMethod(AsianInputMethod var1);
 
-    default public AsianInputMethod getInputMethod() {
-    }
+    public AsianInputMethod getInputMethod();
 
-    default public IWordPredictionAccess getWordPredictionAccess() {
-    }
+    public IWordPredictionAccess getWordPredictionAccess();
 
-    default public void setWordPredictionAccess(IWordPredictionAccess iWordPredictionAccess) {
-    }
+    public void setWordPredictionAccess(IWordPredictionAccess var1);
 
-    default public void longPressOnCharacterOccurred(String string) {
-    }
+    public void longPressOnCharacterOccurred(String var1);
 
-    default public void spellerClosed() {
-    }
+    public void spellerClosed();
 
-    default public void setHandWrittenModeIsActive(boolean bl) {
-    }
+    public void setHandWrittenModeIsActive(boolean var1);
 
-    default public void appendUnconvertedCharacters(String string, boolean bl) {
-    }
+    public void appendUnconvertedCharacters(String var1, boolean var2);
 
-    @Override
-    default public String getUnconvertedCharacters() {
-    }
+    public String getUnconvertedCharacters();
 
-    default public boolean hasUnconvertedCharacters() {
-    }
+    public boolean hasUnconvertedCharacters();
 
-    default public void clearUnconvertedCharacters(boolean bl) {
-    }
+    public void clearUnconvertedCharacters(boolean var1);
 
-    default public void convertUnconvertedCharactersToRegularCharacters() {
-    }
+    public void convertUnconvertedCharactersToRegularCharacters();
 
-    default public void setTouchResultPreview(String string) {
-    }
+    public void setTouchResultPreview(String var1);
 
-    default public String getTouchResultPreview() {
-    }
+    public String getTouchResultPreview();
 
-    default public String deleteTouchResultPreview() {
-    }
+    public String deleteTouchResultPreview();
 
-    default public boolean hasTouchResultPreview() {
-    }
+    public boolean hasTouchResultPreview();
 
-    default public boolean hasNonRegularCharacters() {
-    }
+    public boolean hasNonRegularCharacters();
 
-    default public String getFullText() {
-    }
+    public String getFullText();
 
-    default public void appendRegularCharacters(String string, boolean bl) {
-    }
+    public void appendRegularCharacters(String var1, boolean var2);
 
-    default public void acceptTouchResultPreview() {
-    }
+    public void acceptTouchResultPreview();
 
-    default public void replaceLastUnconvertedCharacter(String string) {
-    }
+    public void replaceLastUnconvertedCharacter(String var1);
 
-    default public void setUnconvertedCharacters(String string, boolean bl) {
-    }
+    public void setUnconvertedCharacters(String var1, boolean var2);
 
-    default public void setNeedPreviewDataUpdateToModel(boolean bl) {
-    }
+    public void setNeedPreviewDataUpdateToModel(boolean var1);
 
-    default public boolean isHandWrittenModeActive() {
-    }
+    public boolean isHandWrittenModeActive();
 
-    default public void onWordPredictionServiceRemoved() {
-    }
+    public void onWordPredictionServiceRemoved();
 
-    default public boolean isSuggestionValid() {
-    }
+    public boolean isSuggestionValid();
 
-    default public void setSuggestion(String string) {
-    }
+    public void setSuggestion(String var1);
 
-    default public String getSuggestion() {
-    }
+    public String getSuggestion();
 
-    default public void acceptSuggestion(boolean bl) {
-    }
+    public void acceptSuggestion(boolean var1);
 
-    default public String getPredictionContextWithLastInputWord(String string, boolean bl) {
-    }
+    public String getPredictionContextWithLastInputWord(String var1, boolean var2);
 
-    default public void clearModelTriggered() {
-    }
+    public void clearModelTriggered();
 }
 

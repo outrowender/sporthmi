@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ActiveMonitorings_Extension2
 implements BAPEntity {
-    private static final int RESERVED_BIT_0__7_BITSIZE;
+    private static final int RESERVED_BIT_0__7_BITSIZE = 8;
 
     public ActiveMonitorings_Extension2() {
         this.internalReset();
@@ -23,12 +23,10 @@ implements BAPEntity {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveMonitorings_Extension2 activeMonitorings_Extension2 = (ActiveMonitorings_Extension2)bAPEntity;
         return this.equals(activeMonitorings_Extension2);
@@ -37,24 +35,20 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveMonitorings_Extension2");
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(8);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(8);
     }

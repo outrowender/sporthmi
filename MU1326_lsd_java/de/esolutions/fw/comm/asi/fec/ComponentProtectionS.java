@@ -4,9 +4,9 @@
 package de.esolutions.fw.comm.asi.fec;
 
 import de.esolutions.fw.comm.asi.fec.ComponentProtectionReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ComponentProtectionS {
-    default public void authString(String string, int n, int n2, ComponentProtectionReply componentProtectionReply) {
-    }
+    public void authString(String var1, int var2, int var3, ComponentProtectionReply var4) throws MethodException;
 }
 

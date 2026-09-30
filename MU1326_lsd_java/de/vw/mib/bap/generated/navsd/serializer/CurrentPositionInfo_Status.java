@@ -11,7 +11,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CurrentPositionInfo_Status
 implements StatusProperty {
     public final BAPString positionInfo = new BAPString(97);
-    private static final int MAX_POSITION_INFO_LENGTH;
+    private static final int MAX_POSITION_INFO_LENGTH = 97;
 
     public CurrentPositionInfo_Status() {
         this.internalReset();
@@ -26,13 +26,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.positionInfo.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentPositionInfo_Status currentPositionInfo_Status = (CurrentPositionInfo_Status)bAPEntity;
         return this.positionInfo.equalTo(currentPositionInfo_Status.positionInfo);
@@ -41,7 +39,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentPositionInfo_Status:");
@@ -50,18 +47,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.positionInfo.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.positionInfo.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.positionInfo.deserialize(bitStream);
     }
@@ -70,7 +64,6 @@ implements StatusProperty {
         return 19;
     }
 
-    @Override
     public int getFunctionId() {
         return CurrentPositionInfo_Status.functionId();
     }

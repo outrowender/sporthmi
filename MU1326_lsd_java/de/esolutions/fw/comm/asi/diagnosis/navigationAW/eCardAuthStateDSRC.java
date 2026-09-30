@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eCardAuthStateDSRC
 extends IEnum {
-    public static final int DSRC_CARD_AUTH_STATE_NOT_AUTHORIZED;
-    public static final int DSRC_CARD_AUTH_STATE_AUTHORIZED;
-    public static final int DSRC_CARD_AUTH_STATE_NOT_AVAILABLE;
+    public static final int DSRC_CARD_AUTH_STATE_NOT_AUTHORIZED = 0;
+    public static final int DSRC_CARD_AUTH_STATE_AUTHORIZED = 1;
+    public static final int DSRC_CARD_AUTH_STATE_NOT_AVAILABLE = 255;
 }
 

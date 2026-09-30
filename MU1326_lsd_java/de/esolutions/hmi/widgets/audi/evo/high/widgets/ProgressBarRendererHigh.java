@@ -13,11 +13,11 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.ProgressBarRenderer;
 public class ProgressBarRendererHigh
 extends AbstractKanziTemplateRenderer
 implements ProgressBarRenderer {
-    public static final int PREFERRED_WIDTH;
-    public static final int PREFERRED_HEIGHT;
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
-    private float renderOpacity = 32959;
+    public static final int PREFERRED_WIDTH = 263;
+    public static final int PREFERRED_HEIGHT = 10;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/progressBar";
+    private static final String EAL_NODE_NAME = "progressBar";
+    private float renderOpacity = -1.0f;
     private final ProgressBarController controller;
     private int cachedColor;
     private int cachedColorEAL;
@@ -26,7 +26,6 @@ implements ProgressBarRenderer {
         this.controller = progressBarController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -51,37 +50,30 @@ implements ProgressBarRenderer {
         return this.cachedColorEAL;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/progressBar";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "progressBar";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public int getPreferredWidth() {
         return 263;
     }
 
-    @Override
     public int getPreferredHeight() {
         return 10;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

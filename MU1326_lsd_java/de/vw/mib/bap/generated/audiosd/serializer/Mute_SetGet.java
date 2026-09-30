@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.muteState.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Mute_SetGet mute_SetGet = (Mute_SetGet)bAPEntity;
         return this.muteState.equalTo(mute_SetGet.muteState);
@@ -40,7 +38,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Mute_SetGet:");
@@ -49,18 +46,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.muteState.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.muteState.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.muteState.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements SetGetProperty {
         return 19;
     }
 
-    @Override
     public int getFunctionId() {
         return Mute_SetGet.functionId();
     }

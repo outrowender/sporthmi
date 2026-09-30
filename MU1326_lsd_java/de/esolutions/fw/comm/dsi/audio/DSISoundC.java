@@ -3,263 +3,179 @@
  */
 package de.esolutions.fw.comm.dsi.audio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISoundC {
-    default public void getVolume(int n, int n2) {
-    }
+    public void getVolume(int var1, int var2) throws MethodException;
 
-    default public void setVolume(int n, int n2, short s) {
-    }
+    public void setVolume(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseVolume(int n, int n2, short s) {
-    }
+    public void decreaseVolume(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseVolume(int n, int n2, short s) {
-    }
+    public void increaseVolume(int var1, int var2, short var3) throws MethodException;
 
-    default public void getBalance(int n, int n2) {
-    }
+    public void getBalance(int var1, int var2) throws MethodException;
 
-    default public void setBalance(int n, int n2, short s) {
-    }
+    public void setBalance(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseBalance(int n, int n2, short s) {
-    }
+    public void decreaseBalance(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseBalance(int n, int n2, short s) {
-    }
+    public void increaseBalance(int var1, int var2, short var3) throws MethodException;
 
-    default public void getBass(int n, int n2) {
-    }
+    public void getBass(int var1, int var2) throws MethodException;
 
-    default public void setBass(int n, int n2, short s) {
-    }
+    public void setBass(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseBass(int n, int n2, short s) {
-    }
+    public void decreaseBass(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseBass(int n, int n2, short s) {
-    }
+    public void increaseBass(int var1, int var2, short var3) throws MethodException;
 
-    default public void getTreble(int n, int n2) {
-    }
+    public void getTreble(int var1, int var2) throws MethodException;
 
-    default public void setTreble(int n, int n2, short s) {
-    }
+    public void setTreble(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseTreble(int n, int n2, short s) {
-    }
+    public void decreaseTreble(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseTreble(int n, int n2, short s) {
-    }
+    public void increaseTreble(int var1, int var2, short var3) throws MethodException;
 
-    default public void getFader(int n, int n2) {
-    }
+    public void getFader(int var1, int var2) throws MethodException;
 
-    default public void setFader(int n, int n2, short s) {
-    }
+    public void setFader(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseFader(int n, int n2, short s) {
-    }
+    public void decreaseFader(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseFader(int n, int n2, short s) {
-    }
+    public void increaseFader(int var1, int var2, short var3) throws MethodException;
 
-    default public void getSubwoofer(int n, int n2) {
-    }
+    public void getSubwoofer(int var1, int var2) throws MethodException;
 
-    default public void setSubwoofer(int n, int n2, short s) {
-    }
+    public void setSubwoofer(int var1, int var2, short var3) throws MethodException;
 
-    default public void getInputGainOffset(int n, int n2) {
-    }
+    public void getInputGainOffset(int var1, int var2) throws MethodException;
 
-    default public void setInputGainOffset(int n, int n2, short s) {
-    }
+    public void setInputGainOffset(int var1, int var2, short var3) throws MethodException;
 
-    default public void getInputGainOffsetRange(int n, int n2) {
-    }
+    public void getInputGainOffsetRange(int var1, int var2) throws MethodException;
 
-    default public void getLoweringEntertainment(int n, int n2, int n3) {
-    }
+    public void getLoweringEntertainment(int var1, int var2, int var3) throws MethodException;
 
-    default public void setLoweringEntertainment(int n, int n2, int n3, short s) {
-    }
+    public void setLoweringEntertainment(int var1, int var2, int var3, short var4) throws MethodException;
 
-    default public void getMenuVolEntRange(int n) {
-    }
+    public void getMenuVolEntRange(int var1) throws MethodException;
 
-    default public void getMenuVolumeRange(int n, int n2) {
-    }
+    public void getMenuVolumeRange(int var1, int var2) throws MethodException;
 
-    default public void getVolumeRange(int n, int n2) {
-    }
+    public void getVolumeRange(int var1, int var2) throws MethodException;
 
-    default public void getSurroundLevel(int n, int n2) {
-    }
+    public void getSurroundLevel(int var1, int var2) throws MethodException;
 
-    default public void setSurroundLevel(int n, int n2, short s) {
-    }
+    public void setSurroundLevel(int var1, int var2, short var3) throws MethodException;
 
-    default public void setSurroundOnOff(int n, int n2, boolean bl) {
-    }
+    public void setSurroundOnOff(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void revertToFactorySettings(int n, int n2) {
-    }
+    public void revertToFactorySettings(int var1, int var2) throws MethodException;
 
-    default public void createExportFile(String string, int n) {
-    }
+    public void createExportFile(String var1, int var2) throws MethodException;
 
-    default public void importFile(String string, int n) {
-    }
+    public void importFile(String var1, int var2) throws MethodException;
 
-    default public void getMiddle(int n, int n2) {
-    }
+    public void getMiddle(int var1, int var2) throws MethodException;
 
-    default public void setMiddle(int n, int n2, short s) {
-    }
+    public void setMiddle(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseMiddle(int n, int n2, short s) {
-    }
+    public void decreaseMiddle(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseMiddle(int n, int n2, short s) {
-    }
+    public void increaseMiddle(int var1, int var2, short var3) throws MethodException;
 
-    default public void setEqualizer(int n, int n2, int n3, int n4) {
-    }
+    public void setEqualizer(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void increaseEqualizer(int n, int n2, int n3, short s) {
-    }
+    public void increaseEqualizer(int var1, int var2, int var3, short var4) throws MethodException;
 
-    default public void decreaseEqualizer(int n, int n2, int n3, short s) {
-    }
+    public void decreaseEqualizer(int var1, int var2, int var3, short var4) throws MethodException;
 
-    default public void getEqualizer(int n, int n2) {
-    }
+    public void getEqualizer(int var1, int var2) throws MethodException;
 
-    default public void setOnVolumeLimit(int n) {
-    }
+    public void setOnVolumeLimit(int var1) throws MethodException;
 
-    default public void increaseOnVolumeLimit(short s) {
-    }
+    public void increaseOnVolumeLimit(short var1) throws MethodException;
 
-    default public void decreaseOnVolumeLimit(short s) {
-    }
+    public void decreaseOnVolumeLimit(short var1) throws MethodException;
 
-    default public void decreaseSubwoofer(int n, int n2, short s) {
-    }
+    public void decreaseSubwoofer(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseSubwoofer(int n, int n2, short s) {
-    }
+    public void increaseSubwoofer(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseInputGainOffset(int n, int n2, short s) {
-    }
+    public void decreaseInputGainOffset(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseInputGainOffset(int n, int n2, short s) {
-    }
+    public void increaseInputGainOffset(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseLoweringEntertainment(int n, int n2, int n3, short s) {
-    }
+    public void decreaseLoweringEntertainment(int var1, int var2, int var3, short var4) throws MethodException;
 
-    default public void increaseLoweringEntertainment(int n, int n2, int n3, short s) {
-    }
+    public void increaseLoweringEntertainment(int var1, int var2, int var3, short var4) throws MethodException;
 
-    default public void decreaseSurroundLevel(int n, int n2, short s) {
-    }
+    public void decreaseSurroundLevel(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseSurroundLevel(int n, int n2, short s) {
-    }
+    public void increaseSurroundLevel(int var1, int var2, short var3) throws MethodException;
 
-    default public void setMicGainLevel(int n) {
-    }
+    public void setMicGainLevel(int var1) throws MethodException;
 
-    default public void decreaseMicGainLevel(short s) {
-    }
+    public void decreaseMicGainLevel(short var1) throws MethodException;
 
-    default public void increaseMicGainLevel(short s) {
-    }
+    public void increaseMicGainLevel(short var1) throws MethodException;
 
-    default public void getNoiseCompensation(int n, int n2) {
-    }
+    public void getNoiseCompensation(int var1, int var2) throws MethodException;
 
-    default public void setNoiseCompensation(int n, int n2, short s) {
-    }
+    public void setNoiseCompensation(int var1, int var2, short var3) throws MethodException;
 
-    default public void increaseNoiseCompensation(int n, int n2, short s) {
-    }
+    public void increaseNoiseCompensation(int var1, int var2, short var3) throws MethodException;
 
-    default public void decreaseNoiseCompensation(int n, int n2, short s) {
-    }
+    public void decreaseNoiseCompensation(int var1, int var2, short var3) throws MethodException;
 
-    default public void getPresetEQ(int n, int n2) {
-    }
+    public void getPresetEQ(int var1, int var2) throws MethodException;
 
-    default public void setPresetEQ(int n, int n2, int n3) {
-    }
+    public void setPresetEQ(int var1, int var2, int var3) throws MethodException;
 
-    default public void getPresetPosition(int n, int n2) {
-    }
+    public void getPresetPosition(int var1, int var2) throws MethodException;
 
-    default public void setPresetPosition(int n, int n2, int n3) {
-    }
+    public void setPresetPosition(int var1, int var2, int var3) throws MethodException;
 
-    default public void get3DMode(int n, int n2) {
-    }
+    public void get3DMode(int var1, int var2) throws MethodException;
 
-    default public void set3DMode(int n, int n2, int n3) {
-    }
+    public void set3DMode(int var1, int var2, int var3) throws MethodException;
 
-    default public void setSubwooferActivity(int n, int n2, boolean bl) {
-    }
+    public void setSubwooferActivity(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void setWidebandSpeech(int n, boolean bl) {
-    }
+    public void setWidebandSpeech(int var1, boolean var2) throws MethodException;
 
-    default public void setDuration(int n, int n2) {
-    }
+    public void setDuration(int var1, int var2) throws MethodException;
 
-    default public void getSoundShapeActive() {
-    }
+    public void getSoundShapeActive() throws MethodException;
 
-    default public void setSoundShapeActive(boolean bl) {
-    }
+    public void setSoundShapeActive(boolean var1) throws MethodException;
 
-    default public void getSoundShape() {
-    }
+    public void getSoundShape() throws MethodException;
 
-    default public void setSoundShape(short s, short s2, short s3) {
-    }
+    public void setSoundShape(short var1, short var2, short var3) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

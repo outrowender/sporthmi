@@ -102,7 +102,7 @@ public class sRadioBeaconStateVICS {
     }
 
     public String toString() {
-        return new StringBuffer("sRadioBeaconStateVICS{").append("msg_id=").append(this.msg_id).append(", available=").append(this.available).append(", yearLastMsg=").append(this.yearLastMsg).append(", monthLastMsg=").append(this.monthLastMsg).append(", dayLastMsg=").append(this.dayLastMsg).append(", hourLastMsg=").append(this.hourLastMsg).append(", minuteLastMsg=").append(this.minuteLastMsg).append(", secondsLastMsg=").append(this.secondsLastMsg).append(", idLastMsg=").append(this.idLastMsg).append("}").toString();
+        return "sRadioBeaconStateVICS{" + "msg_id=" + this.msg_id + ", available=" + this.available + ", yearLastMsg=" + this.yearLastMsg + ", monthLastMsg=" + this.monthLastMsg + ", dayLastMsg=" + this.dayLastMsg + ", hourLastMsg=" + this.hourLastMsg + ", minuteLastMsg=" + this.minuteLastMsg + ", secondsLastMsg=" + this.secondsLastMsg + ", idLastMsg=" + this.idLastMsg + "}";
     }
 }
 

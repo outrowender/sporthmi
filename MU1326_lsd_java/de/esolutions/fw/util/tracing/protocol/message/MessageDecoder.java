@@ -23,29 +23,29 @@ public class MessageDecoder {
         this.deserializer = iDeserializer;
     }
 
-    public AbstractMessage decodeBuffer(byte[] byArray) {
+    public AbstractMessage decodeBuffer(byte[] byArray) throws SerializerException {
         return this.decodeReadable(new TransportBuffer(byArray));
     }
 
-    public AbstractMessage decodeReadable(IReadable iReadable) {
+    public AbstractMessage decodeReadable(IReadable iReadable) throws SerializerException {
         try {
             this.deserializer.attachBuffer(iReadable);
             byte by = this.deserializer.getInt8();
             MessageType messageType = MessageType.getType(by);
             AbstractMessage abstractMessage = messageType.createMessage();
             if (abstractMessage == null) {
-                throw new SerializerException(new StringBuffer().append("Invalid Trace Message Type: ").append(by).toString());
+                throw new SerializerException("Invalid Trace Message Type: " + by);
             }
             abstractMessage.deserialize(this.deserializer);
             int n = this.deserializer.bytesLeft();
             if (n > 0) {
-                throw new SerializerException(new StringBuffer().append("Serializer has bytes left: ").append(n).toString());
+                throw new SerializerException("Serializer has bytes left: " + n);
             }
             this.deserializer.detachBuffer();
             return abstractMessage;
         }
         catch (RuntimeException runtimeException) {
-            throw new SerializerException(new StringBuffer().append("Serializer had runtime problem: ").append(runtimeException.getMessage()).toString());
+            throw new SerializerException("Serializer had runtime problem: " + runtimeException.getMessage());
         }
     }
 }

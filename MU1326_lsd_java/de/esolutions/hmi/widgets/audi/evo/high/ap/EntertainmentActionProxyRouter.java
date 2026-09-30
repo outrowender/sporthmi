@@ -7,9 +7,9 @@ import de.audi.atip.statemachine.ap.EntertainmentActionProxy;
 
 public class EntertainmentActionProxyRouter
 implements EntertainmentActionProxy {
-    public static final int VALUE_NOTHING;
-    protected static EntertainmentActionProxy m_handler;
-    protected static EntertainmentActionProxyRouter thisIsJimmy;
+    public static final int VALUE_NOTHING = -1;
+    protected static EntertainmentActionProxy m_handler = null;
+    protected static EntertainmentActionProxyRouter thisIsJimmy = null;
     protected int blackListedConnection = -1;
 
     public static synchronized EntertainmentActionProxyRouter getInstance() {
@@ -31,7 +31,6 @@ implements EntertainmentActionProxy {
         m_handler = null;
     }
 
-    @Override
     public void entertainmentBlacklist(int n, int n2) {
         this.blackListedConnection = n2;
         if (m_handler != null) {
@@ -39,16 +38,10 @@ implements EntertainmentActionProxy {
         }
     }
 
-    @Override
     public void entertainmentSetVisible(int n, boolean bl) {
         if (m_handler != null) {
             m_handler.entertainmentSetVisible(n, bl);
         }
-    }
-
-    static {
-        m_handler = null;
-        thisIsJimmy = null;
     }
 }
 

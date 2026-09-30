@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sSimState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sSimStateSerializer {
-    public static void putOptionalsSimState(ISerializer iSerializer, sSimState sSimState2) {
+    public static void putOptionalsSimState(ISerializer iSerializer, sSimState sSimState2) throws SerializerException {
         boolean bl = sSimState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sSimStateSerializer {
         }
     }
 
-    public static void putOptionalsSimStateVarArray(ISerializer iSerializer, sSimState[] sSimStateArray) {
+    public static void putOptionalsSimStateVarArray(ISerializer iSerializer, sSimState[] sSimStateArray) throws SerializerException {
         boolean bl = sSimStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sSimStateSerializer {
         }
     }
 
-    public static sSimState getOptionalsSimState(IDeserializer iDeserializer) {
+    public static sSimState getOptionalsSimState(IDeserializer iDeserializer) throws SerializerException {
         sSimState sSimState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class sSimStateSerializer {
         return sSimState2;
     }
 
-    public static sSimState[] getOptionalsSimStateVarArray(IDeserializer iDeserializer) {
+    public static sSimState[] getOptionalsSimStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sSimState[] sSimStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

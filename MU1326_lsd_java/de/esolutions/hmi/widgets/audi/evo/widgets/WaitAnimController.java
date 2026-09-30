@@ -20,8 +20,8 @@ implements AnimationListener,
 IViewSizeAnimatable {
     public static final int[] MULTI_CAST_ANIM_STORE_TIMEOUTS = new int[]{100};
     public static final int[] MULTI_CAST_ANIM_STORE_STEPS = new int[]{10};
-    public static final int USED_MULTI_CAST_ANIM_IDX;
-    private static MultiCastAnimationStore animationStore;
+    public static final int USED_MULTI_CAST_ANIM_IDX = 0;
+    private static MultiCastAnimationStore animationStore = null;
     private AnimationRefCtrlObj animationController = null;
     private IWaitAnimRenderer renderer;
     private boolean showBackground = false;
@@ -38,7 +38,6 @@ IViewSizeAnimatable {
         this.setVisible(false);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (animationStore == null) {
@@ -48,7 +47,6 @@ IViewSizeAnimatable {
         this.updateRunning();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         ChoiceModel choiceModel;
         int n;
@@ -57,22 +55,18 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         this.setCompositesDirty(true);
         this.repaintFocusCursor();
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         this.animationProgressStep = 0.0f;
     }
 
-    @Override
     protected void destroyWidget() {
         this.setVisible(false);
         super.destroyWidget();
@@ -82,7 +76,6 @@ IViewSizeAnimatable {
         this.animationController = null;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -91,13 +84,12 @@ IViewSizeAnimatable {
         this.renderer = iWaitAnimRenderer;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (bl == this.isVisible()) {
             return;
         }
         super.setVisible(bl);
-        logAnimation.log(-2137614336, "WaitAnimController#setVisible waiting cursor visiblity is : %1 , Model ID : %2 ", bl, (long)this.modelID);
+        logAnimation.log(10000000, "WaitAnimController#setVisible waiting cursor visiblity is : %1 , Model ID : %2 ", bl, (long)this.modelID);
         this.updateRunning();
         if (this.isConnected() && this.parent instanceof FocusCursorController) {
             ((FocusCursorController)this.parent).waitIconVisibilityChanged();
@@ -125,11 +117,8 @@ IViewSizeAnimatable {
         }
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     public float getProgress() {
-        return this.isConnected() && this.isVisible() && this.animationController != null ? (int)this.animationController.getProgress() : 32959;
+        return this.isConnected() && this.isVisible() && this.animationController != null ? this.animationController.getProgress() : -1.0f;
     }
 
     public void setShowWaitAnimationBackground(boolean bl) {
@@ -144,7 +133,6 @@ IViewSizeAnimatable {
         this.animationProgressStep = Math.max(this.getProgress(), this.animationProgressStep);
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (!this.isAnimating) {
             this.setOnScreen(false);
@@ -152,18 +140,15 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (this.isAnimating) {
             this.isAnimating = false;
         }
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public int getDepth() {
         if (this.getParent() instanceof FocusCursorController) {
             return 100;
@@ -171,11 +156,9 @@ IViewSizeAnimatable {
         return 0;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.preferredWidth != -1) {
             return this.preferredWidth;
@@ -186,7 +169,6 @@ IViewSizeAnimatable {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.preferredHeight != -1) {
             return this.preferredHeight;
@@ -195,10 +177,6 @@ IViewSizeAnimatable {
             return this.renderer.getPreferredHeight();
         }
         return 0;
-    }
-
-    static {
-        animationStore = null;
     }
 }
 

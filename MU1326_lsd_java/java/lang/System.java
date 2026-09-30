@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.security.AccessController;
+import java.security.AllPermission;
+import java.security.PrivilegedAction;
+import java.security.ProtectionDomain;
 import java.util.Properties;
 import java.util.PropertyPermission;
 
@@ -24,16 +27,16 @@ public final class System {
     private static final Runtime RUNTIME;
     private static Properties systemProperties;
     private static SecurityManager security;
-    private static final int InitLocale;
-    private static final int PlatformEncoding;
-    private static final int FileEncoding;
-    private static final int OSEncoding;
+    private static final int InitLocale = 0;
+    private static final int PlatformEncoding = 1;
+    private static final int FileEncoding = 2;
+    private static final int OSEncoding = 3;
 
     static {
         RUNTIME = Runtime.getRuntime();
         System.ensureProperties();
-        err = new String$ConsolePrintStream(new BufferedOutputStream(new FileOutputStream(FileDescriptor.err)));
-        out = new String$ConsolePrintStream(new BufferedOutputStream(new FileOutputStream(FileDescriptor.out)));
+        err = new String.ConsolePrintStream(new BufferedOutputStream(new FileOutputStream(FileDescriptor.err)));
+        out = new String.ConsolePrintStream(new BufferedOutputStream(new FileOutputStream(FileDescriptor.out)));
         in = new BufferedInputStream(new FileInputStream(FileDescriptor.in));
     }
 
@@ -50,7 +53,7 @@ public final class System {
                 n = n2 + 1;
                 if (string2.length() == 0) continue;
                 try {
-                    String string3 = new StringBuffer("com.ibm.oti.").append(string2).append(".SystemPropertyExtension").toString();
+                    String string3 = "com.ibm.oti." + string2 + ".SystemPropertyExtension";
                     Class clazz = Class.forName(string3);
                     Object object = clazz.newInstance();
                     try {
@@ -116,8 +119,7 @@ public final class System {
     private System() {
     }
 
-    public static native void arraycopy(Object object, int n, Object object2, int n2, int n3) {
-    }
+    public static native void arraycopy(Object var0, int var1, Object var2, int var3, int var4);
 
     private static void arraycopy(Object[] objectArray, int n, Object[] objectArray2, int n2, int n3) {
         if (objectArray == null || objectArray2 == null) {
@@ -142,8 +144,7 @@ public final class System {
         }
     }
 
-    public static native long currentTimeMillis() {
-    }
+    public static native long currentTimeMillis();
 
     private static void ensureProperties() {
         String string;
@@ -241,21 +242,17 @@ public final class System {
         return (String)systemProperties.setProperty(string, string2);
     }
 
-    private static native String[] getPropertyList() {
-    }
+    private static native String[] getPropertyList();
 
-    private static native String getCommPortList() {
-    }
+    private static native String getCommPortList();
 
-    private static native String getEncoding(int n) {
-    }
+    private static native String getEncoding(int var0);
 
     public static SecurityManager getSecurityManager() {
         return security;
     }
 
-    public static native int identityHashCode(Object object) {
-    }
+    public static native int identityHashCode(Object var0);
 
     public static void load(String string) {
         SecurityManager securityManager = System.getSecurityManager();
@@ -285,15 +282,29 @@ public final class System {
         }
     }
 
-    public static void setSecurityManager(SecurityManager securityManager) {
-        SecurityManager securityManager2 = security;
+    public static void setSecurityManager(final SecurityManager securityManager) {
+        final SecurityManager securityManager2 = security;
         if (securityManager != null) {
             try {
                 securityManager.checkPackageAccess("java.lang");
             }
             catch (Exception exception) {}
             try {
-                AccessController.doPrivileged(new System$1(securityManager2, securityManager));
+                AccessController.doPrivileged(new PrivilegedAction(){
+
+                    public Object run() {
+                        ProtectionDomain protectionDomain;
+                        ProtectionDomain protectionDomain2 = null;
+                        if (securityManager2 != null) {
+                            protectionDomain2 = securityManager2.getClass().getPDImpl();
+                        }
+                        if ((protectionDomain = securityManager.getClass().getPDImpl()) != null && protectionDomain != protectionDomain2) {
+                            Msg.getString("K002c");
+                            protectionDomain.implies(new AllPermission());
+                        }
+                        return null;
+                    }
+                });
             }
             catch (Exception exception) {}
         }
@@ -303,10 +314,8 @@ public final class System {
         security = securityManager;
     }
 
-    public static native String mapLibraryName(String string) {
-    }
+    public static native String mapLibraryName(String var0);
 
-    private static native void setFieldImpl(String string, Object object) {
-    }
+    private static native void setFieldImpl(String var0, Object var1);
 }
 

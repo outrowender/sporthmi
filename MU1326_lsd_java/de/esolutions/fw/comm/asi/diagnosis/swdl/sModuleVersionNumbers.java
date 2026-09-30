@@ -82,7 +82,7 @@ public class sModuleVersionNumbers {
     }
 
     public String toString() {
-        return new StringBuffer("sModuleVersionNumbers{").append("msg_id=").append(this.msg_id).append(", bluetooth_parrot_stack=").append(this.bluetooth_parrot_stack).append(", phone_module=").append(this.phone_module).append(", languages_voices=").append(this.languages_voices).append(", codec_media_driver=").append(this.codec_media_driver).append(", gracenote_database=").append(this.gracenote_database).append(", radio_tv_station_list=").append(this.radio_tv_station_list).append("}").toString();
+        return "sModuleVersionNumbers{" + "msg_id=" + this.msg_id + ", bluetooth_parrot_stack=" + this.bluetooth_parrot_stack + ", phone_module=" + this.phone_module + ", languages_voices=" + this.languages_voices + ", codec_media_driver=" + this.codec_media_driver + ", gracenote_database=" + this.gracenote_database + ", radio_tv_station_list=" + this.radio_tv_station_list + "}";
     }
 }
 

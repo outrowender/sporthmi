@@ -4,27 +4,21 @@
 package de.esolutions.fw.comm.asi.hmisync.navigation;
 
 import de.esolutions.fw.comm.asi.hmisync.navigation.DestinationInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncNavigationC {
-    default public void startGuidanceToDestinations(DestinationInfo[] destinationInfoArray) {
-    }
+    public void startGuidanceToDestinations(DestinationInfo[] var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

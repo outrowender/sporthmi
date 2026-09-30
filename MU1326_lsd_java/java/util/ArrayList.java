@@ -3,10 +3,9 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -23,11 +22,11 @@ implements List,
 Cloneable,
 Serializable,
 RandomAccess {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 8683452581122892189L;
     private transient int firstIndex;
     private transient int lastIndex;
     private transient Object[] array;
-    private static final ObjectStreamField[] serialPersistentFields;
+    private static final ObjectStreamField[] serialPersistentFields = new ObjectStreamField[]{new ObjectStreamField("size", Integer.TYPE)};
 
     public ArrayList() {
         this(0);
@@ -52,7 +51,6 @@ RandomAccess {
         this.addAll(collection);
     }
 
-    @Override
     public void add(int n, Object object) {
         int n2 = this.size();
         if (0 < n && n < n2) {
@@ -82,7 +80,6 @@ RandomAccess {
         ++this.modCount;
     }
 
-    @Override
     public boolean add(Object object) {
         if (this.lastIndex == this.array.length) {
             this.growAtEnd(1);
@@ -92,7 +89,6 @@ RandomAccess {
         return true;
     }
 
-    @Override
     public boolean addAll(int n, Collection collection) {
         int n2;
         int n3 = this.size();
@@ -142,7 +138,6 @@ RandomAccess {
         return false;
     }
 
-    @Override
     public boolean addAll(Collection collection) {
         int n = collection.size();
         if (n > 0) {
@@ -160,7 +155,6 @@ RandomAccess {
         return false;
     }
 
-    @Override
     public void clear() {
         if (this.firstIndex != this.lastIndex) {
             Arrays.fill(this.array, this.firstIndex, this.lastIndex, null);
@@ -181,7 +175,6 @@ RandomAccess {
         }
     }
 
-    @Override
     public boolean contains(Object object) {
         if (object != null) {
             for (int i2 = this.firstIndex; i2 < this.lastIndex; ++i2) {
@@ -207,7 +200,6 @@ RandomAccess {
         }
     }
 
-    @Override
     public Object get(int n) {
         if (0 <= n && n < this.size()) {
             return this.array[this.firstIndex + n];
@@ -296,7 +288,6 @@ RandomAccess {
         this.array = objectArray;
     }
 
-    @Override
     public int indexOf(Object object) {
         if (object != null) {
             for (int i2 = this.firstIndex; i2 < this.lastIndex; ++i2) {
@@ -312,12 +303,10 @@ RandomAccess {
         return -1;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.lastIndex == this.firstIndex;
     }
 
-    @Override
     public int lastIndexOf(Object object) {
         if (object != null) {
             for (int i2 = this.lastIndex - 1; i2 >= this.firstIndex; --i2) {
@@ -333,7 +322,6 @@ RandomAccess {
         return -1;
     }
 
-    @Override
     public Object remove(int n) {
         Object object;
         int n2 = this.size();
@@ -362,7 +350,6 @@ RandomAccess {
         return object;
     }
 
-    @Override
     protected void removeRange(int n, int n2) {
         if (n >= 0 && n <= n2 && n2 <= this.size()) {
             if (n == n2) {
@@ -387,7 +374,6 @@ RandomAccess {
         }
     }
 
-    @Override
     public Object set(int n, Object object) {
         if (0 <= n && n < this.size()) {
             Object object2 = this.array[this.firstIndex + n];
@@ -397,12 +383,10 @@ RandomAccess {
         throw new IndexOutOfBoundsException();
     }
 
-    @Override
     public int size() {
         return this.lastIndex - this.firstIndex;
     }
 
-    @Override
     public Object[] toArray() {
         int n = this.size();
         Object[] objectArray = new Object[n];
@@ -410,11 +394,10 @@ RandomAccess {
         return objectArray;
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         int n = this.size();
         if (n > objectArray.length) {
-            objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), n);
+            objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), n);
         }
         System.arraycopy((Object)this.array, this.firstIndex, (Object)objectArray, 0, n);
         if (n < objectArray.length) {
@@ -432,9 +415,9 @@ RandomAccess {
         this.lastIndex = this.array.length;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("size", this.size());
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("size", this.size());
         objectOutputStream.writeFields();
         objectOutputStream.writeInt(this.array.length);
         Iterator iterator = this.iterator();
@@ -443,17 +426,13 @@ RandomAccess {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        this.lastIndex = objectInputStream$GetField.get("size", 0);
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        this.lastIndex = getField.get("size", 0);
         this.array = new Object[objectInputStream.readInt()];
         for (int i2 = 0; i2 < this.lastIndex; ++i2) {
             this.array[i2] = objectInputStream.readObject();
         }
-    }
-
-    static {
-        serialPersistentFields = new ObjectStreamField[]{new ObjectStreamField("size", Integer.TYPE)};
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSVideoInfo;
 
 public class VPSVideoInfoSerializer {
-    public static void putOptionalVPSVideoInfo(ISerializer iSerializer, VPSVideoInfo vPSVideoInfo) {
+    public static void putOptionalVPSVideoInfo(ISerializer iSerializer, VPSVideoInfo vPSVideoInfo) throws SerializerException {
         boolean bl = vPSVideoInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class VPSVideoInfoSerializer {
         }
     }
 
-    public static void putOptionalVPSVideoInfoVarArray(ISerializer iSerializer, VPSVideoInfo[] vPSVideoInfoArray) {
+    public static void putOptionalVPSVideoInfoVarArray(ISerializer iSerializer, VPSVideoInfo[] vPSVideoInfoArray) throws SerializerException {
         boolean bl = vPSVideoInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class VPSVideoInfoSerializer {
         }
     }
 
-    public static VPSVideoInfo getOptionalVPSVideoInfo(IDeserializer iDeserializer) {
+    public static VPSVideoInfo getOptionalVPSVideoInfo(IDeserializer iDeserializer) throws SerializerException {
         VPSVideoInfo vPSVideoInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class VPSVideoInfoSerializer {
         return vPSVideoInfo;
     }
 
-    public static VPSVideoInfo[] getOptionalVPSVideoInfoVarArray(IDeserializer iDeserializer) {
+    public static VPSVideoInfo[] getOptionalVPSVideoInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSVideoInfo[] vPSVideoInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

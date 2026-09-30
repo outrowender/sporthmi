@@ -3,6 +3,7 @@
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.Writer;
 
 public class StringWriter
@@ -22,11 +23,9 @@ extends Writer {
         this.lock = this.buf;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
     }
 
-    @Override
     public void flush() {
     }
 
@@ -53,7 +52,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(char[] cArray, int n, int n2) {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
@@ -68,7 +66,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(int n) {
         Object object = this.lock;
         synchronized (object) {
@@ -79,7 +76,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(String string) {
         Object object = this.lock;
         synchronized (object) {
@@ -90,7 +86,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(String string, int n, int n2) {
         String string2 = string.substring(n, n + n2);
         Object object = this.lock;

@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerLandmarkPlayer;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerLandmarkPlayerC;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerLandmarkPlayerReply;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerLandmarkPlayerProxy$1;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerLandmarkPlayerReplyService;
+import de.esolutions.fw.comm.dsi.map.impl.PointSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.Point;
@@ -32,19 +34,22 @@ DSIMapViewerLandmarkPlayerC {
         return this.proxy;
     }
 
-    @Override
-    public void hideLandmark() {
+    public void hideLandmark() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void showLandmark(Point point, long l) {
-        DSIMapViewerLandmarkPlayerProxy$1 dSIMapViewerLandmarkPlayerProxy$1 = new DSIMapViewerLandmarkPlayerProxy$1(this, point, l);
-        this.proxy.remoteCallMethod((short)9, dSIMapViewerLandmarkPlayerProxy$1);
+    public void showLandmark(final Point point, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+                iSerializer.putInt64(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -55,8 +60,7 @@ DSIMapViewerLandmarkPlayerC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -67,13 +71,11 @@ DSIMapViewerLandmarkPlayerC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -84,8 +86,7 @@ DSIMapViewerLandmarkPlayerC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -96,13 +97,11 @@ DSIMapViewerLandmarkPlayerC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

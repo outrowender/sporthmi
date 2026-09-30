@@ -25,28 +25,23 @@ implements DSIAdbSds {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbSds == null ? (class$org$dsi$ifc$organizer$DSIAdbSds = DSIAdbSdsProvider.class$("org.dsi.ifc.organizer.DSIAdbSds")) : class$org$dsi$ifc$organizer$DSIAdbSds).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbSdsProxy(this.instance, (DSIAdbSdsReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getAllVoiceTags() {
         try {
             this.proxy.getAllVoiceTags();
@@ -56,7 +51,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void deleteVoiceTags(int[] nArray) {
         try {
             this.proxy.deleteVoiceTags(nArray);
@@ -66,7 +60,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -76,7 +69,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -86,7 +78,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -96,7 +87,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -106,7 +96,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -116,7 +105,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -126,7 +114,6 @@ implements DSIAdbSds {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

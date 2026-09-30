@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockDayLightSavingData;
 
 public class ClockDayLightSavingDataSerializer {
-    public static void putOptionalClockDayLightSavingData(ISerializer iSerializer, ClockDayLightSavingData clockDayLightSavingData) {
+    public static void putOptionalClockDayLightSavingData(ISerializer iSerializer, ClockDayLightSavingData clockDayLightSavingData) throws SerializerException {
         boolean bl = clockDayLightSavingData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class ClockDayLightSavingDataSerializer {
         }
     }
 
-    public static void putOptionalClockDayLightSavingDataVarArray(ISerializer iSerializer, ClockDayLightSavingData[] clockDayLightSavingDataArray) {
+    public static void putOptionalClockDayLightSavingDataVarArray(ISerializer iSerializer, ClockDayLightSavingData[] clockDayLightSavingDataArray) throws SerializerException {
         boolean bl = clockDayLightSavingDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class ClockDayLightSavingDataSerializer {
         }
     }
 
-    public static ClockDayLightSavingData getOptionalClockDayLightSavingData(IDeserializer iDeserializer) {
+    public static ClockDayLightSavingData getOptionalClockDayLightSavingData(IDeserializer iDeserializer) throws SerializerException {
         ClockDayLightSavingData clockDayLightSavingData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class ClockDayLightSavingDataSerializer {
         return clockDayLightSavingData;
     }
 
-    public static ClockDayLightSavingData[] getOptionalClockDayLightSavingDataVarArray(IDeserializer iDeserializer) {
+    public static ClockDayLightSavingData[] getOptionalClockDayLightSavingDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockDayLightSavingData[] clockDayLightSavingDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

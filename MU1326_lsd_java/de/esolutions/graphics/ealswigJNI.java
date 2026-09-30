@@ -88,3627 +88,2421 @@ import de.esolutions.graphics.eal.utility.CLinearInterpolatorD;
 import de.esolutions.graphics.eal.utility.CLinearInterpolatorF;
 import de.esolutions.graphics.eal.utility.COffscreenHelper;
 import de.esolutions.graphics.eal.utility.IImageStorageListener;
-import de.esolutions.graphics.eal.utility.IImageStorageListener$enType_t;
 import de.esolutions.graphics.ipl.VectorD;
 import de.esolutions.graphics.ipl.VectorF;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
 public class ealswigJNI {
-    public static final native int EAL_VERSION_get() {
-    }
+    public static final native int EAL_VERSION_get();
 
-    public static final native long new_eal_Version() {
-    }
+    public static final native long new_eal_Version();
 
-    public static final native void delete_eal_Version(long l) {
-    }
+    public static final native void delete_eal_Version(long var0);
 
-    public static final native void eal_Version_print() {
-    }
+    public static final native void eal_Version_print();
 
-    public static final native String eal_Version_verToString__SWIG_0() {
-    }
+    public static final native String eal_Version_verToString__SWIG_0();
 
-    public static final native boolean eal_Version_isValid() {
-    }
+    public static final native boolean eal_Version_isValid();
 
-    public static final native int eal_Version_getVersion() {
-    }
+    public static final native int eal_Version_getVersion();
 
-    public static final native String eal_Version_verToString__SWIG_1(int n) {
-    }
+    public static final native String eal_Version_verToString__SWIG_1(int var0);
 
-    public static final native void eal_Version_setJava(boolean bl) {
-    }
+    public static final native void eal_Version_setJava(boolean var0);
 
-    public static final native boolean eal_Version_isJava() {
-    }
+    public static final native boolean eal_Version_isJava();
 
-    public static final native void eal_Version_registerBinding(int n) {
-    }
+    public static final native void eal_Version_registerBinding(int var0);
 
-    public static final native void eal_colorRGBAf_fRed_set(long l, colorRGBAf colorRGBAf2, float f2) {
-    }
+    public static final native void eal_colorRGBAf_fRed_set(long var0, colorRGBAf var2, float var3);
 
-    public static final native float eal_colorRGBAf_fRed_get(long l, colorRGBAf colorRGBAf2) {
-    }
+    public static final native float eal_colorRGBAf_fRed_get(long var0, colorRGBAf var2);
 
-    public static final native void eal_colorRGBAf_fGreen_set(long l, colorRGBAf colorRGBAf2, float f2) {
-    }
+    public static final native void eal_colorRGBAf_fGreen_set(long var0, colorRGBAf var2, float var3);
 
-    public static final native float eal_colorRGBAf_fGreen_get(long l, colorRGBAf colorRGBAf2) {
-    }
+    public static final native float eal_colorRGBAf_fGreen_get(long var0, colorRGBAf var2);
 
-    public static final native void eal_colorRGBAf_fBlue_set(long l, colorRGBAf colorRGBAf2, float f2) {
-    }
+    public static final native void eal_colorRGBAf_fBlue_set(long var0, colorRGBAf var2, float var3);
 
-    public static final native float eal_colorRGBAf_fBlue_get(long l, colorRGBAf colorRGBAf2) {
-    }
+    public static final native float eal_colorRGBAf_fBlue_get(long var0, colorRGBAf var2);
 
-    public static final native void eal_colorRGBAf_fAlpha_set(long l, colorRGBAf colorRGBAf2, float f2) {
-    }
+    public static final native void eal_colorRGBAf_fAlpha_set(long var0, colorRGBAf var2, float var3);
 
-    public static final native float eal_colorRGBAf_fAlpha_get(long l, colorRGBAf colorRGBAf2) {
-    }
+    public static final native float eal_colorRGBAf_fAlpha_get(long var0, colorRGBAf var2);
 
-    public static final native long new_eal_colorRGBAf__SWIG_0() {
-    }
+    public static final native long new_eal_colorRGBAf__SWIG_0();
 
-    public static final native long new_eal_colorRGBAf__SWIG_1(float f2, float f3, float f4, float f5) {
-    }
+    public static final native long new_eal_colorRGBAf__SWIG_1(float var0, float var1, float var2, float var3);
 
-    public static final native void delete_eal_colorRGBAf(long l) {
-    }
+    public static final native void delete_eal_colorRGBAf(long var0);
 
-    public static final native int eal_MEMORYTYPE_NONE_get() {
-    }
+    public static final native int eal_MEMORYTYPE_NONE_get();
 
-    public static final native int eal_MEMORYTYPE_RAM_get() {
-    }
+    public static final native int eal_MEMORYTYPE_RAM_get();
 
-    public static final native int eal_MEMORYTYPE_GPU_get() {
-    }
+    public static final native int eal_MEMORYTYPE_GPU_get();
 
-    public static final native int eal_MEMORYTYPE_RAM_GPU_get() {
-    }
+    public static final native int eal_MEMORYTYPE_RAM_GPU_get();
 
-    public static final native int eal_EVENTTYPE_MERGE_LOADED_get() {
-    }
+    public static final native int eal_EVENTTYPE_MERGE_LOADED_get();
 
-    public static final native int eal_EVENTTYPE_MERGE_MERGED_get() {
-    }
+    public static final native int eal_EVENTTYPE_MERGE_MERGED_get();
 
-    public static final native int eal_EVENTTYPE_IMAGE_get() {
-    }
+    public static final native int eal_EVENTTYPE_IMAGE_get();
 
-    public static final native int eal_EVENTTYPE_IMAGE_SAVE_get() {
-    }
+    public static final native int eal_EVENTTYPE_IMAGE_SAVE_get();
 
-    public static final native int eal_EVENTTYPE_FONTGROUP_get() {
-    }
+    public static final native int eal_EVENTTYPE_FONTGROUP_get();
 
-    public static final native int eal_EVENTTYPE_SAVE_get() {
-    }
+    public static final native int eal_EVENTTYPE_SAVE_get();
 
-    public static final native int eal_IMAGE_OPTIONS_MASK_FORMAT_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_MASK_FORMAT_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_RGBA_8888_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_RGBA_8888_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_RGB_888_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_RGB_888_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_RGB_565_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_RGB_565_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_L_8_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_L_8_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_A_8_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_A_8_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_LA_88_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_LA_88_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_AUTO_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_AUTO_get();
 
-    public static final native int eal_IMAGE_OPTIONS_FORMAT_INVALID_get() {
-    }
+    public static final native int eal_IMAGE_OPTIONS_FORMAT_INVALID_get();
 
-    public static final native int eal_TEX_OPTIONS_MASK_MEMORY_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MASK_MEMORY_get();
 
-    public static final native int eal_TEX_OPTIONS_MASK_FILTER_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MASK_FILTER_get();
 
-    public static final native int eal_TEX_OPTIONS_MASK_WRAP_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MASK_WRAP_get();
 
-    public static final native int eal_TEX_OPTIONS_MASK_COMPRESSION_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MASK_COMPRESSION_get();
 
-    public static final native int eal_TEX_OPTIONS_MASK_FORMAT_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MASK_FORMAT_get();
 
-    public static final native int eal_TEX_OPTIONS_MASK_EXT_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MASK_EXT_get();
 
-    public static final native int eal_TEX_OPTIONS_MEMORY_GPU_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MEMORY_GPU_get();
 
-    public static final native int eal_TEX_OPTIONS_MEMORY_RAM_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_MEMORY_RAM_get();
 
-    public static final native int eal_TEX_OPTIONS_FILTER_POINT_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FILTER_POINT_get();
 
-    public static final native int eal_TEX_OPTIONS_FILTER_BILINEAR_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FILTER_BILINEAR_get();
 
-    public static final native int eal_TEX_OPTIONS_FILTER_TRILINAR_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FILTER_TRILINAR_get();
 
-    public static final native int eal_TEX_OPTIONS_FILTER_MIMAP_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FILTER_MIMAP_get();
 
-    public static final native int eal_TEX_OPTIONS_WRAP_REPEAT_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_WRAP_REPEAT_get();
 
-    public static final native int eal_TEX_OPTIONS_WRAP_CLAMP_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_WRAP_CLAMP_get();
 
-    public static final native int eal_TEX_OPTIONS_COMPRESSION_NONE_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_COMPRESSION_NONE_get();
 
-    public static final native int eal_TEX_OPTIONS_COMPRESSION_ETC_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_COMPRESSION_ETC_get();
 
-    public static final native int eal_TEX_OPTIONS_COMPRESSION_DXT3_RGBA_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_COMPRESSION_DXT3_RGBA_get();
 
-    public static final native int eal_TEX_OPTIONS_COMPRESSION_DXT5_RGBA_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_COMPRESSION_DXT5_RGBA_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_RGBA_8888_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_RGBA_8888_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_RGB_888_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_RGB_888_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_RGB_565_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_RGB_565_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_L_8_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_L_8_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_A_8_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_A_8_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_LA_88_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_LA_88_get();
 
-    public static final native int eal_TEX_OPTIONS_FORMAT_INVALID_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_FORMAT_INVALID_get();
 
-    public static final native int eal_TEX_OPTIONS_EXT_CLEAR_BLACK_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_EXT_CLEAR_BLACK_get();
 
-    public static final native int eal_TEX_OPTIONS_EXT_NO_ATLAS_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_EXT_NO_ATLAS_get();
 
-    public static final native int eal_TEX_OPTIONS_EXT_EXTERNAL_OES_get() {
-    }
+    public static final native int eal_TEX_OPTIONS_EXT_EXTERNAL_OES_get();
 
-    public static final native int eal_TEX_OPTION_INVALID_get() {
-    }
+    public static final native int eal_TEX_OPTION_INVALID_get();
 
-    public static final native void eal_displaySize_t_uiWidth_set(long l, displaySize_t displaySize_t2, long l2) {
-    }
+    public static final native void eal_displaySize_t_uiWidth_set(long var0, displaySize_t var2, long var3);
 
-    public static final native long eal_displaySize_t_uiWidth_get(long l, displaySize_t displaySize_t2) {
-    }
+    public static final native long eal_displaySize_t_uiWidth_get(long var0, displaySize_t var2);
 
-    public static final native void eal_displaySize_t_uiHeight_set(long l, displaySize_t displaySize_t2, long l2) {
-    }
+    public static final native void eal_displaySize_t_uiHeight_set(long var0, displaySize_t var2, long var3);
 
-    public static final native long eal_displaySize_t_uiHeight_get(long l, displaySize_t displaySize_t2) {
-    }
+    public static final native long eal_displaySize_t_uiHeight_get(long var0, displaySize_t var2);
 
-    public static final native long new_eal_displaySize_t() {
-    }
+    public static final native long new_eal_displaySize_t();
 
-    public static final native void delete_eal_displaySize_t(long l) {
-    }
+    public static final native void delete_eal_displaySize_t(long var0);
 
-    public static final native int eal_EAL_PRINT_OPTION_NONE_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_NONE_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MODE_VISIBLE_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MODE_VISIBLE_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MODE_LAYER_ONLY_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MODE_LAYER_ONLY_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MODE_EXT_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MODE_EXT_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MODE_PR_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MODE_PR_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_OUTPUT_STDOUT_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_OUTPUT_STDOUT_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_OUTPUT_TRACE_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_OUTPUT_TRACE_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_TYPE_PLAIN_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_TYPE_PLAIN_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_TYPE_JSON_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_TYPE_JSON_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_TYPE_XML_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_TYPE_XML_get();
 
-    public static final native int eal_EAL_PRINT_FLAG_PROPERTIES_get() {
-    }
+    public static final native int eal_EAL_PRINT_FLAG_PROPERTIES_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MASK_MODE_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MASK_MODE_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MASK_OUTPUT_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MASK_OUTPUT_get();
 
-    public static final native int eal_EAL_PRINT_OPTION_MASK_TYPE_get() {
-    }
+    public static final native int eal_EAL_PRINT_OPTION_MASK_TYPE_get();
 
-    public static final native int eal_EAL_MERGE_FLAG_NONE_get() {
-    }
+    public static final native int eal_EAL_MERGE_FLAG_NONE_get();
 
-    public static final native int eal_EAL_MERGE_FLAG_FORCE_get() {
-    }
+    public static final native int eal_EAL_MERGE_FLAG_FORCE_get();
 
-    public static final native int eal_EAL_MERGE_FLAG_LOADING_HINT_PRELOAD_get() {
-    }
+    public static final native int eal_EAL_MERGE_FLAG_LOADING_HINT_PRELOAD_get();
 
-    public static final native int eal_EAL_MERGE_FLAG_LOADING_HINT_MAP_get() {
-    }
+    public static final native int eal_EAL_MERGE_FLAG_LOADING_HINT_MAP_get();
 
-    public static final native int eal_EAL_MERGE_FLAG_LOADING_MASK_get() {
-    }
+    public static final native int eal_EAL_MERGE_FLAG_LOADING_MASK_get();
 
-    public static final native void eal_glyphInformation_t_uiTotalGlyphs_set(long l, glyphInformation_t glyphInformation_t2, long l2) {
-    }
+    public static final native void eal_glyphInformation_t_uiTotalGlyphs_set(long var0, glyphInformation_t var2, long var3);
 
-    public static final native long eal_glyphInformation_t_uiTotalGlyphs_get(long l, glyphInformation_t glyphInformation_t2) {
-    }
+    public static final native long eal_glyphInformation_t_uiTotalGlyphs_get(long var0, glyphInformation_t var2);
 
-    public static final native void eal_glyphInformation_t_uiAvailableGlyphs_set(long l, glyphInformation_t glyphInformation_t2, long l2) {
-    }
+    public static final native void eal_glyphInformation_t_uiAvailableGlyphs_set(long var0, glyphInformation_t var2, long var3);
 
-    public static final native long eal_glyphInformation_t_uiAvailableGlyphs_get(long l, glyphInformation_t glyphInformation_t2) {
-    }
+    public static final native long eal_glyphInformation_t_uiAvailableGlyphs_get(long var0, glyphInformation_t var2);
 
-    public static final native long new_eal_glyphInformation_t() {
-    }
+    public static final native long new_eal_glyphInformation_t();
 
-    public static final native void delete_eal_glyphInformation_t(long l) {
-    }
+    public static final native void delete_eal_glyphInformation_t(long var0);
 
-    public static final native int EAL_FONT_MAX_WIDTH_get() {
-    }
+    public static final native int EAL_FONT_MAX_WIDTH_get();
 
-    public static final native void eal_ealSize_t_width_set(long l, ealSize_t ealSize_t2, long l2) {
-    }
+    public static final native void eal_ealSize_t_width_set(long var0, ealSize_t var2, long var3);
 
-    public static final native long eal_ealSize_t_width_get(long l, ealSize_t ealSize_t2) {
-    }
+    public static final native long eal_ealSize_t_width_get(long var0, ealSize_t var2);
 
-    public static final native void eal_ealSize_t_height_set(long l, ealSize_t ealSize_t2, long l2) {
-    }
+    public static final native void eal_ealSize_t_height_set(long var0, ealSize_t var2, long var3);
 
-    public static final native long eal_ealSize_t_height_get(long l, ealSize_t ealSize_t2) {
-    }
+    public static final native long eal_ealSize_t_height_get(long var0, ealSize_t var2);
 
-    public static final native long new_eal_ealSize_t() {
-    }
+    public static final native long new_eal_ealSize_t();
 
-    public static final native void delete_eal_ealSize_t(long l) {
-    }
+    public static final native void delete_eal_ealSize_t(long var0);
 
-    public static final native void eal_glyph_t_width_set(long l, glyph_t glyph_t2, long l2) {
-    }
+    public static final native void eal_glyph_t_width_set(long var0, glyph_t var2, long var3);
 
-    public static final native long eal_glyph_t_width_get(long l, glyph_t glyph_t2) {
-    }
+    public static final native long eal_glyph_t_width_get(long var0, glyph_t var2);
 
-    public static final native void eal_glyph_t_height_set(long l, glyph_t glyph_t2, long l2) {
-    }
+    public static final native void eal_glyph_t_height_set(long var0, glyph_t var2, long var3);
 
-    public static final native long eal_glyph_t_height_get(long l, glyph_t glyph_t2) {
-    }
+    public static final native long eal_glyph_t_height_get(long var0, glyph_t var2);
 
-    public static final native void eal_glyph_t_x_set(long l, glyph_t glyph_t2, float f2) {
-    }
+    public static final native void eal_glyph_t_x_set(long var0, glyph_t var2, float var3);
 
-    public static final native float eal_glyph_t_x_get(long l, glyph_t glyph_t2) {
-    }
+    public static final native float eal_glyph_t_x_get(long var0, glyph_t var2);
 
-    public static final native void eal_glyph_t_y_set(long l, glyph_t glyph_t2, float f2) {
-    }
+    public static final native void eal_glyph_t_y_set(long var0, glyph_t var2, float var3);
 
-    public static final native float eal_glyph_t_y_get(long l, glyph_t glyph_t2) {
-    }
+    public static final native float eal_glyph_t_y_get(long var0, glyph_t var2);
 
-    public static final native void eal_glyph_t_caretX_set(long l, glyph_t glyph_t2, float f2) {
-    }
+    public static final native void eal_glyph_t_caretX_set(long var0, glyph_t var2, float var3);
 
-    public static final native float eal_glyph_t_caretX_get(long l, glyph_t glyph_t2) {
-    }
+    public static final native float eal_glyph_t_caretX_get(long var0, glyph_t var2);
 
-    public static final native void eal_glyph_t_isRightToLeft_set(long l, glyph_t glyph_t2, boolean bl) {
-    }
+    public static final native void eal_glyph_t_isRightToLeft_set(long var0, glyph_t var2, boolean var3);
 
-    public static final native boolean eal_glyph_t_isRightToLeft_get(long l, glyph_t glyph_t2) {
-    }
+    public static final native boolean eal_glyph_t_isRightToLeft_get(long var0, glyph_t var2);
 
-    public static final native long new_eal_glyph_t() {
-    }
+    public static final native long new_eal_glyph_t();
 
-    public static final native void delete_eal_glyph_t(long l) {
-    }
+    public static final native void delete_eal_glyph_t(long var0);
 
-    public static final native void delete_eal_Defaults(long l) {
-    }
+    public static final native void delete_eal_Defaults(long var0);
 
-    public static final native long eal_Defaults_getFlagsImage() {
-    }
+    public static final native long eal_Defaults_getFlagsImage();
 
-    public static final native long eal_Defaults_getFlagsTexture() {
-    }
+    public static final native long eal_Defaults_getFlagsTexture();
 
-    public static final native long new_eal_FlagImage__SWIG_0() {
-    }
+    public static final native long new_eal_FlagImage__SWIG_0();
 
-    public static final native long new_eal_FlagImage__SWIG_1(int n) {
-    }
+    public static final native long new_eal_FlagImage__SWIG_1(int var0);
 
-    public static final native long new_eal_FlagImage__SWIG_2(long l) {
-    }
+    public static final native long new_eal_FlagImage__SWIG_2(long var0);
 
-    public static final native long eal_FlagImage_getFlagValue(long l, FlagImage flagImage) {
-    }
+    public static final native long eal_FlagImage_getFlagValue(long var0, FlagImage var2);
 
-    public static final native void eal_FlagImage_setFlag(long l, FlagImage flagImage, int n) {
-    }
+    public static final native void eal_FlagImage_setFlag(long var0, FlagImage var2, int var3);
 
-    public static final native boolean eal_FlagImage_isFlag(long l, FlagImage flagImage, int n) {
-    }
+    public static final native boolean eal_FlagImage_isFlag(long var0, FlagImage var2, int var3);
 
-    public static final native void eal_FlagImage_reset(long l, FlagImage flagImage) {
-    }
+    public static final native void eal_FlagImage_reset(long var0, FlagImage var2);
 
-    public static final native void eal_FlagImage_resetPos(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native void eal_FlagImage_resetPos(long var0, FlagImage var2, long var3);
 
-    public static final native void eal_FlagImage_unsetFlag(long l, FlagImage flagImage, int n) {
-    }
+    public static final native void eal_FlagImage_unsetFlag(long var0, FlagImage var2, int var3);
 
-    public static final native void eal_FlagImage_setFlagValue(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native void eal_FlagImage_setFlagValue(long var0, FlagImage var2, long var3);
 
-    public static final native long eal_FlagImage_getHexValueAtPos(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native long eal_FlagImage_getHexValueAtPos(long var0, FlagImage var2, long var3);
 
-    public static final native long eal_FlagImage_extractPosition(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native long eal_FlagImage_extractPosition(long var0, FlagImage var2, long var3);
 
-    public static final native long eal_FlagImage_getByMask(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native long eal_FlagImage_getByMask(long var0, FlagImage var2, long var3);
 
-    public static final native boolean eal_FlagImage_equal__SWIG_0(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native boolean eal_FlagImage_equal__SWIG_0(long var0, FlagImage var2, long var3);
 
-    public static final native boolean eal_FlagImage_equal__SWIG_1(long l, FlagImage flagImage, int n) {
-    }
+    public static final native boolean eal_FlagImage_equal__SWIG_1(long var0, FlagImage var2, int var3);
 
-    public static final native boolean eal_FlagImage_unequal__SWIG_0(long l, FlagImage flagImage, long l2) {
-    }
+    public static final native boolean eal_FlagImage_unequal__SWIG_0(long var0, FlagImage var2, long var3);
 
-    public static final native boolean eal_FlagImage_unequal__SWIG_1(long l, FlagImage flagImage, int n) {
-    }
+    public static final native boolean eal_FlagImage_unequal__SWIG_1(long var0, FlagImage var2, int var3);
 
-    public static final native boolean eal_FlagImage_contains__SWIG_0(long l, FlagImage flagImage, int n) {
-    }
+    public static final native boolean eal_FlagImage_contains__SWIG_0(long var0, FlagImage var2, int var3);
 
-    public static final native boolean eal_FlagImage_contains__SWIG_1(long l, FlagImage flagImage, long l2, FlagImage flagImage2) {
-    }
+    public static final native boolean eal_FlagImage_contains__SWIG_1(long var0, FlagImage var2, long var3, FlagImage var5);
 
-    public static final native void delete_eal_FlagImage(long l) {
-    }
+    public static final native void delete_eal_FlagImage(long var0);
 
-    public static final native long new_eal_FlagTexture__SWIG_0() {
-    }
+    public static final native long new_eal_FlagTexture__SWIG_0();
 
-    public static final native long new_eal_FlagTexture__SWIG_1(int n) {
-    }
+    public static final native long new_eal_FlagTexture__SWIG_1(int var0);
 
-    public static final native long new_eal_FlagTexture__SWIG_2(long l) {
-    }
+    public static final native long new_eal_FlagTexture__SWIG_2(long var0);
 
-    public static final native long eal_FlagTexture_getFlagValue(long l, FlagTexture flagTexture) {
-    }
+    public static final native long eal_FlagTexture_getFlagValue(long var0, FlagTexture var2);
 
-    public static final native void eal_FlagTexture_setFlag(long l, FlagTexture flagTexture, int n) {
-    }
+    public static final native void eal_FlagTexture_setFlag(long var0, FlagTexture var2, int var3);
 
-    public static final native boolean eal_FlagTexture_isFlag(long l, FlagTexture flagTexture, int n) {
-    }
+    public static final native boolean eal_FlagTexture_isFlag(long var0, FlagTexture var2, int var3);
 
-    public static final native void eal_FlagTexture_reset(long l, FlagTexture flagTexture) {
-    }
+    public static final native void eal_FlagTexture_reset(long var0, FlagTexture var2);
 
-    public static final native void eal_FlagTexture_resetPos(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native void eal_FlagTexture_resetPos(long var0, FlagTexture var2, long var3);
 
-    public static final native void eal_FlagTexture_unsetFlag(long l, FlagTexture flagTexture, int n) {
-    }
+    public static final native void eal_FlagTexture_unsetFlag(long var0, FlagTexture var2, int var3);
 
-    public static final native void eal_FlagTexture_setFlagValue(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native void eal_FlagTexture_setFlagValue(long var0, FlagTexture var2, long var3);
 
-    public static final native long eal_FlagTexture_getHexValueAtPos(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native long eal_FlagTexture_getHexValueAtPos(long var0, FlagTexture var2, long var3);
 
-    public static final native long eal_FlagTexture_extractPosition(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native long eal_FlagTexture_extractPosition(long var0, FlagTexture var2, long var3);
 
-    public static final native long eal_FlagTexture_getByMask(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native long eal_FlagTexture_getByMask(long var0, FlagTexture var2, long var3);
 
-    public static final native boolean eal_FlagTexture_equal__SWIG_0(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native boolean eal_FlagTexture_equal__SWIG_0(long var0, FlagTexture var2, long var3);
 
-    public static final native boolean eal_FlagTexture_equal__SWIG_1(long l, FlagTexture flagTexture, int n) {
-    }
+    public static final native boolean eal_FlagTexture_equal__SWIG_1(long var0, FlagTexture var2, int var3);
 
-    public static final native boolean eal_FlagTexture_unequal__SWIG_0(long l, FlagTexture flagTexture, long l2) {
-    }
+    public static final native boolean eal_FlagTexture_unequal__SWIG_0(long var0, FlagTexture var2, long var3);
 
-    public static final native boolean eal_FlagTexture_unequal__SWIG_1(long l, FlagTexture flagTexture, int n) {
-    }
+    public static final native boolean eal_FlagTexture_unequal__SWIG_1(long var0, FlagTexture var2, int var3);
 
-    public static final native boolean eal_FlagTexture_contains__SWIG_0(long l, FlagTexture flagTexture, int n) {
-    }
+    public static final native boolean eal_FlagTexture_contains__SWIG_0(long var0, FlagTexture var2, int var3);
 
-    public static final native boolean eal_FlagTexture_contains__SWIG_1(long l, FlagTexture flagTexture, long l2, FlagTexture flagTexture2) {
-    }
+    public static final native boolean eal_FlagTexture_contains__SWIG_1(long var0, FlagTexture var2, long var3, FlagTexture var5);
 
-    public static final native void delete_eal_FlagTexture(long l) {
-    }
+    public static final native void delete_eal_FlagTexture(long var0);
 
-    public static final native long new_eal_FlagPrint__SWIG_0() {
-    }
+    public static final native long new_eal_FlagPrint__SWIG_0();
 
-    public static final native long new_eal_FlagPrint__SWIG_1(int n) {
-    }
+    public static final native long new_eal_FlagPrint__SWIG_1(int var0);
 
-    public static final native long new_eal_FlagPrint__SWIG_2(long l) {
-    }
+    public static final native long new_eal_FlagPrint__SWIG_2(long var0);
 
-    public static final native long eal_FlagPrint_getFlagValue(long l, FlagPrint flagPrint) {
-    }
+    public static final native long eal_FlagPrint_getFlagValue(long var0, FlagPrint var2);
 
-    public static final native void eal_FlagPrint_setFlag(long l, FlagPrint flagPrint, int n) {
-    }
+    public static final native void eal_FlagPrint_setFlag(long var0, FlagPrint var2, int var3);
 
-    public static final native boolean eal_FlagPrint_isFlag(long l, FlagPrint flagPrint, int n) {
-    }
+    public static final native boolean eal_FlagPrint_isFlag(long var0, FlagPrint var2, int var3);
 
-    public static final native void eal_FlagPrint_reset(long l, FlagPrint flagPrint) {
-    }
+    public static final native void eal_FlagPrint_reset(long var0, FlagPrint var2);
 
-    public static final native void eal_FlagPrint_resetPos(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native void eal_FlagPrint_resetPos(long var0, FlagPrint var2, long var3);
 
-    public static final native void eal_FlagPrint_unsetFlag(long l, FlagPrint flagPrint, int n) {
-    }
+    public static final native void eal_FlagPrint_unsetFlag(long var0, FlagPrint var2, int var3);
 
-    public static final native void eal_FlagPrint_setFlagValue(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native void eal_FlagPrint_setFlagValue(long var0, FlagPrint var2, long var3);
 
-    public static final native long eal_FlagPrint_getHexValueAtPos(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native long eal_FlagPrint_getHexValueAtPos(long var0, FlagPrint var2, long var3);
 
-    public static final native long eal_FlagPrint_extractPosition(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native long eal_FlagPrint_extractPosition(long var0, FlagPrint var2, long var3);
 
-    public static final native long eal_FlagPrint_getByMask(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native long eal_FlagPrint_getByMask(long var0, FlagPrint var2, long var3);
 
-    public static final native boolean eal_FlagPrint_equal__SWIG_0(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native boolean eal_FlagPrint_equal__SWIG_0(long var0, FlagPrint var2, long var3);
 
-    public static final native boolean eal_FlagPrint_equal__SWIG_1(long l, FlagPrint flagPrint, int n) {
-    }
+    public static final native boolean eal_FlagPrint_equal__SWIG_1(long var0, FlagPrint var2, int var3);
 
-    public static final native boolean eal_FlagPrint_unequal__SWIG_0(long l, FlagPrint flagPrint, long l2) {
-    }
+    public static final native boolean eal_FlagPrint_unequal__SWIG_0(long var0, FlagPrint var2, long var3);
 
-    public static final native boolean eal_FlagPrint_unequal__SWIG_1(long l, FlagPrint flagPrint, int n) {
-    }
+    public static final native boolean eal_FlagPrint_unequal__SWIG_1(long var0, FlagPrint var2, int var3);
 
-    public static final native boolean eal_FlagPrint_contains__SWIG_0(long l, FlagPrint flagPrint, int n) {
-    }
+    public static final native boolean eal_FlagPrint_contains__SWIG_0(long var0, FlagPrint var2, int var3);
 
-    public static final native boolean eal_FlagPrint_contains__SWIG_1(long l, FlagPrint flagPrint, long l2, FlagPrint flagPrint2) {
-    }
+    public static final native boolean eal_FlagPrint_contains__SWIG_1(long var0, FlagPrint var2, long var3, FlagPrint var5);
 
-    public static final native void delete_eal_FlagPrint(long l) {
-    }
+    public static final native void delete_eal_FlagPrint(long var0);
 
-    public static final native long new_eal_FlagMerge__SWIG_0() {
-    }
+    public static final native long new_eal_FlagMerge__SWIG_0();
 
-    public static final native long new_eal_FlagMerge__SWIG_1(int n) {
-    }
+    public static final native long new_eal_FlagMerge__SWIG_1(int var0);
 
-    public static final native long new_eal_FlagMerge__SWIG_2(long l) {
-    }
+    public static final native long new_eal_FlagMerge__SWIG_2(long var0);
 
-    public static final native long eal_FlagMerge_getFlagValue(long l, FlagMerge flagMerge) {
-    }
+    public static final native long eal_FlagMerge_getFlagValue(long var0, FlagMerge var2);
 
-    public static final native void eal_FlagMerge_setFlag(long l, FlagMerge flagMerge, int n) {
-    }
+    public static final native void eal_FlagMerge_setFlag(long var0, FlagMerge var2, int var3);
 
-    public static final native boolean eal_FlagMerge_isFlag(long l, FlagMerge flagMerge, int n) {
-    }
+    public static final native boolean eal_FlagMerge_isFlag(long var0, FlagMerge var2, int var3);
 
-    public static final native void eal_FlagMerge_reset(long l, FlagMerge flagMerge) {
-    }
+    public static final native void eal_FlagMerge_reset(long var0, FlagMerge var2);
 
-    public static final native void eal_FlagMerge_resetPos(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native void eal_FlagMerge_resetPos(long var0, FlagMerge var2, long var3);
 
-    public static final native void eal_FlagMerge_unsetFlag(long l, FlagMerge flagMerge, int n) {
-    }
+    public static final native void eal_FlagMerge_unsetFlag(long var0, FlagMerge var2, int var3);
 
-    public static final native void eal_FlagMerge_setFlagValue(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native void eal_FlagMerge_setFlagValue(long var0, FlagMerge var2, long var3);
 
-    public static final native long eal_FlagMerge_getHexValueAtPos(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native long eal_FlagMerge_getHexValueAtPos(long var0, FlagMerge var2, long var3);
 
-    public static final native long eal_FlagMerge_extractPosition(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native long eal_FlagMerge_extractPosition(long var0, FlagMerge var2, long var3);
 
-    public static final native long eal_FlagMerge_getByMask(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native long eal_FlagMerge_getByMask(long var0, FlagMerge var2, long var3);
 
-    public static final native boolean eal_FlagMerge_equal__SWIG_0(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native boolean eal_FlagMerge_equal__SWIG_0(long var0, FlagMerge var2, long var3);
 
-    public static final native boolean eal_FlagMerge_equal__SWIG_1(long l, FlagMerge flagMerge, int n) {
-    }
+    public static final native boolean eal_FlagMerge_equal__SWIG_1(long var0, FlagMerge var2, int var3);
 
-    public static final native boolean eal_FlagMerge_unequal__SWIG_0(long l, FlagMerge flagMerge, long l2) {
-    }
+    public static final native boolean eal_FlagMerge_unequal__SWIG_0(long var0, FlagMerge var2, long var3);
 
-    public static final native boolean eal_FlagMerge_unequal__SWIG_1(long l, FlagMerge flagMerge, int n) {
-    }
+    public static final native boolean eal_FlagMerge_unequal__SWIG_1(long var0, FlagMerge var2, int var3);
 
-    public static final native boolean eal_FlagMerge_contains__SWIG_0(long l, FlagMerge flagMerge, int n) {
-    }
+    public static final native boolean eal_FlagMerge_contains__SWIG_0(long var0, FlagMerge var2, int var3);
 
-    public static final native boolean eal_FlagMerge_contains__SWIG_1(long l, FlagMerge flagMerge, long l2, FlagMerge flagMerge2) {
-    }
+    public static final native boolean eal_FlagMerge_contains__SWIG_1(long var0, FlagMerge var2, long var3, FlagMerge var5);
 
-    public static final native void delete_eal_FlagMerge(long l) {
-    }
+    public static final native void delete_eal_FlagMerge(long var0);
 
-    public static final native long new_eal_FlagEvent__SWIG_0() {
-    }
+    public static final native long new_eal_FlagEvent__SWIG_0();
 
-    public static final native long new_eal_FlagEvent__SWIG_1(int n) {
-    }
+    public static final native long new_eal_FlagEvent__SWIG_1(int var0);
 
-    public static final native long new_eal_FlagEvent__SWIG_2(long l) {
-    }
+    public static final native long new_eal_FlagEvent__SWIG_2(long var0);
 
-    public static final native long eal_FlagEvent_getFlagValue(long l, FlagEvent flagEvent) {
-    }
+    public static final native long eal_FlagEvent_getFlagValue(long var0, FlagEvent var2);
 
-    public static final native void eal_FlagEvent_setFlag(long l, FlagEvent flagEvent, int n) {
-    }
+    public static final native void eal_FlagEvent_setFlag(long var0, FlagEvent var2, int var3);
 
-    public static final native boolean eal_FlagEvent_isFlag(long l, FlagEvent flagEvent, int n) {
-    }
+    public static final native boolean eal_FlagEvent_isFlag(long var0, FlagEvent var2, int var3);
 
-    public static final native void eal_FlagEvent_reset(long l, FlagEvent flagEvent) {
-    }
+    public static final native void eal_FlagEvent_reset(long var0, FlagEvent var2);
 
-    public static final native void eal_FlagEvent_resetPos(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native void eal_FlagEvent_resetPos(long var0, FlagEvent var2, long var3);
 
-    public static final native void eal_FlagEvent_unsetFlag(long l, FlagEvent flagEvent, int n) {
-    }
+    public static final native void eal_FlagEvent_unsetFlag(long var0, FlagEvent var2, int var3);
 
-    public static final native void eal_FlagEvent_setFlagValue(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native void eal_FlagEvent_setFlagValue(long var0, FlagEvent var2, long var3);
 
-    public static final native long eal_FlagEvent_getHexValueAtPos(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native long eal_FlagEvent_getHexValueAtPos(long var0, FlagEvent var2, long var3);
 
-    public static final native long eal_FlagEvent_extractPosition(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native long eal_FlagEvent_extractPosition(long var0, FlagEvent var2, long var3);
 
-    public static final native long eal_FlagEvent_getByMask(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native long eal_FlagEvent_getByMask(long var0, FlagEvent var2, long var3);
 
-    public static final native boolean eal_FlagEvent_equal__SWIG_0(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native boolean eal_FlagEvent_equal__SWIG_0(long var0, FlagEvent var2, long var3);
 
-    public static final native boolean eal_FlagEvent_equal__SWIG_1(long l, FlagEvent flagEvent, int n) {
-    }
+    public static final native boolean eal_FlagEvent_equal__SWIG_1(long var0, FlagEvent var2, int var3);
 
-    public static final native boolean eal_FlagEvent_unequal__SWIG_0(long l, FlagEvent flagEvent, long l2) {
-    }
+    public static final native boolean eal_FlagEvent_unequal__SWIG_0(long var0, FlagEvent var2, long var3);
 
-    public static final native boolean eal_FlagEvent_unequal__SWIG_1(long l, FlagEvent flagEvent, int n) {
-    }
+    public static final native boolean eal_FlagEvent_unequal__SWIG_1(long var0, FlagEvent var2, int var3);
 
-    public static final native boolean eal_FlagEvent_contains__SWIG_0(long l, FlagEvent flagEvent, int n) {
-    }
+    public static final native boolean eal_FlagEvent_contains__SWIG_0(long var0, FlagEvent var2, int var3);
 
-    public static final native boolean eal_FlagEvent_contains__SWIG_1(long l, FlagEvent flagEvent, long l2, FlagEvent flagEvent2) {
-    }
+    public static final native boolean eal_FlagEvent_contains__SWIG_1(long var0, FlagEvent var2, long var3, FlagEvent var5);
 
-    public static final native void delete_eal_FlagEvent(long l) {
-    }
+    public static final native void delete_eal_FlagEvent(long var0);
 
-    public static final native long new_eal_Vec2f__SWIG_0() {
-    }
+    public static final native long new_eal_Vec2f__SWIG_0();
 
-    public static final native long new_eal_Vec2f__SWIG_1(float f2, float f3) {
-    }
+    public static final native long new_eal_Vec2f__SWIG_1(float var0, float var1);
 
-    public static final native long new_eal_Vec2f__SWIG_2(float f2) {
-    }
+    public static final native long new_eal_Vec2f__SWIG_2(float var0);
 
-    public static final native long new_eal_Vec2f__SWIG_3(long l, Vec2f vec2f) {
-    }
+    public static final native long new_eal_Vec2f__SWIG_3(long var0, Vec2f var2);
 
-    public static final native long new_eal_Vec2f__SWIG_4(long l, Vec3f vec3f) {
-    }
+    public static final native long new_eal_Vec2f__SWIG_4(long var0, Vec3f var2);
 
-    public static final native long new_eal_Vec2f__SWIG_5(long l, Vec3f vec3f, int n) {
-    }
+    public static final native long new_eal_Vec2f__SWIG_5(long var0, Vec3f var2, int var3);
 
-    public static final native float eal_Vec2f_X__SWIG_0(long l, Vec2f vec2f) {
-    }
+    public static final native float eal_Vec2f_X__SWIG_0(long var0, Vec2f var2);
 
-    public static final native float eal_Vec2f_Y__SWIG_0(long l, Vec2f vec2f) {
-    }
+    public static final native float eal_Vec2f_Y__SWIG_0(long var0, Vec2f var2);
 
-    public static final native float eal_Vec2f_Length(long l, Vec2f vec2f) {
-    }
+    public static final native float eal_Vec2f_Length(long var0, Vec2f var2);
 
-    public static final native float eal_Vec2f_Length2(long l, Vec2f vec2f) {
-    }
+    public static final native float eal_Vec2f_Length2(long var0, Vec2f var2);
 
-    public static final native long eal_Vec2f_Normalize(long l, Vec2f vec2f) {
-    }
+    public static final native long eal_Vec2f_Normalize(long var0, Vec2f var2);
 
-    public static final native float eal_Vec2f_GetEpsilon() {
-    }
+    public static final native float eal_Vec2f_GetEpsilon();
 
-    public static final native void eal_Vec2f_SetEpsilon(float f2) {
-    }
+    public static final native void eal_Vec2f_SetEpsilon(float var0);
 
-    public static final native void delete_eal_Vec2f(long l) {
-    }
+    public static final native void delete_eal_Vec2f(long var0);
 
-    public static final native long new_eal_Vec3f__SWIG_0() {
-    }
+    public static final native long new_eal_Vec3f__SWIG_0();
 
-    public static final native long new_eal_Vec3f__SWIG_1(float f2, float f3, float f4) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_1(float var0, float var1, float var2);
 
-    public static final native long new_eal_Vec3f__SWIG_2(float f2) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_2(float var0);
 
-    public static final native long new_eal_Vec3f__SWIG_3(long l, Vec3f vec3f) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_3(long var0, Vec3f var2);
 
-    public static final native long new_eal_Vec3f__SWIG_4(long l, Vec2f vec2f) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_4(long var0, Vec2f var2);
 
-    public static final native long new_eal_Vec3f__SWIG_5(long l, Vec2f vec2f, float f2) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_5(long var0, Vec2f var2, float var3);
 
-    public static final native long new_eal_Vec3f__SWIG_6(long l, Vec4f vec4f) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_6(long var0, Vec4f var2);
 
-    public static final native long new_eal_Vec3f__SWIG_7(long l, Vec4f vec4f, int n) {
-    }
+    public static final native long new_eal_Vec3f__SWIG_7(long var0, Vec4f var2, int var3);
 
-    public static final native float eal_Vec3f_X__SWIG_0(long l, Vec3f vec3f) {
-    }
+    public static final native float eal_Vec3f_X__SWIG_0(long var0, Vec3f var2);
 
-    public static final native float eal_Vec3f_Y__SWIG_0(long l, Vec3f vec3f) {
-    }
+    public static final native float eal_Vec3f_Y__SWIG_0(long var0, Vec3f var2);
 
-    public static final native float eal_Vec3f_Z__SWIG_0(long l, Vec3f vec3f) {
-    }
+    public static final native float eal_Vec3f_Z__SWIG_0(long var0, Vec3f var2);
 
-    public static final native float eal_Vec3f_Length(long l, Vec3f vec3f) {
-    }
+    public static final native float eal_Vec3f_Length(long var0, Vec3f var2);
 
-    public static final native float eal_Vec3f_Length2(long l, Vec3f vec3f) {
-    }
+    public static final native float eal_Vec3f_Length2(long var0, Vec3f var2);
 
-    public static final native long eal_Vec3f_Normalize(long l, Vec3f vec3f) {
-    }
+    public static final native long eal_Vec3f_Normalize(long var0, Vec3f var2);
 
-    public static final native void eal_Vec3f_Cross(long l, Vec3f vec3f, long l2, Vec3f vec3f2, long l3, Vec3f vec3f3) {
-    }
+    public static final native void eal_Vec3f_Cross(long var0, Vec3f var2, long var3, Vec3f var5, long var6, Vec3f var8);
 
-    public static final native void eal_Vec3f_Sub(long l, Vec3f vec3f, long l2, Vec3f vec3f2, long l3, Vec3f vec3f3) {
-    }
+    public static final native void eal_Vec3f_Sub(long var0, Vec3f var2, long var3, Vec3f var5, long var6, Vec3f var8);
 
-    public static final native void eal_Vec3f_Add(long l, Vec3f vec3f, long l2, Vec3f vec3f2, long l3, Vec3f vec3f3) {
-    }
+    public static final native void eal_Vec3f_Add(long var0, Vec3f var2, long var3, Vec3f var5, long var6, Vec3f var8);
 
-    public static final native float eal_Vec3f_Dot(long l, Vec3f vec3f, long l2, Vec3f vec3f2) {
-    }
+    public static final native float eal_Vec3f_Dot(long var0, Vec3f var2, long var3, Vec3f var5);
 
-    public static final native float eal_Vec3f_GetEpsilon() {
-    }
+    public static final native float eal_Vec3f_GetEpsilon();
 
-    public static final native void eal_Vec3f_SetEpsilon(float f2) {
-    }
+    public static final native void eal_Vec3f_SetEpsilon(float var0);
 
-    public static final native void delete_eal_Vec3f(long l) {
-    }
+    public static final native void delete_eal_Vec3f(long var0);
 
-    public static final native long new_eal_Vec4f__SWIG_0() {
-    }
+    public static final native long new_eal_Vec4f__SWIG_0();
 
-    public static final native long new_eal_Vec4f__SWIG_1(float f2, float f3, float f4, float f5) {
-    }
+    public static final native long new_eal_Vec4f__SWIG_1(float var0, float var1, float var2, float var3);
 
-    public static final native long new_eal_Vec4f__SWIG_2(float f2) {
-    }
+    public static final native long new_eal_Vec4f__SWIG_2(float var0);
 
-    public static final native long new_eal_Vec4f__SWIG_3(long l, Vec4f vec4f) {
-    }
+    public static final native long new_eal_Vec4f__SWIG_3(long var0, Vec4f var2);
 
-    public static final native long new_eal_Vec4f__SWIG_4(long l, Vec3f vec3f) {
-    }
+    public static final native long new_eal_Vec4f__SWIG_4(long var0, Vec3f var2);
 
-    public static final native long new_eal_Vec4f__SWIG_5(long l, Vec3f vec3f, float f2) {
-    }
+    public static final native long new_eal_Vec4f__SWIG_5(long var0, Vec3f var2, float var3);
 
-    public static final native float eal_Vec4f_X__SWIG_0(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_X__SWIG_0(long var0, Vec4f var2);
 
-    public static final native float eal_Vec4f_Y__SWIG_0(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_Y__SWIG_0(long var0, Vec4f var2);
 
-    public static final native float eal_Vec4f_Z__SWIG_0(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_Z__SWIG_0(long var0, Vec4f var2);
 
-    public static final native float eal_Vec4f_W__SWIG_0(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_W__SWIG_0(long var0, Vec4f var2);
 
-    public static final native float eal_Vec4f_Length(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_Length(long var0, Vec4f var2);
 
-    public static final native float eal_Vec4f_Length2(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_Length2(long var0, Vec4f var2);
 
-    public static final native long eal_Vec4f_Normalize(long l, Vec4f vec4f) {
-    }
+    public static final native long eal_Vec4f_Normalize(long var0, Vec4f var2);
 
-    public static final native float eal_Vec4f_GetEpsilon(long l, Vec4f vec4f) {
-    }
+    public static final native float eal_Vec4f_GetEpsilon(long var0, Vec4f var2);
 
-    public static final native void eal_Vec4f_SetEpsilon(long l, Vec4f vec4f, float f2) {
-    }
+    public static final native void eal_Vec4f_SetEpsilon(long var0, Vec4f var2, float var3);
 
-    public static final native void delete_eal_Vec4f(long l) {
-    }
+    public static final native void delete_eal_Vec4f(long var0);
 
-    public static final native long new_eal_Mat4f__SWIG_0() {
-    }
+    public static final native long new_eal_Mat4f__SWIG_0();
 
-    public static final native long new_eal_Mat4f__SWIG_1(long l, Vec4f vec4f, long l2, Vec4f vec4f2, long l3, Vec4f vec4f3, long l4, Vec4f vec4f4) {
-    }
+    public static final native long new_eal_Mat4f__SWIG_1(long var0, Vec4f var2, long var3, Vec4f var5, long var6, Vec4f var8, long var9, Vec4f var11);
 
-    public static final native long new_eal_Mat4f__SWIG_2(float f2) {
-    }
+    public static final native long new_eal_Mat4f__SWIG_2(float var0);
 
-    public static final native long new_eal_Mat4f__SWIG_3(long l, Mat4f mat4f) {
-    }
+    public static final native long new_eal_Mat4f__SWIG_3(long var0, Mat4f var2);
 
-    public static final native long eal_Mat4f_Transpose(long l, Mat4f mat4f) {
-    }
+    public static final native long eal_Mat4f_Transpose(long var0, Mat4f var2);
 
-    public static final native long eal_Mat4f_Inverse(long l, Mat4f mat4f) {
-    }
+    public static final native long eal_Mat4f_Inverse(long var0, Mat4f var2);
 
-    public static final native long eal_Mat4f_GetIdentity() {
-    }
+    public static final native long eal_Mat4f_GetIdentity();
 
-    public static final native long eal_Mat4f_GetTransMat(long l, Vec3f vec3f) {
-    }
+    public static final native long eal_Mat4f_GetTransMat(long var0, Vec3f var2);
 
-    public static final native long eal_Mat4f_GetRotMat(long l, Vec3f vec3f, float f2) {
-    }
+    public static final native long eal_Mat4f_GetRotMat(long var0, Vec3f var2, float var3);
 
-    public static final native long eal_Mat4f_GetScaleMat(long l, Vec3f vec3f) {
-    }
+    public static final native long eal_Mat4f_GetScaleMat(long var0, Vec3f var2);
 
-    public static final native long eal_Mat4f_GetPerspMat(float f2) {
-    }
+    public static final native long eal_Mat4f_GetPerspMat(float var0);
 
-    public static final native long eal_Mat4f_GetRotationVecFromIntoTo(long l, Vec3f vec3f, long l2, Vec3f vec3f2) {
-    }
+    public static final native long eal_Mat4f_GetRotationVecFromIntoTo(long var0, Vec3f var2, long var3, Vec3f var5);
 
-    public static final native void delete_eal_Mat4f(long l) {
-    }
+    public static final native void delete_eal_Mat4f(long var0);
 
-    public static final native long new_eal_Mat3f__SWIG_0() {
-    }
+    public static final native long new_eal_Mat3f__SWIG_0();
 
-    public static final native long new_eal_Mat3f__SWIG_1(long l, Vec3f vec3f, long l2, Vec3f vec3f2, long l3, Vec3f vec3f3) {
-    }
+    public static final native long new_eal_Mat3f__SWIG_1(long var0, Vec3f var2, long var3, Vec3f var5, long var6, Vec3f var8);
 
-    public static final native long new_eal_Mat3f__SWIG_2(float f2) {
-    }
+    public static final native long new_eal_Mat3f__SWIG_2(float var0);
 
-    public static final native long new_eal_Mat3f__SWIG_3(long l, Mat3f mat3f) {
-    }
+    public static final native long new_eal_Mat3f__SWIG_3(long var0, Mat3f var2);
 
-    public static final native long eal_Mat3f_Transpose(long l, Mat3f mat3f) {
-    }
+    public static final native long eal_Mat3f_Transpose(long var0, Mat3f var2);
 
-    public static final native long eal_Mat3f_Inverse(long l, Mat3f mat3f) {
-    }
+    public static final native long eal_Mat3f_Inverse(long var0, Mat3f var2);
 
-    public static final native long eal_Mat3f_GetColumn(long l, Mat3f mat3f, int n) {
-    }
+    public static final native long eal_Mat3f_GetColumn(long var0, Mat3f var2, int var3);
 
-    public static final native long eal_Mat3f_Mult(long l, Mat3f mat3f, long l2, Mat3f mat3f2) {
-    }
+    public static final native long eal_Mat3f_Mult(long var0, Mat3f var2, long var3, Mat3f var5);
 
-    public static final native long eal_Mat3f_GetIdentity() {
-    }
+    public static final native long eal_Mat3f_GetIdentity();
 
-    public static final native long eal_Mat3f_GetTransMat(long l, Vec2f vec2f) {
-    }
+    public static final native long eal_Mat3f_GetTransMat(long var0, Vec2f var2);
 
-    public static final native long eal_Mat3f_GetRotMat(long l, Vec2f vec2f, float f2) {
-    }
+    public static final native long eal_Mat3f_GetRotMat(long var0, Vec2f var2, float var3);
 
-    public static final native long eal_Mat3f_GetScaleMat(long l, Vec2f vec2f) {
-    }
+    public static final native long eal_Mat3f_GetScaleMat(long var0, Vec2f var2);
 
-    public static final native long eal_Mat3f_GetEigenvector(long l, Mat3f mat3f, float f2) {
-    }
+    public static final native long eal_Mat3f_GetEigenvector(long var0, Mat3f var2, float var3);
 
-    public static final native void delete_eal_Mat3f(long l) {
-    }
+    public static final native void delete_eal_Mat3f(long var0);
 
-    public static final native void delete_eal_IEvent(long l) {
-    }
+    public static final native void delete_eal_IEvent(long var0);
 
-    public static final native int eal_IEvent_getType(long l, IEvent iEvent) {
-    }
+    public static final native int eal_IEvent_getType(long var0, IEvent var2);
 
-    public static final native boolean eal_IEvent_notifyListener(long l, IEvent iEvent) {
-    }
+    public static final native boolean eal_IEvent_notifyListener(long var0, IEvent var2);
 
-    public static final native boolean eal_IEvent_isDeleteable(long l, IEvent iEvent) {
-    }
+    public static final native boolean eal_IEvent_isDeleteable(long var0, IEvent var2);
 
-    public static final native boolean eal_IEvent_isError(long l, IEvent iEvent) {
-    }
+    public static final native boolean eal_IEvent_isError(long var0, IEvent var2);
 
-    public static final native long eal_IEvent_getId(long l, IEvent iEvent) {
-    }
+    public static final native long eal_IEvent_getId(long var0, IEvent var2);
 
-    public static final native boolean eal_IEvent_isMergeEvent(long l, IEvent iEvent) {
-    }
+    public static final native boolean eal_IEvent_isMergeEvent(long var0, IEvent var2);
 
-    public static final native long eal_IEvent_toEventMerge(long l, IEvent iEvent) {
-    }
+    public static final native long eal_IEvent_toEventMerge(long var0, IEvent var2);
 
-    public static final native boolean eal_IEvent_isEventImage(long l, IEvent iEvent) {
-    }
+    public static final native boolean eal_IEvent_isEventImage(long var0, IEvent var2);
 
-    public static final native long eal_IEvent_toEventImage(long l, IEvent iEvent) {
-    }
+    public static final native long eal_IEvent_toEventImage(long var0, IEvent var2);
 
-    public static final native void delete_eal_IEventListener(long l) {
-    }
+    public static final native void delete_eal_IEventListener(long var0);
 
-    public static final native String eal_IEventListener_getName(long l, IEventListener iEventListener) {
-    }
+    public static final native String eal_IEventListener_getName(long var0, IEventListener var2);
 
-    public static final native void eal_IEventListener_process(long l, IEventListener iEventListener, long l2, IEvent iEvent) {
-    }
+    public static final native void eal_IEventListener_process(long var0, IEventListener var2, long var3, IEvent var5);
 
-    public static final native long eal_IEventListener_getTypes(long l, IEventListener iEventListener) {
-    }
+    public static final native long eal_IEventListener_getTypes(long var0, IEventListener var2);
 
-    public static final native boolean eal_IEventListener_attach(long l, IEventListener iEventListener, long l2, IManager iManager) {
-    }
+    public static final native boolean eal_IEventListener_attach(long var0, IEventListener var2, long var3, IManager var5);
 
-    public static final native boolean eal_IEventListener_detach(long l, IEventListener iEventListener) {
-    }
+    public static final native boolean eal_IEventListener_detach(long var0, IEventListener var2);
 
-    public static final native void delete_eal_IEventMerge(long l) {
-    }
+    public static final native void delete_eal_IEventMerge(long var0);
 
-    public static final native String eal_IEventMerge_getFile(long l, IEventMerge iEventMerge) {
-    }
+    public static final native String eal_IEventMerge_getFile(long var0, IEventMerge var2);
 
-    public static final native String eal_IEventMerge_getScreenMainPath(long l, IEventMerge iEventMerge) {
-    }
+    public static final native String eal_IEventMerge_getScreenMainPath(long var0, IEventMerge var2);
 
-    public static final native void eal_IEventMerge_setIndex(long l, IEventMerge iEventMerge, long l2) {
-    }
+    public static final native void eal_IEventMerge_setIndex(long var0, IEventMerge var2, long var3);
 
-    public static final native long eal_IEventMerge_getIndex(long l, IEventMerge iEventMerge) {
-    }
+    public static final native long eal_IEventMerge_getIndex(long var0, IEventMerge var2);
 
-    public static final native boolean eal_IEventMerge_isIndex(long l, IEventMerge iEventMerge) {
-    }
+    public static final native boolean eal_IEventMerge_isIndex(long var0, IEventMerge var2);
 
-    public static final native void delete_eal_IEventImage(long l) {
-    }
+    public static final native void delete_eal_IEventImage(long var0);
 
-    public static final native String eal_IEventImage_getFile(long l, IEventImage iEventImage) {
-    }
+    public static final native String eal_IEventImage_getFile(long var0, IEventImage var2);
 
-    public static final native long eal_IEventImage_getImage(long l, IEventImage iEventImage) {
-    }
+    public static final native long eal_IEventImage_getImage(long var0, IEventImage var2);
 
-    public static final native void delete_eal_IEventImageSave(long l) {
-    }
+    public static final native void delete_eal_IEventImageSave(long var0);
 
-    public static final native void delete_eal_IEventFontGroup(long l) {
-    }
+    public static final native void delete_eal_IEventFontGroup(long var0);
 
-    public static final native long eal_IEventFontGroup_requestFontgroup(long l, IEventFontGroup iEventFontGroup) {
-    }
+    public static final native long eal_IEventFontGroup_requestFontgroup(long var0, IEventFontGroup var2);
 
-    public static final native long new_eal_IInputListener(long l, IManager iManager) {
-    }
+    public static final native long new_eal_IInputListener(long var0, IManager var2);
 
-    public static final native void delete_eal_IInputListener(long l) {
-    }
+    public static final native void delete_eal_IInputListener(long var0);
 
-    public static final native void eal_IInputListener_mouseEvent(long l, IInputListener iInputListener, int n, int n2, int n3) {
-    }
+    public static final native void eal_IInputListener_mouseEvent(long var0, IInputListener var2, int var3, int var4, int var5);
 
-    public static final native void eal_IInputListener_mouseEventSwigExplicitIInputListener(long l, IInputListener iInputListener, int n, int n2, int n3) {
-    }
+    public static final native void eal_IInputListener_mouseEventSwigExplicitIInputListener(long var0, IInputListener var2, int var3, int var4, int var5);
 
-    public static final native void eal_IInputListener_director_connect(IInputListener iInputListener, long l, boolean bl, boolean bl2) {
-    }
+    public static final native void eal_IInputListener_director_connect(IInputListener var0, long var1, boolean var3, boolean var4);
 
-    public static final native void eal_IInputListener_change_ownership(IInputListener iInputListener, long l, boolean bl) {
-    }
+    public static final native void eal_IInputListener_change_ownership(IInputListener var0, long var1, boolean var3);
 
-    public static final native long new_eal_CAbstractEventListener(long l, IManager iManager, long l2, FlagEvent flagEvent) {
-    }
+    public static final native long new_eal_CAbstractEventListener(long var0, IManager var2, long var3, FlagEvent var5);
 
-    public static final native void delete_eal_CAbstractEventListener(long l) {
-    }
+    public static final native void delete_eal_CAbstractEventListener(long var0);
 
-    public static final native String eal_CAbstractEventListener_getName(long l, CAbstractEventListener cAbstractEventListener) {
-    }
+    public static final native String eal_CAbstractEventListener_getName(long var0, CAbstractEventListener var2);
 
-    public static final native String eal_CAbstractEventListener_getNameSwigExplicitCAbstractEventListener(long l, CAbstractEventListener cAbstractEventListener) {
-    }
+    public static final native String eal_CAbstractEventListener_getNameSwigExplicitCAbstractEventListener(long var0, CAbstractEventListener var2);
 
-    public static final native void eal_CAbstractEventListener_process(long l, CAbstractEventListener cAbstractEventListener, long l2, IEvent iEvent) {
-    }
+    public static final native void eal_CAbstractEventListener_process(long var0, CAbstractEventListener var2, long var3, IEvent var5);
 
-    public static final native void eal_CAbstractEventListener_processSwigExplicitCAbstractEventListener(long l, CAbstractEventListener cAbstractEventListener, long l2, IEvent iEvent) {
-    }
+    public static final native void eal_CAbstractEventListener_processSwigExplicitCAbstractEventListener(long var0, CAbstractEventListener var2, long var3, IEvent var5);
 
-    public static final native void eal_CAbstractEventListener_dispose(long l, CAbstractEventListener cAbstractEventListener) {
-    }
+    public static final native void eal_CAbstractEventListener_dispose(long var0, CAbstractEventListener var2);
 
-    public static final native void eal_CAbstractEventListener_director_connect(CAbstractEventListener cAbstractEventListener, long l, boolean bl, boolean bl2) {
-    }
+    public static final native void eal_CAbstractEventListener_director_connect(CAbstractEventListener var0, long var1, boolean var3, boolean var4);
 
-    public static final native void eal_CAbstractEventListener_change_ownership(CAbstractEventListener cAbstractEventListener, long l, boolean bl) {
-    }
+    public static final native void eal_CAbstractEventListener_change_ownership(CAbstractEventListener var0, long var1, boolean var3);
 
-    public static final native long new_eal_CMatrix4x4f() {
-    }
+    public static final native long new_eal_CMatrix4x4f();
 
-    public static final native void delete_eal_CMatrix4x4f(long l) {
-    }
+    public static final native void delete_eal_CMatrix4x4f(long var0);
 
-    public static final native long eal_CMatrix4x4f_interpolate(long l, CMatrix4x4f cMatrix4x4f, long l2, CMatrix4x4f cMatrix4x4f2, float f2) {
-    }
+    public static final native long eal_CMatrix4x4f_interpolate(long var0, CMatrix4x4f var2, long var3, CMatrix4x4f var5, float var6);
 
-    public static final native long new_eal_CQuaternion__SWIG_0() {
-    }
+    public static final native long new_eal_CQuaternion__SWIG_0();
 
-    public static final native long new_eal_CQuaternion__SWIG_1(long l, Vec3f vec3f, float f2) {
-    }
+    public static final native long new_eal_CQuaternion__SWIG_1(long var0, Vec3f var2, float var3);
 
-    public static final native long new_eal_CQuaternion__SWIG_2(long l, Mat4f mat4f) {
-    }
+    public static final native long new_eal_CQuaternion__SWIG_2(long var0, Mat4f var2);
 
-    public static final native void delete_eal_CQuaternion(long l) {
-    }
+    public static final native void delete_eal_CQuaternion(long var0);
 
-    public static final native long eal_CQuaternion_createIdentity() {
-    }
+    public static final native long eal_CQuaternion_createIdentity();
 
-    public static final native void eal_CQuaternion_normalize(long l, CQuaternion cQuaternion) {
-    }
+    public static final native void eal_CQuaternion_normalize(long var0, CQuaternion var2);
 
-    public static final native void eal_CQuaternion_inverse(long l, CQuaternion cQuaternion) {
-    }
+    public static final native void eal_CQuaternion_inverse(long var0, CQuaternion var2);
 
-    public static final native long eal_CQuaternion_slerp(long l, CQuaternion cQuaternion, long l2, CQuaternion cQuaternion2, float f2) {
-    }
+    public static final native long eal_CQuaternion_slerp(long var0, CQuaternion var2, long var3, CQuaternion var5, float var6);
 
-    public static final native long eal_CQuaternion_toMatrix4x4(long l, CQuaternion cQuaternion) {
-    }
+    public static final native long eal_CQuaternion_toMatrix4x4(long var0, CQuaternion var2);
 
-    public static final native long eal_CQuaternion_toMatrix(long l, CQuaternion cQuaternion) {
-    }
+    public static final native long eal_CQuaternion_toMatrix(long var0, CQuaternion var2);
 
-    public static final native long new_eal_CMergeInfo() {
-    }
+    public static final native long new_eal_CMergeInfo();
 
-    public static final native void delete_eal_CMergeInfo(long l) {
-    }
+    public static final native void delete_eal_CMergeInfo(long var0);
 
-    public static final native long eal_CMergeInfo_getId(long l, CMergeInfo cMergeInfo) {
-    }
+    public static final native long eal_CMergeInfo_getId(long var0, CMergeInfo var2);
 
-    public static final native String eal_CMergeInfo_getPath(long l, CMergeInfo cMergeInfo) {
-    }
+    public static final native String eal_CMergeInfo_getPath(long var0, CMergeInfo var2);
 
-    public static final native void eal_CMergeInfo_dispose(long l, CMergeInfo cMergeInfo) {
-    }
+    public static final native void eal_CMergeInfo_dispose(long var0, CMergeInfo var2);
 
-    public static final native void delete_eal_CTimeProvider(long l) {
-    }
+    public static final native void delete_eal_CTimeProvider(long var0);
 
-    public static final native BigInteger eal_CTimeProvider_getTime() {
-    }
+    public static final native BigInteger eal_CTimeProvider_getTime();
 
-    public static final native BigInteger eal_CTimeProvider_getDeltaTime() {
-    }
+    public static final native BigInteger eal_CTimeProvider_getDeltaTime();
 
-    public static final native long new_eal_CTimeProvider() {
-    }
+    public static final native long new_eal_CTimeProvider();
 
-    public static final native long new_eal_ICacheCallback() {
-    }
+    public static final native long new_eal_ICacheCallback();
 
-    public static final native void delete_eal_ICacheCallback(long l) {
-    }
+    public static final native void delete_eal_ICacheCallback(long var0);
 
-    public static final native void eal_ICacheCallback_destroy(long l, ICacheCallback iCacheCallback, int n) {
-    }
+    public static final native void eal_ICacheCallback_destroy(long var0, ICacheCallback var2, int var3);
 
-    public static final native void eal_ICacheCallback_destroySwigExplicitICacheCallback(long l, ICacheCallback iCacheCallback, int n) {
-    }
+    public static final native void eal_ICacheCallback_destroySwigExplicitICacheCallback(long var0, ICacheCallback var2, int var3);
 
-    public static final native void eal_ICacheCallback_director_connect(ICacheCallback iCacheCallback, long l, boolean bl, boolean bl2) {
-    }
+    public static final native void eal_ICacheCallback_director_connect(ICacheCallback var0, long var1, boolean var3, boolean var4);
 
-    public static final native void eal_ICacheCallback_change_ownership(ICacheCallback iCacheCallback, long l, boolean bl) {
-    }
+    public static final native void eal_ICacheCallback_change_ownership(ICacheCallback var0, long var1, boolean var3);
 
-    public static final native long new_eal_CCacheLRU__SWIG_0(long l, IProject iProject, int n, int n2) {
-    }
+    public static final native long new_eal_CCacheLRU__SWIG_0(long var0, IProject var2, int var3, int var4);
 
-    public static final native long new_eal_CCacheLRU__SWIG_1(long l, IProject iProject, int n, int n2) {
-    }
+    public static final native long new_eal_CCacheLRU__SWIG_1(long var0, IProject var2, int var3, int var4);
 
-    public static final native void delete_eal_CCacheLRU(long l) {
-    }
+    public static final native void delete_eal_CCacheLRU(long var0);
 
-    public static final native boolean eal_CCacheLRU_defineImage(long l, CCacheLRU cCacheLRU, int n, String string, long l2, FlagImage flagImage) {
-    }
+    public static final native boolean eal_CCacheLRU_defineImage(long var0, CCacheLRU var2, int var3, String var4, long var5, FlagImage var7);
 
-    public static final native boolean eal_CCacheLRU_defineTexture(long l, CCacheLRU cCacheLRU, int n, int n2, long l2, FlagTexture flagTexture) {
-    }
+    public static final native boolean eal_CCacheLRU_defineTexture(long var0, CCacheLRU var2, int var3, int var4, long var5, FlagTexture var7);
 
-    public static final native long eal_CCacheLRU_getImage(long l, CCacheLRU cCacheLRU, int n) {
-    }
+    public static final native long eal_CCacheLRU_getImage(long var0, CCacheLRU var2, int var3);
 
-    public static final native long eal_CCacheLRU_getTexture(long l, CCacheLRU cCacheLRU, int n) {
-    }
+    public static final native long eal_CCacheLRU_getTexture(long var0, CCacheLRU var2, int var3);
 
-    public static final native boolean eal_CCacheLRU_returnObject(long l, CCacheLRU cCacheLRU, int n) {
-    }
+    public static final native boolean eal_CCacheLRU_returnObject(long var0, CCacheLRU var2, int var3);
 
-    public static final native void eal_CCacheLRU_dump(long l, CCacheLRU cCacheLRU) {
-    }
+    public static final native void eal_CCacheLRU_dump(long var0, CCacheLRU var2);
 
-    public static final native boolean eal_CCacheLRU_isIdentifier(long l, CCacheLRU cCacheLRU, int n) {
-    }
+    public static final native boolean eal_CCacheLRU_isIdentifier(long var0, CCacheLRU var2, int var3);
 
-    public static final native boolean eal_CCacheLRU_setCallback(long l, CCacheLRU cCacheLRU, long l2, ICacheCallback iCacheCallback) {
-    }
+    public static final native boolean eal_CCacheLRU_setCallback(long var0, CCacheLRU var2, long var3, ICacheCallback var5);
 
-    public static final native boolean eal_CCacheLRU_destroyIdentifier(long l, CCacheLRU cCacheLRU, int n) {
-    }
+    public static final native boolean eal_CCacheLRU_destroyIdentifier(long var0, CCacheLRU var2, int var3);
 
-    public static final native void delete_eal_api_IObject(long l) {
-    }
+    public static final native void delete_eal_api_IObject(long var0);
 
-    public static final native boolean eal_api_IObject_isDisposed(long l, IObject iObject) {
-    }
+    public static final native boolean eal_api_IObject_isDisposed(long var0, IObject var2);
 
-    public static final native boolean eal_api_IObject_equals(long l, IObject iObject, long l2, IObject iObject2) {
-    }
+    public static final native boolean eal_api_IObject_equals(long var0, IObject var2, long var3, IObject var5);
 
-    public static final native boolean eal_api_IObject_isValid(long l, IObject iObject) {
-    }
+    public static final native boolean eal_api_IObject_isValid(long var0, IObject var2);
 
-    public static final native void eal_api_IObject_dispose(long l, IObject iObject) {
-    }
+    public static final native void eal_api_IObject_dispose(long var0, IObject var2);
 
-    public static final native void delete_eal_api_IAnimation(long l) {
-    }
+    public static final native void delete_eal_api_IAnimation(long var0);
 
-    public static final native boolean eal_api_IAnimation_setTargetPropertyBlendIntensity(long l, IAnimation iAnimation) {
-    }
+    public static final native boolean eal_api_IAnimation_setTargetPropertyBlendIntensity(long var0, IAnimation var2);
 
-    public static final native boolean eal_api_IAnimation_isValid(long l, IAnimation iAnimation) {
-    }
+    public static final native boolean eal_api_IAnimation_isValid(long var0, IAnimation var2);
 
-    public static final native void eal_api_IAnimation_dispose(long l, IAnimation iAnimation) {
-    }
+    public static final native void eal_api_IAnimation_dispose(long var0, IAnimation var2);
 
-    public static final native boolean eal_api_IAnimation_getValue(long l, IAnimation iAnimation, long l2, float[] fArray) {
-    }
+    public static final native boolean eal_api_IAnimation_getValue(long var0, IAnimation var2, long var3, float[] var5);
 
-    public static final native String eal_api_IAnimation_getName(long l, IAnimation iAnimation) {
-    }
+    public static final native String eal_api_IAnimation_getName(long var0, IAnimation var2);
 
-    public static final native void delete_eal_api_IAnimationClip(long l) {
-    }
+    public static final native void delete_eal_api_IAnimationClip(long var0);
 
-    public static final native boolean eal_api_IAnimationClip_setStartTime(long l, IAnimationClip iAnimationClip, float f2) {
-    }
+    public static final native boolean eal_api_IAnimationClip_setStartTime(long var0, IAnimationClip var2, float var3);
 
-    public static final native boolean eal_api_IAnimationClip_setRepeat(long l, IAnimationClip iAnimationClip, int n) {
-    }
+    public static final native boolean eal_api_IAnimationClip_setRepeat(long var0, IAnimationClip var2, int var3);
 
-    public static final native int eal_api_IAnimationClip_getUniqueId(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native int eal_api_IAnimationClip_getUniqueId(long var0, IAnimationClip var2);
 
-    public static final native float eal_api_IAnimationClip_getDuration(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native float eal_api_IAnimationClip_getDuration(long var0, IAnimationClip var2);
 
-    public static final native float eal_api_IAnimationClip_getStartTime(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native float eal_api_IAnimationClip_getStartTime(long var0, IAnimationClip var2);
 
-    public static final native float eal_api_IAnimationClip_getEndTime(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native float eal_api_IAnimationClip_getEndTime(long var0, IAnimationClip var2);
 
-    public static final native boolean eal_api_IAnimationClip_isValid(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native boolean eal_api_IAnimationClip_isValid(long var0, IAnimationClip var2);
 
-    public static final native void eal_api_IAnimationClip_dispose(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native void eal_api_IAnimationClip_dispose(long var0, IAnimationClip var2);
 
-    public static final native long eal_api_IAnimationClip_getSize(long l, IAnimationClip iAnimationClip) {
-    }
+    public static final native long eal_api_IAnimationClip_getSize(long var0, IAnimationClip var2);
 
-    public static final native long eal_api_IAnimationClip_getAnimation(long l, IAnimationClip iAnimationClip, long l2) {
-    }
+    public static final native long eal_api_IAnimationClip_getAnimation(long var0, IAnimationClip var2, long var3);
 
-    public static final native long new_eal_api_IAnimationPlayer(long l, IProject iProject) {
-    }
+    public static final native long new_eal_api_IAnimationPlayer(long var0, IProject var2);
 
-    public static final native void delete_eal_api_IAnimationPlayer(long l) {
-    }
+    public static final native void delete_eal_api_IAnimationPlayer(long var0);
 
-    public static final native boolean eal_api_IAnimationPlayer_add__SWIG_0(long l, IAnimationPlayer iAnimationPlayer, long l2, IAnimationClip iAnimationClip) {
-    }
+    public static final native boolean eal_api_IAnimationPlayer_add__SWIG_0(long var0, IAnimationPlayer var2, long var3, IAnimationClip var5);
 
-    public static final native boolean eal_api_IAnimationPlayer_add__SWIG_1(long l, IAnimationPlayer iAnimationPlayer, long l2, ITimeLineSequence iTimeLineSequence) {
-    }
+    public static final native boolean eal_api_IAnimationPlayer_add__SWIG_1(long var0, IAnimationPlayer var2, long var3, ITimeLineSequence var5);
 
-    public static final native boolean eal_api_IAnimationPlayer_remove(long l, IAnimationPlayer iAnimationPlayer, long l2, IAnimationClip iAnimationClip) {
-    }
+    public static final native boolean eal_api_IAnimationPlayer_remove(long var0, IAnimationPlayer var2, long var3, IAnimationClip var5);
 
-    public static final native void eal_api_IAnimationPlayer_play(long l, IAnimationPlayer iAnimationPlayer) {
-    }
+    public static final native void eal_api_IAnimationPlayer_play(long var0, IAnimationPlayer var2);
 
-    public static final native void eal_api_IAnimationPlayer_pause(long l, IAnimationPlayer iAnimationPlayer) {
-    }
+    public static final native void eal_api_IAnimationPlayer_pause(long var0, IAnimationPlayer var2);
 
-    public static final native boolean eal_api_IAnimationPlayer_isValid(long l, IAnimationPlayer iAnimationPlayer) {
-    }
+    public static final native boolean eal_api_IAnimationPlayer_isValid(long var0, IAnimationPlayer var2);
 
-    public static final native void eal_api_IAnimationPlayer_dispose(long l, IAnimationPlayer iAnimationPlayer) {
-    }
+    public static final native void eal_api_IAnimationPlayer_dispose(long var0, IAnimationPlayer var2);
 
-    public static final native int eal_api_ITimeLineSequence_RETURN_INVALID_get() {
-    }
+    public static final native int eal_api_ITimeLineSequence_RETURN_INVALID_get();
 
-    public static final native void delete_eal_api_ITimeLineSequence(long l) {
-    }
+    public static final native void delete_eal_api_ITimeLineSequence(long var0);
 
-    public static final native boolean eal_api_ITimeLineSequence_isValid(long l, ITimeLineSequence iTimeLineSequence) {
-    }
+    public static final native boolean eal_api_ITimeLineSequence_isValid(long var0, ITimeLineSequence var2);
 
-    public static final native boolean eal_api_ITimeLineSequence_setContext(long l, ITimeLineSequence iTimeLineSequence, long l2, long l3, INode iNode) {
-    }
+    public static final native boolean eal_api_ITimeLineSequence_setContext(long var0, ITimeLineSequence var2, long var3, long var5, INode var7);
 
-    public static final native boolean eal_api_ITimeLineSequence_setTarget__SWIG_0(long l, ITimeLineSequence iTimeLineSequence, long l2, long l3, ITimeLineSequence iTimeLineSequence2) {
-    }
+    public static final native boolean eal_api_ITimeLineSequence_setTarget__SWIG_0(long var0, ITimeLineSequence var2, long var3, long var5, ITimeLineSequence var7);
 
-    public static final native boolean eal_api_ITimeLineSequence_setTarget__SWIG_1(long l, ITimeLineSequence iTimeLineSequence, long l2, long l3, IAnimationClip iAnimationClip) {
-    }
+    public static final native boolean eal_api_ITimeLineSequence_setTarget__SWIG_1(long var0, ITimeLineSequence var2, long var3, long var5, IAnimationClip var7);
 
-    public static final native long eal_api_ITimeLineSequence_getTarget(long l, ITimeLineSequence iTimeLineSequence, long l2) {
-    }
+    public static final native long eal_api_ITimeLineSequence_getTarget(long var0, ITimeLineSequence var2, long var3);
 
-    public static final native int eal_api_ITimeLineSequence_cloneEntry(long l, ITimeLineSequence iTimeLineSequence, long l2) {
-    }
+    public static final native int eal_api_ITimeLineSequence_cloneEntry(long var0, ITimeLineSequence var2, long var3);
 
-    public static final native boolean eal_api_ITimeLineSequence_setInputProperty(long l, ITimeLineSequence iTimeLineSequence, long l2, long l3, INode iNode, long l4, IProperty iProperty) {
-    }
+    public static final native boolean eal_api_ITimeLineSequence_setInputProperty(long var0, ITimeLineSequence var2, long var3, long var5, INode var7, long var8, IProperty var10);
 
-    public static final native void eal_api_ITimeLineSequence_print(long l, ITimeLineSequence iTimeLineSequence) {
-    }
+    public static final native void eal_api_ITimeLineSequence_print(long var0, ITimeLineSequence var2);
 
-    public static final native void eal_api_ITimeLineSequence_dispose(long l, ITimeLineSequence iTimeLineSequence) {
-    }
+    public static final native void eal_api_ITimeLineSequence_dispose(long var0, ITimeLineSequence var2);
 
-    public static final native boolean eal_api_ITimeLineSequence_makeEntryDirty(long l, ITimeLineSequence iTimeLineSequence, long l2) {
-    }
+    public static final native boolean eal_api_ITimeLineSequence_makeEntryDirty(long var0, ITimeLineSequence var2, long var3);
 
-    public static final native void delete_eal_api_IContext(long l) {
-    }
+    public static final native void delete_eal_api_IContext(long var0);
 
-    public static final native boolean eal_api_IContext_setVSync(long l, IContext iContext, boolean bl) {
-    }
+    public static final native boolean eal_api_IContext_setVSync(long var0, IContext var2, boolean var3);
 
-    public static final native void eal_api_IContext_disableDepthBuffer(long l, IContext iContext) {
-    }
+    public static final native void eal_api_IContext_disableDepthBuffer(long var0, IContext var2);
 
-    public static final native boolean eal_api_IContext_setWidth(long l, IContext iContext, long l2) {
-    }
+    public static final native boolean eal_api_IContext_setWidth(long var0, IContext var2, long var3);
 
-    public static final native boolean eal_api_IContext_setHeight(long l, IContext iContext, long l2) {
-    }
+    public static final native boolean eal_api_IContext_setHeight(long var0, IContext var2, long var3);
 
-    public static final native long eal_api_IContext_getScreenData(long l, IContext iContext) {
-    }
+    public static final native long eal_api_IContext_getScreenData(long var0, IContext var2);
 
-    public static final native boolean eal_api_IContext_setDisplayId(long l, IContext iContext, long l2) {
-    }
+    public static final native boolean eal_api_IContext_setDisplayId(long var0, IContext var2, long var3);
 
-    public static final native long eal_api_IContext_getDisplayId(long l, IContext iContext) {
-    }
+    public static final native long eal_api_IContext_getDisplayId(long var0, IContext var2);
 
-    public static final native boolean eal_api_IContext_setAnnotation(long l, IContext iContext, boolean bl) {
-    }
+    public static final native boolean eal_api_IContext_setAnnotation(long var0, IContext var2, boolean var3);
 
-    public static final native boolean eal_api_IContext_isValid(long l, IContext iContext) {
-    }
+    public static final native boolean eal_api_IContext_isValid(long var0, IContext var2);
 
-    public static final native boolean eal_api_IContext_getScreenResolution(long l, IContext iContext, long l2, displaySize_t displaySize_t2) {
-    }
+    public static final native boolean eal_api_IContext_getScreenResolution(long var0, IContext var2, long var3, displaySize_t var5);
 
-    public static final native void eal_api_IContext_dispose(long l, IContext iContext) {
-    }
+    public static final native void eal_api_IContext_dispose(long var0, IContext var2);
 
-    public static final native void delete_eal_api_IFactory(long l) {
-    }
+    public static final native void delete_eal_api_IFactory(long var0);
 
-    public static final native boolean eal_api_IFactory_dereference(long l, IObject iObject) {
-    }
+    public static final native boolean eal_api_IFactory_dereference(long var0, IObject var2);
 
-    public static final native boolean eal_api_IFactory_destroy__SWIG_0(long l, INode iNode, boolean bl) {
-    }
+    public static final native boolean eal_api_IFactory_destroy__SWIG_0(long var0, INode var2, boolean var3);
 
-    public static final native boolean eal_api_IFactory_destroy__SWIG_1(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_IFactory_destroy__SWIG_1(long var0, INode var2);
 
-    public static final native boolean eal_api_IFactory_destroy__SWIG_2(long l, IProject iProject) {
-    }
+    public static final native boolean eal_api_IFactory_destroy__SWIG_2(long var0, IProject var2);
 
-    public static final native long eal_api_IFactory_requestEventImage__SWIG_0(long l, IManager iManager, String string, long l2, FlagImage flagImage) {
-    }
+    public static final native long eal_api_IFactory_requestEventImage__SWIG_0(long var0, IManager var2, String var3, long var4, FlagImage var6);
 
-    public static final native long eal_api_IFactory_requestEventImage__SWIG_1(long l, IManager iManager, String string, long l2, FlagImage flagImage, long l3, long l4) {
-    }
+    public static final native long eal_api_IFactory_requestEventImage__SWIG_1(long var0, IManager var2, String var3, long var4, FlagImage var6, long var7, long var9);
 
-    public static final native long eal_api_IFactory_requestEventImageSave(long l, IImage iImage, String string, int n) {
-    }
+    public static final native long eal_api_IFactory_requestEventImageSave(long var0, IImage var2, String var3, int var4);
 
-    public static final native long eal_api_IFactory_requestEventFontGroup(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IFactory_requestEventFontGroup(long var0, IManager var2);
 
-    public static final native long new_eal_api_IManager() {
-    }
+    public static final native long new_eal_api_IManager();
 
-    public static final native void delete_eal_api_IManager(long l) {
-    }
+    public static final native void delete_eal_api_IManager(long var0);
 
-    public static final native boolean eal_api_IManager_start(long l, IManager iManager) {
-    }
+    public static final native boolean eal_api_IManager_start(long var0, IManager var2);
 
-    public static final native boolean eal_api_IManager_stop(long l, IManager iManager) {
-    }
+    public static final native boolean eal_api_IManager_stop(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_getContext(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_getContext(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_load(long l, IManager iManager, String string) {
-    }
+    public static final native long eal_api_IManager_load(long var0, IManager var2, String var3);
 
-    public static final native long eal_api_IManager_getDefaultProject(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_getDefaultProject(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_createDefaultProject(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_createDefaultProject(long var0, IManager var2);
 
-    public static final native boolean eal_api_IManager_setDefaultProject(long l, IManager iManager, long l2, IProject iProject) {
-    }
+    public static final native boolean eal_api_IManager_setDefaultProject(long var0, IManager var2, long var3, IProject var5);
 
-    public static final native boolean eal_api_IManager_destroyDefaultProject(long l, IManager iManager, long l2, IProject iProject) {
-    }
+    public static final native boolean eal_api_IManager_destroyDefaultProject(long var0, IManager var2, long var3, IProject var5);
 
-    public static final native void eal_api_IManager_printMemoryStatus(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_printMemoryStatus(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_getMemoryVRAM(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_getMemoryVRAM(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_getMemoryRAM(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_getMemoryRAM(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_getMemoryRAMFree(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_getMemoryRAMFree(long var0, IManager var2);
 
-    public static final native boolean eal_api_IManager_setMemorySize(long l, IManager iManager, long l2) {
-    }
+    public static final native boolean eal_api_IManager_setMemorySize(long var0, IManager var2, long var3);
 
-    public static final native boolean eal_api_IManager_isValid(long l, IManager iManager) {
-    }
+    public static final native boolean eal_api_IManager_isValid(long var0, IManager var2);
 
-    public static final native long eal_api_IManager_getRenderer(long l, IManager iManager) {
-    }
+    public static final native long eal_api_IManager_getRenderer(long var0, IManager var2);
 
-    public static final native void eal_api_IManager_dispose(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_dispose(long var0, IManager var2);
 
-    public static final native boolean eal_api_IManager_dumpFontCaches(long l, IManager iManager, String string) {
-    }
+    public static final native boolean eal_api_IManager_dumpFontCaches(long var0, IManager var2, String var3);
 
-    public static final native String eal_api_IManager_triggerDump() {
-    }
+    public static final native String eal_api_IManager_triggerDump();
 
-    public static final native long eal_api_IManager_layout(long l, IManager iManager, long l2, ITextLayout iTextLayout, String string) {
-    }
+    public static final native long eal_api_IManager_layout(long var0, IManager var2, long var3, ITextLayout var5, String var6);
 
-    public static final native boolean eal_api_IManager_layoutGetWidth(long l, IManager iManager, long l2, ITextLayoutResult iTextLayoutResult, int[] nArray, int n) {
-    }
+    public static final native boolean eal_api_IManager_layoutGetWidth(long var0, IManager var2, long var3, ITextLayoutResult var5, int[] var6, int var7);
 
-    public static final native boolean eal_api_IManager_computeAvailableGlyphs(long l, IManager iManager, String string, long l2, ITextLayout iTextLayout, long l3, glyphInformation_t glyphInformation_t2) {
-    }
+    public static final native boolean eal_api_IManager_computeAvailableGlyphs(long var0, IManager var2, String var3, long var4, ITextLayout var6, long var7, glyphInformation_t var9);
 
-    public static final native boolean eal_api_IManager_isMerged(long l, IManager iManager, long l2, IProject iProject, String string) {
-    }
+    public static final native boolean eal_api_IManager_isMerged(long var0, IManager var2, long var3, IProject var5, String var6);
 
-    public static final native boolean eal_api_IManager_execute__SWIG_0(long l, IManager iManager, long l2, IEventImage iEventImage) {
-    }
+    public static final native boolean eal_api_IManager_execute__SWIG_0(long var0, IManager var2, long var3, IEventImage var5);
 
-    public static final native boolean eal_api_IManager_execute__SWIG_1(long l, IManager iManager, long l2, IEventImageSave iEventImageSave) {
-    }
+    public static final native boolean eal_api_IManager_execute__SWIG_1(long var0, IManager var2, long var3, IEventImageSave var5);
 
-    public static final native boolean eal_api_IManager_execute__SWIG_2(long l, IManager iManager, long l2, IEventFontGroup iEventFontGroup) {
-    }
+    public static final native boolean eal_api_IManager_execute__SWIG_2(long var0, IManager var2, long var3, IEventFontGroup var5);
 
-    public static final native void eal_api_IManager_setObjectTracer(long l, IManager iManager, boolean bl) {
-    }
+    public static final native void eal_api_IManager_setObjectTracer(long var0, IManager var2, boolean var3);
 
-    public static final native void eal_api_IManager_dumpObjects(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_dumpObjects(long var0, IManager var2);
 
-    public static final native void eal_api_IManager_dumpProfiling(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_dumpProfiling(long var0, IManager var2);
 
-    public static final native void eal_api_IManager_dumpRegistry(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_dumpRegistry(long var0, IManager var2);
 
-    public static final native void eal_api_IManager_dumpMemory(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_dumpMemory(long var0, IManager var2);
 
-    public static final native void eal_api_IManager_dumpResources(long l, IManager iManager) {
-    }
+    public static final native void eal_api_IManager_dumpResources(long var0, IManager var2);
 
-    public static final native void eal_api_IManager_setRegistry(long l, IManager iManager, boolean bl) {
-    }
+    public static final native void eal_api_IManager_setRegistry(long var0, IManager var2, boolean var3);
 
-    public static final native void eal_api_IManager_setObjectWarnLimit(long l, IManager iManager, long l2) {
-    }
+    public static final native void eal_api_IManager_setObjectWarnLimit(long var0, IManager var2, long var3);
 
-    public static final native boolean eal_api_IManager_setOpacityInvalidationInherit(long l, IManager iManager, boolean bl) {
-    }
+    public static final native boolean eal_api_IManager_setOpacityInvalidationInherit(long var0, IManager var2, boolean var3);
 
-    public static final native boolean eal_api_IManager_setEventThreadNumber(long l, IManager iManager, long l2) {
-    }
+    public static final native boolean eal_api_IManager_setEventThreadNumber(long var0, IManager var2, long var3);
 
-    public static final native boolean eal_api_IManager_setFontDpi(long l, IManager iManager, int n) {
-    }
+    public static final native boolean eal_api_IManager_setFontDpi(long var0, IManager var2, int var3);
 
-    public static final native int eal_api_IManager_getCurrentFontDpi(long l, IManager iManager) {
-    }
+    public static final native int eal_api_IManager_getCurrentFontDpi(long var0, IManager var2);
 
-    public static final native void delete_eal_api_IProject(long l) {
-    }
+    public static final native void delete_eal_api_IProject(long var0);
 
-    public static final native long eal_api_IProject_getScene(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getScene(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getAnimationClip(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getAnimationClip(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getAnimation(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getAnimation(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode2D(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode2D(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode2DImage(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode2DImage(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode3D(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode3D(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode3DMesh(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode3DMesh(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode3DCamera(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode3DCamera(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getMaterial(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getMaterial(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getNode2DLink(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getNode2DLink(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getMeshData(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getMeshData(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getTimeLineSequence(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getTimeLineSequence(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getTemplateNode2D(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getTemplateNode2D(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getTemplateNode3D(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getTemplateNode3D(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getTexture(long l, IProject iProject, String string) {
-    }
+    public static final native long eal_api_IProject_getTexture(long var0, IProject var2, String var3);
 
-    public static final native boolean eal_api_IProject_merge__SWIG_0(long l, IProject iProject, int n, String string, long l2, CMergeInfo cMergeInfo, long l3, FlagMerge flagMerge) {
-    }
+    public static final native boolean eal_api_IProject_merge__SWIG_0(long var0, IProject var2, int var3, String var4, long var5, CMergeInfo var7, long var8, FlagMerge var10);
 
-    public static final native boolean eal_api_IProject_merge__SWIG_1(long l, IProject iProject, int n, String string, long l2, CMergeInfo cMergeInfo) {
-    }
+    public static final native boolean eal_api_IProject_merge__SWIG_1(long var0, IProject var2, int var3, String var4, long var5, CMergeInfo var7);
 
-    public static final native boolean eal_api_IProject_merge__SWIG_2(long l, IProject iProject, int n, String string) {
-    }
+    public static final native boolean eal_api_IProject_merge__SWIG_2(long var0, IProject var2, int var3, String var4);
 
-    public static final native boolean eal_api_IProject_isValid(long l, IProject iProject) {
-    }
+    public static final native boolean eal_api_IProject_isValid(long var0, IProject var2);
 
-    public static final native boolean eal_api_IProject_setMainScene(long l, IProject iProject, long l2, INode3DScene iNode3DScene) {
-    }
+    public static final native boolean eal_api_IProject_setMainScene(long var0, IProject var2, long var3, INode3DScene var5);
 
-    public static final native boolean eal_api_IProject_setScreenMain(long l, IProject iProject, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_IProject_setScreenMain(long var0, IProject var2, long var3, INode2D var5);
 
-    public static final native long eal_api_IProject_getScreenMain(long l, IProject iProject) {
-    }
+    public static final native long eal_api_IProject_getScreenMain(long var0, IProject var2);
 
-    public static final native boolean eal_api_IProject_isScreenMain(long l, IProject iProject) {
-    }
+    public static final native boolean eal_api_IProject_isScreenMain(long var0, IProject var2);
 
-    public static final native int eal_api_IProject_getTypeOfPath(long l, IProject iProject, String string) {
-    }
+    public static final native int eal_api_IProject_getTypeOfPath(long var0, IProject var2, String var3);
 
-    public static final native boolean eal_api_IProject_setRenderpass(long l, IProject iProject, String string, boolean bl) {
-    }
+    public static final native boolean eal_api_IProject_setRenderpass(long var0, IProject var2, String var3, boolean var4);
 
-    public static final native boolean eal_api_IProject_isNode(long l, IProject iProject, String string) {
-    }
+    public static final native boolean eal_api_IProject_isNode(long var0, IProject var2, String var3);
 
-    public static final native boolean eal_api_IProject_isPrefab(long l, IProject iProject, String string) {
-    }
+    public static final native boolean eal_api_IProject_isPrefab(long var0, IProject var2, String var3);
 
-    public static final native boolean eal_api_IProject_isAnimationClip(long l, IProject iProject, String string) {
-    }
+    public static final native boolean eal_api_IProject_isAnimationClip(long var0, IProject var2, String var3);
 
-    public static final native long eal_api_IProject_getDefaultTimeLineSequence(long l, IProject iProject) {
-    }
+    public static final native long eal_api_IProject_getDefaultTimeLineSequence(long var0, IProject var2);
 
-    public static final native void eal_api_IProject_dispose(long l, IProject iProject) {
-    }
+    public static final native void eal_api_IProject_dispose(long var0, IProject var2);
 
-    public static final native boolean eal_api_IProject_registerNode(long l, IProject iProject, long l2, INode iNode, String string) {
-    }
+    public static final native boolean eal_api_IProject_registerNode(long var0, IProject var2, long var3, INode var5, String var6);
 
-    public static final native void eal_api_IProject_list__SWIG_0(long l, IProject iProject, int n, boolean bl) {
-    }
+    public static final native void eal_api_IProject_list__SWIG_0(long var0, IProject var2, int var3, boolean var4);
 
-    public static final native void eal_api_IProject_list__SWIG_1(long l, IProject iProject, int n) {
-    }
+    public static final native void eal_api_IProject_list__SWIG_1(long var0, IProject var2, int var3);
 
-    public static final native boolean eal_api_IProject_list__SWIG_2(long l, IProject iProject, int n, String string) {
-    }
+    public static final native boolean eal_api_IProject_list__SWIG_2(long var0, IProject var2, int var3, String var4);
 
-    public static final native long new_eal_api_IImage__SWIG_0(long l, IManager iManager, String string) {
-    }
+    public static final native long new_eal_api_IImage__SWIG_0(long var0, IManager var2, String var3);
 
-    public static final native long new_eal_api_IImage__SWIG_1(long l, IManager iManager, String string, long l2, FlagImage flagImage) {
-    }
+    public static final native long new_eal_api_IImage__SWIG_1(long var0, IManager var2, String var3, long var4, FlagImage var6);
 
-    public static final native long new_eal_api_IImage__SWIG_2(long l, IManager iManager, String string, long l2, FlagImage flagImage, long l3, long l4) {
-    }
+    public static final native long new_eal_api_IImage__SWIG_2(long var0, IManager var2, String var3, long var4, FlagImage var6, long var7, long var9);
 
-    public static final native long new_eal_api_IImage__SWIG_3(long l, IManager iManager, ByteBuffer byteBuffer, long l2) {
-    }
+    public static final native long new_eal_api_IImage__SWIG_3(long var0, IManager var2, ByteBuffer var3, long var4);
 
-    public static final native long new_eal_api_IImage__SWIG_4(long l, IManager iManager, ByteBuffer byteBuffer, long l2, long l3) {
-    }
+    public static final native long new_eal_api_IImage__SWIG_4(long var0, IManager var2, ByteBuffer var3, long var4, long var6);
 
-    public static final native long new_eal_api_IImage__SWIG_5(long l, IManager iManager, ByteBuffer byteBuffer, long l2, long l3, long l4, FlagImage flagImage) {
-    }
+    public static final native long new_eal_api_IImage__SWIG_5(long var0, IManager var2, ByteBuffer var3, long var4, long var6, long var8, FlagImage var10);
 
-    public static final native void delete_eal_api_IImage(long l) {
-    }
+    public static final native void delete_eal_api_IImage(long var0);
 
-    public static final native ByteBuffer eal_api_IImage_getData(long l, IImage iImage) {
-    }
+    public static final native ByteBuffer eal_api_IImage_getData(long var0, IImage var2);
 
-    public static final native long eal_api_IImage_getSize(long l, IImage iImage) {
-    }
+    public static final native long eal_api_IImage_getSize(long var0, IImage var2);
 
-    public static final native boolean eal_api_IImage_isValid(long l, IImage iImage) {
-    }
+    public static final native boolean eal_api_IImage_isValid(long var0, IImage var2);
 
-    public static final native long eal_api_IImage_getWidth(long l, IImage iImage) {
-    }
+    public static final native long eal_api_IImage_getWidth(long var0, IImage var2);
 
-    public static final native long eal_api_IImage_getHeight(long l, IImage iImage) {
-    }
+    public static final native long eal_api_IImage_getHeight(long var0, IImage var2);
 
-    public static final native void eal_api_IImage_dispose(long l, IImage iImage) {
-    }
+    public static final native void eal_api_IImage_dispose(long var0, IImage var2);
 
-    public static final native boolean eal_api_IImage_destroy(long l, IImage iImage) {
-    }
+    public static final native boolean eal_api_IImage_destroy(long var0, IImage var2);
 
-    public static final native boolean eal_api_IImage_save(long l, IImage iImage, String string, int n) {
-    }
+    public static final native boolean eal_api_IImage_save(long var0, IImage var2, String var3, int var4);
 
-    public static final native boolean eal_api_IImage_addText(long l, IImage iImage, long l2, IFont iFont, int n, String string) {
-    }
+    public static final native boolean eal_api_IImage_addText(long var0, IImage var2, long var3, IFont var5, int var6, String var7);
 
-    public static final native long eal_api_IImage_getImageInfo__SWIG_0(String string) {
-    }
+    public static final native long eal_api_IImage_getImageInfo__SWIG_0(String var0);
 
-    public static final native long eal_api_IImage_getImageInfo__SWIG_1(ByteBuffer byteBuffer, long l) {
-    }
+    public static final native long eal_api_IImage_getImageInfo__SWIG_1(ByteBuffer var0, long var1);
 
-    public static final native void delete_eal_api_IImageAsync(long l) {
-    }
+    public static final native void delete_eal_api_IImageAsync(long var0);
 
-    public static final native long new_eal_api_IImageAsync__SWIG_0(ByteBuffer byteBuffer, long l) {
-    }
+    public static final native long new_eal_api_IImageAsync__SWIG_0(ByteBuffer var0, long var1);
 
-    public static final native long new_eal_api_IImageAsync__SWIG_1(ByteBuffer byteBuffer, long l, long l2, long l3, long l4, FlagImage flagImage) {
-    }
+    public static final native long new_eal_api_IImageAsync__SWIG_1(ByteBuffer var0, long var1, long var3, long var5, long var7, FlagImage var9);
 
-    public static final native boolean eal_api_IImageAsync_isValid(long l, IImageAsync iImageAsync) {
-    }
+    public static final native boolean eal_api_IImageAsync_isValid(long var0, IImageAsync var2);
 
-    public static final native boolean eal_api_IImageAsync_destroy(long l, IImageAsync iImageAsync) {
-    }
+    public static final native boolean eal_api_IImageAsync_destroy(long var0, IImageAsync var2);
 
-    public static final native long eal_api_IImageAsync_getWidth(long l, IImageAsync iImageAsync) {
-    }
+    public static final native long eal_api_IImageAsync_getWidth(long var0, IImageAsync var2);
 
-    public static final native long eal_api_IImageAsync_getHeight(long l, IImageAsync iImageAsync) {
-    }
+    public static final native long eal_api_IImageAsync_getHeight(long var0, IImageAsync var2);
 
-    public static final native void delete_eal_api_IMeshData(long l) {
-    }
+    public static final native void delete_eal_api_IMeshData(long var0);
 
-    public static final native boolean eal_api_IMeshData_morph(long l, IMeshData iMeshData, long l2, IMeshData iMeshData2, long l3, float f2) {
-    }
+    public static final native boolean eal_api_IMeshData_morph(long var0, IMeshData var2, long var3, IMeshData var5, long var6, float var8);
 
-    public static final native boolean eal_api_IMeshData_isValid(long l, IMeshData iMeshData) {
-    }
+    public static final native boolean eal_api_IMeshData_isValid(long var0, IMeshData var2);
 
-    public static final native void eal_api_IMeshData_dispose(long l, IMeshData iMeshData) {
-    }
+    public static final native void eal_api_IMeshData_dispose(long var0, IMeshData var2);
 
-    public static final native long new_eal_api_ITexture__SWIG_0(long l, IProject iProject, long l2, IImage iImage) {
-    }
+    public static final native long new_eal_api_ITexture__SWIG_0(long var0, IProject var2, long var3, IImage var5);
 
-    public static final native long new_eal_api_ITexture__SWIG_1(long l, IProject iProject, long l2, IImage iImage, long l3, FlagTexture flagTexture) {
-    }
+    public static final native long new_eal_api_ITexture__SWIG_1(long var0, IProject var2, long var3, IImage var5, long var6, FlagTexture var8);
 
-    public static final native long new_eal_api_ITexture__SWIG_2(long l, IProject iProject, long l2, IImageAsync iImageAsync, long l3, FlagTexture flagTexture) {
-    }
+    public static final native long new_eal_api_ITexture__SWIG_2(long var0, IProject var2, long var3, IImageAsync var5, long var6, FlagTexture var8);
 
-    public static final native void delete_eal_api_ITexture(long l) {
-    }
+    public static final native void delete_eal_api_ITexture(long var0);
 
-    public static final native boolean eal_api_ITexture_isValid(long l, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_ITexture_isValid(long var0, ITexture var2);
 
-    public static final native void eal_api_ITexture_dispose(long l, ITexture iTexture) {
-    }
+    public static final native void eal_api_ITexture_dispose(long var0, ITexture var2);
 
-    public static final native boolean eal_api_ITexture_destroy(long l, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_ITexture_destroy(long var0, ITexture var2);
 
-    public static final native long eal_api_ITexture_getWidth(long l, ITexture iTexture) {
-    }
+    public static final native long eal_api_ITexture_getWidth(long var0, ITexture var2);
 
-    public static final native long eal_api_ITexture_getHeight(long l, ITexture iTexture) {
-    }
+    public static final native long eal_api_ITexture_getHeight(long var0, ITexture var2);
 
-    public static final native boolean eal_api_ITexture_getData(long l, ITexture iTexture, ByteBuffer byteBuffer) {
-    }
+    public static final native boolean eal_api_ITexture_getData(long var0, ITexture var2, ByteBuffer var3);
 
-    public static final native boolean eal_api_ITexture_testIfReferenced(long l, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_ITexture_testIfReferenced(long var0, ITexture var2);
 
-    public static final native long eal_api_ITexture_getProperty(long l, ITexture iTexture, String string) {
-    }
+    public static final native long eal_api_ITexture_getProperty(long var0, ITexture var2, String var3);
 
-    public static final native long new_eal_api_ITextureShared(long l, IProject iProject, String string, long l2, long l3) {
-    }
+    public static final native long new_eal_api_ITextureShared(long var0, IProject var2, String var3, long var4, long var6);
 
-    public static final native void delete_eal_api_ITextureShared(long l) {
-    }
+    public static final native void delete_eal_api_ITextureShared(long var0);
 
-    public static final native boolean eal_api_ITextureShared_updateFromDisplay(long l, ITextureShared iTextureShared, long l2) {
-    }
+    public static final native boolean eal_api_ITextureShared_updateFromDisplay(long var0, ITextureShared var2, long var3);
 
-    public static final native boolean eal_api_ITextureShared_updateFromDisplayable__SWIG_0(long l, ITextureShared iTextureShared, long l2) {
-    }
+    public static final native boolean eal_api_ITextureShared_updateFromDisplayable__SWIG_0(long var0, ITextureShared var2, long var3);
 
-    public static final native boolean eal_api_ITextureShared_updateFromDisplayable__SWIG_1(long l, ITextureShared iTextureShared, long l2, long l3, long l4, long l5, long l6) {
-    }
+    public static final native boolean eal_api_ITextureShared_updateFromDisplayable__SWIG_1(long var0, ITextureShared var2, long var3, long var5, long var7, long var9, long var11);
 
-    public static final native void eal_api_ITextureShared_dispose(long l, ITextureShared iTextureShared) {
-    }
+    public static final native void eal_api_ITextureShared_dispose(long var0, ITextureShared var2);
 
-    public static final native boolean eal_api_ITextureShared_destroy(long l, ITextureShared iTextureShared) {
-    }
+    public static final native boolean eal_api_ITextureShared_destroy(long var0, ITextureShared var2);
 
-    public static final native long new_eal_api_ITextureAtlas(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_ITextureAtlas(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_ITextureAtlas(long l) {
-    }
+    public static final native void delete_eal_api_ITextureAtlas(long var0);
 
-    public static final native long eal_api_ITextureAtlas_getTexture(long l, ITextureAtlas iTextureAtlas, long l2) {
-    }
+    public static final native long eal_api_ITextureAtlas_getTexture(long var0, ITextureAtlas var2, long var3);
 
-    public static final native boolean eal_api_ITextureAtlas_isValid(long l, ITextureAtlas iTextureAtlas) {
-    }
+    public static final native boolean eal_api_ITextureAtlas_isValid(long var0, ITextureAtlas var2);
 
-    public static final native void eal_api_ITextureAtlas_dispose(long l, ITextureAtlas iTextureAtlas) {
-    }
+    public static final native void eal_api_ITextureAtlas_dispose(long var0, ITextureAtlas var2);
 
-    public static final native boolean eal_api_ITextureAtlas_destroy(long l, ITextureAtlas iTextureAtlas) {
-    }
+    public static final native boolean eal_api_ITextureAtlas_destroy(long var0, ITextureAtlas var2);
 
-    public static final native long new_eal_api_ITextureOffscreen__SWIG_0(long l, IProject iProject, String string, long l2, long l3) {
-    }
+    public static final native long new_eal_api_ITextureOffscreen__SWIG_0(long var0, IProject var2, String var3, long var4, long var6);
 
-    public static final native long new_eal_api_ITextureOffscreen__SWIG_1(long l, IProject iProject, String string, long l2, long l3, long l4, FlagTexture flagTexture) {
-    }
+    public static final native long new_eal_api_ITextureOffscreen__SWIG_1(long var0, IProject var2, String var3, long var4, long var6, long var8, FlagTexture var10);
 
-    public static final native long new_eal_api_ITextureOffscreen__SWIG_2(long l, IProject iProject, String string, long l2, long l3, long l4, FlagTexture flagTexture, boolean bl) {
-    }
+    public static final native long new_eal_api_ITextureOffscreen__SWIG_2(long var0, IProject var2, String var3, long var4, long var6, long var8, FlagTexture var10, boolean var11);
 
-    public static final native void delete_eal_api_ITextureOffscreen(long l) {
-    }
+    public static final native void delete_eal_api_ITextureOffscreen(long var0);
 
-    public static final native void delete_eal_api_IMaterial(long l) {
-    }
+    public static final native void delete_eal_api_IMaterial(long var0);
 
-    public static final native boolean eal_api_IMaterial_isValid(long l, IMaterial iMaterial) {
-    }
+    public static final native boolean eal_api_IMaterial_isValid(long var0, IMaterial var2);
 
-    public static final native boolean eal_api_IMaterial_setTexture__SWIG_0(long l, IMaterial iMaterial, long l2, ITexture iTexture, String string) {
-    }
+    public static final native boolean eal_api_IMaterial_setTexture__SWIG_0(long var0, IMaterial var2, long var3, ITexture var5, String var6);
 
-    public static final native boolean eal_api_IMaterial_setTexture__SWIG_1(long l, IMaterial iMaterial, long l2, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_IMaterial_setTexture__SWIG_1(long var0, IMaterial var2, long var3, ITexture var5);
 
-    public static final native long eal_api_IMaterial_getProperty(long l, IMaterial iMaterial, String string) {
-    }
+    public static final native long eal_api_IMaterial_getProperty(long var0, IMaterial var2, String var3);
 
-    public static final native void eal_api_IMaterial_dispose(long l, IMaterial iMaterial) {
-    }
+    public static final native void eal_api_IMaterial_dispose(long var0, IMaterial var2);
 
-    public static final native boolean eal_api_IMaterial_setBlendMode(long l, IMaterial iMaterial, int n) {
-    }
+    public static final native boolean eal_api_IMaterial_setBlendMode(long var0, IMaterial var2, int var3);
 
-    public static final native void delete_eal_api_IProperty(long l) {
-    }
+    public static final native void delete_eal_api_IProperty(long var0);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_0(long l, IProperty iProperty, int n) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_0(long var0, IProperty var2, int var3);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_1(long l, IProperty iProperty, float f2) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_1(long var0, IProperty var2, float var3);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_2(long l, IProperty iProperty, boolean bl) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_2(long var0, IProperty var2, boolean var3);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_3(long l, IProperty iProperty, String string) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_3(long var0, IProperty var2, String var3);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_4(long l, IProperty iProperty, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_4(long var0, IProperty var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_IProperty_setColor(long l, IProperty iProperty, long l2) {
-    }
+    public static final native boolean eal_api_IProperty_setColor(long var0, IProperty var2, long var3);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_5(long l, IProperty iProperty, long l2, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_5(long var0, IProperty var2, long var3, ITexture var5);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_6(long l, IProperty iProperty, long l2, INode3D iNode3D) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_6(long var0, IProperty var2, long var3, INode3D var5);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_7(long l, IProperty iProperty, long l2, IMaterial iMaterial) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_7(long var0, IProperty var2, long var3, IMaterial var5);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_8(long l, IProperty iProperty, long l2, Vec2f vec2f) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_8(long var0, IProperty var2, long var3, Vec2f var5);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_9(long l, IProperty iProperty, long l2, Vec3f vec3f) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_9(long var0, IProperty var2, long var3, Vec3f var5);
 
-    public static final native boolean eal_api_IProperty_set__SWIG_10(long l, IProperty iProperty, long l2, Vec4f vec4f) {
-    }
+    public static final native boolean eal_api_IProperty_set__SWIG_10(long var0, IProperty var2, long var3, Vec4f var5);
 
-    public static final native boolean eal_api_IProperty_setDefault(long l, IProperty iProperty) {
-    }
+    public static final native boolean eal_api_IProperty_setDefault(long var0, IProperty var2);
 
-    public static final native int eal_api_IProperty_getInt(long l, IProperty iProperty) {
-    }
+    public static final native int eal_api_IProperty_getInt(long var0, IProperty var2);
 
-    public static final native float eal_api_IProperty_getFloat(long l, IProperty iProperty) {
-    }
+    public static final native float eal_api_IProperty_getFloat(long var0, IProperty var2);
 
-    public static final native boolean eal_api_IProperty_getBool(long l, IProperty iProperty) {
-    }
+    public static final native boolean eal_api_IProperty_getBool(long var0, IProperty var2);
 
-    public static final native String eal_api_IProperty_getString(long l, IProperty iProperty) {
-    }
+    public static final native String eal_api_IProperty_getString(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getColor(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getColor(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getColorAsInt(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getColorAsInt(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getVec2D(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getVec2D(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getVec3D(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getVec3D(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getVec4D(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getVec4D(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getTexture(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getTexture(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getNode3D(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getNode3D(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getMaterial(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getMaterial(long var0, IProperty var2);
 
-    public static final native boolean eal_api_IProperty_isValid(long l, IProperty iProperty) {
-    }
+    public static final native boolean eal_api_IProperty_isValid(long var0, IProperty var2);
 
-    public static final native int eal_api_IProperty_getType(long l, IProperty iProperty) {
-    }
+    public static final native int eal_api_IProperty_getType(long var0, IProperty var2);
 
-    public static final native void eal_api_IProperty_dispose(long l, IProperty iProperty) {
-    }
+    public static final native void eal_api_IProperty_dispose(long var0, IProperty var2);
 
-    public static final native boolean eal_api_IProperty_remove(long l, IProperty iProperty) {
-    }
+    public static final native boolean eal_api_IProperty_remove(long var0, IProperty var2);
 
-    public static final native String eal_api_IProperty_getName(long l, IProperty iProperty) {
-    }
+    public static final native String eal_api_IProperty_getName(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getMatrix3x3(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getMatrix3x3(long var0, IProperty var2);
 
-    public static final native long eal_api_IProperty_getMatrix4x4(long l, IProperty iProperty) {
-    }
+    public static final native long eal_api_IProperty_getMatrix4x4(long var0, IProperty var2);
 
-    public static final native void delete_eal_api_IRenderer(long l) {
-    }
+    public static final native void delete_eal_api_IRenderer(long var0);
 
-    public static final native boolean eal_api_IRenderer_render__SWIG_0(long l, IRenderer iRenderer, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_IRenderer_render__SWIG_0(long var0, IRenderer var2, long var3, INode2D var5);
 
-    public static final native boolean eal_api_IRenderer_render__SWIG_1(long l, IRenderer iRenderer, long l2, IProject iProject) {
-    }
+    public static final native boolean eal_api_IRenderer_render__SWIG_1(long var0, IRenderer var2, long var3, IProject var5);
 
-    public static final native boolean eal_api_IRenderer_isValid(long l, IRenderer iRenderer) {
-    }
+    public static final native boolean eal_api_IRenderer_isValid(long var0, IRenderer var2);
 
-    public static final native boolean eal_api_IRenderer_setHud(long l, IRenderer iRenderer, boolean bl) {
-    }
+    public static final native boolean eal_api_IRenderer_setHud(long var0, IRenderer var2, boolean var3);
 
-    public static final native boolean eal_api_IRenderer_setSleepMode(long l, IRenderer iRenderer, boolean bl) {
-    }
+    public static final native boolean eal_api_IRenderer_setSleepMode(long var0, IRenderer var2, boolean var3);
 
-    public static final native void eal_api_IRenderer_dispose(long l, IRenderer iRenderer) {
-    }
+    public static final native void eal_api_IRenderer_dispose(long var0, IRenderer var2);
 
-    public static final native boolean eal_api_IRenderer_render__SWIG_2(long l, IRenderer iRenderer) {
-    }
+    public static final native boolean eal_api_IRenderer_render__SWIG_2(long var0, IRenderer var2);
 
-    public static final native boolean eal_api_IRenderer_record(long l, IRenderer iRenderer, boolean bl, String string, float f2, long l2) {
-    }
+    public static final native boolean eal_api_IRenderer_record(long var0, IRenderer var2, boolean var3, String var4, float var5, long var6);
 
-    public static final native boolean eal_api_IRenderer_isRecording(long l, IRenderer iRenderer) {
-    }
+    public static final native boolean eal_api_IRenderer_isRecording(long var0, IRenderer var2);
 
-    public static final native long new_eal_api_IRendererAnnotation(long l, IRenderer iRenderer) {
-    }
+    public static final native long new_eal_api_IRendererAnnotation(long var0, IRenderer var2);
 
-    public static final native void delete_eal_api_IRendererAnnotation(long l) {
-    }
+    public static final native void delete_eal_api_IRendererAnnotation(long var0);
 
-    public static final native boolean eal_api_IRendererAnnotation_setData__SWIG_0(long l, IRendererAnnotation iRendererAnnotation, short s, String string) {
-    }
+    public static final native boolean eal_api_IRendererAnnotation_setData__SWIG_0(long var0, IRendererAnnotation var2, short var3, String var4);
 
-    public static final native boolean eal_api_IRendererAnnotation_setData__SWIG_1(long l, IRendererAnnotation iRendererAnnotation, short s, ByteBuffer byteBuffer, long l2) {
-    }
+    public static final native boolean eal_api_IRendererAnnotation_setData__SWIG_1(long var0, IRendererAnnotation var2, short var3, ByteBuffer var4, long var5);
 
-    public static final native boolean eal_api_IRendererAnnotation_isValid(long l, IRendererAnnotation iRendererAnnotation) {
-    }
+    public static final native boolean eal_api_IRendererAnnotation_isValid(long var0, IRendererAnnotation var2);
 
-    public static final native void eal_api_IRendererAnnotation_dispose(long l, IRendererAnnotation iRendererAnnotation) {
-    }
+    public static final native void eal_api_IRendererAnnotation_dispose(long var0, IRendererAnnotation var2);
 
-    public static final native boolean eal_api_IRendererAnnotation_setErrorCorrection(long l, IRendererAnnotation iRendererAnnotation, boolean bl) {
-    }
+    public static final native boolean eal_api_IRendererAnnotation_setErrorCorrection(long var0, IRendererAnnotation var2, boolean var3);
 
-    public static final native void delete_eal_api_IINodeImage(long l) {
-    }
+    public static final native void delete_eal_api_IINodeImage(long var0);
 
-    public static final native boolean eal_api_IINodeImage_setTexture(long l, IINodeImage iINodeImage, long l2, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_IINodeImage_setTexture(long var0, IINodeImage var2, long var3, ITexture var5);
 
-    public static final native boolean eal_api_IINodeImage_isValid(long l, IINodeImage iINodeImage) {
-    }
+    public static final native boolean eal_api_IINodeImage_isValid(long var0, IINodeImage var2);
 
-    public static final native void eal_api_IINodeImage_dispose(long l, IINodeImage iINodeImage) {
-    }
+    public static final native void eal_api_IINodeImage_dispose(long var0, IINodeImage var2);
 
-    public static final native boolean eal_api_IINodeImage_setModulateColor__SWIG_0(long l, IINodeImage iINodeImage, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_IINodeImage_setModulateColor__SWIG_0(long var0, IINodeImage var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_IINodeImage_setModulateColor__SWIG_1(long l, IINodeImage iINodeImage, long l2) {
-    }
+    public static final native boolean eal_api_IINodeImage_setModulateColor__SWIG_1(long var0, IINodeImage var2, long var3);
 
-    public static final native boolean eal_api_IINodeImage_clipImage(long l, IINodeImage iINodeImage, float f2, float f3, float f4, float f5) {
-    }
+    public static final native boolean eal_api_IINodeImage_clipImage(long var0, IINodeImage var2, float var3, float var4, float var5, float var6);
 
-    public static final native void delete_eal_api_IINodeText(long l) {
-    }
+    public static final native void delete_eal_api_IINodeText(long var0);
 
-    public static final native boolean eal_api_IINodeText_setText__SWIG_0(long l, IINodeText iINodeText, long l2, IFont iFont, int n, String string) {
-    }
+    public static final native boolean eal_api_IINodeText_setText__SWIG_0(long var0, IINodeText var2, long var3, IFont var5, int var6, String var7);
 
-    public static final native boolean eal_api_IINodeText_setText__SWIG_1(long l, IINodeText iINodeText, int n, String string) {
-    }
+    public static final native boolean eal_api_IINodeText_setText__SWIG_1(long var0, IINodeText var2, int var3, String var4);
 
-    public static final native boolean eal_api_IINodeText_setText__SWIG_2(long l, IINodeText iINodeText, long l2, ITextLayout iTextLayout, String string) {
-    }
+    public static final native boolean eal_api_IINodeText_setText__SWIG_2(long var0, IINodeText var2, long var3, ITextLayout var5, String var6);
 
-    public static final native boolean eal_api_IINodeText_setText__SWIG_3(long l, IINodeText iINodeText, long l2, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native boolean eal_api_IINodeText_setText__SWIG_3(long var0, IINodeText var2, long var3, ITextLayoutResult var5);
 
-    public static final native boolean eal_api_IINodeText_setColor__SWIG_0(long l, IINodeText iINodeText, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_IINodeText_setColor__SWIG_0(long var0, IINodeText var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_IINodeText_setColor__SWIG_1(long l, IINodeText iINodeText, long l2) {
-    }
+    public static final native boolean eal_api_IINodeText_setColor__SWIG_1(long var0, IINodeText var2, long var3);
 
-    public static final native long eal_api_IINodeText_getWidth(long l, IINodeText iINodeText) {
-    }
+    public static final native long eal_api_IINodeText_getWidth(long var0, IINodeText var2);
 
-    public static final native long eal_api_IINodeText_getHeight(long l, IINodeText iINodeText) {
-    }
+    public static final native long eal_api_IINodeText_getHeight(long var0, IINodeText var2);
 
-    public static final native long eal_api_IINodeText_getAscent(long l, IINodeText iINodeText) {
-    }
+    public static final native long eal_api_IINodeText_getAscent(long var0, IINodeText var2);
 
-    public static final native long eal_api_IINodeText_getDescent(long l, IINodeText iINodeText) {
-    }
+    public static final native long eal_api_IINodeText_getDescent(long var0, IINodeText var2);
 
-    public static final native boolean eal_api_IINodeText_isValid(long l, IINodeText iINodeText) {
-    }
+    public static final native boolean eal_api_IINodeText_isValid(long var0, IINodeText var2);
 
-    public static final native void eal_api_IINodeText_dispose(long l, IINodeText iINodeText) {
-    }
+    public static final native void eal_api_IINodeText_dispose(long var0, IINodeText var2);
 
-    public static final native boolean eal_api_IINodeText_setFading__SWIG_0(long l, IINodeText iINodeText, float f2, float f3) {
-    }
+    public static final native boolean eal_api_IINodeText_setFading__SWIG_0(long var0, IINodeText var2, float var3, float var4);
 
-    public static final native boolean eal_api_IINodeText_setFading__SWIG_1(long l, IINodeText iINodeText, float f2, float f3, boolean bl) {
-    }
+    public static final native boolean eal_api_IINodeText_setFading__SWIG_1(long var0, IINodeText var2, float var3, float var4, boolean var5);
 
-    public static final native void delete_eal_api_INode(long l) {
-    }
+    public static final native void delete_eal_api_INode(long var0);
 
-    public static final native boolean eal_api_INode_clear(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_INode_clear(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_remove__SWIG_0(long l, INode iNode, long l2, INode iNode2) {
-    }
+    public static final native boolean eal_api_INode_remove__SWIG_0(long var0, INode var2, long var3, INode var5);
 
-    public static final native boolean eal_api_INode_remove__SWIG_1(long l, INode iNode, long l2) {
-    }
+    public static final native boolean eal_api_INode_remove__SWIG_1(long var0, INode var2, long var3);
 
-    public static final native long eal_api_INode_getChildCount(long l, INode iNode) {
-    }
+    public static final native long eal_api_INode_getChildCount(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_hasChild(long l, INode iNode, long l2, INode iNode2) {
-    }
+    public static final native boolean eal_api_INode_hasChild(long var0, INode var2, long var3, INode var5);
 
-    public static final native boolean eal_api_INode_setVisible(long l, INode iNode, boolean bl) {
-    }
+    public static final native boolean eal_api_INode_setVisible(long var0, INode var2, boolean var3);
 
-    public static final native boolean eal_api_INode_isVisible(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_INode_isVisible(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_isValid(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_INode_isValid(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_isParent(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_INode_isParent(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_hasProperty(long l, INode iNode, String string) {
-    }
+    public static final native boolean eal_api_INode_hasProperty(long var0, INode var2, String var3);
 
-    public static final native long eal_api_INode_getProperty__SWIG_0(long l, INode iNode, String string) {
-    }
+    public static final native long eal_api_INode_getProperty__SWIG_0(long var0, INode var2, String var3);
 
-    public static final native long eal_api_INode_getProperty__SWIG_1(long l, INode iNode, String string, int n) {
-    }
+    public static final native long eal_api_INode_getProperty__SWIG_1(long var0, INode var2, String var3, int var4);
 
-    public static final native void eal_api_INode_print__SWIG_0(long l, INode iNode) {
-    }
+    public static final native void eal_api_INode_print__SWIG_0(long var0, INode var2);
 
-    public static final native void eal_api_INode_print__SWIG_1(long l, INode iNode, long l2, FlagPrint flagPrint) {
-    }
+    public static final native void eal_api_INode_print__SWIG_1(long var0, INode var2, long var3, FlagPrint var5);
 
-    public static final native void eal_api_INode_printAllProperties(long l, INode iNode) {
-    }
+    public static final native void eal_api_INode_printAllProperties(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_equals(long l, INode iNode, long l2, IObject iObject) {
-    }
+    public static final native boolean eal_api_INode_equals(long var0, INode var2, long var3, IObject var5);
 
-    public static final native String eal_api_INode_getName(long l, INode iNode) {
-    }
+    public static final native String eal_api_INode_getName(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_setName(long l, INode iNode, String string) {
-    }
+    public static final native boolean eal_api_INode_setName(long var0, INode var2, String var3);
 
-    public static final native boolean eal_api_INode_copyProperty(long l, INode iNode, long l2, INode iNode2, long l3, IProperty iProperty) {
-    }
+    public static final native boolean eal_api_INode_copyProperty(long var0, INode var2, long var3, INode var5, long var6, IProperty var8);
 
-    public static final native boolean eal_api_INode_setOpacity__SWIG_0(long l, INode iNode, float f2, boolean bl) {
-    }
+    public static final native boolean eal_api_INode_setOpacity__SWIG_0(long var0, INode var2, float var3, boolean var4);
 
-    public static final native boolean eal_api_INode_setOpacity__SWIG_1(long l, INode iNode, float f2) {
-    }
+    public static final native boolean eal_api_INode_setOpacity__SWIG_1(long var0, INode var2, float var3);
 
-    public static final native float eal_api_INode_getOpacity(long l, INode iNode) {
-    }
+    public static final native float eal_api_INode_getOpacity(long var0, INode var2);
 
-    public static final native float eal_api_INode_getOpacityRecursive(long l, INode iNode) {
-    }
+    public static final native float eal_api_INode_getOpacityRecursive(long var0, INode var2);
 
-    public static final native void eal_api_INode_dispose(long l, INode iNode) {
-    }
+    public static final native void eal_api_INode_dispose(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_invalidateObject(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_INode_invalidateObject(long var0, INode var2);
 
-    public static final native boolean eal_api_INode_invalidateTree(long l, INode iNode) {
-    }
+    public static final native boolean eal_api_INode_invalidateTree(long var0, INode var2);
 
-    public static final native int eal_api_INode_getType(long l, INode iNode) {
-    }
+    public static final native int eal_api_INode_getType(long var0, INode var2);
 
-    public static final native long new_eal_api_INode2D__SWIG_0(long l, INode iNode) {
-    }
+    public static final native long new_eal_api_INode2D__SWIG_0(long var0, INode var2);
 
-    public static final native long new_eal_api_INode2D__SWIG_1(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode2D__SWIG_1(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_INode2D(long l) {
-    }
+    public static final native void delete_eal_api_INode2D(long var0);
 
-    public static final native boolean eal_api_INode2D_scale__SWIG_0(long l, INode2D iNode2D, float f2) {
-    }
+    public static final native boolean eal_api_INode2D_scale__SWIG_0(long var0, INode2D var2, float var3);
 
-    public static final native boolean eal_api_INode2D_scale__SWIG_1(long l, INode2D iNode2D, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2D_scale__SWIG_1(long var0, INode2D var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode2D_setScale__SWIG_0(long l, INode2D iNode2D, float f2) {
-    }
+    public static final native boolean eal_api_INode2D_setScale__SWIG_0(long var0, INode2D var2, float var3);
 
-    public static final native boolean eal_api_INode2D_setScale__SWIG_1(long l, INode2D iNode2D, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2D_setScale__SWIG_1(long var0, INode2D var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode2D_translate(long l, INode2D iNode2D, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2D_translate(long var0, INode2D var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode2D_setTranslation(long l, INode2D iNode2D, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2D_setTranslation(long var0, INode2D var2, float var3, float var4);
 
-    public static final native long eal_api_INode2D_getTranslation(long l, INode2D iNode2D) {
-    }
+    public static final native long eal_api_INode2D_getTranslation(long var0, INode2D var2);
 
-    public static final native boolean eal_api_INode2D_rotate(long l, INode2D iNode2D, float f2) {
-    }
+    public static final native boolean eal_api_INode2D_rotate(long var0, INode2D var2, float var3);
 
-    public static final native boolean eal_api_INode2D_setRotation(long l, INode2D iNode2D, float f2) {
-    }
+    public static final native boolean eal_api_INode2D_setRotation(long var0, INode2D var2, float var3);
 
-    public static final native float eal_api_INode2D_getRotation(long l, INode2D iNode2D) {
-    }
+    public static final native float eal_api_INode2D_getRotation(long var0, INode2D var2);
 
-    public static final native long eal_api_INode2D_getParent(long l, INode2D iNode2D) {
-    }
+    public static final native long eal_api_INode2D_getParent(long var0, INode2D var2);
 
-    public static final native long eal_api_INode2D_getChildAtIndex(long l, INode2D iNode2D, long l2) {
-    }
+    public static final native long eal_api_INode2D_getChildAtIndex(long var0, INode2D var2, long var3);
 
-    public static final native long eal_api_INode2D_getChildByIndex(long l, INode2D iNode2D, int n) {
-    }
+    public static final native long eal_api_INode2D_getChildByIndex(long var0, INode2D var2, int var3);
 
-    public static final native long eal_api_INode2D_getChildByName(long l, INode2D iNode2D, String string) {
-    }
+    public static final native long eal_api_INode2D_getChildByName(long var0, INode2D var2, String var3);
 
-    public static final native boolean eal_api_INode2D_add__SWIG_0(long l, INode2D iNode2D, long l2, INode2D iNode2D2) {
-    }
+    public static final native boolean eal_api_INode2D_add__SWIG_0(long var0, INode2D var2, long var3, INode2D var5);
 
-    public static final native boolean eal_api_INode2D_add__SWIG_1(long l, INode2D iNode2D, long l2, INode2D iNode2D2, long l3) {
-    }
+    public static final native boolean eal_api_INode2D_add__SWIG_1(long var0, INode2D var2, long var3, INode2D var5, long var6);
 
-    public static final native boolean eal_api_INode2D_addByIndex(long l, INode2D iNode2D, long l2, INode2D iNode2D2, int n) {
-    }
+    public static final native boolean eal_api_INode2D_addByIndex(long var0, INode2D var2, long var3, INode2D var5, int var6);
 
-    public static final native boolean eal_api_INode2D_resetTransformations(long l, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_INode2D_resetTransformations(long var0, INode2D var2);
 
-    public static final native boolean eal_api_INode2D_setTransformOrigin(long l, INode2D iNode2D, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2D_setTransformOrigin(long var0, INode2D var2, float var3, float var4);
 
-    public static final native long eal_api_INode2D_getWidth(long l, INode2D iNode2D) {
-    }
+    public static final native long eal_api_INode2D_getWidth(long var0, INode2D var2);
 
-    public static final native long eal_api_INode2D_getHeight(long l, INode2D iNode2D) {
-    }
+    public static final native long eal_api_INode2D_getHeight(long var0, INode2D var2);
 
-    public static final native void eal_api_INode2D_dispose(long l, INode2D iNode2D) {
-    }
+    public static final native void eal_api_INode2D_dispose(long var0, INode2D var2);
 
-    public static final native long eal_api_INode2D_enableOffscreen__SWIG_0(long l, INode2D iNode2D, long l2, long l3, long l4, FlagTexture flagTexture) {
-    }
+    public static final native long eal_api_INode2D_enableOffscreen__SWIG_0(long var0, INode2D var2, long var3, long var5, long var7, FlagTexture var9);
 
-    public static final native boolean eal_api_INode2D_enableOffscreen__SWIG_1(long l, INode2D iNode2D, long l2, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_INode2D_enableOffscreen__SWIG_1(long var0, INode2D var2, long var3, ITexture var5);
 
-    public static final native boolean eal_api_INode2D_disableOffscreen(long l, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_INode2D_disableOffscreen(long var0, INode2D var2);
 
-    public static final native boolean eal_api_INode2D_setPixelFormat(long l, INode2D iNode2D, int n) {
-    }
+    public static final native boolean eal_api_INode2D_setPixelFormat(long var0, INode2D var2, int var3);
 
-    public static final native boolean eal_api_INode2D_setPartialRenderingDebug(long l, INode2D iNode2D, boolean bl) {
-    }
+    public static final native boolean eal_api_INode2D_setPartialRenderingDebug(long var0, INode2D var2, boolean var3);
 
-    public static final native boolean eal_api_INode2D_move(long l, INode2D iNode2D, long l2, INode2D iNode2D2) {
-    }
+    public static final native boolean eal_api_INode2D_move(long var0, INode2D var2, long var3, INode2D var5);
 
-    public static final native long eal_api_INode2D_getTransformation(long l, INode2D iNode2D) {
-    }
+    public static final native long eal_api_INode2D_getTransformation(long var0, INode2D var2);
 
-    public static final native boolean eal_api_INode2D_setTransformation(long l, INode2D iNode2D, long l2, Mat3f mat3f) {
-    }
+    public static final native boolean eal_api_INode2D_setTransformation(long var0, INode2D var2, long var3, Mat3f var5);
 
-    public static final native long new_eal_api_INode2DHud(long l, IProject iProject, long l2, IFont iFont, int n, float f2, float f3) {
-    }
+    public static final native long new_eal_api_INode2DHud(long var0, IProject var2, long var3, IFont var5, int var6, float var7, float var8);
 
-    public static final native void delete_eal_api_INode2DHud(long l) {
-    }
+    public static final native void delete_eal_api_INode2DHud(long var0);
 
-    public static final native void eal_api_INode2DHud_dispose(long l, INode2DHud iNode2DHud) {
-    }
+    public static final native void eal_api_INode2DHud_dispose(long var0, INode2DHud var2);
 
-    public static final native long new_eal_api_INode2DImage__SWIG_0(long l, INode2D iNode2D) {
-    }
+    public static final native long new_eal_api_INode2DImage__SWIG_0(long var0, INode2D var2);
 
-    public static final native long new_eal_api_INode2DImage__SWIG_1(long l, IProject iProject, String string, boolean bl) {
-    }
+    public static final native long new_eal_api_INode2DImage__SWIG_1(long var0, IProject var2, String var3, boolean var4);
 
-    public static final native long new_eal_api_INode2DImage__SWIG_2(long l, IProject iProject, String string, long l2, ITexture iTexture) {
-    }
+    public static final native long new_eal_api_INode2DImage__SWIG_2(long var0, IProject var2, String var3, long var4, ITexture var6);
 
-    public static final native long new_eal_api_INode2DImage__SWIG_3(long l, IProject iProject, String string, long l2, ITexture iTexture, boolean bl) {
-    }
+    public static final native long new_eal_api_INode2DImage__SWIG_3(long var0, IProject var2, String var3, long var4, ITexture var6, boolean var7);
 
-    public static final native void delete_eal_api_INode2DImage(long l) {
-    }
+    public static final native void delete_eal_api_INode2DImage(long var0);
 
-    public static final native boolean eal_api_INode2DImage_setModulateColor__SWIG_0(long l, INode2DImage iNode2DImage, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode2DImage_setModulateColor__SWIG_0(long var0, INode2DImage var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode2DImage_setModulateColor__SWIG_1(long l, INode2DImage iNode2DImage, long l2) {
-    }
+    public static final native boolean eal_api_INode2DImage_setModulateColor__SWIG_1(long var0, INode2DImage var2, long var3);
 
-    public static final native boolean eal_api_INode2DImage_setTexture(long l, INode2DImage iNode2DImage, long l2, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_INode2DImage_setTexture(long var0, INode2DImage var2, long var3, ITexture var5);
 
-    public static final native long eal_api_INode2DImage_getInterfaceImage(long l, INode2DImage iNode2DImage) {
-    }
+    public static final native long eal_api_INode2DImage_getInterfaceImage(long var0, INode2DImage var2);
 
-    public static final native long eal_api_INode2DImage_getWidth(long l, INode2DImage iNode2DImage) {
-    }
+    public static final native long eal_api_INode2DImage_getWidth(long var0, INode2DImage var2);
 
-    public static final native long eal_api_INode2DImage_getHeight(long l, INode2DImage iNode2DImage) {
-    }
+    public static final native long eal_api_INode2DImage_getHeight(long var0, INode2DImage var2);
 
-    public static final native void eal_api_INode2DImage_dispose(long l, INode2DImage iNode2DImage) {
-    }
+    public static final native void eal_api_INode2DImage_dispose(long var0, INode2DImage var2);
 
-    public static final native boolean eal_api_INode2DImage_clipImage(long l, INode2DImage iNode2DImage, float f2, float f3, float f4, float f5) {
-    }
+    public static final native boolean eal_api_INode2DImage_clipImage(long var0, INode2DImage var2, float var3, float var4, float var5, float var6);
 
-    public static final native long new_eal_api_INode2DLink(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode2DLink(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_INode2DLink(long l) {
-    }
+    public static final native void delete_eal_api_INode2DLink(long var0);
 
-    public static final native boolean eal_api_INode2DLink_setScene__SWIG_0(long l, INode2DLink iNode2DLink, long l2, INode3DScene iNode3DScene) {
-    }
+    public static final native boolean eal_api_INode2DLink_setScene__SWIG_0(long var0, INode2DLink var2, long var3, INode3DScene var5);
 
-    public static final native boolean eal_api_INode2DLink_setScene__SWIG_1(long l, INode2DLink iNode2DLink, long l2, INode3DScene iNode3DScene, boolean bl) {
-    }
+    public static final native boolean eal_api_INode2DLink_setScene__SWIG_1(long var0, INode2DLink var2, long var3, INode3DScene var5, boolean var6);
 
-    public static final native boolean eal_api_INode2DLink_unsetScene(long l, INode2DLink iNode2DLink) {
-    }
+    public static final native boolean eal_api_INode2DLink_unsetScene(long var0, INode2DLink var2);
 
-    public static final native void eal_api_INode2DLink_dispose(long l, INode2DLink iNode2DLink) {
-    }
+    public static final native void eal_api_INode2DLink_dispose(long var0, INode2DLink var2);
 
-    public static final native long eal_api_INode2DLink_enablePortal(long l, INode2DLink iNode2DLink, float f2, float f3, float f4, float f5, long l2, FlagTexture flagTexture) {
-    }
+    public static final native long eal_api_INode2DLink_enablePortal(long var0, INode2DLink var2, float var3, float var4, float var5, float var6, long var7, FlagTexture var9);
 
-    public static final native boolean eal_api_INode2DLink_disablePortal(long l, INode2DLink iNode2DLink) {
-    }
+    public static final native boolean eal_api_INode2DLink_disablePortal(long var0, INode2DLink var2);
 
-    public static final native long new_eal_api_INode2DManaged(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode2DManaged(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_INode2DManaged(long l) {
-    }
+    public static final native void delete_eal_api_INode2DManaged(long var0);
 
-    public static final native void eal_api_INode2DManaged_dispose(long l, INode2DManaged iNode2DManaged) {
-    }
+    public static final native void eal_api_INode2DManaged_dispose(long var0, INode2DManaged var2);
 
-    public static final native boolean eal_api_INode2DManaged_addToScreen__SWIG_0(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_INode2DManaged_addToScreen__SWIG_0(long var0, INode2DManaged var2, long var3, INode2D var5);
 
-    public static final native boolean eal_api_INode2DManaged_addToScreen__SWIG_1(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D, int n) {
-    }
+    public static final native boolean eal_api_INode2DManaged_addToScreen__SWIG_1(long var0, INode2DManaged var2, long var3, INode2D var5, int var6);
 
-    public static final native boolean eal_api_INode2DManaged_addOffscreen__SWIG_0(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_INode2DManaged_addOffscreen__SWIG_0(long var0, INode2DManaged var2, long var3, INode2D var5);
 
-    public static final native boolean eal_api_INode2DManaged_addOffscreen__SWIG_1(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D, int n) {
-    }
+    public static final native boolean eal_api_INode2DManaged_addOffscreen__SWIG_1(long var0, INode2DManaged var2, long var3, INode2D var5, int var6);
 
-    public static final native boolean eal_api_INode2DManaged_addAuto__SWIG_0(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_INode2DManaged_addAuto__SWIG_0(long var0, INode2DManaged var2, long var3, INode2D var5);
 
-    public static final native boolean eal_api_INode2DManaged_addAuto__SWIG_1(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D, int n) {
-    }
+    public static final native boolean eal_api_INode2DManaged_addAuto__SWIG_1(long var0, INode2DManaged var2, long var3, INode2D var5, int var6);
 
-    public static final native long eal_api_INode2DManaged_getFromScreenByName(long l, INode2DManaged iNode2DManaged, String string) {
-    }
+    public static final native long eal_api_INode2DManaged_getFromScreenByName(long var0, INode2DManaged var2, String var3);
 
-    public static final native long eal_api_INode2DManaged_getFromOffscreenByName(long l, INode2DManaged iNode2DManaged, String string) {
-    }
+    public static final native long eal_api_INode2DManaged_getFromOffscreenByName(long var0, INode2DManaged var2, String var3);
 
-    public static final native boolean eal_api_INode2DManaged_removeFromScreen(long l, INode2DManaged iNode2DManaged, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_api_INode2DManaged_removeFromScreen(long var0, INode2DManaged var2, long var3, INode2D var5);
 
-    public static final native boolean eal_api_INode2DManaged_setPartialRendering(long l, INode2DManaged iNode2DManaged, boolean bl) {
-    }
+    public static final native boolean eal_api_INode2DManaged_setPartialRendering(long var0, INode2DManaged var2, boolean var3);
 
-    public static final native boolean eal_api_INode2DManaged_setHud(long l, INode2DManaged iNode2DManaged, boolean bl, long l2, IFont iFont, int n, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2DManaged_setHud(long var0, INode2DManaged var2, boolean var3, long var4, IFont var6, int var7, float var8, float var9);
 
-    public static final native boolean eal_api_INode2DManaged_refreshPartialRendering(long l, INode2DManaged iNode2DManaged) {
-    }
+    public static final native boolean eal_api_INode2DManaged_refreshPartialRendering(long var0, INode2DManaged var2);
 
-    public static final native boolean eal_api_INode2DManaged_setPartialRenderingColorBuffer(long l, INode2DManaged iNode2DManaged, boolean bl) {
-    }
+    public static final native boolean eal_api_INode2DManaged_setPartialRenderingColorBuffer(long var0, INode2DManaged var2, boolean var3);
 
-    public static final native long new_eal_api_INode2DPartial(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode2DPartial(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_INode2DPartial(long l) {
-    }
+    public static final native void delete_eal_api_INode2DPartial(long var0);
 
-    public static final native void eal_api_INode2DPartial_dispose(long l, INode2DPartial iNode2DPartial) {
-    }
+    public static final native void eal_api_INode2DPartial_dispose(long var0, INode2DPartial var2);
 
-    public static final native long new_eal_api_INode2DText__SWIG_0(long l, INode2D iNode2D) {
-    }
+    public static final native long new_eal_api_INode2DText__SWIG_0(long var0, INode2D var2);
 
-    public static final native long new_eal_api_INode2DText__SWIG_1(long l, IProject iProject, String string, long l2, IFont iFont, int n, String string2) {
-    }
+    public static final native long new_eal_api_INode2DText__SWIG_1(long var0, IProject var2, String var3, long var4, IFont var6, int var7, String var8);
 
-    public static final native long new_eal_api_INode2DText__SWIG_2(long l, IProject iProject, String string, int n, String string2) {
-    }
+    public static final native long new_eal_api_INode2DText__SWIG_2(long var0, IProject var2, String var3, int var4, String var5);
 
-    public static final native long new_eal_api_INode2DText__SWIG_3(long l, IProject iProject, String string, long l2, ITextLayout iTextLayout, String string2) {
-    }
+    public static final native long new_eal_api_INode2DText__SWIG_3(long var0, IProject var2, String var3, long var4, ITextLayout var6, String var7);
 
-    public static final native long new_eal_api_INode2DText__SWIG_4(long l, IProject iProject, String string, long l2, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native long new_eal_api_INode2DText__SWIG_4(long var0, IProject var2, String var3, long var4, ITextLayoutResult var6);
 
-    public static final native long new_eal_api_INode2DText__SWIG_5(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode2DText__SWIG_5(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_INode2DText(long l) {
-    }
+    public static final native void delete_eal_api_INode2DText(long var0);
 
-    public static final native boolean eal_api_INode2DText_setText__SWIG_0(long l, INode2DText iNode2DText, long l2, IFont iFont, int n, String string) {
-    }
+    public static final native boolean eal_api_INode2DText_setText__SWIG_0(long var0, INode2DText var2, long var3, IFont var5, int var6, String var7);
 
-    public static final native boolean eal_api_INode2DText_setText__SWIG_1(long l, INode2DText iNode2DText, int n, String string) {
-    }
+    public static final native boolean eal_api_INode2DText_setText__SWIG_1(long var0, INode2DText var2, int var3, String var4);
 
-    public static final native boolean eal_api_INode2DText_setText__SWIG_2(long l, INode2DText iNode2DText, long l2, ITextLayout iTextLayout, String string) {
-    }
+    public static final native boolean eal_api_INode2DText_setText__SWIG_2(long var0, INode2DText var2, long var3, ITextLayout var5, String var6);
 
-    public static final native boolean eal_api_INode2DText_setText__SWIG_3(long l, INode2DText iNode2DText, long l2, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native boolean eal_api_INode2DText_setText__SWIG_3(long var0, INode2DText var2, long var3, ITextLayoutResult var5);
 
-    public static final native boolean eal_api_INode2DText_setColor__SWIG_0(long l, INode2DText iNode2DText, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode2DText_setColor__SWIG_0(long var0, INode2DText var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode2DText_setColor__SWIG_1(long l, INode2DText iNode2DText, long l2) {
-    }
+    public static final native boolean eal_api_INode2DText_setColor__SWIG_1(long var0, INode2DText var2, long var3);
 
-    public static final native long eal_api_INode2DText_getAscent(long l, INode2DText iNode2DText) {
-    }
+    public static final native long eal_api_INode2DText_getAscent(long var0, INode2DText var2);
 
-    public static final native long eal_api_INode2DText_getDescent(long l, INode2DText iNode2DText) {
-    }
+    public static final native long eal_api_INode2DText_getDescent(long var0, INode2DText var2);
 
-    public static final native long eal_api_INode2DText_getInterfaceText(long l, INode2DText iNode2DText) {
-    }
+    public static final native long eal_api_INode2DText_getInterfaceText(long var0, INode2DText var2);
 
-    public static final native void eal_api_INode2DText_dispose(long l, INode2DText iNode2DText) {
-    }
+    public static final native void eal_api_INode2DText_dispose(long var0, INode2DText var2);
 
-    public static final native long eal_api_INode2DText_getWidth(long l, INode2DText iNode2DText) {
-    }
+    public static final native long eal_api_INode2DText_getWidth(long var0, INode2DText var2);
 
-    public static final native long eal_api_INode2DText_getHeight(long l, INode2DText iNode2DText) {
-    }
+    public static final native long eal_api_INode2DText_getHeight(long var0, INode2DText var2);
 
-    public static final native boolean eal_api_INode2DText_setFading__SWIG_0(long l, INode2DText iNode2DText, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode2DText_setFading__SWIG_0(long var0, INode2DText var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode2DText_setFading__SWIG_1(long l, INode2DText iNode2DText, float f2, float f3, boolean bl) {
-    }
+    public static final native boolean eal_api_INode2DText_setFading__SWIG_1(long var0, INode2DText var2, float var3, float var4, boolean var5);
 
-    public static final native boolean eal_api_INode2DText_setCurvature(long l, INode2DText iNode2DText, long l2, Vec2f vec2f, float f2, boolean bl) {
-    }
+    public static final native boolean eal_api_INode2DText_setCurvature(long var0, INode2DText var2, long var3, Vec2f var5, float var6, boolean var7);
 
-    public static final native long new_eal_api_INode3D__SWIG_0(long l, INode iNode) {
-    }
+    public static final native long new_eal_api_INode3D__SWIG_0(long var0, INode var2);
 
-    public static final native long new_eal_api_INode3D__SWIG_1(long l, IManager iManager, String string) {
-    }
+    public static final native long new_eal_api_INode3D__SWIG_1(long var0, IManager var2, String var3);
 
-    public static final native void delete_eal_api_INode3D(long l) {
-    }
+    public static final native void delete_eal_api_INode3D(long var0);
 
-    public static final native boolean eal_api_INode3D_scale__SWIG_0(long l, INode3D iNode3D, float f2) {
-    }
+    public static final native boolean eal_api_INode3D_scale__SWIG_0(long var0, INode3D var2, float var3);
 
-    public static final native boolean eal_api_INode3D_scale__SWIG_1(long l, INode3D iNode3D, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3D_scale__SWIG_1(long var0, INode3D var2, float var3, float var4, float var5);
 
-    public static final native boolean eal_api_INode3D_setScale__SWIG_0(long l, INode3D iNode3D, float f2) {
-    }
+    public static final native boolean eal_api_INode3D_setScale__SWIG_0(long var0, INode3D var2, float var3);
 
-    public static final native boolean eal_api_INode3D_setScale__SWIG_1(long l, INode3D iNode3D, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3D_setScale__SWIG_1(long var0, INode3D var2, float var3, float var4, float var5);
 
-    public static final native boolean eal_api_INode3D_translate(long l, INode3D iNode3D, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3D_translate(long var0, INode3D var2, float var3, float var4, float var5);
 
-    public static final native boolean eal_api_INode3D_setTranslation(long l, INode3D iNode3D, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3D_setTranslation(long var0, INode3D var2, float var3, float var4, float var5);
 
-    public static final native long eal_api_INode3D_getTranslation(long l, INode3D iNode3D) {
-    }
+    public static final native long eal_api_INode3D_getTranslation(long var0, INode3D var2);
 
-    public static final native float eal_api_INode3D_getTranslationX(long l, INode3D iNode3D) {
-    }
+    public static final native float eal_api_INode3D_getTranslationX(long var0, INode3D var2);
 
-    public static final native float eal_api_INode3D_getTranslationY(long l, INode3D iNode3D) {
-    }
+    public static final native float eal_api_INode3D_getTranslationY(long var0, INode3D var2);
 
-    public static final native float eal_api_INode3D_getTranslationZ(long l, INode3D iNode3D) {
-    }
+    public static final native float eal_api_INode3D_getTranslationZ(long var0, INode3D var2);
 
-    public static final native boolean eal_api_INode3D_rotate(long l, INode3D iNode3D, float f2, float f3, float f4, float f5) {
-    }
+    public static final native boolean eal_api_INode3D_rotate(long var0, INode3D var2, float var3, float var4, float var5, float var6);
 
-    public static final native boolean eal_api_INode3D_rotateX(long l, INode3D iNode3D, float f2) {
-    }
+    public static final native boolean eal_api_INode3D_rotateX(long var0, INode3D var2, float var3);
 
-    public static final native boolean eal_api_INode3D_rotateY(long l, INode3D iNode3D, float f2) {
-    }
+    public static final native boolean eal_api_INode3D_rotateY(long var0, INode3D var2, float var3);
 
-    public static final native boolean eal_api_INode3D_rotateZ(long l, INode3D iNode3D, float f2) {
-    }
+    public static final native boolean eal_api_INode3D_rotateZ(long var0, INode3D var2, float var3);
 
-    public static final native boolean eal_api_INode3D_setRotation(long l, INode3D iNode3D, float f2, float f3, float f4, float f5) {
-    }
+    public static final native boolean eal_api_INode3D_setRotation(long var0, INode3D var2, float var3, float var4, float var5, float var6);
 
-    public static final native boolean eal_api_INode3D_setRotationXYZ(long l, INode3D iNode3D, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3D_setRotationXYZ(long var0, INode3D var2, float var3, float var4, float var5);
 
-    public static final native boolean eal_api_INode3D_add__SWIG_0(long l, INode3D iNode3D, long l2, INode3D iNode3D2) {
-    }
+    public static final native boolean eal_api_INode3D_add__SWIG_0(long var0, INode3D var2, long var3, INode3D var5);
 
-    public static final native boolean eal_api_INode3D_add__SWIG_1(long l, INode3D iNode3D, long l2, INode3D iNode3D2, long l3) {
-    }
+    public static final native boolean eal_api_INode3D_add__SWIG_1(long var0, INode3D var2, long var3, INode3D var5, long var6);
 
-    public static final native boolean eal_api_INode3D_addByIndex(long l, INode3D iNode3D, long l2, INode3D iNode3D2, int n) {
-    }
+    public static final native boolean eal_api_INode3D_addByIndex(long var0, INode3D var2, long var3, INode3D var5, int var6);
 
-    public static final native long eal_api_INode3D_getChildByIndex(long l, INode3D iNode3D, int n) {
-    }
+    public static final native long eal_api_INode3D_getChildByIndex(long var0, INode3D var2, int var3);
 
-    public static final native long eal_api_INode3D_getScale(long l, INode3D iNode3D) {
-    }
+    public static final native long eal_api_INode3D_getScale(long var0, INode3D var2);
 
-    public static final native float eal_api_INode3D_getScaleX(long l, INode3D iNode3D) {
-    }
+    public static final native float eal_api_INode3D_getScaleX(long var0, INode3D var2);
 
-    public static final native float eal_api_INode3D_getScaleY(long l, INode3D iNode3D) {
-    }
+    public static final native float eal_api_INode3D_getScaleY(long var0, INode3D var2);
 
-    public static final native float eal_api_INode3D_getScaleZ(long l, INode3D iNode3D) {
-    }
+    public static final native float eal_api_INode3D_getScaleZ(long var0, INode3D var2);
 
-    public static final native long eal_api_INode3D_getTransformation(long l, INode3D iNode3D) {
-    }
+    public static final native long eal_api_INode3D_getTransformation(long var0, INode3D var2);
 
-    public static final native boolean eal_api_INode3D_setTransformation(long l, INode3D iNode3D, long l2, Mat4f mat4f) {
-    }
+    public static final native boolean eal_api_INode3D_setTransformation(long var0, INode3D var2, long var3, Mat4f var5);
 
-    public static final native long eal_api_INode3D_getParent(long l, INode3D iNode3D) {
-    }
+    public static final native long eal_api_INode3D_getParent(long var0, INode3D var2);
 
-    public static final native long eal_api_INode3D_getChildAtIndex(long l, INode3D iNode3D, long l2) {
-    }
+    public static final native long eal_api_INode3D_getChildAtIndex(long var0, INode3D var2, long var3);
 
-    public static final native long eal_api_INode3D_getChildByName(long l, INode3D iNode3D, String string) {
-    }
+    public static final native long eal_api_INode3D_getChildByName(long var0, INode3D var2, String var3);
 
-    public static final native boolean eal_api_INode3D_clip(long l, INode3D iNode3D, float f2, float f3, float f4, float f5) {
-    }
+    public static final native boolean eal_api_INode3D_clip(long var0, INode3D var2, float var3, float var4, float var5, float var6);
 
-    public static final native boolean eal_api_INode3D_disableClip(long l, INode3D iNode3D) {
-    }
+    public static final native boolean eal_api_INode3D_disableClip(long var0, INode3D var2);
 
-    public static final native boolean eal_api_INode3D_setDepthTest(long l, INode3D iNode3D, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3D_setDepthTest(long var0, INode3D var2, boolean var3);
 
-    public static final native boolean eal_api_INode3D_resetTransformations(long l, INode3D iNode3D) {
-    }
+    public static final native boolean eal_api_INode3D_resetTransformations(long var0, INode3D var2);
 
-    public static final native void eal_api_INode3D_dispose(long l, INode3D iNode3D) {
-    }
+    public static final native void eal_api_INode3D_dispose(long var0, INode3D var2);
 
-    public static final native boolean eal_api_INode3D_move(long l, INode3D iNode3D, long l2, INode3D iNode3D2) {
-    }
+    public static final native boolean eal_api_INode3D_move(long var0, INode3D var2, long var3, INode3D var5);
 
-    public static final native long new_eal_api_INode3DCamera__SWIG_0(long l, IManager iManager, String string) {
-    }
+    public static final native long new_eal_api_INode3DCamera__SWIG_0(long var0, IManager var2, String var3);
 
-    public static final native long new_eal_api_INode3DCamera__SWIG_1(long l, INode3D iNode3D) {
-    }
+    public static final native long new_eal_api_INode3DCamera__SWIG_1(long var0, INode3D var2);
 
-    public static final native void delete_eal_api_INode3DCamera(long l) {
-    }
+    public static final native void delete_eal_api_INode3DCamera(long var0);
 
-    public static final native float eal_api_INode3DCamera_getFar(long l, INode3DCamera iNode3DCamera) {
-    }
+    public static final native float eal_api_INode3DCamera_getFar(long var0, INode3DCamera var2);
 
-    public static final native float eal_api_INode3DCamera_getNear(long l, INode3DCamera iNode3DCamera) {
-    }
+    public static final native float eal_api_INode3DCamera_getNear(long var0, INode3DCamera var2);
 
-    public static final native float eal_api_INode3DCamera_getFov(long l, INode3DCamera iNode3DCamera) {
-    }
+    public static final native float eal_api_INode3DCamera_getFov(long var0, INode3DCamera var2);
 
-    public static final native float eal_api_INode3DCamera_getPlaneHeight(long l, INode3DCamera iNode3DCamera) {
-    }
+    public static final native float eal_api_INode3DCamera_getPlaneHeight(long var0, INode3DCamera var2);
 
-    public static final native boolean eal_api_INode3DCamera_lookAt(long l, INode3DCamera iNode3DCamera, long l2, Vec3f vec3f, long l3, Vec3f vec3f2, long l4, Vec3f vec3f3) {
-    }
+    public static final native boolean eal_api_INode3DCamera_lookAt(long var0, INode3DCamera var2, long var3, Vec3f var5, long var6, Vec3f var8, long var9, Vec3f var11);
 
-    public static final native boolean eal_api_INode3DCamera_setAspectRatio(long l, INode3DCamera iNode3DCamera, float f2) {
-    }
+    public static final native boolean eal_api_INode3DCamera_setAspectRatio(long var0, INode3DCamera var2, float var3);
 
-    public static final native boolean eal_api_INode3DCamera_setPerspective__SWIG_0(long l, INode3DCamera iNode3DCamera, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3DCamera_setPerspective__SWIG_0(long var0, INode3DCamera var2, float var3, float var4, float var5);
 
-    public static final native boolean eal_api_INode3DCamera_setPerspective__SWIG_1(long l, INode3DCamera iNode3DCamera, float f2, float f3, float f4, int n) {
-    }
+    public static final native boolean eal_api_INode3DCamera_setPerspective__SWIG_1(long var0, INode3DCamera var2, float var3, float var4, float var5, int var6);
 
-    public static final native boolean eal_api_INode3DCamera_setOrthogonal(long l, INode3DCamera iNode3DCamera, float f2, float f3, float f4) {
-    }
+    public static final native boolean eal_api_INode3DCamera_setOrthogonal(long var0, INode3DCamera var2, float var3, float var4, float var5);
 
-    public static final native int eal_api_INode3DCamera_getFovType(long l, INode3DCamera iNode3DCamera) {
-    }
+    public static final native int eal_api_INode3DCamera_getFovType(long var0, INode3DCamera var2);
 
-    public static final native void eal_api_INode3DCamera_dispose(long l, INode3DCamera iNode3DCamera) {
-    }
+    public static final native void eal_api_INode3DCamera_dispose(long var0, INode3DCamera var2);
 
-    public static final native boolean eal_api_INode3DCamera_interpolate(long l, INode3DCamera iNode3DCamera, long l2, INode3DCamera iNode3DCamera2, long l3, INode3DCamera iNode3DCamera3, float f2) {
-    }
+    public static final native boolean eal_api_INode3DCamera_interpolate(long var0, INode3DCamera var2, long var3, INode3DCamera var5, long var6, INode3DCamera var8, float var9);
 
-    public static final native long new_eal_api_INode3DImage__SWIG_0(long l, INode3D iNode3D) {
-    }
+    public static final native long new_eal_api_INode3DImage__SWIG_0(long var0, INode3D var2);
 
-    public static final native long new_eal_api_INode3DImage__SWIG_1(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode3DImage__SWIG_1(long var0, IProject var2, String var3);
 
-    public static final native long new_eal_api_INode3DImage__SWIG_2(long l, IProject iProject, String string, long l2, ITexture iTexture) {
-    }
+    public static final native long new_eal_api_INode3DImage__SWIG_2(long var0, IProject var2, String var3, long var4, ITexture var6);
 
-    public static final native void delete_eal_api_INode3DImage(long l) {
-    }
+    public static final native void delete_eal_api_INode3DImage(long var0);
 
-    public static final native boolean eal_api_INode3DImage_setTexture(long l, INode3DImage iNode3DImage, long l2, ITexture iTexture) {
-    }
+    public static final native boolean eal_api_INode3DImage_setTexture(long var0, INode3DImage var2, long var3, ITexture var5);
 
-    public static final native long eal_api_INode3DImage_getWidth(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native long eal_api_INode3DImage_getWidth(long var0, INode3DImage var2);
 
-    public static final native long eal_api_INode3DImage_getHeight(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native long eal_api_INode3DImage_getHeight(long var0, INode3DImage var2);
 
-    public static final native long eal_api_INode3DImage_getInterfaceImage(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native long eal_api_INode3DImage_getInterfaceImage(long var0, INode3DImage var2);
 
-    public static final native void eal_api_INode3DImage_dispose(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native void eal_api_INode3DImage_dispose(long var0, INode3DImage var2);
 
-    public static final native boolean eal_api_INode3DImage_setModulateColor__SWIG_0(long l, INode3DImage iNode3DImage, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode3DImage_setModulateColor__SWIG_0(long var0, INode3DImage var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode3DImage_setModulateColor__SWIG_1(long l, INode3DImage iNode3DImage, long l2) {
-    }
+    public static final native boolean eal_api_INode3DImage_setModulateColor__SWIG_1(long var0, INode3DImage var2, long var3);
 
-    public static final native boolean eal_api_INode3DImage_setMaterial(long l, INode3DImage iNode3DImage, long l2, IMaterial iMaterial) {
-    }
+    public static final native boolean eal_api_INode3DImage_setMaterial(long var0, INode3DImage var2, long var3, IMaterial var5);
 
-    public static final native boolean eal_api_INode3DImage_flipX(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native boolean eal_api_INode3DImage_flipX(long var0, INode3DImage var2);
 
-    public static final native boolean eal_api_INode3DImage_flipY(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native boolean eal_api_INode3DImage_flipY(long var0, INode3DImage var2);
 
-    public static final native boolean eal_api_INode3DImage_flipXY(long l, INode3DImage iNode3DImage) {
-    }
+    public static final native boolean eal_api_INode3DImage_flipXY(long var0, INode3DImage var2);
 
-    public static final native boolean eal_api_INode3DImage_clipImage(long l, INode3DImage iNode3DImage, float f2, float f3, float f4, float f5) {
-    }
+    public static final native boolean eal_api_INode3DImage_clipImage(long var0, INode3DImage var2, float var3, float var4, float var5, float var6);
 
-    public static final native void delete_eal_api_INode3DMesh(long l) {
-    }
+    public static final native void delete_eal_api_INode3DMesh(long var0);
 
-    public static final native long eal_api_INode3DMesh_getData(long l, INode3DMesh iNode3DMesh) {
-    }
+    public static final native long eal_api_INode3DMesh_getData(long var0, INode3DMesh var2);
 
-    public static final native boolean eal_api_INode3DMesh_setData(long l, INode3DMesh iNode3DMesh, long l2, IMeshData iMeshData) {
-    }
+    public static final native boolean eal_api_INode3DMesh_setData(long var0, INode3DMesh var2, long var3, IMeshData var5);
 
-    public static final native void eal_api_INode3DMesh_dispose(long l, INode3DMesh iNode3DMesh) {
-    }
+    public static final native void eal_api_INode3DMesh_dispose(long var0, INode3DMesh var2);
 
-    public static final native long new_eal_api_INode3DQuickDraw__SWIG_0(long l, IProject iProject, String string, long l2, long l3) {
-    }
+    public static final native long new_eal_api_INode3DQuickDraw__SWIG_0(long var0, IProject var2, String var3, long var4, long var6);
 
-    public static final native long new_eal_api_INode3DQuickDraw__SWIG_1(long l, IProject iProject, String string, long l2, long l3, boolean bl) {
-    }
+    public static final native long new_eal_api_INode3DQuickDraw__SWIG_1(long var0, IProject var2, String var3, long var4, long var6, boolean var8);
 
-    public static final native long new_eal_api_INode3DQuickDraw__SWIG_2(long l, IProject iProject, String string, long l2, long l3, boolean bl, boolean bl2) {
-    }
+    public static final native long new_eal_api_INode3DQuickDraw__SWIG_2(long var0, IProject var2, String var3, long var4, long var6, boolean var8, boolean var9);
 
-    public static final native long new_eal_api_INode3DQuickDraw__SWIG_3(long l, IProject iProject, String string, long l2, long l3, boolean bl, boolean bl2, int n) {
-    }
+    public static final native long new_eal_api_INode3DQuickDraw__SWIG_3(long var0, IProject var2, String var3, long var4, long var6, boolean var8, boolean var9, int var10);
 
-    public static final native long new_eal_api_INode3DQuickDraw__SWIG_4(long l, IProject iProject, String string, long l2, long l3, boolean bl, boolean bl2, int n, boolean bl3) {
-    }
+    public static final native long new_eal_api_INode3DQuickDraw__SWIG_4(long var0, IProject var2, String var3, long var4, long var6, boolean var8, boolean var9, int var10, boolean var11);
 
-    public static final native void delete_eal_api_INode3DQuickDraw(long l) {
-    }
+    public static final native void delete_eal_api_INode3DQuickDraw(long var0);
 
-    public static final native void eal_api_INode3DQuickDraw_dispose(long l, INode3DQuickDraw iNode3DQuickDraw) {
-    }
+    public static final native void eal_api_INode3DQuickDraw_dispose(long var0, INode3DQuickDraw var2);
 
-    public static final native boolean eal_api_INode3DQuickDraw_add(long l, INode3DQuickDraw iNode3DQuickDraw, long l2, Vec2f vec2f) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_add(long var0, INode3DQuickDraw var2, long var3, Vec2f var5);
 
-    public static final native boolean eal_api_INode3DQuickDraw_addSeparator(long l, INode3DQuickDraw iNode3DQuickDraw) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_addSeparator(long var0, INode3DQuickDraw var2);
 
-    public static final native boolean eal_api_INode3DQuickDraw_clearArea(long l, INode3DQuickDraw iNode3DQuickDraw) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_clearArea(long var0, INode3DQuickDraw var2);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setLineWidth(long l, INode3DQuickDraw iNode3DQuickDraw, float f2) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setLineWidth(long var0, INode3DQuickDraw var2, float var3);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setColor__SWIG_0(long l, INode3DQuickDraw iNode3DQuickDraw, long l2) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setColor__SWIG_0(long var0, INode3DQuickDraw var2, long var3);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setColor__SWIG_1(long l, INode3DQuickDraw iNode3DQuickDraw, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setColor__SWIG_1(long var0, INode3DQuickDraw var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setPathTranslation(long l, INode3DQuickDraw iNode3DQuickDraw, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setPathTranslation(long var0, INode3DQuickDraw var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setPathScaling__SWIG_0(long l, INode3DQuickDraw iNode3DQuickDraw, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setPathScaling__SWIG_0(long var0, INode3DQuickDraw var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setPathScaling__SWIG_1(long l, INode3DQuickDraw iNode3DQuickDraw, float f2, float f3, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setPathScaling__SWIG_1(long var0, INode3DQuickDraw var2, float var3, float var4, boolean var5);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setPathRotation(long l, INode3DQuickDraw iNode3DQuickDraw, float f2) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setPathRotation(long var0, INode3DQuickDraw var2, float var3);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setDebugBoundingVolume(long l, INode3DQuickDraw iNode3DQuickDraw, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setDebugBoundingVolume(long var0, INode3DQuickDraw var2, boolean var3);
 
-    public static final native boolean eal_api_INode3DQuickDraw_setPathPivot(long l, INode3DQuickDraw iNode3DQuickDraw, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode3DQuickDraw_setPathPivot(long var0, INode3DQuickDraw var2, float var3, float var4);
 
-    public static final native long new_eal_api_INode3DScene(long l, IManager iManager, String string) {
-    }
+    public static final native long new_eal_api_INode3DScene(long var0, IManager var2, String var3);
 
-    public static final native void delete_eal_api_INode3DScene(long l) {
-    }
+    public static final native void delete_eal_api_INode3DScene(long var0);
 
-    public static final native boolean eal_api_INode3DScene_add__SWIG_0(long l, INode3DScene iNode3DScene, long l2, INode3D iNode3D) {
-    }
+    public static final native boolean eal_api_INode3DScene_add__SWIG_0(long var0, INode3DScene var2, long var3, INode3D var5);
 
-    public static final native boolean eal_api_INode3DScene_add__SWIG_1(long l, INode3DScene iNode3DScene, long l2, INode3DCamera iNode3DCamera) {
-    }
+    public static final native boolean eal_api_INode3DScene_add__SWIG_1(long var0, INode3DScene var2, long var3, INode3DCamera var5);
 
-    public static final native boolean eal_api_INode3DScene_add__SWIG_2(long l, INode3DScene iNode3DScene, long l2, INode3D iNode3D, long l3) {
-    }
+    public static final native boolean eal_api_INode3DScene_add__SWIG_2(long var0, INode3DScene var2, long var3, INode3D var5, long var6);
 
-    public static final native boolean eal_api_INode3DScene_add__SWIG_3(long l, INode3DScene iNode3DScene, long l2, INode3DCamera iNode3DCamera, long l3) {
-    }
+    public static final native boolean eal_api_INode3DScene_add__SWIG_3(long var0, INode3DScene var2, long var3, INode3DCamera var5, long var6);
 
-    public static final native boolean eal_api_INode3DScene_addByIndex__SWIG_0(long l, INode3DScene iNode3DScene, long l2, INode3D iNode3D, int n) {
-    }
+    public static final native boolean eal_api_INode3DScene_addByIndex__SWIG_0(long var0, INode3DScene var2, long var3, INode3D var5, int var6);
 
-    public static final native boolean eal_api_INode3DScene_addByIndex__SWIG_1(long l, INode3DScene iNode3DScene, long l2, INode3DCamera iNode3DCamera, int n) {
-    }
+    public static final native boolean eal_api_INode3DScene_addByIndex__SWIG_1(long var0, INode3DScene var2, long var3, INode3DCamera var5, int var6);
 
-    public static final native void eal_api_INode3DScene_dispose(long l, INode3DScene iNode3DScene) {
-    }
+    public static final native void eal_api_INode3DScene_dispose(long var0, INode3DScene var2);
 
-    public static final native boolean eal_api_INode3DScene_setDefaultCamera(long l, INode3DScene iNode3DScene, long l2, INode3DCamera iNode3DCamera) {
-    }
+    public static final native boolean eal_api_INode3DScene_setDefaultCamera(long var0, INode3DScene var2, long var3, INode3DCamera var5);
 
-    public static final native boolean eal_api_INode3DScene_setColorClear(long l, INode3DScene iNode3DScene, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DScene_setColorClear(long var0, INode3DScene var2, boolean var3);
 
-    public static final native boolean eal_api_INode3DScene_setClearColor(long l, INode3DScene iNode3DScene, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode3DScene_setClearColor(long var0, INode3DScene var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode3DScene_setDepthTest(long l, INode3DScene iNode3DScene, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DScene_setDepthTest(long var0, INode3DScene var2, boolean var3);
 
-    public static final native boolean eal_api_INode3DScene_setAnimationPlayer(long l, INode3DScene iNode3DScene, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DScene_setAnimationPlayer(long var0, INode3DScene var2, boolean var3);
 
-    public static final native long new_eal_api_INode3DText__SWIG_0(long l, INode3D iNode3D) {
-    }
+    public static final native long new_eal_api_INode3DText__SWIG_0(long var0, INode3D var2);
 
-    public static final native long new_eal_api_INode3DText__SWIG_1(long l, IProject iProject, String string, long l2, IFont iFont, int n, String string2) {
-    }
+    public static final native long new_eal_api_INode3DText__SWIG_1(long var0, IProject var2, String var3, long var4, IFont var6, int var7, String var8);
 
-    public static final native long new_eal_api_INode3DText__SWIG_2(long l, IProject iProject, String string, int n, String string2) {
-    }
+    public static final native long new_eal_api_INode3DText__SWIG_2(long var0, IProject var2, String var3, int var4, String var5);
 
-    public static final native long new_eal_api_INode3DText__SWIG_3(long l, IProject iProject, String string, long l2, ITextLayout iTextLayout, String string2) {
-    }
+    public static final native long new_eal_api_INode3DText__SWIG_3(long var0, IProject var2, String var3, long var4, ITextLayout var6, String var7);
 
-    public static final native long new_eal_api_INode3DText__SWIG_4(long l, IProject iProject, String string, long l2, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native long new_eal_api_INode3DText__SWIG_4(long var0, IProject var2, String var3, long var4, ITextLayoutResult var6);
 
-    public static final native long new_eal_api_INode3DText__SWIG_5(long l, IProject iProject, String string) {
-    }
+    public static final native long new_eal_api_INode3DText__SWIG_5(long var0, IProject var2, String var3);
 
-    public static final native void delete_eal_api_INode3DText(long l) {
-    }
+    public static final native void delete_eal_api_INode3DText(long var0);
 
-    public static final native long eal_api_INode3DText_getColor(long l, INode3DText iNode3DText) {
-    }
+    public static final native long eal_api_INode3DText_getColor(long var0, INode3DText var2);
 
-    public static final native long eal_api_INode3DText_getHeight(long l, INode3DText iNode3DText) {
-    }
+    public static final native long eal_api_INode3DText_getHeight(long var0, INode3DText var2);
 
-    public static final native long eal_api_INode3DText_getWidth(long l, INode3DText iNode3DText) {
-    }
+    public static final native long eal_api_INode3DText_getWidth(long var0, INode3DText var2);
 
-    public static final native boolean eal_api_INode3DText_setColor__SWIG_0(long l, INode3DText iNode3DText, long l2) {
-    }
+    public static final native boolean eal_api_INode3DText_setColor__SWIG_0(long var0, INode3DText var2, long var3);
 
-    public static final native boolean eal_api_INode3DText_setColor__SWIG_1(long l, INode3DText iNode3DText, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode3DText_setColor__SWIG_1(long var0, INode3DText var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode3DText_setText__SWIG_0(long l, INode3DText iNode3DText, long l2, IFont iFont, int n, String string) {
-    }
+    public static final native boolean eal_api_INode3DText_setText__SWIG_0(long var0, INode3DText var2, long var3, IFont var5, int var6, String var7);
 
-    public static final native boolean eal_api_INode3DText_setText__SWIG_1(long l, INode3DText iNode3DText, int n, String string) {
-    }
+    public static final native boolean eal_api_INode3DText_setText__SWIG_1(long var0, INode3DText var2, int var3, String var4);
 
-    public static final native boolean eal_api_INode3DText_setText__SWIG_2(long l, INode3DText iNode3DText, long l2, ITextLayout iTextLayout, String string) {
-    }
+    public static final native boolean eal_api_INode3DText_setText__SWIG_2(long var0, INode3DText var2, long var3, ITextLayout var5, String var6);
 
-    public static final native boolean eal_api_INode3DText_setText__SWIG_3(long l, INode3DText iNode3DText, long l2, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native boolean eal_api_INode3DText_setText__SWIG_3(long var0, INode3DText var2, long var3, ITextLayoutResult var5);
 
-    public static final native long eal_api_INode3DText_getInterfaceText(long l, INode3DText iNode3DText) {
-    }
+    public static final native long eal_api_INode3DText_getInterfaceText(long var0, INode3DText var2);
 
-    public static final native void eal_api_INode3DText_dispose(long l, INode3DText iNode3DText) {
-    }
+    public static final native void eal_api_INode3DText_dispose(long var0, INode3DText var2);
 
-    public static final native long eal_api_INode3DText_getAscent(long l, INode3DText iNode3DText) {
-    }
+    public static final native long eal_api_INode3DText_getAscent(long var0, INode3DText var2);
 
-    public static final native long eal_api_INode3DText_getDescent(long l, INode3DText iNode3DText) {
-    }
+    public static final native long eal_api_INode3DText_getDescent(long var0, INode3DText var2);
 
-    public static final native boolean eal_api_INode3DText_setModulateColor(long l, INode3DText iNode3DText, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_INode3DText_setModulateColor(long var0, INode3DText var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_INode3DText_setFading__SWIG_0(long l, INode3DText iNode3DText, float f2, float f3) {
-    }
+    public static final native boolean eal_api_INode3DText_setFading__SWIG_0(long var0, INode3DText var2, float var3, float var4);
 
-    public static final native boolean eal_api_INode3DText_setFading__SWIG_1(long l, INode3DText iNode3DText, float f2, float f3, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DText_setFading__SWIG_1(long var0, INode3DText var2, float var3, float var4, boolean var5);
 
-    public static final native boolean eal_api_INode3DText_setCurvature(long l, INode3DText iNode3DText, long l2, Vec2f vec2f, float f2, boolean bl) {
-    }
+    public static final native boolean eal_api_INode3DText_setCurvature(long var0, INode3DText var2, long var3, Vec2f var5, float var6, boolean var7);
 
-    public static final native void delete_eal_api_ITemplateNode2D(long l) {
-    }
+    public static final native void delete_eal_api_ITemplateNode2D(long var0);
 
-    public static final native boolean eal_api_ITemplateNode2D_isValid(long l, ITemplateNode2D iTemplateNode2D) {
-    }
+    public static final native boolean eal_api_ITemplateNode2D_isValid(long var0, ITemplateNode2D var2);
 
-    public static final native void eal_api_ITemplateNode2D_dispose(long l, ITemplateNode2D iTemplateNode2D) {
-    }
+    public static final native void eal_api_ITemplateNode2D_dispose(long var0, ITemplateNode2D var2);
 
-    public static final native long eal_api_ITemplateNode2D_getRoot(long l, ITemplateNode2D iTemplateNode2D) {
-    }
+    public static final native long eal_api_ITemplateNode2D_getRoot(long var0, ITemplateNode2D var2);
 
-    public static final native long eal_api_ITemplateNode2D_instantiate(long l, ITemplateNode2D iTemplateNode2D, long l2, IProject iProject, String string) {
-    }
+    public static final native long eal_api_ITemplateNode2D_instantiate(long var0, ITemplateNode2D var2, long var3, IProject var5, String var6);
 
-    public static final native void delete_eal_api_ITemplateNode3D(long l) {
-    }
+    public static final native void delete_eal_api_ITemplateNode3D(long var0);
 
-    public static final native boolean eal_api_ITemplateNode3D_isValid(long l, ITemplateNode3D iTemplateNode3D) {
-    }
+    public static final native boolean eal_api_ITemplateNode3D_isValid(long var0, ITemplateNode3D var2);
 
-    public static final native void eal_api_ITemplateNode3D_dispose(long l, ITemplateNode3D iTemplateNode3D) {
-    }
+    public static final native void eal_api_ITemplateNode3D_dispose(long var0, ITemplateNode3D var2);
 
-    public static final native long eal_api_ITemplateNode3D_getRoot(long l, ITemplateNode3D iTemplateNode3D) {
-    }
+    public static final native long eal_api_ITemplateNode3D_getRoot(long var0, ITemplateNode3D var2);
 
-    public static final native long eal_api_ITemplateNode3D_instantiate(long l, ITemplateNode3D iTemplateNode3D, long l2, IProject iProject, String string) {
-    }
+    public static final native long eal_api_ITemplateNode3D_instantiate(long var0, ITemplateNode3D var2, long var3, IProject var5, String var6);
 
-    public static final native long new_eal_api_IFont(long l, IManager iManager, String string) {
-    }
+    public static final native long new_eal_api_IFont(long var0, IManager var2, String var3);
 
-    public static final native void delete_eal_api_IFont(long l) {
-    }
+    public static final native void delete_eal_api_IFont(long var0);
 
-    public static final native String eal_api_IFont_getName(long l, IFont iFont) {
-    }
+    public static final native String eal_api_IFont_getName(long var0, IFont var2);
 
-    public static final native int eal_api_IFont_getAscent(long l, IFont iFont, long l2) {
-    }
+    public static final native int eal_api_IFont_getAscent(long var0, IFont var2, long var3);
 
-    public static final native int eal_api_IFont_getDescent(long l, IFont iFont, long l2) {
-    }
+    public static final native int eal_api_IFont_getDescent(long var0, IFont var2, long var3);
 
-    public static final native int eal_api_IFont_getMaximumHeight(long l, IFont iFont, long l2) {
-    }
+    public static final native int eal_api_IFont_getMaximumHeight(long var0, IFont var2, long var3);
 
-    public static final native boolean eal_api_IFont_isValid(long l, IFont iFont) {
-    }
+    public static final native boolean eal_api_IFont_isValid(long var0, IFont var2);
 
-    public static final native void eal_api_IFont_dispose(long l, IFont iFont) {
-    }
+    public static final native void eal_api_IFont_dispose(long var0, IFont var2);
 
-    public static final native boolean eal_api_IFont_destroy(long l, IFont iFont, long l2, IManager iManager) {
-    }
+    public static final native boolean eal_api_IFont_destroy(long var0, IFont var2, long var3, IManager var5);
 
-    public static final native void eal_api_IFont_copy(long l, IFont iFont, long l2, IFont iFont2) {
-    }
+    public static final native void eal_api_IFont_copy(long var0, IFont var2, long var3, IFont var5);
 
-    public static final native boolean eal_api_IFont_overwriteNotDefGlyph(long l, IFont iFont, long l2) {
-    }
+    public static final native boolean eal_api_IFont_overwriteNotDefGlyph(long var0, IFont var2, long var3);
 
-    public static final native long new_eal_api_IFontList() {
-    }
+    public static final native long new_eal_api_IFontList();
 
-    public static final native void delete_eal_api_IFontList(long l) {
-    }
+    public static final native void delete_eal_api_IFontList(long var0);
 
-    public static final native void eal_api_IFontList_add(long l, IFontList iFontList, String string) {
-    }
+    public static final native void eal_api_IFontList_add(long var0, IFontList var2, String var3);
 
-    public static final native void delete_eal_api_IFontGroupFontHandle(long l) {
-    }
+    public static final native void delete_eal_api_IFontGroupFontHandle(long var0);
 
-    public static final native boolean eal_api_IFontGroupFontHandle_isValid(long l, IFontGroupFontHandle iFontGroupFontHandle) {
-    }
+    public static final native boolean eal_api_IFontGroupFontHandle_isValid(long var0, IFontGroupFontHandle var2);
 
-    public static final native void eal_api_IFontGroupFontHandle_dispose(long l, IFontGroupFontHandle iFontGroupFontHandle) {
-    }
+    public static final native void eal_api_IFontGroupFontHandle_dispose(long var0, IFontGroupFontHandle var2);
 
-    public static final native long new_eal_api_IFontGroup__SWIG_0(long l, IManager iManager) {
-    }
+    public static final native long new_eal_api_IFontGroup__SWIG_0(long var0, IManager var2);
 
-    public static final native long new_eal_api_IFontGroup__SWIG_1(long l, IManager iManager, int n) {
-    }
+    public static final native long new_eal_api_IFontGroup__SWIG_1(long var0, IManager var2, int var3);
 
-    public static final native long new_eal_api_IFontGroup__SWIG_2(long l, IManager iManager, long l2, IFontList iFontList, String string, short s) {
-    }
+    public static final native long new_eal_api_IFontGroup__SWIG_2(long var0, IManager var2, long var3, IFontList var5, String var6, short var7);
 
-    public static final native long new_eal_api_IFontGroup__SWIG_3(long l, IManager iManager, long l2, IFontList iFontList, String string, short s, int n) {
-    }
+    public static final native long new_eal_api_IFontGroup__SWIG_3(long var0, IManager var2, long var3, IFontList var5, String var6, short var7, int var8);
 
-    public static final native void delete_eal_api_IFontGroup(long l) {
-    }
+    public static final native void delete_eal_api_IFontGroup(long var0);
 
-    public static final native void eal_api_IFontGroup_dispose(long l, IFontGroup iFontGroup) {
-    }
+    public static final native void eal_api_IFontGroup_dispose(long var0, IFontGroup var2);
 
-    public static final native boolean eal_api_IFontGroup_isValid(long l, IFontGroup iFontGroup) {
-    }
+    public static final native boolean eal_api_IFontGroup_isValid(long var0, IFontGroup var2);
 
-    public static final native boolean eal_api_IFontGroup_destroy(long l, IFontGroup iFontGroup) {
-    }
+    public static final native boolean eal_api_IFontGroup_destroy(long var0, IFontGroup var2);
 
-    public static final native long eal_api_IFontGroup_addFont__SWIG_0(long l, IFontGroup iFontGroup, String string) {
-    }
+    public static final native long eal_api_IFontGroup_addFont__SWIG_0(long var0, IFontGroup var2, String var3);
 
-    public static final native long eal_api_IFontGroup_addFont__SWIG_1(long l, IFontGroup iFontGroup, String string, long l2) {
-    }
+    public static final native long eal_api_IFontGroup_addFont__SWIG_1(long var0, IFontGroup var2, String var3, long var4);
 
-    public static final native boolean eal_api_IFontGroup_addUnicodeRange(long l, IFontGroup iFontGroup, long l2, long l3, long l4) {
-    }
+    public static final native boolean eal_api_IFontGroup_addUnicodeRange(long var0, IFontGroup var2, long var3, long var5, long var7);
 
-    public static final native boolean eal_api_IFontGroup_linkUnicodeRanges(long l, IFontGroup iFontGroup, String string) {
-    }
+    public static final native boolean eal_api_IFontGroup_linkUnicodeRanges(long var0, IFontGroup var2, String var3);
 
-    public static final native boolean eal_api_IFontGroup_linkDefaultFont(long l, IFontGroup iFontGroup, long l2, IFontGroupFontHandle iFontGroupFontHandle) {
-    }
+    public static final native boolean eal_api_IFontGroup_linkDefaultFont(long var0, IFontGroup var2, long var3, IFontGroupFontHandle var5);
 
-    public static final native boolean eal_api_IFontGroup_activate(long l, IFontGroup iFontGroup) {
-    }
+    public static final native boolean eal_api_IFontGroup_activate(long var0, IFontGroup var2);
 
-    public static final native boolean eal_api_IFontGroup_overwriteNotDefGlyph(long l, IFontGroup iFontGroup, long l2) {
-    }
+    public static final native boolean eal_api_IFontGroup_overwriteNotDefGlyph(long var0, IFontGroup var2, long var3);
 
-    public static final native int eal_api_IFontGroup_getAscent(long l, IFontGroup iFontGroup, long l2) {
-    }
+    public static final native int eal_api_IFontGroup_getAscent(long var0, IFontGroup var2, long var3);
 
-    public static final native int eal_api_IFontGroup_getDescent(long l, IFontGroup iFontGroup, long l2) {
-    }
+    public static final native int eal_api_IFontGroup_getDescent(long var0, IFontGroup var2, long var3);
 
-    public static final native boolean eal_api_IFontGroup_setSize(long l, IFontGroup iFontGroup, long l2) {
-    }
+    public static final native boolean eal_api_IFontGroup_setSize(long var0, IFontGroup var2, long var3);
 
-    public static final native void delete_eal_api_IFontGroupAsync(long l) {
-    }
+    public static final native void delete_eal_api_IFontGroupAsync(long var0);
 
-    public static final native boolean eal_api_IFontGroupAsync_addFont(long l, IFontGroupAsync iFontGroupAsync, String string) {
-    }
+    public static final native boolean eal_api_IFontGroupAsync_addFont(long var0, IFontGroupAsync var2, String var3);
 
-    public static final native boolean eal_api_IFontGroupAsync_linkUnicodeRanges(long l, IFontGroupAsync iFontGroupAsync, String string) {
-    }
+    public static final native boolean eal_api_IFontGroupAsync_linkUnicodeRanges(long var0, IFontGroupAsync var2, String var3);
 
-    public static final native long eal_api_IFontGroupAsync_takeOwnership(long l, IFontGroupAsync iFontGroupAsync, long l2, IManager iManager) {
-    }
+    public static final native long eal_api_IFontGroupAsync_takeOwnership(long var0, IFontGroupAsync var2, long var3, IManager var5);
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_REGULAR_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_REGULAR_get();
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_BOLD_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_BOLD_get();
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_ITALIC_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_ITALIC_get();
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_BOLD_ITALIC_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_BOLD_ITALIC_get();
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_UNDERLINE_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_UNDERLINE_get();
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_OVERLINE_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_OVERLINE_get();
 
-    public static final native int eal_api_ITextLayoutSection_STYLE_STRIKEOUT_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_STYLE_STRIKEOUT_get();
 
-    public static final native int eal_api_ITextLayoutSection_HINTING_OFF_get() {
-    }
+    public static final native int eal_api_ITextLayoutSection_HINTING_OFF_get();
 
-    public static final native void delete_eal_api_ITextLayoutSection(long l) {
-    }
+    public static final native void delete_eal_api_ITextLayoutSection(long var0);
 
-    public static final native boolean eal_api_ITextLayoutSection_isValid(long l, ITextLayoutSection iTextLayoutSection) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_isValid(long var0, ITextLayoutSection var2);
 
-    public static final native boolean eal_api_ITextLayoutSection_setBasic__SWIG_0(long l, ITextLayoutSection iTextLayoutSection, long l2, IFont iFont, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setBasic__SWIG_0(long var0, ITextLayoutSection var2, long var3, IFont var5, int var6);
 
-    public static final native boolean eal_api_ITextLayoutSection_setBasic__SWIG_1(long l, ITextLayoutSection iTextLayoutSection, long l2, IFont iFont, int n, long l3) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setBasic__SWIG_1(long var0, ITextLayoutSection var2, long var3, IFont var5, int var6, long var7);
 
-    public static final native boolean eal_api_ITextLayoutSection_setBasicFontGroup(long l, ITextLayoutSection iTextLayoutSection, int n, long l2) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setBasicFontGroup(long var0, ITextLayoutSection var2, int var3, long var4);
 
-    public static final native boolean eal_api_ITextLayoutSection_setAlignment(long l, ITextLayoutSection iTextLayoutSection, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setAlignment(long var0, ITextLayoutSection var2, int var3);
 
-    public static final native boolean eal_api_ITextLayoutSection_setStartEndIndex(long l, ITextLayoutSection iTextLayoutSection, long l2, long l3) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setStartEndIndex(long var0, ITextLayoutSection var2, long var3, long var5);
 
-    public static final native boolean eal_api_ITextLayoutSection_setLineGap(long l, ITextLayoutSection iTextLayoutSection, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setLineGap(long var0, ITextLayoutSection var2, int var3);
 
-    public static final native boolean eal_api_ITextLayoutSection_setFont__SWIG_0(long l, ITextLayoutSection iTextLayoutSection, long l2, IFont iFont, int n, long l3, FlagFontStyle flagFontStyle) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setFont__SWIG_0(long var0, ITextLayoutSection var2, long var3, IFont var5, int var6, long var7, FlagFontStyle var9);
 
-    public static final native boolean eal_api_ITextLayoutSection_setFont__SWIG_1(long l, ITextLayoutSection iTextLayoutSection, long l2, IFont iFont, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setFont__SWIG_1(long var0, ITextLayoutSection var2, long var3, IFont var5, int var6);
 
-    public static final native boolean eal_api_ITextLayoutSection_setLineExtender(long l, ITextLayoutSection iTextLayoutSection, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setLineExtender(long var0, ITextLayoutSection var2, int var3);
 
-    public static final native void eal_api_ITextLayoutSection_dispose(long l, ITextLayoutSection iTextLayoutSection) {
-    }
+    public static final native void eal_api_ITextLayoutSection_dispose(long var0, ITextLayoutSection var2);
 
-    public static final native boolean eal_api_ITextLayoutSection_setColor__SWIG_0(long l, ITextLayoutSection iTextLayoutSection, long l2, colorRGBAf colorRGBAf2) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setColor__SWIG_0(long var0, ITextLayoutSection var2, long var3, colorRGBAf var5);
 
-    public static final native boolean eal_api_ITextLayoutSection_setColor__SWIG_1(long l, ITextLayoutSection iTextLayoutSection, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setColor__SWIG_1(long var0, ITextLayoutSection var2, int var3);
 
-    public static final native boolean eal_api_ITextLayoutSection_setStyle(long l, ITextLayoutSection iTextLayoutSection, long l2, FlagFontStyle flagFontStyle) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setStyle(long var0, ITextLayoutSection var2, long var3, FlagFontStyle var5);
 
-    public static final native boolean eal_api_ITextLayoutSection_setHinting(long l, ITextLayoutSection iTextLayoutSection, int n) {
-    }
+    public static final native boolean eal_api_ITextLayoutSection_setHinting(long var0, ITextLayoutSection var2, int var3);
 
-    public static final native long new_eal_FlagFontStyle__SWIG_0() {
-    }
+    public static final native long new_eal_FlagFontStyle__SWIG_0();
 
-    public static final native long new_eal_FlagFontStyle__SWIG_1(int n) {
-    }
+    public static final native long new_eal_FlagFontStyle__SWIG_1(int var0);
 
-    public static final native long new_eal_FlagFontStyle__SWIG_2(long l) {
-    }
+    public static final native long new_eal_FlagFontStyle__SWIG_2(long var0);
 
-    public static final native long eal_FlagFontStyle_getFlagValue(long l, FlagFontStyle flagFontStyle) {
-    }
+    public static final native long eal_FlagFontStyle_getFlagValue(long var0, FlagFontStyle var2);
 
-    public static final native void eal_FlagFontStyle_setFlag(long l, FlagFontStyle flagFontStyle, int n) {
-    }
+    public static final native void eal_FlagFontStyle_setFlag(long var0, FlagFontStyle var2, int var3);
 
-    public static final native boolean eal_FlagFontStyle_isFlag(long l, FlagFontStyle flagFontStyle, int n) {
-    }
+    public static final native boolean eal_FlagFontStyle_isFlag(long var0, FlagFontStyle var2, int var3);
 
-    public static final native void eal_FlagFontStyle_reset(long l, FlagFontStyle flagFontStyle) {
-    }
+    public static final native void eal_FlagFontStyle_reset(long var0, FlagFontStyle var2);
 
-    public static final native void eal_FlagFontStyle_resetPos(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native void eal_FlagFontStyle_resetPos(long var0, FlagFontStyle var2, long var3);
 
-    public static final native void eal_FlagFontStyle_unsetFlag(long l, FlagFontStyle flagFontStyle, int n) {
-    }
+    public static final native void eal_FlagFontStyle_unsetFlag(long var0, FlagFontStyle var2, int var3);
 
-    public static final native void eal_FlagFontStyle_setFlagValue(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native void eal_FlagFontStyle_setFlagValue(long var0, FlagFontStyle var2, long var3);
 
-    public static final native long eal_FlagFontStyle_getHexValueAtPos(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native long eal_FlagFontStyle_getHexValueAtPos(long var0, FlagFontStyle var2, long var3);
 
-    public static final native long eal_FlagFontStyle_extractPosition(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native long eal_FlagFontStyle_extractPosition(long var0, FlagFontStyle var2, long var3);
 
-    public static final native long eal_FlagFontStyle_getByMask(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native long eal_FlagFontStyle_getByMask(long var0, FlagFontStyle var2, long var3);
 
-    public static final native boolean eal_FlagFontStyle_equal__SWIG_0(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native boolean eal_FlagFontStyle_equal__SWIG_0(long var0, FlagFontStyle var2, long var3);
 
-    public static final native boolean eal_FlagFontStyle_equal__SWIG_1(long l, FlagFontStyle flagFontStyle, int n) {
-    }
+    public static final native boolean eal_FlagFontStyle_equal__SWIG_1(long var0, FlagFontStyle var2, int var3);
 
-    public static final native boolean eal_FlagFontStyle_unequal__SWIG_0(long l, FlagFontStyle flagFontStyle, long l2) {
-    }
+    public static final native boolean eal_FlagFontStyle_unequal__SWIG_0(long var0, FlagFontStyle var2, long var3);
 
-    public static final native boolean eal_FlagFontStyle_unequal__SWIG_1(long l, FlagFontStyle flagFontStyle, int n) {
-    }
+    public static final native boolean eal_FlagFontStyle_unequal__SWIG_1(long var0, FlagFontStyle var2, int var3);
 
-    public static final native boolean eal_FlagFontStyle_contains__SWIG_0(long l, FlagFontStyle flagFontStyle, int n) {
-    }
+    public static final native boolean eal_FlagFontStyle_contains__SWIG_0(long var0, FlagFontStyle var2, int var3);
 
-    public static final native boolean eal_FlagFontStyle_contains__SWIG_1(long l, FlagFontStyle flagFontStyle, long l2, FlagFontStyle flagFontStyle2) {
-    }
+    public static final native boolean eal_FlagFontStyle_contains__SWIG_1(long var0, FlagFontStyle var2, long var3, FlagFontStyle var5);
 
-    public static final native void delete_eal_FlagFontStyle(long l) {
-    }
+    public static final native void delete_eal_FlagFontStyle(long var0);
 
-    public static final native long new_eal_api_ITextLayout__SWIG_0() {
-    }
+    public static final native long new_eal_api_ITextLayout__SWIG_0();
 
-    public static final native long new_eal_api_ITextLayout__SWIG_1(long l, IFont iFont, int n) {
-    }
+    public static final native long new_eal_api_ITextLayout__SWIG_1(long var0, IFont var2, int var3);
 
-    public static final native long new_eal_api_ITextLayout__SWIG_2(int n) {
-    }
+    public static final native long new_eal_api_ITextLayout__SWIG_2(int var0);
 
-    public static final native void delete_eal_api_ITextLayout(long l) {
-    }
+    public static final native void delete_eal_api_ITextLayout(long var0);
 
-    public static final native boolean eal_api_ITextLayout_isValid(long l, ITextLayout iTextLayout) {
-    }
+    public static final native boolean eal_api_ITextLayout_isValid(long var0, ITextLayout var2);
 
-    public static final native void eal_api_ITextLayout_setTruncation(long l, ITextLayout iTextLayout, boolean bl) {
-    }
+    public static final native void eal_api_ITextLayout_setTruncation(long var0, ITextLayout var2, boolean var3);
 
-    public static final native void eal_api_ITextLayout_setMaximumSize(long l, ITextLayout iTextLayout, long l2, long l3) {
-    }
+    public static final native void eal_api_ITextLayout_setMaximumSize(long var0, ITextLayout var2, long var3, long var5);
 
-    public static final native void eal_api_ITextLayout_setMaximumLineCount(long l, ITextLayout iTextLayout, long l2) {
-    }
+    public static final native void eal_api_ITextLayout_setMaximumLineCount(long var0, ITextLayout var2, long var3);
 
-    public static final native boolean eal_api_ITextLayout_setTextLayoutSectionNum(long l, ITextLayout iTextLayout, long l2) {
-    }
+    public static final native boolean eal_api_ITextLayout_setTextLayoutSectionNum(long var0, ITextLayout var2, long var3);
 
-    public static final native long eal_api_ITextLayout_getLayoutSection(long l, ITextLayout iTextLayout, long l2) {
-    }
+    public static final native long eal_api_ITextLayout_getLayoutSection(long var0, ITextLayout var2, long var3);
 
-    public static final native void eal_api_ITextLayout_print(long l, ITextLayout iTextLayout) {
-    }
+    public static final native void eal_api_ITextLayout_print(long var0, ITextLayout var2);
 
-    public static final native boolean eal_api_ITextLayout_destroy(long l, ITextLayout iTextLayout) {
-    }
+    public static final native boolean eal_api_ITextLayout_destroy(long var0, ITextLayout var2);
 
-    public static final native void eal_api_ITextLayout_dispose(long l, ITextLayout iTextLayout) {
-    }
+    public static final native void eal_api_ITextLayout_dispose(long var0, ITextLayout var2);
 
-    public static final native boolean eal_api_ITextLayout_setPreformattedText(long l, ITextLayout iTextLayout, boolean bl) {
-    }
+    public static final native boolean eal_api_ITextLayout_setPreformattedText(long var0, ITextLayout var2, boolean var3);
 
-    public static final native boolean eal_api_ITextLayout_setKerning(long l, ITextLayout iTextLayout, int n) {
-    }
+    public static final native boolean eal_api_ITextLayout_setKerning(long var0, ITextLayout var2, int var3);
 
-    public static final native void delete_eal_api_ITextLayoutResult(long l) {
-    }
+    public static final native void delete_eal_api_ITextLayoutResult(long var0);
 
-    public static final native boolean eal_api_ITextLayoutResult_isValid(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native boolean eal_api_ITextLayoutResult_isValid(long var0, ITextLayoutResult var2);
 
-    public static final native long eal_api_ITextLayoutResult_getWidth(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getWidth(long var0, ITextLayoutResult var2);
 
-    public static final native long eal_api_ITextLayoutResult_getHeight(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getHeight(long var0, ITextLayoutResult var2);
 
-    public static final native long eal_api_ITextLayoutResult_getLineWidth(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getLineWidth(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native long eal_api_ITextLayoutResult_getLineHeight(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getLineHeight(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native long eal_api_ITextLayoutResult_getAscent(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getAscent(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native long eal_api_ITextLayoutResult_getDescent(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getDescent(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native long eal_api_ITextLayoutResult_getLineLeft(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getLineLeft(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native boolean eal_api_ITextLayoutResult_destroy(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native boolean eal_api_ITextLayoutResult_destroy(long var0, ITextLayoutResult var2);
 
-    public static final native long eal_api_ITextLayoutResult_getLineCount(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getLineCount(long var0, ITextLayoutResult var2);
 
-    public static final native void eal_api_ITextLayoutResult_dispose(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native void eal_api_ITextLayoutResult_dispose(long var0, ITextLayoutResult var2);
 
-    public static final native long eal_api_ITextLayoutResult_getGlyphCount__SWIG_0(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getGlyphCount__SWIG_0(long var0, ITextLayoutResult var2);
 
-    public static final native long eal_api_ITextLayoutResult_getGlyphCount__SWIG_1(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getGlyphCount__SWIG_1(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native long eal_api_ITextLayoutResult_getLastGlyphOfLine(long l, ITextLayoutResult iTextLayoutResult, long l2) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getLastGlyphOfLine(long var0, ITextLayoutResult var2, long var3);
 
-    public static final native long eal_api_ITextLayoutResult_getGlyphOfLine(long l, ITextLayoutResult iTextLayoutResult, long l2, long l3) {
-    }
+    public static final native long eal_api_ITextLayoutResult_getGlyphOfLine(long var0, ITextLayoutResult var2, long var3, long var5);
 
-    public static final native boolean eal_api_ITextLayoutResult_isTruncated(long l, ITextLayoutResult iTextLayoutResult) {
-    }
+    public static final native boolean eal_api_ITextLayoutResult_isTruncated(long var0, ITextLayoutResult var2);
 
-    public static final native int eal_api_ITextLayoutResult_getCursorPosition(long l, ITextLayoutResult iTextLayoutResult, long l2, long l3) {
-    }
+    public static final native int eal_api_ITextLayoutResult_getCursorPosition(long var0, ITextLayoutResult var2, long var3, long var5);
 
-    public static final native long getINodeByPath(long l, IProject iProject, String string) {
-    }
+    public static final native long getINodeByPath(long var0, IProject var2, String var3);
 
-    public static final native boolean setVisible(long l, IProject iProject, String string, boolean bl) {
-    }
+    public static final native boolean setVisible(long var0, IProject var2, String var3, boolean var4);
 
-    public static final native boolean setTexture(long l, IProject iProject, String string, String string2) {
-    }
+    public static final native boolean setTexture(long var0, IProject var2, String var3, String var4);
 
-    public static final native boolean createPixelPerfect(long l, INode3DCamera iNode3DCamera, long l2, long l3) {
-    }
+    public static final native boolean createPixelPerfect(long var0, INode3DCamera var2, long var3, long var5);
 
-    public static final native long RGBAtoRGBAf(long l) {
-    }
+    public static final native long RGBAtoRGBAf(long var0);
 
-    public static final native long ARGBtoRGBAf(long l) {
-    }
+    public static final native long ARGBtoRGBAf(long var0);
 
-    public static final native long toRGBAUint32(long l, colorRGBAf colorRGBAf2) {
-    }
+    public static final native long toRGBAUint32(long var0, colorRGBAf var2);
 
-    public static final native long toARGBUint32(long l, colorRGBAf colorRGBAf2) {
-    }
+    public static final native long toARGBUint32(long var0, colorRGBAf var2);
 
-    public static final native long new_eal_utility_CFrameInformation(long l, IRenderer iRenderer) {
-    }
+    public static final native long new_eal_utility_CFrameInformation(long var0, IRenderer var2);
 
-    public static final native void delete_eal_utility_CFrameInformation(long l) {
-    }
+    public static final native void delete_eal_utility_CFrameInformation(long var0);
 
-    public static final native void eal_utility_CFrameInformation_dispose(long l, CFrameInformation cFrameInformation) {
-    }
+    public static final native void eal_utility_CFrameInformation_dispose(long var0, CFrameInformation var2);
 
-    public static final native long eal_utility_CFrameInformation_getFPS(long l, CFrameInformation cFrameInformation) {
-    }
+    public static final native long eal_utility_CFrameInformation_getFPS(long var0, CFrameInformation var2);
 
-    public static final native int eal_utility_IImageStorageListener_IDENT_NONE_get() {
-    }
+    public static final native int eal_utility_IImageStorageListener_IDENT_NONE_get();
 
-    public static final native long new_eal_utility_IImageStorageListener() {
-    }
+    public static final native long new_eal_utility_IImageStorageListener();
 
-    public static final native void delete_eal_utility_IImageStorageListener(long l) {
-    }
+    public static final native void delete_eal_utility_IImageStorageListener(long var0);
 
-    public static final native void eal_utility_IImageStorageListener_process(long l, IImageStorageListener iImageStorageListener, int n, long l2) {
-    }
+    public static final native void eal_utility_IImageStorageListener_process(long var0, IImageStorageListener var2, int var3, long var4);
 
-    public static final native void eal_utility_IImageStorageListener_processSwigExplicitIImageStorageListener(long l, IImageStorageListener iImageStorageListener, int n, long l2) {
-    }
+    public static final native void eal_utility_IImageStorageListener_processSwigExplicitIImageStorageListener(long var0, IImageStorageListener var2, int var3, long var4);
 
-    public static final native void eal_utility_IImageStorageListener_director_connect(IImageStorageListener iImageStorageListener, long l, boolean bl, boolean bl2) {
-    }
+    public static final native void eal_utility_IImageStorageListener_director_connect(IImageStorageListener var0, long var1, boolean var3, boolean var4);
 
-    public static final native void eal_utility_IImageStorageListener_change_ownership(IImageStorageListener iImageStorageListener, long l, boolean bl) {
-    }
+    public static final native void eal_utility_IImageStorageListener_change_ownership(IImageStorageListener var0, long var1, boolean var3);
 
-    public static final native long new_eal_utility_CImageStorage(long l, IManager iManager, long l2, IImageStorageListener iImageStorageListener) {
-    }
+    public static final native long new_eal_utility_CImageStorage(long var0, IManager var2, long var3, IImageStorageListener var5);
 
-    public static final native void delete_eal_utility_CImageStorage(long l) {
-    }
+    public static final native void delete_eal_utility_CImageStorage(long var0);
 
-    public static final native boolean eal_utility_CImageStorage_add__SWIG_0(long l, CImageStorage cImageStorage, long l2, String string, long l3, FlagImage flagImage) {
-    }
+    public static final native boolean eal_utility_CImageStorage_add__SWIG_0(long var0, CImageStorage var2, long var3, String var5, long var6, FlagImage var8);
 
-    public static final native boolean eal_utility_CImageStorage_add__SWIG_1(long l, CImageStorage cImageStorage, long l2, String string, long l3, FlagImage flagImage, long l4, long l5) {
-    }
+    public static final native boolean eal_utility_CImageStorage_add__SWIG_1(long var0, CImageStorage var2, long var3, String var5, long var6, FlagImage var8, long var9, long var11);
 
-    public static final native long eal_utility_CImageStorage_get(long l, CImageStorage cImageStorage, long l2) {
-    }
+    public static final native long eal_utility_CImageStorage_get(long var0, CImageStorage var2, long var3);
 
-    public static final native boolean eal_utility_CImageStorage_flush(long l, CImageStorage cImageStorage) {
-    }
+    public static final native boolean eal_utility_CImageStorage_flush(long var0, CImageStorage var2);
 
-    public static final native boolean eal_utility_CImageStorage_clear(long l, CImageStorage cImageStorage) {
-    }
+    public static final native boolean eal_utility_CImageStorage_clear(long var0, CImageStorage var2);
 
-    public static final native boolean eal_utility_CImageStorage_destroy(long l, CImageStorage cImageStorage) {
-    }
+    public static final native boolean eal_utility_CImageStorage_destroy(long var0, CImageStorage var2);
 
-    public static final native boolean eal_utility_CImageStorage_remove(long l, CImageStorage cImageStorage, long l2) {
-    }
+    public static final native boolean eal_utility_CImageStorage_remove(long var0, CImageStorage var2, long var3);
 
-    public static final native long new_eal_utility_CInterpolatorAccelerated__SWIG_0() {
-    }
+    public static final native long new_eal_utility_CInterpolatorAccelerated__SWIG_0();
 
-    public static final native long new_eal_utility_CInterpolatorAccelerated__SWIG_1(float f2, float f3, float f4, float f5, float f6, float f7) {
-    }
+    public static final native long new_eal_utility_CInterpolatorAccelerated__SWIG_1(float var0, float var1, float var2, float var3, float var4, float var5);
 
-    public static final native void delete_eal_utility_CInterpolatorAccelerated(long l) {
-    }
+    public static final native void delete_eal_utility_CInterpolatorAccelerated(long var0);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_evaluate(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_evaluate(long var0, CInterpolatorAccelerated var2);
 
-    public static final native boolean eal_utility_CInterpolatorAccelerated_isFinished(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native boolean eal_utility_CInterpolatorAccelerated_isFinished(long var0, CInterpolatorAccelerated var2);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_start(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_start(long var0, CInterpolatorAccelerated var2);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_setStart(long l, CInterpolatorAccelerated cInterpolatorAccelerated, float f2) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_setStart(long var0, CInterpolatorAccelerated var2, float var3);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_setEnd(long l, CInterpolatorAccelerated cInterpolatorAccelerated, float f2) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_setEnd(long var0, CInterpolatorAccelerated var2, float var3);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_getStart(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_getStart(long var0, CInterpolatorAccelerated var2);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_getEnd(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_getEnd(long var0, CInterpolatorAccelerated var2);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_getLowerBound(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_getLowerBound(long var0, CInterpolatorAccelerated var2);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_getUpperBound(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_getUpperBound(long var0, CInterpolatorAccelerated var2);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_setLowerBound(long l, CInterpolatorAccelerated cInterpolatorAccelerated, float f2) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_setLowerBound(long var0, CInterpolatorAccelerated var2, float var3);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_setUpperBound(long l, CInterpolatorAccelerated cInterpolatorAccelerated, float f2) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_setUpperBound(long var0, CInterpolatorAccelerated var2, float var3);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_setAccelerationMax(long l, CInterpolatorAccelerated cInterpolatorAccelerated, float f2) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_setAccelerationMax(long var0, CInterpolatorAccelerated var2, float var3);
 
-    public static final native void eal_utility_CInterpolatorAccelerated_setSpeedMax(long l, CInterpolatorAccelerated cInterpolatorAccelerated, float f2) {
-    }
+    public static final native void eal_utility_CInterpolatorAccelerated_setSpeedMax(long var0, CInterpolatorAccelerated var2, float var3);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_getAccelerationMax(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_getAccelerationMax(long var0, CInterpolatorAccelerated var2);
 
-    public static final native float eal_utility_CInterpolatorAccelerated_getSpeedMax(long l, CInterpolatorAccelerated cInterpolatorAccelerated) {
-    }
+    public static final native float eal_utility_CInterpolatorAccelerated_getSpeedMax(long var0, CInterpolatorAccelerated var2);
 
-    public static final native long new_eal_utility_CLerpF__SWIG_0() {
-    }
+    public static final native long new_eal_utility_CLerpF__SWIG_0();
 
-    public static final native long new_eal_utility_CLerpF__SWIG_1(float f2, float f3, long l) {
-    }
+    public static final native long new_eal_utility_CLerpF__SWIG_1(float var0, float var1, long var2);
 
-    public static final native void delete_eal_utility_CLerpF(long l) {
-    }
+    public static final native void delete_eal_utility_CLerpF(long var0);
 
-    public static final native void eal_utility_CLerpF_start(long l, CLerpF cLerpF) {
-    }
+    public static final native void eal_utility_CLerpF_start(long var0, CLerpF var2);
 
-    public static final native float eal_utility_CLerpF_evaluate(long l, CLerpF cLerpF) {
-    }
+    public static final native float eal_utility_CLerpF_evaluate(long var0, CLerpF var2);
 
-    public static final native boolean eal_utility_CLerpF_isFinished(long l, CLerpF cLerpF) {
-    }
+    public static final native boolean eal_utility_CLerpF_isFinished(long var0, CLerpF var2);
 
-    public static final native void eal_utility_CLerpF_setStart(long l, CLerpF cLerpF, float f2) {
-    }
+    public static final native void eal_utility_CLerpF_setStart(long var0, CLerpF var2, float var3);
 
-    public static final native void eal_utility_CLerpF_setEnd(long l, CLerpF cLerpF, float f2) {
-    }
+    public static final native void eal_utility_CLerpF_setEnd(long var0, CLerpF var2, float var3);
 
-    public static final native void eal_utility_CLerpF_setStartEnd(long l, CLerpF cLerpF, float f2, float f3) {
-    }
+    public static final native void eal_utility_CLerpF_setStartEnd(long var0, CLerpF var2, float var3, float var4);
 
-    public static final native void eal_utility_CLerpF_setDuration(long l, CLerpF cLerpF, long l2) {
-    }
+    public static final native void eal_utility_CLerpF_setDuration(long var0, CLerpF var2, long var3);
 
-    public static final native float eal_utility_CLerpF_getStart(long l, CLerpF cLerpF) {
-    }
+    public static final native float eal_utility_CLerpF_getStart(long var0, CLerpF var2);
 
-    public static final native float eal_utility_CLerpF_getEnd(long l, CLerpF cLerpF) {
-    }
+    public static final native float eal_utility_CLerpF_getEnd(long var0, CLerpF var2);
 
-    public static final native long eal_utility_CLerpF_getDuration(long l, CLerpF cLerpF) {
-    }
+    public static final native long eal_utility_CLerpF_getDuration(long var0, CLerpF var2);
 
-    public static final native void eal_utility_CLerpF_invert(long l, CLerpF cLerpF) {
-    }
+    public static final native void eal_utility_CLerpF_invert(long var0, CLerpF var2);
 
-    public static final native long new_eal_utility_CLerpD__SWIG_0() {
-    }
+    public static final native long new_eal_utility_CLerpD__SWIG_0();
 
-    public static final native long new_eal_utility_CLerpD__SWIG_1(double d2, double d3, long l) {
-    }
+    public static final native long new_eal_utility_CLerpD__SWIG_1(double var0, double var2, long var4);
 
-    public static final native void delete_eal_utility_CLerpD(long l) {
-    }
+    public static final native void delete_eal_utility_CLerpD(long var0);
 
-    public static final native void eal_utility_CLerpD_start(long l, CLerpD cLerpD) {
-    }
+    public static final native void eal_utility_CLerpD_start(long var0, CLerpD var2);
 
-    public static final native double eal_utility_CLerpD_evaluate(long l, CLerpD cLerpD) {
-    }
+    public static final native double eal_utility_CLerpD_evaluate(long var0, CLerpD var2);
 
-    public static final native boolean eal_utility_CLerpD_isFinished(long l, CLerpD cLerpD) {
-    }
+    public static final native boolean eal_utility_CLerpD_isFinished(long var0, CLerpD var2);
 
-    public static final native void eal_utility_CLerpD_setStart(long l, CLerpD cLerpD, double d2) {
-    }
+    public static final native void eal_utility_CLerpD_setStart(long var0, CLerpD var2, double var3);
 
-    public static final native void eal_utility_CLerpD_setEnd(long l, CLerpD cLerpD, double d2) {
-    }
+    public static final native void eal_utility_CLerpD_setEnd(long var0, CLerpD var2, double var3);
 
-    public static final native void eal_utility_CLerpD_setStartEnd(long l, CLerpD cLerpD, double d2, double d3) {
-    }
+    public static final native void eal_utility_CLerpD_setStartEnd(long var0, CLerpD var2, double var3, double var5);
 
-    public static final native void eal_utility_CLerpD_setDuration(long l, CLerpD cLerpD, long l2) {
-    }
+    public static final native void eal_utility_CLerpD_setDuration(long var0, CLerpD var2, long var3);
 
-    public static final native double eal_utility_CLerpD_getStart(long l, CLerpD cLerpD) {
-    }
+    public static final native double eal_utility_CLerpD_getStart(long var0, CLerpD var2);
 
-    public static final native double eal_utility_CLerpD_getEnd(long l, CLerpD cLerpD) {
-    }
+    public static final native double eal_utility_CLerpD_getEnd(long var0, CLerpD var2);
 
-    public static final native long eal_utility_CLerpD_getDuration(long l, CLerpD cLerpD) {
-    }
+    public static final native long eal_utility_CLerpD_getDuration(long var0, CLerpD var2);
 
-    public static final native void eal_utility_CLerpD_invert(long l, CLerpD cLerpD) {
-    }
+    public static final native void eal_utility_CLerpD_invert(long var0, CLerpD var2);
 
-    public static final native long new_ipl_VectorF__SWIG_0() {
-    }
+    public static final native long new_ipl_VectorF__SWIG_0();
 
-    public static final native long new_ipl_VectorF__SWIG_1(long l) {
-    }
+    public static final native long new_ipl_VectorF__SWIG_1(long var0);
 
-    public static final native long ipl_VectorF_size(long l, VectorF vectorF) {
-    }
+    public static final native long ipl_VectorF_size(long var0, VectorF var2);
 
-    public static final native long ipl_VectorF_capacity(long l, VectorF vectorF) {
-    }
+    public static final native long ipl_VectorF_capacity(long var0, VectorF var2);
 
-    public static final native void ipl_VectorF_reserve(long l, VectorF vectorF, long l2) {
-    }
+    public static final native void ipl_VectorF_reserve(long var0, VectorF var2, long var3);
 
-    public static final native boolean ipl_VectorF_isEmpty(long l, VectorF vectorF) {
-    }
+    public static final native boolean ipl_VectorF_isEmpty(long var0, VectorF var2);
 
-    public static final native void ipl_VectorF_clear(long l, VectorF vectorF) {
-    }
+    public static final native void ipl_VectorF_clear(long var0, VectorF var2);
 
-    public static final native void ipl_VectorF_add(long l, VectorF vectorF, float f2) {
-    }
+    public static final native void ipl_VectorF_add(long var0, VectorF var2, float var3);
 
-    public static final native void delete_ipl_VectorF(long l) {
-    }
+    public static final native void delete_ipl_VectorF(long var0);
 
-    public static final native long new_ipl_VectorD__SWIG_0() {
-    }
+    public static final native long new_ipl_VectorD__SWIG_0();
 
-    public static final native long new_ipl_VectorD__SWIG_1(long l) {
-    }
+    public static final native long new_ipl_VectorD__SWIG_1(long var0);
 
-    public static final native long ipl_VectorD_size(long l, VectorD vectorD) {
-    }
+    public static final native long ipl_VectorD_size(long var0, VectorD var2);
 
-    public static final native long ipl_VectorD_capacity(long l, VectorD vectorD) {
-    }
+    public static final native long ipl_VectorD_capacity(long var0, VectorD var2);
 
-    public static final native void ipl_VectorD_reserve(long l, VectorD vectorD, long l2) {
-    }
+    public static final native void ipl_VectorD_reserve(long var0, VectorD var2, long var3);
 
-    public static final native boolean ipl_VectorD_isEmpty(long l, VectorD vectorD) {
-    }
+    public static final native boolean ipl_VectorD_isEmpty(long var0, VectorD var2);
 
-    public static final native void ipl_VectorD_clear(long l, VectorD vectorD) {
-    }
+    public static final native void ipl_VectorD_clear(long var0, VectorD var2);
 
-    public static final native void ipl_VectorD_add(long l, VectorD vectorD, double d2) {
-    }
+    public static final native void ipl_VectorD_add(long var0, VectorD var2, double var3);
 
-    public static final native void delete_ipl_VectorD(long l) {
-    }
+    public static final native void delete_ipl_VectorD(long var0);
 
-    public static final native long new_eal_utility_CLinearInterpolatorF__SWIG_0() {
-    }
+    public static final native long new_eal_utility_CLinearInterpolatorF__SWIG_0();
 
-    public static final native long new_eal_utility_CLinearInterpolatorF__SWIG_1(long l, VectorF vectorF, long l2) {
-    }
+    public static final native long new_eal_utility_CLinearInterpolatorF__SWIG_1(long var0, VectorF var2, long var3);
 
-    public static final native float eal_utility_CLinearInterpolatorF_evaluate(long l, CLinearInterpolatorF cLinearInterpolatorF) {
-    }
+    public static final native float eal_utility_CLinearInterpolatorF_evaluate(long var0, CLinearInterpolatorF var2);
 
-    public static final native boolean eal_utility_CLinearInterpolatorF_isFinished(long l, CLinearInterpolatorF cLinearInterpolatorF) {
-    }
+    public static final native boolean eal_utility_CLinearInterpolatorF_isFinished(long var0, CLinearInterpolatorF var2);
 
-    public static final native void eal_utility_CLinearInterpolatorF_setKnots(long l, CLinearInterpolatorF cLinearInterpolatorF, long l2, VectorF vectorF) {
-    }
+    public static final native void eal_utility_CLinearInterpolatorF_setKnots(long var0, CLinearInterpolatorF var2, long var3, VectorF var5);
 
-    public static final native void eal_utility_CLinearInterpolatorF_setAnimationTime(long l, CLinearInterpolatorF cLinearInterpolatorF, long l2) {
-    }
+    public static final native void eal_utility_CLinearInterpolatorF_setAnimationTime(long var0, CLinearInterpolatorF var2, long var3);
 
-    public static final native void delete_eal_utility_CLinearInterpolatorF(long l) {
-    }
+    public static final native void delete_eal_utility_CLinearInterpolatorF(long var0);
 
-    public static final native long new_eal_utility_CLinearInterpolatorD__SWIG_0() {
-    }
+    public static final native long new_eal_utility_CLinearInterpolatorD__SWIG_0();
 
-    public static final native long new_eal_utility_CLinearInterpolatorD__SWIG_1(long l, VectorD vectorD, long l2) {
-    }
+    public static final native long new_eal_utility_CLinearInterpolatorD__SWIG_1(long var0, VectorD var2, long var3);
 
-    public static final native double eal_utility_CLinearInterpolatorD_evaluate(long l, CLinearInterpolatorD cLinearInterpolatorD) {
-    }
+    public static final native double eal_utility_CLinearInterpolatorD_evaluate(long var0, CLinearInterpolatorD var2);
 
-    public static final native boolean eal_utility_CLinearInterpolatorD_isFinished(long l, CLinearInterpolatorD cLinearInterpolatorD) {
-    }
+    public static final native boolean eal_utility_CLinearInterpolatorD_isFinished(long var0, CLinearInterpolatorD var2);
 
-    public static final native void eal_utility_CLinearInterpolatorD_setKnots(long l, CLinearInterpolatorD cLinearInterpolatorD, long l2, VectorD vectorD) {
-    }
+    public static final native void eal_utility_CLinearInterpolatorD_setKnots(long var0, CLinearInterpolatorD var2, long var3, VectorD var5);
 
-    public static final native void eal_utility_CLinearInterpolatorD_setAnimationTime(long l, CLinearInterpolatorD cLinearInterpolatorD, long l2) {
-    }
+    public static final native void eal_utility_CLinearInterpolatorD_setAnimationTime(long var0, CLinearInterpolatorD var2, long var3);
 
-    public static final native void delete_eal_utility_CLinearInterpolatorD(long l) {
-    }
+    public static final native void delete_eal_utility_CLinearInterpolatorD(long var0);
 
-    public static final native long new_eal_utility_COffscreenHelper(long l, IProject iProject, long l2, INode2DManaged iNode2DManaged) {
-    }
+    public static final native long new_eal_utility_COffscreenHelper(long var0, IProject var2, long var3, INode2DManaged var5);
 
-    public static final native void delete_eal_utility_COffscreenHelper(long l) {
-    }
+    public static final native void delete_eal_utility_COffscreenHelper(long var0);
 
-    public static final native void eal_utility_COffscreenHelper_dispose(long l, COffscreenHelper cOffscreenHelper) {
-    }
+    public static final native void eal_utility_COffscreenHelper_dispose(long var0, COffscreenHelper var2);
 
-    public static final native long eal_utility_COffscreenHelper_enableOffscreen__SWIG_0(long l, COffscreenHelper cOffscreenHelper, long l2, INode2D iNode2D, long l3, long l4, long l5, FlagTexture flagTexture, int n) {
-    }
+    public static final native long eal_utility_COffscreenHelper_enableOffscreen__SWIG_0(long var0, COffscreenHelper var2, long var3, INode2D var5, long var6, long var8, long var10, FlagTexture var12, int var13);
 
-    public static final native long eal_utility_COffscreenHelper_enableOffscreen__SWIG_1(long l, COffscreenHelper cOffscreenHelper, long l2, INode2D iNode2D, long l3, long l4, long l5, FlagTexture flagTexture, int n, boolean bl) {
-    }
+    public static final native long eal_utility_COffscreenHelper_enableOffscreen__SWIG_1(long var0, COffscreenHelper var2, long var3, INode2D var5, long var6, long var8, long var10, FlagTexture var12, int var13, boolean var14);
 
-    public static final native boolean eal_utility_COffscreenHelper_enableOffscreen__SWIG_2(long l, COffscreenHelper cOffscreenHelper, long l2, INode2D iNode2D, long l3, ITexture iTexture, int n) {
-    }
+    public static final native boolean eal_utility_COffscreenHelper_enableOffscreen__SWIG_2(long var0, COffscreenHelper var2, long var3, INode2D var5, long var6, ITexture var8, int var9);
 
-    public static final native boolean eal_utility_COffscreenHelper_enableOffscreen__SWIG_3(long l, COffscreenHelper cOffscreenHelper, long l2, INode2D iNode2D, long l3, ITexture iTexture, int n, boolean bl) {
-    }
+    public static final native boolean eal_utility_COffscreenHelper_enableOffscreen__SWIG_3(long var0, COffscreenHelper var2, long var3, INode2D var5, long var6, ITexture var8, int var9, boolean var10);
 
-    public static final native boolean eal_utility_COffscreenHelper_disableOffscreen(long l, COffscreenHelper cOffscreenHelper, long l2, INode2D iNode2D) {
-    }
+    public static final native boolean eal_utility_COffscreenHelper_disableOffscreen(long var0, COffscreenHelper var2, long var3, INode2D var5);
 
-    public static final native long eal_IEventMerge_SWIGUpcast(long l) {
-    }
+    public static final native long eal_IEventMerge_SWIGUpcast(long var0);
 
-    public static final native long eal_IEventImage_SWIGUpcast(long l) {
-    }
+    public static final native long eal_IEventImage_SWIGUpcast(long var0);
 
-    public static final native long eal_IEventImageSave_SWIGUpcast(long l) {
-    }
+    public static final native long eal_IEventImageSave_SWIGUpcast(long var0);
 
-    public static final native long eal_IEventFontGroup_SWIGUpcast(long l) {
-    }
+    public static final native long eal_IEventFontGroup_SWIGUpcast(long var0);
 
-    public static final native long eal_CAbstractEventListener_SWIGUpcast(long l) {
-    }
+    public static final native long eal_CAbstractEventListener_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IAnimation_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IAnimation_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IAnimationClip_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IAnimationClip_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IAnimationPlayer_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IAnimationPlayer_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITimeLineSequence_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITimeLineSequence_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IContext_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IContext_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IManager_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IManager_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IProject_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IProject_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IImage_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IImage_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IMeshData_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IMeshData_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITexture_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITexture_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITextureShared_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITextureShared_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITextureAtlas_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITextureAtlas_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITextureOffscreen_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITextureOffscreen_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IMaterial_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IMaterial_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IProperty_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IProperty_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IRenderer_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IRenderer_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IRendererAnnotation_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IRendererAnnotation_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IINodeImage_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IINodeImage_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IINodeText_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IINodeText_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2D_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2D_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2DHud_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2DHud_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2DImage_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2DImage_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2DLink_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2DLink_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2DManaged_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2DManaged_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2DPartial_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2DPartial_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode2DText_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode2DText_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3D_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3D_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3DCamera_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3DCamera_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3DImage_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3DImage_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3DMesh_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3DMesh_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3DQuickDraw_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3DQuickDraw_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3DScene_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3DScene_SWIGUpcast(long var0);
 
-    public static final native long eal_api_INode3DText_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_INode3DText_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITemplateNode2D_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITemplateNode2D_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITemplateNode3D_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITemplateNode3D_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IFont_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IFont_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IFontGroupFontHandle_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IFontGroupFontHandle_SWIGUpcast(long var0);
 
-    public static final native long eal_api_IFontGroup_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_IFontGroup_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITextLayoutSection_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITextLayoutSection_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITextLayout_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITextLayout_SWIGUpcast(long var0);
 
-    public static final native long eal_api_ITextLayoutResult_SWIGUpcast(long l) {
-    }
+    public static final native long eal_api_ITextLayoutResult_SWIGUpcast(long var0);
 
     public static void eal_SwigDirector_eal_IInputListener_mouseEvent(IInputListener iInputListener, int n, int n2, int n3) {
         iInputListener.mouseEvent(ealMouseState_t.swigToEnum(n), n2, n3);
@@ -3727,21 +2521,20 @@ public class ealswigJNI {
     }
 
     public static void eal_utility_SwigDirector_eal_utility_IImageStorageListener_process(IImageStorageListener iImageStorageListener, int n, long l) {
-        iImageStorageListener.process(IImageStorageListener$enType_t.swigToEnum(n), l);
+        iImageStorageListener.process(IImageStorageListener.enType_t.swigToEnum(n), l);
     }
 
-    private static final native void swig_module_init() {
-    }
+    private static final native void swig_module_init();
 
     static {
         try {
             Version.setJava(true);
-            Version.registerBinding(637927680);
+            Version.registerBinding(67110);
             Version.print();
             if (!Version.isValid()) {
                 int n = Version.getVersion();
-                int n2 = 637927680;
-                System.err.println(new StringBuffer().append("EAL - Version mismatch: ").append(Version.verToString()).append("(").append(n).append(") != ").append(Version.verToString(n2)).append("(").append(n2).append(")").toString());
+                int n2 = 67110;
+                System.err.println("EAL - Version mismatch: " + Version.verToString() + "(" + n + ") != " + Version.verToString(n2) + "(" + n2 + ")");
                 System.exit(1);
             }
         }

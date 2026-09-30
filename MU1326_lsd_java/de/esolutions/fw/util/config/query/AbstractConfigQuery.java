@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.query;
 
@@ -11,11 +8,8 @@ import de.esolutions.fw.util.config.query.IConfigQuery;
 
 public abstract class AbstractConfigQuery
 implements IConfigQuery {
-    @Override
-    public abstract ConfigValue getValue(String string) {
-    }
+    public abstract ConfigValue getValue(String var1);
 
-    @Override
     public String getStringValue(String string) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -27,7 +21,6 @@ implements IConfigQuery {
         return null;
     }
 
-    @Override
     public String getStringValue(String string, String string2) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -39,7 +32,6 @@ implements IConfigQuery {
         return string2;
     }
 
-    @Override
     public Integer getIntegerValue(String string) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -51,7 +43,6 @@ implements IConfigQuery {
         return null;
     }
 
-    @Override
     public int getIntegerValue(String string, int n) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -63,7 +54,6 @@ implements IConfigQuery {
         return n;
     }
 
-    @Override
     public Boolean getBooleanValue(String string) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -75,7 +65,6 @@ implements IConfigQuery {
         return null;
     }
 
-    @Override
     public boolean getBooleanValue(String string, boolean bl) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -87,7 +76,6 @@ implements IConfigQuery {
         return bl;
     }
 
-    @Override
     public Double getDoubleValue(String string) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -99,7 +87,6 @@ implements IConfigQuery {
         return null;
     }
 
-    @Override
     public double getDoubleValue(String string, double d2) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -111,7 +98,6 @@ implements IConfigQuery {
         return d2;
     }
 
-    @Override
     public ConfigValue getArray(String string) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {
@@ -123,7 +109,6 @@ implements IConfigQuery {
         return null;
     }
 
-    @Override
     public ConfigValue getDictionary(String string) {
         ConfigValue configValue = this.getValue(string);
         if (configValue == null) {

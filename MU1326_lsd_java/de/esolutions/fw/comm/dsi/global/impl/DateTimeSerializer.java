@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 
 public class DateTimeSerializer {
-    public static void putOptionalDateTime(ISerializer iSerializer, DateTime dateTime) {
+    public static void putOptionalDateTime(ISerializer iSerializer, DateTime dateTime) throws SerializerException {
         boolean bl = dateTime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class DateTimeSerializer {
         }
     }
 
-    public static void putOptionalDateTimeVarArray(ISerializer iSerializer, DateTime[] dateTimeArray) {
+    public static void putOptionalDateTimeVarArray(ISerializer iSerializer, DateTime[] dateTimeArray) throws SerializerException {
         boolean bl = dateTimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class DateTimeSerializer {
         }
     }
 
-    public static DateTime getOptionalDateTime(IDeserializer iDeserializer) {
+    public static DateTime getOptionalDateTime(IDeserializer iDeserializer) throws SerializerException {
         DateTime dateTime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class DateTimeSerializer {
         return dateTime;
     }
 
-    public static DateTime[] getOptionalDateTimeVarArray(IDeserializer iDeserializer) {
+    public static DateTime[] getOptionalDateTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         DateTime[] dateTimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

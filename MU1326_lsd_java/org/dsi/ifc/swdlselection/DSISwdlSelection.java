@@ -7,203 +7,176 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSISwdlSelection
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_LAMECLIENTS;
-    public static final int ATTR_ENGINEERING;
-    public static final int ATTR_USERSWDL;
-    public static final int ATTR_RINGNOTOK;
-    public static final int ATTR_ENDDOWNLOAD;
-    public static final int ATTR_AVAILABLEMEDIA;
-    public static final int ATTR_UNITTYPE;
-    public static final int RELEASERESULT_NOT_INITIALIZED;
-    public static final int RELEASERESULT_OK;
-    public static final int RELEASERESULT_ERROR_OPEN;
-    public static final int RELEASERESULT_ERROR_READ;
-    public static final int RELEASERESULT_ERROR_PARSE;
-    public static final int RELEASERESULT_ERROR_SIGNATURE;
-    public static final int RELEASERESULT_ERROR_CRC;
-    public static final int RELEASERESULT_ERROR_NO_RELEASES;
-    public static final int RELEASERESULT_ERROR_MEDIUM_UNAVAILABLE;
-    public static final int RELEASERESULT_ERROR_VARIANT;
-    public static final int RELEASERESULT_ERROR_REGION;
-    public static final int RELEASERESULT_ERROR_MEMORY;
-    public static final int RELEASERESULT_ERROR_DOWNLOAD_ACTIVE;
-    public static final int RELEASERESULT_ERROR_NO_RSE_SWDL;
-    public static final int RELEASERESULT_ERROR_MOUNT_ERROR_CIFS_DOMAIN_USER;
-    public static final int RELEASERESULT_ERROR_PARSING_MU_FILE;
-    public static final int RELEASERESULT_ERROR_AUTORUN_ACTIVE;
-    public static final int RELEASERESULT_ERROR_TEST_ACTIVE;
-    public static final int RELEASERESULT_ERROR_BLOCKED_TRAIN;
-    public static final int METAINFORESULT_NOT_INITIALIZED;
-    public static final int METAINFORESULT_OK;
-    public static final int METAINFORESULT_ERROR_OPEN_METAINFO;
-    public static final int METAINFORESULT_ERROR_READ;
-    public static final int METAINFORESULT_ERROR_PARSE;
-    public static final int METAINFORESULT_ERROR_SIGNATURE;
-    public static final int METAINFORESULT_ERROR_CRC;
-    public static final int METAINFORESULT_ERROR_REGION;
-    public static final int METAINFORESULT_ERROR_MEDIUM_UNAVAILABLE;
-    public static final int METAINFORESULT_ERROR_VARIANT;
-    public static final int METAINFORESULT_ERROR_CRC_CHANGED;
-    public static final int METAINFORESULT_ERROR_DOWNLOAD_ACTIVE;
-    public static final int METAINFORESULT_ERROR_WAIT_FOR_RSU_VERSIONS_EXPIRED;
-    public static final int METAINFORESULT_ERRORR_WRONG_MU_RING_TYPE;
-    public static final int METAINFORESULT_ERROR_BLOCKED_TRAIN;
-    public static final int MEDIUM_NOT_INITIALIZED;
-    public static final int MEDIUM_NFS;
-    public static final int MEDIUM_INTERNAL_DRIVE;
-    public static final int MEDIUM_USB_FS;
-    public static final int MEDIUM_SD_1;
-    public static final int MEDIUM_SD_2;
-    public static final int MEDIUM_CIFS;
-    public static final int MEDIUM_OTA;
-    public static final int MEDIUM_FS;
-    public static final int CONSISTENCY_NOT_INITIALIZED;
-    public static final int CONSISTENCY_OK;
-    public static final int CONSISTENCY_IMAGE_LAYOUT;
-    public static final int CONSISTENCY_APP_DEAD;
-    public static final int CONSISTENCY_EMERGENCY_DEAD;
-    public static final int CONSISTENCY_IOC_BOLO;
-    public static final int CONSISTENCY_USER_SWDL_RUNNING;
-    public static final int CONSISTENCY_WINZIP_CORRUPTED;
-    public static final int CONSISTENCY_NOT_AUTHENTICATED;
-    public static final int CONSISTENCY_INSUFFICIENT_SPACE;
-    public static final int CONSISTENCY_RSU_UPDATE_RUNNING;
-    public static final int CONSISTENCY_RSU_IMAGE_LAYOUT;
-    public static final int CONSISTENCY_RSU_APP_DEAD;
-    public static final int CONSISTENCY_RSU_EMERGENCY_DEAD;
-    public static final int CONSISTENCY_METAINFO;
-    public static final int FINALIZETARGETRESULT_TARGET_INITIALIZED;
-    public static final int FINALIZETARGETRESULT_TARGET_OK;
-    public static final int FINALIZETARGETRESULT_TARGET_ERROR_SIZE;
-    public static final int FINALIZETARGETRESULT_TARGET_ERROR_MOUNT_PATH;
-    public static final int FINALIZETARGETRESULT_TARGET_ERROR_GENERAL;
-    public static final int UNITTYPES_NOT_INITIALIZED;
-    public static final int UNITTYPES_MAINUNIT;
-    public static final int UNITTYPES_REARSEATUNIT;
-    public static final int RT_SETUSERSWDL;
-    public static final int RT_SETGOTFOCUS;
-    public static final int RT_GETMEDIA;
-    public static final int RT_STORENFSIPADDRESS;
-    public static final int RT_STORENFSPATH;
-    public static final int RT_SETMEDIUM;
-    public static final int RT_SETRELEASE;
-    public static final int RT_GETUSERDEFINEDALLOWED;
-    public static final int RT_SETINSTALLATIONTYPE;
-    public static final int RT_SETTARGETLANGUAGE;
-    public static final int RT_GETINCOMPATIBLEDEVICES;
-    public static final int RT_STARTDOWNLOAD;
-    public static final int RT_CREATECRITICALUNLOCK;
-    public static final int RT_ABORTVERSIONUPLOAD;
-    public static final int RT_ENDVERSIONUPLOAD;
-    public static final int RT_STORECIFSSERVER;
-    public static final int RT_STORECIFSPATH;
-    public static final int RT_STORECIFSUSER;
-    public static final int RT_STORECIFSPASSWORD;
-    public static final int RT_STOREFSPATH;
-    public static final int RT_CHECKCONSISTENCY;
-    public static final int RT_ABORTSETMEDIUM;
-    public static final int RT_ABORTSETRELEASE;
-    public static final int RT_GETFINALIZETARGETS;
-    public static final int RT_SETFINALIZETARGET;
-    public static final int RT_STARTVERSIONUPLOAD;
-    public static final int RT_ENTERCOMPONENTUPDATECONFIRMATION;
-    public static final int RP_GETMEDIA;
-    public static final int RP_STORENFSIPADDRESS;
-    public static final int RP_SETMEDIUM;
-    public static final int RP_SETRELEASE;
-    public static final int RP_GETUSERDEFINEDALLOWED;
-    public static final int RP_SETTARGETLANGUAGE;
-    public static final int RP_GETINCOMPATIBLEDEVICES;
-    public static final int RP_STARTVERSIONUPLOAD;
-    public static final int RP_CHECKCONSISTENCY;
-    public static final int RP_ABORTSETMEDIUM;
-    public static final int RP_ABORTSETRELEASE;
-    public static final int RP_GETFINALIZETARGETS;
-    public static final int RP_SETFINALIZETARGET;
-    public static final int RP_STOREFSPATH;
-    public static final int RP_STORENFSPATH;
-    public static final int RP_ENTERCOMPONENTUPDATECONFIRMATION;
+    public static final String VERSION = "2.11.12";
+    public static final int ATTR_LAMECLIENTS = 1;
+    public static final int ATTR_ENGINEERING = 2;
+    public static final int ATTR_USERSWDL = 3;
+    public static final int ATTR_RINGNOTOK = 4;
+    public static final int ATTR_ENDDOWNLOAD = 5;
+    public static final int ATTR_AVAILABLEMEDIA = 6;
+    public static final int ATTR_UNITTYPE = 7;
+    public static final int RELEASERESULT_NOT_INITIALIZED = 0;
+    public static final int RELEASERESULT_OK = 1;
+    public static final int RELEASERESULT_ERROR_OPEN = 2;
+    public static final int RELEASERESULT_ERROR_READ = 3;
+    public static final int RELEASERESULT_ERROR_PARSE = 4;
+    public static final int RELEASERESULT_ERROR_SIGNATURE = 5;
+    public static final int RELEASERESULT_ERROR_CRC = 6;
+    public static final int RELEASERESULT_ERROR_NO_RELEASES = 7;
+    public static final int RELEASERESULT_ERROR_MEDIUM_UNAVAILABLE = 8;
+    public static final int RELEASERESULT_ERROR_VARIANT = 9;
+    public static final int RELEASERESULT_ERROR_REGION = 10;
+    public static final int RELEASERESULT_ERROR_MEMORY = 11;
+    public static final int RELEASERESULT_ERROR_DOWNLOAD_ACTIVE = 12;
+    public static final int RELEASERESULT_ERROR_NO_RSE_SWDL = 13;
+    public static final int RELEASERESULT_ERROR_MOUNT_ERROR_CIFS_DOMAIN_USER = 14;
+    public static final int RELEASERESULT_ERROR_PARSING_MU_FILE = 15;
+    public static final int RELEASERESULT_ERROR_AUTORUN_ACTIVE = 16;
+    public static final int RELEASERESULT_ERROR_TEST_ACTIVE = 17;
+    public static final int RELEASERESULT_ERROR_BLOCKED_TRAIN = 18;
+    public static final int METAINFORESULT_NOT_INITIALIZED = 0;
+    public static final int METAINFORESULT_OK = 1;
+    public static final int METAINFORESULT_ERROR_OPEN_METAINFO = 2;
+    public static final int METAINFORESULT_ERROR_READ = 3;
+    public static final int METAINFORESULT_ERROR_PARSE = 4;
+    public static final int METAINFORESULT_ERROR_SIGNATURE = 5;
+    public static final int METAINFORESULT_ERROR_CRC = 6;
+    public static final int METAINFORESULT_ERROR_REGION = 7;
+    public static final int METAINFORESULT_ERROR_MEDIUM_UNAVAILABLE = 8;
+    public static final int METAINFORESULT_ERROR_VARIANT = 9;
+    public static final int METAINFORESULT_ERROR_CRC_CHANGED = 10;
+    public static final int METAINFORESULT_ERROR_DOWNLOAD_ACTIVE = 11;
+    public static final int METAINFORESULT_ERROR_WAIT_FOR_RSU_VERSIONS_EXPIRED = 12;
+    public static final int METAINFORESULT_ERRORR_WRONG_MU_RING_TYPE = 13;
+    public static final int METAINFORESULT_ERROR_BLOCKED_TRAIN = 14;
+    public static final int MEDIUM_NOT_INITIALIZED = 0;
+    public static final int MEDIUM_NFS = 1;
+    public static final int MEDIUM_INTERNAL_DRIVE = 2;
+    public static final int MEDIUM_USB_FS = 3;
+    public static final int MEDIUM_SD_1 = 4;
+    public static final int MEDIUM_SD_2 = 5;
+    public static final int MEDIUM_CIFS = 6;
+    public static final int MEDIUM_OTA = 7;
+    public static final int MEDIUM_FS = 8;
+    public static final int CONSISTENCY_NOT_INITIALIZED = 0;
+    public static final int CONSISTENCY_OK = 1;
+    public static final int CONSISTENCY_IMAGE_LAYOUT = 2;
+    public static final int CONSISTENCY_APP_DEAD = 4;
+    public static final int CONSISTENCY_EMERGENCY_DEAD = 8;
+    public static final int CONSISTENCY_IOC_BOLO = 16;
+    public static final int CONSISTENCY_USER_SWDL_RUNNING = 32;
+    public static final int CONSISTENCY_WINZIP_CORRUPTED = 64;
+    public static final int CONSISTENCY_NOT_AUTHENTICATED = 128;
+    public static final int CONSISTENCY_INSUFFICIENT_SPACE = 256;
+    public static final int CONSISTENCY_RSU_UPDATE_RUNNING = 512;
+    public static final int CONSISTENCY_RSU_IMAGE_LAYOUT = 1024;
+    public static final int CONSISTENCY_RSU_APP_DEAD = 2048;
+    public static final int CONSISTENCY_RSU_EMERGENCY_DEAD = 4096;
+    public static final int CONSISTENCY_METAINFO = 8192;
+    public static final int FINALIZETARGETRESULT_TARGET_INITIALIZED = 0;
+    public static final int FINALIZETARGETRESULT_TARGET_OK = 1;
+    public static final int FINALIZETARGETRESULT_TARGET_ERROR_SIZE = 2;
+    public static final int FINALIZETARGETRESULT_TARGET_ERROR_MOUNT_PATH = 4;
+    public static final int FINALIZETARGETRESULT_TARGET_ERROR_GENERAL = 3;
+    public static final int UNITTYPES_NOT_INITIALIZED = 0;
+    public static final int UNITTYPES_MAINUNIT = 1;
+    public static final int UNITTYPES_REARSEATUNIT = 2;
+    public static final int RT_SETUSERSWDL = 1000;
+    public static final int RT_SETGOTFOCUS = 1001;
+    public static final int RT_GETMEDIA = 1002;
+    public static final int RT_STORENFSIPADDRESS = 1003;
+    public static final int RT_STORENFSPATH = 1004;
+    public static final int RT_SETMEDIUM = 1005;
+    public static final int RT_SETRELEASE = 1006;
+    public static final int RT_GETUSERDEFINEDALLOWED = 1007;
+    public static final int RT_SETINSTALLATIONTYPE = 1008;
+    public static final int RT_SETTARGETLANGUAGE = 1009;
+    public static final int RT_GETINCOMPATIBLEDEVICES = 1010;
+    public static final int RT_STARTDOWNLOAD = 1012;
+    public static final int RT_CREATECRITICALUNLOCK = 1013;
+    public static final int RT_ABORTVERSIONUPLOAD = 1014;
+    public static final int RT_ENDVERSIONUPLOAD = 1015;
+    public static final int RT_STORECIFSSERVER = 1016;
+    public static final int RT_STORECIFSPATH = 1017;
+    public static final int RT_STORECIFSUSER = 1018;
+    public static final int RT_STORECIFSPASSWORD = 1019;
+    public static final int RT_STOREFSPATH = 1021;
+    public static final int RT_CHECKCONSISTENCY = 1026;
+    public static final int RT_ABORTSETMEDIUM = 1028;
+    public static final int RT_ABORTSETRELEASE = 1029;
+    public static final int RT_GETFINALIZETARGETS = 1030;
+    public static final int RT_SETFINALIZETARGET = 1031;
+    public static final int RT_STARTVERSIONUPLOAD = 1032;
+    public static final int RT_ENTERCOMPONENTUPDATECONFIRMATION = 1033;
+    public static final int RP_GETMEDIA = 2000;
+    public static final int RP_STORENFSIPADDRESS = 2001;
+    public static final int RP_SETMEDIUM = 2002;
+    public static final int RP_SETRELEASE = 2003;
+    public static final int RP_GETUSERDEFINEDALLOWED = 2004;
+    public static final int RP_SETTARGETLANGUAGE = 2005;
+    public static final int RP_GETINCOMPATIBLEDEVICES = 2006;
+    public static final int RP_STARTVERSIONUPLOAD = 2008;
+    public static final int RP_CHECKCONSISTENCY = 2014;
+    public static final int RP_ABORTSETMEDIUM = 2015;
+    public static final int RP_ABORTSETRELEASE = 2016;
+    public static final int RP_GETFINALIZETARGETS = 2017;
+    public static final int RP_SETFINALIZETARGET = 2018;
+    public static final int RP_STOREFSPATH = 2019;
+    public static final int RP_STORENFSPATH = 2020;
+    public static final int RP_ENTERCOMPONENTUPDATECONFIRMATION = 2021;
 
-    default public void setUserSwdl(boolean bl) {
-    }
+    public void setUserSwdl(boolean var1);
 
-    default public void setGotFocus(boolean bl) {
-    }
+    public void setGotFocus(boolean var1);
 
-    default public void getMedia() {
-    }
+    public void getMedia();
 
-    default public void storeNfsIpAddress(String string) {
-    }
+    public void storeNfsIpAddress(String var1);
 
-    default public void storeNfsPath(String string) {
-    }
+    public void storeNfsPath(String var1);
 
-    default public void setMedium(int n) {
-    }
+    public void setMedium(int var1);
 
-    default public void setRelease(long l) {
-    }
+    public void setRelease(long var1);
 
-    default public void getUserDefinedAllowed() {
-    }
+    public void getUserDefinedAllowed();
 
-    default public void setInstallationType(boolean bl) {
-    }
+    public void setInstallationType(boolean var1);
 
-    default public void setTargetLanguage(short s) {
-    }
+    public void setTargetLanguage(short var1);
 
-    default public void getIncompatibleDevices() {
-    }
+    public void getIncompatibleDevices();
 
-    default public void startDownload() {
-    }
+    public void startDownload();
 
-    default public void createCriticalUnlock() {
-    }
+    public void createCriticalUnlock();
 
-    default public void startVersionUpload() {
-    }
+    public void startVersionUpload();
 
-    default public void abortVersionUpload() {
-    }
+    public void abortVersionUpload();
 
-    default public void endVersionUpload() {
-    }
+    public void endVersionUpload();
 
-    default public void storeCifsServer(String string) {
-    }
+    public void storeCifsServer(String var1);
 
-    default public void storeCifsPath(String string) {
-    }
+    public void storeCifsPath(String var1);
 
-    default public void storeCifsUser(String string) {
-    }
+    public void storeCifsUser(String var1);
 
-    default public void storeCifsPassword(String string) {
-    }
+    public void storeCifsPassword(String var1);
 
-    default public void storeFsPath(String string) {
-    }
+    public void storeFsPath(String var1);
 
-    default public void checkConsistency() {
-    }
+    public void checkConsistency();
 
-    default public void abortSetMedium() {
-    }
+    public void abortSetMedium();
 
-    default public void abortSetRelease() {
-    }
+    public void abortSetRelease();
 
-    default public void getFinalizeTargets() {
-    }
+    public void getFinalizeTargets();
 
-    default public void setFinalizeTarget(int n) {
-    }
+    public void setFinalizeTarget(int var1);
 
-    default public void enterComponentUpdateConfirmation(boolean bl) {
-    }
+    public void enterComponentUpdateConfirmation(boolean var1);
 }
 

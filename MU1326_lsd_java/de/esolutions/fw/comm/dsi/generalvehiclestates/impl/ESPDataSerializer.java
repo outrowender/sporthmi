@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.generalvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.generalvehiclestates.ESPData;
 
 public class ESPDataSerializer {
-    public static void putOptionalESPData(ISerializer iSerializer, ESPData eSPData) {
+    public static void putOptionalESPData(ISerializer iSerializer, ESPData eSPData) throws SerializerException {
         boolean bl = eSPData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ESPDataSerializer {
         }
     }
 
-    public static void putOptionalESPDataVarArray(ISerializer iSerializer, ESPData[] eSPDataArray) {
+    public static void putOptionalESPDataVarArray(ISerializer iSerializer, ESPData[] eSPDataArray) throws SerializerException {
         boolean bl = eSPDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ESPDataSerializer {
         }
     }
 
-    public static ESPData getOptionalESPData(IDeserializer iDeserializer) {
+    public static ESPData getOptionalESPData(IDeserializer iDeserializer) throws SerializerException {
         ESPData eSPData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ESPDataSerializer {
         return eSPData;
     }
 
-    public static ESPData[] getOptionalESPDataVarArray(IDeserializer iDeserializer) {
+    public static ESPData[] getOptionalESPDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         ESPData[] eSPDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

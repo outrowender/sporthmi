@@ -10,19 +10,19 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CallDurationSync_Status
 implements StatusProperty {
     public int timeStampCall0;
-    private static final int TIME_STAMP_CALL0_BITSIZE;
+    private static final int TIME_STAMP_CALL0_BITSIZE = 16;
     public int timeStampCall1;
-    private static final int TIME_STAMP_CALL1_BITSIZE;
+    private static final int TIME_STAMP_CALL1_BITSIZE = 16;
     public int timeStampCall2;
-    private static final int TIME_STAMP_CALL2_BITSIZE;
+    private static final int TIME_STAMP_CALL2_BITSIZE = 16;
     public int timeStampCall3;
-    private static final int TIME_STAMP_CALL3_BITSIZE;
+    private static final int TIME_STAMP_CALL3_BITSIZE = 16;
     public int timeStampCall4;
-    private static final int TIME_STAMP_CALL4_BITSIZE;
+    private static final int TIME_STAMP_CALL4_BITSIZE = 16;
     public int timeStampCall5;
-    private static final int TIME_STAMP_CALL5_BITSIZE;
+    private static final int TIME_STAMP_CALL5_BITSIZE = 16;
     public int timeStampCall6;
-    private static final int TIME_STAMP_CALL6_BITSIZE;
+    private static final int TIME_STAMP_CALL6_BITSIZE = 16;
 
     public CallDurationSync_Status() {
         this.internalReset();
@@ -44,12 +44,10 @@ implements StatusProperty {
         this.timeStampCall6 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CallDurationSync_Status callDurationSync_Status = (CallDurationSync_Status)bAPEntity;
         return this.timeStampCall0 == callDurationSync_Status.timeStampCall0 && this.timeStampCall1 == callDurationSync_Status.timeStampCall1 && this.timeStampCall2 == callDurationSync_Status.timeStampCall2 && this.timeStampCall3 == callDurationSync_Status.timeStampCall3 && this.timeStampCall4 == callDurationSync_Status.timeStampCall4 && this.timeStampCall5 == callDurationSync_Status.timeStampCall5 && this.timeStampCall6 == callDurationSync_Status.timeStampCall6;
@@ -58,7 +56,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CallDurationSync_Status:");
@@ -79,7 +76,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
@@ -91,7 +87,6 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.timeStampCall0);
         bitStream.pushShort((short)this.timeStampCall1);
@@ -102,7 +97,6 @@ implements StatusProperty {
         bitStream.pushShort((short)this.timeStampCall6);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.timeStampCall0 = bitStream.popFrontShort();
         this.timeStampCall1 = bitStream.popFrontShort();
@@ -117,7 +111,6 @@ implements StatusProperty {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return CallDurationSync_Status.functionId();
     }

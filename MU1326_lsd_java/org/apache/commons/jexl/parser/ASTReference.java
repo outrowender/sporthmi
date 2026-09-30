@@ -22,23 +22,19 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         return this.execute(null, jexlContext);
     }
 
-    @Override
     public void jjtClose() {
         this.root = (SimpleNode)this.jjtGetChild(0);
     }
 
-    @Override
-    public Object execute(Object object, JexlContext jexlContext) {
+    public Object execute(Object object, JexlContext jexlContext) throws Exception {
         Object object2 = this.root.value(jexlContext);
         for (int i2 = 1; i2 < this.jjtGetNumChildren(); ++i2) {
             object2 = ((SimpleNode)this.jjtGetChild(i2)).execute(object2, jexlContext);
@@ -61,14 +57,14 @@ extends SimpleNode {
         return stringBuffer.toString();
     }
 
-    public String getRootString() {
+    public String getRootString() throws Exception {
         if (this.root instanceof ASTIdentifier) {
             return ((ASTIdentifier)this.root).getIdentifierString();
         }
         if (this.root instanceof ASTArrayAccess) {
             return ((ASTArrayAccess)this.root).getIdentifierString();
         }
-        throw new Exception(new StringBuffer().append("programmer error : ASTReference : root not known").append(this.root).toString());
+        throw new Exception("programmer error : ASTReference : root not known" + this.root);
     }
 }
 

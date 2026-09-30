@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMediaRouter;
 import de.esolutions.fw.comm.dsi.media.DSIMediaRouterC;
 import de.esolutions.fw.comm.dsi.media.DSIMediaRouterReply;
-import de.esolutions.fw.comm.dsi.media.impl.DSIMediaRouterProxy$1;
+import de.esolutions.fw.comm.dsi.media.impl.AudioRouteSerializer;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMediaRouterReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.AudioRoute;
@@ -32,8 +34,7 @@ DSIMediaRouterC {
         return this.proxy;
     }
 
-    @Override
-    public void registerClient(int n, String string, String string2) {
+    public void registerClient(int n, String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -46,8 +47,7 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void unregisterClient(int n) {
+    public void unregisterClient(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -58,8 +58,7 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void startStreaming(int n) {
+    public void startStreaming(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -70,8 +69,7 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void stopStreaming(int n) {
+    public void stopStreaming(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -82,8 +80,7 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void requestConfiguration(int n, int n2, int n3, int n4) {
+    public void requestConfiguration(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -97,14 +94,17 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setAudioRoutes(AudioRoute[] audioRouteArray) {
-        DSIMediaRouterProxy$1 dSIMediaRouterProxy$1 = new DSIMediaRouterProxy$1(this, audioRouteArray);
-        this.proxy.remoteCallMethod((short)8, dSIMediaRouterProxy$1);
+    public void setAudioRoutes(final AudioRoute[] audioRouteArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AudioRouteSerializer.putOptionalAudioRouteVarArray(iSerializer, audioRouteArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -115,8 +115,7 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -127,13 +126,11 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -144,8 +141,7 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -156,13 +152,11 @@ DSIMediaRouterC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

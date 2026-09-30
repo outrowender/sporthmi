@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.radio.EPGShortProgramInfo;
 
 public class EPGShortProgramInfoSerializer {
-    public static void putOptionalEPGShortProgramInfo(ISerializer iSerializer, EPGShortProgramInfo ePGShortProgramInfo) {
+    public static void putOptionalEPGShortProgramInfo(ISerializer iSerializer, EPGShortProgramInfo ePGShortProgramInfo) throws SerializerException {
         boolean bl = ePGShortProgramInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class EPGShortProgramInfoSerializer {
         }
     }
 
-    public static void putOptionalEPGShortProgramInfoVarArray(ISerializer iSerializer, EPGShortProgramInfo[] ePGShortProgramInfoArray) {
+    public static void putOptionalEPGShortProgramInfoVarArray(ISerializer iSerializer, EPGShortProgramInfo[] ePGShortProgramInfoArray) throws SerializerException {
         boolean bl = ePGShortProgramInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class EPGShortProgramInfoSerializer {
         }
     }
 
-    public static EPGShortProgramInfo getOptionalEPGShortProgramInfo(IDeserializer iDeserializer) {
+    public static EPGShortProgramInfo getOptionalEPGShortProgramInfo(IDeserializer iDeserializer) throws SerializerException {
         EPGShortProgramInfo ePGShortProgramInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class EPGShortProgramInfoSerializer {
         return ePGShortProgramInfo;
     }
 
-    public static EPGShortProgramInfo[] getOptionalEPGShortProgramInfoVarArray(IDeserializer iDeserializer) {
+    public static EPGShortProgramInfo[] getOptionalEPGShortProgramInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EPGShortProgramInfo[] ePGShortProgramInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

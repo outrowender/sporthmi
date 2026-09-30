@@ -10,13 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserBookmark;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserBookmarkC;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserBookmarkReply;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkProxy$1;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkProxy$2;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkProxy$3;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkProxy$4;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkProxy$5;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkProxy$6;
+import de.esolutions.fw.comm.dsi.browser.impl.BookmarkSerializer;
 import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkReplyService;
+import de.esolutions.fw.comm.dsi.browser.impl.PathInfoSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.Bookmark;
@@ -38,8 +36,7 @@ DSIBrowserBookmarkC {
         return this.proxy;
     }
 
-    @Override
-    public void listBookmarks(String string) {
+    public void listBookmarks(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -50,32 +47,48 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void addBookmark(Bookmark bookmark) {
-        DSIBrowserBookmarkProxy$1 dSIBrowserBookmarkProxy$1 = new DSIBrowserBookmarkProxy$1(this, bookmark);
-        this.proxy.remoteCallMethod((short)0, dSIBrowserBookmarkProxy$1);
+    public void addBookmark(final Bookmark bookmark) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BookmarkSerializer.putOptionalBookmark(iSerializer, bookmark);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void editBookmark(Bookmark bookmark, Bookmark bookmark2) {
-        DSIBrowserBookmarkProxy$2 dSIBrowserBookmarkProxy$2 = new DSIBrowserBookmarkProxy$2(this, bookmark, bookmark2);
-        this.proxy.remoteCallMethod((short)13, dSIBrowserBookmarkProxy$2);
+    public void editBookmark(final Bookmark bookmark, final Bookmark bookmark2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BookmarkSerializer.putOptionalBookmark(iSerializer, bookmark);
+                BookmarkSerializer.putOptionalBookmark(iSerializer, bookmark2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void deleteBookmark(Bookmark bookmark) {
-        DSIBrowserBookmarkProxy$3 dSIBrowserBookmarkProxy$3 = new DSIBrowserBookmarkProxy$3(this, bookmark);
-        this.proxy.remoteCallMethod((short)9, dSIBrowserBookmarkProxy$3);
+    public void deleteBookmark(final Bookmark bookmark) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BookmarkSerializer.putOptionalBookmark(iSerializer, bookmark);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void createFolder(Bookmark bookmark) {
-        DSIBrowserBookmarkProxy$4 dSIBrowserBookmarkProxy$4 = new DSIBrowserBookmarkProxy$4(this, bookmark);
-        this.proxy.remoteCallMethod((short)7, dSIBrowserBookmarkProxy$4);
+    public void createFolder(final Bookmark bookmark) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BookmarkSerializer.putOptionalBookmark(iSerializer, bookmark);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void deleteFolder(String string) {
+    public void deleteFolder(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -86,8 +99,7 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void renameFolder(String string, String string2) {
+    public void renameFolder(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -99,25 +111,33 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void exportBookmarks(PathInfo pathInfo) {
-        DSIBrowserBookmarkProxy$5 dSIBrowserBookmarkProxy$5 = new DSIBrowserBookmarkProxy$5(this, pathInfo);
-        this.proxy.remoteCallMethod((short)15, dSIBrowserBookmarkProxy$5);
+    public void exportBookmarks(final PathInfo pathInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PathInfoSerializer.putOptionalPathInfo(iSerializer, pathInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void importBookmarks(PathInfo pathInfo, boolean bl, boolean bl2) {
-        DSIBrowserBookmarkProxy$6 dSIBrowserBookmarkProxy$6 = new DSIBrowserBookmarkProxy$6(this, pathInfo, bl, bl2);
-        this.proxy.remoteCallMethod((short)19, dSIBrowserBookmarkProxy$6);
+    public void importBookmarks(final PathInfo pathInfo, final boolean bl, final boolean bl2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PathInfoSerializer.putOptionalPathInfo(iSerializer, pathInfo);
+                iSerializer.putBool(bl);
+                iSerializer.putBool(bl2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void getQuotaInformation() {
+    public void getQuotaInformation() throws MethodException {
         this.proxy.remoteCallMethod((short)17, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -128,8 +148,7 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -140,13 +159,11 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)25, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -157,8 +174,7 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -169,13 +185,11 @@ DSIBrowserBookmarkC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -7,7 +7,6 @@ import de.audi.atip.util.Util;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractDynamicSidebar$1;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractDynamicSidebarSegment;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.CompositeRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ListScrollingController;
@@ -23,7 +22,20 @@ extends LayoutContainerController {
     protected int xPosOpened = 660;
     protected ArrayList activeIndices = new ArrayList(7);
     protected List segments;
-    protected ListScrollingController listScrolling = new AbstractDynamicSidebar$1(this, 200, 7, 0, this.animationPeriod);
+    protected ListScrollingController listScrolling = new ListScrollingController(200, 7, 0, this.animationPeriod){
+
+        void positionElements(float f2) {
+            if (!AbstractDynamicSidebar.this.activeIndices.isEmpty()) {
+                AbstractDynamicSidebar.this.updateCursorPosition(f2);
+                float f3 = AbstractDynamicSidebar.this.calculateProgress(f2);
+                int n = AbstractDynamicSidebar.this.calculateHeightDifference(this.pDestLineCount);
+                AbstractDynamicSidebar.this.updateCursorHeight(AbstractDynamicSidebar.this.cursorHeightAtAnimationStart + Math.round(f3 * (float)n));
+            }
+        }
+
+        public void scrollingStopped() {
+        }
+    };
     protected FocusCursorController cursor;
     protected int cursorHeightAtAnimationStart = 0;
     protected int animationPeriod = 50;
@@ -43,7 +55,6 @@ extends LayoutContainerController {
         this.segments = new ArrayList(7);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof AbstractDynamicSidebarSegment) {
@@ -76,7 +87,7 @@ extends LayoutContainerController {
         this.activeIndices.clear();
         for (n2 = this.segments.size() - 1; n2 >= 0; --n2) {
             AbstractDynamicSidebarSegment abstractDynamicSidebarSegment = this.getSegment(n2);
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#calculateReverseCursorPositions %2-th segment visible: %1", (Object)abstractDynamicSidebarSegment.isVisible(), (long)n2);
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#calculateReverseCursorPositions %2-th segment visible: %1", (Object)abstractDynamicSidebarSegment.isVisible(), (long)n2);
             if (!abstractDynamicSidebarSegment.isVisible()) continue;
             if (abstractDynamicSidebarSegment.isFocusable()) {
                 arrayList.remove(n2);
@@ -88,19 +99,19 @@ extends LayoutContainerController {
             n3 += abstractDynamicSidebarSegment.getPreferredHeight();
         }
         for (n = 0; n < arrayList.size(); ++n) {
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#calculateCursorPositions %2-th height = %1", arrayList.get(n), (long)n);
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#calculateCursorPositions %2-th height = %1", arrayList.get(n), (long)n);
         }
         for (n = arrayList.size() - 1; n >= 0; --n) {
             if ((Integer)arrayList.get(n) != 0) continue;
             arrayList.remove(n);
         }
         this.cursorOffset = n3 + 1;
-        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#calculateCursorPositions cursorOffset = %1", (long)this.cursorOffset);
+        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#calculateCursorPositions cursorOffset = %1", (long)this.cursorOffset);
         int[] nArray = new int[arrayList.size()];
         n2 = 0;
         while (!arrayList.isEmpty()) {
             nArray[n2] = (Integer)arrayList.remove(0);
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#calculateCursorPositions %1-th pos = %2", (long)n2, (long)nArray[n2]);
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#calculateCursorPositions %1-th pos = %2", (long)n2, (long)nArray[n2]);
             ++n2;
         }
         return nArray;
@@ -115,11 +126,10 @@ extends LayoutContainerController {
         return blArray;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.listScrolling.connected(initializationContext);
-        this.listScrolling.setParamAnimationType1(8257, 63, 51266, 16448);
+        this.listScrolling.setParamAnimationType1(10.0f, 0.5f, 100.0f, 3.0f);
         this.listScrolling.setLineHeights(this.calculateReverseCursorPositions(), this.activeIndices.size());
         this.listScrolling.setOffset(this.cursorOffset);
         this.listScrolling.setCurrentPosition(0);
@@ -130,7 +140,6 @@ extends LayoutContainerController {
         this.setParentXCoordinate(this.isOpen());
     }
 
-    @Override
     public void disconnecting() {
         this.selectedSegmentIndex = this.getActiveSegment();
         super.disconnecting();
@@ -179,7 +188,7 @@ extends LayoutContainerController {
         if (!this.invalidFocus) {
             int n3;
             int n4 = this.getActiveSegment();
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#segmentVisibilityChanged currentLine = %1, destLine = %2, focusedSegmentIndex = %3", (long)this.listScrolling.getCurrentLine(), (long)this.listScrolling.getDestinationLine(), (long)n4);
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#segmentVisibilityChanged currentLine = %1, destLine = %2, focusedSegmentIndex = %3", (long)this.listScrolling.getCurrentLine(), (long)this.listScrolling.getDestinationLine(), (long)n4);
             for (n3 = 0; n3 < n4; ++n3) {
                 if (!blArray[n3] || !this.getSegment(n3).isFocusable()) continue;
                 ++n2;
@@ -197,7 +206,7 @@ extends LayoutContainerController {
                     } else {
                         this.invalidFocus = true;
                         this.cursor.setOnScreen(false);
-                        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#segmentVisibilityChanged invalidFocus = %1", this.invalidFocus);
+                        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#segmentVisibilityChanged invalidFocus = %1", this.invalidFocus);
                     }
                 }
             }
@@ -209,10 +218,10 @@ extends LayoutContainerController {
                 n2 = 0;
                 this.invalidFocus = false;
                 this.cursor.setOnScreen(true);
-                sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#segmentVisibilityChanged invalidFocus = %1", this.invalidFocus);
+                sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#segmentVisibilityChanged invalidFocus = %1", this.invalidFocus);
             }
         }
-        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#segmentVisibilityChanged focusedLine = %1", (long)n2);
+        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#segmentVisibilityChanged focusedLine = %1", (long)n2);
         this.listScrolling.setLineHeights(this.calculateReverseCursorPositions(), this.activeIndices.size());
         this.listScrolling.setOffset(this.cursorOffset);
         this.listScrolling.resetPosition();
@@ -225,10 +234,10 @@ extends LayoutContainerController {
     }
 
     protected void setCursorPosition(int n) {
-        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#setCursorPosition focusedSegment = %1", (long)n);
+        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#setCursorPosition focusedSegment = %1", (long)n);
         boolean bl = this.setCursorPosition0(n);
         if (!bl) {
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#setCursorPosition Cursor position could not be applied.");
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#setCursorPosition Cursor position could not be applied.");
         }
     }
 
@@ -251,21 +260,21 @@ extends LayoutContainerController {
     }
 
     protected void sidebarClose() {
-        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#sidebarClose");
+        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#sidebarClose");
         this.setParentXCoordinate(false);
         this.shiftContent(-10);
         this.isOpened = false;
     }
 
     protected void sidebarOpen() {
-        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#sidebarOpen");
+        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#sidebarOpen");
         this.setParentXCoordinate(true);
         this.shiftContent(10);
         this.isOpened = true;
     }
 
     protected void shiftContent(int n) {
-        sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#shiftContent numPixels = %1", (long)n);
+        sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#shiftContent numPixels = %1", (long)n);
         int n2 = this.segments.size();
         for (int i2 = 0; i2 < n2; ++i2) {
             AbstractDynamicSidebarSegment abstractDynamicSidebarSegment = this.getSegment(i2);
@@ -288,16 +297,13 @@ extends LayoutContainerController {
         this.cursor.setCompositesDirty(true);
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void setParentXCoordinate(boolean bl) {
         AbstractWidget abstractWidget = this.getParent();
         if (abstractWidget instanceof LayoutContainerController) {
             CompositeRendererHigh compositeRendererHigh = (CompositeRendererHigh)((LayoutContainerController)abstractWidget).getRenderer();
-            compositeRendererHigh.setFloatingPointOffset(bl ? 43201 : (int)0.0f, 0.0f);
+            compositeRendererHigh.setFloatingPointOffset(bl ? -21.0f : 0.0f, 0.0f);
             abstractWidget.setCompositesDirty(true);
-            sideBarLogChannel.log(-2137614336, "AbstractDynamicSidebar#connected Set floating point offset on parent.");
+            sideBarLogChannel.log(10000000, "AbstractDynamicSidebar#connected Set floating point offset on parent.");
         }
     }
 }

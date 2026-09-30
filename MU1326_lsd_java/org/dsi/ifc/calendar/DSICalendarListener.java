@@ -10,37 +10,26 @@ import org.dsi.ifc.calendar.CalendarSummary;
 
 public interface DSICalendarListener
 extends DSIListener {
-    default public void getCalendarSummariesResult(int n, CalendarSummary[] calendarSummaryArray) {
-    }
+    public void getCalendarSummariesResult(int var1, CalendarSummary[] var2);
 
-    default public void getCalendarEntryResult(int n, CalendarEntry calendarEntry) {
-    }
+    public void getCalendarEntryResult(int var1, CalendarEntry var2);
 
-    default public void indicateAlarm(long l) {
-    }
+    public void indicateAlarm(long var1);
 
-    default public void setCalendarConfigResult(int n) {
-    }
+    public void setCalendarConfigResult(int var1);
 
-    default public void getCalendarConfigResult(int n, CalendarConfig calendarConfig) {
-    }
+    public void getCalendarConfigResult(int var1, CalendarConfig var2);
 
-    default public void setAlarmRepeatResult(int n) {
-    }
+    public void setAlarmRepeatResult(int var1);
 
-    default public void getAlarmRepeatResult(int n, long l) {
-    }
+    public void getAlarmRepeatResult(int var1, long var2);
 
-    default public void getEmailAddressesResult(int n, String[] stringArray) {
-    }
+    public void getEmailAddressesResult(int var1, String[] var2);
 
-    default public void getTelephoneNumbersResult(int n, String[] stringArray) {
-    }
+    public void getTelephoneNumbersResult(int var1, String[] var2);
 
-    default public void insertProfileResult(int n) {
-    }
+    public void insertProfileResult(int var1);
 
-    default public void deleteProfileResult(int n) {
-    }
+    public void deleteProfileResult(int var1);
 }
 

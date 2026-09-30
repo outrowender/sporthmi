@@ -3,19 +3,23 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sRoutineResponseSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sRoutineResponse;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2OocDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2OocDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2OocDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2OocDiagServiceProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2OocDiagServiceProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2OocDiagServiceProxy$3;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2OocDiagServiceReplyService;
+import de.esolutions.fw.comm.asi.diagnosis.ooc.impl.sTemperatureMMXSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.ooc.sTemperatureMMX;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2OocDiagServiceProxy
 implements MMX2OocDiagService,
@@ -33,22 +37,34 @@ MMX2OocDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorOoc(sClientResponseError sClientResponseError2) {
-        MMX2OocDiagServiceProxy$1 mMX2OocDiagServiceProxy$1 = new MMX2OocDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)8, mMX2OocDiagServiceProxy$1);
+    public void responseErrorOoc(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void responseTemperatureMMX(sTemperatureMMX sTemperatureMMX2) {
-        MMX2OocDiagServiceProxy$2 mMX2OocDiagServiceProxy$2 = new MMX2OocDiagServiceProxy$2(this, sTemperatureMMX2);
-        this.proxy.remoteCallMethod((short)2, mMX2OocDiagServiceProxy$2);
+    public void responseTemperatureMMX(final sTemperatureMMX sTemperatureMMX2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTemperatureMMXSerializer.putOptionalsTemperatureMMX(iSerializer, sTemperatureMMX2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void responseDeleteMemory(sRoutineResponse sRoutineResponse2) {
-        MMX2OocDiagServiceProxy$3 mMX2OocDiagServiceProxy$3 = new MMX2OocDiagServiceProxy$3(this, sRoutineResponse2);
-        this.proxy.remoteCallMethod((short)5, mMX2OocDiagServiceProxy$3);
+    public void responseDeleteMemory(final sRoutineResponse sRoutineResponse2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sRoutineResponseSerializer.putOptionalsRoutineResponse(iSerializer, sRoutineResponse2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 }
 

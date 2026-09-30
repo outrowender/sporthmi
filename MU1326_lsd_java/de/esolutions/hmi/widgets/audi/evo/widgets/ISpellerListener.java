@@ -4,29 +4,22 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerButtonArgument;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 
 public interface ISpellerListener {
-    public static final int FOCUS_LOST;
-    public static final int FOCUS_GET;
+    public static final int FOCUS_LOST = 0;
+    public static final int FOCUS_GET = 1;
 
-    default public void focusChanged(SpellerController$ISpellerItem spellerController$ISpellerItem, int n) {
-    }
+    public void focusChanged(SpellerController.ISpellerItem var1, int var2);
 
-    default public void buttonPressed(SpellerController.SpellerButtonType spellerButtonType, SpellerButtonArgument spellerButtonArgument) {
-    }
+    public void buttonPressed(SpellerController.SpellerButtonType var1, SpellerButtonArgument var2);
 
-    default public void buttonLongPressed(SpellerController.SpellerButtonType spellerButtonType) {
-    }
+    public void buttonLongPressed(SpellerController.SpellerButtonType var1);
 
-    default public void buttonReleased(SpellerController.SpellerButtonType spellerButtonType) {
-    }
+    public void buttonReleased(SpellerController.SpellerButtonType var1);
 
-    default public void characterPressed(String string, boolean bl, boolean bl2) {
-    }
+    public void characterPressed(String var1, boolean var2, boolean var3);
 
-    default public void focusedCharacterChanged(String string) {
-    }
+    public void focusedCharacterChanged(String var1);
 }
 

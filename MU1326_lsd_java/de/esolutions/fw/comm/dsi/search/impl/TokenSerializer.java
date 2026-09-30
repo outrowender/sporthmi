@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.search.impl;
 import de.esolutions.fw.comm.dsi.search.impl.HighlightSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.Highlight;
 import org.dsi.ifc.search.Token;
 
 public class TokenSerializer {
-    public static void putOptionalToken(ISerializer iSerializer, Token token) {
+    public static void putOptionalToken(ISerializer iSerializer, Token token) throws SerializerException {
         boolean bl = token == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class TokenSerializer {
         }
     }
 
-    public static void putOptionalTokenVarArray(ISerializer iSerializer, Token[] tokenArray) {
+    public static void putOptionalTokenVarArray(ISerializer iSerializer, Token[] tokenArray) throws SerializerException {
         boolean bl = tokenArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class TokenSerializer {
         }
     }
 
-    public static Token getOptionalToken(IDeserializer iDeserializer) {
+    public static Token getOptionalToken(IDeserializer iDeserializer) throws SerializerException {
         Token token = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class TokenSerializer {
         return token;
     }
 
-    public static Token[] getOptionalTokenVarArray(IDeserializer iDeserializer) {
+    public static Token[] getOptionalTokenVarArray(IDeserializer iDeserializer) throws SerializerException {
         Token[] tokenArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

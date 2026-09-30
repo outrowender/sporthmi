@@ -35,7 +35,6 @@ implements BufferUtil {
         this.byteOffset = n2;
     }
 
-    @Override
     public char get() {
         if (this.position() >= this.limit()) {
             throw new BufferUnderflowException();
@@ -53,7 +52,6 @@ implements BufferUtil {
         return c2;
     }
 
-    @Override
     public char get(int n) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -70,7 +68,6 @@ implements BufferUtil {
         return c2;
     }
 
-    @Override
     public boolean isDirect() {
         if (this.byteBuf != null) {
             return this.byteBuf.isDirect();
@@ -78,7 +75,6 @@ implements BufferUtil {
         return false;
     }
 
-    @Override
     public CharBuffer put(char c2) {
         if (this.position() >= this.limit()) {
             throw new BufferOverflowException();
@@ -95,7 +91,6 @@ implements BufferUtil {
         return this;
     }
 
-    @Override
     public CharBuffer put(int n, char c2) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -111,7 +106,6 @@ implements BufferUtil {
         return this;
     }
 
-    @Override
     public CharBuffer slice() {
         if (this.isDirect()) {
             return new CharBufferImpl(this.byteBuf, this.remaining(), this.byteOffset + this.position() * 2);
@@ -122,7 +116,6 @@ implements BufferUtil {
         return new CharBufferImpl(this.byteBuf, this.byteArray, this.remaining(), this.byteOffset + this.position() * 2);
     }
 
-    @Override
     public int getDirectPointer() {
         return this.isDirect() ? this.byteBuf.getDirectPointer(this.byteOffset + this.position() * 2) : 0;
     }
@@ -157,7 +150,6 @@ implements BufferUtil {
         this.position(this.position() + n2);
     }
 
-    @Override
     public CharSequence subSequence(int n, int n2) {
         if (n < 0 || n2 < n || n2 > this.remaining()) {
             throw new IndexOutOfBoundsException();
@@ -168,7 +160,6 @@ implements BufferUtil {
         return charBufferImpl;
     }
 
-    @Override
     public String toString() {
         if (this.isDirect()) {
             char[] cArray = new char[this.limit() - this.position()];
@@ -189,7 +180,6 @@ implements BufferUtil {
         return new String(cArray);
     }
 
-    @Override
     public ByteOrder order() {
         if (this.byteBuf != null) {
             return this.byteBuf.order();

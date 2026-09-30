@@ -10,10 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.messaging.DSIMessaging;
 import de.esolutions.fw.comm.dsi.messaging.DSIMessagingC;
 import de.esolutions.fw.comm.dsi.messaging.DSIMessagingReply;
-import de.esolutions.fw.comm.dsi.messaging.impl.DSIMessagingProxy$1;
-import de.esolutions.fw.comm.dsi.messaging.impl.DSIMessagingProxy$2;
-import de.esolutions.fw.comm.dsi.messaging.impl.DSIMessagingProxy$3;
+import de.esolutions.fw.comm.dsi.messaging.impl.AttachmentInformationSerializer;
 import de.esolutions.fw.comm.dsi.messaging.impl.DSIMessagingReplyService;
+import de.esolutions.fw.comm.dsi.messaging.impl.RecipientListSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.AttachmentInformation;
@@ -35,8 +36,7 @@ DSIMessagingC {
         return this.proxy;
     }
 
-    @Override
-    public void changeFolderRequest(int n, int n2, int n3, int n4, int n5) {
+    public void changeFolderRequest(int n, int n2, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -51,8 +51,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void listEntriesRequest(int n, int n2, int n3) {
+    public void listEntriesRequest(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -65,8 +64,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void getPositionOfMessageRequest(String string) {
+    public void getPositionOfMessageRequest(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -77,8 +75,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)65, genericSerializable);
     }
 
-    @Override
-    public void getPositionOfFolderRequest(int n) {
+    public void getPositionOfFolderRequest(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -89,8 +86,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void deleteMessageRequest(String[] stringArray, boolean bl) {
+    public void deleteMessageRequest(String[] stringArray, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalStringVarArray(stringArray);
@@ -102,14 +98,23 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)57, genericSerializable);
     }
 
-    @Override
-    public void sendMessageRequest(int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) {
-        DSIMessagingProxy$1 dSIMessagingProxy$1 = new DSIMessagingProxy$1(this, n, n2, recipientList, string, string2, attachmentInformationArray, n3);
-        this.proxy.remoteCallMethod((short)75, dSIMessagingProxy$1);
+    public void sendMessageRequest(final int n, final int n2, final RecipientList recipientList, final String string, final String string2, final AttachmentInformation[] attachmentInformationArray, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                RecipientListSerializer.putOptionalRecipientList(iSerializer, recipientList);
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+                AttachmentInformationSerializer.putOptionalAttachmentInformationVarArray(iSerializer, attachmentInformationArray);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)75, iSerializable);
     }
 
-    @Override
-    public void getMessageContentsRequest(int n, String string, int n2) {
+    public void getMessageContentsRequest(int n, String string, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -122,8 +127,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void setMessageReadStatusRequest(String string, boolean bl) {
+    public void setMessageReadStatusRequest(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -135,14 +139,23 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)77, genericSerializable);
     }
 
-    @Override
-    public void saveAsDraftRequest(String string, int n, RecipientList recipientList, String string2, String string3, int n2, AttachmentInformation[] attachmentInformationArray) {
-        DSIMessagingProxy$2 dSIMessagingProxy$2 = new DSIMessagingProxy$2(this, string, n, recipientList, string2, string3, n2, attachmentInformationArray);
-        this.proxy.remoteCallMethod((short)73, dSIMessagingProxy$2);
+    public void saveAsDraftRequest(final String string, final int n, final RecipientList recipientList, final String string2, final String string3, final int n2, final AttachmentInformation[] attachmentInformationArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n);
+                RecipientListSerializer.putOptionalRecipientList(iSerializer, recipientList);
+                iSerializer.putOptionalString(string2);
+                iSerializer.putOptionalString(string3);
+                iSerializer.putInt32(n2);
+                AttachmentInformationSerializer.putOptionalAttachmentInformationVarArray(iSerializer, attachmentInformationArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)73, iSerializable);
     }
 
-    @Override
-    public void extractInformationRequest(String string) {
+    public void extractInformationRequest(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -153,8 +166,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)60, genericSerializable);
     }
 
-    @Override
-    public void changeTemplateRequest(int n, String string) {
+    public void changeTemplateRequest(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -166,8 +178,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void getTemplateRequest(int n) {
+    public void getTemplateRequest(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -178,13 +189,11 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void getTemplatesRequest() {
+    public void getTemplatesRequest() throws MethodException {
         this.proxy.remoteCallMethod((short)20, null);
     }
 
-    @Override
-    public void deleteTemplateRequest(int[] nArray) {
+    public void deleteTemplateRequest(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -195,8 +204,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void deleteSimCardMessagesRequest(int n, int n2) {
+    public void deleteSimCardMessagesRequest(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -208,14 +216,17 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void decodeAttachmentRequest(AttachmentInformation attachmentInformation) {
-        DSIMessagingProxy$3 dSIMessagingProxy$3 = new DSIMessagingProxy$3(this, attachmentInformation);
-        this.proxy.remoteCallMethod((short)79, dSIMessagingProxy$3);
+    public void decodeAttachmentRequest(final AttachmentInformation attachmentInformation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AttachmentInformationSerializer.putOptionalAttachmentInformation(iSerializer, attachmentInformation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)79, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -226,8 +237,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -238,13 +248,11 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)32, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -255,8 +263,7 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -267,13 +274,11 @@ DSIMessagingC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

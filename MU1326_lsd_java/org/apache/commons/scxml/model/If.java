@@ -13,14 +13,16 @@ import org.apache.commons.scxml.ErrorReporter;
 import org.apache.commons.scxml.Evaluator;
 import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCInstance;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.model.Action;
 import org.apache.commons.scxml.model.Else;
 import org.apache.commons.scxml.model.ElseIf;
+import org.apache.commons.scxml.model.ModelException;
 import org.apache.commons.scxml.model.TransitionTarget;
 
 public class If
 extends Action {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String cond;
     private List actions = new ArrayList();
     private boolean execute = false;
@@ -43,8 +45,7 @@ extends Action {
         this.cond = string;
     }
 
-    @Override
-    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
+    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) throws ModelException, SCXMLExpressionException {
         TransitionTarget transitionTarget = this.getParentTransitionTarget();
         Context context = sCInstance.getContext(transitionTarget);
         Evaluator evaluator = sCInstance.getEvaluator();

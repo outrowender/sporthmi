@@ -13,28 +13,20 @@ import de.vw.mib.bap.functions.MethodListener;
 import de.vw.mib.bap.functions.PropertyListener;
 
 public interface BAPFunctionListenerRegistry {
-    default public BAPFunctionListener getBAPFunctionListener(int n) {
-    }
+    public BAPFunctionListener getBAPFunctionListener(int var1);
 
-    default public ArrayListener getArrayListener(int n) {
-    }
+    public ArrayListener getArrayListener(int var1);
 
-    default public MethodListener getMethodListener(int n) {
-    }
+    public MethodListener getMethodListener(int var1);
 
-    default public PropertyListener getPropertyListener(int n) {
-    }
+    public PropertyListener getPropertyListener(int var1);
 
-    default public BAPFunctionController getFunctionController(int n) {
-    }
+    public BAPFunctionController getFunctionController(int var1);
 
-    default public BAPConfigVersionCheck getBapConfigVersionCheckFunction() {
-    }
+    public BAPConfigVersionCheck getBapConfigVersionCheckFunction();
 
-    default public BAPFunctionList getFunctionList() {
-    }
+    public BAPFunctionList getFunctionList();
 
-    default public BAPOperationState getOperationState() {
-    }
+    public BAPOperationState getOperationState();
 }
 

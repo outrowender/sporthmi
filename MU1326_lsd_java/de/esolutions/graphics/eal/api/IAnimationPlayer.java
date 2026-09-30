@@ -22,12 +22,10 @@ extends IObject {
         return iAnimationPlayer == null ? 0L : iAnimationPlayer.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -39,7 +37,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -68,12 +65,10 @@ extends IObject {
         ealswigJNI.eal_api_IAnimationPlayer_pause(this.swigCPtr, this);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IAnimationPlayer_isValid(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IAnimationPlayer_dispose(this.swigCPtr, this);
     }

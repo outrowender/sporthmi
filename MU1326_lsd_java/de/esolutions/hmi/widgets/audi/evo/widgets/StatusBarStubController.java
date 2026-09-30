@@ -46,14 +46,13 @@ extends AbstractWidgetController {
     private int asiaVICSState;
     private int asiaTPEGState;
     private int asiaTTSState;
-    public static final int ICON_STATE_IGNORE;
-    public static final int ICON_STATE_SHOW;
-    public static final int ICON_STATE_HIDE;
+    public static final int ICON_STATE_IGNORE = 0;
+    public static final int ICON_STATE_SHOW = 1;
+    public static final int ICON_STATE_HIDE = 2;
     protected int renderStyle = 0;
     protected int hmiContext = -1;
     private StatusBarG24Controller statusbarG24;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateStatusBar();
@@ -137,7 +136,7 @@ extends AbstractWidgetController {
                 EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController = ((EntertainmentDrawerController)object).getOpenCloseController();
                 entertainmentDrawerOpenCloseController.onDrawerVisibiltyChange(bl);
             } else if (object == null) {
-                IWidgetLogChannel.logEntertainmentDrawerEvents.log(-1601830656, "StatusBarStubController#setEntertainmentDrawerVisible entertainmentDrawer is not initialized yet, store visibility at drawerfocusmanager. Will be set when entertainment drawer is activated -> visible=%1", bl);
+                IWidgetLogChannel.logEntertainmentDrawerEvents.log(100000, "StatusBarStubController#setEntertainmentDrawerVisible entertainmentDrawer is not initialized yet, store visibility at drawerfocusmanager. Will be set when entertainment drawer is activated -> visible=%1", bl);
                 this.terminal.getDrawerFocusManager().setEarlyEntertainmentDrawerVisibility(bl);
             }
         }
@@ -179,7 +178,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         if (this.isKombiType() && this.isStatusbarValid(this.statusbarG24)) {
@@ -201,7 +199,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
         if (this.isStatusbarValid(this.statusbarG24)) {
             this.statusbarG24.setDrawerState(n2);
@@ -213,23 +210,21 @@ extends AbstractWidgetController {
         boolean bl;
         boolean bl2 = bl = abstractStatusBarController == null;
         if (bl) {
-            logChannel.log(-1601830656, "StatusbarStubController#isStatusbarValid statusbar %1 is not valid, it is null", (Object)abstractStatusBarController);
+            logChannel.log(100000, "StatusbarStubController#isStatusbarValid statusbar %1 is not valid, it is null", (Object)abstractStatusBarController);
             return false;
         }
         boolean bl3 = abstractStatusBarController.isConnected();
         if (!bl3) {
-            logChannel.log(-1601830656, "StatusbarStubController#isStatusbarValid statusbar %1 is not valid, it is not connected", (Object)abstractStatusBarController);
+            logChannel.log(100000, "StatusbarStubController#isStatusbarValid statusbar %1 is not valid, it is not connected", (Object)abstractStatusBarController);
             return false;
         }
         return true;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         super.processModelUpdateEvent(modelUpdateEvent);
     }

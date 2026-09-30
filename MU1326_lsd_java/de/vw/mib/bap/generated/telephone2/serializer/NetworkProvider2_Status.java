@@ -11,17 +11,17 @@ import de.vw.mib.bap.stream.BitStream;
 public final class NetworkProvider2_Status
 implements StatusProperty {
     public int networkProviderState;
-    private static final int NETWORK_PROVIDER_STATE_BITSIZE;
-    public static final int NETWORK_PROVIDER_STATE_NETWORK_PROVIDER_UNKNOWN;
-    public static final int NETWORK_PROVIDER_STATE_NETWORK_PROVIDER_NAME_AVAILABLE;
+    private static final int NETWORK_PROVIDER_STATE_BITSIZE = 8;
+    public static final int NETWORK_PROVIDER_STATE_NETWORK_PROVIDER_UNKNOWN = 0;
+    public static final int NETWORK_PROVIDER_STATE_NETWORK_PROVIDER_NAME_AVAILABLE = 1;
     public final BAPString networkProviderName = new BAPString(40);
-    private static final int MAX_NETWORK_PROVIDER_NAME_LENGTH;
+    private static final int MAX_NETWORK_PROVIDER_NAME_LENGTH = 40;
     public int serviceProviderState;
-    private static final int SERVICE_PROVIDER_STATE_BITSIZE;
-    public static final int SERVICE_PROVIDER_STATE_SERVICE_PROVIDER_UNKNOWN;
-    public static final int SERVICE_PROVIDER_STATE_SERVICE_PROVIDER_NAME_AVAILABLE;
+    private static final int SERVICE_PROVIDER_STATE_BITSIZE = 8;
+    public static final int SERVICE_PROVIDER_STATE_SERVICE_PROVIDER_UNKNOWN = 0;
+    public static final int SERVICE_PROVIDER_STATE_SERVICE_PROVIDER_NAME_AVAILABLE = 1;
     public final BAPString serviceProviderName = new BAPString(40);
-    private static final int MAX_SERVICE_PROVIDER_NAME_LENGTH;
+    private static final int MAX_SERVICE_PROVIDER_NAME_LENGTH = 40;
 
     public NetworkProvider2_Status() {
         this.internalReset();
@@ -38,14 +38,12 @@ implements StatusProperty {
         this.serviceProviderState = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.networkProviderName.reset();
         this.serviceProviderName.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         NetworkProvider2_Status networkProvider2_Status = (NetworkProvider2_Status)bAPEntity;
         return this.networkProviderState == networkProvider2_Status.networkProviderState && this.networkProviderName.equalTo(networkProvider2_Status.networkProviderName) && this.serviceProviderState == networkProvider2_Status.serviceProviderState && this.serviceProviderName.equalTo(networkProvider2_Status.serviceProviderName);
@@ -54,7 +52,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("NetworkProvider2_Status:");
@@ -93,7 +90,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -102,7 +98,6 @@ implements StatusProperty {
         return n += this.serviceProviderName.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.networkProviderState);
         this.networkProviderName.serialize(bitStream);
@@ -110,7 +105,6 @@ implements StatusProperty {
         this.serviceProviderName.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.networkProviderState = bitStream.popFrontByte();
         this.networkProviderName.deserialize(bitStream);
@@ -122,7 +116,6 @@ implements StatusProperty {
         return 19;
     }
 
-    @Override
     public int getFunctionId() {
         return NetworkProvider2_Status.functionId();
     }

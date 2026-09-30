@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKWheelTemperatures;
 
 public class RDKWheelTemperaturesSerializer {
-    public static void putOptionalRDKWheelTemperatures(ISerializer iSerializer, RDKWheelTemperatures rDKWheelTemperatures) {
+    public static void putOptionalRDKWheelTemperatures(ISerializer iSerializer, RDKWheelTemperatures rDKWheelTemperatures) throws SerializerException {
         boolean bl = rDKWheelTemperatures == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class RDKWheelTemperaturesSerializer {
         }
     }
 
-    public static void putOptionalRDKWheelTemperaturesVarArray(ISerializer iSerializer, RDKWheelTemperatures[] rDKWheelTemperaturesArray) {
+    public static void putOptionalRDKWheelTemperaturesVarArray(ISerializer iSerializer, RDKWheelTemperatures[] rDKWheelTemperaturesArray) throws SerializerException {
         boolean bl = rDKWheelTemperaturesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class RDKWheelTemperaturesSerializer {
         }
     }
 
-    public static RDKWheelTemperatures getOptionalRDKWheelTemperatures(IDeserializer iDeserializer) {
+    public static RDKWheelTemperatures getOptionalRDKWheelTemperatures(IDeserializer iDeserializer) throws SerializerException {
         RDKWheelTemperatures rDKWheelTemperatures = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class RDKWheelTemperaturesSerializer {
         return rDKWheelTemperatures;
     }
 
-    public static RDKWheelTemperatures[] getOptionalRDKWheelTemperaturesVarArray(IDeserializer iDeserializer) {
+    public static RDKWheelTemperatures[] getOptionalRDKWheelTemperaturesVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKWheelTemperatures[] rDKWheelTemperaturesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

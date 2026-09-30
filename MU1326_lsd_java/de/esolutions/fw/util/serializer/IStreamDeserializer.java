@@ -4,119 +4,83 @@
 package de.esolutions.fw.util.serializer;
 
 import de.esolutions.fw.util.serializer.IStreamSerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.transport.IReadable;
 
 public interface IStreamDeserializer
 extends Cloneable {
-    default public Object clone() {
-    }
+    public Object clone();
 
-    default public boolean canHandleSerializerId(byte by) {
-    }
+    public boolean canHandleSerializerId(byte var1);
 
-    default public void attachBuffer(IReadable iReadable) {
-    }
+    public void attachBuffer(IReadable var1);
 
-    default public IReadable getAttachedBuffer() {
-    }
+    public IReadable getAttachedBuffer();
 
-    default public int getDirectPos() {
-    }
+    public int getDirectPos();
 
-    default public int detachBuffer() {
-    }
+    public int detachBuffer();
 
-    default public boolean getBool() {
-    }
+    public boolean getBool() throws SerializerException;
 
-    default public char getUChar16() {
-    }
+    public char getUChar16() throws SerializerException;
 
-    default public short getUInt8() {
-    }
+    public short getUInt8() throws SerializerException;
 
-    default public byte getInt8() {
-    }
+    public byte getInt8() throws SerializerException;
 
-    default public int getUInt16() {
-    }
+    public int getUInt16() throws SerializerException;
 
-    default public short getInt16() {
-    }
+    public short getInt16() throws SerializerException;
 
-    default public long getUInt32() {
-    }
+    public long getUInt32() throws SerializerException;
 
-    default public int getInt32() {
-    }
+    public int getInt32() throws SerializerException;
 
-    default public long getUInt64() {
-    }
+    public long getUInt64() throws SerializerException;
 
-    default public long getInt64() {
-    }
+    public long getInt64() throws SerializerException;
 
-    default public float getFloat() {
-    }
+    public float getFloat() throws SerializerException;
 
-    default public double getDouble() {
-    }
+    public double getDouble() throws SerializerException;
 
-    default public int getFlags(byte by) {
-    }
+    public int getFlags(byte var1) throws SerializerException;
 
-    default public void getBoolArray(boolean[] blArray) {
-    }
+    public void getBoolArray(boolean[] var1) throws SerializerException;
 
-    default public void getUChar16Array(char[] cArray) {
-    }
+    public void getUChar16Array(char[] var1) throws SerializerException;
 
-    default public void getUInt8Array(short[] sArray) {
-    }
+    public void getUInt8Array(short[] var1) throws SerializerException;
 
-    default public void getInt8Array(byte[] byArray) {
-    }
+    public void getInt8Array(byte[] var1) throws SerializerException;
 
-    default public void getUInt16Array(int[] nArray) {
-    }
+    public void getUInt16Array(int[] var1) throws SerializerException;
 
-    default public void getInt16Array(short[] sArray) {
-    }
+    public void getInt16Array(short[] var1) throws SerializerException;
 
-    default public void getUInt32Array(long[] lArray) {
-    }
+    public void getUInt32Array(long[] var1) throws SerializerException;
 
-    default public void getInt32Array(int[] nArray) {
-    }
+    public void getInt32Array(int[] var1) throws SerializerException;
 
-    default public void getUInt64Array(long[] lArray) {
-    }
+    public void getUInt64Array(long[] var1) throws SerializerException;
 
-    default public void getInt64Array(long[] lArray) {
-    }
+    public void getInt64Array(long[] var1) throws SerializerException;
 
-    default public void getFloatArray(float[] fArray) {
-    }
+    public void getFloatArray(float[] var1) throws SerializerException;
 
-    default public void getDoubleArray(double[] dArray) {
-    }
+    public void getDoubleArray(double[] var1) throws SerializerException;
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public byte getId() {
-    }
+    public byte getId();
 
-    default public int bytesLeft() {
-    }
+    public int bytesLeft();
 
-    default public void getRawBytes(byte[] byArray) {
-    }
+    public void getRawBytes(byte[] var1) throws SerializerException;
 
-    default public IStreamSerializer createCompatibleStreamSerializer() {
-    }
+    public IStreamSerializer createCompatibleStreamSerializer();
 
-    default public IStreamDeserializer createCompatibleStreamDeserializer() {
-    }
+    public IStreamDeserializer createCompatibleStreamDeserializer();
 }
 

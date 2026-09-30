@@ -6,22 +6,16 @@ package de.esolutions.fw.dsi.base;
 import de.esolutions.fw.dsi.base.IProvider;
 
 public interface IProviderStateListener {
-    default public void onConnecting(IProvider iProvider) {
-    }
+    public void onConnecting(IProvider var1);
 
-    default public void onConnected(IProvider iProvider) {
-    }
+    public void onConnected(IProvider var1);
 
-    default public void onConnectionFailed(IProvider iProvider) {
-    }
+    public void onConnectionFailed(IProvider var1);
 
-    default public void onConnectionLost(IProvider iProvider) {
-    }
+    public void onConnectionLost(IProvider var1);
 
-    default public void onDisconnected(IProvider iProvider) {
-    }
+    public void onDisconnected(IProvider var1);
 
-    default public void onDisconnecting(IProvider iProvider) {
-    }
+    public void onDisconnecting(IProvider var1);
 }
 

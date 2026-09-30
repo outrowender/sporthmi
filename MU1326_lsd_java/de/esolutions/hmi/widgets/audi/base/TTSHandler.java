@@ -16,32 +16,30 @@ import de.esolutions.hmi.widgets.audi.base.StringUtility;
 public class TTSHandler
 implements TTSListener,
 ITTSHandler {
-    public static final int REQUESTOR_ID_TOUCHPAD;
-    public static final int REQUESTOR_ID_RADIO_POPUP;
-    public static final int REQUESTOR_COUNT;
-    public static TTSSessionBasedService ttsService;
-    private static final long CACHE_TEXT_MAXTIME;
-    private static boolean[] requestorSessionRunning;
+    public static final int REQUESTOR_ID_TOUCHPAD = 0;
+    public static final int REQUESTOR_ID_RADIO_POPUP = 1;
+    public static final int REQUESTOR_COUNT = 2;
+    public static TTSSessionBasedService ttsService = null;
+    private static final long CACHE_TEXT_MAXTIME = 1000L;
+    private static boolean[] requestorSessionRunning = new boolean[2];
     private boolean sessionStarted = false;
     private boolean sessionPaused = false;
     private String cachedText = null;
     private boolean speaking = false;
     private boolean stopSessionRequested = false;
     private volatile long cachedTextTime = 0L;
-    private static final String SAY_AS_TP_STRING_START_TAG;
-    private static final String SAY_AS_STRING_END_TAG;
+    private static final String SAY_AS_TP_STRING_START_TAG = "<say-as interpret-as=\"touchpad\">";
+    private static final String SAY_AS_STRING_END_TAG = "</say-as> ";
 
-    @Override
     public void speak(int n, String string, String string2, String string3, boolean bl, int n2) {
         this.speak(n, string, null, string2, string3, bl, n2);
     }
 
-    @Override
     public void speak(int n, String string, String string2, String string3, String string4, boolean bl, int n2) {
         String string5 = "";
         if (IWidgetLogChannel.tpLogChannelInternal.isInfo()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speak speak phonemeText before adding tags phonemeText: %1, plainText: %2 sound: %3", (Object)string, (Object)StringUtility.sanitizeCharactersForLogging(string3), (Object)string4);
-            IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speak speak phonemeText before adding tags phonemeAlphabet: %1", (Object)string2);
+            IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speak speak phonemeText before adding tags phonemeText: %1, plainText: %2 sound: %3", (Object)string, (Object)StringUtility.sanitizeCharactersForLogging(string3), (Object)string4);
+            IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speak speak phonemeText before adding tags phonemeAlphabet: %1", (Object)string2);
         }
         if (string3 != null && string3.length() > 0) {
             switch (n2) {
@@ -58,26 +56,26 @@ ITTSHandler {
                 }
             }
         }
-        IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speak speak textToSpeak: %1, sound: %2", (Object)string5, (Object)string4);
+        IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speak speak textToSpeak: %1, sound: %2", (Object)string5, (Object)string4);
         this.speakHandling(n, string5, string4, bl);
     }
 
     private void speakHandling(int n, String string, String string2, boolean bl) {
         SDSService sDSService;
         String string3 = StringUtility.sanitizeCharactersForLogging(string);
-        IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speak speak textToSpeak: %1, sound: %2", (Object)string3, (Object)string2);
+        IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speak speak textToSpeak: %1, sound: %2", (Object)string3, (Object)string2);
         if (string2 != null) {
             if (string.length() > 0 && string.charAt(string.length() - 1) != ' ') {
-                string = new StringBuffer().append(string).append(' ').toString();
+                string = string + ' ';
             }
-            string = new StringBuffer().append(string).append(string2).toString();
+            string = string + string2;
         }
         if ((sDSService = AbstractWidget.sdsService) != null && sDSService.isSDSActive()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speak sds is active - call playPrioPrompt sound: %1, textToSpeak: %2", (Object)string2, (Object)string3);
+            IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speak sds is active - call playPrioPrompt sound: %1, textToSpeak: %2", (Object)string2, (Object)string3);
             this.speaking = true;
             sDSService.playPrioPrompt(string);
         } else if (this.isTTSReady()) {
-            IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speakHandling speak text: %1, sound: %2", (Object)string3, (Object)string2);
+            IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speakHandling speak text: %1, sound: %2", (Object)string3, (Object)string2);
             this.speaking = true;
             if (bl) {
                 ttsService.abortSpeaking();
@@ -86,7 +84,7 @@ ITTSHandler {
         } else {
             this.startSession(n);
             this.setCachedText(string);
-            IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#speakHandling string: %2 cannot be spoken because TTS is not ready yet, sessionPaused: %1, ttsService: %3", this.sessionPaused, (Object)string3, (Object)ttsService);
+            IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#speakHandling string: %2 cannot be spoken because TTS is not ready yet, sessionPaused: %1, ttsService: %3", this.sessionPaused, (Object)string3, (Object)ttsService);
         }
     }
 
@@ -94,9 +92,9 @@ ITTSHandler {
         int n = string.length();
         Buffer buffer = new Buffer(n * 50);
         for (int i2 = 0; i2 < n; ++i2) {
-            buffer.append("<say-as interpret-as=\"touchpad\">");
+            buffer.append(SAY_AS_TP_STRING_START_TAG);
             buffer.append(TTSHandler.parseText(string.substring(i2, i2 + 1)));
-            buffer.append("</say-as> ");
+            buffer.append(SAY_AS_STRING_END_TAG);
         }
         return buffer.toString();
     }
@@ -169,9 +167,8 @@ ITTSHandler {
         return ttsService != null && this.sessionStarted && !this.sessionPaused;
     }
 
-    @Override
     public void stopSession(int n, boolean bl) {
-        IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#stopSession sessionStarted: %1, requestorID: %2", this.sessionStarted, (long)n);
+        IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#stopSession sessionStarted: %1, requestorID: %2", this.sessionStarted, (long)n);
         if (bl || !this.speaking) {
             this.stopSessionAtTTSService(n);
         } else {
@@ -188,7 +185,7 @@ ITTSHandler {
                 }
             }
         } else {
-            IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "TTSHandler#stopSession cannot stop ttsSession because ttsService is null", this.sessionStarted, (long)n);
+            IWidgetLogChannel.tpLogChannelInternal.log(100000, "TTSHandler#stopSession cannot stop ttsSession because ttsService is null", this.sessionStarted, (long)n);
         }
     }
 
@@ -196,9 +193,8 @@ ITTSHandler {
         return requestorSessionRunning[0] || requestorSessionRunning[1];
     }
 
-    @Override
     public void startSession(int n) {
-        IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#startSession sessionStarted: %1, requestorID: %2", this.sessionStarted, (long)n);
+        IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#startSession sessionStarted: %1, requestorID: %2", this.sessionStarted, (long)n);
         if (ttsService != null) {
             if (0 <= n && n < 2) {
                 this.stopSessionRequested = false;
@@ -208,11 +204,10 @@ ITTSHandler {
                 TTSHandler.requestorSessionRunning[n] = true;
             }
         } else {
-            IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "TTSHandler#startSession cannot start ttsSession because ttsService is null", this.sessionStarted, (long)n);
+            IWidgetLogChannel.tpLogChannelInternal.log(100000, "TTSHandler#startSession cannot start ttsSession because ttsService is null", this.sessionStarted, (long)n);
         }
     }
 
-    @Override
     public void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
         ttsService = tTSSessionBasedService;
         if (tTSSessionBasedService == null) {
@@ -226,9 +221,8 @@ ITTSHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reset() {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#reset called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#reset called");
         try {
             if (ttsService != null) {
                 ttsService.stopSession();
@@ -245,83 +239,68 @@ ITTSHandler {
         }
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#audioAvailable called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#audioAvailable called");
     }
 
-    @Override
     public void sessionStarted() {
         this.sessionStarted = true;
         this.sessionPaused = false;
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#sessionStarted called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#sessionStarted called");
         if (ttsService != null) {
             long l = AbstractWidget.framework.getMonotonicTime() - this.cachedTextTime;
-            if (0L <= l && l < 0) {
+            if (0L <= l && l < 1000L) {
                 String string = this.getCachedText();
                 if (string != null) {
-                    IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#sessionStarted there was a cached text: %1, but duration between caching text and session started was too long: %2 (maxTime: 3)", (Object)string, l, (long)0);
+                    IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#sessionStarted there was a cached text: %1, but duration between caching text and session started was too long: %2 (maxTime: 3)", (Object)string, l, 1000L);
                     ttsService.speak(string);
                 }
             } else if (IWidgetLogChannel.tpLogChannelInternal.isInfo()) {
-                IWidgetLogChannel.tpLogChannelInternal.log(1078071040, "TTSHandler#sessionStarted there was a cached text: %1, but duration between caching text and session started was too long: %2 (maxTime: 3)", (Object)this.cachedText, l, (long)0);
+                IWidgetLogChannel.tpLogChannelInternal.log(1000000, "TTSHandler#sessionStarted there was a cached text: %1, but duration between caching text and session started was too long: %2 (maxTime: 3)", (Object)this.cachedText, l, 1000L);
             }
         }
     }
 
-    @Override
     public void sessionStopped() {
         this.sessionStarted = false;
         this.clearCachedText();
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#sessionStopped called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#sessionStopped called");
     }
 
-    @Override
     public void speakingAborted() {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#speakingAborted called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#speakingAborted called");
         this.speaking = false;
     }
 
-    @Override
     public void speakingFailed() {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#speakingFailed called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#speakingFailed called");
         this.speaking = false;
     }
 
-    @Override
     public void speakingPaused() {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#speakingPaused called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#speakingPaused called");
     }
 
-    @Override
     public void speakingFinished() {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#speakingFinished called");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#speakingFinished called");
         this.speaking = false;
         if (this.stopSessionRequested) {
             this.stopSessionAtTTSService(0);
         }
     }
 
-    @Override
     public void sessionPaused() {
         this.sessionPaused = true;
         this.sessionStarted = true;
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#sessionPaused sessionPaused: %1 sessionStarted: %2", this.sessionPaused, this.sessionStarted);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#sessionPaused sessionPaused: %1 sessionStarted: %2", this.sessionPaused, this.sessionStarted);
     }
 
-    @Override
     public void sessionResumed() {
         this.sessionPaused = false;
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TTSHandler#sessionResumed sessionPaused: %1", this.sessionPaused);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TTSHandler#sessionResumed sessionPaused: %1", this.sessionPaused);
     }
 
-    @Override
     public void speakingStarted() {
-    }
-
-    static {
-        ttsService = null;
-        requestorSessionRunning = new boolean[2];
     }
 }
 

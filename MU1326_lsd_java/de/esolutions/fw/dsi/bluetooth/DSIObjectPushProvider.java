@@ -25,28 +25,23 @@ implements DSIObjectPush {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$bluetooth$DSIObjectPush == null ? (class$org$dsi$ifc$bluetooth$DSIObjectPush = DSIObjectPushProvider.class$("org.dsi.ifc.bluetooth.DSIObjectPush")) : class$org$dsi$ifc$bluetooth$DSIObjectPush).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIObjectPushProxy(this.instance, (DSIObjectPushReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestOPPAbortSending() {
         try {
             this.proxy.requestOPPAbortSending();
@@ -56,7 +51,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void requestOPPAcceptObject(String string, boolean bl) {
         try {
             this.proxy.requestOPPAcceptObject(string, bl);
@@ -66,7 +60,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void requestOPPSendContacts(String string, String string2) {
         try {
             this.proxy.requestOPPSendContacts(string, string2);
@@ -76,7 +69,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void requestOPPSendMessages(String string, int[] nArray) {
         try {
             this.proxy.requestOPPSendMessages(string, nArray);
@@ -86,7 +78,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void requestOPPSendBinary(String string, String[] stringArray) {
         try {
             this.proxy.requestOPPSendBinary(string, stringArray);
@@ -96,7 +87,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -106,7 +96,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -116,7 +105,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -126,7 +114,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -136,7 +123,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -146,7 +132,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -156,7 +141,6 @@ implements DSIObjectPush {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

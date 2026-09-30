@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.apache.commons.jexl.util;
 
@@ -20,7 +17,7 @@ public class Coercion {
         return null;
     }
 
-    public static Integer coerceInteger(Object object) {
+    public static Integer coerceInteger(Object object) throws Exception {
         if (object == null) {
             return new Integer(0);
         }
@@ -42,7 +39,7 @@ public class Coercion {
         throw new Exception("Integer coercion exception");
     }
 
-    public static Long coerceLong(Object object) {
+    public static Long coerceLong(Object object) throws Exception {
         if (object == null) {
             return new Long(0L);
         }
@@ -64,7 +61,7 @@ public class Coercion {
         throw new Exception("Long coercion exception");
     }
 
-    public static Double coerceDouble(Object object) {
+    public static Double coerceDouble(Object object) throws Exception {
         if (object == null) {
             return new Double(0.0);
         }
@@ -76,7 +73,7 @@ public class Coercion {
         }
         if (object instanceof Character) {
             char c2 = ((Character)object).charValue();
-            return new Double(Double.parseDouble((String)String.valueOf((int)c2)));
+            return new Double(Double.parseDouble(String.valueOf((int)c2)));
         }
         if (object instanceof Boolean) {
             throw new Exception("Boolean->Double coercion exception");
@@ -85,7 +82,7 @@ public class Coercion {
             return (Double)object;
         }
         if (object instanceof Number) {
-            return new Double(Double.parseDouble((String)String.valueOf(object)));
+            return new Double(Double.parseDouble(String.valueOf(object)));
         }
         throw new Exception("Double coercion exception");
     }

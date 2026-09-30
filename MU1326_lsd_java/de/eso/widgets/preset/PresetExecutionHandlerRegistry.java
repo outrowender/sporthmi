@@ -4,9 +4,10 @@
 package de.eso.widgets.preset;
 
 import de.audi.atip.preset.IAppPresetExecutionHandler;
-import de.eso.widgets.preset.PresetExecutionHandlerRegistry$1;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
+import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -15,8 +16,43 @@ public final class PresetExecutionHandlerRegistry {
     private ServiceTracker presetExecutionHandlerTracker;
     static /* synthetic */ Class class$de$audi$atip$preset$IAppPresetExecutionHandler;
 
-    public void startTracker(BundleContext bundleContext) {
-        this.presetExecutionHandlerTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$preset$IAppPresetExecutionHandler == null ? (class$de$audi$atip$preset$IAppPresetExecutionHandler = PresetExecutionHandlerRegistry.class$("de.audi.atip.preset.IAppPresetExecutionHandler")) : class$de$audi$atip$preset$IAppPresetExecutionHandler).getName(), (ServiceTrackerCustomizer)new PresetExecutionHandlerRegistry$1(this, bundleContext));
+    public void startTracker(final BundleContext bundleContext) {
+        this.presetExecutionHandlerTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$preset$IAppPresetExecutionHandler == null ? (class$de$audi$atip$preset$IAppPresetExecutionHandler = PresetExecutionHandlerRegistry.class$("de.audi.atip.preset.IAppPresetExecutionHandler")) : class$de$audi$atip$preset$IAppPresetExecutionHandler).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = null;
+                try {
+                    object = bundleContext.getService(serviceReference);
+                    if (object instanceof IAppPresetExecutionHandler) {
+                        PresetExecutionHandlerRegistry.this.registerExecutionHandler((IAppPresetExecutionHandler)object);
+                        return object;
+                    }
+                    bundleContext.ungetService(serviceReference);
+                    return null;
+                }
+                catch (Exception exception) {
+                    if (object != null) {
+                        bundleContext.ungetService(serviceReference);
+                    }
+                    return null;
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                try {
+                    bundleContext.ungetService(serviceReference);
+                    if (object instanceof IAppPresetExecutionHandler) {
+                        PresetExecutionHandlerRegistry.this.unregisterExecutionHandler((IAppPresetExecutionHandler)object);
+                    }
+                }
+                catch (Exception exception) {
+                    IWidgetLogChannel.logPreset.log(10000, "PresetExecutionHandlerRegistry#ServiceTracker#removedService %1", (Throwable)exception);
+                }
+            }
+        });
         this.presetExecutionHandlerTracker.open();
     }
 
@@ -61,10 +97,6 @@ public final class PresetExecutionHandlerRegistry {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(PresetExecutionHandlerRegistry presetExecutionHandlerRegistry, IAppPresetExecutionHandler iAppPresetExecutionHandler) {
-        presetExecutionHandlerRegistry.registerExecutionHandler(iAppPresetExecutionHandler);
     }
 }
 

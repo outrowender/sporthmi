@@ -10,28 +10,20 @@ import de.esolutions.fw.dsi.comm.IDSIServiceWorker;
 import de.esolutions.fw.dsi.diag.ProviderInfo;
 
 public interface IProvider {
-    default public void addProviderStateListener(IProviderStateListener iProviderStateListener) {
-    }
+    public void addProviderStateListener(IProviderStateListener var1);
 
-    default public void removeProviderStateListener(IProviderStateListener iProviderStateListener) {
-    }
+    public void removeProviderStateListener(IProviderStateListener var1);
 
-    default public ProviderState getProviderState() {
-    }
+    public ProviderState getProviderState();
 
-    default public void startProvider(boolean bl, IDSIServiceWorker iDSIServiceWorker) {
-    }
+    public void startProvider(boolean var1, IDSIServiceWorker var2);
 
-    default public IDSIServiceWorker stopProvider() {
-    }
+    public IDSIServiceWorker stopProvider();
 
-    default public int getInstance() {
-    }
+    public int getInstance();
 
-    default public ProviderInfo getProviderInfo(int n) {
-    }
+    public ProviderInfo getProviderInfo(int var1);
 
-    default public IDispatcher getDispatcher() {
-    }
+    public IDispatcher getDispatcher();
 }
 

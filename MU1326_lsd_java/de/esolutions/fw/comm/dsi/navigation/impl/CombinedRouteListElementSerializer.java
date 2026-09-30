@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.navigation.impl.ManeuverElementSerializer;
 import de.esolutions.fw.comm.dsi.navigation.impl.NavRouteListDataIconSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.CombinedRouteListElement;
 import org.dsi.ifc.navigation.ManeuverElement;
 import org.dsi.ifc.navigation.NavRouteListDataIcon;
 
 public class CombinedRouteListElementSerializer {
-    public static void putOptionalCombinedRouteListElement(ISerializer iSerializer, CombinedRouteListElement combinedRouteListElement) {
+    public static void putOptionalCombinedRouteListElement(ISerializer iSerializer, CombinedRouteListElement combinedRouteListElement) throws SerializerException {
         boolean bl = combinedRouteListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -59,7 +60,7 @@ public class CombinedRouteListElementSerializer {
         }
     }
 
-    public static void putOptionalCombinedRouteListElementVarArray(ISerializer iSerializer, CombinedRouteListElement[] combinedRouteListElementArray) {
+    public static void putOptionalCombinedRouteListElementVarArray(ISerializer iSerializer, CombinedRouteListElement[] combinedRouteListElementArray) throws SerializerException {
         boolean bl = combinedRouteListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -70,7 +71,7 @@ public class CombinedRouteListElementSerializer {
         }
     }
 
-    public static CombinedRouteListElement getOptionalCombinedRouteListElement(IDeserializer iDeserializer) {
+    public static CombinedRouteListElement getOptionalCombinedRouteListElement(IDeserializer iDeserializer) throws SerializerException {
         CombinedRouteListElement combinedRouteListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -119,7 +120,7 @@ public class CombinedRouteListElementSerializer {
         return combinedRouteListElement;
     }
 
-    public static CombinedRouteListElement[] getOptionalCombinedRouteListElementVarArray(IDeserializer iDeserializer) {
+    public static CombinedRouteListElement[] getOptionalCombinedRouteListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         CombinedRouteListElement[] combinedRouteListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

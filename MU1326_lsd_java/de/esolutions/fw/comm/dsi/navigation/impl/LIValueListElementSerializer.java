@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.LIExtDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LIExtData;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class LIValueListElementSerializer {
-    public static void putOptionalLIValueListElement(ISerializer iSerializer, LIValueListElement lIValueListElement) {
+    public static void putOptionalLIValueListElement(ISerializer iSerializer, LIValueListElement lIValueListElement) throws SerializerException {
         boolean bl = lIValueListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -53,7 +54,7 @@ public class LIValueListElementSerializer {
         }
     }
 
-    public static void putOptionalLIValueListElementVarArray(ISerializer iSerializer, LIValueListElement[] lIValueListElementArray) {
+    public static void putOptionalLIValueListElementVarArray(ISerializer iSerializer, LIValueListElement[] lIValueListElementArray) throws SerializerException {
         boolean bl = lIValueListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -64,7 +65,7 @@ public class LIValueListElementSerializer {
         }
     }
 
-    public static LIValueListElement getOptionalLIValueListElement(IDeserializer iDeserializer) {
+    public static LIValueListElement getOptionalLIValueListElement(IDeserializer iDeserializer) throws SerializerException {
         LIValueListElement lIValueListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -109,7 +110,7 @@ public class LIValueListElementSerializer {
         return lIValueListElement;
     }
 
-    public static LIValueListElement[] getOptionalLIValueListElementVarArray(IDeserializer iDeserializer) {
+    public static LIValueListElement[] getOptionalLIValueListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         LIValueListElement[] lIValueListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

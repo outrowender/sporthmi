@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSubsystemState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sSubsystemStateSerializer {
-    public static void putOptionalsSubsystemState(ISerializer iSerializer, sSubsystemState sSubsystemState2) {
+    public static void putOptionalsSubsystemState(ISerializer iSerializer, sSubsystemState sSubsystemState2) throws SerializerException {
         boolean bl = sSubsystemState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sSubsystemStateSerializer {
         }
     }
 
-    public static void putOptionalsSubsystemStateVarArray(ISerializer iSerializer, sSubsystemState[] sSubsystemStateArray) {
+    public static void putOptionalsSubsystemStateVarArray(ISerializer iSerializer, sSubsystemState[] sSubsystemStateArray) throws SerializerException {
         boolean bl = sSubsystemStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sSubsystemStateSerializer {
         }
     }
 
-    public static sSubsystemState getOptionalsSubsystemState(IDeserializer iDeserializer) {
+    public static sSubsystemState getOptionalsSubsystemState(IDeserializer iDeserializer) throws SerializerException {
         sSubsystemState sSubsystemState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sSubsystemStateSerializer {
         return sSubsystemState2;
     }
 
-    public static sSubsystemState[] getOptionalsSubsystemStateVarArray(IDeserializer iDeserializer) {
+    public static sSubsystemState[] getOptionalsSubsystemStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sSubsystemState[] sSubsystemStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

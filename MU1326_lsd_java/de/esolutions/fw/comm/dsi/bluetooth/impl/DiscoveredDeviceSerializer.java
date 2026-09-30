@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.DiscoveredDevice;
 
 public class DiscoveredDeviceSerializer {
-    public static void putOptionalDiscoveredDevice(ISerializer iSerializer, DiscoveredDevice discoveredDevice) {
+    public static void putOptionalDiscoveredDevice(ISerializer iSerializer, DiscoveredDevice discoveredDevice) throws SerializerException {
         boolean bl = discoveredDevice == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DiscoveredDeviceSerializer {
         }
     }
 
-    public static void putOptionalDiscoveredDeviceVarArray(ISerializer iSerializer, DiscoveredDevice[] discoveredDeviceArray) {
+    public static void putOptionalDiscoveredDeviceVarArray(ISerializer iSerializer, DiscoveredDevice[] discoveredDeviceArray) throws SerializerException {
         boolean bl = discoveredDeviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DiscoveredDeviceSerializer {
         }
     }
 
-    public static DiscoveredDevice getOptionalDiscoveredDevice(IDeserializer iDeserializer) {
+    public static DiscoveredDevice getOptionalDiscoveredDevice(IDeserializer iDeserializer) throws SerializerException {
         DiscoveredDevice discoveredDevice = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DiscoveredDeviceSerializer {
         return discoveredDevice;
     }
 
-    public static DiscoveredDevice[] getOptionalDiscoveredDeviceVarArray(IDeserializer iDeserializer) {
+    public static DiscoveredDevice[] getOptionalDiscoveredDeviceVarArray(IDeserializer iDeserializer) throws SerializerException {
         DiscoveredDevice[] discoveredDeviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

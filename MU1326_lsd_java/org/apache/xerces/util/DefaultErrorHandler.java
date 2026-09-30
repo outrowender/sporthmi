@@ -4,6 +4,7 @@
 package org.apache.xerces.util;
 
 import java.io.PrintWriter;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLErrorHandler;
 import org.apache.xerces.xni.parser.XMLParseException;
 
@@ -19,18 +20,15 @@ implements XMLErrorHandler {
         this.fOut = printWriter;
     }
 
-    @Override
-    public void warning(String string, String string2, XMLParseException xMLParseException) {
+    public void warning(String string, String string2, XMLParseException xMLParseException) throws XNIException {
         this.printError("Warning", xMLParseException);
     }
 
-    @Override
-    public void error(String string, String string2, XMLParseException xMLParseException) {
+    public void error(String string, String string2, XMLParseException xMLParseException) throws XNIException {
         this.printError("Error", xMLParseException);
     }
 
-    @Override
-    public void fatalError(String string, String string2, XMLParseException xMLParseException) {
+    public void fatalError(String string, String string2, XMLParseException xMLParseException) throws XNIException {
         this.printError("Fatal Error", xMLParseException);
         throw xMLParseException;
     }

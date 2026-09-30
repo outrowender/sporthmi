@@ -18,12 +18,12 @@ public final class AccessControlContext {
     ProtectionDomain[] domainsArray;
     private static final SecurityPermission createAccessControlContext = new SecurityPermission("createAccessControlContext");
     private static final SecurityPermission getDomainCombiner = new SecurityPermission("getDomainCombiner");
-    static final int DEBUG_ACCESS;
-    static final int DEBUG_ACCESS_STACK;
-    static final int DEBUG_ACCESS_DOMAIN;
-    static final int DEBUG_ACCESS_FAILURE;
-    static final int DEBUG_ACCESS_THREAD;
-    static final int DEBUG_ALL;
+    static final int DEBUG_ACCESS = 1;
+    static final int DEBUG_ACCESS_STACK = 2;
+    static final int DEBUG_ACCESS_DOMAIN = 4;
+    static final int DEBUG_ACCESS_FAILURE = 8;
+    static final int DEBUG_ACCESS_THREAD = 16;
+    static final int DEBUG_ALL = 255;
 
     static int debugSetting() {
         if (debugSetting != -1) {
@@ -72,7 +72,7 @@ public final class AccessControlContext {
     static void debugPrintAccess() {
         System.err.print("access: ");
         if ((AccessControlContext.debugSetting() & 0x10) == 16) {
-            System.err.print(new StringBuffer("(").append(Thread.currentThread()).append(")").toString());
+            System.err.print("(" + Thread.currentThread() + ")");
         }
     }
 
@@ -116,7 +116,7 @@ public final class AccessControlContext {
         this.domainCombiner = domainCombiner;
     }
 
-    public void checkPermission(Permission permission) {
+    public void checkPermission(Permission permission) throws AccessControlException {
         int n;
         if (permission == null) {
             throw new NullPointerException();
@@ -128,7 +128,7 @@ public final class AccessControlContext {
             } else {
                 n = 0;
                 while (n < this.domainsArray.length) {
-                    System.err.println(new StringBuffer("domain ").append(n).append(" ").append(this.domainsArray[n]).toString());
+                    System.err.println("domain " + n + " " + this.domainsArray[n]);
                     ++n;
                 }
             }
@@ -139,17 +139,17 @@ public final class AccessControlContext {
         if (n >= 0) {
             if ((AccessControlContext.debugSetting() & 1) != 0) {
                 AccessControlContext.debugPrintAccess();
-                System.err.println(new StringBuffer("access denied ").append(permission).toString());
+                System.err.println("access denied " + permission);
             }
             if ((AccessControlContext.debugSetting() & 8) != 0) {
                 new Exception("Stack trace").printStackTrace();
-                System.err.println(new StringBuffer("domain that failed ").append(this.domainsArray[n]).toString());
+                System.err.println("domain that failed " + this.domainsArray[n]);
             }
             throw new AccessControlException(Msg.getString("K002c", permission), permission);
         }
         if ((AccessControlContext.debugSetting() & 1) != 0) {
             AccessControlContext.debugPrintAccess();
-            System.err.println(new StringBuffer("access allowed ").append(permission).toString());
+            System.err.println("access allowed " + permission);
         }
     }
 
@@ -157,7 +157,7 @@ public final class AccessControlContext {
         if (this == object) {
             return true;
         }
-        if (object == null || super.getClass() != object.getClass()) {
+        if (object == null || this.getClass() != object.getClass()) {
             return false;
         }
         AccessControlContext accessControlContext = (AccessControlContext)object;

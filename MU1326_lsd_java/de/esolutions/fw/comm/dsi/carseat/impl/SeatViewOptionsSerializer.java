@@ -10,6 +10,7 @@ import de.esolutions.fw.comm.dsi.carseat.impl.VisualizationConfigSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.MassageConfig;
 import org.dsi.ifc.carseat.SeatViewOptions;
 import org.dsi.ifc.carseat.SeatZoneViewOptions;
@@ -18,7 +19,7 @@ import org.dsi.ifc.carseat.VisualizationConfig;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SeatViewOptionsSerializer {
-    public static void putOptionalSeatViewOptions(ISerializer iSerializer, SeatViewOptions seatViewOptions) {
+    public static void putOptionalSeatViewOptions(ISerializer iSerializer, SeatViewOptions seatViewOptions) throws SerializerException {
         boolean bl = seatViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -91,7 +92,7 @@ public class SeatViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSeatViewOptionsVarArray(ISerializer iSerializer, SeatViewOptions[] seatViewOptionsArray) {
+    public static void putOptionalSeatViewOptionsVarArray(ISerializer iSerializer, SeatViewOptions[] seatViewOptionsArray) throws SerializerException {
         boolean bl = seatViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -102,7 +103,7 @@ public class SeatViewOptionsSerializer {
         }
     }
 
-    public static SeatViewOptions getOptionalSeatViewOptions(IDeserializer iDeserializer) {
+    public static SeatViewOptions getOptionalSeatViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SeatViewOptions seatViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -177,7 +178,7 @@ public class SeatViewOptionsSerializer {
         return seatViewOptions;
     }
 
-    public static SeatViewOptions[] getOptionalSeatViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SeatViewOptions[] getOptionalSeatViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatViewOptions[] seatViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

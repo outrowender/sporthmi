@@ -4,42 +4,32 @@
 package de.esolutions.fw.comm.asi.hmisync.car.service.impl;
 
 import de.esolutions.fw.comm.asi.hmisync.car.FloatBaseType;
+import de.esolutions.fw.comm.asi.hmisync.car.impl.FloatBaseTypeSerializer;
 import de.esolutions.fw.comm.asi.hmisync.car.service.ASIHMISyncCarServiceReply;
 import de.esolutions.fw.comm.asi.hmisync.car.service.AdBlueInfo;
 import de.esolutions.fw.comm.asi.hmisync.car.service.OilLevelData;
 import de.esolutions.fw.comm.asi.hmisync.car.service.SIAOilInspection;
 import de.esolutions.fw.comm.asi.hmisync.car.service.SIAServiceData;
 import de.esolutions.fw.comm.asi.hmisync.car.service.TireDisplayData;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$10;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$11;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$12;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$13;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$14;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$15;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$16;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$17;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$18;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$19;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$2;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$20;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$3;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$4;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$5;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$6;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$7;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$8;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceReplyProxy$9;
+import de.esolutions.fw.comm.asi.hmisync.car.service.impl.AdBlueInfoSerializer;
+import de.esolutions.fw.comm.asi.hmisync.car.service.impl.OilLevelDataSerializer;
+import de.esolutions.fw.comm.asi.hmisync.car.service.impl.SIAOilInspectionSerializer;
+import de.esolutions.fw.comm.asi.hmisync.car.service.impl.SIAServiceDataSerializer;
+import de.esolutions.fw.comm.asi.hmisync.car.service.impl.TireDisplayDataSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ASIHMISyncCarServiceReplyProxy
 implements ASIHMISyncCarServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.hmisync.car.service.ASIHMISyncCarService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ASIHMISyncCarServiceReplyProxy() {
@@ -47,129 +37,228 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$1 aSIHMISyncCarServiceReplyProxy$1 = new ASIHMISyncCarServiceReplyProxy$1(this, string, bl);
-        this.proxy.remoteCallMethod((short)6, aSIHMISyncCarServiceReplyProxy$1);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$2 aSIHMISyncCarServiceReplyProxy$2 = new ASIHMISyncCarServiceReplyProxy$2(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)14, aSIHMISyncCarServiceReplyProxy$2);
+    public void updateRequestIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$3 aSIHMISyncCarServiceReplyProxy$3 = new ASIHMISyncCarServiceReplyProxy$3(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)13, aSIHMISyncCarServiceReplyProxy$3);
+    public void updateReplyIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void updateOilLevelData(OilLevelData oilLevelData, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$4 aSIHMISyncCarServiceReplyProxy$4 = new ASIHMISyncCarServiceReplyProxy$4(this, oilLevelData, bl);
-        this.proxy.remoteCallMethod((short)11, aSIHMISyncCarServiceReplyProxy$4);
+    public void updateOilLevelData(final OilLevelData oilLevelData, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OilLevelDataSerializer.putOptionalOilLevelData(iSerializer, oilLevelData);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void updateOilLevelDataVisibilityState(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$5 aSIHMISyncCarServiceReplyProxy$5 = new ASIHMISyncCarServiceReplyProxy$5(this, n, bl);
-        this.proxy.remoteCallMethod((short)12, aSIHMISyncCarServiceReplyProxy$5);
+    public void updateOilLevelDataVisibilityState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void updateAdBlueInfo(AdBlueInfo adBlueInfo, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$6 aSIHMISyncCarServiceReplyProxy$6 = new ASIHMISyncCarServiceReplyProxy$6(this, adBlueInfo, bl);
-        this.proxy.remoteCallMethod((short)26, aSIHMISyncCarServiceReplyProxy$6);
+    public void updateAdBlueInfo(final AdBlueInfo adBlueInfo, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AdBlueInfoSerializer.putOptionalAdBlueInfo(iSerializer, adBlueInfo);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void updateAdBlueInfoVisibilityState(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$7 aSIHMISyncCarServiceReplyProxy$7 = new ASIHMISyncCarServiceReplyProxy$7(this, n, bl);
-        this.proxy.remoteCallMethod((short)8, aSIHMISyncCarServiceReplyProxy$7);
+    public void updateAdBlueInfoVisibilityState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$8 aSIHMISyncCarServiceReplyProxy$8 = new ASIHMISyncCarServiceReplyProxy$8(this, sIAOilInspection, bl);
-        this.proxy.remoteCallMethod((short)15, aSIHMISyncCarServiceReplyProxy$8);
+    public void updateSIAOilInspection(final SIAOilInspection sIAOilInspection, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SIAOilInspectionSerializer.putOptionalSIAOilInspection(iSerializer, sIAOilInspection);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void updateSIAOilInspectionVisibilityState(int[] nArray, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$9 aSIHMISyncCarServiceReplyProxy$9 = new ASIHMISyncCarServiceReplyProxy$9(this, nArray, bl);
-        this.proxy.remoteCallMethod((short)16, aSIHMISyncCarServiceReplyProxy$9);
+    public void updateSIAOilInspectionVisibilityState(final int[] nArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void updateSIAServiceData(SIAServiceData sIAServiceData, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$10 aSIHMISyncCarServiceReplyProxy$10 = new ASIHMISyncCarServiceReplyProxy$10(this, sIAServiceData, bl);
-        this.proxy.remoteCallMethod((short)17, aSIHMISyncCarServiceReplyProxy$10);
+    public void updateSIAServiceData(final SIAServiceData sIAServiceData, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SIAServiceDataSerializer.putOptionalSIAServiceData(iSerializer, sIAServiceData);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void updateSIAServiceDataVisibilityState(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$11 aSIHMISyncCarServiceReplyProxy$11 = new ASIHMISyncCarServiceReplyProxy$11(this, n, bl);
-        this.proxy.remoteCallMethod((short)18, aSIHMISyncCarServiceReplyProxy$11);
+    public void updateSIAServiceDataVisibilityState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void updateVinData(String string, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$12 aSIHMISyncCarServiceReplyProxy$12 = new ASIHMISyncCarServiceReplyProxy$12(this, string, bl);
-        this.proxy.remoteCallMethod((short)24, aSIHMISyncCarServiceReplyProxy$12);
+    public void updateVinData(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)24, iSerializable);
     }
 
-    @Override
-    public void updateVinDataVisibilityState(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$13 aSIHMISyncCarServiceReplyProxy$13 = new ASIHMISyncCarServiceReplyProxy$13(this, n, bl);
-        this.proxy.remoteCallMethod((short)25, aSIHMISyncCarServiceReplyProxy$13);
+    public void updateVinDataVisibilityState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void updateKeyData(int[] nArray, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$14 aSIHMISyncCarServiceReplyProxy$14 = new ASIHMISyncCarServiceReplyProxy$14(this, nArray, bl);
-        this.proxy.remoteCallMethod((short)9, aSIHMISyncCarServiceReplyProxy$14);
+    public void updateKeyData(final int[] nArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void updateKeyDataVisibilityState(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$15 aSIHMISyncCarServiceReplyProxy$15 = new ASIHMISyncCarServiceReplyProxy$15(this, n, bl);
-        this.proxy.remoteCallMethod((short)10, aSIHMISyncCarServiceReplyProxy$15);
+    public void updateKeyDataVisibilityState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void updateTireDisplayData(TireDisplayData tireDisplayData, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$16 aSIHMISyncCarServiceReplyProxy$16 = new ASIHMISyncCarServiceReplyProxy$16(this, tireDisplayData, bl);
-        this.proxy.remoteCallMethod((short)19, aSIHMISyncCarServiceReplyProxy$16);
+    public void updateTireDisplayData(final TireDisplayData tireDisplayData, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TireDisplayDataSerializer.putOptionalTireDisplayData(iSerializer, tireDisplayData);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void updateTireDisplayDataVisibilityState(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$17 aSIHMISyncCarServiceReplyProxy$17 = new ASIHMISyncCarServiceReplyProxy$17(this, n, bl);
-        this.proxy.remoteCallMethod((short)20, aSIHMISyncCarServiceReplyProxy$17);
+    public void updateTireDisplayDataVisibilityState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void updateTireSystem(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$18 aSIHMISyncCarServiceReplyProxy$18 = new ASIHMISyncCarServiceReplyProxy$18(this, n, bl);
-        this.proxy.remoteCallMethod((short)21, aSIHMISyncCarServiceReplyProxy$18);
+    public void updateTireSystem(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void updateVehicleSpeedVisibility(int n, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$19 aSIHMISyncCarServiceReplyProxy$19 = new ASIHMISyncCarServiceReplyProxy$19(this, n, bl);
-        this.proxy.remoteCallMethod((short)23, aSIHMISyncCarServiceReplyProxy$19);
+    public void updateVehicleSpeedVisibility(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)23, iSerializable);
     }
 
-    @Override
-    public void updateVehicleSpeed(FloatBaseType floatBaseType, boolean bl) {
-        ASIHMISyncCarServiceReplyProxy$20 aSIHMISyncCarServiceReplyProxy$20 = new ASIHMISyncCarServiceReplyProxy$20(this, floatBaseType, bl);
-        this.proxy.remoteCallMethod((short)22, aSIHMISyncCarServiceReplyProxy$20);
+    public void updateVehicleSpeed(final FloatBaseType floatBaseType, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                FloatBaseTypeSerializer.putOptionalFloatBaseType(iSerializer, floatBaseType);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 }
 

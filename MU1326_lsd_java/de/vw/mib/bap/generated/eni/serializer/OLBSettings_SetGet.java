@@ -12,15 +12,15 @@ public final class OLBSettings_SetGet
 implements SetGetProperty {
     public OLBSettings_Olb_Setup olb_Setup = new OLBSettings_Olb_Setup();
     public int reserve;
-    public static final int RESERVE_MIN;
+    public static final int RESERVE_MIN = 0;
     public int extension1;
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
     public int extension3;
-    public static final int EXTENSION3_MIN;
+    public static final int EXTENSION3_MIN = 0;
     public int extension4;
-    public static final int EXTENSION4_MIN;
+    public static final int EXTENSION4_MIN = 0;
 
     public OLBSettings_SetGet() {
         this.internalReset();
@@ -40,13 +40,11 @@ implements SetGetProperty {
         this.extension4 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.olb_Setup.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OLBSettings_SetGet oLBSettings_SetGet = (OLBSettings_SetGet)bAPEntity;
         return this.olb_Setup.equalTo(oLBSettings_SetGet.olb_Setup) && this.reserve == oLBSettings_SetGet.reserve && this.extension1 == oLBSettings_SetGet.extension1 && this.extension2 == oLBSettings_SetGet.extension2 && this.extension3 == oLBSettings_SetGet.extension3 && this.extension4 == oLBSettings_SetGet.extension4;
@@ -55,25 +53,22 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OLBSettings_SetGet");
-        stringBuffer.append(new StringBuffer().append("\n - olb_Setup:").append(this.olb_Setup.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve:").append(this.reserve).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension1:").append(this.extension1).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension2:").append(this.extension2).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension3:").append(this.extension3).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension4:").append(this.extension4).toString());
+        stringBuffer.append("\n - olb_Setup:" + this.olb_Setup.toString());
+        stringBuffer.append("\n - reserve:" + this.reserve);
+        stringBuffer.append("\n - extension1:" + this.extension1);
+        stringBuffer.append("\n - extension2:" + this.extension2);
+        stringBuffer.append("\n - extension3:" + this.extension3);
+        stringBuffer.append("\n - extension4:" + this.extension4);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.olb_Setup.serialize(bitStream);
         bitStream.pushByte((byte)this.reserve);
@@ -83,7 +78,6 @@ implements SetGetProperty {
         bitStream.pushByte((byte)this.extension4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.olb_Setup.deserialize(bitStream);
         this.reserve = bitStream.popFrontByte();
@@ -97,7 +91,6 @@ implements SetGetProperty {
         return 34;
     }
 
-    @Override
     public int getFunctionId() {
         return OLBSettings_SetGet.functionId();
     }

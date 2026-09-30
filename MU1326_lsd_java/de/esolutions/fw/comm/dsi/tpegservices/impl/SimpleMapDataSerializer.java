@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tpegservices.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.tpegservices.SimpleMapData;
 
 public class SimpleMapDataSerializer {
-    public static void putOptionalSimpleMapData(ISerializer iSerializer, SimpleMapData simpleMapData) {
+    public static void putOptionalSimpleMapData(ISerializer iSerializer, SimpleMapData simpleMapData) throws SerializerException {
         boolean bl = simpleMapData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SimpleMapDataSerializer {
         }
     }
 
-    public static void putOptionalSimpleMapDataVarArray(ISerializer iSerializer, SimpleMapData[] simpleMapDataArray) {
+    public static void putOptionalSimpleMapDataVarArray(ISerializer iSerializer, SimpleMapData[] simpleMapDataArray) throws SerializerException {
         boolean bl = simpleMapDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SimpleMapDataSerializer {
         }
     }
 
-    public static SimpleMapData getOptionalSimpleMapData(IDeserializer iDeserializer) {
+    public static SimpleMapData getOptionalSimpleMapData(IDeserializer iDeserializer) throws SerializerException {
         SimpleMapData simpleMapData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class SimpleMapDataSerializer {
         return simpleMapData;
     }
 
-    public static SimpleMapData[] getOptionalSimpleMapDataVarArray(IDeserializer iDeserializer) {
+    public static SimpleMapData[] getOptionalSimpleMapDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         SimpleMapData[] simpleMapDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.IntellitextSubmenu;
 
 public class IntellitextSubmenuSerializer {
-    public static void putOptionalIntellitextSubmenu(ISerializer iSerializer, IntellitextSubmenu intellitextSubmenu) {
+    public static void putOptionalIntellitextSubmenu(ISerializer iSerializer, IntellitextSubmenu intellitextSubmenu) throws SerializerException {
         boolean bl = intellitextSubmenu == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class IntellitextSubmenuSerializer {
         }
     }
 
-    public static void putOptionalIntellitextSubmenuVarArray(ISerializer iSerializer, IntellitextSubmenu[] intellitextSubmenuArray) {
+    public static void putOptionalIntellitextSubmenuVarArray(ISerializer iSerializer, IntellitextSubmenu[] intellitextSubmenuArray) throws SerializerException {
         boolean bl = intellitextSubmenuArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class IntellitextSubmenuSerializer {
         }
     }
 
-    public static IntellitextSubmenu getOptionalIntellitextSubmenu(IDeserializer iDeserializer) {
+    public static IntellitextSubmenu getOptionalIntellitextSubmenu(IDeserializer iDeserializer) throws SerializerException {
         IntellitextSubmenu intellitextSubmenu = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class IntellitextSubmenuSerializer {
         return intellitextSubmenu;
     }
 
-    public static IntellitextSubmenu[] getOptionalIntellitextSubmenuVarArray(IDeserializer iDeserializer) {
+    public static IntellitextSubmenu[] getOptionalIntellitextSubmenuVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntellitextSubmenu[] intellitextSubmenuArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

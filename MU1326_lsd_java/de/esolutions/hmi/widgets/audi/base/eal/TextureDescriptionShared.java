@@ -23,7 +23,6 @@ extends AbstractTextureDescription {
         this.height = n2;
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         ITextureShared iTextureShared = this.ealManager.createSharedTexture(this.name, this.width, this.height);
         if (iTextureShared == null) {
@@ -32,17 +31,14 @@ extends AbstractTextureDescription {
         return new WrappedTexture(iTextureShared, this, this.ealManager);
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return new int[]{this.width, this.height};
     }
 
-    @Override
     public Object getCacheKey() {
         return this;
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return null;
     }

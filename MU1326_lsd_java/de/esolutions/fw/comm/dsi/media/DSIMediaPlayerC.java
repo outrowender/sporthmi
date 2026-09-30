@@ -3,110 +3,77 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIMediaPlayerC {
-    default public void setPlaybackMode(int n) {
-    }
+    public void setPlaybackMode(int var1) throws MethodException;
 
-    default public void setVideoNorm(int n) {
-    }
+    public void setVideoNorm(int var1) throws MethodException;
 
-    default public void setRating(long l, int n) {
-    }
+    public void setRating(long var1, int var3) throws MethodException;
 
-    default public void requestCoverArt(long l) {
-    }
+    public void requestCoverArt(long var1) throws MethodException;
 
-    default public void requestFullyQualifiedName(long l) {
-    }
+    public void requestFullyQualifiedName(long var1) throws MethodException;
 
-    default public void setEntry(long l, int n) {
-    }
+    public void setEntry(long var1, int var3) throws MethodException;
 
-    default public void play() {
-    }
+    public void play() throws MethodException;
 
-    default public void resume() {
-    }
+    public void resume() throws MethodException;
 
-    default public void pause() {
-    }
+    public void pause() throws MethodException;
 
-    default public void stop() {
-    }
+    public void stop() throws MethodException;
 
-    default public void seek(int n, int n2) {
-    }
+    public void seek(int var1, int var2) throws MethodException;
 
-    default public void skip(int n, int n2) {
-    }
+    public void skip(int var1, int var2) throws MethodException;
 
-    default public void setActiveMedia(long l, long l2, int n) {
-    }
+    public void setActiveMedia(long var1, long var3, int var5) throws MethodException;
 
-    default public void requestPlayView(long l, int n, int n2, int n3) {
-    }
+    public void requestPlayView(long var1, int var3, int var4, int var5) throws MethodException;
 
-    default public void executeMenuCmd(int n) {
-    }
+    public void executeMenuCmd(int var1) throws MethodException;
 
-    default public void setVideoAngle(int n) {
-    }
+    public void setVideoAngle(int var1) throws MethodException;
 
-    default public void setAudioStream(int n) {
-    }
+    public void setAudioStream(int var1) throws MethodException;
 
-    default public void setVideoFormat(int n) {
-    }
+    public void setVideoFormat(int var1) throws MethodException;
 
-    default public void setSubtitleLanguage(int n) {
-    }
+    public void setSubtitleLanguage(int var1) throws MethodException;
 
-    default public void requestDetailInfo(long l) {
-    }
+    public void requestDetailInfo(long var1) throws MethodException;
 
-    default public void setPlaySelection(int n, long l, boolean bl) {
-    }
+    public void setPlaySelection(int var1, long var2, boolean var4) throws MethodException;
 
-    default public void setPlaySelectionAB(int n) {
-    }
+    public void setPlaySelectionAB(int var1) throws MethodException;
 
-    default public void setPlaybackURL(String string) {
-    }
+    public void setPlaybackURL(String var1) throws MethodException;
 
-    default public void setVideoRect(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
-    }
+    public void setVideoRect(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8) throws MethodException;
 
-    default public void playSimilarEntry(long l, int n) {
-    }
+    public void playSimilarEntry(long var1, int var3) throws MethodException;
 
-    default public void grantTempPMLRequest() {
-    }
+    public void grantTempPMLRequest() throws MethodException;
 
-    default public void denyTempPMLRequest() {
-    }
+    public void denyTempPMLRequest() throws MethodException;
 
-    default public void requestTouchEvent(int n, int n2, int n3) {
-    }
+    public void requestTouchEvent(int var1, int var2, int var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

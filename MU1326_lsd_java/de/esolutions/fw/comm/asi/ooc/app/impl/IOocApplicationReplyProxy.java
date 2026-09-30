@@ -4,23 +4,20 @@
 package de.esolutions.fw.comm.asi.ooc.app.impl;
 
 import de.esolutions.fw.comm.asi.ooc.app.IOocApplicationReply;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$1;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$2;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$3;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$4;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$5;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$6;
-import de.esolutions.fw.comm.asi.ooc.app.impl.IOocApplicationReplyProxy$7;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class IOocApplicationReplyProxy
 implements IOocApplicationReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.ooc.app.IOocApplication");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public IOocApplicationReplyProxy() {
@@ -28,51 +25,81 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updatePowerState(long l) {
-        IOocApplicationReplyProxy$1 iOocApplicationReplyProxy$1 = new IOocApplicationReplyProxy$1(this, l);
-        this.proxy.remoteCallMethod((short)5, iOocApplicationReplyProxy$1);
+    public void updatePowerState(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void updateShutdownRequest(int n) {
-        IOocApplicationReplyProxy$2 iOocApplicationReplyProxy$2 = new IOocApplicationReplyProxy$2(this, n);
-        this.proxy.remoteCallMethod((short)6, iOocApplicationReplyProxy$2);
+    public void updateShutdownRequest(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void updateClampSignal(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        IOocApplicationReplyProxy$3 iOocApplicationReplyProxy$3 = new IOocApplicationReplyProxy$3(this, bl, bl2, bl3, bl4);
-        this.proxy.remoteCallMethod((short)4, iOocApplicationReplyProxy$3);
+    public void updateClampSignal(final boolean bl, final boolean bl2, final boolean bl3, final boolean bl4) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                iSerializer.putBool(bl2);
+                iSerializer.putBool(bl3);
+                iSerializer.putBool(bl4);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 
-    @Override
-    public void updateVoltageLevel(int n) {
-        IOocApplicationReplyProxy$4 iOocApplicationReplyProxy$4 = new IOocApplicationReplyProxy$4(this, n);
-        this.proxy.remoteCallMethod((short)7, iOocApplicationReplyProxy$4);
+    public void updateVoltageLevel(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void updateRunMode(int n) {
-        IOocApplicationReplyProxy$5 iOocApplicationReplyProxy$5 = new IOocApplicationReplyProxy$5(this, n);
-        this.proxy.remoteCallMethod((short)10, iOocApplicationReplyProxy$5);
+    public void updateRunMode(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void updateCarLockSignal(boolean bl) {
-        IOocApplicationReplyProxy$6 iOocApplicationReplyProxy$6 = new IOocApplicationReplyProxy$6(this, bl);
-        this.proxy.remoteCallMethod((short)12, iOocApplicationReplyProxy$6);
+    public void updateCarLockSignal(final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void updatePowerOnPinStatus(boolean bl) {
-        IOocApplicationReplyProxy$7 iOocApplicationReplyProxy$7 = new IOocApplicationReplyProxy$7(this, bl);
-        this.proxy.remoteCallMethod((short)13, iOocApplicationReplyProxy$7);
+    public void updatePowerOnPinStatus(final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 }
 

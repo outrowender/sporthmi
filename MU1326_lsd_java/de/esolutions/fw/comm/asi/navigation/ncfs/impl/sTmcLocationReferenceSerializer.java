@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.ncfs.impl;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sTmcLocationReference;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTmcLocationReferenceSerializer {
-    public static void putOptionalsTmcLocationReference(ISerializer iSerializer, sTmcLocationReference sTmcLocationReference2) {
+    public static void putOptionalsTmcLocationReference(ISerializer iSerializer, sTmcLocationReference sTmcLocationReference2) throws SerializerException {
         boolean bl = sTmcLocationReference2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class sTmcLocationReferenceSerializer {
         }
     }
 
-    public static void putOptionalsTmcLocationReferenceVarArray(ISerializer iSerializer, sTmcLocationReference[] sTmcLocationReferenceArray) {
+    public static void putOptionalsTmcLocationReferenceVarArray(ISerializer iSerializer, sTmcLocationReference[] sTmcLocationReferenceArray) throws SerializerException {
         boolean bl = sTmcLocationReferenceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class sTmcLocationReferenceSerializer {
         }
     }
 
-    public static sTmcLocationReference getOptionalsTmcLocationReference(IDeserializer iDeserializer) {
+    public static sTmcLocationReference getOptionalsTmcLocationReference(IDeserializer iDeserializer) throws SerializerException {
         sTmcLocationReference sTmcLocationReference2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class sTmcLocationReferenceSerializer {
         return sTmcLocationReference2;
     }
 
-    public static sTmcLocationReference[] getOptionalsTmcLocationReferenceVarArray(IDeserializer iDeserializer) {
+    public static sTmcLocationReference[] getOptionalsTmcLocationReferenceVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTmcLocationReference[] sTmcLocationReferenceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,6 +5,7 @@ package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.ConfigValue;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -20,32 +21,26 @@ extends ConfigValue {
         this.list.remove(configValue);
     }
 
-    @Override
     public boolean isArray() {
         return true;
     }
 
-    @Override
     public boolean isDictionary() {
         return false;
     }
 
-    @Override
     public boolean isNull() {
         return false;
     }
 
-    @Override
     public boolean isScalar() {
         return false;
     }
 
-    @Override
     public int getArraySize() {
         return this.list.size();
     }
 
-    @Override
     public ConfigValue getArrayValue(int n) {
         return (ConfigValue)this.list.get(n);
     }
@@ -84,8 +79,7 @@ extends ConfigValue {
         return n;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         iConfigExporter.beginArray(this, this.list.size());
         ListIterator listIterator = this.list.listIterator();
         int n = 0;

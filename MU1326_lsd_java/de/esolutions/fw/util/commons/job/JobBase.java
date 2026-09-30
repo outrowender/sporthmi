@@ -6,7 +6,7 @@ package de.esolutions.fw.util.commons.job;
 import java.io.PrintStream;
 
 public class JobBase {
-    protected static final long DUE_ASAP;
+    protected static final long DUE_ASAP = 0L;
     private long posted;
     private long started;
     private long finished;

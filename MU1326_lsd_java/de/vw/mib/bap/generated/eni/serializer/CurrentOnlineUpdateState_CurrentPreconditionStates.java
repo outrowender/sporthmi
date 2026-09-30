@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class CurrentOnlineUpdateState_CurrentPreconditionStates
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean standstill;
 
     public CurrentOnlineUpdateState_CurrentPreconditionStates() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.standstill = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentOnlineUpdateState_CurrentPreconditionStates currentOnlineUpdateState_CurrentPreconditionStates = (CurrentOnlineUpdateState_CurrentPreconditionStates)bAPEntity;
         return this.standstill == currentOnlineUpdateState_CurrentPreconditionStates.standstill;
@@ -39,26 +37,22 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentOnlineUpdateState_CurrentPreconditionStates");
-        stringBuffer.append(new StringBuffer().append("\n - standstill:").append(this.standstill).toString());
+        stringBuffer.append("\n - standstill:" + this.standstill);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.standstill);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.standstill = bitStream.popFrontBoolean();

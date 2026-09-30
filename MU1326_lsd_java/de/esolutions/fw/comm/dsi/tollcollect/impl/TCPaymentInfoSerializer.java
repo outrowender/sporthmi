@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.NavPriceInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.global.NavPriceInfo;
 import org.dsi.ifc.tollcollect.TCPaymentInfo;
 
 public class TCPaymentInfoSerializer {
-    public static void putOptionalTCPaymentInfo(ISerializer iSerializer, TCPaymentInfo tCPaymentInfo) {
+    public static void putOptionalTCPaymentInfo(ISerializer iSerializer, TCPaymentInfo tCPaymentInfo) throws SerializerException {
         boolean bl = tCPaymentInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class TCPaymentInfoSerializer {
         }
     }
 
-    public static void putOptionalTCPaymentInfoVarArray(ISerializer iSerializer, TCPaymentInfo[] tCPaymentInfoArray) {
+    public static void putOptionalTCPaymentInfoVarArray(ISerializer iSerializer, TCPaymentInfo[] tCPaymentInfoArray) throws SerializerException {
         boolean bl = tCPaymentInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class TCPaymentInfoSerializer {
         }
     }
 
-    public static TCPaymentInfo getOptionalTCPaymentInfo(IDeserializer iDeserializer) {
+    public static TCPaymentInfo getOptionalTCPaymentInfo(IDeserializer iDeserializer) throws SerializerException {
         TCPaymentInfo tCPaymentInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class TCPaymentInfoSerializer {
         return tCPaymentInfo;
     }
 
-    public static TCPaymentInfo[] getOptionalTCPaymentInfoVarArray(IDeserializer iDeserializer) {
+    public static TCPaymentInfo[] getOptionalTCPaymentInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         TCPaymentInfo[] tCPaymentInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

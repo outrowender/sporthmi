@@ -11,7 +11,7 @@ import de.audi.atip.preset.ITunerNARHandler;
 import de.audi.atip.preset.Preset;
 import de.audi.tghu.hmi.evo.HMITerminalEvo;
 import de.eso.widgets.preset.PresetManager;
-import de.eso.widgets.preset.PresetManagerNAR$1;
+import de.eso.widgets.preset.PresetPopupData;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import java.io.Serializable;
 import org.osgi.framework.BundleContext;
@@ -22,7 +22,6 @@ extends PresetManager {
         super(hMITerminalEvo, bundleContext, iFrameworkAccess);
     }
 
-    @Override
     public void saveToPersistence(int n) {
         super.saveToPersistence(n);
         ITunerNARHandler iTunerNARHandler = this.presetDefinitionReg.getTunerNARHandler();
@@ -32,12 +31,20 @@ extends PresetManager {
         }
     }
 
-    @Override
-    public void favoriteDefinitionChanged(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
-        AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new PresetManagerNAR$1(this, definitionRequest, n, serializable, presetListRow, n2)));
+    public void favoriteDefinitionChanged(final DefinitionRequest definitionRequest, final int n, final Serializable serializable, final PresetListRow presetListRow, final int n2) {
+        AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+            public void run() {
+                int n3 = definitionRequest.getPresetIndex();
+                Preset preset = new Preset(1, -1, 0, null, null, 1);
+                PresetPopupData presetPopupData = new PresetPopupData(0, -19456, preset, null, null, -1, null);
+                PresetManagerNAR.this.getPresetStorageProvider().setPresetPopupDataToStore(n3, presetPopupData);
+                PresetManagerNAR.this.responseDefineEvent(definitionRequest, n, serializable, presetListRow, n2);
+                PresetManagerNAR.this.getPresetStorageProvider().saveToPersistence(n3);
+            }
+        }));
     }
 
-    @Override
     protected void responseDefineEvent(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
         if (n2 != 1) {
             n = 2;

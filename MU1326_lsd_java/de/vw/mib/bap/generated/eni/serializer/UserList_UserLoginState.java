@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class UserList_UserLoginState
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean userIsLoggedIn;
 
     public UserList_UserLoginState() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.userIsLoggedIn = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         UserList_UserLoginState userList_UserLoginState = (UserList_UserLoginState)bAPEntity;
         return this.userIsLoggedIn == userList_UserLoginState.userIsLoggedIn;
@@ -39,26 +37,22 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("UserList_UserLoginState");
-        stringBuffer.append(new StringBuffer().append("\n - userIsLoggedIn:").append(this.userIsLoggedIn).toString());
+        stringBuffer.append("\n - userIsLoggedIn:" + this.userIsLoggedIn);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.userIsLoggedIn);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.userIsLoggedIn = bitStream.popFrontBoolean();

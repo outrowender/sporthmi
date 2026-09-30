@@ -5,29 +5,23 @@ package de.eso.widgets.preset;
 
 import de.audi.atip.hmi.event.TouchEvent;
 import de.audi.atip.log.LogChannel;
-import de.eso.widgets.preset.PresetFSM$NoAppRegistered;
-import de.eso.widgets.preset.PresetFSM$PresetInitState;
-import de.eso.widgets.preset.PresetFSM$PresetLongPressed;
-import de.eso.widgets.preset.PresetFSM$PresetLongTouched;
-import de.eso.widgets.preset.PresetFSM$PresetNotTouchedButHideDelayPopupShown;
-import de.eso.widgets.preset.PresetFSM$PresetPressed;
-import de.eso.widgets.preset.PresetFSM$PresetTouched;
-import de.eso.widgets.preset.PresetFSM$State;
+import de.audi.tghu.hmi.evo.IPresetPopupData;
 import de.eso.widgets.preset.PresetManager;
 import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 
 public final class PresetFSM {
     private static LogChannel lc = IWidgetLogChannel.logPreset;
-    private final PresetFSM$State stateInit = new PresetFSM$PresetInitState(this, null);
-    private final PresetFSM$State stateNotTouched = new PresetFSM$PresetNotTouchedButHideDelayPopupShown(this, null);
-    private final PresetFSM$State stateTouched = new PresetFSM$PresetTouched(this, null);
-    private final PresetFSM$State stateLongTouched = new PresetFSM$PresetLongTouched(this, null);
-    private final PresetFSM$State statePressed = new PresetFSM$PresetPressed(this, null);
-    private final PresetFSM$State stateLongPressed = new PresetFSM$PresetLongPressed(this, null);
-    private final PresetFSM$State stateNoAppRegistered = new PresetFSM$NoAppRegistered(this, null);
-    private PresetFSM$State lastState = this.stateInit;
-    private PresetFSM$State currentState = this.stateInit;
+    private final State stateInit = new PresetInitState();
+    private final State stateNotTouched = new PresetNotTouchedButHideDelayPopupShown();
+    private final State stateTouched = new PresetTouched();
+    private final State stateLongTouched = new PresetLongTouched();
+    private final State statePressed = new PresetPressed();
+    private final State stateLongPressed = new PresetLongPressed();
+    private final State stateNoAppRegistered = new NoAppRegistered();
+    private State lastState = this.stateInit;
+    private State currentState = this.stateInit;
     private PresetManager presetManager;
     private int currentPresetIndex;
 
@@ -35,12 +29,12 @@ public final class PresetFSM {
         this.presetManager = presetManager;
     }
 
-    private void setState(PresetFSM$State presetFSM$State) {
-        lc.log(-2137614336, "[PresetFSM.setState] state=%1, currentState=%2", (Object)presetFSM$State, (Object)this.currentState);
-        if (!presetFSM$State.equals(this.currentState)) {
+    private void setState(State state) {
+        lc.log(10000000, "[PresetFSM.setState] state=%1, currentState=%2", (Object)state, (Object)this.currentState);
+        if (!state.equals(this.currentState)) {
             this.lastState = this.currentState;
             this.lastState.onExit();
-            this.currentState = presetFSM$State;
+            this.currentState = state;
             this.currentState.onEnter();
         }
     }
@@ -100,48 +94,254 @@ public final class PresetFSM {
         return new Buffer().append("PresetFSM [lastState=").append(this.lastState).append(", currentState=").append(this.currentState).append(']').toString();
     }
 
-    static /* synthetic */ PresetFSM$State access$700(PresetFSM presetFSM) {
-        return presetFSM.stateInit;
+    private abstract class State {
+        private State() {
+        }
+
+        protected void onEnter() {
+        }
+
+        protected void onExit() {
+        }
+
+        protected void touchPadApproached() {
+        }
+
+        protected void touchPadAbandoned() {
+        }
+
+        protected void keyPressed() {
+        }
+
+        protected void keyReleased() {
+        }
+
+        protected void touchPadPositionMoved(TouchEvent touchEvent) {
+            touchEvent.consume();
+        }
+
+        public void fireHideDelayTimer() {
+        }
+
+        public void fireLongTouchTimer() {
+        }
+
+        public void fireLongPressTimer() {
+        }
+
+        public void fireEarlyStoreTimer() {
+        }
+
+        protected void fireLongPressDelayTimer() {
+        }
+
+        protected void fireSaveDelayTimer() {
+        }
+
+        public void cancelPopup() {
+            PresetFSM.this.setState(PresetFSM.this.stateInit);
+        }
+
+        public String toString() {
+            String string = this.getClass().getName();
+            return string.substring(string.lastIndexOf(36) + 1);
+        }
     }
 
-    static /* synthetic */ void access$800(PresetFSM presetFSM, PresetFSM$State state) {
-        presetFSM.setState(state);
+    private final class PresetPressed
+    extends State {
+        private PresetPressed() {
+        }
+
+        protected void onEnter() {
+            PresetFSM.this.presetManager.getPresetPopupController().activateGlowOnActivePreset();
+            if (AbstractWidget.sdsService != null) {
+                AbstractWidget.sdsService.abortSDSSession(false, (byte)3);
+            }
+        }
+
+        protected void onExit() {
+            PresetFSM.this.presetManager.getPresetPopupController().deactivateGlowOnActivePreset();
+        }
+
+        protected void touchPadAbandoned() {
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelLongPressTimer();
+            PresetFSM.this.setState(PresetFSM.this.stateNotTouched);
+        }
+
+        protected void keyReleased() {
+            boolean bl = false;
+            if (!PresetFSM.this.presetManager.getPresetTimerHandler().isLongPressTimerActive()) {
+                try {
+                    bl = PresetFSM.this.presetManager.handleExecution(PresetFSM.this.currentPresetIndex);
+                }
+                catch (Exception exception) {
+                    lc.log(10000, "PresetPressed.keyReleased: Exception", (Throwable)exception);
+                }
+            }
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelEarlyStoreTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelLongPressTimer();
+            if (bl) {
+                PresetFSM.this.setState(PresetFSM.this.stateNotTouched);
+            } else {
+                PresetFSM.this.setState(PresetFSM.this.stateNoAppRegistered);
+            }
+        }
+
+        public void fireLongPressTimer() {
+            IPresetPopupData iPresetPopupData = PresetFSM.this.presetManager.getPresetStorageProvider().getPresetPopupDataToStore(PresetFSM.this.currentPresetIndex);
+            if (iPresetPopupData.getResult() == 0) {
+                PresetFSM.this.setState(PresetFSM.this.stateLongPressed);
+            } else {
+                lc.log(100000, "PresetPressed.fireLongPressTimer: long press not possible presetNr=%1, result=%2, presetType=%3", (long)PresetFSM.this.currentPresetIndex, (long)iPresetPopupData.getResult(), (long)iPresetPopupData.getPreset().getExecutionType());
+            }
+        }
+
+        public void fireEarlyStoreTimer() {
+            PresetFSM.this.presetManager.sendDefinitionRequest(PresetFSM.this.currentPresetIndex);
+            PresetFSM.this.presetManager.getPresetPopupController().presetLongTouched(PresetFSM.this.currentPresetIndex);
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartLongPressTimer();
+        }
     }
 
-    static /* synthetic */ PresetManager access$1000(PresetFSM presetFSM) {
-        return presetFSM.presetManager;
+    private final class PresetTouched
+    extends State {
+        private PresetTouched() {
+        }
+
+        protected void onEnter() {
+            PresetFSM.this.presetManager.showPresetPopup(true);
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelHideDelayTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartLongTouchTimer();
+            PresetFSM.this.presetManager.getPresetPopupController().presetTouched(PresetFSM.this.currentPresetIndex);
+        }
+
+        protected void touchPadApproached() {
+            this.onEnter();
+        }
+
+        protected void touchPadAbandoned() {
+            PresetFSM.this.setState(PresetFSM.this.stateNotTouched);
+        }
+
+        public void fireLongTouchTimer() {
+            PresetFSM.this.setState(PresetFSM.this.stateLongTouched);
+        }
+
+        protected void keyPressed() {
+            PresetFSM.this.setState(PresetFSM.this.statePressed);
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartEarlyStoreTimer();
+        }
     }
 
-    static /* synthetic */ PresetFSM$State access$1100(PresetFSM presetFSM) {
-        return presetFSM.stateTouched;
+    private final class NoAppRegistered
+    extends State {
+        private NoAppRegistered() {
+        }
+
+        protected void onEnter() {
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartHideDelayTimer();
+            PresetFSM.this.presetManager.getPresetPopupController().presetLongTouched(PresetFSM.this.currentPresetIndex);
+        }
+
+        public void fireHideDelayTimer() {
+            PresetFSM.this.setState(PresetFSM.this.stateInit);
+        }
     }
 
-    static /* synthetic */ int access$1200(PresetFSM presetFSM) {
-        return presetFSM.currentPresetIndex;
+    private final class PresetInitState
+    extends State {
+        private PresetInitState() {
+        }
+
+        protected void onEnter() {
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelHideDelayTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelLongTouchTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelLongPressTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelEarlyStoreTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelSaveDelayTimer();
+            PresetFSM.this.presetManager.showPresetPopup(false);
+        }
+
+        protected void touchPadApproached() {
+            PresetFSM.this.setState(PresetFSM.this.stateTouched);
+        }
+
+        protected void touchPadPositionMoved(TouchEvent touchEvent) {
+        }
     }
 
-    static /* synthetic */ PresetFSM$State access$1300(PresetFSM presetFSM) {
-        return presetFSM.stateNotTouched;
+    private final class PresetLongPressed
+    extends State {
+        private PresetLongPressed() {
+        }
+
+        protected void onEnter() {
+            PresetFSM.this.presetManager.getBeepHandler().requestBeep();
+            PresetFSM.this.presetManager.saveToPersistence(PresetFSM.this.currentPresetIndex);
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartSaveDelayTimer();
+            PresetFSM.this.presetManager.getPresetPopupController().presetTouched(PresetFSM.this.currentPresetIndex);
+        }
+
+        public void fireSaveDelayTimer() {
+            PresetFSM.this.setState(PresetFSM.this.stateNotTouched);
+        }
     }
 
-    static /* synthetic */ PresetFSM$State access$1400(PresetFSM presetFSM) {
-        return presetFSM.stateLongTouched;
+    private final class PresetLongTouched
+    extends State {
+        private PresetLongTouched() {
+        }
+
+        protected void onEnter() {
+            PresetFSM.this.presetManager.sendDefinitionRequest(PresetFSM.this.currentPresetIndex);
+            PresetFSM.this.presetManager.getPresetPopupController().presetLongTouched(PresetFSM.this.currentPresetIndex);
+        }
+
+        protected void touchPadApproached() {
+            this.onEnter();
+        }
+
+        protected void touchPadAbandoned() {
+            PresetFSM.this.setState(PresetFSM.this.stateNotTouched);
+        }
+
+        protected void keyPressed() {
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartLongPressDelayTimer();
+        }
+
+        protected void keyReleased() {
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelLongPressDelayTimer();
+            PresetFSM.this.setState(PresetFSM.this.stateNotTouched);
+            boolean bl = PresetFSM.this.presetManager.handleExecution(PresetFSM.this.currentPresetIndex);
+            if (!bl) {
+                PresetFSM.this.setState(PresetFSM.this.stateNoAppRegistered);
+            }
+        }
+
+        protected void fireLongPressDelayTimer() {
+            PresetFSM.this.setState(PresetFSM.this.statePressed);
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartLongPressTimer();
+        }
     }
 
-    static /* synthetic */ PresetFSM$State access$1500(PresetFSM presetFSM) {
-        return presetFSM.statePressed;
-    }
+    private final class PresetNotTouchedButHideDelayPopupShown
+    extends State {
+        private PresetNotTouchedButHideDelayPopupShown() {
+        }
 
-    static /* synthetic */ PresetFSM$State access$1600(PresetFSM presetFSM) {
-        return presetFSM.stateNoAppRegistered;
-    }
+        protected void onEnter() {
+            PresetFSM.this.presetManager.getPresetTimerHandler().cancelLongTouchTimer();
+            PresetFSM.this.presetManager.getPresetTimerHandler().restartHideDelayTimer();
+        }
 
-    static /* synthetic */ LogChannel access$1700() {
-        return lc;
-    }
+        public void fireHideDelayTimer() {
+            PresetFSM.this.setState(PresetFSM.this.stateInit);
+        }
 
-    static /* synthetic */ PresetFSM$State access$1800(PresetFSM presetFSM) {
-        return presetFSM.stateLongPressed;
+        protected void touchPadApproached() {
+            PresetFSM.this.setState(PresetFSM.this.stateTouched);
+        }
     }
 }
 

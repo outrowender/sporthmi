@@ -4,33 +4,25 @@
 package de.esolutions.fw.util.transport;
 
 import de.esolutions.fw.util.transport.WriteableWindow;
+import de.esolutions.fw.util.transport.exception.TransportBufferException;
 
 public interface IWriteable {
-    default public int size() {
-    }
+    public int size();
 
-    default public void setData(byte[] byArray) {
-    }
+    public void setData(byte[] var1) throws TransportBufferException;
 
-    default public void setData(int n, byte[] byArray) {
-    }
+    public void setData(int var1, byte[] var2) throws TransportBufferException;
 
-    default public void setData(int n, byte[] byArray, int n2) {
-    }
+    public void setData(int var1, byte[] var2, int var3) throws TransportBufferException;
 
-    default public WriteableWindow setWindow(WriteableWindow writeableWindow) {
-    }
+    public WriteableWindow setWindow(WriteableWindow var1) throws TransportBufferException;
 
-    default public WriteableWindow setLocalWindow(int n, int n2) {
-    }
+    public WriteableWindow setLocalWindow(int var1, int var2) throws TransportBufferException;
 
-    default public void resetWindow() {
-    }
+    public void resetWindow();
 
-    default public byte[] getDirectData() {
-    }
+    public byte[] getDirectData();
 
-    default public int getDirectOffset() {
-    }
+    public int getDirectOffset();
 }
 

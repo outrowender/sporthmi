@@ -4,11 +4,7 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerCharsetDefinition;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem$Char;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem$CharSet;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ButtonItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SingleCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +30,10 @@ extends SpellerCharsetDefinition {
 
     private static List getNumberSymbolBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n), 1);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet2 = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getSpecialcharsBand(n), 0);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet2);
+        SpellerController.AbstractExpandableItem.CharSet charSet = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n), 1);
+        arrayList.add(charSet);
+        SpellerController.AbstractExpandableItem.CharSet charSet2 = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getSpecialcharsBand(n), 0);
+        arrayList.add(charSet2);
         return arrayList;
     }
 
@@ -115,30 +111,30 @@ extends SpellerCharsetDefinition {
 
     private static List getHiraganaBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana01Band(n), "\u3042");
-        arrayList.add(spellerController$AbstractExpandableItem$Char);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char2 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana02Band(n), "\u304b");
-        arrayList.add(spellerController$AbstractExpandableItem$Char2);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char3 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana03Band(n), "\u3055");
-        arrayList.add(spellerController$AbstractExpandableItem$Char3);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char4 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana04Band(n), "\u305f");
-        arrayList.add(spellerController$AbstractExpandableItem$Char4);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char5 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana05Band(n), "\u306a");
-        arrayList.add(spellerController$AbstractExpandableItem$Char5);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char6 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana06Band(n), "\u306f");
-        arrayList.add(spellerController$AbstractExpandableItem$Char6);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char7 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana07Band(n), "\u307e");
-        arrayList.add(spellerController$AbstractExpandableItem$Char7);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char8 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana08Band(n), "\u3084");
-        arrayList.add(spellerController$AbstractExpandableItem$Char8);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char9 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana09Band(n), "\u3089");
-        arrayList.add(spellerController$AbstractExpandableItem$Char9);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char10 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana10Band(n), "\u308f");
-        arrayList.add(spellerController$AbstractExpandableItem$Char10);
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("\u30fc");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char11 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana11Band(n), "\u3041");
-        arrayList.add(spellerController$AbstractExpandableItem$Char11);
+        SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana01Band(n), "\u3042");
+        arrayList.add(char_);
+        SpellerController.AbstractExpandableItem.Char char_2 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana02Band(n), "\u304b");
+        arrayList.add(char_2);
+        SpellerController.AbstractExpandableItem.Char char_3 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana03Band(n), "\u3055");
+        arrayList.add(char_3);
+        SpellerController.AbstractExpandableItem.Char char_4 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana04Band(n), "\u305f");
+        arrayList.add(char_4);
+        SpellerController.AbstractExpandableItem.Char char_5 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana05Band(n), "\u306a");
+        arrayList.add(char_5);
+        SpellerController.AbstractExpandableItem.Char char_6 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana06Band(n), "\u306f");
+        arrayList.add(char_6);
+        SpellerController.AbstractExpandableItem.Char char_7 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana07Band(n), "\u307e");
+        arrayList.add(char_7);
+        SpellerController.AbstractExpandableItem.Char char_8 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana08Band(n), "\u3084");
+        arrayList.add(char_8);
+        SpellerController.AbstractExpandableItem.Char char_9 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana09Band(n), "\u3089");
+        arrayList.add(char_9);
+        SpellerController.AbstractExpandableItem.Char char_10 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana10Band(n), "\u308f");
+        arrayList.add(char_10);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("\u30fc");
+        arrayList.add(singleCharItem);
+        SpellerController.AbstractExpandableItem.Char char_11 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenHiragana11Band(n), "\u3041");
+        arrayList.add(char_11);
         return arrayList;
     }
 
@@ -204,62 +200,62 @@ extends SpellerCharsetDefinition {
 
     private static List getJamoBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo01Band(n), "\u3131");
-        arrayList.add(spellerController$AbstractExpandableItem$Char);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char2 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo02Band(n), "\u3134");
-        arrayList.add(spellerController$AbstractExpandableItem$Char2);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char3 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo03Band(n), "\u3137");
-        arrayList.add(spellerController$AbstractExpandableItem$Char3);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char4 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo04Band(n), "\u3139");
-        arrayList.add(spellerController$AbstractExpandableItem$Char4);
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("\u3141");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char5 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo05Band(n), "\u3142");
-        arrayList.add(spellerController$AbstractExpandableItem$Char5);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char6 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo06Band(n), "\u3145");
-        arrayList.add(spellerController$AbstractExpandableItem$Char6);
-        SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance("\u3147");
-        arrayList.add(spellerController$SingleCharItem2);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char7 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo07Band(n), "\u3148");
-        arrayList.add(spellerController$AbstractExpandableItem$Char7);
-        SpellerController$SingleCharItem spellerController$SingleCharItem3 = SpellerController$SingleCharItem.createInstance("\u314a");
-        arrayList.add(spellerController$SingleCharItem3);
-        SpellerController$SingleCharItem spellerController$SingleCharItem4 = SpellerController$SingleCharItem.createInstance("\u314b");
-        arrayList.add(spellerController$SingleCharItem4);
-        SpellerController$SingleCharItem spellerController$SingleCharItem5 = SpellerController$SingleCharItem.createInstance("\u314c");
-        arrayList.add(spellerController$SingleCharItem5);
-        SpellerController$SingleCharItem spellerController$SingleCharItem6 = SpellerController$SingleCharItem.createInstance("\u314d");
-        arrayList.add(spellerController$SingleCharItem6);
-        SpellerController$SingleCharItem spellerController$SingleCharItem7 = SpellerController$SingleCharItem.createInstance("\u314e");
-        arrayList.add(spellerController$SingleCharItem7);
-        SpellerController$SingleCharItem spellerController$SingleCharItem8 = SpellerController$SingleCharItem.createInstance("\u314f");
-        arrayList.add(spellerController$SingleCharItem8);
-        SpellerController$SingleCharItem spellerController$SingleCharItem9 = SpellerController$SingleCharItem.createInstance("\u3151");
-        arrayList.add(spellerController$SingleCharItem9);
-        SpellerController$SingleCharItem spellerController$SingleCharItem10 = SpellerController$SingleCharItem.createInstance("\u3153");
-        arrayList.add(spellerController$SingleCharItem10);
-        SpellerController$SingleCharItem spellerController$SingleCharItem11 = SpellerController$SingleCharItem.createInstance("\u3155");
-        arrayList.add(spellerController$SingleCharItem11);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char8 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo08Band(n), "\u3157");
-        arrayList.add(spellerController$AbstractExpandableItem$Char8);
-        SpellerController$SingleCharItem spellerController$SingleCharItem12 = SpellerController$SingleCharItem.createInstance("\u315b");
-        arrayList.add(spellerController$SingleCharItem12);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char9 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo09Band(n), "\u315c");
-        arrayList.add(spellerController$AbstractExpandableItem$Char9);
-        SpellerController$SingleCharItem spellerController$SingleCharItem13 = SpellerController$SingleCharItem.createInstance("\u3160");
-        arrayList.add(spellerController$SingleCharItem13);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char10 = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo10Band(n), "\u3161");
-        arrayList.add(spellerController$AbstractExpandableItem$Char10);
-        SpellerController$SingleCharItem spellerController$SingleCharItem14 = SpellerController$SingleCharItem.createInstance("\u3163");
-        arrayList.add(spellerController$SingleCharItem14);
-        SpellerController$SingleCharItem spellerController$SingleCharItem15 = SpellerController$SingleCharItem.createInstance("\u3150");
-        arrayList.add(spellerController$SingleCharItem15);
-        SpellerController$SingleCharItem spellerController$SingleCharItem16 = SpellerController$SingleCharItem.createInstance("\u3152");
-        arrayList.add(spellerController$SingleCharItem16);
-        SpellerController$SingleCharItem spellerController$SingleCharItem17 = SpellerController$SingleCharItem.createInstance("\u3154");
-        arrayList.add(spellerController$SingleCharItem17);
-        SpellerController$SingleCharItem spellerController$SingleCharItem18 = SpellerController$SingleCharItem.createInstance("\u3156");
-        arrayList.add(spellerController$SingleCharItem18);
+        SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo01Band(n), "\u3131");
+        arrayList.add(char_);
+        SpellerController.AbstractExpandableItem.Char char_2 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo02Band(n), "\u3134");
+        arrayList.add(char_2);
+        SpellerController.AbstractExpandableItem.Char char_3 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo03Band(n), "\u3137");
+        arrayList.add(char_3);
+        SpellerController.AbstractExpandableItem.Char char_4 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo04Band(n), "\u3139");
+        arrayList.add(char_4);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("\u3141");
+        arrayList.add(singleCharItem);
+        SpellerController.AbstractExpandableItem.Char char_5 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo05Band(n), "\u3142");
+        arrayList.add(char_5);
+        SpellerController.AbstractExpandableItem.Char char_6 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo06Band(n), "\u3145");
+        arrayList.add(char_6);
+        SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance("\u3147");
+        arrayList.add(singleCharItem2);
+        SpellerController.AbstractExpandableItem.Char char_7 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo07Band(n), "\u3148");
+        arrayList.add(char_7);
+        SpellerController.SingleCharItem singleCharItem3 = SpellerController.SingleCharItem.createInstance("\u314a");
+        arrayList.add(singleCharItem3);
+        SpellerController.SingleCharItem singleCharItem4 = SpellerController.SingleCharItem.createInstance("\u314b");
+        arrayList.add(singleCharItem4);
+        SpellerController.SingleCharItem singleCharItem5 = SpellerController.SingleCharItem.createInstance("\u314c");
+        arrayList.add(singleCharItem5);
+        SpellerController.SingleCharItem singleCharItem6 = SpellerController.SingleCharItem.createInstance("\u314d");
+        arrayList.add(singleCharItem6);
+        SpellerController.SingleCharItem singleCharItem7 = SpellerController.SingleCharItem.createInstance("\u314e");
+        arrayList.add(singleCharItem7);
+        SpellerController.SingleCharItem singleCharItem8 = SpellerController.SingleCharItem.createInstance("\u314f");
+        arrayList.add(singleCharItem8);
+        SpellerController.SingleCharItem singleCharItem9 = SpellerController.SingleCharItem.createInstance("\u3151");
+        arrayList.add(singleCharItem9);
+        SpellerController.SingleCharItem singleCharItem10 = SpellerController.SingleCharItem.createInstance("\u3153");
+        arrayList.add(singleCharItem10);
+        SpellerController.SingleCharItem singleCharItem11 = SpellerController.SingleCharItem.createInstance("\u3155");
+        arrayList.add(singleCharItem11);
+        SpellerController.AbstractExpandableItem.Char char_8 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo08Band(n), "\u3157");
+        arrayList.add(char_8);
+        SpellerController.SingleCharItem singleCharItem12 = SpellerController.SingleCharItem.createInstance("\u315b");
+        arrayList.add(singleCharItem12);
+        SpellerController.AbstractExpandableItem.Char char_9 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo09Band(n), "\u315c");
+        arrayList.add(char_9);
+        SpellerController.SingleCharItem singleCharItem13 = SpellerController.SingleCharItem.createInstance("\u3160");
+        arrayList.add(singleCharItem13);
+        SpellerController.AbstractExpandableItem.Char char_10 = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getHiddenJamo10Band(n), "\u3161");
+        arrayList.add(char_10);
+        SpellerController.SingleCharItem singleCharItem14 = SpellerController.SingleCharItem.createInstance("\u3163");
+        arrayList.add(singleCharItem14);
+        SpellerController.SingleCharItem singleCharItem15 = SpellerController.SingleCharItem.createInstance("\u3150");
+        arrayList.add(singleCharItem15);
+        SpellerController.SingleCharItem singleCharItem16 = SpellerController.SingleCharItem.createInstance("\u3152");
+        arrayList.add(singleCharItem16);
+        SpellerController.SingleCharItem singleCharItem17 = SpellerController.SingleCharItem.createInstance("\u3154");
+        arrayList.add(singleCharItem17);
+        SpellerController.SingleCharItem singleCharItem18 = SpellerController.SingleCharItem.createInstance("\u3156");
+        arrayList.add(singleCharItem18);
         return arrayList;
     }
 
@@ -277,22 +273,22 @@ extends SpellerCharsetDefinition {
 
     private static List getSpaceShiftNumbersSymbolsBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(4));
-        arrayList.add(spellerController$ButtonItem);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n), 1);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet2 = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getSpecialcharsBand(n), 0);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet2);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+        arrayList.add(singleCharItem);
+        SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(4));
+        arrayList.add(buttonItem);
+        SpellerController.AbstractExpandableItem.CharSet charSet = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n), 1);
+        arrayList.add(charSet);
+        SpellerController.AbstractExpandableItem.CharSet charSet2 = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getSpecialcharsBand(n), 0);
+        arrayList.add(charSet2);
         return arrayList;
     }
 
     private static List getFreetext_zhuyinBand(int n) {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZhuyinBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-        arrayList.add(spellerController$SingleCharItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+        arrayList.add(singleCharItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
         return arrayList;
     }
@@ -300,8 +296,8 @@ extends SpellerCharsetDefinition {
     private static List getFreetext_strokeBand(int n) {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getStrokeBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-        arrayList.add(spellerController$SingleCharItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+        arrayList.add(singleCharItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
         return arrayList;
     }
@@ -309,19 +305,19 @@ extends SpellerCharsetDefinition {
     private static List getFreetext_jamoBand(int n) {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getJamoBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-        arrayList.add(spellerController$SingleCharItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+        arrayList.add(singleCharItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
         return arrayList;
     }
 
     private static List getFreetext_hiraganaBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(18));
-        arrayList.add(spellerController$ButtonItem);
+        SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(18));
+        arrayList.add(buttonItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getHiraganaBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-        arrayList.add(spellerController$SingleCharItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+        arrayList.add(singleCharItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
         return arrayList;
     }
@@ -346,12 +342,12 @@ extends SpellerCharsetDefinition {
 
     private static List getEmoticonsBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(":-D", ":-D");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance(";-)", ";-)");
-        arrayList.add(spellerController$SingleCharItem2);
-        SpellerController$SingleCharItem spellerController$SingleCharItem3 = SpellerController$SingleCharItem.createInstance(":-(", ":-(");
-        arrayList.add(spellerController$SingleCharItem3);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(":-D", ":-D");
+        arrayList.add(singleCharItem);
+        SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance(";-)", ";-)");
+        arrayList.add(singleCharItem2);
+        SpellerController.SingleCharItem singleCharItem3 = SpellerController.SingleCharItem.createInstance(":-(", ":-(");
+        arrayList.add(singleCharItem3);
         return arrayList;
     }
 
@@ -366,38 +362,38 @@ extends SpellerCharsetDefinition {
         switch (n) {
             case 24: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getZhuyinBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 23: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getStrokeBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 12: {
-                SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(18));
-                arrayList.add(spellerController$ButtonItem);
+                SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(18));
+                arrayList.add(buttonItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getHiraganaBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 16: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getJamoBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 14: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinazBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
@@ -430,15 +426,15 @@ extends SpellerCharsetDefinition {
             }
             case 14: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAZBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             default: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAZBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
             }
         }
@@ -448,8 +444,8 @@ extends SpellerCharsetDefinition {
     public static List getMatchMapcodeBand(int n) {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("*");
-        arrayList.add(spellerController$SingleCharItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("*");
+        arrayList.add(singleCharItem);
         return arrayList;
     }
 
@@ -458,24 +454,24 @@ extends SpellerCharsetDefinition {
         switch (n) {
             case 16: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getOneFirstNumbersBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("-");
-                arrayList.add(spellerController$SingleCharItem);
-                SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance("\uc0b0");
-                arrayList.add(spellerController$SingleCharItem2);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("-");
+                arrayList.add(singleCharItem);
+                SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance("\uc0b0");
+                arrayList.add(singleCharItem2);
                 break;
             }
             case 17: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getOneFirstNumbersBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("-");
-                arrayList.add(spellerController$SingleCharItem);
-                SpellerController$SingleCharItem spellerController$SingleCharItem3 = SpellerController$SingleCharItem.createInstance("\uc0b0");
-                arrayList.add(spellerController$SingleCharItem3);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("-");
+                arrayList.add(singleCharItem);
+                SpellerController.SingleCharItem singleCharItem3 = SpellerController.SingleCharItem.createInstance("\uc0b0");
+                arrayList.add(singleCharItem3);
                 break;
             }
             default: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getOneFirstNumbersBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("-");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("-");
+                arrayList.add(singleCharItem);
             }
         }
         return arrayList;
@@ -486,65 +482,65 @@ extends SpellerCharsetDefinition {
         switch (n) {
             case 24: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getZhuyinBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getPunctuationBand(n));
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
-                arrayList.add(spellerController$AbstractExpandableItem$Char);
+                SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
+                arrayList.add(char_);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 23: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getStrokeBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getPunctuationBand(n));
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
-                arrayList.add(spellerController$AbstractExpandableItem$Char);
+                SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
+                arrayList.add(char_);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 12: {
-                SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(18));
-                arrayList.add(spellerController$ButtonItem);
+                SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(18));
+                arrayList.add(buttonItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getHiraganaBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getPunctuationBand(n));
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
-                arrayList.add(spellerController$AbstractExpandableItem$Char);
+                SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
+                arrayList.add(char_);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 16: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getJamoBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getPunctuationBand(n));
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
-                arrayList.add(spellerController$AbstractExpandableItem$Char);
+                SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
+                arrayList.add(char_);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             case 14: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinazBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getPunctuationBand(n));
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
-                arrayList.add(spellerController$AbstractExpandableItem$Char);
+                SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
+                arrayList.add(char_);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
                 break;
             }
             default: {
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAaZzBand(n));
-                SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-                arrayList.add(spellerController$SingleCharItem);
+                SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+                arrayList.add(singleCharItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getPunctuationBand(n));
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = SpellerController$AbstractExpandableItem$Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
-                arrayList.add(spellerController$AbstractExpandableItem$Char);
-                SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(4));
-                arrayList.add(spellerController$ButtonItem);
+                SpellerController.AbstractExpandableItem.Char char_ = SpellerController.AbstractExpandableItem.Char.createInstance(SpellerCharsetDefinitionAsia.getEmoticonsBand(n), ":-)");
+                arrayList.add(char_);
+                SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(4));
+                arrayList.add(buttonItem);
                 arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
             }
         }
@@ -554,33 +550,33 @@ extends SpellerCharsetDefinition {
     public static List getAdressingBand(int n) {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAaZzBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(".");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance("@");
-        arrayList.add(spellerController$SingleCharItem2);
-        SpellerController$SingleCharItem spellerController$SingleCharItem3 = SpellerController$SingleCharItem.createInstance(".com");
-        arrayList.add(spellerController$SingleCharItem3);
-        SpellerController$SingleCharItem spellerController$SingleCharItem4 = SpellerController$SingleCharItem.createInstance("-");
-        arrayList.add(spellerController$SingleCharItem4);
-        SpellerController$SingleCharItem spellerController$SingleCharItem5 = SpellerController$SingleCharItem.createInstance("?");
-        arrayList.add(spellerController$SingleCharItem5);
-        SpellerController$SingleCharItem spellerController$SingleCharItem6 = SpellerController$SingleCharItem.createInstance("!");
-        arrayList.add(spellerController$SingleCharItem6);
-        SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(4));
-        arrayList.add(spellerController$ButtonItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(".");
+        arrayList.add(singleCharItem);
+        SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance("@");
+        arrayList.add(singleCharItem2);
+        SpellerController.SingleCharItem singleCharItem3 = SpellerController.SingleCharItem.createInstance(".com");
+        arrayList.add(singleCharItem3);
+        SpellerController.SingleCharItem singleCharItem4 = SpellerController.SingleCharItem.createInstance("-");
+        arrayList.add(singleCharItem4);
+        SpellerController.SingleCharItem singleCharItem5 = SpellerController.SingleCharItem.createInstance("?");
+        arrayList.add(singleCharItem5);
+        SpellerController.SingleCharItem singleCharItem6 = SpellerController.SingleCharItem.createInstance("!");
+        arrayList.add(singleCharItem6);
+        SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(4));
+        arrayList.add(buttonItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getNumberSymbolBand(n));
         return arrayList;
     }
 
     public static List getPhoneBand(int n) {
         ArrayList arrayList = new ArrayList(30);
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("+");
-        arrayList.add(spellerController$SingleCharItem);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("+");
+        arrayList.add(singleCharItem);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance("*");
-        arrayList.add(spellerController$SingleCharItem2);
-        SpellerController$SingleCharItem spellerController$SingleCharItem3 = SpellerController$SingleCharItem.createInstance("#");
-        arrayList.add(spellerController$SingleCharItem3);
+        SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance("*");
+        arrayList.add(singleCharItem2);
+        SpellerController.SingleCharItem singleCharItem3 = SpellerController.SingleCharItem.createInstance("#");
+        arrayList.add(singleCharItem3);
         return arrayList;
     }
 
@@ -588,10 +584,10 @@ extends SpellerCharsetDefinition {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAaZzBand(n));
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n));
-        SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(4));
-        arrayList.add(spellerController$ButtonItem);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getNotFullWidthSpecialcharsBand(n), 0);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet);
+        SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(4));
+        arrayList.add(buttonItem);
+        SpellerController.AbstractExpandableItem.CharSet charSet = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getNotFullWidthSpecialcharsBand(n), 0);
+        arrayList.add(charSet);
         return arrayList;
     }
 
@@ -599,24 +595,24 @@ extends SpellerCharsetDefinition {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAaZzBand(n));
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(".");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance(",");
-        arrayList.add(spellerController$SingleCharItem2);
-        SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(4));
-        arrayList.add(spellerController$ButtonItem);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getSpecialcharsBand(n), 0);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(".");
+        arrayList.add(singleCharItem);
+        SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance(",");
+        arrayList.add(singleCharItem2);
+        SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(4));
+        arrayList.add(buttonItem);
+        SpellerController.AbstractExpandableItem.CharSet charSet = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getSpecialcharsBand(n), 0);
+        arrayList.add(charSet);
         return arrayList;
     }
 
     public static List getDtmfBand(int n) {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance("*");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$SingleCharItem spellerController$SingleCharItem2 = SpellerController$SingleCharItem.createInstance("#");
-        arrayList.add(spellerController$SingleCharItem2);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance("*");
+        arrayList.add(singleCharItem);
+        SpellerController.SingleCharItem singleCharItem2 = SpellerController.SingleCharItem.createInstance("#");
+        arrayList.add(singleCharItem2);
         return arrayList;
     }
 
@@ -624,12 +620,12 @@ extends SpellerCharsetDefinition {
         ArrayList arrayList = new ArrayList(30);
         arrayList.addAll(SpellerCharsetDefinitionAsia.getLatinAaZzBand(n));
         arrayList.addAll(SpellerCharsetDefinitionAsia.getZeroFirstNumbersBand(n));
-        SpellerController$SingleCharItem spellerController$SingleCharItem = SpellerController$SingleCharItem.createInstance(" ");
-        arrayList.add(spellerController$SingleCharItem);
-        SpellerController$ButtonItem spellerController$ButtonItem = SpellerController$ButtonItem.createInstance(SpellerController$SpellerButtonType.getSpellerButtonType(4));
-        arrayList.add(spellerController$ButtonItem);
-        SpellerController$AbstractExpandableItem$CharSet spellerController$AbstractExpandableItem$CharSet = SpellerController$AbstractExpandableItem$CharSet.createInstance(SpellerCharsetDefinitionAsia.getNotFullWidthSpecialcharsBand(n), 0);
-        arrayList.add(spellerController$AbstractExpandableItem$CharSet);
+        SpellerController.SingleCharItem singleCharItem = SpellerController.SingleCharItem.createInstance(" ");
+        arrayList.add(singleCharItem);
+        SpellerController.ButtonItem buttonItem = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.getSpellerButtonType(4));
+        arrayList.add(buttonItem);
+        SpellerController.AbstractExpandableItem.CharSet charSet = SpellerController.AbstractExpandableItem.CharSet.createInstance(SpellerCharsetDefinitionAsia.getNotFullWidthSpecialcharsBand(n), 0);
+        arrayList.add(charSet);
         return arrayList;
     }
 }

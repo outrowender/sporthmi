@@ -16,11 +16,9 @@ extends AbstractRendererHigh {
         this.controller = partialPopupControllerMMICombi;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

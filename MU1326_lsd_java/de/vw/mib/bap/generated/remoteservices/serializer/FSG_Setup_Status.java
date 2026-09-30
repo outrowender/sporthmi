@@ -25,13 +25,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.setup.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)bAPEntity;
         return this.setup.equalTo(fSG_Setup_Status.setup);
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Setup_Status");
@@ -48,17 +45,14 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.setup.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.setup.deserialize(bitStream);
     }
@@ -67,7 +61,6 @@ implements StatusProperty {
         return 14;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_Setup_Status.functionId();
     }

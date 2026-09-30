@@ -19,7 +19,7 @@ implements Runnable {
     private boolean isStarted;
     protected boolean keepRunning;
     private Thread thread;
-    public static final String chn;
+    public static final String chn = "ConnectionFrontendHandler";
 
     public ConnectionFrontendWorkerBase(String string, TraceFrontend traceFrontend) {
         this.myName = string;
@@ -41,24 +41,24 @@ implements Runnable {
         }
         this.keepRunning = true;
         this.isStarted = true;
-        this.thread = new Thread(this, new StringBuffer().append("ConWorker_").append(this.myName).toString());
+        this.thread = new Thread(this, "ConWorker_" + this.myName);
         this.thread.start();
         return true;
     }
 
     protected synchronized void stop(ConnectionFrontendHandler connectionFrontendHandler) {
         if (!this.isStarted) {
-            TraceMe.msg(TraceMe.ERROR, "ConnectionFrontendHandler", "stop but not started!");
+            TraceMe.msg(TraceMe.ERROR, chn, "stop but not started!");
             return;
         }
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "stop");
+        TraceMe.msg(TraceMe.INFO, chn, "stop");
         this.keepRunning = false;
         this.isStarted = false;
         if (connectionFrontendHandler != null) {
-            TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "disconnect");
+            TraceMe.msg(TraceMe.INFO, chn, "disconnect");
             connectionFrontendHandler.disconnect();
         }
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "interrupt");
+        TraceMe.msg(TraceMe.INFO, chn, "interrupt");
         this.thread.interrupt();
         while (true) {
             try {
@@ -69,10 +69,9 @@ implements Runnable {
             }
             break;
         }
-        TraceMe.msg(TraceMe.INFO, "ConnectionFrontendHandler", "joined");
+        TraceMe.msg(TraceMe.INFO, chn, "joined");
     }
 
-    @Override
     public void run() {
         while (this.keepRunning) {
             this.doRun();
@@ -112,7 +111,6 @@ implements Runnable {
         }
     }
 
-    protected abstract void doRun() {
-    }
+    protected abstract void doRun();
 }
 

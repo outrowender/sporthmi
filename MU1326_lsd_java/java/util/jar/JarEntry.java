@@ -3,6 +3,7 @@
  */
 package java.util.jar;
 
+import java.io.IOException;
 import java.security.cert.Certificate;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -23,7 +24,7 @@ extends ZipEntry {
         super(zipEntry);
     }
 
-    public Attributes getAttributes() {
+    public Attributes getAttributes() throws IOException {
         if (this.attributes != null || this.parentJar == null) {
             return this.attributes;
         }

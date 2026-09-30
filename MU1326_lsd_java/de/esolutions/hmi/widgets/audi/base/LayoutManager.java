@@ -6,13 +6,10 @@ package de.esolutions.hmi.widgets.audi.base;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 
 public interface LayoutManager {
-    default public void layout(AbstractWidget abstractWidget) {
-    }
+    public void layout(AbstractWidget var1);
 
-    default public int[] calculateSize(AbstractWidget abstractWidget, int n) {
-    }
+    public int[] calculateSize(AbstractWidget var1, int var2);
 
-    default public void flushCache() {
-    }
+    public void flushCache();
 }
 

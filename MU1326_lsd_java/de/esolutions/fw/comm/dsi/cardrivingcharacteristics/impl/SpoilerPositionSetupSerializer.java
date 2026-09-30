@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerPositionSetup;
 
 public class SpoilerPositionSetupSerializer {
-    public static void putOptionalSpoilerPositionSetup(ISerializer iSerializer, SpoilerPositionSetup spoilerPositionSetup) {
+    public static void putOptionalSpoilerPositionSetup(ISerializer iSerializer, SpoilerPositionSetup spoilerPositionSetup) throws SerializerException {
         boolean bl = spoilerPositionSetup == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SpoilerPositionSetupSerializer {
         }
     }
 
-    public static void putOptionalSpoilerPositionSetupVarArray(ISerializer iSerializer, SpoilerPositionSetup[] spoilerPositionSetupArray) {
+    public static void putOptionalSpoilerPositionSetupVarArray(ISerializer iSerializer, SpoilerPositionSetup[] spoilerPositionSetupArray) throws SerializerException {
         boolean bl = spoilerPositionSetupArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SpoilerPositionSetupSerializer {
         }
     }
 
-    public static SpoilerPositionSetup getOptionalSpoilerPositionSetup(IDeserializer iDeserializer) {
+    public static SpoilerPositionSetup getOptionalSpoilerPositionSetup(IDeserializer iDeserializer) throws SerializerException {
         SpoilerPositionSetup spoilerPositionSetup = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class SpoilerPositionSetupSerializer {
         return spoilerPositionSetup;
     }
 
-    public static SpoilerPositionSetup[] getOptionalSpoilerPositionSetupVarArray(IDeserializer iDeserializer) {
+    public static SpoilerPositionSetup[] getOptionalSpoilerPositionSetupVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpoilerPositionSetup[] spoilerPositionSetupArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

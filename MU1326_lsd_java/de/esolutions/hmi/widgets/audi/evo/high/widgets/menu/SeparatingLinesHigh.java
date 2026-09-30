@@ -10,7 +10,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.SeparatingLines;
 
 public class SeparatingLinesHigh
 extends SeparatingLines {
-    @Override
     protected IconRenderer createIconRenderer(SeparatingLineController separatingLineController) {
         IconRendererHigh iconRendererHigh = new IconRendererHigh(separatingLineController);
         iconRendererHigh.setAlignment(2, 5);

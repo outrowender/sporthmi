@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.AudioStatus;
 
 public class AudioStatusSerializer {
-    public static void putOptionalAudioStatus(ISerializer iSerializer, AudioStatus audioStatus) {
+    public static void putOptionalAudioStatus(ISerializer iSerializer, AudioStatus audioStatus) throws SerializerException {
         boolean bl = audioStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class AudioStatusSerializer {
         }
     }
 
-    public static void putOptionalAudioStatusVarArray(ISerializer iSerializer, AudioStatus[] audioStatusArray) {
+    public static void putOptionalAudioStatusVarArray(ISerializer iSerializer, AudioStatus[] audioStatusArray) throws SerializerException {
         boolean bl = audioStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class AudioStatusSerializer {
         }
     }
 
-    public static AudioStatus getOptionalAudioStatus(IDeserializer iDeserializer) {
+    public static AudioStatus getOptionalAudioStatus(IDeserializer iDeserializer) throws SerializerException {
         AudioStatus audioStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class AudioStatusSerializer {
         return audioStatus;
     }
 
-    public static AudioStatus[] getOptionalAudioStatusVarArray(IDeserializer iDeserializer) {
+    public static AudioStatus[] getOptionalAudioStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioStatus[] audioStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

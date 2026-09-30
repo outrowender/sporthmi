@@ -92,7 +92,7 @@ public class RequestDescriptor {
     }
 
     public String toString() {
-        return new StringBuffer("RequestDescriptor{").append("appID=").append(this.appID).append(", serviceID=").append(this.serviceID).append(", url=").append(this.url).append(", method=").append(this.method).append(", encoding=").append(this.encoding).append(", connectTimeout=").append(this.connectTimeout).append(", finalTimeout=").append(this.finalTimeout).append(", addURLTemplate=").append(this.addURLTemplate).append("}").toString();
+        return "RequestDescriptor{" + "appID=" + this.appID + ", serviceID=" + this.serviceID + ", url=" + this.url + ", method=" + this.method + ", encoding=" + this.encoding + ", connectTimeout=" + this.connectTimeout + ", finalTimeout=" + this.finalTimeout + ", addURLTemplate=" + this.addURLTemplate + "}";
     }
 }
 

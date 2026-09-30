@@ -30,8 +30,7 @@ NetworkingBluetoothBridgeC {
         return this.proxy;
     }
 
-    @Override
-    public void updateConnectionState(long l, int n, int n2) {
+    public void updateConnectionState(long l, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -44,8 +43,7 @@ NetworkingBluetoothBridgeC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void updateBluetoothAddress(long l) {
+    public void updateBluetoothAddress(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);

@@ -13,12 +13,12 @@ public final class PrivacySetup_Status
 implements StatusProperty {
     public PrivacySetup_Setup setup = new PrivacySetup_Setup();
     public int modificationReason;
-    public static final int MODIFICATION_REASON_NO_CONTRACT;
-    public static final int MODIFICATION_REASON_SYSTEM_OFF;
-    public static final int MODIFICATION_REASON_DEFECTIVE;
-    public static final int MODIFICATION_REASON_CLAMP_15_NOT_ACTIVE;
-    public static final int MODIFICATION_REASON_NO_REASON;
-    private static final int MODIFICATION_REASON_BITSIZE;
+    public static final int MODIFICATION_REASON_NO_CONTRACT = 6;
+    public static final int MODIFICATION_REASON_SYSTEM_OFF = 5;
+    public static final int MODIFICATION_REASON_DEFECTIVE = 4;
+    public static final int MODIFICATION_REASON_CLAMP_15_NOT_ACTIVE = 2;
+    public static final int MODIFICATION_REASON_NO_REASON = 0;
+    private static final int MODIFICATION_REASON_BITSIZE = 4;
     public PrivacySetup_ModificationState modificationState = new PrivacySetup_ModificationState();
 
     public PrivacySetup_Status() {
@@ -35,14 +35,12 @@ implements StatusProperty {
         this.modificationReason = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.setup.reset();
         this.modificationState.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PrivacySetup_Status privacySetup_Status = (PrivacySetup_Status)bAPEntity;
         return this.setup.equalTo(privacySetup_Status.setup) && this.modificationReason == privacySetup_Status.modificationReason && this.modificationState.equalTo(privacySetup_Status.modificationState);
@@ -51,29 +49,25 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PrivacySetup_Status");
-        stringBuffer.append(new StringBuffer().append("\n - setup:").append(this.setup.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - modificationReason:").append(this.modificationReason).toString());
-        stringBuffer.append(new StringBuffer().append("\n - modificationState:").append(this.modificationState.toString()).toString());
+        stringBuffer.append("\n - setup:" + this.setup.toString());
+        stringBuffer.append("\n - modificationReason:" + this.modificationReason);
+        stringBuffer.append("\n - modificationState:" + this.modificationState.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.setup.serialize(bitStream);
         bitStream.pushBits(4, this.modificationReason);
         this.modificationState.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.setup.deserialize(bitStream);
         this.modificationReason = bitStream.popFrontBits(4);
@@ -84,7 +78,6 @@ implements StatusProperty {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return PrivacySetup_Status.functionId();
     }

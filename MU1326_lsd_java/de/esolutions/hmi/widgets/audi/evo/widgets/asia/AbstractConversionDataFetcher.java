@@ -14,12 +14,10 @@ public abstract class AbstractConversionDataFetcher
 implements IConversionDataFetcher {
     private List registeredConversionFetcherListener = new LinkedList();
 
-    @Override
     public final void registerConversionFetcherListener(IConversionDataFetcherListener iConversionDataFetcherListener) {
         this.registeredConversionFetcherListener.add(iConversionDataFetcherListener);
     }
 
-    @Override
     public final boolean unregisterConversionFetcherListener(IConversionDataFetcherListener iConversionDataFetcherListener) {
         Iterator iterator = this.registeredConversionFetcherListener.iterator();
         while (iterator.hasNext()) {
@@ -59,11 +57,9 @@ implements IConversionDataFetcher {
         return -1;
     }
 
-    @Override
     public void requestInitialValidCharacters() {
     }
 
-    @Override
     public void setInputMethod(AsianInputMethod asianInputMethod) {
     }
 }

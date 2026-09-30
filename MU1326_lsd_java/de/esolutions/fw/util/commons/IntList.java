@@ -5,8 +5,8 @@ package de.esolutions.fw.util.commons;
 
 public class IntList
 implements Cloneable {
-    private static final int DEFAULT_CAPACITY;
-    private static final int DEFAULT_CHUNK_SIZE;
+    private static final int DEFAULT_CAPACITY = 16;
+    private static final int DEFAULT_CHUNK_SIZE = 16;
     private int chunkSize;
     private int[] elementData;
     private int elementCount = 0;
@@ -33,7 +33,7 @@ implements Cloneable {
 
     public void add(int n, int n2) {
         if (n < 0 || n > this.elementCount) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append("invalid index ").append(n).append(" of ").append(this.elementCount).toString());
+            throw new IndexOutOfBoundsException("invalid index " + n + " of " + this.elementCount);
         }
         if (n == this.elementCount) {
             this.add(n2);
@@ -59,7 +59,7 @@ implements Cloneable {
 
     public void addAll(int n, int[] nArray) {
         if (n < 0 || n > this.elementCount) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append("invalid index ").append(n).append(" of ").append(this.elementCount).toString());
+            throw new IndexOutOfBoundsException("invalid index " + n + " of " + this.elementCount);
         }
         if (n == this.elementCount) {
             this.addAll(nArray);
@@ -79,7 +79,7 @@ implements Cloneable {
 
     public void addAll(int n, IntList intList) {
         if (n < 0 || n > this.elementCount) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append("invalid index ").append(n).append(" of ").append(this.elementCount).toString());
+            throw new IndexOutOfBoundsException("invalid index " + n + " of " + this.elementCount);
         }
         if (n == this.elementCount) {
             this.addAll(intList);
@@ -222,7 +222,7 @@ implements Cloneable {
         return nArray2;
     }
 
-    protected Object clone() {
+    protected Object clone() throws CloneNotSupportedException {
         IntList intList = (IntList)super.clone();
         intList.elementData = new int[this.elementData.length];
         intList.chunkSize = this.chunkSize;
@@ -233,7 +233,7 @@ implements Cloneable {
 
     private void validateIndex(int n) {
         if (n < 0 || n >= this.elementCount) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append("Index: ").append(n).append(", Size: ").append(this.elementCount).toString());
+            throw new IndexOutOfBoundsException("Index: " + n + ", Size: " + this.elementCount);
         }
     }
 }

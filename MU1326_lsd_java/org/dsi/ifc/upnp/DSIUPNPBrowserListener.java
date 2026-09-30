@@ -8,16 +8,12 @@ import org.dsi.ifc.upnp.ListEntry;
 
 public interface DSIUPNPBrowserListener
 extends DSIListener {
-    default public void updateBrowseFolder(ListEntry[] listEntryArray, int n) {
-    }
+    public void updateBrowseFolder(ListEntry[] var1, int var2);
 
-    default public void updateListSize(int n, int n2, int n3) {
-    }
+    public void updateListSize(int var1, int var2, int var3);
 
-    default public void responseList(ListEntry[] listEntryArray, int n) {
-    }
+    public void responseList(ListEntry[] var1, int var2);
 
-    default public void invalidBrowsePath() {
-    }
+    public void invalidBrowsePath();
 }
 

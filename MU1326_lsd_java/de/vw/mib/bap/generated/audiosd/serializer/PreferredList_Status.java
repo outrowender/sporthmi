@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PreferredList_Status
 implements StatusProperty {
     public int list;
-    private static final int LIST_BITSIZE;
-    public static final int LIST_NO_LIST_PREFERRED;
-    public static final int LIST_RECEPTION_LIST_MEDIA_BROWSER_PREFERRED;
-    public static final int LIST_PRESET_LIST_PREFERRED;
-    public static final int LIST_COMMON_LIST_PREFERRED_DF4_1;
+    private static final int LIST_BITSIZE = 8;
+    public static final int LIST_NO_LIST_PREFERRED = 0;
+    public static final int LIST_RECEPTION_LIST_MEDIA_BROWSER_PREFERRED = 1;
+    public static final int LIST_PRESET_LIST_PREFERRED = 2;
+    public static final int LIST_COMMON_LIST_PREFERRED_DF4_1 = 3;
 
     public PreferredList_Status() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StatusProperty {
         this.list = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PreferredList_Status preferredList_Status = (PreferredList_Status)bAPEntity;
         return this.list == preferredList_Status.list;
@@ -44,7 +42,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PreferredList_Status:");
@@ -73,18 +70,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.list);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.list = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements StatusProperty {
         return 40;
     }
 
-    @Override
     public int getFunctionId() {
         return PreferredList_Status.functionId();
     }

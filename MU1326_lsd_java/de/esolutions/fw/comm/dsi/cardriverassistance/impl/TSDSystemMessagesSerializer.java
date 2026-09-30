@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.TSDSystemMessages;
 
 public class TSDSystemMessagesSerializer {
-    public static void putOptionalTSDSystemMessages(ISerializer iSerializer, TSDSystemMessages tSDSystemMessages) {
+    public static void putOptionalTSDSystemMessages(ISerializer iSerializer, TSDSystemMessages tSDSystemMessages) throws SerializerException {
         boolean bl = tSDSystemMessages == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class TSDSystemMessagesSerializer {
         }
     }
 
-    public static void putOptionalTSDSystemMessagesVarArray(ISerializer iSerializer, TSDSystemMessages[] tSDSystemMessagesArray) {
+    public static void putOptionalTSDSystemMessagesVarArray(ISerializer iSerializer, TSDSystemMessages[] tSDSystemMessagesArray) throws SerializerException {
         boolean bl = tSDSystemMessagesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class TSDSystemMessagesSerializer {
         }
     }
 
-    public static TSDSystemMessages getOptionalTSDSystemMessages(IDeserializer iDeserializer) {
+    public static TSDSystemMessages getOptionalTSDSystemMessages(IDeserializer iDeserializer) throws SerializerException {
         TSDSystemMessages tSDSystemMessages = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class TSDSystemMessagesSerializer {
         return tSDSystemMessages;
     }
 
-    public static TSDSystemMessages[] getOptionalTSDSystemMessagesVarArray(IDeserializer iDeserializer) {
+    public static TSDSystemMessages[] getOptionalTSDSystemMessagesVarArray(IDeserializer iDeserializer) throws SerializerException {
         TSDSystemMessages[] tSDSystemMessagesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -7,7 +7,7 @@ import de.esolutions.fw.util.transport.exception.TransportException;
 
 public class TransportBufferException
 extends TransportException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public TransportBufferException() {
     }

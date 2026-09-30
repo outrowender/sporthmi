@@ -3,7 +3,9 @@
  */
 package edu.emory.mathcs.backport.java.util;
 
-import edu.emory.mathcs.backport.java.util.AbstractMap$1;
+import edu.emory.mathcs.backport.java.util.AbstractSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractMap
@@ -13,10 +15,39 @@ extends java.util.AbstractMap {
     protected AbstractMap() {
     }
 
-    @Override
     public Set keySet() {
         if (this.keySet == null) {
-            this.keySet = new AbstractMap$1(this);
+            this.keySet = new AbstractSet(){
+
+                public int size() {
+                    return AbstractMap.this.size();
+                }
+
+                public boolean contains(Object object) {
+                    return AbstractMap.this.containsKey(object);
+                }
+
+                public Iterator iterator() {
+                    return new Iterator(){
+                        final Iterator itr;
+                        {
+                            this.itr = AbstractMap.this.entrySet().iterator();
+                        }
+
+                        public boolean hasNext() {
+                            return this.itr.hasNext();
+                        }
+
+                        public Object next() {
+                            return ((Map.Entry)this.itr.next()).getKey();
+                        }
+
+                        public void remove() {
+                            this.itr.remove();
+                        }
+                    };
+                }
+            };
         }
         return this.keySet;
     }
@@ -25,8 +56,94 @@ extends java.util.AbstractMap {
         return object == null ? object2 == null : object.equals(object2);
     }
 
-    static /* synthetic */ boolean access$100(Object object, Object object2) {
-        return AbstractMap.eq(object, object2);
+    public static class SimpleEntry
+    implements Map.Entry {
+        private final Object key;
+        private Object value;
+
+        public SimpleEntry(Object object, Object object2) {
+            this.key = object;
+            this.value = object2;
+        }
+
+        public SimpleEntry(Map.Entry entry) {
+            this.key = entry.getKey();
+            this.value = entry.getValue();
+        }
+
+        public Object getKey() {
+            return this.key;
+        }
+
+        public Object getValue() {
+            return this.value;
+        }
+
+        public Object setValue(Object object) {
+            Object object2 = this.value;
+            this.value = object;
+            return object2;
+        }
+
+        public boolean equals(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return false;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            return AbstractMap.eq(this.key, entry.getKey()) && AbstractMap.eq(this.value, entry.getValue());
+        }
+
+        public int hashCode() {
+            return (this.key == null ? 0 : this.key.hashCode()) ^ (this.value == null ? 0 : this.value.hashCode());
+        }
+
+        public String toString() {
+            return this.key + "=" + this.value;
+        }
+    }
+
+    public static class SimpleImmutableEntry
+    implements Map.Entry {
+        private final Object key;
+        private final Object value;
+
+        public SimpleImmutableEntry(Object object, Object object2) {
+            this.key = object;
+            this.value = object2;
+        }
+
+        public SimpleImmutableEntry(Map.Entry entry) {
+            this.key = entry.getKey();
+            this.value = entry.getValue();
+        }
+
+        public Object getKey() {
+            return this.key;
+        }
+
+        public Object getValue() {
+            return this.value;
+        }
+
+        public Object setValue(Object object) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean equals(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return false;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            return AbstractMap.eq(this.key, entry.getKey()) && AbstractMap.eq(this.value, entry.getValue());
+        }
+
+        public int hashCode() {
+            return (this.key == null ? 0 : this.key.hashCode()) ^ (this.value == null ? 0 : this.value.hashCode());
+        }
+
+        public String toString() {
+            return this.key + "=" + this.value;
+        }
     }
 }
 

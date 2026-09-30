@@ -20,7 +20,6 @@ extends IconRendererHigh {
         this.setScaleMode(2);
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.dirty) {
             if (!this.controller.shouldRender()) {
@@ -54,7 +53,6 @@ extends IconRendererHigh {
         }
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         float[] fArray = this.calculateScaling(this.controller.getWidth(), this.controller.getHeight(), this.node.getUnscaledWidth(), this.node.getUnscaledHeight());
         this.node.setPosition(0.0f, 0.0f, 0.0f);

@@ -8,7 +8,6 @@ import de.audi.atip.hmi.event.ATIPEventListener;
 import de.audi.atip.hmi.event.EventDispatcher;
 import de.audi.atip.util.Util;
 import de.audi.tghu.hmi.evo.DrawerAnimationListener;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AsyncLabelController$TextUpdateEvent;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IAsyncLabelController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IAsyncMultiLineLabelRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LabelController;
@@ -24,7 +23,7 @@ DrawerAnimationListener {
     private IAsyncMultiLineLabelRenderer asyncRenderer;
     private int frameSize = 0;
     private boolean screenChangeRunning = false;
-    private long eventDelay = 0;
+    private long eventDelay = 10L;
 
     private boolean updateLineBreaking() {
         return this.asyncRenderer == null ? false : this.asyncRenderer.updateLineBreaking(this.screenChangeRunning);
@@ -34,12 +33,11 @@ DrawerAnimationListener {
         if (this.eventDispatcher == null && this.terminal != null) {
             this.eventDispatcher = this.terminal.getFramework().getHMIService().getEventDispatcher();
         }
-        logChannel.log(-2137614336, "AsyncLabelController#updateEventDispatcher: event dispatcher %1", (Object)(this.eventDispatcher == null ? "missing" : "present"));
+        logChannel.log(10000000, "AsyncLabelController#updateEventDispatcher: event dispatcher %1", (Object)(this.eventDispatcher == null ? "missing" : "present"));
     }
 
-    @Override
     protected void initializeWidget() {
-        logChannel.log(-2137614336, "AsyncLabelController#initializeWidget");
+        logChannel.log(10000000, "AsyncLabelController#initializeWidget");
         if (this.terminal != null) {
             this.terminal.getDrawerFocusManager().registerDrawerAnimationListener(this);
         }
@@ -66,12 +64,11 @@ DrawerAnimationListener {
         return false;
     }
 
-    @Override
     public boolean updateContent() {
         boolean bl;
         boolean bl2 = bl = this.getMaxLines() == 1 ? this.updateSingleLine() : super.updateContent();
         if (bl) {
-            logChannel.log(-2137614336, "AsyncLabelController#updateContent: text was changed.");
+            logChannel.log(10000000, "AsyncLabelController#updateContent: text was changed.");
             this.markRendererTextChanged();
             this.postUpdateEvent();
             if (this.isConnectedSubtree()) {
@@ -94,10 +91,10 @@ DrawerAnimationListener {
         }
         this.updateEventDispatcher();
         if (this.eventDispatcher != null) {
-            this.eventDispatcher.postEvent(new AsyncLabelController$TextUpdateEvent(this, 19901), this.getEventDelay());
+            this.eventDispatcher.postEvent(new TextUpdateEvent(this, 19901), this.getEventDelay());
             this.updatePosted = true;
         } else {
-            logChannel.log(-1601830656, "AsyncLabelController#postUpdateEvent: cannot post, dispatcher missing");
+            logChannel.log(100000, "AsyncLabelController#postUpdateEvent: cannot post, dispatcher missing");
         }
     }
 
@@ -109,31 +106,30 @@ DrawerAnimationListener {
         this.eventDelay = l;
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
-        if (!(aTIPEvent instanceof AsyncLabelController$TextUpdateEvent) || this.asyncRenderer == null) {
+        if (!(aTIPEvent instanceof TextUpdateEvent) || this.asyncRenderer == null) {
             return;
         }
         this.updatePosted = false;
         if (this.text == null) {
             return;
         }
-        logChannel.log(-2137614336, "AsyncLabelController#processEvent");
+        logChannel.log(10000000, "AsyncLabelController#processEvent");
         if (this.screenChangeRunning) {
-            logChannel.log(-2137614336, "AsyncLabelController#processEvent: pausing updates while screen change animation is running");
+            logChannel.log(10000000, "AsyncLabelController#processEvent: pausing updates while screen change animation is running");
             return;
         }
         boolean bl = this.updateLineBreaking();
         this.triggerWidgetUpdates(bl);
         if (this.asyncRenderer.isLineBreakingFinished()) {
-            logChannel.log(-2137614336, "AsyncLabelController#processEvent: line breaking finished");
+            logChannel.log(10000000, "AsyncLabelController#processEvent: line breaking finished");
         } else {
             this.postUpdateEvent();
         }
     }
 
     private void triggerWidgetUpdates(boolean bl) {
-        logChannel.log(-2137614336, "AsyncLabelController#triggerWidgetUpdates: invalidateLayout=%1", bl);
+        logChannel.log(10000000, "AsyncLabelController#triggerWidgetUpdates: invalidateLayout=%1", bl);
         this.setCompositesDirty(true);
         if (bl) {
             this.invalidateParentLayout();
@@ -141,7 +137,6 @@ DrawerAnimationListener {
         this.triggerRepaint();
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         if (this.terminal != null) {
@@ -150,53 +145,52 @@ DrawerAnimationListener {
         this.text = null;
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
         if (fArray[12] == 0.0f && this.screenChangeRunning) {
             this.screenChangeRunning = false;
-            logChannel.log(-2137614336, "AsyncLabelController#setDrawerAnimation: animation finished");
+            logChannel.log(10000000, "AsyncLabelController#setDrawerAnimation: animation finished");
             this.postUpdateEvent();
         } else if (fArray[12] > 0.0f && !this.screenChangeRunning) {
             this.screenChangeRunning = true;
-            logChannel.log(-2137614336, "AsyncLabelController#setDrawerAnimation: animation started");
+            logChannel.log(10000000, "AsyncLabelController#setDrawerAnimation: animation started");
         }
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 4096;
     }
 
-    @Override
     public void setRenderer(LabelRenderer labelRenderer) {
         super.setRenderer(labelRenderer);
         if (labelRenderer instanceof IAsyncMultiLineLabelRenderer) {
             this.asyncRenderer = (IAsyncMultiLineLabelRenderer)((Object)labelRenderer);
         } else {
-            logChannel.log(-1601830656, "AsyncLabelController#setRenderer ", (Object)(labelRenderer != null ? labelRenderer.toString() : "null"));
+            logChannel.log(100000, "AsyncLabelController#setRenderer ", (Object)(labelRenderer != null ? labelRenderer.toString() : "null"));
         }
     }
 
-    @Override
     public void setFrameSize(int n) {
         this.frameSize = n;
     }
 
-    @Override
     public int getFrameSize() {
         return this.frameSize;
+    }
+
+    static final class TextUpdateEvent
+    extends ATIPEvent {
+        protected TextUpdateEvent(ATIPEventListener aTIPEventListener, int n) {
+            super(aTIPEventListener, n);
+        }
     }
 }
 

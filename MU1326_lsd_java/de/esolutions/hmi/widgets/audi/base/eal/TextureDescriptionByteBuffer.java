@@ -38,7 +38,6 @@ extends AbstractTextureDescription {
         this.key = object;
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         if (this.buffer == null) {
             logChannel3DEngine.log(10000, "TextureDescriptionByteBuffer#createTexture a texture can only be created one time from a buffer");
@@ -58,17 +57,14 @@ extends AbstractTextureDescription {
         return new WrappedTexture(iTexture, this, this.ealManager);
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return new int[]{this.width, this.height};
     }
 
-    @Override
     public Object getCacheKey() {
         return this.key;
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return this.flagImage;
     }

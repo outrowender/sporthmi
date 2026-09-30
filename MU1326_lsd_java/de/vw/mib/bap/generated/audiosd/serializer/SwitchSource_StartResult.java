@@ -10,7 +10,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SwitchSource_StartResult
 implements StartResultMethod {
     public int sourceList_Reference;
-    private static final int SOURCE_LIST_REFERENCE_BITSIZE;
+    private static final int SOURCE_LIST_REFERENCE_BITSIZE = 16;
 
     public SwitchSource_StartResult() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements StartResultMethod {
         this.sourceList_Reference = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SwitchSource_StartResult switchSource_StartResult = (SwitchSource_StartResult)bAPEntity;
         return this.sourceList_Reference == switchSource_StartResult.sourceList_Reference;
@@ -40,7 +38,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SwitchSource_StartResult:");
@@ -49,18 +46,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.sourceList_Reference);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.sourceList_Reference = bitStream.popFrontShort();
     }
@@ -69,7 +63,6 @@ implements StartResultMethod {
         return 34;
     }
 
-    @Override
     public int getFunctionId() {
         return SwitchSource_StartResult.functionId();
     }

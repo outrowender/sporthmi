@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCWallDetectionFrontRear;
 
 public class PDCWallDetectionFrontRearSerializer {
-    public static void putOptionalPDCWallDetectionFrontRear(ISerializer iSerializer, PDCWallDetectionFrontRear pDCWallDetectionFrontRear) {
+    public static void putOptionalPDCWallDetectionFrontRear(ISerializer iSerializer, PDCWallDetectionFrontRear pDCWallDetectionFrontRear) throws SerializerException {
         boolean bl = pDCWallDetectionFrontRear == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class PDCWallDetectionFrontRearSerializer {
         }
     }
 
-    public static void putOptionalPDCWallDetectionFrontRearVarArray(ISerializer iSerializer, PDCWallDetectionFrontRear[] pDCWallDetectionFrontRearArray) {
+    public static void putOptionalPDCWallDetectionFrontRearVarArray(ISerializer iSerializer, PDCWallDetectionFrontRear[] pDCWallDetectionFrontRearArray) throws SerializerException {
         boolean bl = pDCWallDetectionFrontRearArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class PDCWallDetectionFrontRearSerializer {
         }
     }
 
-    public static PDCWallDetectionFrontRear getOptionalPDCWallDetectionFrontRear(IDeserializer iDeserializer) {
+    public static PDCWallDetectionFrontRear getOptionalPDCWallDetectionFrontRear(IDeserializer iDeserializer) throws SerializerException {
         PDCWallDetectionFrontRear pDCWallDetectionFrontRear = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class PDCWallDetectionFrontRearSerializer {
         return pDCWallDetectionFrontRear;
     }
 
-    public static PDCWallDetectionFrontRear[] getOptionalPDCWallDetectionFrontRearVarArray(IDeserializer iDeserializer) {
+    public static PDCWallDetectionFrontRear[] getOptionalPDCWallDetectionFrontRearVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCWallDetectionFrontRear[] pDCWallDetectionFrontRearArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

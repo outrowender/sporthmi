@@ -10,9 +10,9 @@ import de.vw.mib.bap.stream.BitStream;
 public final class TriggerRemoteProcess_Result
 implements ResultMethod {
     public int triggerResult;
-    public static final int TRIGGER_RESULT_NOT_SUCCESSFUL_COMMAND_TYPE_NOT_SUPPORTED;
-    public static final int TRIGGER_RESULT_NOT_SUCCESSFUL;
-    public static final int TRIGGER_RESULT_SUCCESSFUL;
+    public static final int TRIGGER_RESULT_NOT_SUCCESSFUL_COMMAND_TYPE_NOT_SUPPORTED = 5;
+    public static final int TRIGGER_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int TRIGGER_RESULT_SUCCESSFUL = 0;
 
     public TriggerRemoteProcess_Result() {
         this.internalReset();
@@ -28,12 +28,10 @@ implements ResultMethod {
         this.triggerResult = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         TriggerRemoteProcess_Result triggerRemoteProcess_Result = (TriggerRemoteProcess_Result)bAPEntity;
         return this.triggerResult == triggerRemoteProcess_Result.triggerResult;
@@ -42,30 +40,25 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public int getResultCode() {
         return this.triggerResult;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("TriggerRemoteProcess_Result");
-        stringBuffer.append(new StringBuffer().append("\n - triggerResult:").append(this.triggerResult).toString());
+        stringBuffer.append("\n - triggerResult:" + this.triggerResult);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.triggerResult);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.triggerResult = bitStream.popFrontByte();
     }
@@ -74,7 +67,6 @@ implements ResultMethod {
         return 18;
     }
 
-    @Override
     public int getFunctionId() {
         return TriggerRemoteProcess_Result.functionId();
     }

@@ -56,7 +56,6 @@ implements Enumeration {
         return n;
     }
 
-    @Override
     public boolean hasMoreElements() {
         return this.hasMoreTokens();
     }
@@ -78,7 +77,6 @@ implements Enumeration {
         return false;
     }
 
-    @Override
     public Object nextElement() {
         return this.nextToken();
     }

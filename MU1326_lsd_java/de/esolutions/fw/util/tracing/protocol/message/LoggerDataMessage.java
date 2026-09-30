@@ -7,6 +7,7 @@ import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.StringConverter;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.ILoggerDataMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
@@ -16,12 +17,12 @@ import java.io.UnsupportedEncodingException;
 public class LoggerDataMessage
 extends AbstractMessage
 implements ILoggerDataMessage {
-    public static final short DATA_TYPE_MARKER;
-    public static final short DATA_TYPE_SYSTEM;
-    public static final short DATA_TYPE_STREAM;
-    public static final short DATA_TYPE_STREAM_RESYNC;
-    public static final short DATA_TYPE_STREAM_GAP_TIMESTAMP;
-    public static final short DATA_TYPE_STREAM_GAP_SYNC_MARKER;
+    public static final short DATA_TYPE_MARKER = 0;
+    public static final short DATA_TYPE_SYSTEM = 256;
+    public static final short DATA_TYPE_STREAM = 512;
+    public static final short DATA_TYPE_STREAM_RESYNC = 513;
+    public static final short DATA_TYPE_STREAM_GAP_TIMESTAMP = 514;
+    public static final short DATA_TYPE_STREAM_GAP_SYNC_MARKER = 515;
     private long loggerTimeStamp;
     private short dataType;
     private short messageType;
@@ -47,38 +48,32 @@ implements ILoggerDataMessage {
         super(MessageType.LOGGER_DATA);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt64(this.loggerTimeStamp);
         iSerializer.putInt16(this.dataType);
         iSerializer.putInt16(this.messageType);
         iSerializer.putInt8VarArray(this.messageData);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.loggerTimeStamp = iDeserializer.getInt64();
         this.dataType = iDeserializer.getInt16();
         this.messageType = iDeserializer.getInt16();
         this.messageData = iDeserializer.getInt8VarArray();
     }
 
-    @Override
     public long getLoggerTimeStamp() {
         return this.loggerTimeStamp;
     }
 
-    @Override
     public short getLoggerDataType() {
         return this.dataType;
     }
 
-    @Override
     public short getLoggerMessageType() {
         return this.messageType;
     }
 
-    @Override
     public byte[] getLoggerMessageData() {
         return this.messageData;
     }
@@ -93,17 +88,15 @@ implements ILoggerDataMessage {
             }
         }
         if (bl) {
-            return new StringBuffer().append("UNDECODED: type=").append(this.messageType).append(" size=").append(this.messageData.length).toString();
+            return "UNDECODED: type=" + this.messageType + " size=" + this.messageData.length;
         }
         return null;
     }
 
-    @Override
     public long getExternalTimeStamp() {
         return this.loggerTimeStamp;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("LoggerData: lts=");
         buffer.append(this.loggerTimeStamp);
@@ -117,7 +110,6 @@ implements ILoggerDataMessage {
         buffer.append(this.messageData.length);
     }
 
-    @Override
     public byte[] getRawDataPortion() {
         return this.messageData;
     }

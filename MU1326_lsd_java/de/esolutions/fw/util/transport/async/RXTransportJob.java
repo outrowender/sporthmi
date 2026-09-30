@@ -7,6 +7,8 @@ import de.esolutions.fw.util.transport.IReadable;
 import de.esolutions.fw.util.transport.ITransport;
 import de.esolutions.fw.util.transport.async.ClientContext;
 import de.esolutions.fw.util.transport.async.TransportJob;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public final class RXTransportJob
 extends TransportJob {
@@ -20,8 +22,7 @@ extends TransportJob {
         return this.readable;
     }
 
-    @Override
-    protected final void doIO() {
+    protected final void doIO() throws IOException, TransportException, InterruptedException {
         this.readable = this.transport.recv();
     }
 }

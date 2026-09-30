@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 import de.esolutions.fw.comm.dsi.ddp20.impl.FrameInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.DisplayStatus;
 import org.dsi.ifc.ddp20.FrameInfo;
 
 public class DisplayStatusSerializer {
-    public static void putOptionalDisplayStatus(ISerializer iSerializer, DisplayStatus displayStatus) {
+    public static void putOptionalDisplayStatus(ISerializer iSerializer, DisplayStatus displayStatus) throws SerializerException {
         boolean bl = displayStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class DisplayStatusSerializer {
         }
     }
 
-    public static void putOptionalDisplayStatusVarArray(ISerializer iSerializer, DisplayStatus[] displayStatusArray) {
+    public static void putOptionalDisplayStatusVarArray(ISerializer iSerializer, DisplayStatus[] displayStatusArray) throws SerializerException {
         boolean bl = displayStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class DisplayStatusSerializer {
         }
     }
 
-    public static DisplayStatus getOptionalDisplayStatus(IDeserializer iDeserializer) {
+    public static DisplayStatus getOptionalDisplayStatus(IDeserializer iDeserializer) throws SerializerException {
         DisplayStatus displayStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class DisplayStatusSerializer {
         return displayStatus;
     }
 
-    public static DisplayStatus[] getOptionalDisplayStatusVarArray(IDeserializer iDeserializer) {
+    public static DisplayStatus[] getOptionalDisplayStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayStatus[] displayStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

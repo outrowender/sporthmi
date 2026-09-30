@@ -3,58 +3,42 @@
  */
 package de.esolutions.fw.comm.dsi.connectedradio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.connectedradio.RadioStation;
 
 public interface DSIHybridRadioC {
-    default public void getOnlineRadioAvailability(int n, RadioStation[] radioStationArray) {
-    }
+    public void getOnlineRadioAvailability(int var1, RadioStation[] var2) throws MethodException;
 
-    default public void getRadioStationLogo(int n, RadioStation[] radioStationArray, int n2) {
-    }
+    public void getRadioStationLogo(int var1, RadioStation[] var2, int var3) throws MethodException;
 
-    default public void cancelGetRadioStationLogo(int n) {
-    }
+    public void cancelGetRadioStationLogo(int var1) throws MethodException;
 
-    default public void getStream(int n, RadioStation radioStation) {
-    }
+    public void getStream(int var1, RadioStation var2) throws MethodException;
 
-    default public void startSlideshow(int n, RadioStation radioStation, int n2, int n3) {
-    }
+    public void startSlideshow(int var1, RadioStation var2, int var3, int var4) throws MethodException;
 
-    default public void stopSlideshow(int n, RadioStation radioStation) {
-    }
+    public void stopSlideshow(int var1, RadioStation var2) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -11,18 +11,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MobDevKeyActiveKey_Status
 implements StatusProperty {
     public int vehicleKeyNumber;
-    public static final int VEHICLE_KEY_NUMBER_MIN;
+    public static final int VEHICLE_KEY_NUMBER_MIN = 0;
     public int vehicleKeyType;
-    public static final int VEHICLE_KEY_TYPE_SMARTCARD;
-    public static final int VEHICLE_KEY_TYPE_MOBILE_DEVICE_KEY;
-    public static final int VEHICLE_KEY_TYPE_PHYSICAL_KEY;
-    public static final int VEHICLE_KEY_TYPE_INIT_UNKNOWN;
+    public static final int VEHICLE_KEY_TYPE_SMARTCARD = 3;
+    public static final int VEHICLE_KEY_TYPE_MOBILE_DEVICE_KEY = 2;
+    public static final int VEHICLE_KEY_TYPE_PHYSICAL_KEY = 1;
+    public static final int VEHICLE_KEY_TYPE_INIT_UNKNOWN = 0;
     public final BAPString vehicleKeyIdentifier = new BAPString(17);
-    private static final int MAX_VEHICLEKEYIDENTIFIER_LENGTH;
+    private static final int MAX_VEHICLEKEYIDENTIFIER_LENGTH = 17;
     public int extension1;
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
 
     public MobDevKeyActiveKey_Status() {
         this.internalReset();
@@ -41,13 +41,11 @@ implements StatusProperty {
         this.extension2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.vehicleKeyIdentifier.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeyActiveKey_Status mobDevKeyActiveKey_Status = (MobDevKeyActiveKey_Status)bAPEntity;
         return this.vehicleKeyNumber == mobDevKeyActiveKey_Status.vehicleKeyNumber && this.vehicleKeyType == mobDevKeyActiveKey_Status.vehicleKeyType && this.vehicleKeyIdentifier.equalTo(mobDevKeyActiveKey_Status.vehicleKeyIdentifier) && this.extension1 == mobDevKeyActiveKey_Status.extension1 && this.extension2 == mobDevKeyActiveKey_Status.extension2;
@@ -56,7 +54,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeyActiveKey_Status");
@@ -68,12 +65,10 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.vehicleKeyNumber);
         bitStream.pushByte((byte)this.vehicleKeyType);
@@ -82,7 +77,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.vehicleKeyNumber = bitStream.popFrontByte();
         this.vehicleKeyType = bitStream.popFrontByte();
@@ -95,7 +89,6 @@ implements StatusProperty {
         return 22;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeyActiveKey_Status.functionId();
     }

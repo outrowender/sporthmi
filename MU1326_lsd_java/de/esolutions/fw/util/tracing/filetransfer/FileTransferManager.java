@@ -5,13 +5,13 @@ package de.esolutions.fw.util.tracing.filetransfer;
 
 import de.esolutions.fw.util.tracing.filetransfer.AbstractFileTransferManager;
 import de.esolutions.fw.util.tracing.filetransfer.FileTransferError;
-import de.esolutions.fw.util.tracing.filetransfer.FileTransferManager$FileTransferObject;
 import de.esolutions.fw.util.tracing.filetransfer.file.IExtendedFile;
 import de.esolutions.fw.util.tracing.filetransfer.file.IFile;
 import de.esolutions.fw.util.tracing.filetransfer.file.IFileFactory;
 import de.esolutions.fw.util.tracing.filetransfer.util.FileTransferConstants;
 import de.esolutions.fw.util.tracing.filetransfer.util.FileTransferUtils;
-import de.esolutions.fw.util.tracing.filetransfer.util.FileTransferUtils$RequestIdPool;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,14 +22,14 @@ extends AbstractFileTransferManager {
     private HashMap fileTransferRequestObjects = new HashMap();
     private HashMap fileTransferUploadObjects = new HashMap();
     private final Object mapSynchronisation = new Object();
-    private final FileTransferUtils$RequestIdPool requestIdPool = new FileTransferUtils$RequestIdPool();
+    private final FileTransferUtils.RequestIdPool requestIdPool = new FileTransferUtils.RequestIdPool();
 
-    private boolean isIgnored(FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject) {
-        return FileTransferManager$FileTransferObject.access$000(fileTransferManager$FileTransferObject);
+    private boolean isIgnored(FileTransferObject fileTransferObject) {
+        return fileTransferObject.ignore;
     }
 
-    private void ignoreFile(FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject) {
-        FileTransferManager$FileTransferObject.access$002(fileTransferManager$FileTransferObject, true);
+    private void ignoreFile(FileTransferObject fileTransferObject) {
+        fileTransferObject.ignore = true;
     }
 
     public FileTransferManager(int n, byte by, String string) {
@@ -49,12 +49,11 @@ extends AbstractFileTransferManager {
 
     private void printStartUp() {
         System.out.println("FileTransferManager started ");
-        System.out.println(new StringBuffer().append("using: blockSize         = ").append(this.blockSize).toString());
-        System.out.println(new StringBuffer().append("       hashType          = ").append(this.hashType).toString());
-        System.out.println(new StringBuffer().append("       downloadDirectory = ").append(this.downloadDirectory).toString());
+        System.out.println("using: blockSize         = " + this.blockSize);
+        System.out.println("       hashType          = " + this.hashType);
+        System.out.println("       downloadDirectory = " + this.downloadDirectory);
     }
 
-    @Override
     public boolean uploadFile(IFile iFile) {
         int n = this.requestIdPool.getId(FileTransferConstants.OPERATION_UPLOAD);
         try {
@@ -88,7 +87,6 @@ extends AbstractFileTransferManager {
         }
     }
 
-    @Override
     public boolean requestFileStatus(String string, IFile iFile) {
         if (iFile == null) {
             String string2 = FileTransferUtils.findTempUniqueFileName(this.downloadDirectory);
@@ -98,7 +96,6 @@ extends AbstractFileTransferManager {
         return this.sendRequest(string, iFile, FileTransferConstants.OPERATION_STATUS);
     }
 
-    @Override
     public boolean requestFileDownload(String string, IFile iFile) {
         if (iFile == null) {
             String string2 = FileTransferUtils.findTempUniqueFileName(this.downloadDirectory);
@@ -120,9 +117,9 @@ extends AbstractFileTransferManager {
             this.fileTransferSender.sendFileRequest(n, string, by);
             Object object = this.mapSynchronisation;
             synchronized (object) {
-                FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject = new FileTransferManager$FileTransferObject((IExtendedFile)iFile);
-                FileTransferManager$FileTransferObject.access$102(fileTransferManager$FileTransferObject, by);
-                this.fileTransferRequestObjects.put(new Integer(n), fileTransferManager$FileTransferObject);
+                FileTransferObject fileTransferObject = new FileTransferObject((IExtendedFile)iFile);
+                fileTransferObject.operation = by;
+                this.fileTransferRequestObjects.put(new Integer(n), fileTransferObject);
             }
             return true;
         }
@@ -134,7 +131,6 @@ extends AbstractFileTransferManager {
         }
     }
 
-    @Override
     public boolean handleFileRequestMessage(int n, String string, byte by) {
         IFile iFile = this.fileFactory.createFile(string);
         boolean bl = iFile.open(false);
@@ -158,7 +154,6 @@ extends AbstractFileTransferManager {
         return true;
     }
 
-    @Override
     public boolean handleInitExitMessage() {
         this.cleanTransferObjects();
         return true;
@@ -182,43 +177,43 @@ extends AbstractFileTransferManager {
     private void cleanAllTransferObjects(Collection collection) {
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
-            FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject = (FileTransferManager$FileTransferObject)iterator.next();
-            FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject).setError(new FileTransferError(60));
-            this.notifyListenerFileTransferError(FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject));
+            FileTransferObject fileTransferObject = (FileTransferObject)iterator.next();
+            fileTransferObject.file.setError(new FileTransferError(60));
+            this.notifyListenerFileTransferError(fileTransferObject.file);
         }
     }
 
-    private boolean fileDownloadRequest(int n, IFile iFile) {
+    private boolean fileDownloadRequest(int n, IFile iFile) throws IOException, TransportException, InterruptedException {
         this.sendFileTransferStatus(n, iFile, FileTransferConstants.FLAG_NOTHING_SET, false);
         this.sendFileTransferMessages(n, iFile, FileTransferConstants.FLAG_NOTHING_SET);
         this.sendFileTransferStatus(n, iFile, FileTransferConstants.FLAG_NOTHING_SET, true);
         return true;
     }
 
-    private boolean fileStatusRequest(int n, IFile iFile) {
+    private boolean fileStatusRequest(int n, IFile iFile) throws IOException, TransportException, InterruptedException {
         this.sendFileTransferStatus(n, iFile, FileTransferConstants.FLAG_NOTHING_SET, true);
         return true;
     }
 
-    private boolean firstFileTransferStatusMessageReceived(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray, FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject) {
-        IExtendedFile iExtendedFile = FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject);
+    private boolean firstFileTransferStatusMessageReceived(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray, FileTransferObject fileTransferObject) {
+        IExtendedFile iExtendedFile = fileTransferObject.file;
         this.setFileStatus(n, string, by, l, l2, by2, byArray, iExtendedFile);
         if (!this.confirmFileTransfer(iExtendedFile)) {
-            this.ignoreFile(fileTransferManager$FileTransferObject);
-            FileTransferManager$FileTransferObject.access$302(fileTransferManager$FileTransferObject, true);
+            this.ignoreFile(fileTransferObject);
+            fileTransferObject.firstStatusRunDone = true;
             return true;
         }
         this.notifyListenerFileTransferBegin(iExtendedFile);
         iExtendedFile.open(true);
-        FileTransferManager$FileTransferObject.access$302(fileTransferManager$FileTransferObject, true);
+        fileTransferObject.firstStatusRunDone = true;
         return true;
     }
 
-    private boolean lastFileTransferStatusMessageReceived(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray, FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject, HashMap hashMap) {
+    private boolean lastFileTransferStatusMessageReceived(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray, FileTransferObject fileTransferObject, HashMap hashMap) {
         boolean bl = true;
         try {
-            IExtendedFile iExtendedFile = FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject);
-            if (this.isIgnored(fileTransferManager$FileTransferObject)) {
+            IExtendedFile iExtendedFile = fileTransferObject.file;
+            if (this.isIgnored(fileTransferObject)) {
                 return true;
             }
             this.setFileStatus(n, string, by, l, l2, by2, byArray, iExtendedFile);
@@ -238,7 +233,7 @@ extends AbstractFileTransferManager {
         }
         catch (Exception exception) {
             exception.printStackTrace();
-            IExtendedFile iExtendedFile = FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject);
+            IExtendedFile iExtendedFile = fileTransferObject.file;
             iExtendedFile.setError(new FileTransferError(10));
             this.notifyListenerFileTransferError(iExtendedFile);
             bl = false;
@@ -249,9 +244,9 @@ extends AbstractFileTransferManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private boolean fileStatusMessageReceived(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray, FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject, HashMap hashMap) {
+    private boolean fileStatusMessageReceived(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray, FileTransferObject fileTransferObject, HashMap hashMap) {
         boolean bl = true;
-        IExtendedFile iExtendedFile = FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject);
+        IExtendedFile iExtendedFile = fileTransferObject.file;
         try {
             iExtendedFile.open(true);
             this.setFileStatus(n, string, by, l, l2, by2, byArray, iExtendedFile);
@@ -289,61 +284,59 @@ extends AbstractFileTransferManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private FileTransferManager$FileTransferObject findFileTransferObject(int n, byte by) {
-        FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject = null;
+    private FileTransferObject findFileTransferObject(int n, byte by) {
+        FileTransferObject fileTransferObject = null;
         Object object = this.mapSynchronisation;
         synchronized (object) {
             if (this.isUpload(by)) {
                 boolean bl = !this.fileTransferUploadObjects.containsKey(new Integer(n));
-                fileTransferManager$FileTransferObject = this.findFileObject(n, this.fileTransferUploadObjects);
-                FileTransferManager$FileTransferObject.access$302(fileTransferManager$FileTransferObject, !bl);
+                fileTransferObject = this.findFileObject(n, this.fileTransferUploadObjects);
+                fileTransferObject.firstStatusRunDone = !bl;
             } else {
-                fileTransferManager$FileTransferObject = this.findFileObject(n, this.fileTransferRequestObjects);
+                fileTransferObject = this.findFileObject(n, this.fileTransferRequestObjects);
             }
         }
-        return fileTransferManager$FileTransferObject;
+        return fileTransferObject;
     }
 
-    @Override
     public boolean handleFileStatusMessage(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
         boolean bl = this.isUpload(by);
         boolean bl2 = true;
         HashMap hashMap = this.findFileTransferMap(by);
-        FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject = this.findFileTransferObject(n, by);
+        FileTransferObject fileTransferObject = this.findFileTransferObject(n, by);
         if (this.fileTransferSender == null && !bl) {
-            FileTransferManager$FileTransferObject.access$102(fileTransferManager$FileTransferObject, FileTransferConstants.OPERATION_DOWNLOAD);
+            fileTransferObject.operation = FileTransferConstants.OPERATION_DOWNLOAD;
         }
-        if (FileTransferManager$FileTransferObject.access$100(fileTransferManager$FileTransferObject) == FileTransferConstants.OPERATION_STATUS) {
-            return this.fileStatusMessageReceived(n, string, by, l, l2, by2, byArray, fileTransferManager$FileTransferObject, hashMap);
+        if (fileTransferObject.operation == FileTransferConstants.OPERATION_STATUS) {
+            return this.fileStatusMessageReceived(n, string, by, l, l2, by2, byArray, fileTransferObject, hashMap);
         }
-        if (FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject).hasError() || this.hasFlag(by, FileTransferConstants.FLAG_STATUS_ERROR)) {
+        if (fileTransferObject.file.hasError() || this.hasFlag(by, FileTransferConstants.FLAG_STATUS_ERROR)) {
             if (this.hasFlag(by, FileTransferConstants.FLAG_STATUS_ERROR)) {
-                this.setFileStatus(n, string, by, l, l2, by2, byArray, FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject));
-                FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject).setError(new FileTransferError(10));
-                this.notifyListenerFileTransferError(FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject));
+                this.setFileStatus(n, string, by, l, l2, by2, byArray, fileTransferObject.file);
+                fileTransferObject.file.setError(new FileTransferError(10));
+                this.notifyListenerFileTransferError(fileTransferObject.file);
             }
             this.removeTransferId(hashMap, n);
             return false;
         }
-        if (FileTransferManager$FileTransferObject.access$100(fileTransferManager$FileTransferObject) == FileTransferConstants.OPERATION_DOWNLOAD || bl) {
-            if (!FileTransferManager$FileTransferObject.access$300(fileTransferManager$FileTransferObject)) {
-                bl2 = this.firstFileTransferStatusMessageReceived(n, string, by, l, l2, by2, byArray, fileTransferManager$FileTransferObject);
+        if (fileTransferObject.operation == FileTransferConstants.OPERATION_DOWNLOAD || bl) {
+            if (!fileTransferObject.firstStatusRunDone) {
+                bl2 = this.firstFileTransferStatusMessageReceived(n, string, by, l, l2, by2, byArray, fileTransferObject);
             } else {
-                FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject).close();
-                bl2 = this.lastFileTransferStatusMessageReceived(n, string, by, l, l2, by2, byArray, fileTransferManager$FileTransferObject, hashMap);
+                fileTransferObject.file.close();
+                bl2 = this.lastFileTransferStatusMessageReceived(n, string, by, l, l2, by2, byArray, fileTransferObject, hashMap);
             }
         }
         return bl2;
     }
 
-    @Override
     public boolean handleFileTransferMessage(int n, int n2, byte by, int n3, byte[] byArray) {
         HashMap hashMap = this.findFileTransferMap(by);
-        FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject = this.findFileObject(n, hashMap);
-        if (this.isIgnored(fileTransferManager$FileTransferObject)) {
+        FileTransferObject fileTransferObject = this.findFileObject(n, hashMap);
+        if (this.isIgnored(fileTransferObject)) {
             return true;
         }
-        IExtendedFile iExtendedFile = FileTransferManager$FileTransferObject.access$200(fileTransferManager$FileTransferObject);
+        IExtendedFile iExtendedFile = fileTransferObject.file;
         if (iExtendedFile.hasError()) {
             return false;
         }
@@ -353,28 +346,28 @@ extends AbstractFileTransferManager {
             iExtendedFile.close();
             return false;
         }
-        if (FileTransferManager$FileTransferObject.access$400(fileTransferManager$FileTransferObject) != n2 - 1) {
+        if (fileTransferObject.lastBlock != n2 - 1) {
             iExtendedFile.setError(new FileTransferError(40, "wrong block number received"));
             this.notifyListenerFileTransferError(iExtendedFile);
             iExtendedFile.close();
             return false;
         }
-        if (FileTransferManager$FileTransferObject.access$500(fileTransferManager$FileTransferObject)) {
+        if (fileTransferObject.lastBlockFlagReceived) {
             iExtendedFile.setError(new FileTransferError(40, " previously last block received"));
             this.notifyListenerFileTransferError(iExtendedFile);
             iExtendedFile.close();
             return false;
         }
-        if (this.isFirstBlock(by) && !FileTransferManager$FileTransferObject.access$300(fileTransferManager$FileTransferObject)) {
+        if (this.isFirstBlock(by) && !fileTransferObject.firstStatusRunDone) {
             iExtendedFile.setError(new FileTransferError(10));
             this.notifyListenerFileTransferError(iExtendedFile);
             iExtendedFile.close();
             return false;
         }
         if (this.isLastBlock(by)) {
-            FileTransferManager$FileTransferObject.access$502(fileTransferManager$FileTransferObject, true);
+            fileTransferObject.lastBlockFlagReceived = true;
         }
-        FileTransferManager$FileTransferObject.access$402(fileTransferManager$FileTransferObject, n2);
+        fileTransferObject.lastBlock = n2;
         iExtendedFile.write(byArray);
         this.notifyListenerFileTransferProgress(iExtendedFile);
         return true;
@@ -383,19 +376,19 @@ extends AbstractFileTransferManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private FileTransferManager$FileTransferObject findFileObject(int n, HashMap hashMap) {
+    private FileTransferObject findFileObject(int n, HashMap hashMap) {
         Object object = this.mapSynchronisation;
         synchronized (object) {
-            FileTransferManager$FileTransferObject fileTransferManager$FileTransferObject = null;
+            FileTransferObject fileTransferObject = null;
             if (hashMap.containsKey(new Integer(n))) {
-                fileTransferManager$FileTransferObject = (FileTransferManager$FileTransferObject)hashMap.get(new Integer(n));
+                fileTransferObject = (FileTransferObject)hashMap.get(new Integer(n));
             } else {
                 String string = FileTransferUtils.findTempUniqueFileName(this.downloadDirectory);
                 IFile iFile = this.fileFactory.createFile(string);
-                fileTransferManager$FileTransferObject = new FileTransferManager$FileTransferObject((IExtendedFile)iFile);
-                hashMap.put(new Integer(n), fileTransferManager$FileTransferObject);
+                fileTransferObject = new FileTransferObject((IExtendedFile)iFile);
+                hashMap.put(new Integer(n), fileTransferObject);
             }
-            return fileTransferManager$FileTransferObject;
+            return fileTransferObject;
         }
     }
 
@@ -413,7 +406,7 @@ extends AbstractFileTransferManager {
         }
     }
 
-    private boolean sendFileTransferStatus(int n, IFile iFile, byte by, boolean bl) {
+    private boolean sendFileTransferStatus(int n, IFile iFile, byte by, boolean bl) throws IOException, TransportException, InterruptedException {
         if (iFile.hasError()) {
             by = (byte)(by | FileTransferConstants.FLAG_STATUS_ERROR);
             this.fileTransferSender.sendFileStatus(n, iFile.getLocalPath(), by, 0L, 0L, this.hashType, new byte[0]);
@@ -438,7 +431,7 @@ extends AbstractFileTransferManager {
         return true;
     }
 
-    private boolean sendFileTransferMessages(int n, IFile iFile, byte by) {
+    private boolean sendFileTransferMessages(int n, IFile iFile, byte by) throws IOException, TransportException, InterruptedException {
         int n2 = 0;
         byte[] byArray = null;
         do {
@@ -481,11 +474,23 @@ extends AbstractFileTransferManager {
         return (by & by2) == by2;
     }
 
-    @Override
     public boolean reset(String string) {
         this.cleanTransferObjects();
         this.downloadDirectory = string;
         return true;
+    }
+
+    private static class FileTransferObject {
+        private final IExtendedFile file;
+        private boolean ignore = false;
+        private int lastBlock = -1;
+        private boolean lastBlockFlagReceived = false;
+        private boolean firstStatusRunDone = false;
+        private byte operation = (byte)-1;
+
+        public FileTransferObject(IExtendedFile iExtendedFile) {
+            this.file = iExtendedFile;
+        }
     }
 }
 

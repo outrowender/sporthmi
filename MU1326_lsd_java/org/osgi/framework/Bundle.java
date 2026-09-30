@@ -6,53 +6,41 @@ package org.osgi.framework;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Dictionary;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 
 public interface Bundle {
-    public static final int UNINSTALLED;
-    public static final int INSTALLED;
-    public static final int RESOLVED;
-    public static final int STARTING;
-    public static final int STOPPING;
-    public static final int ACTIVE;
+    public static final int UNINSTALLED = 1;
+    public static final int INSTALLED = 2;
+    public static final int RESOLVED = 4;
+    public static final int STARTING = 8;
+    public static final int STOPPING = 16;
+    public static final int ACTIVE = 32;
 
-    default public int getState() {
-    }
+    public int getState();
 
-    default public void start() {
-    }
+    public void start() throws BundleException;
 
-    default public void stop() {
-    }
+    public void stop() throws BundleException;
 
-    default public void update() {
-    }
+    public void update() throws BundleException;
 
-    default public void update(InputStream inputStream) {
-    }
+    public void update(InputStream var1) throws BundleException;
 
-    default public void uninstall() {
-    }
+    public void uninstall() throws BundleException;
 
-    default public Dictionary getHeaders() {
-    }
+    public Dictionary getHeaders();
 
-    default public long getBundleId() {
-    }
+    public long getBundleId();
 
-    default public String getLocation() {
-    }
+    public String getLocation();
 
-    default public ServiceReference[] getRegisteredServices() {
-    }
+    public ServiceReference[] getRegisteredServices();
 
-    default public ServiceReference[] getServicesInUse() {
-    }
+    public ServiceReference[] getServicesInUse();
 
-    default public boolean hasPermission(Object object) {
-    }
+    public boolean hasPermission(Object var1);
 
-    default public URL getResource(String string) {
-    }
+    public URL getResource(String var1);
 }
 

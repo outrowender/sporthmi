@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.navigation.impl.CalculatedRouteListElementSeria
 import de.esolutions.fw.comm.dsi.navigation.impl.RouteSectionInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.navigation.CalculatedRouteListElement;
 import org.dsi.ifc.navigation.RgRouteCostChangeInformation;
 import org.dsi.ifc.navigation.RouteSectionInfo;
 
 public class RgRouteCostChangeInformationSerializer {
-    public static void putOptionalRgRouteCostChangeInformation(ISerializer iSerializer, RgRouteCostChangeInformation rgRouteCostChangeInformation) {
+    public static void putOptionalRgRouteCostChangeInformation(ISerializer iSerializer, RgRouteCostChangeInformation rgRouteCostChangeInformation) throws SerializerException {
         boolean bl = rgRouteCostChangeInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class RgRouteCostChangeInformationSerializer {
         }
     }
 
-    public static void putOptionalRgRouteCostChangeInformationVarArray(ISerializer iSerializer, RgRouteCostChangeInformation[] rgRouteCostChangeInformationArray) {
+    public static void putOptionalRgRouteCostChangeInformationVarArray(ISerializer iSerializer, RgRouteCostChangeInformation[] rgRouteCostChangeInformationArray) throws SerializerException {
         boolean bl = rgRouteCostChangeInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class RgRouteCostChangeInformationSerializer {
         }
     }
 
-    public static RgRouteCostChangeInformation getOptionalRgRouteCostChangeInformation(IDeserializer iDeserializer) {
+    public static RgRouteCostChangeInformation getOptionalRgRouteCostChangeInformation(IDeserializer iDeserializer) throws SerializerException {
         RgRouteCostChangeInformation rgRouteCostChangeInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class RgRouteCostChangeInformationSerializer {
         return rgRouteCostChangeInformation;
     }
 
-    public static RgRouteCostChangeInformation[] getOptionalRgRouteCostChangeInformationVarArray(IDeserializer iDeserializer) {
+    public static RgRouteCostChangeInformation[] getOptionalRgRouteCostChangeInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RgRouteCostChangeInformation[] rgRouteCostChangeInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

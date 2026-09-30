@@ -28,28 +28,23 @@ implements DSISpeechRec {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$speechrec$DSISpeechRec == null ? (class$org$dsi$ifc$speechrec$DSISpeechRec = DSISpeechRecProvider.class$("org.dsi.ifc.speechrec.DSISpeechRec")) : class$org$dsi$ifc$speechrec$DSISpeechRec).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISpeechRecProxy(this.instance, (DSISpeechRecReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void abort() {
         try {
             this.proxy.abort();
@@ -59,7 +54,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void deleteProfile(int n) {
         try {
             this.proxy.deleteProfile(n);
@@ -69,7 +63,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void deleteVoiceTag(int n) {
         try {
             this.proxy.deleteVoiceTag(n);
@@ -79,7 +72,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void enableContinuousUpdate(boolean bl) {
         try {
             this.proxy.enableContinuousUpdate(bl);
@@ -89,7 +81,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void getVersion() {
         try {
             this.proxy.getVersion();
@@ -99,7 +90,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void init() {
         try {
             this.proxy.init();
@@ -109,7 +99,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void initVoiceTag(int n) {
         try {
             this.proxy.initVoiceTag(n);
@@ -119,7 +108,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void loadGrammar(Grammar[] grammarArray) {
         try {
             this.proxy.loadGrammar(grammarArray);
@@ -129,7 +117,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void loadProfile(int n) {
         try {
             this.proxy.loadProfile(n);
@@ -139,7 +126,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void preloadGrammar(Grammar[] grammarArray) {
         try {
             this.proxy.preloadGrammar(grammarArray);
@@ -149,7 +135,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void recordVoiceTag() {
         try {
             this.proxy.recordVoiceTag();
@@ -159,7 +144,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setLanguage(String string, int n) {
         try {
             this.proxy.setLanguage(string, n);
@@ -169,7 +153,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void shutdown() {
         try {
             this.proxy.shutdown();
@@ -179,7 +162,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void startRecognition(int n, int n2, int n3) {
         try {
             this.proxy.startRecognition(n, n2, n3);
@@ -189,7 +171,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void unloadGrammar(GrammarInfo[] grammarInfoArray) {
         try {
             this.proxy.unloadGrammar(grammarInfoArray);
@@ -199,7 +180,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void unloadProfile(int n) {
         try {
             this.proxy.unloadProfile(n);
@@ -209,7 +189,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void unpreloadGrammar(GrammarInfo[] grammarInfoArray) {
         try {
             this.proxy.unpreloadGrammar(grammarInfoArray);
@@ -219,7 +198,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void waitForResults() {
         try {
             this.proxy.waitForResults();
@@ -229,7 +207,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setMaxCommandNBestListSize(int n) {
         try {
             this.proxy.setMaxCommandNBestListSize(n);
@@ -239,7 +216,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setMaxSlotNBestListSize(int n) {
         try {
             this.proxy.setMaxSlotNBestListSize(n);
@@ -249,7 +225,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setRecognitionTimeout(int n) {
         try {
             this.proxy.setRecognitionTimeout(n);
@@ -259,7 +234,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setUnambiguousResultThreshold(int n) {
         try {
             this.proxy.setUnambiguousResultThreshold(n);
@@ -269,7 +243,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setUnambiguousResultRange(int n) {
         try {
             this.proxy.setUnambiguousResultRange(n);
@@ -279,7 +252,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setFirstLevelSize(int n) {
         try {
             this.proxy.setFirstLevelSize(n);
@@ -289,7 +261,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void startPostTraining(int n) {
         try {
             this.proxy.startPostTraining(n);
@@ -299,7 +270,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void stopPostTraining() {
         try {
             this.proxy.stopPostTraining();
@@ -309,7 +279,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void requestSDSAvailability() {
         try {
             this.proxy.requestSDSAvailability();
@@ -319,7 +288,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setSpellingMode(int n) {
         try {
             this.proxy.setSpellingMode(n);
@@ -329,7 +297,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void deleteLastSpellingBlock() {
         try {
             this.proxy.deleteLastSpellingBlock();
@@ -339,7 +306,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void startDialogue() {
         try {
             this.proxy.startDialogue();
@@ -349,7 +315,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void stopDialogue() {
         try {
             this.proxy.stopDialogue();
@@ -359,7 +324,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void requestCheckDbPartition() {
         try {
             this.proxy.requestCheckDbPartition();
@@ -369,7 +333,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void requestGraphemicGroupAsNBestList(int n) {
         try {
             this.proxy.requestGraphemicGroupAsNBestList(n);
@@ -379,7 +342,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void requestVDECapabilities(String string) {
         try {
             this.proxy.requestVDECapabilities(string);
@@ -389,7 +351,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void requestRestoreFactorySettings() {
         try {
             this.proxy.requestRestoreFactorySettings();
@@ -399,7 +360,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setDictionary(int n, String string, String string2, DictionaryEntry[] dictionaryEntryArray) {
         try {
             this.proxy.setDictionary(n, string, string2, dictionaryEntryArray);
@@ -409,7 +369,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3) {
         try {
             this.proxy.setASRParameterConfiguration(nArray, nArray2, nArray3);
@@ -419,7 +378,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void deleteLastFlexVDEPart() {
         try {
             this.proxy.deleteLastFlexVDEPart();
@@ -429,7 +387,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void clearFlexVDEHistory() {
         try {
             this.proxy.clearFlexVDEHistory();
@@ -439,7 +396,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -449,7 +405,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -459,7 +414,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -469,7 +423,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -479,7 +432,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -489,7 +441,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -499,7 +450,6 @@ implements DSISpeechRec {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

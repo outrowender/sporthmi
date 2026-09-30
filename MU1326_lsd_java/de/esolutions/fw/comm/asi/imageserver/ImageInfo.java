@@ -62,7 +62,7 @@ public class ImageInfo {
     }
 
     public String toString() {
-        return new StringBuffer("ImageInfo{").append("type=").append(this.type).append(", width=").append(this.width).append(", height=").append(this.height).append(", hash=").append(this.hash).append(", fileSize=").append(this.fileSize).append("}").toString();
+        return "ImageInfo{" + "type=" + this.type + ", width=" + this.width + ", height=" + this.height + ", hash=" + this.hash + ", fileSize=" + this.fileSize + "}";
     }
 }
 

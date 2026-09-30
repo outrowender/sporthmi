@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sClientResponseErrorSerializer {
-    public static void putOptionalsClientResponseError(ISerializer iSerializer, sClientResponseError sClientResponseError2) {
+    public static void putOptionalsClientResponseError(ISerializer iSerializer, sClientResponseError sClientResponseError2) throws SerializerException {
         boolean bl = sClientResponseError2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sClientResponseErrorSerializer {
         }
     }
 
-    public static void putOptionalsClientResponseErrorVarArray(ISerializer iSerializer, sClientResponseError[] sClientResponseErrorArray) {
+    public static void putOptionalsClientResponseErrorVarArray(ISerializer iSerializer, sClientResponseError[] sClientResponseErrorArray) throws SerializerException {
         boolean bl = sClientResponseErrorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sClientResponseErrorSerializer {
         }
     }
 
-    public static sClientResponseError getOptionalsClientResponseError(IDeserializer iDeserializer) {
+    public static sClientResponseError getOptionalsClientResponseError(IDeserializer iDeserializer) throws SerializerException {
         sClientResponseError sClientResponseError2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sClientResponseErrorSerializer {
         return sClientResponseError2;
     }
 
-    public static sClientResponseError[] getOptionalsClientResponseErrorVarArray(IDeserializer iDeserializer) {
+    public static sClientResponseError[] getOptionalsClientResponseErrorVarArray(IDeserializer iDeserializer) throws SerializerException {
         sClientResponseError[] sClientResponseErrorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

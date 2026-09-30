@@ -9,34 +9,24 @@ import java.util.Enumeration;
 
 public interface AclEntry
 extends Cloneable {
-    default public boolean addPermission(Permission permission) {
-    }
+    public boolean addPermission(Permission var1);
 
-    default public boolean checkPermission(Permission permission) {
-    }
+    public boolean checkPermission(Permission var1);
 
-    default public Object clone() {
-    }
+    public Object clone();
 
-    default public Principal getPrincipal() {
-    }
+    public Principal getPrincipal();
 
-    default public boolean isNegative() {
-    }
+    public boolean isNegative();
 
-    default public Enumeration permissions() {
-    }
+    public Enumeration permissions();
 
-    default public boolean removePermission(Permission permission) {
-    }
+    public boolean removePermission(Permission var1);
 
-    default public void setNegativePermissions() {
-    }
+    public void setNegativePermissions();
 
-    default public boolean setPrincipal(Principal principal) {
-    }
+    public boolean setPrincipal(Principal var1);
 
-    default public String toString() {
-    }
+    public String toString();
 }
 

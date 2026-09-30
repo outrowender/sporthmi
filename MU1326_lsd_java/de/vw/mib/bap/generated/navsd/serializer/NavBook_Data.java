@@ -12,32 +12,28 @@ import de.vw.mib.bap.stream.BitStream;
 public final class NavBook_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_LAST_NAME_FIRST_NAME;
-    public static final int RECORD_ADDRESS_LAST_NAME;
-    public static final int RECORD_ADDRESS_FIRST_NAME;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_LAST_NAME_FIRST_NAME = 0;
+    public static final int RECORD_ADDRESS_LAST_NAME = 1;
+    public static final int RECORD_ADDRESS_FIRST_NAME = 2;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public final BAPString lastName;
-    private static final int MAX_LAST_NAME_LENGTH;
+    private static final int MAX_LAST_NAME_LENGTH = 61;
     public final BAPString firstName;
-    private static final int MAX_FIRST_NAME_LENGTH;
+    private static final int MAX_FIRST_NAME_LENGTH = 61;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
@@ -59,7 +55,6 @@ implements BAPArrayElement {
         this.pos = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -67,7 +62,6 @@ implements BAPArrayElement {
         this.firstName.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         NavBook_Data navBook_Data = (NavBook_Data)bAPEntity;
         return this.arrayHeader.equalTo(navBook_Data.arrayHeader) && this.pos == navBook_Data.pos && this.lastName.equalTo(navBook_Data.lastName) && this.firstName.equalTo(navBook_Data.firstName);
@@ -78,7 +72,6 @@ implements BAPArrayElement {
         this.firstName.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("NavBook_Data:");
@@ -93,7 +86,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -121,7 +113,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -147,7 +138,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {

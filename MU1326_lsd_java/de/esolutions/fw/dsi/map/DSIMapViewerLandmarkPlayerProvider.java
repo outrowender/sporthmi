@@ -26,28 +26,23 @@ implements DSIMapViewerLandmarkPlayer {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$map$DSIMapViewerLandmarkPlayer == null ? (class$org$dsi$ifc$map$DSIMapViewerLandmarkPlayer = DSIMapViewerLandmarkPlayerProvider.class$("org.dsi.ifc.map.DSIMapViewerLandmarkPlayer")) : class$org$dsi$ifc$map$DSIMapViewerLandmarkPlayer).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMapViewerLandmarkPlayerProxy(this.instance, (DSIMapViewerLandmarkPlayerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void hideLandmark() {
         try {
             this.proxy.hideLandmark();
@@ -57,7 +52,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void showLandmark(Point point, long l) {
         try {
             this.proxy.showLandmark(point, l);
@@ -67,7 +61,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -77,7 +70,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -87,7 +79,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -97,7 +88,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -107,7 +97,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -117,7 +106,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -127,7 +115,6 @@ implements DSIMapViewerLandmarkPlayer {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

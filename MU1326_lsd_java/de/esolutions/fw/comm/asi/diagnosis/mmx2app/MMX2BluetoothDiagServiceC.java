@@ -13,45 +13,33 @@ import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sLastPairedBtDevices;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sPairedBtDevices;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sRoutineResponse;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2BluetoothDiagServiceC {
-    default public void responseErrorBluetooth(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorBluetooth(sClientResponseError var1) throws MethodException;
 
-    default public void responseBluetoothState(sBluetoothState sBluetoothState2) {
-    }
+    public void responseBluetoothState(sBluetoothState var1) throws MethodException;
 
-    default public void responseBluetoothMAC(sBluetoothMAC sBluetoothMAC2) {
-    }
+    public void responseBluetoothMAC(sBluetoothMAC var1) throws MethodException;
 
-    default public void responseBluetoothDevices(sBluetoothDevices sBluetoothDevices2) {
-    }
+    public void responseBluetoothDevices(sBluetoothDevices var1) throws MethodException;
 
-    default public void responseLastPairedBtDevices(sLastPairedBtDevices sLastPairedBtDevices2) {
-    }
+    public void responseLastPairedBtDevices(sLastPairedBtDevices var1) throws MethodException;
 
-    default public void responsePairedBtDevices(sPairedBtDevices sPairedBtDevices2) {
-    }
+    public void responsePairedBtDevices(sPairedBtDevices var1) throws MethodException;
 
-    default public void responseConnectedBtDevices(sConnectedBtDevices sConnectedBtDevices2) {
-    }
+    public void responseConnectedBtDevices(sConnectedBtDevices var1) throws MethodException;
 
-    default public void responseConnectedBtDevice(sConnectedBtDevice sConnectedBtDevice2) {
-    }
+    public void responseConnectedBtDevice(sConnectedBtDevice var1) throws MethodException;
 
-    default public void responseAutoConnectBtHandset(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseAutoConnectBtHandset(sRoutineResponse var1) throws MethodException;
 
-    default public void responseBtDeleteLinkKeys(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseBtDeleteLinkKeys(sRoutineResponse var1) throws MethodException;
 
-    default public void responseBtDeviceSearch(long l) {
-    }
+    public void responseBtDeviceSearch(long var1) throws MethodException;
 
-    default public void responseBtDeviceSearchItem(sBluetoothDeviceName[] sBluetoothDeviceNameArray) {
-    }
+    public void responseBtDeviceSearchItem(sBluetoothDeviceName[] var1) throws MethodException;
 
-    default public void responseConnectionToLastBtDevice(long l) {
-    }
+    public void responseConnectionToLastBtDevice(long var1) throws MethodException;
 }
 

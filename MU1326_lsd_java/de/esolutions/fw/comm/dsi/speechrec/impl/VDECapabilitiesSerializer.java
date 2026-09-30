@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.VDECapabilities;
 
 public class VDECapabilitiesSerializer {
-    public static void putOptionalVDECapabilities(ISerializer iSerializer, VDECapabilities vDECapabilities) {
+    public static void putOptionalVDECapabilities(ISerializer iSerializer, VDECapabilities vDECapabilities) throws SerializerException {
         boolean bl = vDECapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class VDECapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalVDECapabilitiesVarArray(ISerializer iSerializer, VDECapabilities[] vDECapabilitiesArray) {
+    public static void putOptionalVDECapabilitiesVarArray(ISerializer iSerializer, VDECapabilities[] vDECapabilitiesArray) throws SerializerException {
         boolean bl = vDECapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class VDECapabilitiesSerializer {
         }
     }
 
-    public static VDECapabilities getOptionalVDECapabilities(IDeserializer iDeserializer) {
+    public static VDECapabilities getOptionalVDECapabilities(IDeserializer iDeserializer) throws SerializerException {
         VDECapabilities vDECapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class VDECapabilitiesSerializer {
         return vDECapabilities;
     }
 
-    public static VDECapabilities[] getOptionalVDECapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static VDECapabilities[] getOptionalVDECapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         VDECapabilities[] vDECapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

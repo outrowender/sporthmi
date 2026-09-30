@@ -3,27 +3,23 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.DictationValueSentence;
 
 public interface DSIOnlineDictationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "8713cd7d-139f-5bf7-8bce-1c82c0b4c605";
+    public static final String IPL_COMM_INTERFACE_KEY = "4c75da4a-03db-5a77-9740-90765e5413a6";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void dictationResult(int n) {
-    }
+    public void dictationResult(int var1) throws MethodException;
 
-    default public void finishDictationResponse(int n) {
-    }
+    public void finishDictationResponse(int var1) throws MethodException;
 
-    default public void dictationValueList(DictationValueSentence dictationValueSentence) {
-    }
+    public void dictationValueList(DictationValueSentence var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

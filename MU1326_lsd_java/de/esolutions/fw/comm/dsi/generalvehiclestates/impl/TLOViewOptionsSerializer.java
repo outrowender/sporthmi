@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.generalvehiclestates.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.generalvehiclestates.TLOViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class TLOViewOptionsSerializer {
-    public static void putOptionalTLOViewOptions(ISerializer iSerializer, TLOViewOptions tLOViewOptions) {
+    public static void putOptionalTLOViewOptions(ISerializer iSerializer, TLOViewOptions tLOViewOptions) throws SerializerException {
         boolean bl = tLOViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class TLOViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalTLOViewOptionsVarArray(ISerializer iSerializer, TLOViewOptions[] tLOViewOptionsArray) {
+    public static void putOptionalTLOViewOptionsVarArray(ISerializer iSerializer, TLOViewOptions[] tLOViewOptionsArray) throws SerializerException {
         boolean bl = tLOViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class TLOViewOptionsSerializer {
         }
     }
 
-    public static TLOViewOptions getOptionalTLOViewOptions(IDeserializer iDeserializer) {
+    public static TLOViewOptions getOptionalTLOViewOptions(IDeserializer iDeserializer) throws SerializerException {
         TLOViewOptions tLOViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class TLOViewOptionsSerializer {
         return tLOViewOptions;
     }
 
-    public static TLOViewOptions[] getOptionalTLOViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static TLOViewOptions[] getOptionalTLOViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         TLOViewOptions[] tLOViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -3,79 +3,56 @@
  */
 package de.esolutions.fw.comm.dsi.picturestore;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIPictureViewerC {
-    default public void initializeViewer(int n, int n2) {
-    }
+    public void initializeViewer(int var1, int var2) throws MethodException;
 
-    default public void deinitializeViewer() {
-    }
+    public void deinitializeViewer() throws MethodException;
 
-    default public void setSelectionMode(int n) {
-    }
+    public void setSelectionMode(int var1) throws MethodException;
 
-    default public void startRendering() {
-    }
+    public void startRendering() throws MethodException;
 
-    default public void stopRendering() {
-    }
+    public void stopRendering() throws MethodException;
 
-    default public void setScrollMode(int n) {
-    }
+    public void setScrollMode(int var1) throws MethodException;
 
-    default public void scrollTicks(long l) {
-    }
+    public void scrollTicks(long var1) throws MethodException;
 
-    default public void moveFocus(long l, int n) {
-    }
+    public void moveFocus(long var1, int var3) throws MethodException;
 
-    default public void getPictureInfo(long l) {
-    }
+    public void getPictureInfo(long var1) throws MethodException;
 
-    default public void changeFolder(long l) {
-    }
+    public void changeFolder(long var1) throws MethodException;
 
-    default public void togglePictureSelection(long l) {
-    }
+    public void togglePictureSelection(long var1) throws MethodException;
 
-    default public void toggleAllPicturesSelection() {
-    }
+    public void toggleAllPicturesSelection() throws MethodException;
 
-    default public void clearAllPicturesSelection() {
-    }
+    public void clearAllPicturesSelection() throws MethodException;
 
-    default public void triggerAnimation(int n, long l) {
-    }
+    public void triggerAnimation(int var1, long var2) throws MethodException;
 
-    default public void setFilterSetId(int n) {
-    }
+    public void setFilterSetId(int var1) throws MethodException;
 
-    default public void moveFocusByResourceLocator(ResourceLocator resourceLocator, int n) {
-    }
+    public void moveFocusByResourceLocator(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void setSortingDirection(int n) {
-    }
+    public void setSortingDirection(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

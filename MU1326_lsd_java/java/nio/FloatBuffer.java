@@ -39,7 +39,6 @@ implements Comparable {
         return this.arrayOffset;
     }
 
-    @Override
     public int compareTo(Object object) {
         int n;
         if (object == null) {
@@ -86,8 +85,7 @@ implements Comparable {
         return object instanceof FloatBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract float get() {
-    }
+    public abstract float get();
 
     public FloatBuffer get(float[] fArray) {
         if (fArray == null) {
@@ -122,8 +120,7 @@ implements Comparable {
         return this;
     }
 
-    public abstract float get(int n) {
-    }
+    public abstract float get(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -144,11 +141,9 @@ implements Comparable {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract FloatBuffer put(float f2) {
-    }
+    public abstract FloatBuffer put(float var1);
 
     public final FloatBuffer put(float[] fArray) {
         if (fArray == null) {
@@ -194,14 +189,12 @@ implements Comparable {
         return this.put(fArray);
     }
 
-    public abstract FloatBuffer put(int n, float f2) {
-    }
+    public abstract FloatBuffer put(int var1, float var2);
 
-    public abstract FloatBuffer slice() {
-    }
+    public abstract FloatBuffer slice();
 
     public String toString() {
-        return new StringBuffer("java.nio.FloatBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.FloatBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static FloatBuffer wrap(float[] fArray) {
@@ -230,7 +223,6 @@ implements Comparable {
         return new FloatBufferImpl(fArray, n, n2, fArray.length, 0);
     }
 
-    public abstract ByteOrder order() {
-    }
+    public abstract ByteOrder order();
 }
 

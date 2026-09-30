@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carauxheatercooler;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.DSICarAuxHeaterCoolerReply;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.DSICarAuxHeaterCoolerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSICarAuxHeaterCoolerReply {
         super(n, (class$org$dsi$ifc$carauxheatercooler$DSICarAuxHeaterCoolerListener == null ? (class$org$dsi$ifc$carauxheatercooler$DSICarAuxHeaterCoolerListener = DSICarAuxHeaterCoolerDispatcher.class$("org.dsi.ifc.carauxheatercooler.DSICarAuxHeaterCoolerListener")) : class$org$dsi$ifc$carauxheatercooler$DSICarAuxHeaterCoolerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateAuxHeaterCoolerViewOptions(AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions, int n) {
+    public void updateAuxHeaterCoolerViewOptions(AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerCurrentHeaterState(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) {
+    public void updateAuxHeaterCoolerCurrentHeaterState(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -91,8 +89,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerErrorReason(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) {
+    public void updateAuxHeaterCoolerErrorReason(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -120,8 +117,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerState(int n, int n2) {
+    public void updateAuxHeaterCoolerState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -149,8 +145,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerOnOff(boolean bl, int n) {
+    public void updateAuxHeaterCoolerOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -178,8 +173,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerRemainingTime(short s, int n) {
+    public void updateAuxHeaterCoolerRemainingTime(short s, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -207,8 +201,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerRunningTime(short s, int n) {
+    public void updateAuxHeaterCoolerRunningTime(short s, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -236,8 +229,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerMode(int n, int n2) {
+    public void updateAuxHeaterCoolerMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -265,8 +257,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerDefaultStartMode(int n, int n2) {
+    public void updateAuxHeaterCoolerDefaultStartMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -294,8 +285,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerEngineHeater(boolean bl, int n) {
+    public void updateAuxHeaterCoolerEngineHeater(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -323,8 +313,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerActiveTimer(int n, int n2) {
+    public void updateAuxHeaterCoolerActiveTimer(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -352,8 +341,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
+    public void updateAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -381,8 +369,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
+    public void updateAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -410,8 +397,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
+    public void updateAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -439,8 +425,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void acknowledgeAuxHeaterSetFactoryDefault(boolean bl) {
+    public void acknowledgeAuxHeaterSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -456,8 +441,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerPopup(int n, int n2) {
+    public void updateAuxHeaterCoolerPopup(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -485,8 +469,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerMode2(AuxHeaterCoolerMode auxHeaterCoolerMode, int n) {
+    public void updateAuxHeaterCoolerMode2(AuxHeaterCoolerMode auxHeaterCoolerMode, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -514,8 +497,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning, AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning2, int n) {
+    public void updateAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning, AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -543,8 +525,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerWindowHeating(boolean bl, boolean bl2, int n) {
+    public void updateAuxHeaterCoolerWindowHeating(boolean bl, boolean bl2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -572,8 +553,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerUnlockClimating(int n, int n2) {
+    public void updateAuxHeaterCoolerUnlockClimating(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -601,8 +581,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerTargetTemperature(CarBCTemperature carBCTemperature, int n) {
+    public void updateAuxHeaterCoolerTargetTemperature(CarBCTemperature carBCTemperature, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -630,8 +609,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void updateAuxHeaterCoolerAirQuality(boolean bl, boolean bl2, int n) {
+    public void updateAuxHeaterCoolerAirQuality(boolean bl, boolean bl2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -659,8 +637,7 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -676,14 +653,13 @@ implements DSICarAuxHeaterCoolerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarAuxHeaterCoolerListener dSICarAuxHeaterCoolerListener = (DSICarAuxHeaterCoolerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarAuxHeaterCoolerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarAuxHeaterCoolerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarAuxHeaterCoolerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarAuxHeaterCoolerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarAuxHeaterCoolerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarAuxHeaterCoolerListener, new Object[]{string, string2});
                     continue;
                 }

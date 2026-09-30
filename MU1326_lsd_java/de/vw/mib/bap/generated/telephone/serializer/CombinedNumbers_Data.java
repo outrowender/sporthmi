@@ -12,63 +12,59 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CombinedNumbers_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_PB_NAME_NUMBER_TYPE_CALL_MODE_TEL_NUMBER_DAY_MONTH_YEAR_HOUR_MINUTE_SECOND;
-    public static final int RECORD_ADDRESS_PB_NAME_NUMBER_TYPE_CALL_MODE;
-    public static final int RECORD_ADDRESS_TEL_NUMBER_DAY_MONTH_YEAR_HOUR_MINUTE_SECOND;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_PB_NAME_NUMBER_TYPE_CALL_MODE_TEL_NUMBER_DAY_MONTH_YEAR_HOUR_MINUTE_SECOND = 0;
+    public static final int RECORD_ADDRESS_PB_NAME_NUMBER_TYPE_CALL_MODE = 1;
+    public static final int RECORD_ADDRESS_TEL_NUMBER_DAY_MONTH_YEAR_HOUR_MINUTE_SECOND = 2;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public final BAPString pbName;
-    private static final int MAX_PB_NAME_LENGTH;
+    private static final int MAX_PB_NAME_LENGTH = 100;
     public int numberType;
-    private static final int NUMBER_TYPE_BITSIZE;
-    public static final int NUMBER_TYPE_UNKNOWN_NUMBER_TYPE;
-    public static final int NUMBER_TYPE_GENERAL;
-    public static final int NUMBER_TYPE_MOBILE;
-    public static final int NUMBER_TYPE_OFFICE;
-    public static final int NUMBER_TYPE_HOME;
-    public static final int NUMBER_TYPE_FAX;
-    public static final int NUMBER_TYPE_PAGER;
-    public static final int NUMBER_TYPE_CELL_OFFICE;
-    public static final int NUMBER_TYPE_CELL_HOME;
-    public static final int NUMBER_TYPE_FAX_OFFICE;
-    public static final int NUMBER_TYPE_FAX_HOME;
+    private static final int NUMBER_TYPE_BITSIZE = 4;
+    public static final int NUMBER_TYPE_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int NUMBER_TYPE_GENERAL = 1;
+    public static final int NUMBER_TYPE_MOBILE = 2;
+    public static final int NUMBER_TYPE_OFFICE = 3;
+    public static final int NUMBER_TYPE_HOME = 4;
+    public static final int NUMBER_TYPE_FAX = 5;
+    public static final int NUMBER_TYPE_PAGER = 6;
+    public static final int NUMBER_TYPE_CELL_OFFICE = 11;
+    public static final int NUMBER_TYPE_CELL_HOME = 12;
+    public static final int NUMBER_TYPE_FAX_OFFICE = 13;
+    public static final int NUMBER_TYPE_FAX_HOME = 14;
     public int callMode;
-    private static final int CALL_MODE_BITSIZE;
-    public static final int CALL_MODE_UNKNOWN_CALL_MODE;
-    public static final int CALL_MODE_MISSED_CALL;
-    public static final int CALL_MODE_RECEIVED_CALL;
-    public static final int CALL_MODE_DIALED_NUMBER;
+    private static final int CALL_MODE_BITSIZE = 4;
+    public static final int CALL_MODE_UNKNOWN_CALL_MODE = 0;
+    public static final int CALL_MODE_MISSED_CALL = 1;
+    public static final int CALL_MODE_RECEIVED_CALL = 2;
+    public static final int CALL_MODE_DIALED_NUMBER = 3;
     public final BAPString telNumber;
-    private static final int MAX_TEL_NUMBER_LENGTH;
+    private static final int MAX_TEL_NUMBER_LENGTH = 41;
     public int day;
-    private static final int DAY_BITSIZE;
+    private static final int DAY_BITSIZE = 8;
     public int month;
-    private static final int MONTH_BITSIZE;
+    private static final int MONTH_BITSIZE = 8;
     public int year;
-    private static final int YEAR_BITSIZE;
+    private static final int YEAR_BITSIZE = 8;
     public int hour;
-    private static final int HOUR_BITSIZE;
+    private static final int HOUR_BITSIZE = 8;
     public int minute;
-    private static final int MINUTE_BITSIZE;
+    private static final int MINUTE_BITSIZE = 8;
     public int second;
-    private static final int SECOND_BITSIZE;
+    private static final int SECOND_BITSIZE = 8;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
@@ -98,7 +94,6 @@ implements BAPArrayElement {
         this.second = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -106,7 +101,6 @@ implements BAPArrayElement {
         this.telNumber.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CombinedNumbers_Data combinedNumbers_Data = (CombinedNumbers_Data)bAPEntity;
         return this.arrayHeader.equalTo(combinedNumbers_Data.arrayHeader) && this.pos == combinedNumbers_Data.pos && this.pbName.equalTo(combinedNumbers_Data.pbName) && this.numberType == combinedNumbers_Data.numberType && this.callMode == combinedNumbers_Data.callMode && this.telNumber.equalTo(combinedNumbers_Data.telNumber) && this.day == combinedNumbers_Data.day && this.month == combinedNumbers_Data.month && this.year == combinedNumbers_Data.year && this.hour == combinedNumbers_Data.hour && this.minute == combinedNumbers_Data.minute && this.second == combinedNumbers_Data.second;
@@ -115,7 +109,6 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CombinedNumbers_Data:");
@@ -214,7 +207,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -258,7 +250,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -300,7 +291,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {

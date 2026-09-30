@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCTemperature;
 
 public class CarBCTemperatureSerializer {
-    public static void putOptionalCarBCTemperature(ISerializer iSerializer, CarBCTemperature carBCTemperature) {
+    public static void putOptionalCarBCTemperature(ISerializer iSerializer, CarBCTemperature carBCTemperature) throws SerializerException {
         boolean bl = carBCTemperature == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCTemperatureSerializer {
         }
     }
 
-    public static void putOptionalCarBCTemperatureVarArray(ISerializer iSerializer, CarBCTemperature[] carBCTemperatureArray) {
+    public static void putOptionalCarBCTemperatureVarArray(ISerializer iSerializer, CarBCTemperature[] carBCTemperatureArray) throws SerializerException {
         boolean bl = carBCTemperatureArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCTemperatureSerializer {
         }
     }
 
-    public static CarBCTemperature getOptionalCarBCTemperature(IDeserializer iDeserializer) {
+    public static CarBCTemperature getOptionalCarBCTemperature(IDeserializer iDeserializer) throws SerializerException {
         CarBCTemperature carBCTemperature = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCTemperatureSerializer {
         return carBCTemperature;
     }
 
-    public static CarBCTemperature[] getOptionalCarBCTemperatureVarArray(IDeserializer iDeserializer) {
+    public static CarBCTemperature[] getOptionalCarBCTemperatureVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCTemperature[] carBCTemperatureArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

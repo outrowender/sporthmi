@@ -19,8 +19,8 @@ import java.util.List;
 public class MetricsFormatter
 implements IWidgetLogChannel,
 WidgetConstants {
-    public static final int PREFIX_MINUS;
-    public static final int PREFIX_PLUS;
+    public static final int PREFIX_MINUS = -2;
+    public static final int PREFIX_PLUS = -3;
 
     public static String format(AbstractMetrics abstractMetrics, int n, int n2) {
         if (abstractMetrics == null) {
@@ -137,7 +137,7 @@ WidgetConstants {
                 n11 = 0;
             }
             arrayList.add(n10, new LineElement(string, 1, n11));
-            textDescriptorLogCh.log(-2137614336, "MetricsFormatter#getLineDescriptor add prefix %2, %1", (Object)string, (long)n);
+            textDescriptorLogCh.log(10000000, "MetricsFormatter#getLineDescriptor add prefix %2, %1", (Object)string, (long)n);
         }
         return arrayList;
     }

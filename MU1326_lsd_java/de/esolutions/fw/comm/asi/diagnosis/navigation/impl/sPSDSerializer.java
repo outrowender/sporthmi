@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sPSD;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sPSDSerializer {
-    public static void putOptionalsPSD(ISerializer iSerializer, sPSD sPSD2) {
+    public static void putOptionalsPSD(ISerializer iSerializer, sPSD sPSD2) throws SerializerException {
         boolean bl = sPSD2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sPSDSerializer {
         }
     }
 
-    public static void putOptionalsPSDVarArray(ISerializer iSerializer, sPSD[] sPSDArray) {
+    public static void putOptionalsPSDVarArray(ISerializer iSerializer, sPSD[] sPSDArray) throws SerializerException {
         boolean bl = sPSDArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sPSDSerializer {
         }
     }
 
-    public static sPSD getOptionalsPSD(IDeserializer iDeserializer) {
+    public static sPSD getOptionalsPSD(IDeserializer iDeserializer) throws SerializerException {
         sPSD sPSD2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sPSDSerializer {
         return sPSD2;
     }
 
-    public static sPSD[] getOptionalsPSDVarArray(IDeserializer iDeserializer) {
+    public static sPSD[] getOptionalsPSDVarArray(IDeserializer iDeserializer) throws SerializerException {
         sPSD[] sPSDArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

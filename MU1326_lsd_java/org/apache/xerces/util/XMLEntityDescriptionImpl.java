@@ -22,12 +22,10 @@ implements XMLEntityDescription {
         this.setDescription(string, string2, string3, string4, string5, string6);
     }
 
-    @Override
     public void setEntityName(String string) {
         this.fEntityName = string;
     }
 
-    @Override
     public String getEntityName() {
         return this.fEntityName;
     }
@@ -41,13 +39,11 @@ implements XMLEntityDescription {
         this.setValues(string2, string3, string4, string5, string6);
     }
 
-    @Override
     public void clear() {
         super.clear();
         this.fEntityName = null;
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         if (this.fEntityName != null) {
@@ -56,7 +52,6 @@ implements XMLEntityDescription {
         return n;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         if (this.fEntityName != null) {

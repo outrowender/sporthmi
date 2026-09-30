@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface EventDispatcher {
-    default public void cancel(String string) {
-    }
+    public void cancel(String var1);
 
-    default public void send(String string, String string2, String string3, String string4, Map map, Object object, long l, List list) {
-    }
+    public void send(String var1, String var2, String var3, String var4, Map var5, Object var6, long var7, List var9);
 }
 

@@ -44,7 +44,6 @@ implements ITouchCharacterDefinition {
         return SINGLETON_INSTANCE;
     }
 
-    @Override
     public ICharacterRegister getHWRSymbols(int n, int n2, int n3) {
         if (n3 == 23) {
             return TouchCharacterDefinitionAsia.getHWRSymbolsForAsianLanguages(n, n2, 23);
@@ -437,12 +436,11 @@ implements ITouchCharacterDefinition {
                 }
             }
             catch (Exception exception) {
-                IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "TouchCharacterDefinitionAsia#readFromResourceFile: Could not close BufferedReader. Error message: %1", (Object)exception.getMessage());
+                IWidgetLogChannel.tpLogChannelInternal.log(100000, "TouchCharacterDefinitionAsia#readFromResourceFile: Could not close BufferedReader. Error message: %1", (Object)exception.getMessage());
             }
         }
     }
 
-    @Override
     public ICharacterRegister getBlackList(int n, boolean bl) {
         return TouchCharacterDefinitionEurope.getInstance().getBlackList(n, bl);
     }

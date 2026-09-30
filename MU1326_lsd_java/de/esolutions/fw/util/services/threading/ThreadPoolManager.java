@@ -27,7 +27,6 @@ DumpInfoProvider {
         this.namePoolMap = new HashMap();
     }
 
-    @Override
     public synchronized ThreadPool getThreadPool(String string) {
         ThreadPool threadPool = (ThreadPool)this.namePoolMap.get(string);
         if (threadPool != null) {
@@ -39,12 +38,10 @@ DumpInfoProvider {
         return threadPool;
     }
 
-    @Override
     public String getName() {
         return "ThreadPools";
     }
 
-    @Override
     public synchronized void dump(PrintStream printStream, String string) {
         Iterator iterator = this.namePoolMap.values().iterator();
         while (iterator.hasNext()) {

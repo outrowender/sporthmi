@@ -13,10 +13,10 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedFont;
 public class MassageProgramNodeManager
 implements IWidgetLogChannel {
     private static final String[][] MASSAGE_TEXT_NODE_NAMES = new String[][]{{"left_massage_line0", "left_massage_line1", "left_massage_line2", "left_massage_line3", "left_massage_line4", "left_massage_line5"}, {"right_massage_line0", "right_massage_line1", "right_massage_line2", "right_massage_line3", "right_massage_line4", "right_massage_line5"}};
-    private static final int DEFAULT_FONT_SIZE;
-    private static final int NUMBER_OF_MASSAGEPROGRAMM_SLOTS;
-    private static MassageProgramNodeManager instance;
-    private static Object instanceLock;
+    private static final int DEFAULT_FONT_SIZE = 16;
+    private static final int NUMBER_OF_MASSAGEPROGRAMM_SLOTS = 6;
+    private static MassageProgramNodeManager instance = null;
+    private static Object instanceLock = new Object();
     private EALManager ealManager;
     private INode2DText[][] nodes;
 
@@ -51,10 +51,10 @@ implements IWidgetLogChannel {
             for (int i2 = 0; i2 < 2; ++i2) {
                 this.nodes[i2] = new INode2DText[6];
                 for (int i3 = 0; i3 < 6; ++i3) {
-                    String string = new StringBuffer().append("Program Slot ").append(i3).toString();
+                    String string = "Program Slot " + i3;
                     INode2DText iNode2DText = new INode2DText(iProject, string, 16, "");
                     iNode2DText.setColor(EALManager.createColorCode(-1));
-                    iNode2DText.setTranslation(0.0f, 59457);
+                    iNode2DText.setTranslation(0.0f, 29.0f);
                     iNode2DText.setVisible(true);
                     this.nodes[i2][i3] = iNode2DText;
                     String string2 = MASSAGE_TEXT_NODE_NAMES[i2][i3];
@@ -65,7 +65,7 @@ implements IWidgetLogChannel {
                             iNode2D.add(iNode2DText);
                             continue;
                         }
-                        throw new Exception(new StringBuffer().append("Failed to retrieve anchor node [").append(string2).append("]").toString());
+                        throw new Exception("Failed to retrieve anchor node [" + string2 + "]");
                     }
                     finally {
                         if (iNode2D != null) {
@@ -112,11 +112,6 @@ implements IWidgetLogChannel {
             }
             this.nodes = null;
         }
-    }
-
-    static {
-        instance = null;
-        instanceLock = new Object();
     }
 }
 

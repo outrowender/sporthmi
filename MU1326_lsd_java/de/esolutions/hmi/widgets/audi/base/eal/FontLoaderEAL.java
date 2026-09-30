@@ -15,8 +15,8 @@ import java.util.Iterator;
 
 public class FontLoaderEAL
 extends FontLoader {
-    private static final int ICON_FONT_ID_PLAIN;
-    private static final int ICON_FONT_ID_BOLD;
+    private static final int ICON_FONT_ID_PLAIN = 1;
+    private static final int ICON_FONT_ID_BOLD = 2;
     protected String fontPath;
     protected static LogChannel logHybridCalls;
     protected final HashMap fonts = new HashMap();
@@ -27,15 +27,14 @@ extends FontLoader {
         this.fontPath = System.getProperty("hwg.font.path");
     }
 
-    @Override
     public void clearFontCache() {
-        logHybridCalls.log(-2137614336, "FontLoader#clearFontCache before destroyFont (multiple fonts) call");
+        logHybridCalls.log(10000000, "FontLoader#clearFontCache before destroyFont (multiple fonts) call");
         Iterator iterator = this.fonts.values().iterator();
         while (iterator.hasNext()) {
             IWrappedFont iWrappedFont = (IWrappedFont)iterator.next();
             this.destroyFont(iWrappedFont);
         }
-        logHybridCalls.log(-2137614336, "FontLoader#clearFontCache after destroyFont (multiple fonts) call");
+        logHybridCalls.log(10000000, "FontLoader#clearFontCache after destroyFont (multiple fonts) call");
         this.fonts.clear();
     }
 
@@ -43,37 +42,33 @@ extends FontLoader {
         return ((HMITerminalEAL)((Object)this.terminal)).getEALManager();
     }
 
-    @Override
     public Iterator getAllFonts() {
         return this.fonts.keySet().iterator();
     }
 
-    @Override
     public void destroyFont(Object object) {
         this.getEALManager().destroy((IWrappedFont)object);
     }
 
-    @Override
     public Object getFont(int n, int n2) {
         int n3;
         String string;
         if (n != 1 && n != 2) {
             string = STANDARD_FONT_PLAIN;
             n3 = 0;
-            AbstractWidget.logChannel.log(-2137614336, "FontLoaderEAL#getFont no font defined for reference %1, returning standard font", (long)n);
+            AbstractWidget.logChannel.log(10000000, "FontLoaderEAL#getFont no font defined for reference %1, returning standard font", (long)n);
         } else if (n == 1) {
             string = STANDARD_FONT_PLAIN;
             n3 = 0;
-            AbstractWidget.logChannel.log(-2137614336, "FontLoaderEAL#getFont using plain font");
+            AbstractWidget.logChannel.log(10000000, "FontLoaderEAL#getFont using plain font");
         } else {
             string = STANDARD_FONT_BOLD;
             n3 = AbstractWidget.framework.isAsia() ? 0 : 1;
-            AbstractWidget.logChannel.log(-2137614336, "FontLoaderEAL#getFont using bold");
+            AbstractWidget.logChannel.log(10000000, "FontLoaderEAL#getFont using bold");
         }
         return this.getFont(string, n3, n2);
     }
 
-    @Override
     public Object getFont(String string, int n, int n2) {
         return null;
     }

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigationAW.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sAntennaStateDSRC;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sAntennaStateDSRCSerializer {
-    public static void putOptionalsAntennaStateDSRC(ISerializer iSerializer, sAntennaStateDSRC sAntennaStateDSRC2) {
+    public static void putOptionalsAntennaStateDSRC(ISerializer iSerializer, sAntennaStateDSRC sAntennaStateDSRC2) throws SerializerException {
         boolean bl = sAntennaStateDSRC2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sAntennaStateDSRCSerializer {
         }
     }
 
-    public static void putOptionalsAntennaStateDSRCVarArray(ISerializer iSerializer, sAntennaStateDSRC[] sAntennaStateDSRCArray) {
+    public static void putOptionalsAntennaStateDSRCVarArray(ISerializer iSerializer, sAntennaStateDSRC[] sAntennaStateDSRCArray) throws SerializerException {
         boolean bl = sAntennaStateDSRCArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sAntennaStateDSRCSerializer {
         }
     }
 
-    public static sAntennaStateDSRC getOptionalsAntennaStateDSRC(IDeserializer iDeserializer) {
+    public static sAntennaStateDSRC getOptionalsAntennaStateDSRC(IDeserializer iDeserializer) throws SerializerException {
         sAntennaStateDSRC sAntennaStateDSRC2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sAntennaStateDSRCSerializer {
         return sAntennaStateDSRC2;
     }
 
-    public static sAntennaStateDSRC[] getOptionalsAntennaStateDSRCVarArray(IDeserializer iDeserializer) {
+    public static sAntennaStateDSRC[] getOptionalsAntennaStateDSRCVarArray(IDeserializer iDeserializer) throws SerializerException {
         sAntennaStateDSRC[] sAntennaStateDSRCArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

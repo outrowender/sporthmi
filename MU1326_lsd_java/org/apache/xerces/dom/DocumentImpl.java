@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.dom;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -10,8 +11,6 @@ import org.apache.xerces.dom.AttrImpl;
 import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.DOMImplementationImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
-import org.apache.xerces.dom.DocumentImpl$EnclosingAttr;
-import org.apache.xerces.dom.DocumentImpl$LEntry;
 import org.apache.xerces.dom.LCount;
 import org.apache.xerces.dom.NodeImpl;
 import org.apache.xerces.dom.NodeIteratorImpl;
@@ -42,12 +41,12 @@ extends CoreDocumentImpl
 implements DocumentTraversal,
 DocumentEvent,
 DocumentRange {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 515687835542616694L;
     protected Vector iterators;
     protected Vector ranges;
     protected Hashtable eventListeners;
     protected boolean mutationEvents = false;
-    DocumentImpl$EnclosingAttr savedEnclosingAttr;
+    EnclosingAttr savedEnclosingAttr;
 
     public DocumentImpl() {
     }
@@ -64,7 +63,6 @@ DocumentRange {
         super(documentType, bl);
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         DocumentImpl documentImpl = new DocumentImpl();
         this.callUserDataHandlers(this, documentImpl, (short)1);
@@ -73,7 +71,6 @@ DocumentRange {
         return documentImpl;
     }
 
-    @Override
     public DOMImplementation getImplementation() {
         return DOMImplementationImpl.getDOMImplementation();
     }
@@ -82,7 +79,6 @@ DocumentRange {
         return this.createNodeIterator(node, s, nodeFilter, true);
     }
 
-    @Override
     public NodeIterator createNodeIterator(Node node, int n, NodeFilter nodeFilter, boolean bl) {
         if (node == null) {
             String string = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NOT_SUPPORTED_ERR", null);
@@ -100,7 +96,6 @@ DocumentRange {
         return this.createTreeWalker(node, s, nodeFilter, true);
     }
 
-    @Override
     public TreeWalker createTreeWalker(Node node, int n, NodeFilter nodeFilter, boolean bl) {
         if (node == null) {
             String string = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NOT_SUPPORTED_ERR", null);
@@ -119,7 +114,6 @@ DocumentRange {
         this.iterators.removeElement(nodeIterator);
     }
 
-    @Override
     public Range createRange() {
         if (this.ranges == null) {
             this.ranges = new Vector();
@@ -139,7 +133,6 @@ DocumentRange {
         this.ranges.removeElement(range);
     }
 
-    @Override
     void replacedText(NodeImpl nodeImpl) {
         if (this.ranges != null) {
             int n = this.ranges.size();
@@ -149,7 +142,6 @@ DocumentRange {
         }
     }
 
-    @Override
     void deletedText(NodeImpl nodeImpl, int n, int n2) {
         if (this.ranges != null) {
             int n3 = this.ranges.size();
@@ -159,7 +151,6 @@ DocumentRange {
         }
     }
 
-    @Override
     void insertedText(NodeImpl nodeImpl, int n, int n2) {
         if (this.ranges != null) {
             int n3 = this.ranges.size();
@@ -178,8 +169,7 @@ DocumentRange {
         }
     }
 
-    @Override
-    public Event createEvent(String string) {
+    public Event createEvent(String string) throws DOMException {
         if (string.equalsIgnoreCase("Events") || "Event".equals(string)) {
             return new EventImpl();
         }
@@ -190,12 +180,10 @@ DocumentRange {
         throw new DOMException(9, string2);
     }
 
-    @Override
     void setMutationEvents(boolean bl) {
         this.mutationEvents = bl;
     }
 
-    @Override
     boolean getMutationEvents() {
         return this.mutationEvents;
     }
@@ -222,7 +210,6 @@ DocumentRange {
         return (Vector)this.eventListeners.get(nodeImpl);
     }
 
-    @Override
     protected void addEventListener(NodeImpl nodeImpl, String string, EventListener eventListener, boolean bl) {
         if (string == null || string.equals("") || eventListener == null) {
             return;
@@ -233,7 +220,7 @@ DocumentRange {
             vector = new Vector();
             this.setEventListeners(nodeImpl, vector);
         }
-        vector.addElement(new DocumentImpl$LEntry(this, string, eventListener, bl));
+        vector.addElement(new LEntry(string, eventListener, bl));
         LCount lCount = LCount.lookup(string);
         if (bl) {
             ++lCount.captures;
@@ -244,7 +231,6 @@ DocumentRange {
         }
     }
 
-    @Override
     protected void removeEventListener(NodeImpl nodeImpl, String string, EventListener eventListener, boolean bl) {
         if (string == null || string.equals("") || eventListener == null) {
             return;
@@ -254,8 +240,8 @@ DocumentRange {
             return;
         }
         for (int i2 = vector.size() - 1; i2 >= 0; --i2) {
-            DocumentImpl$LEntry documentImpl$LEntry = (DocumentImpl$LEntry)vector.elementAt(i2);
-            if (documentImpl$LEntry.useCapture != bl || documentImpl$LEntry.listener != eventListener || !documentImpl$LEntry.type.equals(string)) continue;
+            LEntry lEntry = (LEntry)vector.elementAt(i2);
+            if (lEntry.useCapture != bl || lEntry.listener != eventListener || !lEntry.type.equals(string)) continue;
             vector.removeElementAt(i2);
             if (vector.size() == 0) {
                 this.setEventListeners(nodeImpl, null);
@@ -272,7 +258,6 @@ DocumentRange {
         }
     }
 
-    @Override
     protected void copyEventListeners(NodeImpl nodeImpl, NodeImpl nodeImpl2) {
         Vector vector = this.getEventListeners(nodeImpl);
         if (vector == null) {
@@ -281,7 +266,6 @@ DocumentRange {
         this.setEventListeners(nodeImpl2, (Vector)vector.clone());
     }
 
-    @Override
     protected boolean dispatchEvent(NodeImpl nodeImpl, Event event) {
         Cloneable cloneable;
         if (event == null) {
@@ -315,10 +299,10 @@ DocumentRange {
                 Vector vector2 = (Vector)vector.clone();
                 int n = vector2.size();
                 for (int i3 = 0; i3 < n; ++i3) {
-                    DocumentImpl$LEntry documentImpl$LEntry = (DocumentImpl$LEntry)vector2.elementAt(i3);
-                    if (!documentImpl$LEntry.useCapture || !documentImpl$LEntry.type.equals(eventImpl.type) || !vector.contains(documentImpl$LEntry)) continue;
+                    LEntry lEntry = (LEntry)vector2.elementAt(i3);
+                    if (!lEntry.useCapture || !lEntry.type.equals(eventImpl.type) || !vector.contains(lEntry)) continue;
                     try {
-                        documentImpl$LEntry.listener.handleEvent(eventImpl);
+                        lEntry.listener.handleEvent(eventImpl);
                         continue;
                     }
                     catch (Exception exception) {
@@ -335,10 +319,10 @@ DocumentRange {
                 cloneable = (Vector)vector.clone();
                 int n = ((Vector)cloneable).size();
                 for (int i4 = 0; i4 < n; ++i4) {
-                    DocumentImpl$LEntry documentImpl$LEntry = (DocumentImpl$LEntry)((Vector)cloneable).elementAt(i4);
-                    if (documentImpl$LEntry.useCapture || !documentImpl$LEntry.type.equals(eventImpl.type) || !vector.contains(documentImpl$LEntry)) continue;
+                    LEntry lEntry = (LEntry)((Vector)cloneable).elementAt(i4);
+                    if (lEntry.useCapture || !lEntry.type.equals(eventImpl.type) || !vector.contains(lEntry)) continue;
                     try {
-                        documentImpl$LEntry.listener.handleEvent(eventImpl);
+                        lEntry.listener.handleEvent(eventImpl);
                         continue;
                     }
                     catch (Exception exception) {
@@ -357,10 +341,10 @@ DocumentRange {
                     Vector vector3 = (Vector)vector.clone();
                     int n2 = vector3.size();
                     for (int i6 = 0; i6 < n2; ++i6) {
-                        DocumentImpl$LEntry documentImpl$LEntry = (DocumentImpl$LEntry)vector3.elementAt(i6);
-                        if (documentImpl$LEntry.useCapture || !documentImpl$LEntry.type.equals(eventImpl.type) || !vector.contains(documentImpl$LEntry)) continue;
+                        LEntry lEntry = (LEntry)vector3.elementAt(i6);
+                        if (lEntry.useCapture || !lEntry.type.equals(eventImpl.type) || !vector.contains(lEntry)) continue;
                         try {
-                            documentImpl$LEntry.listener.handleEvent(eventImpl);
+                            lEntry.listener.handleEvent(eventImpl);
                             continue;
                         }
                         catch (Exception exception) {
@@ -402,9 +386,9 @@ DocumentRange {
         this.dispatchingEventToSubtree(node.getNextSibling(), event);
     }
 
-    protected void dispatchAggregateEvents(NodeImpl nodeImpl, DocumentImpl$EnclosingAttr documentImpl$EnclosingAttr) {
-        if (documentImpl$EnclosingAttr != null) {
-            this.dispatchAggregateEvents(nodeImpl, documentImpl$EnclosingAttr.node, documentImpl$EnclosingAttr.oldvalue, (short)1);
+    protected void dispatchAggregateEvents(NodeImpl nodeImpl, EnclosingAttr enclosingAttr) {
+        if (enclosingAttr != null) {
+            this.dispatchAggregateEvents(nodeImpl, enclosingAttr.node, enclosingAttr.oldvalue, (short)1);
         } else {
             this.dispatchAggregateEvents(nodeImpl, null, null, (short)0);
         }
@@ -449,10 +433,10 @@ DocumentRange {
                 }
                 short s = nodeImpl2.getNodeType();
                 if (s == 2) {
-                    DocumentImpl$EnclosingAttr documentImpl$EnclosingAttr = new DocumentImpl$EnclosingAttr(this);
-                    documentImpl$EnclosingAttr.node = (AttrImpl)nodeImpl2;
-                    documentImpl$EnclosingAttr.oldvalue = documentImpl$EnclosingAttr.node.getNodeValue();
-                    this.savedEnclosingAttr = documentImpl$EnclosingAttr;
+                    EnclosingAttr enclosingAttr = new EnclosingAttr();
+                    enclosingAttr.node = (AttrImpl)nodeImpl2;
+                    enclosingAttr.oldvalue = enclosingAttr.node.getNodeValue();
+                    this.savedEnclosingAttr = enclosingAttr;
                     return;
                 }
                 if (s == 5) {
@@ -466,14 +450,12 @@ DocumentRange {
         }
     }
 
-    @Override
     void modifyingCharacterData(NodeImpl nodeImpl, boolean bl) {
         if (this.mutationEvents && !bl) {
             this.saveEnclosingAttr(nodeImpl);
         }
     }
 
-    @Override
     void modifiedCharacterData(NodeImpl nodeImpl, String string, String string2, boolean bl) {
         if (this.mutationEvents && !bl) {
             LCount lCount = LCount.lookup("DOMCharacterDataModified");
@@ -486,19 +468,16 @@ DocumentRange {
         }
     }
 
-    @Override
     void replacedCharacterData(NodeImpl nodeImpl, String string, String string2) {
         this.modifiedCharacterData(nodeImpl, string, string2, false);
     }
 
-    @Override
     void insertingNode(NodeImpl nodeImpl, boolean bl) {
         if (this.mutationEvents && !bl) {
             this.saveEnclosingAttr(nodeImpl);
         }
     }
 
-    @Override
     void insertedNode(NodeImpl nodeImpl, NodeImpl nodeImpl2, boolean bl) {
         if (this.mutationEvents) {
             Object object;
@@ -543,7 +522,6 @@ DocumentRange {
         }
     }
 
-    @Override
     void removingNode(NodeImpl nodeImpl, NodeImpl nodeImpl2, boolean bl) {
         int n;
         int n2;
@@ -590,42 +568,36 @@ DocumentRange {
         }
     }
 
-    @Override
     void removedNode(NodeImpl nodeImpl, boolean bl) {
         if (this.mutationEvents && !bl) {
             this.dispatchAggregateEvents(nodeImpl, this.savedEnclosingAttr);
         }
     }
 
-    @Override
     void replacingNode(NodeImpl nodeImpl) {
         if (this.mutationEvents) {
             this.saveEnclosingAttr(nodeImpl);
         }
     }
 
-    @Override
     void replacingData(NodeImpl nodeImpl) {
         if (this.mutationEvents) {
             this.saveEnclosingAttr(nodeImpl);
         }
     }
 
-    @Override
     void replacedNode(NodeImpl nodeImpl) {
         if (this.mutationEvents) {
             this.dispatchAggregateEvents(nodeImpl, this.savedEnclosingAttr);
         }
     }
 
-    @Override
     void modifiedAttrValue(AttrImpl attrImpl, String string) {
         if (this.mutationEvents) {
             this.dispatchAggregateEvents(attrImpl, attrImpl, string, (short)1);
         }
     }
 
-    @Override
     void setAttrNode(AttrImpl attrImpl, AttrImpl attrImpl2) {
         if (this.mutationEvents) {
             if (attrImpl2 == null) {
@@ -636,7 +608,6 @@ DocumentRange {
         }
     }
 
-    @Override
     void removedAttrNode(AttrImpl attrImpl, NodeImpl nodeImpl, String string) {
         if (this.mutationEvents) {
             LCount lCount = LCount.lookup("DOMAttrModified");
@@ -649,12 +620,34 @@ DocumentRange {
         }
     }
 
-    @Override
     void renamedAttrNode(Attr attr, Attr attr2) {
     }
 
-    @Override
     void renamedElement(Element element, Element element2) {
+    }
+
+    class LEntry
+    implements Serializable {
+        private static final long serialVersionUID = -8426757059492421631L;
+        String type;
+        EventListener listener;
+        boolean useCapture;
+
+        LEntry(String string, EventListener eventListener, boolean bl) {
+            this.type = string;
+            this.listener = eventListener;
+            this.useCapture = bl;
+        }
+    }
+
+    class EnclosingAttr
+    implements Serializable {
+        private static final long serialVersionUID = 5208387723391647216L;
+        AttrImpl node;
+        String oldvalue;
+
+        EnclosingAttr() {
+        }
     }
 }
 

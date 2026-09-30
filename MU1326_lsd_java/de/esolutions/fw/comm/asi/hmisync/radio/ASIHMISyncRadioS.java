@@ -4,36 +4,27 @@
 package de.esolutions.fw.comm.asi.hmisync.radio;
 
 import de.esolutions.fw.comm.asi.hmisync.radio.ASIHMISyncRadioReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncRadioS {
-    default public void selectStation(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void selectStation(long var1, ASIHMISyncRadioReply var3) throws MethodException;
 
-    default public void selectBand(int n, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void selectBand(int var1, ASIHMISyncRadioReply var2) throws MethodException;
 
-    default public void seekStation(int n, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void seekStation(int var1, ASIHMISyncRadioReply var2) throws MethodException;
 
-    default public void enableStationDetails(boolean bl, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void enableStationDetails(boolean var1, ASIHMISyncRadioReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void setNotification(ASIHMISyncRadioReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncRadioReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncRadioReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void clearNotification(ASIHMISyncRadioReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncRadioReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncRadioReply var2) throws MethodException;
 }
 

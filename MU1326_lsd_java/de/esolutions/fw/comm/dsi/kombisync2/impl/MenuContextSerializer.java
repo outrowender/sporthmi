@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombisync2.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.MenuContext;
 
 public class MenuContextSerializer {
-    public static void putOptionalMenuContext(ISerializer iSerializer, MenuContext menuContext) {
+    public static void putOptionalMenuContext(ISerializer iSerializer, MenuContext menuContext) throws SerializerException {
         boolean bl = menuContext == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class MenuContextSerializer {
         }
     }
 
-    public static void putOptionalMenuContextVarArray(ISerializer iSerializer, MenuContext[] menuContextArray) {
+    public static void putOptionalMenuContextVarArray(ISerializer iSerializer, MenuContext[] menuContextArray) throws SerializerException {
         boolean bl = menuContextArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class MenuContextSerializer {
         }
     }
 
-    public static MenuContext getOptionalMenuContext(IDeserializer iDeserializer) {
+    public static MenuContext getOptionalMenuContext(IDeserializer iDeserializer) throws SerializerException {
         MenuContext menuContext = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class MenuContextSerializer {
         return menuContext;
     }
 
-    public static MenuContext[] getOptionalMenuContextVarArray(IDeserializer iDeserializer) {
+    public static MenuContext[] getOptionalMenuContextVarArray(IDeserializer iDeserializer) throws SerializerException {
         MenuContext[] menuContextArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

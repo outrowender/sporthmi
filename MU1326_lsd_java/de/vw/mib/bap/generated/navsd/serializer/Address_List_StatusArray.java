@@ -14,93 +14,80 @@ import de.vw.mib.bap.stream.BitStream;
 public final class Address_List_StatusArray
 implements BAPStatusArray {
     public int asg_Id;
-    private static final int ASG_ID_BITSIZE;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER;
-    public static final int ASG_ID_HEAD_UP_DISPLAY;
-    public static final int ASG_ID_OPERATING_UNIT_REAR_DF4_2;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_HEAD_UP_DISPLAY_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_OPERATING_UNIT_REAR_TO_BE_EVALUATED_BY_ALL_ASGS;
+    private static final int ASG_ID_BITSIZE = 4;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE = 0;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER = 1;
+    public static final int ASG_ID_HEAD_UP_DISPLAY = 2;
+    public static final int ASG_ID_OPERATING_UNIT_REAR_DF4_2 = 3;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER_TO_BE_EVALUATED_BY_ALL_ASGS = 9;
+    public static final int ASG_ID_HEAD_UP_DISPLAY_TO_BE_EVALUATED_BY_ALL_ASGS = 10;
+    public static final int ASG_ID_OPERATING_UNIT_REAR_TO_BE_EVALUATED_BY_ALL_ASGS = 11;
     public int taid;
-    private static final int TAID_BITSIZE;
+    private static final int TAID_BITSIZE = 4;
     public int otherListType;
-    private static final int OTHER_LIST_TYPE_BITSIZE;
-    public static final int OTHER_LIST_TYPE_LAST_DESTINATIONS_LIST_FUNCTION_0X1D;
-    public static final int OTHER_LIST_TYPE_FAVORITE_DESTINATIONS_LIST_FUNCTION_0X1E;
-    public static final int OTHER_LIST_TYPE_NAV_BOOK_FUNCTION_0X20;
-    public static final int OTHER_LIST_TYPE_PHONE_BOOK_BAP_FUNCTION_CATALOGUE_PHONE;
-    public static final int OTHER_LIST_TYPE_HOME_ADDRESS_DF4_1;
-    public static final int OTHER_LIST_TYPE_COMPLETE_LIST_DF4_1;
+    private static final int OTHER_LIST_TYPE_BITSIZE = 8;
+    public static final int OTHER_LIST_TYPE_LAST_DESTINATIONS_LIST_FUNCTION_0X1D = 0;
+    public static final int OTHER_LIST_TYPE_FAVORITE_DESTINATIONS_LIST_FUNCTION_0X1E = 1;
+    public static final int OTHER_LIST_TYPE_NAV_BOOK_FUNCTION_0X20 = 2;
+    public static final int OTHER_LIST_TYPE_PHONE_BOOK_BAP_FUNCTION_CATALOGUE_PHONE = 3;
+    public static final int OTHER_LIST_TYPE_HOME_ADDRESS_DF4_1 = 4;
+    public static final int OTHER_LIST_TYPE_COMPLETE_LIST_DF4_1 = 15;
     public int otherList_Reference;
-    private static final int OTHER_LIST_REFERENCE_BITSIZE;
+    private static final int OTHER_LIST_REFERENCE_BITSIZE = 16;
     public int totalNumListElements;
-    private static final int TOTAL_NUM_LIST_ELEMENTS_BITSIZE;
+    private static final int TOTAL_NUM_LIST_ELEMENTS_BITSIZE = 16;
     private ArrayHeader arrayHeader = new ArrayHeader();
-    private BAPArrayData data = new BAPArrayData(-16842752);
-    private static final int MAX_DATA_ELEMENTS;
+    private BAPArrayData data = new BAPArrayData(65534);
+    private static final int MAX_DATA_ELEMENTS = 65534;
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }
 
-    @Override
     public boolean isBroadcast() {
         return this.asg_Id >>> 3 == 1;
     }
 
-    @Override
     public void setBroadcast(boolean bl) {
         this.asg_Id = bl ? this.asg_Id | 8 : this.asg_Id & 7;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.totalNumListElements;
     }
 
-    @Override
     public void setNumberOfElements(int n) {
         this.totalNumListElements = n;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new Address_List_Data(this.getArrayHeader());
     }
@@ -123,14 +110,12 @@ implements BAPStatusArray {
         this.totalNumListElements = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Address_List_StatusArray address_List_StatusArray = (Address_List_StatusArray)bAPEntity;
         return this.asg_Id == address_List_StatusArray.asg_Id && this.taid == address_List_StatusArray.taid && this.otherListType == address_List_StatusArray.otherListType && this.otherList_Reference == address_List_StatusArray.otherList_Reference && this.totalNumListElements == address_List_StatusArray.totalNumListElements && this.arrayHeader.equalTo(address_List_StatusArray.arrayHeader) && this.data.equalTo(address_List_StatusArray.data);
@@ -139,7 +124,6 @@ implements BAPStatusArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Address_List_StatusArray:");
@@ -220,7 +204,6 @@ implements BAPStatusArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 4;
@@ -232,7 +215,6 @@ implements BAPStatusArray {
         return n += this.data.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
@@ -243,7 +225,6 @@ implements BAPStatusArray {
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -264,7 +245,6 @@ implements BAPStatusArray {
         return 33;
     }
 
-    @Override
     public int getFunctionId() {
         return Address_List_StatusArray.functionId();
     }

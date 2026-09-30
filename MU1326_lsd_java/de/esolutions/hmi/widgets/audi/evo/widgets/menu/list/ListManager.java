@@ -7,7 +7,6 @@ import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListController;
 
 public interface ListManager {
-    default public void listModelChanged(ListController listController, ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void listModelChanged(ListController var1, ModelUpdateEvent var2);
 }
 

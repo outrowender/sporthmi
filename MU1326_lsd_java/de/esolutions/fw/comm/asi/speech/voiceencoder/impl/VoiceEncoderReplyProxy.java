@@ -4,17 +4,20 @@
 package de.esolutions.fw.comm.asi.speech.voiceencoder.impl;
 
 import de.esolutions.fw.comm.asi.speech.voiceencoder.VoiceEncoderReply;
-import de.esolutions.fw.comm.asi.speech.voiceencoder.impl.VoiceEncoderReplyProxy$1;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class VoiceEncoderReplyProxy
 implements VoiceEncoderReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.speech.voiceencoder.VoiceEncoder");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public VoiceEncoderReplyProxy() {
@@ -22,15 +25,19 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void voiceDataAvailable(int n, long l) {
-        VoiceEncoderReplyProxy$1 voiceEncoderReplyProxy$1 = new VoiceEncoderReplyProxy$1(this, n, l);
-        this.proxy.remoteCallMethod((short)2, voiceEncoderReplyProxy$1);
+    public void voiceDataAvailable(final int n, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 }
 

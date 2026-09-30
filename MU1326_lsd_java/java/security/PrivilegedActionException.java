@@ -5,7 +5,7 @@ package java.security;
 
 public class PrivilegedActionException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4724086851538908602L;
     private Exception exception;
 
     public PrivilegedActionException(Exception exception) {
@@ -17,12 +17,10 @@ extends Exception {
         return this.exception;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer(String.valueOf(super.toString())).append(": ").append(this.exception).toString();
+        return String.valueOf(super.toString()) + ": " + this.exception;
     }
 
-    @Override
     public Throwable getCause() {
         return this.exception;
     }

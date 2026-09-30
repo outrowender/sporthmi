@@ -18,22 +18,18 @@ extends AbstractDSIAdapterErrorLogCommand {
         super(dSIAdmin);
     }
 
-    @Override
     public String[] getNames() {
         return new String[]{"dsi_dispatcher_error", "dside"};
     }
 
-    @Override
     public String getDescription() {
         return "shows error of dsi dispatcher(s)";
     }
 
-    @Override
     public String getUsage() {
         return "[error_id|uuid][,error_id|uuid...]";
     }
 
-    @Override
     protected void handleWithDSIAdapterErrorLog(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAdapterErrorLog iAdapterErrorLog = this.getErrorLog();
         IInfoBase[] iInfoBaseArray = iAdapterErrorLog.getDispatcherErrors();
@@ -43,7 +39,7 @@ extends AbstractDSIAdapterErrorLogCommand {
         InfoUtils.printInfos(iInfoBaseArray, new InfoStream(printStream));
         int n = iAdapterErrorLog.getNumDroppedProviderErrors();
         if (n > 0) {
-            printStream.println(new StringBuffer().append("Dropped dispatcher error entries: ").append(n).toString());
+            printStream.println("Dropped dispatcher error entries: " + n);
         }
     }
 }

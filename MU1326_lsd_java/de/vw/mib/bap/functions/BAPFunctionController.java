@@ -4,13 +4,10 @@
 package de.vw.mib.bap.functions;
 
 public interface BAPFunctionController {
-    default public void initialize(boolean bl) {
-    }
+    public void initialize(boolean var1);
 
-    default public void uninitialize() {
-    }
+    public void uninitialize();
 
-    default public int getFunctionId() {
-    }
+    public int getFunctionId();
 }
 

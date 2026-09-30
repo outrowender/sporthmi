@@ -11,7 +11,6 @@ public class SpaceDashBoostRuleAsia
 extends SpaceDashBoostRule {
     private static final char[] ruleDefinedChars = new char[]{' ', '\u4e00', '-'};
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         int n;
         RecognizerResult[] recognizerResultArray = SpaceDashBoostRuleAsia.searchCharacters(list, this.getRuleDefinedChars());
@@ -45,7 +44,6 @@ extends SpaceDashBoostRule {
         return ruleDefinedChars;
     }
 
-    @Override
     public String getRuleName() {
         return "Space-Dash-Boost-Rule-Asia";
     }

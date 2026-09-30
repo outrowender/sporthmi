@@ -7,9 +7,9 @@ import org.apache.xerces.xni.XNIException;
 
 public class XMLConfigurationException
 extends XNIException {
-    static final long serialVersionUID;
-    public static final short NOT_RECOGNIZED;
-    public static final short NOT_SUPPORTED;
+    static final long serialVersionUID = -5437427404547669188L;
+    public static final short NOT_RECOGNIZED = 0;
+    public static final short NOT_SUPPORTED = 1;
     protected short fType;
     protected String fIdentifier;
 

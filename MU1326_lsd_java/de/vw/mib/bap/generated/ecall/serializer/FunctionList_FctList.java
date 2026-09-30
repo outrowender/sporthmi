@@ -13,7 +13,7 @@ implements BAPEntity {
     public boolean fct_Bap_ConfigAvailable;
     public boolean fct_FunctionListAvailable;
     public boolean fct_HeartBeatAvailable;
-    private static final int RESERVED_BIT_5__12_BITSIZE;
+    private static final int RESERVED_BIT_5__12_BITSIZE = 8;
     public boolean fct_Fsg_ControlAvailable;
     public boolean fct_Fsg_SetupAvailable;
     public boolean fct_Fsg_OperationStateAvailable;
@@ -33,7 +33,7 @@ implements BAPEntity {
     public boolean fct_AllowedEmergencyNumbersAvailable;
     public boolean fct_DialNumberAvailable;
     public boolean fct_DisasterWarningAvailable;
-    private static final int RESERVED_BIT_32__63_BITSIZE;
+    private static final int RESERVED_BIT_32__63_BITSIZE = 32;
 
     public FunctionList_FctList() {
         this.internalReset();
@@ -72,12 +72,10 @@ implements BAPEntity {
         this.fct_DisasterWarningAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_FctList functionList_FctList = (FunctionList_FctList)bAPEntity;
         return this.reserved_bit_0 == functionList_FctList.reserved_bit_0 && this.fct_GetAllAvailable == functionList_FctList.fct_GetAllAvailable && this.fct_Bap_ConfigAvailable == functionList_FctList.fct_Bap_ConfigAvailable && this.fct_FunctionListAvailable == functionList_FctList.fct_FunctionListAvailable && this.fct_HeartBeatAvailable == functionList_FctList.fct_HeartBeatAvailable && this.fct_Fsg_ControlAvailable == functionList_FctList.fct_Fsg_ControlAvailable && this.fct_Fsg_SetupAvailable == functionList_FctList.fct_Fsg_SetupAvailable && this.fct_Fsg_OperationStateAvailable == functionList_FctList.fct_Fsg_OperationStateAvailable && this.fct_AudioStateAvailable == functionList_FctList.fct_AudioStateAvailable && this.fct_CallStateAvailable == functionList_FctList.fct_CallStateAvailable && this.fct_HangupCallAvailable == functionList_FctList.fct_HangupCallAvailable && this.fct_AcceptCallAvailable == functionList_FctList.fct_AcceptCallAvailable && this.fct_DisconnectReasonAvailable == functionList_FctList.fct_DisconnectReasonAvailable && this.fct_RegisterStateAvailable == functionList_FctList.fct_RegisterStateAvailable && this.fct_NetworkProviderAvailable == functionList_FctList.fct_NetworkProviderAvailable && this.fct_SignalQualityAvailable == functionList_FctList.fct_SignalQualityAvailable && this.fct_ServiceRequestAvailable == functionList_FctList.fct_ServiceRequestAvailable && this.fct_ServiceControlAvailable == functionList_FctList.fct_ServiceControlAvailable && this.fct_ServiceStateAvailable == functionList_FctList.fct_ServiceStateAvailable && this.fct_SupportedServicesAvailable == functionList_FctList.fct_SupportedServicesAvailable && this.fct_FunctionalRestrictionsAvailable == functionList_FctList.fct_FunctionalRestrictionsAvailable && this.fct_AllowedEmergencyNumbersAvailable == functionList_FctList.fct_AllowedEmergencyNumbersAvailable && this.fct_DialNumberAvailable == functionList_FctList.fct_DialNumberAvailable && this.fct_DisasterWarningAvailable == functionList_FctList.fct_DisasterWarningAvailable;
@@ -86,7 +84,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_FctList");
@@ -117,12 +114,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fct_GetAllAvailable);
@@ -152,7 +147,6 @@ implements BAPEntity {
         bitStream.resetBits(32);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fct_GetAllAvailable = bitStream.popFrontBoolean();

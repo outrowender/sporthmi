@@ -3,35 +3,33 @@
  */
 package de.esolutions.fw.util.commons.queue;
 
-import de.esolutions.fw.util.commons.queue.MyQueue$Node;
-
 public class MyQueue {
-    private MyQueue$Node first;
-    private MyQueue$Node last;
+    private Node first;
+    private Node last;
     private int size;
     private static int karpottCounter;
 
     public void dump() {
         System.out.println("----- MyQueue Dump -----");
-        System.out.println(new StringBuffer().append("first=").append(this.first).append(", last=").append(this.last).append(", size=").append(this.size).toString());
-        MyQueue$Node myQueue$Node = this.first;
+        System.out.println("first=" + this.first + ", last=" + this.last + ", size=" + this.size);
+        Node node = this.first;
         int n = 0;
-        while (myQueue$Node != null) {
-            System.out.println(new StringBuffer().append("[#").append(n).append(":data=").append(myQueue$Node.data).append(",").append(myQueue$Node.data.getClass().getName()).append("]").toString());
-            myQueue$Node = myQueue$Node.next;
+        while (node != null) {
+            System.out.println("[#" + n + ":data=" + node.data + "," + node.data.getClass().getName() + "]");
+            node = node.next;
             ++n;
         }
         System.out.println("----- Done Dump -----");
     }
 
     public void push(Object object) {
-        MyQueue$Node myQueue$Node = new MyQueue$Node(object);
+        Node node = new Node(object);
         if (this.last == null) {
-            this.first = myQueue$Node;
-            this.last = myQueue$Node;
+            this.first = node;
+            this.last = node;
         } else {
-            this.last.next = myQueue$Node;
-            this.last = myQueue$Node;
+            this.last.next = node;
+            this.last = node;
         }
         ++this.size;
     }
@@ -65,11 +63,20 @@ public class MyQueue {
     private void sanityCheck(boolean bl) {
         if (this.size > 0 && this.first == null) {
             if (++karpottCounter <= 3) {
-                System.out.println(new StringBuffer().append("#### MyQueue is karpott: size=").append(this.size).append(" but first==null. counter=").append(karpottCounter).toString());
+                System.out.println("#### MyQueue is karpott: size=" + this.size + " but first==null. counter=" + karpottCounter);
             } else if (bl) {
                 throw new RuntimeException("MyQueue is karpott");
             }
             this.size = 0;
+        }
+    }
+
+    private static class Node {
+        public final Object data;
+        public Node next;
+
+        public Node(Object object) {
+            this.data = object;
         }
     }
 }

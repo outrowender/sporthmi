@@ -23,7 +23,7 @@ public class TraceEntityURI {
     }
 
     public String toString() {
-        return new StringBuffer().append("[").append(this.id).append(",").append(TraceEntityType.names[this.type]).append("]").toString();
+        return "[" + this.id + "," + TraceEntityType.names[this.type] + "]";
     }
 
     public boolean equals(Object object) {

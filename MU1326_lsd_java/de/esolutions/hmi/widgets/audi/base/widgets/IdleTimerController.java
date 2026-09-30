@@ -11,8 +11,8 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractIdleTimerController;
 
 public class IdleTimerController
 extends AbstractIdleTimerController {
-    public static final int TYPE_NOTIFY_APP;
-    public static final int TYPE_FIRE_EVENT;
+    public static final int TYPE_NOTIFY_APP = 0;
+    public static final int TYPE_FIRE_EVENT = 1;
     private int defaultIdleTime = 10000;
     private int triggerType = 0;
     private int sdsStatusModelId = 335;
@@ -22,7 +22,6 @@ extends AbstractIdleTimerController {
         this.startTimerAutomatically = false;
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.model != null) {
             this.updateValue();
@@ -32,25 +31,23 @@ extends AbstractIdleTimerController {
         super.initializeWidget();
     }
 
-    @Override
     protected void timerFired() {
         ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)((Object)hmiService.getModel(this.sdsStatusModelId));
         if (choiceModelGUI == null || choiceModelGUI.getValue() == 0) {
             if (this.model != null && this.triggerType == 0) {
-                screenLogChannel.log(-2137614336, "IdleTimerController#fireTimer calling keyPressed/keyTyped at model modelID: %2, model: %1", this.model, (long)this.modelID);
+                screenLogChannel.log(10000000, "IdleTimerController#fireTimer calling keyPressed/keyTyped at model modelID: %2, model: %1", this.model, (long)this.modelID);
                 ButtonModelGUI buttonModelGUI = (ButtonModelGUI)this.model;
                 buttonModelGUI.keyPressed(0, this.initContext.getTerminalID());
                 buttonModelGUI.keyTyped(0, this.initContext.getTerminalID());
             } else if (this.event != 0) {
-                screenLogChannel.log(-2137614336, "IdleTimerController#fireTimer calling fireSMEvent on terminalID: %1, event: %2", (long)this.initContext.getTerminalID(), (long)this.event);
+                screenLogChannel.log(10000000, "IdleTimerController#fireTimer calling fireSMEvent on terminalID: %1, event: %2", (long)this.initContext.getTerminalID(), (long)this.event);
                 this.fireSMEvent(this.initContext.getTerminalID(), this.event);
             } else {
-                screenLogChannel.log(1078071040, "IdleTimerController#fireTimer timer expired, but no model or event configured");
+                screenLogChannel.log(1000000, "IdleTimerController#fireTimer timer expired, but no model or event configured");
             }
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent.getModelId() == this.sdsStatusModelId) {
             if (modelUpdateEvent.getUpdateType() == 1) {
@@ -77,7 +74,7 @@ extends AbstractIdleTimerController {
     private void handleSDSmodelUpdate() {
         ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)((Object)hmiService.getModel(this.sdsStatusModelId));
         if (choiceModelGUI != null && choiceModelGUI.getValue() == 0) {
-            screenLogChannel.log(-2137614336, "IdleTimerController#handleSDSmodelUpdate SDS dialog finished - restarting idleTimer");
+            screenLogChannel.log(10000000, "IdleTimerController#handleSDSmodelUpdate SDS dialog finished - restarting idleTimer");
             this.setActive(true);
             this.restartTimer();
         } else {
@@ -97,7 +94,7 @@ extends AbstractIdleTimerController {
             if (this.idleTime < 0) {
                 this.cancelTimer();
             }
-            screenLogChannel.log(-2137614336, "IdleTimerController#updateValue read idleTime from model - modelIdleTimeout: %1, current real idle timeout: %2", (long)n, (long)this.idleTime);
+            screenLogChannel.log(10000000, "IdleTimerController#updateValue read idleTime from model - modelIdleTimeout: %1, current real idle timeout: %2", (long)n, (long)this.idleTime);
         }
     }
 

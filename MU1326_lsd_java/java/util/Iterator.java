@@ -4,13 +4,10 @@
 package java.util;
 
 public interface Iterator {
-    default public boolean hasNext() {
-    }
+    public boolean hasNext();
 
-    default public Object next() {
-    }
+    public Object next();
 
-    default public void remove() {
-    }
+    public void remove();
 }
 

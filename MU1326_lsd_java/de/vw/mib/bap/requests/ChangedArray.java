@@ -9,13 +9,10 @@ import de.vw.mib.bap.datatypes.BAPArrayElement;
 
 public interface ChangedArray
 extends BAPArray {
-    default public void setArrayData(BAPArrayData bAPArrayData) {
-    }
+    public void setArrayData(BAPArrayData var1);
 
-    default public BAPArrayData getArrayData() {
-    }
+    public BAPArrayData getArrayData();
 
-    default public BAPArrayElement createArrayElement() {
-    }
+    public BAPArrayElement createArrayElement();
 }
 

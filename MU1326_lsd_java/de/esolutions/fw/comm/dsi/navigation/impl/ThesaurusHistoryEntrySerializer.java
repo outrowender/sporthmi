@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.ThesaurusHistoryEntry;
 
 public class ThesaurusHistoryEntrySerializer {
-    public static void putOptionalThesaurusHistoryEntry(ISerializer iSerializer, ThesaurusHistoryEntry thesaurusHistoryEntry) {
+    public static void putOptionalThesaurusHistoryEntry(ISerializer iSerializer, ThesaurusHistoryEntry thesaurusHistoryEntry) throws SerializerException {
         boolean bl = thesaurusHistoryEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ThesaurusHistoryEntrySerializer {
         }
     }
 
-    public static void putOptionalThesaurusHistoryEntryVarArray(ISerializer iSerializer, ThesaurusHistoryEntry[] thesaurusHistoryEntryArray) {
+    public static void putOptionalThesaurusHistoryEntryVarArray(ISerializer iSerializer, ThesaurusHistoryEntry[] thesaurusHistoryEntryArray) throws SerializerException {
         boolean bl = thesaurusHistoryEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ThesaurusHistoryEntrySerializer {
         }
     }
 
-    public static ThesaurusHistoryEntry getOptionalThesaurusHistoryEntry(IDeserializer iDeserializer) {
+    public static ThesaurusHistoryEntry getOptionalThesaurusHistoryEntry(IDeserializer iDeserializer) throws SerializerException {
         ThesaurusHistoryEntry thesaurusHistoryEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ThesaurusHistoryEntrySerializer {
         return thesaurusHistoryEntry;
     }
 
-    public static ThesaurusHistoryEntry[] getOptionalThesaurusHistoryEntryVarArray(IDeserializer iDeserializer) {
+    public static ThesaurusHistoryEntry[] getOptionalThesaurusHistoryEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         ThesaurusHistoryEntry[] thesaurusHistoryEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

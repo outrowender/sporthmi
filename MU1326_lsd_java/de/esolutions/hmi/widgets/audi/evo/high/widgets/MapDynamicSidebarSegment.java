@@ -10,7 +10,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 
 public class MapDynamicSidebarSegment
 extends AbstractDynamicSidebarSegment {
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof SideBarOrientationWidget) {

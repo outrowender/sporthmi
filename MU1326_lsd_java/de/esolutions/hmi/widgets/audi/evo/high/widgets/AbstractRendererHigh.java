@@ -39,20 +39,16 @@ implements Mirrorable {
     private IWrappedNode3D oldParentNode;
     private IWrappedNode3D oldParentSecondaryNode;
 
-    @Override
     public void connect(InitializationContext initializationContext) {
     }
 
-    @Override
     public void disconnect() {
     }
 
-    @Override
     public InitializationContext createInitContextForChildren(InitializationContext initializationContext) {
         return initializationContext;
     }
 
-    @Override
     public RedrawContext createRedrawContext(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         this.parentFonts = redrawContextHigh.getFonts();
@@ -64,7 +60,6 @@ implements Mirrorable {
         return this.redrawContext;
     }
 
-    @Override
     public void restoreRedrawContext(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         redrawContextHigh.setFonts(this.parentFonts);
@@ -97,16 +92,13 @@ implements Mirrorable {
         }
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
     }
 
-    @Override
     public void setCompositesDirty(boolean bl) {
         this.dirty = bl;
     }
 
-    @Override
     public void setCompositeDirty(int n) {
         this.dirty = true;
     }
@@ -126,12 +118,12 @@ implements Mirrorable {
             return (HMIImage)this.getTerminal().getImageLoader().getEmptyImage();
         }
         if (AbstractWidget.hmiService == null) {
-            logChannel.log(-1601830656, "AbstractRendererHigh#getBitmap hmiService is null. Bitmap ID: %1", (long)n2);
+            logChannel.log(100000, "AbstractRendererHigh#getBitmap hmiService is null. Bitmap ID: %1", (long)n2);
             return (HMIImage)this.getTerminal().getImageLoader().getEmptyImage();
         }
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {
-            logChannel.log(-2137614336, "AbstractRendererHigh#getBitmap with id: %1 for index: %2", (long)n2, (long)n);
+            logChannel.log(10000000, "AbstractRendererHigh#getBitmap with id: %1 for index: %2", (long)n2, (long)n);
             return eALManager.getHMIImage(n2, this.getInitContext().getScreenID());
         }
         return this.getTerminal() != null && this.getTerminal().getImageLoader() != null ? (HMIImage)this.getTerminal().getImageLoader().getEmptyImage() : null;
@@ -144,7 +136,7 @@ implements Mirrorable {
         }
         int n2 = this.getAbstractController().getBitmap(n);
         if (n2 >= 0 && AbstractWidget.hmiService != null) {
-            logChannel.log(-2137614336, "AbstractRendererHigh#getTextureDescription with id: %1 for index: %2", (long)n2, (long)n);
+            logChannel.log(10000000, "AbstractRendererHigh#getTextureDescription with id: %1 for index: %2", (long)n2, (long)n);
             return eALManager.createTextureDescription(n2, bl, this.getInitContext().getScreenID());
         }
         HMIImage hMIImage = (HMIImage)this.getTerminal().getImageLoader().getEmptyImage();
@@ -161,7 +153,7 @@ implements Mirrorable {
         }
         int n2 = this.getAbstractController().getBitmap(n);
         if (n2 >= 0 && AbstractWidget.hmiService != null) {
-            logChannel.log(-2137614336, "AbstractRendererHigh#getTextureDescription with id: %1 for index: %2", (long)n2, (long)n);
+            logChannel.log(10000000, "AbstractRendererHigh#getTextureDescription with id: %1 for index: %2", (long)n2, (long)n);
             return eALManager.createTextureDescription(n2, bl, this.getInitContext().getScreenID());
         }
         HMIImage hMIImage = (HMIImage)this.getTerminal().getImageLoader().getEmptyImage();
@@ -191,7 +183,6 @@ implements Mirrorable {
         return this.inheritedFonts[0];
     }
 
-    @Override
     public void updateInheritedFonts() {
         IWrappedFont[] iWrappedFontArray = this.calculateInheritedFonts();
         if (this.inheritedFonts == iWrappedFontArray) {
@@ -225,14 +216,14 @@ implements Mirrorable {
         int n = 20;
         for (int i2 = 0; i2 < n; ++i2) {
             if ((abstractWidgetController = (AbstractWidgetController)abstractWidgetController.getParent()) == null) {
-                logChannel.log(-1601830656, "AbstractRendererHigh#calculateInheritedFonts: no font found in widget hierachy");
+                logChannel.log(100000, "AbstractRendererHigh#calculateInheritedFonts: no font found in widget hierachy");
                 return null;
             }
             IRenderer iRenderer = abstractWidgetController.getRenderer();
             if (!(iRenderer instanceof AbstractRendererHigh)) continue;
             return ((AbstractRendererHigh)iRenderer).getInheritedFonts();
         }
-        logChannel.log(-1601830656, "AbstractRendererHigh#calculateInheritedFonts: widget hierachy deeper than maxHierarchyDepth: %1. No font found.", (long)n);
+        logChannel.log(100000, "AbstractRendererHigh#calculateInheritedFonts: widget hierachy deeper than maxHierarchyDepth: %1. No font found.", (long)n);
         return null;
     }
 
@@ -241,22 +232,18 @@ implements Mirrorable {
         this.y0 = f3;
     }
 
-    @Override
     public boolean areCompositesDirty() {
         return this.dirty;
     }
 
-    @Override
     public void mirror(boolean bl) {
         this.widgetIsMirrored = bl;
     }
 
-    @Override
     public void toggleMirror() {
         this.widgetIsMirrored = !this.widgetIsMirrored;
     }
 
-    @Override
     public boolean isMirrored() {
         return this.widgetIsMirrored;
     }

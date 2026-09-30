@@ -25,28 +25,23 @@ implements DSISDARSSeek {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$sdars$DSISDARSSeek == null ? (class$org$dsi$ifc$sdars$DSISDARSSeek = DSISDARSSeekProvider.class$("org.dsi.ifc.sdars.DSISDARSSeek")) : class$org$dsi$ifc$sdars$DSISDARSSeek).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISDARSSeekProxy(this.instance, (DSISDARSSeekReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setSeekCommand(int n, int n2, int n3) {
         try {
             this.proxy.setSeekCommand(n, n2, n3);
@@ -56,7 +51,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void manageSeek(int n, int n2) {
         try {
             this.proxy.manageSeek(n, n2);
@@ -66,7 +60,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void manageSeek2(int n, int n2, int n3, int n4) {
         try {
             this.proxy.manageSeek2(n, n2, n3, n4);
@@ -76,7 +69,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void getTeamsOfLeague(int n) {
         try {
             this.proxy.getTeamsOfLeague(n);
@@ -86,7 +78,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void getLeagues() {
         try {
             this.proxy.getLeagues();
@@ -96,7 +87,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void reset(int n) {
         try {
             this.proxy.reset(n);
@@ -106,7 +96,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -116,7 +105,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -126,7 +114,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -136,7 +123,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -146,7 +132,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -156,7 +141,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -166,7 +150,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -176,7 +159,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -186,7 +168,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -196,7 +177,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -206,7 +186,6 @@ implements DSISDARSSeek {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

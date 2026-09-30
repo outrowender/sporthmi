@@ -48,7 +48,6 @@ implements BAPRequestMarshaller {
         return n2;
     }
 
-    @Override
     public void startResult(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 18: {
@@ -69,12 +68,10 @@ implements BAPRequestMarshaller {
         }
     }
 
-    @Override
     public void abortResult(int n, BAPEntity bAPEntity) {
         throw new UnsupportedOperationException("Abort not supported for given fctID");
     }
 
-    @Override
     public void getEntity(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 2: {
@@ -147,7 +144,6 @@ implements BAPRequestMarshaller {
         }
     }
 
-    @Override
     public void setGetEntity(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 13: {
@@ -164,7 +160,6 @@ implements BAPRequestMarshaller {
         }
     }
 
-    @Override
     public void ackEntity(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 16: {
@@ -181,7 +176,6 @@ implements BAPRequestMarshaller {
         }
     }
 
-    @Override
     public void writeHighLevelRetryError(int n, int n2) {
         this.getBapService().setIndicationError(n, n2);
     }

@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class StubCreatedMessage
 extends AbstractMessage {
@@ -19,18 +20,16 @@ extends AbstractMessage {
         this.stubID = s2;
     }
 
-    public StubCreatedMessage(IDeserializer iDeserializer, boolean bl) {
+    public StubCreatedMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.STUB_CREATED, iDeserializer, bl);
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.proxyID);
         iSerializer.putInt16(this.stubID);
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.proxyID = iDeserializer.getInt16();
         this.stubID = iDeserializer.getInt16();
     }

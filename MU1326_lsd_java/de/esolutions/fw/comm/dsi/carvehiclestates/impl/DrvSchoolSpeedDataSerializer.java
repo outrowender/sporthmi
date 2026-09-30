@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.DrvSchoolSpeedData;
 
 public class DrvSchoolSpeedDataSerializer {
-    public static void putOptionalDrvSchoolSpeedData(ISerializer iSerializer, DrvSchoolSpeedData drvSchoolSpeedData) {
+    public static void putOptionalDrvSchoolSpeedData(ISerializer iSerializer, DrvSchoolSpeedData drvSchoolSpeedData) throws SerializerException {
         boolean bl = drvSchoolSpeedData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DrvSchoolSpeedDataSerializer {
         }
     }
 
-    public static void putOptionalDrvSchoolSpeedDataVarArray(ISerializer iSerializer, DrvSchoolSpeedData[] drvSchoolSpeedDataArray) {
+    public static void putOptionalDrvSchoolSpeedDataVarArray(ISerializer iSerializer, DrvSchoolSpeedData[] drvSchoolSpeedDataArray) throws SerializerException {
         boolean bl = drvSchoolSpeedDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DrvSchoolSpeedDataSerializer {
         }
     }
 
-    public static DrvSchoolSpeedData getOptionalDrvSchoolSpeedData(IDeserializer iDeserializer) {
+    public static DrvSchoolSpeedData getOptionalDrvSchoolSpeedData(IDeserializer iDeserializer) throws SerializerException {
         DrvSchoolSpeedData drvSchoolSpeedData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DrvSchoolSpeedDataSerializer {
         return drvSchoolSpeedData;
     }
 
-    public static DrvSchoolSpeedData[] getOptionalDrvSchoolSpeedDataVarArray(IDeserializer iDeserializer) {
+    public static DrvSchoolSpeedData[] getOptionalDrvSchoolSpeedDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         DrvSchoolSpeedData[] drvSchoolSpeedDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

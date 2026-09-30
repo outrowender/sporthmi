@@ -10,11 +10,13 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombisync.DSIKombiSync;
 import de.esolutions.fw.comm.dsi.kombisync.DSIKombiSyncC;
 import de.esolutions.fw.comm.dsi.kombisync.DSIKombiSyncReply;
-import de.esolutions.fw.comm.dsi.kombisync.impl.DSIKombiSyncProxy$1;
-import de.esolutions.fw.comm.dsi.kombisync.impl.DSIKombiSyncProxy$2;
-import de.esolutions.fw.comm.dsi.kombisync.impl.DSIKombiSyncProxy$3;
-import de.esolutions.fw.comm.dsi.kombisync.impl.DSIKombiSyncProxy$4;
 import de.esolutions.fw.comm.dsi.kombisync.impl.DSIKombiSyncReplyService;
+import de.esolutions.fw.comm.dsi.kombisync.impl.MMIDisplayRequestSerializer;
+import de.esolutions.fw.comm.dsi.kombisync.impl.MMIDisplayStatusSerializer;
+import de.esolutions.fw.comm.dsi.kombisync.impl.MMIPopupRequestSerializer;
+import de.esolutions.fw.comm.dsi.kombisync.impl.MenuStateSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync.MMIDisplayRequest;
@@ -38,32 +40,47 @@ DSIKombiSyncC {
         return this.proxy;
     }
 
-    @Override
-    public void setMMIDisplayStatus(MMIDisplayStatus mMIDisplayStatus) {
-        DSIKombiSyncProxy$1 dSIKombiSyncProxy$1 = new DSIKombiSyncProxy$1(this, mMIDisplayStatus);
-        this.proxy.remoteCallMethod((short)36, dSIKombiSyncProxy$1);
+    public void setMMIDisplayStatus(final MMIDisplayStatus mMIDisplayStatus) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MMIDisplayStatusSerializer.putOptionalMMIDisplayStatus(iSerializer, mMIDisplayStatus);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void setMMIDisplayRequest(MMIDisplayRequest mMIDisplayRequest) {
-        DSIKombiSyncProxy$2 dSIKombiSyncProxy$2 = new DSIKombiSyncProxy$2(this, mMIDisplayRequest);
-        this.proxy.remoteCallMethod((short)35, dSIKombiSyncProxy$2);
+    public void setMMIDisplayRequest(final MMIDisplayRequest mMIDisplayRequest) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MMIDisplayRequestSerializer.putOptionalMMIDisplayRequest(iSerializer, mMIDisplayRequest);
+            }
+        };
+        this.proxy.remoteCallMethod((short)35, iSerializable);
     }
 
-    @Override
-    public void setMenuState(MenuState menuState) {
-        DSIKombiSyncProxy$3 dSIKombiSyncProxy$3 = new DSIKombiSyncProxy$3(this, menuState);
-        this.proxy.remoteCallMethod((short)41, dSIKombiSyncProxy$3);
+    public void setMenuState(final MenuState menuState) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MenuStateSerializer.putOptionalMenuState(iSerializer, menuState);
+            }
+        };
+        this.proxy.remoteCallMethod((short)41, iSerializable);
     }
 
-    @Override
-    public void setMMIPopupRequest(MMIPopupRequest mMIPopupRequest) {
-        DSIKombiSyncProxy$4 dSIKombiSyncProxy$4 = new DSIKombiSyncProxy$4(this, mMIPopupRequest);
-        this.proxy.remoteCallMethod((short)40, dSIKombiSyncProxy$4);
+    public void setMMIPopupRequest(final MMIPopupRequest mMIPopupRequest) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MMIPopupRequestSerializer.putOptionalMMIPopupRequest(iSerializer, mMIPopupRequest);
+            }
+        };
+        this.proxy.remoteCallMethod((short)40, iSerializable);
     }
 
-    @Override
-    public void setHMIIsReady(boolean bl) {
+    public void setHMIIsReady(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -74,8 +91,7 @@ DSIKombiSyncC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -86,8 +102,7 @@ DSIKombiSyncC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -98,13 +113,11 @@ DSIKombiSyncC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)12, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -115,8 +128,7 @@ DSIKombiSyncC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -127,13 +139,11 @@ DSIKombiSyncC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

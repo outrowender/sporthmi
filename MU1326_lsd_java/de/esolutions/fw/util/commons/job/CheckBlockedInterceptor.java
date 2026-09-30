@@ -31,7 +31,6 @@ implements IInterceptor {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute(Job job) {
         try {
             CheckBlockedInterceptor checkBlockedInterceptor = this;

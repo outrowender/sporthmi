@@ -7,53 +7,48 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSITmcOnRoute
 extends DSIBase {
-    public static final String VERSION;
-    public static final int TMCWARNINGMODE_OFF;
-    public static final int TMCWARNINGMODE_CONGESTION_ACOUSTICAL_ONLY;
-    public static final int TMCWARNINGMODE_CONGESTION_VISUAL_ONLY;
-    public static final int TMCWARNINGMODE_CONGESTION_ACOUSTIC_AND_VISUAL;
-    public static final int BLOCKREQUESTRESULTCODE_OK;
-    public static final int BLOCKREQUESTRESULTCODE_FAILED;
-    public static final int NAVICOREAVAILABLETOCHANGEBLOCKINGS_READY;
-    public static final int NAVICOREAVAILABLETOCHANGEBLOCKINGS_BUSY;
-    public static final int FLOWSEVERITY_UNKNOWN;
-    public static final int FLOWSEVERITY_FREE_FLOW;
-    public static final int FLOWSEVERITY_HEAVY_TRAFFIC;
-    public static final int FLOWSEVERITY_SLOW_TRAFFIC;
-    public static final int FLOWSEVERITY_QUEUING_TRAFFIC;
-    public static final int FLOWSEVERITY_QUEUING_STATIONARY;
-    public static final int FLOWSEVERITY_NO_TRAFFIC_FLOW;
-    public static final int ATTR_TMCMESSAGESAHEAD;
-    public static final int ATTR_URGENTMESSAGES;
-    public static final int ATTR_TMCMESSAGESAHEADCALCULATIONHORIZON;
-    public static final int ATTR_NAVICOREAVAILABLETOCHANGETMCBLOCKINGS;
-    public static final int ATTR_CURRENTLYBLOCKEDTMCMESSAGES;
-    public static final int ATTR_SPEEDANDFLOWAHEAD;
-    public static final int RT_GETTMCMESSAGE;
-    public static final int RT_SETTMCWARNINGMODE;
-    public static final int RT_BLOCKTMCMESSAGES;
-    public static final int RT_UNBLOCKALLTMCMESSAGES;
-    public static final int RT_UNBLOCKTMCMESSAGES;
-    public static final int RP_TMCMESSAGE;
-    public static final int RP_SETTMCWARNINGMODERESULT;
-    public static final int RP_UNBLOCKTMCMESSAGESRESULT;
-    public static final int RP_UNBLOCKALLTMCMESSAGESRESULT;
-    public static final int RP_BLOCKTMCMESSAGESRESULT;
-    public static final int IN_INDICATETRAFFICEVENTNOTICEMAP;
+    public static final String VERSION = "2.11.36";
+    public static final int TMCWARNINGMODE_OFF = 0;
+    public static final int TMCWARNINGMODE_CONGESTION_ACOUSTICAL_ONLY = 1;
+    public static final int TMCWARNINGMODE_CONGESTION_VISUAL_ONLY = 2;
+    public static final int TMCWARNINGMODE_CONGESTION_ACOUSTIC_AND_VISUAL = 3;
+    public static final int BLOCKREQUESTRESULTCODE_OK = 0;
+    public static final int BLOCKREQUESTRESULTCODE_FAILED = 1;
+    public static final int NAVICOREAVAILABLETOCHANGEBLOCKINGS_READY = 0;
+    public static final int NAVICOREAVAILABLETOCHANGEBLOCKINGS_BUSY = 1;
+    public static final int FLOWSEVERITY_UNKNOWN = 0;
+    public static final int FLOWSEVERITY_FREE_FLOW = 1;
+    public static final int FLOWSEVERITY_HEAVY_TRAFFIC = 2;
+    public static final int FLOWSEVERITY_SLOW_TRAFFIC = 3;
+    public static final int FLOWSEVERITY_QUEUING_TRAFFIC = 4;
+    public static final int FLOWSEVERITY_QUEUING_STATIONARY = 5;
+    public static final int FLOWSEVERITY_NO_TRAFFIC_FLOW = 6;
+    public static final int ATTR_TMCMESSAGESAHEAD = 1;
+    public static final int ATTR_URGENTMESSAGES = 2;
+    public static final int ATTR_TMCMESSAGESAHEADCALCULATIONHORIZON = 3;
+    public static final int ATTR_NAVICOREAVAILABLETOCHANGETMCBLOCKINGS = 4;
+    public static final int ATTR_CURRENTLYBLOCKEDTMCMESSAGES = 5;
+    public static final int ATTR_SPEEDANDFLOWAHEAD = 6;
+    public static final int RT_GETTMCMESSAGE = 1000;
+    public static final int RT_SETTMCWARNINGMODE = 1001;
+    public static final int RT_BLOCKTMCMESSAGES = 1002;
+    public static final int RT_UNBLOCKALLTMCMESSAGES = 1003;
+    public static final int RT_UNBLOCKTMCMESSAGES = 1004;
+    public static final int RP_TMCMESSAGE = 2000;
+    public static final int RP_SETTMCWARNINGMODERESULT = 2001;
+    public static final int RP_UNBLOCKTMCMESSAGESRESULT = 2002;
+    public static final int RP_UNBLOCKALLTMCMESSAGESRESULT = 2003;
+    public static final int RP_BLOCKTMCMESSAGESRESULT = 2004;
+    public static final int IN_INDICATETRAFFICEVENTNOTICEMAP = 3000;
 
-    default public void getTmcMessage(int n) {
-    }
+    public void getTmcMessage(int var1);
 
-    default public void setTmcWarningMode(int n) {
-    }
+    public void setTmcWarningMode(int var1);
 
-    default public void blockTMCMessages(long[] lArray, boolean bl) {
-    }
+    public void blockTMCMessages(long[] var1, boolean var2);
 
-    default public void unblockTMCMessages(long[] lArray) {
-    }
+    public void unblockTMCMessages(long[] var1);
 
-    default public void unblockAllTMCMessages() {
-    }
+    public void unblockAllTMCMessages();
 }
 

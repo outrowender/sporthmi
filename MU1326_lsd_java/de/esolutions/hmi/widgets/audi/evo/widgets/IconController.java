@@ -36,36 +36,35 @@ implements ListItemWidget,
 IEmptyableWidget,
 IStatusbarChild,
 ILockingListener {
-    public static final int DEFAULT_IMAGE_MODE_SINGLE;
-    public static final int DEFAULT_IMAGE_MODE_MULTI;
+    public static final int DEFAULT_IMAGE_MODE_SINGLE = 0;
+    public static final int DEFAULT_IMAGE_MODE_MULTI = 1;
     private IconRenderer renderer;
     private int defaultImageMode = 0;
-    public static final int STATE_NO_CHANGE;
-    public static final int STATE_IMAGE_CHANGE;
-    public static final int STATE_COLOR_CHANGE;
+    public static final int STATE_NO_CHANGE = 0;
+    public static final int STATE_IMAGE_CHANGE = 1;
+    public static final int STATE_COLOR_CHANGE = 2;
     private boolean imageCacheActivated = true;
     private boolean horizontalFlip;
     private int modelColumn = -1;
     private int selectedIndex;
     private Object content;
     private int[][] bitmapMapping;
-    private static final boolean CACHE_IMAGE_IN_LRU;
+    private static final boolean CACHE_IMAGE_IN_LRU = false;
     protected int processStateChange = 0;
     private boolean r8Distinction = false;
     private float opacityGuide = 1.0f;
-    private int arabicX = 128;
+    private int arabicX = Integer.MIN_VALUE;
     private int lockingAction;
     private boolean lockingActive;
-    private float lockingShadingOpacity = (float)Integer.getInteger("imageOpacityIfLockingActive", 50).intValue() / 51266;
+    private float lockingShadingOpacity = (float)Integer.getInteger("imageOpacityIfLockingActive", 50).intValue() / 100.0f;
     private ModelStubController modelStubLockingShade;
     private ModelStubController modelStubLockingInvisible;
     private boolean isDrawerIcon;
 
     public IconController() {
-        IWidgetLogChannel.logLocking.log(-2137614336, "IconController#IconController lockingOpacity=%1", (double)this.lockingShadingOpacity);
+        IWidgetLogChannel.logLocking.log(10000000, "IconController#IconController lockingOpacity=%1", (double)this.lockingShadingOpacity);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -74,7 +73,6 @@ ILockingListener {
         this.renderer = iconRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.checkForSportSkin();
@@ -86,15 +84,15 @@ ILockingListener {
         if (this.hasBitmap(0)) {
             int n = ((HMITerminalEvo)((Object)this.terminal)).getSkin();
             int n2 = this.getBitmap(0);
-            if (n2 == -1978006016 || n2 == HMIImageConstantsSystem.mib2_map_big_stage_darken_layer_tts) {
+            if (n2 == 400010 || n2 == HMIImageConstantsSystem.mib2_map_big_stage_darken_layer_tts) {
                 this.setOnScreen(true);
                 if (n == 1) {
                     this.bitmapIndices[0] = HMIImageConstantsSystem.mib2_map_big_stage_darken_layer_tts;
                     this.renderer.setScaleFactor(1.0f, 1.0f);
                     ((AnimationController)this.terminal.getIAnimationController()).setSportskinSmallStageMapGrid(this);
                 } else {
-                    this.bitmapIndices[0] = -1978006016;
-                    this.renderer.setScaleFactor(8257, 8257);
+                    this.bitmapIndices[0] = 400010;
+                    this.renderer.setScaleFactor(10.0f, 10.0f);
                     ((AnimationController)this.terminal.getIAnimationController()).setSportskinSmallStageMapGrid(null);
                 }
             }
@@ -115,7 +113,6 @@ ILockingListener {
         this.r8Distinction = bl;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent == null) {
             return;
@@ -210,7 +207,7 @@ ILockingListener {
         if (this.model instanceof ChoiceModelGUI) {
             return new Integer(((ChoiceModelGUI)this.model).getValue());
         }
-        logChannel.log(-1601830656, "Unknown model %2: %1", this.model, (long)this.modelID);
+        logChannel.log(100000, "Unknown model %2: %1", this.model, (long)this.modelID);
         return null;
     }
 
@@ -232,7 +229,6 @@ ILockingListener {
         return false;
     }
 
-    @Override
     public int getBitmap(int n) {
         int n2 = this.getMappedBitmapIndex(n);
         return super.getBitmap(n2);
@@ -250,7 +246,7 @@ ILockingListener {
                 return i2;
             }
         }
-        logChannel.log(-1601830656, "IconController.getMappedBitmapIndex: no mapping found for value: %1", (long)n);
+        logChannel.log(100000, "IconController.getMappedBitmapIndex: no mapping found for value: %1", (long)n);
         return -1;
     }
 
@@ -262,7 +258,6 @@ ILockingListener {
         this.bitmapMapping = nArray;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.preferredWidth != -1) {
             return this.preferredWidth;
@@ -273,7 +268,6 @@ ILockingListener {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.preferredHeight != -1) {
             return this.preferredHeight;
@@ -288,7 +282,6 @@ ILockingListener {
         this.modelColumn = n;
     }
 
-    @Override
     public int getModelColumn() {
         return this.modelColumn;
     }
@@ -309,7 +302,6 @@ ILockingListener {
         return this.processStateChange;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (this.isEnabled() != bl) {
             super.setEnabled(bl);
@@ -317,7 +309,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void setHighlighted(boolean bl) {
         if (this.isHighlighted() != bl) {
             super.setHighlighted(bl);
@@ -325,7 +316,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void setFocused(boolean bl) {
         if (this.isFocused() != bl) {
             super.setFocused(bl);
@@ -346,12 +336,10 @@ ILockingListener {
         this.updateContent();
     }
 
-    @Override
     public String getDiagnosisText() {
         return this.renderer != null ? this.renderer.getDiagnosisText() : super.getDiagnosisText();
     }
 
-    @Override
     public boolean hasContent() {
         if (this.content instanceof Integer) {
             int n = (Integer)this.content;
@@ -361,7 +349,6 @@ ILockingListener {
         return this.content != null && this.renderer != null;
     }
 
-    @Override
     public int getModelValue() {
         if (this.model != null && this.model instanceof ChoiceModelGUI) {
             return ((ChoiceModelGUI)this.model).getValue();
@@ -369,12 +356,10 @@ ILockingListener {
         return -1;
     }
 
-    @Override
     public int getModelMin() {
         return -1;
     }
 
-    @Override
     public int getModelMax() {
         return -1;
     }
@@ -387,7 +372,6 @@ ILockingListener {
         this.defaultImageMode = n;
     }
 
-    @Override
     public int getModelStatus() {
         if (this.model != null && this.model instanceof HMIModelGUI) {
             return ((HMIModelGUI)this.model).getStatus();
@@ -395,7 +379,6 @@ ILockingListener {
         return 0;
     }
 
-    @Override
     public void disconnecting() {
         if (LockingManager.isRegisteredListener(this)) {
             LockingManager.deregisterListener(this);
@@ -404,7 +387,6 @@ ILockingListener {
         super.disconnecting();
     }
 
-    @Override
     public void setViewSizeOpacity(float f2) {
         if (this.viewSizeOpacity != f2) {
             this.viewSizeOpacity = f2;
@@ -412,7 +394,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public float getRenderOpacity() {
         float f2 = super.getRenderOpacity() * this.opacityGuide;
         if (this.lockingActive) {
@@ -421,7 +402,7 @@ ILockingListener {
             } else if (this.lockingAction == 2) {
                 f2 = 0.0f;
             }
-            IWidgetLogChannel.logLocking.log(-2137614336, "IconController#getRenderOpacity return opacity=%1", (double)f2);
+            IWidgetLogChannel.logLocking.log(10000000, "IconController#getRenderOpacity return opacity=%1", (double)f2);
         }
         return f2;
     }
@@ -441,9 +422,8 @@ ILockingListener {
         this.arabicX = n;
     }
 
-    @Override
     public int getX() {
-        if (!this.isLTR() && this.arabicX != 128) {
+        if (!this.isLTR() && this.arabicX != Integer.MIN_VALUE) {
             return this.arabicX;
         }
         return super.getX();
@@ -457,7 +437,6 @@ ILockingListener {
         this.horizontalFlip = bl;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.modelStubLockingInvisible != null || this.modelStubLockingShade != null || this.isDrawerIcon) {
@@ -471,7 +450,7 @@ ILockingListener {
     private void calculateLockingAction() {
         this.evaluateModelStub(this.modelStubLockingShade, 1);
         this.evaluateModelStub(this.modelStubLockingInvisible, 2);
-        IWidgetLogChannel.logLocking.log(-2137614336, "IconController#calculateLockingAction new lockingAction=%1", (long)this.lockingAction);
+        IWidgetLogChannel.logLocking.log(10000000, "IconController#calculateLockingAction new lockingAction=%1", (long)this.lockingAction);
     }
 
     private void evaluateModelStub(ModelStubController modelStubController, int n) {
@@ -484,16 +463,15 @@ ILockingListener {
 
     public void add(AbstractWidget abstractWidget, int n) {
         if (abstractWidget instanceof ModelStubController) {
-            if (n == 2) {
+            if (n == 0x2000000) {
                 this.modelStubLockingShade = (ModelStubController)abstractWidget;
-            } else if (n == 4) {
+            } else if (n == 0x4000000) {
                 this.modelStubLockingInvisible = (ModelStubController)abstractWidget;
             }
         }
         super.add(abstractWidget);
     }
 
-    @Override
     public void isLockingActive(boolean bl, boolean bl2) {
         this.lockingActive = this.isDrawerIcon ? bl : bl && bl2;
         this.setCompositesDirty(true);
@@ -515,7 +493,6 @@ ILockingListener {
         return this.lockingActive;
     }
 
-    @Override
     public boolean isInterestedOnTimerEvents() {
         return false;
     }

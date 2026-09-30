@@ -17,14 +17,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 
 public class MapDynamicSidebarContainer
 extends LayoutContainerController {
-    private static final int ADDITIONAL_GUIDE_OFFSET;
-    private static final int Y_CENTER;
-    private static final int Y_TOP;
-    private static final int Y_OFFSET_SDRS_POPUP;
-    private static final int VZA_POS_SIDEBAR_CLOSED;
-    private static final int VZA_POS_SIDEBAR_OPENED;
-    private static final int Y_OFFSET;
-    private static final int X_OPTION_ICON;
+    private static final int ADDITIONAL_GUIDE_OFFSET = 202;
+    private static final int Y_CENTER = 199;
+    private static final int Y_TOP = -1;
+    private static final int Y_OFFSET_SDRS_POPUP = 15;
+    private static final int VZA_POS_SIDEBAR_CLOSED = 617;
+    private static final int VZA_POS_SIDEBAR_OPENED = 596;
+    private static final int Y_OFFSET = 80;
+    private static final int X_OPTION_ICON = 0;
     private LayoutContainerController mapDynamicSidebarParentContainer;
     private LayoutContainerController mapDynamicSidebar;
     private LayoutContainerController routeInfoContainer;
@@ -35,7 +35,6 @@ extends LayoutContainerController {
     private OptionIconPositionController plus;
     private MapCrosshairController mapCrosshair;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         switch (abstractWidget.getRole()) {
             case 1: {
@@ -92,7 +91,6 @@ extends LayoutContainerController {
         return framework.getSysConst(522) == 4;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         IRenderer iRenderer = this.getRenderer();
@@ -102,19 +100,18 @@ extends LayoutContainerController {
         this.invalidateLayout(this);
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         if (this.isEvoHighMMIKombi()) {
             return;
         }
         if (this.routeInfoContainer == null || this.trafficContainer == null) {
-            sideBarLogChannel.log(-2137614336, "MapDynamicSidebarContainer#invalidateLayout Component is missing.");
+            sideBarLogChannel.log(10000000, "MapDynamicSidebarContainer#invalidateLayout Component is missing.");
             return;
         }
         boolean bl = this.mapDynamicSidebarParentContainer.isVisible();
         boolean bl2 = this.routeInfoContainer.isVisible();
         boolean bl3 = this.trafficContainer.isVisible();
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebarContainer#invalidateLayout trafficVisible = %1, routeInfoContainer = %2, sidebarVisible = %3", bl3, bl2, bl);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebarContainer#invalidateLayout trafficVisible = %1, routeInfoContainer = %2, sidebarVisible = %3", bl3, bl2, bl);
         if (!bl) {
             if (this.plus != null) {
                 this.plus.setDynamicPosition(0, -203);
@@ -127,7 +124,7 @@ extends LayoutContainerController {
         int n = this.mapDynamicSidebarParentContainer.getY() + this.mapDynamicSidebarParentContainer.getHeight();
         int n2 = this.mapDynamicSidebar.getPreferredHeight();
         int n3 = Math.max(0, Math.min(199, n - n2 - 80));
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebarContainer#invalidateLayout yDynamic = %1", (long)n3);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebarContainer#invalidateLayout yDynamic = %1", (long)n3);
         if (this.plus != null) {
             this.plus.setDynamicPosition(0, n3 - 202);
         }

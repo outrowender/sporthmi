@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRApplicationProperties;
 
 public class OSRApplicationPropertiesSerializer {
-    public static void putOptionalOSRApplicationProperties(ISerializer iSerializer, OSRApplicationProperties oSRApplicationProperties) {
+    public static void putOptionalOSRApplicationProperties(ISerializer iSerializer, OSRApplicationProperties oSRApplicationProperties) throws SerializerException {
         boolean bl = oSRApplicationProperties == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class OSRApplicationPropertiesSerializer {
         }
     }
 
-    public static void putOptionalOSRApplicationPropertiesVarArray(ISerializer iSerializer, OSRApplicationProperties[] oSRApplicationPropertiesArray) {
+    public static void putOptionalOSRApplicationPropertiesVarArray(ISerializer iSerializer, OSRApplicationProperties[] oSRApplicationPropertiesArray) throws SerializerException {
         boolean bl = oSRApplicationPropertiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class OSRApplicationPropertiesSerializer {
         }
     }
 
-    public static OSRApplicationProperties getOptionalOSRApplicationProperties(IDeserializer iDeserializer) {
+    public static OSRApplicationProperties getOptionalOSRApplicationProperties(IDeserializer iDeserializer) throws SerializerException {
         OSRApplicationProperties oSRApplicationProperties = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class OSRApplicationPropertiesSerializer {
         return oSRApplicationProperties;
     }
 
-    public static OSRApplicationProperties[] getOptionalOSRApplicationPropertiesVarArray(IDeserializer iDeserializer) {
+    public static OSRApplicationProperties[] getOptionalOSRApplicationPropertiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRApplicationProperties[] oSRApplicationPropertiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

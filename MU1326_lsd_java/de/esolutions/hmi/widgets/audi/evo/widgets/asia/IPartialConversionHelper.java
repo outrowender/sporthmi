@@ -7,22 +7,16 @@ import de.esolutions.hmi.widgets.audi.base.IWordPredictionAccess;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ITouchInputDataAsia;
 
 public interface IPartialConversionHelper {
-    default public void setCurrentSelectedPredictionChars(String string) {
-    }
+    public void setCurrentSelectedPredictionChars(String var1);
 
-    default public void setIsDeleteOperation(boolean bl) {
-    }
+    public void setIsDeleteOperation(boolean var1);
 
-    default public void handlePartialConversion(String string, ITouchInputDataAsia iTouchInputDataAsia, IWordPredictionAccess iWordPredictionAccess) {
-    }
+    public void handlePartialConversion(String var1, ITouchInputDataAsia var2, IWordPredictionAccess var3);
 
-    default public String getConvertedChars() {
-    }
+    public String getConvertedChars();
 
-    default public void reset() {
-    }
+    public void reset();
 
-    default public String getPartialConversion(String string) {
-    }
+    public String getPartialConversion(String var1);
 }
 

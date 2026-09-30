@@ -6,16 +6,12 @@ package de.esolutions.fw.util.commons.job;
 import de.esolutions.fw.util.commons.job.Job;
 
 public interface IBlockedJobHandler {
-    default public void blocked(Job job, long l) {
-    }
+    public void blocked(Job var1, long var2);
 
-    default public void unblocked(Job job) {
-    }
+    public void unblocked(Job var1);
 
-    default public void lengthWarning(int n, int n2) {
-    }
+    public void lengthWarning(int var1, int var2);
 
-    default public void lengthExceeded(int n, int n2) {
-    }
+    public void lengthExceeded(int var1, int var2);
 }
 

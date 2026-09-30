@@ -3,27 +3,27 @@
  */
 package org.apache.xerces.util;
 
+import java.io.IOException;
 import java.io.Serializable;
-import org.apache.xerces.util.URI$MalformedURIException;
 
 public class URI
 implements Serializable {
-    static final long serialVersionUID;
-    private static final byte[] fgLookupTable;
-    private static final int RESERVED_CHARACTERS;
-    private static final int MARK_CHARACTERS;
-    private static final int SCHEME_CHARACTERS;
-    private static final int USERINFO_CHARACTERS;
-    private static final int ASCII_ALPHA_CHARACTERS;
-    private static final int ASCII_DIGIT_CHARACTERS;
-    private static final int ASCII_HEX_CHARACTERS;
-    private static final int PATH_CHARACTERS;
-    private static final int MASK_ALPHA_NUMERIC;
-    private static final int MASK_UNRESERVED_MASK;
-    private static final int MASK_URI_CHARACTER;
-    private static final int MASK_SCHEME_CHARACTER;
-    private static final int MASK_USERINFO_CHARACTER;
-    private static final int MASK_PATH_CHARACTER;
+    static final long serialVersionUID = 1601921774685357214L;
+    private static final byte[] fgLookupTable = new byte[128];
+    private static final int RESERVED_CHARACTERS = 1;
+    private static final int MARK_CHARACTERS = 2;
+    private static final int SCHEME_CHARACTERS = 4;
+    private static final int USERINFO_CHARACTERS = 8;
+    private static final int ASCII_ALPHA_CHARACTERS = 16;
+    private static final int ASCII_DIGIT_CHARACTERS = 32;
+    private static final int ASCII_HEX_CHARACTERS = 64;
+    private static final int PATH_CHARACTERS = 128;
+    private static final int MASK_ALPHA_NUMERIC = 48;
+    private static final int MASK_UNRESERVED_MASK = 50;
+    private static final int MASK_URI_CHARACTER = 51;
+    private static final int MASK_SCHEME_CHARACTER = 52;
+    private static final int MASK_USERINFO_CHARACTER = 58;
+    private static final int MASK_PATH_CHARACTER = 178;
     private String m_scheme = null;
     private String m_userinfo = null;
     private String m_host = null;
@@ -41,55 +41,55 @@ implements Serializable {
         this.initialize(uRI);
     }
 
-    public URI(String string) {
+    public URI(String string) throws MalformedURIException {
         this((URI)null, string);
     }
 
-    public URI(String string, boolean bl) {
+    public URI(String string, boolean bl) throws MalformedURIException {
         this(null, string, bl);
     }
 
-    public URI(URI uRI, String string) {
+    public URI(URI uRI, String string) throws MalformedURIException {
         this.initialize(uRI, string);
     }
 
-    public URI(URI uRI, String string, boolean bl) {
+    public URI(URI uRI, String string, boolean bl) throws MalformedURIException {
         this.initialize(uRI, string, bl);
     }
 
-    public URI(String string, String string2) {
+    public URI(String string, String string2) throws MalformedURIException {
         if (string == null || string.trim().length() == 0) {
-            throw new URI$MalformedURIException("Cannot construct URI with null/empty scheme!");
+            throw new MalformedURIException("Cannot construct URI with null/empty scheme!");
         }
         if (string2 == null || string2.trim().length() == 0) {
-            throw new URI$MalformedURIException("Cannot construct URI with null/empty scheme-specific part!");
+            throw new MalformedURIException("Cannot construct URI with null/empty scheme-specific part!");
         }
         this.setScheme(string);
         this.setPath(string2);
     }
 
-    public URI(String string, String string2, String string3, String string4, String string5) {
+    public URI(String string, String string2, String string3, String string4, String string5) throws MalformedURIException {
         this(string, null, string2, -1, string3, string4, string5);
     }
 
-    public URI(String string, String string2, String string3, int n, String string4, String string5, String string6) {
+    public URI(String string, String string2, String string3, int n, String string4, String string5, String string6) throws MalformedURIException {
         if (string == null || string.trim().length() == 0) {
-            throw new URI$MalformedURIException("Scheme is required!");
+            throw new MalformedURIException("Scheme is required!");
         }
         if (string3 == null) {
             if (string2 != null) {
-                throw new URI$MalformedURIException("Userinfo may not be specified if host is not specified!");
+                throw new MalformedURIException("Userinfo may not be specified if host is not specified!");
             }
             if (n != -1) {
-                throw new URI$MalformedURIException("Port may not be specified if host is not specified!");
+                throw new MalformedURIException("Port may not be specified if host is not specified!");
             }
         }
         if (string4 != null) {
             if (string4.indexOf(63) != -1 && string5 != null) {
-                throw new URI$MalformedURIException("Query string cannot be specified in path and query string!");
+                throw new MalformedURIException("Query string cannot be specified in path and query string!");
             }
             if (string4.indexOf(35) != -1 && string6 != null) {
-                throw new URI$MalformedURIException("Fragment cannot be specified in both the path and fragment!");
+                throw new MalformedURIException("Fragment cannot be specified in both the path and fragment!");
             }
         }
         this.setScheme(string);
@@ -112,7 +112,7 @@ implements Serializable {
         this.m_fragment = uRI.getFragment();
     }
 
-    private void initialize(URI uRI, String string, boolean bl) {
+    private void initialize(URI uRI, String string, boolean bl) throws MalformedURIException {
         int n;
         int n2;
         int n3;
@@ -123,7 +123,7 @@ implements Serializable {
                 this.m_path = "";
                 return;
             }
-            throw new URI$MalformedURIException("Cannot initialize URI with empty parameters.");
+            throw new MalformedURIException("Cannot initialize URI with empty parameters.");
         }
         if (n3 == 0) {
             this.initialize(uRI);
@@ -138,17 +138,17 @@ implements Serializable {
             int n8 = string2.lastIndexOf(35, n2);
             if (n6 == 0 || n != -1 || n7 != -1 || n8 != -1) {
                 if (n6 == 0 || uRI == null && n8 != 0 && !bl) {
-                    throw new URI$MalformedURIException("No scheme found in URI.");
+                    throw new MalformedURIException("No scheme found in URI.");
                 }
             } else {
                 this.initializeScheme(string2);
                 n5 = this.m_scheme.length() + 1;
                 if (n6 == n3 - 1 || string2.charAt(n6 + 1) == '#') {
-                    throw new URI$MalformedURIException("Scheme specific part cannot be empty.");
+                    throw new MalformedURIException("Scheme specific part cannot be empty.");
                 }
             }
         } else if (uRI == null && string2.indexOf(35) != 0 && !bl) {
-            throw new URI$MalformedURIException("No scheme found in URI.");
+            throw new MalformedURIException("No scheme found in URI.");
         }
         if (n5 + 1 < n3 && string2.charAt(n5) == '/' && string2.charAt(n5 + 1) == '/') {
             n2 = n5 += 2;
@@ -170,14 +170,14 @@ implements Serializable {
         }
     }
 
-    private void initialize(URI uRI, String string) {
+    private void initialize(URI uRI, String string) throws MalformedURIException {
         int n;
         int n2;
         int n3;
         String string2 = string;
         int n4 = n3 = string2 != null ? string2.length() : 0;
         if (uRI == null && n3 == 0) {
-            throw new URI$MalformedURIException("Cannot initialize URI with empty parameters.");
+            throw new MalformedURIException("Cannot initialize URI with empty parameters.");
         }
         if (n3 == 0) {
             this.initialize(uRI);
@@ -192,17 +192,17 @@ implements Serializable {
             int n8 = string2.lastIndexOf(35, n2);
             if (n6 == 0 || n != -1 || n7 != -1 || n8 != -1) {
                 if (n6 == 0 || uRI == null && n8 != 0) {
-                    throw new URI$MalformedURIException("No scheme found in URI.");
+                    throw new MalformedURIException("No scheme found in URI.");
                 }
             } else {
                 this.initializeScheme(string2);
                 n5 = this.m_scheme.length() + 1;
                 if (n6 == n3 - 1 || string2.charAt(n6 + 1) == '#') {
-                    throw new URI$MalformedURIException("Scheme specific part cannot be empty.");
+                    throw new MalformedURIException("Scheme specific part cannot be empty.");
                 }
             }
         } else if (uRI == null && string2.indexOf(35) != 0) {
-            throw new URI$MalformedURIException("No scheme found in URI.");
+            throw new MalformedURIException("No scheme found in URI.");
         }
         if (n5 + 1 < n3 && string2.charAt(n5) == '/' && string2.charAt(n5 + 1) == '/') {
             n2 = n5 += 2;
@@ -296,7 +296,7 @@ implements Serializable {
         this.m_path = string;
     }
 
-    private void initializeScheme(String string) {
+    private void initializeScheme(String string) throws MalformedURIException {
         int n;
         int n2 = string.length();
         String string2 = null;
@@ -305,7 +305,7 @@ implements Serializable {
         }
         string2 = string.substring(0, n);
         if (string2.length() == 0) {
-            throw new URI$MalformedURIException("No scheme found in URI.");
+            throw new MalformedURIException("No scheme found in URI.");
         }
         this.setScheme(string2);
     }
@@ -379,7 +379,7 @@ implements Serializable {
         if (!URI.isWellFormedAddress(string)) {
             return false;
         }
-        if (n < -1 || n > -65536) {
+        if (n < -1 || n > 65535) {
             return false;
         }
         if (string2 != null) {
@@ -418,10 +418,10 @@ implements Serializable {
         return true;
     }
 
-    private void initializePath(String string, int n) {
+    private void initializePath(String string, int n) throws MalformedURIException {
         int n2;
         if (string == null) {
-            throw new URI$MalformedURIException("Cannot initialize path from null string!");
+            throw new MalformedURIException("Cannot initialize path from null string!");
         }
         int n3 = n;
         int n4 = string.length();
@@ -432,14 +432,14 @@ implements Serializable {
                     c2 = string.charAt(n2);
                     if (c2 == '%') {
                         if (n2 + 2 >= n4 || !URI.isHex(string.charAt(n2 + 1)) || !URI.isHex(string.charAt(n2 + 2))) {
-                            throw new URI$MalformedURIException("Path contains invalid escape sequence!");
+                            throw new MalformedURIException("Path contains invalid escape sequence!");
                         }
                         n2 += 2;
                         continue;
                     }
                     if (URI.isPathCharacter(c2)) continue;
                     if (c2 != '?' && c2 != '#') {
-                        throw new URI$MalformedURIException(new StringBuffer().append("Path contains invalid character: ").append(c2).toString());
+                        throw new MalformedURIException("Path contains invalid character: " + c2);
                     }
                     break;
                 }
@@ -447,11 +447,11 @@ implements Serializable {
                 while (n2 < n4 && (c2 = (char)string.charAt(n2)) != '?' && c2 != '#') {
                     if (c2 == '%') {
                         if (n2 + 2 >= n4 || !URI.isHex(string.charAt(n2 + 1)) || !URI.isHex(string.charAt(n2 + 2))) {
-                            throw new URI$MalformedURIException("Opaque part contains invalid escape sequence!");
+                            throw new MalformedURIException("Opaque part contains invalid escape sequence!");
                         }
                         n2 += 2;
                     } else if (!URI.isURICharacter(c2)) {
-                        throw new URI$MalformedURIException(new StringBuffer().append("Opaque part contains invalid character: ").append(c2).toString());
+                        throw new MalformedURIException("Opaque part contains invalid character: " + c2);
                     }
                     ++n2;
                 }
@@ -463,11 +463,11 @@ implements Serializable {
             while (n2 < n4 && (c2 = string.charAt(n2)) != '#') {
                 if (c2 == '%') {
                     if (n2 + 2 >= n4 || !URI.isHex(string.charAt(n2 + 1)) || !URI.isHex(string.charAt(n2 + 2))) {
-                        throw new URI$MalformedURIException("Query string contains invalid escape sequence!");
+                        throw new MalformedURIException("Query string contains invalid escape sequence!");
                     }
                     n2 += 2;
                 } else if (!URI.isURICharacter(c2)) {
-                    throw new URI$MalformedURIException(new StringBuffer().append("Query string contains invalid character: ").append(c2).toString());
+                    throw new MalformedURIException("Query string contains invalid character: " + c2);
                 }
                 ++n2;
             }
@@ -479,11 +479,11 @@ implements Serializable {
                 c2 = string.charAt(n2);
                 if (c2 == '%') {
                     if (n2 + 2 >= n4 || !URI.isHex(string.charAt(n2 + 1)) || !URI.isHex(string.charAt(n2 + 2))) {
-                        throw new URI$MalformedURIException("Fragment contains invalid escape sequence!");
+                        throw new MalformedURIException("Fragment contains invalid escape sequence!");
                     }
                     n2 += 2;
                 } else if (!URI.isURICharacter(c2)) {
-                    throw new URI$MalformedURIException(new StringBuffer().append("Fragment contains invalid character: ").append(c2).toString());
+                    throw new MalformedURIException("Fragment contains invalid character: " + c2);
                 }
                 ++n2;
             }
@@ -589,23 +589,23 @@ implements Serializable {
         return this.m_fragment;
     }
 
-    public void setScheme(String string) {
+    public void setScheme(String string) throws MalformedURIException {
         if (string == null) {
-            throw new URI$MalformedURIException("Cannot set scheme from null string!");
+            throw new MalformedURIException("Cannot set scheme from null string!");
         }
         if (!URI.isConformantSchemeName(string)) {
-            throw new URI$MalformedURIException("The scheme is not conformant.");
+            throw new MalformedURIException("The scheme is not conformant.");
         }
         this.m_scheme = string.toLowerCase();
     }
 
-    public void setUserinfo(String string) {
+    public void setUserinfo(String string) throws MalformedURIException {
         if (string == null) {
             this.m_userinfo = null;
             return;
         }
         if (this.m_host == null) {
-            throw new URI$MalformedURIException("Userinfo cannot be set when host is null!");
+            throw new MalformedURIException("Userinfo cannot be set when host is null!");
         }
         int n = string.length();
         char c2 = '\u0000';
@@ -613,15 +613,15 @@ implements Serializable {
             c2 = string.charAt(i2);
             if (c2 == '%') {
                 if (i2 + 2 < n && URI.isHex(string.charAt(i2 + 1)) && URI.isHex(string.charAt(i2 + 2))) continue;
-                throw new URI$MalformedURIException("Userinfo contains invalid escape sequence!");
+                throw new MalformedURIException("Userinfo contains invalid escape sequence!");
             }
             if (URI.isUserinfoCharacter(c2)) continue;
-            throw new URI$MalformedURIException(new StringBuffer().append("Userinfo contains invalid character:").append(c2).toString());
+            throw new MalformedURIException("Userinfo contains invalid character:" + c2);
         }
         this.m_userinfo = string;
     }
 
-    public void setHost(String string) {
+    public void setHost(String string) throws MalformedURIException {
         if (string == null || string.length() == 0) {
             if (string != null) {
                 this.m_regAuthority = null;
@@ -632,30 +632,30 @@ implements Serializable {
             return;
         }
         if (!URI.isWellFormedAddress(string)) {
-            throw new URI$MalformedURIException("Host is not a well formed address!");
+            throw new MalformedURIException("Host is not a well formed address!");
         }
         this.m_host = string;
         this.m_regAuthority = null;
     }
 
-    public void setPort(int n) {
-        if (n >= 0 && n <= -65536) {
+    public void setPort(int n) throws MalformedURIException {
+        if (n >= 0 && n <= 65535) {
             if (this.m_host == null) {
-                throw new URI$MalformedURIException("Port cannot be set when host is null!");
+                throw new MalformedURIException("Port cannot be set when host is null!");
             }
         } else if (n != -1) {
-            throw new URI$MalformedURIException("Invalid port number!");
+            throw new MalformedURIException("Invalid port number!");
         }
         this.m_port = n;
     }
 
-    public void setRegBasedAuthority(String string) {
+    public void setRegBasedAuthority(String string) throws MalformedURIException {
         if (string == null) {
             this.m_regAuthority = null;
             return;
         }
         if (string.length() < 1 || !this.isValidRegistryBasedAuthority(string) || string.indexOf(47) != -1) {
-            throw new URI$MalformedURIException("Registry based authority is not well formed.");
+            throw new MalformedURIException("Registry based authority is not well formed.");
         }
         this.m_regAuthority = string;
         this.m_host = null;
@@ -663,7 +663,7 @@ implements Serializable {
         this.m_port = -1;
     }
 
-    public void setPath(String string) {
+    public void setPath(String string) throws MalformedURIException {
         if (string == null) {
             this.m_path = null;
             this.m_queryString = null;
@@ -673,45 +673,45 @@ implements Serializable {
         }
     }
 
-    public void appendPath(String string) {
+    public void appendPath(String string) throws MalformedURIException {
         if (string == null || string.trim().length() == 0) {
             return;
         }
         if (!URI.isURIString(string)) {
-            throw new URI$MalformedURIException("Path contains invalid character!");
+            throw new MalformedURIException("Path contains invalid character!");
         }
-        this.m_path = this.m_path == null || this.m_path.trim().length() == 0 ? (string.startsWith("/") ? string : new StringBuffer().append("/").append(string).toString()) : (this.m_path.endsWith("/") ? (string.startsWith("/") ? this.m_path.concat(string.substring(1)) : this.m_path.concat(string)) : (string.startsWith("/") ? this.m_path.concat(string) : this.m_path.concat(new StringBuffer().append("/").append(string).toString())));
+        this.m_path = this.m_path == null || this.m_path.trim().length() == 0 ? (string.startsWith("/") ? string : "/" + string) : (this.m_path.endsWith("/") ? (string.startsWith("/") ? this.m_path.concat(string.substring(1)) : this.m_path.concat(string)) : (string.startsWith("/") ? this.m_path.concat(string) : this.m_path.concat("/" + string)));
     }
 
-    public void setQueryString(String string) {
+    public void setQueryString(String string) throws MalformedURIException {
         if (string == null) {
             this.m_queryString = null;
         } else {
             if (!this.isGenericURI()) {
-                throw new URI$MalformedURIException("Query string can only be set for a generic URI!");
+                throw new MalformedURIException("Query string can only be set for a generic URI!");
             }
             if (this.getPath() == null) {
-                throw new URI$MalformedURIException("Query string cannot be set when path is null!");
+                throw new MalformedURIException("Query string cannot be set when path is null!");
             }
             if (!URI.isURIString(string)) {
-                throw new URI$MalformedURIException("Query string contains invalid character!");
+                throw new MalformedURIException("Query string contains invalid character!");
             }
             this.m_queryString = string;
         }
     }
 
-    public void setFragment(String string) {
+    public void setFragment(String string) throws MalformedURIException {
         if (string == null) {
             this.m_fragment = null;
         } else {
             if (!this.isGenericURI()) {
-                throw new URI$MalformedURIException("Fragment can only be set for a generic URI!");
+                throw new MalformedURIException("Fragment can only be set for a generic URI!");
             }
             if (this.getPath() == null) {
-                throw new URI$MalformedURIException("Fragment cannot be set when path is null!");
+                throw new MalformedURIException("Fragment cannot be set when path is null!");
             }
             if (!URI.isURIString(string)) {
-                throw new URI$MalformedURIException("Fragment contains invalid character!");
+                throw new MalformedURIException("Fragment contains invalid character!");
             }
             this.m_fragment = string;
         }
@@ -975,7 +975,6 @@ implements Serializable {
     }
 
     static {
-        fgLookupTable = new byte[128];
         int n = 48;
         while (n <= 57) {
             int n2 = n++;
@@ -1034,6 +1033,18 @@ implements Serializable {
         fgLookupTable[36] = (byte)(fgLookupTable[36] | 0x80);
         fgLookupTable[44] = (byte)(fgLookupTable[44] | 0x80);
         DEBUG = false;
+    }
+
+    public static class MalformedURIException
+    extends IOException {
+        static final long serialVersionUID = -6695054834342951930L;
+
+        public MalformedURIException() {
+        }
+
+        public MalformedURIException(String string) {
+            super(string);
+        }
     }
 }
 

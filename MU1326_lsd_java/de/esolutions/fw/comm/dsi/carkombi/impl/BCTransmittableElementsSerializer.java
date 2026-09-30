@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCTransmittableElements;
 
 public class BCTransmittableElementsSerializer {
-    public static void putOptionalBCTransmittableElements(ISerializer iSerializer, BCTransmittableElements bCTransmittableElements) {
+    public static void putOptionalBCTransmittableElements(ISerializer iSerializer, BCTransmittableElements bCTransmittableElements) throws SerializerException {
         boolean bl = bCTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BCTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalBCTransmittableElementsVarArray(ISerializer iSerializer, BCTransmittableElements[] bCTransmittableElementsArray) {
+    public static void putOptionalBCTransmittableElementsVarArray(ISerializer iSerializer, BCTransmittableElements[] bCTransmittableElementsArray) throws SerializerException {
         boolean bl = bCTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BCTransmittableElementsSerializer {
         }
     }
 
-    public static BCTransmittableElements getOptionalBCTransmittableElements(IDeserializer iDeserializer) {
+    public static BCTransmittableElements getOptionalBCTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         BCTransmittableElements bCTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class BCTransmittableElementsSerializer {
         return bCTransmittableElements;
     }
 
-    public static BCTransmittableElements[] getOptionalBCTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static BCTransmittableElements[] getOptionalBCTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCTransmittableElements[] bCTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

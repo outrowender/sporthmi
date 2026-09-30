@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.BCAverageRecoveredEnergySerialize
 import de.esolutions.fw.comm.dsi.carkombi.impl.BCCounterSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCAverageRecoveredEnergy;
 import org.dsi.ifc.carkombi.BCCounter;
 import org.dsi.ifc.carkombi.BCStatisticsRE;
 
 public class BCStatisticsRESerializer {
-    public static void putOptionalBCStatisticsRE(ISerializer iSerializer, BCStatisticsRE bCStatisticsRE) {
+    public static void putOptionalBCStatisticsRE(ISerializer iSerializer, BCStatisticsRE bCStatisticsRE) throws SerializerException {
         boolean bl = bCStatisticsRE == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BCStatisticsRESerializer {
         }
     }
 
-    public static void putOptionalBCStatisticsREVarArray(ISerializer iSerializer, BCStatisticsRE[] bCStatisticsREArray) {
+    public static void putOptionalBCStatisticsREVarArray(ISerializer iSerializer, BCStatisticsRE[] bCStatisticsREArray) throws SerializerException {
         boolean bl = bCStatisticsREArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BCStatisticsRESerializer {
         }
     }
 
-    public static BCStatisticsRE getOptionalBCStatisticsRE(IDeserializer iDeserializer) {
+    public static BCStatisticsRE getOptionalBCStatisticsRE(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsRE bCStatisticsRE = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BCStatisticsRESerializer {
         return bCStatisticsRE;
     }
 
-    public static BCStatisticsRE[] getOptionalBCStatisticsREVarArray(IDeserializer iDeserializer) {
+    public static BCStatisticsRE[] getOptionalBCStatisticsREVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsRE[] bCStatisticsREArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

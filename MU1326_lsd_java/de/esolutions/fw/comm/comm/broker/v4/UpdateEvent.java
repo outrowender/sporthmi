@@ -55,7 +55,7 @@ public class UpdateEvent {
     }
 
     public String toString() {
-        return new StringBuffer("UpdateEvent{").append("action=").append(this.action).append(", reason=").append(this.reason).append(", svc_id=").append(this.svc_id).append(", home_agent_id=").append(this.home_agent_id).append("}").toString();
+        return "UpdateEvent{" + "action=" + this.action + ", reason=" + this.reason + ", svc_id=" + this.svc_id + ", home_agent_id=" + this.home_agent_id + "}";
     }
 }
 

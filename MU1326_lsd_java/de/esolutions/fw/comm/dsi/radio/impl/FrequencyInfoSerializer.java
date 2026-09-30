@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.FrequencyInfo;
 
 public class FrequencyInfoSerializer {
-    public static void putOptionalFrequencyInfo(ISerializer iSerializer, FrequencyInfo frequencyInfo) {
+    public static void putOptionalFrequencyInfo(ISerializer iSerializer, FrequencyInfo frequencyInfo) throws SerializerException {
         boolean bl = frequencyInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class FrequencyInfoSerializer {
         }
     }
 
-    public static void putOptionalFrequencyInfoVarArray(ISerializer iSerializer, FrequencyInfo[] frequencyInfoArray) {
+    public static void putOptionalFrequencyInfoVarArray(ISerializer iSerializer, FrequencyInfo[] frequencyInfoArray) throws SerializerException {
         boolean bl = frequencyInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class FrequencyInfoSerializer {
         }
     }
 
-    public static FrequencyInfo getOptionalFrequencyInfo(IDeserializer iDeserializer) {
+    public static FrequencyInfo getOptionalFrequencyInfo(IDeserializer iDeserializer) throws SerializerException {
         FrequencyInfo frequencyInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class FrequencyInfoSerializer {
         return frequencyInfo;
     }
 
-    public static FrequencyInfo[] getOptionalFrequencyInfoVarArray(IDeserializer iDeserializer) {
+    public static FrequencyInfo[] getOptionalFrequencyInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         FrequencyInfo[] frequencyInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

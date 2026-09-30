@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.swdllogging;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.swdllogging.DSISwdlLoggingReply;
 import de.esolutions.fw.comm.dsi.swdllogging.impl.DSISwdlLoggingReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSISwdlLoggingReply {
         super(n, (class$org$dsi$ifc$swdllogging$DSISwdlLoggingListener == null ? (class$org$dsi$ifc$swdllogging$DSISwdlLoggingListener = DSISwdlLoggingDispatcher.class$("org.dsi.ifc.swdllogging.DSISwdlLoggingListener")) : class$org$dsi$ifc$swdllogging$DSISwdlLoggingListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getHistory(String[] stringArray, int[] nArray) {
+    public void getHistory(String[] stringArray, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSISwdlLoggingReply {
         }
     }
 
-    @Override
-    public void setUpdate(int n) {
+    public void setUpdate(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSISwdlLoggingReply {
         }
     }
 
-    @Override
-    public void getGeneralInformation(boolean bl, String string, String string2, boolean bl2, String string3, String string4, int[] nArray, boolean bl3, int n, int[] nArray2) {
+    public void getGeneralInformation(boolean bl, String string, String string2, boolean bl2, String string3, String string4, int[] nArray, boolean bl3, int n, int[] nArray2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSISwdlLoggingReply {
         }
     }
 
-    @Override
-    public void getUnusualEvents(int[] nArray, String[] stringArray) {
+    public void getUnusualEvents(int[] nArray, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSISwdlLoggingReply {
         }
     }
 
-    @Override
-    public void getUnusualEvent(int n, String string, String string2, String string3, byte by, int n2) {
+    public void getUnusualEvent(int n, String string, String string2, String string3, byte by, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,8 +106,7 @@ implements DSISwdlLoggingReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -128,14 +122,13 @@ implements DSISwdlLoggingReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISwdlLoggingListener dSISwdlLoggingListener = (DSISwdlLoggingListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlLoggingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlLoggingDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISwdlLoggingListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlLoggingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlLoggingDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISwdlLoggingListener, new Object[]{string, string2});
                     continue;
                 }

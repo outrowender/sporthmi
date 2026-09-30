@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sPosition;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sPositionSerializer {
-    public static void putOptionalsPosition(ISerializer iSerializer, sPosition sPosition2) {
+    public static void putOptionalsPosition(ISerializer iSerializer, sPosition sPosition2) throws SerializerException {
         boolean bl = sPosition2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class sPositionSerializer {
         }
     }
 
-    public static void putOptionalsPositionVarArray(ISerializer iSerializer, sPosition[] sPositionArray) {
+    public static void putOptionalsPositionVarArray(ISerializer iSerializer, sPosition[] sPositionArray) throws SerializerException {
         boolean bl = sPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class sPositionSerializer {
         }
     }
 
-    public static sPosition getOptionalsPosition(IDeserializer iDeserializer) {
+    public static sPosition getOptionalsPosition(IDeserializer iDeserializer) throws SerializerException {
         sPosition sPosition2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class sPositionSerializer {
         return sPosition2;
     }
 
-    public static sPosition[] getOptionalsPositionVarArray(IDeserializer iDeserializer) {
+    public static sPosition[] getOptionalsPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sPosition[] sPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

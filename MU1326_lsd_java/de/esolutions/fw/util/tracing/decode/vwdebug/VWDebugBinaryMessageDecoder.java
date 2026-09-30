@@ -15,7 +15,6 @@ implements ITraceMessageDecoder {
     public void init(TraceConfigDecoder traceConfigDecoder) {
     }
 
-    @Override
     public void decodeMessage(ITraceMessage iTraceMessage, ITraceEntityResolver iTraceEntityResolver) {
         byte[] byArray = iTraceMessage.getMessageData();
         int n = byArray[18] * 256 + byArray[17];
@@ -28,11 +27,10 @@ implements ITraceMessageDecoder {
                 iTraceMessage.setDecodedMessage(new String[]{"UTF-8 Encoding not supported "});
             }
         } else {
-            iTraceMessage.setDecodedMessage(new String[]{new StringBuffer().append("unsupported message type ").append(Integer.toString(n)).append(" (should be 0x0101)").toString()});
+            iTraceMessage.setDecodedMessage(new String[]{"unsupported message type " + Integer.toString(n) + " (should be 0x0101)"});
         }
     }
 
-    @Override
     public void init(ConfigValue configValue) {
     }
 }

@@ -10,29 +10,26 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carkombi.DSICarKombi;
 import de.esolutions.fw.comm.dsi.carkombi.DSICarKombiC;
 import de.esolutions.fw.comm.dsi.carkombi.DSICarKombiReply;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$1;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$10;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$11;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$12;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$13;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$14;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$15;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$16;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$17;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$18;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$19;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$2;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$20;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$21;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$22;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$3;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$4;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$5;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$6;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$7;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$8;
-import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiProxy$9;
+import de.esolutions.fw.comm.dsi.carkombi.impl.BCMenueConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.BCSpeedWarningSettingsSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.BCStatisticsResetSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.BCVehicleStateUpdateInfoAHSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCAdditionalInstrument2Serializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCAdditionalInstrumentSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCDisplayDependencySerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCDisplayPresetsListRecordSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCDisplayViewConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCElementContentSelectionListRA1Serializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCElementContentSelectionListRA2Serializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCElementContentSelectionListUpdateInfoSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.DCMainItemsSerializer;
 import de.esolutions.fw.comm.dsi.carkombi.impl.DSICarKombiReplyService;
+import de.esolutions.fw.comm.dsi.carkombi.impl.HUDCollectiveTopicsSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.HUDContentSerializer;
+import de.esolutions.fw.comm.dsi.carkombi.impl.HUDSectionConfigListRecordSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.CarArrayListUpdateInfoSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCMenueConfiguration;
@@ -69,8 +66,7 @@ DSICarKombiC {
         return this.proxy;
     }
 
-    @Override
-    public void resetSIAValue(int n) {
+    public void resetSIAValue(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -81,14 +77,17 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void requestSIAHistoryList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-        DSICarKombiProxy$1 dSICarKombiProxy$1 = new DSICarKombiProxy$1(this, carArrayListUpdateInfo);
-        this.proxy.remoteCallMethod((short)188, dSICarKombiProxy$1);
+    public void requestSIAHistoryList(final CarArrayListUpdateInfo carArrayListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)188, iSerializable);
     }
 
-    @Override
-    public void setSIADistanceOilUser(int n, int n2) {
+    public void setSIADistanceOilUser(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -100,8 +99,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)205, genericSerializable);
     }
 
-    @Override
-    public void setSIADistanceAirFilterUser(int n, int n2) {
+    public void setSIADistanceAirFilterUser(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -113,8 +111,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)203, genericSerializable);
     }
 
-    @Override
-    public void setSIADistanceOilFilterUser(int n, int n2) {
+    public void setSIADistanceOilFilterUser(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -126,8 +123,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)204, genericSerializable);
     }
 
-    @Override
-    public void setSIAInspectionDistanceUser(int n, int n2) {
+    public void setSIAInspectionDistanceUser(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -139,8 +135,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)206, genericSerializable);
     }
 
-    @Override
-    public void setBCVZADisplay(boolean bl) {
+    public void setBCVZADisplay(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -151,8 +146,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setBCLifeTipsDisplay(boolean bl) {
+    public void setBCLifeTipsDisplay(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -163,8 +157,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setBCConsumerDisplay(boolean bl) {
+    public void setBCConsumerDisplay(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -175,14 +168,18 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setBCMenueConfig(BCMenueConfiguration bCMenueConfiguration, int n) {
-        DSICarKombiProxy$2 dSICarKombiProxy$2 = new DSICarKombiProxy$2(this, bCMenueConfiguration, n);
-        this.proxy.remoteCallMethod((short)111, dSICarKombiProxy$2);
+    public void setBCMenueConfig(final BCMenueConfiguration bCMenueConfiguration, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BCMenueConfigurationSerializer.putOptionalBCMenueConfiguration(iSerializer, bCMenueConfiguration);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)111, iSerializable);
     }
 
-    @Override
-    public void resetBCMenue(int n) {
+    public void resetBCMenue(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -193,8 +190,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setBCOilTemperature(boolean bl) {
+    public void setBCOilTemperature(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -205,8 +201,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setBCDigitalSpeed(boolean bl) {
+    public void setBCDigitalSpeed(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -217,8 +212,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setBCStopwatch(boolean bl) {
+    public void setBCStopwatch(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -229,8 +223,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setBCVzaMFA(boolean bl) {
+    public void setBCVzaMFA(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -241,14 +234,17 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setBCSpeedWarning(BCSpeedWarningSettings bCSpeedWarningSettings) {
-        DSICarKombiProxy$3 dSICarKombiProxy$3 = new DSICarKombiProxy$3(this, bCSpeedWarningSettings);
-        this.proxy.remoteCallMethod((short)25, dSICarKombiProxy$3);
+    public void setBCSpeedWarning(final BCSpeedWarningSettings bCSpeedWarningSettings) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BCSpeedWarningSettingsSerializer.putOptionalBCSpeedWarningSettings(iSerializer, bCSpeedWarningSettings);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void setBCGearRecommendation(boolean bl) {
+    public void setBCGearRecommendation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -259,8 +255,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setBCRearSeatbeltWarning(boolean bl) {
+    public void setBCRearSeatbeltWarning(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -271,25 +266,31 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void requestVehicleStateList(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH) {
-        DSICarKombiProxy$4 dSICarKombiProxy$4 = new DSICarKombiProxy$4(this, bCVehicleStateUpdateInfoAH);
-        this.proxy.remoteCallMethod((short)143, dSICarKombiProxy$4);
+    public void requestVehicleStateList(final BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BCVehicleStateUpdateInfoAHSerializer.putOptionalBCVehicleStateUpdateInfoAH(iSerializer, bCVehicleStateUpdateInfoAH);
+            }
+        };
+        this.proxy.remoteCallMethod((short)143, iSerializable);
     }
 
-    @Override
-    public void setBcSetFactoryDefault() {
+    public void setBcSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)29, null);
     }
 
-    @Override
-    public void resetBCStatistics(BCStatisticsReset bCStatisticsReset) {
-        DSICarKombiProxy$5 dSICarKombiProxy$5 = new DSICarKombiProxy$5(this, bCStatisticsReset);
-        this.proxy.remoteCallMethod((short)10, dSICarKombiProxy$5);
+    public void resetBCStatistics(final BCStatisticsReset bCStatisticsReset) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BCStatisticsResetSerializer.putOptionalBCStatisticsReset(iSerializer, bCStatisticsReset);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void setBCAstaMFA(boolean bl) {
+    public void setBCAstaMFA(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -300,8 +301,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)171, genericSerializable);
     }
 
-    @Override
-    public void setHUDHeightAdjustment(byte by) {
+    public void setHUDHeightAdjustment(byte by) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt8(by);
@@ -312,8 +312,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void setHUDBrightness(byte by) {
+    public void setHUDBrightness(byte by) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt8(by);
@@ -324,14 +323,17 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void setHUDContent(HUDContent hUDContent) {
-        DSICarKombiProxy$6 dSICarKombiProxy$6 = new DSICarKombiProxy$6(this, hUDContent);
-        this.proxy.remoteCallMethod((short)236, dSICarKombiProxy$6);
+    public void setHUDContent(final HUDContent hUDContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                HUDContentSerializer.putOptionalHUDContent(iSerializer, hUDContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)236, iSerializable);
     }
 
-    @Override
-    public void setHUDRotationAdjustment(int n) {
+    public void setHUDRotationAdjustment(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -342,8 +344,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)105, genericSerializable);
     }
 
-    @Override
-    public void setHUDColour(int n, int n2) {
+    public void setHUDColour(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -355,13 +356,11 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)112, genericSerializable);
     }
 
-    @Override
-    public void setHUDSetFactoryDefault() {
+    public void setHUDSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)113, null);
     }
 
-    @Override
-    public void setHUDSystemOnOff(boolean bl) {
+    public void setHUDSystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -372,8 +371,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)114, genericSerializable);
     }
 
-    @Override
-    public void setHUDPresets(int n, int n2) {
+    public void setHUDPresets(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -385,14 +383,17 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)237, genericSerializable);
     }
 
-    @Override
-    public void setHUDCollectiveTopics(HUDCollectiveTopics hUDCollectiveTopics) {
-        DSICarKombiProxy$7 dSICarKombiProxy$7 = new DSICarKombiProxy$7(this, hUDCollectiveTopics);
-        this.proxy.remoteCallMethod((short)235, dSICarKombiProxy$7);
+    public void setHUDCollectiveTopics(final HUDCollectiveTopics hUDCollectiveTopics) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                HUDCollectiveTopicsSerializer.putOptionalHUDCollectiveTopics(iSerializer, hUDCollectiveTopics);
+            }
+        };
+        this.proxy.remoteCallMethod((short)235, iSerializable);
     }
 
-    @Override
-    public void setHUDAutoSkinSwitch(boolean bl) {
+    public void setHUDAutoSkinSwitch(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -403,25 +404,32 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)234, genericSerializable);
     }
 
-    @Override
-    public void requestHUDSectionConfigList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-        DSICarKombiProxy$8 dSICarKombiProxy$8 = new DSICarKombiProxy$8(this, carArrayListUpdateInfo);
-        this.proxy.remoteCallMethod((short)232, dSICarKombiProxy$8);
+    public void requestHUDSectionConfigList(final CarArrayListUpdateInfo carArrayListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)232, iSerializable);
     }
 
-    @Override
-    public void setHUDSectionConfigList(CarArrayListUpdateInfo carArrayListUpdateInfo, HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) {
-        DSICarKombiProxy$9 dSICarKombiProxy$9 = new DSICarKombiProxy$9(this, carArrayListUpdateInfo, hUDSectionConfigListRecordArray);
-        this.proxy.remoteCallMethod((short)238, dSICarKombiProxy$9);
+    public void setHUDSectionConfigList(final CarArrayListUpdateInfo carArrayListUpdateInfo, final HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+                HUDSectionConfigListRecordSerializer.putOptionalHUDSectionConfigListRecordVarArray(iSerializer, hUDSectionConfigListRecordArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)238, iSerializable);
     }
 
-    @Override
-    public void setDCSetFactoryDefault() {
+    public void setDCSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)158, null);
     }
 
-    @Override
-    public void setDCBrightness(int n) {
+    public void setDCBrightness(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -432,8 +440,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)152, genericSerializable);
     }
 
-    @Override
-    public void setDCVolume(int n) {
+    public void setDCVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -444,80 +451,131 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)159, genericSerializable);
     }
 
-    @Override
-    public void setDCDisplay1MainSelection(DCMainItems dCMainItems) {
-        DSICarKombiProxy$10 dSICarKombiProxy$10 = new DSICarKombiProxy$10(this, dCMainItems);
-        this.proxy.remoteCallMethod((short)194, dSICarKombiProxy$10);
+    public void setDCDisplay1MainSelection(final DCMainItems dCMainItems) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCMainItemsSerializer.putOptionalDCMainItems(iSerializer, dCMainItems);
+            }
+        };
+        this.proxy.remoteCallMethod((short)194, iSerializable);
     }
 
-    @Override
-    public void setDCDisplay2MainSelection(DCMainItems dCMainItems) {
-        DSICarKombiProxy$11 dSICarKombiProxy$11 = new DSICarKombiProxy$11(this, dCMainItems);
-        this.proxy.remoteCallMethod((short)195, dSICarKombiProxy$11);
+    public void setDCDisplay2MainSelection(final DCMainItems dCMainItems) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCMainItemsSerializer.putOptionalDCMainItems(iSerializer, dCMainItems);
+            }
+        };
+        this.proxy.remoteCallMethod((short)195, iSerializable);
     }
 
-    @Override
-    public void setDCDisplay3MainSelection(DCMainItems dCMainItems) {
-        DSICarKombiProxy$12 dSICarKombiProxy$12 = new DSICarKombiProxy$12(this, dCMainItems);
-        this.proxy.remoteCallMethod((short)196, dSICarKombiProxy$12);
+    public void setDCDisplay3MainSelection(final DCMainItems dCMainItems) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCMainItemsSerializer.putOptionalDCMainItems(iSerializer, dCMainItems);
+            }
+        };
+        this.proxy.remoteCallMethod((short)196, iSerializable);
     }
 
-    @Override
-    public void requestDCElementContentSelectionList(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo) {
-        DSICarKombiProxy$13 dSICarKombiProxy$13 = new DSICarKombiProxy$13(this, dCElementContentSelectionListUpdateInfo);
-        this.proxy.remoteCallMethod((short)142, dSICarKombiProxy$13);
+    public void requestDCElementContentSelectionList(final DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCElementContentSelectionListUpdateInfoSerializer.putOptionalDCElementContentSelectionListUpdateInfo(iSerializer, dCElementContentSelectionListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)142, iSerializable);
     }
 
-    @Override
-    public void setDCElementContentSelectionListRA1(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) {
-        DSICarKombiProxy$14 dSICarKombiProxy$14 = new DSICarKombiProxy$14(this, dCElementContentSelectionListUpdateInfo, dCElementContentSelectionListRA1Array);
-        this.proxy.remoteCallMethod((short)156, dSICarKombiProxy$14);
+    public void setDCElementContentSelectionListRA1(final DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, final DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCElementContentSelectionListUpdateInfoSerializer.putOptionalDCElementContentSelectionListUpdateInfo(iSerializer, dCElementContentSelectionListUpdateInfo);
+                DCElementContentSelectionListRA1Serializer.putOptionalDCElementContentSelectionListRA1VarArray(iSerializer, dCElementContentSelectionListRA1Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)156, iSerializable);
     }
 
-    @Override
-    public void setDCElementContentSelectionListRA2(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA2[] dCElementContentSelectionListRA2Array) {
-        DSICarKombiProxy$15 dSICarKombiProxy$15 = new DSICarKombiProxy$15(this, dCElementContentSelectionListUpdateInfo, dCElementContentSelectionListRA2Array);
-        this.proxy.remoteCallMethod((short)200, dSICarKombiProxy$15);
+    public void setDCElementContentSelectionListRA2(final DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, final DCElementContentSelectionListRA2[] dCElementContentSelectionListRA2Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCElementContentSelectionListUpdateInfoSerializer.putOptionalDCElementContentSelectionListUpdateInfo(iSerializer, dCElementContentSelectionListUpdateInfo);
+                DCElementContentSelectionListRA2Serializer.putOptionalDCElementContentSelectionListRA2VarArray(iSerializer, dCElementContentSelectionListRA2Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)200, iSerializable);
     }
 
-    @Override
-    public void setDCElementContentSelectionListRAF(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, int[] nArray) {
-        DSICarKombiProxy$16 dSICarKombiProxy$16 = new DSICarKombiProxy$16(this, dCElementContentSelectionListUpdateInfo, nArray);
-        this.proxy.remoteCallMethod((short)157, dSICarKombiProxy$16);
+    public void setDCElementContentSelectionListRAF(final DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCElementContentSelectionListUpdateInfoSerializer.putOptionalDCElementContentSelectionListUpdateInfo(iSerializer, dCElementContentSelectionListUpdateInfo);
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)157, iSerializable);
     }
 
-    @Override
-    public void setDCAdditionalInstrumentSetup(DCAdditionalInstrument dCAdditionalInstrument) {
-        DSICarKombiProxy$17 dSICarKombiProxy$17 = new DSICarKombiProxy$17(this, dCAdditionalInstrument);
-        this.proxy.remoteCallMethod((short)172, dSICarKombiProxy$17);
+    public void setDCAdditionalInstrumentSetup(final DCAdditionalInstrument dCAdditionalInstrument) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCAdditionalInstrumentSerializer.putOptionalDCAdditionalInstrument(iSerializer, dCAdditionalInstrument);
+            }
+        };
+        this.proxy.remoteCallMethod((short)172, iSerializable);
     }
 
-    @Override
-    public void setDCAdditionalInstrument2Setup(DCAdditionalInstrument2 dCAdditionalInstrument2) {
-        DSICarKombiProxy$18 dSICarKombiProxy$18 = new DSICarKombiProxy$18(this, dCAdditionalInstrument2);
-        this.proxy.remoteCallMethod((short)193, dSICarKombiProxy$18);
+    public void setDCAdditionalInstrument2Setup(final DCAdditionalInstrument2 dCAdditionalInstrument2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCAdditionalInstrument2Serializer.putOptionalDCAdditionalInstrument2(iSerializer, dCAdditionalInstrument2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)193, iSerializable);
     }
 
-    @Override
-    public void requestDCDisplayPresetsList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-        DSICarKombiProxy$19 dSICarKombiProxy$19 = new DSICarKombiProxy$19(this, carArrayListUpdateInfo);
-        this.proxy.remoteCallMethod((short)187, dSICarKombiProxy$19);
+    public void requestDCDisplayPresetsList(final CarArrayListUpdateInfo carArrayListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)187, iSerializable);
     }
 
-    @Override
-    public void setDCDisplayPresetsList(CarArrayListUpdateInfo carArrayListUpdateInfo, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) {
-        DSICarKombiProxy$20 dSICarKombiProxy$20 = new DSICarKombiProxy$20(this, carArrayListUpdateInfo, dCDisplayPresetsListRecordArray);
-        this.proxy.remoteCallMethod((short)198, dSICarKombiProxy$20);
+    public void setDCDisplayPresetsList(final CarArrayListUpdateInfo carArrayListUpdateInfo, final DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+                DCDisplayPresetsListRecordSerializer.putOptionalDCDisplayPresetsListRecordVarArray(iSerializer, dCDisplayPresetsListRecordArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)198, iSerializable);
     }
 
-    @Override
-    public void setDCDisplayDependencySetup(DCDisplayDependency dCDisplayDependency) {
-        DSICarKombiProxy$21 dSICarKombiProxy$21 = new DSICarKombiProxy$21(this, dCDisplayDependency);
-        this.proxy.remoteCallMethod((short)197, dSICarKombiProxy$21);
+    public void setDCDisplayDependencySetup(final DCDisplayDependency dCDisplayDependency) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCDisplayDependencySerializer.putOptionalDCDisplayDependency(iSerializer, dCDisplayDependency);
+            }
+        };
+        this.proxy.remoteCallMethod((short)197, iSerializable);
     }
 
-    @Override
-    public void setDCActiveDisplayPreset(int n) {
+    public void setDCActiveDisplayPreset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -528,14 +586,17 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)192, genericSerializable);
     }
 
-    @Override
-    public void setDCDisplayViewConfiguration(DCDisplayViewConfiguration dCDisplayViewConfiguration) {
-        DSICarKombiProxy$22 dSICarKombiProxy$22 = new DSICarKombiProxy$22(this, dCDisplayViewConfiguration);
-        this.proxy.remoteCallMethod((short)199, dSICarKombiProxy$22);
+    public void setDCDisplayViewConfiguration(final DCDisplayViewConfiguration dCDisplayViewConfiguration) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DCDisplayViewConfigurationSerializer.putOptionalDCDisplayViewConfiguration(iSerializer, dCDisplayViewConfiguration);
+            }
+        };
+        this.proxy.remoteCallMethod((short)199, iSerializable);
     }
 
-    @Override
-    public void setHUDLicense(boolean bl) {
+    public void setHUDLicense(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -546,8 +607,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)202, genericSerializable);
     }
 
-    @Override
-    public void setDCLEDConfiguration(boolean bl) {
+    public void setDCLEDConfiguration(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -558,8 +618,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)201, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -570,8 +629,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -582,13 +640,11 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)33, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -599,8 +655,7 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -611,13 +666,11 @@ DSICarKombiC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

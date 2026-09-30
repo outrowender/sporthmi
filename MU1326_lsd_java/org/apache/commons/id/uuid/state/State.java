@@ -3,26 +3,22 @@
  */
 package org.apache.commons.id.uuid.state;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Set;
 
 public interface State
 extends Serializable {
-    public static final String DEFAULT_STATE_IMPL;
+    public static final String DEFAULT_STATE_IMPL = "org.apache.commons.id.uuid.state.ReadOnlyResourceStateImpl";
 
-    default public void load() {
-    }
+    public void load() throws Exception;
 
-    default public Set getNodes() {
-    }
+    public Set getNodes();
 
-    default public void store(Set set) {
-    }
+    public void store(Set var1) throws IOException;
 
-    default public void store(Set set, long l) {
-    }
+    public void store(Set var1, long var2);
 
-    default public long getSynchInterval() {
-    }
+    public long getSynchInterval();
 }
 

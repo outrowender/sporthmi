@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlConfigurationSeria
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlConfiguration;
 import org.dsi.ifc.carhybrid.BatteryControlViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class BatteryControlViewOptionsSerializer {
-    public static void putOptionalBatteryControlViewOptions(ISerializer iSerializer, BatteryControlViewOptions batteryControlViewOptions) {
+    public static void putOptionalBatteryControlViewOptions(ISerializer iSerializer, BatteryControlViewOptions batteryControlViewOptions) throws SerializerException {
         boolean bl = batteryControlViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -53,7 +54,7 @@ public class BatteryControlViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlViewOptionsVarArray(ISerializer iSerializer, BatteryControlViewOptions[] batteryControlViewOptionsArray) {
+    public static void putOptionalBatteryControlViewOptionsVarArray(ISerializer iSerializer, BatteryControlViewOptions[] batteryControlViewOptionsArray) throws SerializerException {
         boolean bl = batteryControlViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -64,7 +65,7 @@ public class BatteryControlViewOptionsSerializer {
         }
     }
 
-    public static BatteryControlViewOptions getOptionalBatteryControlViewOptions(IDeserializer iDeserializer) {
+    public static BatteryControlViewOptions getOptionalBatteryControlViewOptions(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlViewOptions batteryControlViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -107,7 +108,7 @@ public class BatteryControlViewOptionsSerializer {
         return batteryControlViewOptions;
     }
 
-    public static BatteryControlViewOptions[] getOptionalBatteryControlViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlViewOptions[] getOptionalBatteryControlViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlViewOptions[] batteryControlViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

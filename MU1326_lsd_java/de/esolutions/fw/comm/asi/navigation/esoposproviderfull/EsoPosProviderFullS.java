@@ -5,30 +5,23 @@ package de.esolutions.fw.comm.asi.navigation.esoposproviderfull;
 
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.EsoPosProviderFullReply;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sConfig;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface EsoPosProviderFullS {
-    default public void setActive(boolean bl, EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void setActive(boolean var1, EsoPosProviderFullReply var2) throws MethodException;
 
-    default public void setConfig(sConfig sConfig2, EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void setConfig(sConfig var1, EsoPosProviderFullReply var2) throws MethodException;
 
-    default public void setNotification(EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void setNotification(EsoPosProviderFullReply var1) throws MethodException;
 
-    default public void setNotification(long l, EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void setNotification(long var1, EsoPosProviderFullReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void setNotification(long[] var1, EsoPosProviderFullReply var2) throws MethodException;
 
-    default public void clearNotification(EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void clearNotification(EsoPosProviderFullReply var1) throws MethodException;
 
-    default public void clearNotification(long l, EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void clearNotification(long var1, EsoPosProviderFullReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, EsoPosProviderFullReply esoPosProviderFullReply) {
-    }
+    public void clearNotification(long[] var1, EsoPosProviderFullReply var2) throws MethodException;
 }
 

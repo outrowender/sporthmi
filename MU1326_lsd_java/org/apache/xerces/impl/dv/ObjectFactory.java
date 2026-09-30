@@ -11,28 +11,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
-import org.apache.xerces.impl.dv.ObjectFactory$ConfigurationError;
 import org.apache.xerces.impl.dv.SecuritySupport;
 
 final class ObjectFactory {
-    private static final String DEFAULT_PROPERTIES_FILENAME;
-    private static final boolean DEBUG;
-    private static final int DEFAULT_LINE_LENGTH;
-    private static Properties fXercesProperties;
-    private static long fLastModified;
+    private static final String DEFAULT_PROPERTIES_FILENAME = "xerces.properties";
+    private static final boolean DEBUG = false;
+    private static final int DEFAULT_LINE_LENGTH = 80;
+    private static Properties fXercesProperties = null;
+    private static long fLastModified = -1L;
     static /* synthetic */ Class class$org$apache$xerces$impl$dv$ObjectFactory;
 
     ObjectFactory() {
     }
 
-    static Object createObject(String string, String string2) {
+    static Object createObject(String string, String string2) throws ConfigurationError {
         return ObjectFactory.createObject(string, null, string2);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    static Object createObject(String string, String string2, String string3) {
+    static Object createObject(String string, String string2, String string3) throws ConfigurationError {
         Object object;
         String string4;
         SecuritySupport securitySupport = SecuritySupport.getInstance();
@@ -53,7 +52,7 @@ final class ObjectFactory {
             boolean bl = false;
             try {
                 object2 = securitySupport.getSystemProperty("java.home");
-                string2 = new StringBuffer().append((String)object2).append(File.separator).append("lib").append(File.separator).append("xerces.properties").toString();
+                string2 = new StringBuffer().append((String)object2).append(File.separator).append("lib").append(File.separator).append(DEFAULT_PROPERTIES_FILENAME).toString();
                 object = new File(string2);
                 bl = securitySupport.getFileExists((File)object);
             }
@@ -126,7 +125,7 @@ final class ObjectFactory {
             return object;
         }
         if (string3 == null) {
-            throw new ObjectFactory$ConfigurationError(new StringBuffer().append("Provider for ").append(string).append(" cannot be found").toString(), null);
+            throw new ConfigurationError(new StringBuffer().append("Provider for ").append(string).append(" cannot be found").toString(), null);
         }
         return ObjectFactory.newInstance(string3, classLoader, true);
     }
@@ -134,7 +133,7 @@ final class ObjectFactory {
     private static void debugPrintln(String string) {
     }
 
-    static ClassLoader findClassLoader() {
+    static ClassLoader findClassLoader() throws ConfigurationError {
         ClassLoader classLoader;
         SecuritySupport securitySupport = SecuritySupport.getInstance();
         ClassLoader classLoader2 = securitySupport.getContextClassLoader();
@@ -158,21 +157,21 @@ final class ObjectFactory {
         return classLoader2;
     }
 
-    static Object newInstance(String string, ClassLoader classLoader, boolean bl) {
+    static Object newInstance(String string, ClassLoader classLoader, boolean bl) throws ConfigurationError {
         try {
             Class clazz = ObjectFactory.findProviderClass(string, classLoader, bl);
             Object object = clazz.newInstance();
             return object;
         }
         catch (ClassNotFoundException classNotFoundException) {
-            throw new ObjectFactory$ConfigurationError(new StringBuffer().append("Provider ").append(string).append(" not found").toString(), classNotFoundException);
+            throw new ConfigurationError(new StringBuffer().append("Provider ").append(string).append(" not found").toString(), classNotFoundException);
         }
         catch (Exception exception) {
-            throw new ObjectFactory$ConfigurationError(new StringBuffer().append("Provider ").append(string).append(" could not be instantiated: ").append(exception).toString(), exception);
+            throw new ConfigurationError(new StringBuffer().append("Provider ").append(string).append(" could not be instantiated: ").append(exception).toString(), exception);
         }
     }
 
-    static Class findProviderClass(String string, ClassLoader classLoader, boolean bl) {
+    static Class findProviderClass(String string, ClassLoader classLoader, boolean bl) throws ClassNotFoundException, ConfigurationError {
         Class clazz;
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
@@ -210,7 +209,7 @@ final class ObjectFactory {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private static Object findJarServiceProvider(String string) {
+    private static Object findJarServiceProvider(String string) throws ConfigurationError {
         Object object;
         SecuritySupport securitySupport = SecuritySupport.getInstance();
         String string2 = new StringBuffer().append("META-INF/services/").append(string).toString();
@@ -259,9 +258,19 @@ final class ObjectFactory {
         }
     }
 
-    static {
-        fXercesProperties = null;
-        fLastModified = -1L;
+    static final class ConfigurationError
+    extends Error {
+        static final long serialVersionUID = 8521878292694272124L;
+        private Exception exception;
+
+        ConfigurationError(String string, Exception exception) {
+            super(string);
+            this.exception = exception;
+        }
+
+        Exception getException() {
+            return this.exception;
+        }
     }
 }
 

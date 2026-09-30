@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.androidauto2.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto2.PlaybackInfo;
 
 public class PlaybackInfoSerializer {
-    public static void putOptionalPlaybackInfo(ISerializer iSerializer, PlaybackInfo playbackInfo) {
+    public static void putOptionalPlaybackInfo(ISerializer iSerializer, PlaybackInfo playbackInfo) throws SerializerException {
         boolean bl = playbackInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PlaybackInfoSerializer {
         }
     }
 
-    public static void putOptionalPlaybackInfoVarArray(ISerializer iSerializer, PlaybackInfo[] playbackInfoArray) {
+    public static void putOptionalPlaybackInfoVarArray(ISerializer iSerializer, PlaybackInfo[] playbackInfoArray) throws SerializerException {
         boolean bl = playbackInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PlaybackInfoSerializer {
         }
     }
 
-    public static PlaybackInfo getOptionalPlaybackInfo(IDeserializer iDeserializer) {
+    public static PlaybackInfo getOptionalPlaybackInfo(IDeserializer iDeserializer) throws SerializerException {
         PlaybackInfo playbackInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PlaybackInfoSerializer {
         return playbackInfo;
     }
 
-    public static PlaybackInfo[] getOptionalPlaybackInfoVarArray(IDeserializer iDeserializer) {
+    public static PlaybackInfo[] getOptionalPlaybackInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PlaybackInfo[] playbackInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

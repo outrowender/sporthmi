@@ -14,16 +14,16 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 public class StringUtils {
-    public static final String DEFAULT_ENCODING;
-    public static final char DEFAULT_SEPARATOR;
-    private static final char[] nybbleChar;
-    public static final int CROP_RIGHT;
-    public static final int CROP_RIGHT_ELLIPSIS;
-    public static final int CROP_LEFT;
-    public static final int CROP_LEFT_ELLIPSIS;
-    public static final int CROP_NONE;
-    private static char[] special_chars;
-    private static char[] special_quote;
+    public static final String DEFAULT_ENCODING = "UTF-8";
+    public static final char DEFAULT_SEPARATOR = '|';
+    private static final char[] nybbleChar = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    public static final int CROP_RIGHT = 0;
+    public static final int CROP_RIGHT_ELLIPSIS = 1;
+    public static final int CROP_LEFT = 2;
+    public static final int CROP_LEFT_ELLIPSIS = 3;
+    public static final int CROP_NONE = 4;
+    private static char[] special_chars = new char[]{'\\', '\"', '/', '\b', '\f', '\n', '\r', '\t'};
+    private static char[] special_quote = new char[]{'\\', '\"', '/', 'b', 'f', 'n', 'r', 't'};
 
     public static String toString(Object[] objectArray, char c2) {
         String string;
@@ -218,9 +218,9 @@ public class StringUtils {
     public static String toString(Throwable throwable) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            PrintStream printStream = new PrintStream(byteArrayOutputStream, true, "UTF-8");
+            PrintStream printStream = new PrintStream(byteArrayOutputStream, true, DEFAULT_ENCODING);
             throwable.printStackTrace(printStream);
-            return byteArrayOutputStream.toString("UTF-8").replace('\r', ' ');
+            return byteArrayOutputStream.toString(DEFAULT_ENCODING).replace('\r', ' ');
         }
         catch (UnsupportedEncodingException unsupportedEncodingException) {
             return "";
@@ -266,7 +266,7 @@ public class StringUtils {
             switch (n2) {
                 case 1: {
                     if (n > 5) {
-                        return new StringBuffer().append(string.substring(0, n - 3)).append("...").toString();
+                        return string.substring(0, n - 3) + "...";
                     }
                 }
                 case 0: {
@@ -274,7 +274,7 @@ public class StringUtils {
                 }
                 case 3: {
                     if (n > 5) {
-                        return new StringBuffer().append("...").append(string.substring(string.length() - (n - 3), string.length())).toString();
+                        return "..." + string.substring(string.length() - (n - 3), string.length());
                     }
                 }
                 case 2: {
@@ -293,7 +293,7 @@ public class StringUtils {
 
     public static String getArgString(int n, Object[] objectArray) {
         if (n < 0 || objectArray == null || n >= objectArray.length) {
-            return new StringBuffer().append("%").append(n + 1).toString();
+            return "%" + (n + 1);
         }
         Object object = objectArray[n];
         if (object == null) {
@@ -401,11 +401,11 @@ public class StringUtils {
             int n;
             int n2 = string.length();
             if (n2 < (n = string2.length())) {
-                string = new StringBuffer().append(string).append(string2).toString();
+                string = string + string2;
             } else {
                 int n3 = string.lastIndexOf(string2);
                 if (n3 != n2 - n) {
-                    string = new StringBuffer().append(string).append(string2).toString();
+                    string = string + string2;
                 }
             }
         }
@@ -531,12 +531,6 @@ public class StringUtils {
             buffer.append(c2);
         }
         return buffer.toString();
-    }
-
-    static {
-        nybbleChar = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-        special_chars = new char[]{'\\', '\"', '/', '\b', '\f', '\n', '\r', '\t'};
-        special_quote = new char[]{'\\', '\"', '/', 'b', 'f', 'n', 'r', 't'};
     }
 }
 

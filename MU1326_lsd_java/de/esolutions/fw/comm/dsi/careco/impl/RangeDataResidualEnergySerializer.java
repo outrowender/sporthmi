@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.RangeDataResidualEnergy;
 
 public class RangeDataResidualEnergySerializer {
-    public static void putOptionalRangeDataResidualEnergy(ISerializer iSerializer, RangeDataResidualEnergy rangeDataResidualEnergy) {
+    public static void putOptionalRangeDataResidualEnergy(ISerializer iSerializer, RangeDataResidualEnergy rangeDataResidualEnergy) throws SerializerException {
         boolean bl = rangeDataResidualEnergy == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RangeDataResidualEnergySerializer {
         }
     }
 
-    public static void putOptionalRangeDataResidualEnergyVarArray(ISerializer iSerializer, RangeDataResidualEnergy[] rangeDataResidualEnergyArray) {
+    public static void putOptionalRangeDataResidualEnergyVarArray(ISerializer iSerializer, RangeDataResidualEnergy[] rangeDataResidualEnergyArray) throws SerializerException {
         boolean bl = rangeDataResidualEnergyArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RangeDataResidualEnergySerializer {
         }
     }
 
-    public static RangeDataResidualEnergy getOptionalRangeDataResidualEnergy(IDeserializer iDeserializer) {
+    public static RangeDataResidualEnergy getOptionalRangeDataResidualEnergy(IDeserializer iDeserializer) throws SerializerException {
         RangeDataResidualEnergy rangeDataResidualEnergy = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RangeDataResidualEnergySerializer {
         return rangeDataResidualEnergy;
     }
 
-    public static RangeDataResidualEnergy[] getOptionalRangeDataResidualEnergyVarArray(IDeserializer iDeserializer) {
+    public static RangeDataResidualEnergy[] getOptionalRangeDataResidualEnergyVarArray(IDeserializer iDeserializer) throws SerializerException {
         RangeDataResidualEnergy[] rangeDataResidualEnergyArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

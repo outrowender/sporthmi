@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.sdars;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.sdars.CategoryInfo;
 import org.dsi.ifc.sdars.EPGDescription;
@@ -16,99 +17,69 @@ import org.dsi.ifc.sdars.StationInfo;
 import org.dsi.ifc.sdars.SubscriptionStatus;
 
 public interface DSISDARSTunerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "9513adb3-74d0-5976-8f10-298e5e449901";
+    public static final String IPL_COMM_INTERFACE_KEY = "54f1a5de-eaca-5072-8ab7-8bc249d76713";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.20";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.20";
 
-    default public void updateElectronicSerialCode(String string, int n) {
-    }
+    public void updateElectronicSerialCode(String var1, int var2) throws MethodException;
 
-    default public void updateServiceStatus3(ServiceStatus3 serviceStatus3, int n) {
-    }
+    public void updateServiceStatus3(ServiceStatus3 var1, int var2) throws MethodException;
 
-    default public void updateSignalQuality(SignalQuality signalQuality, int n) {
-    }
+    public void updateSignalQuality(SignalQuality var1, int var2) throws MethodException;
 
-    default public void updateSelectedStation(StationInfo stationInfo, int n) {
-    }
+    public void updateSelectedStation(StationInfo var1, int var2) throws MethodException;
 
-    default public void updateStationList(StationInfo[] stationInfoArray, int n) {
-    }
+    public void updateStationList(StationInfo[] var1, int var2) throws MethodException;
 
-    default public void updateCategoryList(CategoryInfo[] categoryInfoArray, int n) {
-    }
+    public void updateCategoryList(CategoryInfo[] var1, int var2) throws MethodException;
 
-    default public void informationRadioText(RadioText radioText) {
-    }
+    public void informationRadioText(RadioText var1) throws MethodException;
 
-    default public void informationRadioText2(RadioText[] radioTextArray) {
-    }
+    public void informationRadioText2(RadioText[] var1) throws MethodException;
 
-    default public void updateStaticTaggingInfo(String string, String string2, int n) {
-    }
+    public void updateStaticTaggingInfo(String var1, String var2, int var3) throws MethodException;
 
-    default public void updateDetectedDevice(int n, int n2) {
-    }
+    public void updateDetectedDevice(int var1, int var2) throws MethodException;
 
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1) throws MethodException;
 
-    default public void responseTime(DateTime dateTime) {
-    }
+    public void responseTime(DateTime var1) throws MethodException;
 
-    default public void responseEPG24Hour(EPGShortInfo ePGShortInfo) {
-    }
+    public void responseEPG24Hour(EPGShortInfo var1) throws MethodException;
 
-    default public void responseEPGDescription(EPGDescription ePGDescription) {
-    }
+    public void responseEPGDescription(EPGDescription var1) throws MethodException;
 
-    default public void updateAvailability(int n, int n2) {
-    }
+    public void updateAvailability(int var1, int var2) throws MethodException;
 
-    default public void updateStationDescription(StationDescription[] stationDescriptionArray, int n) {
-    }
+    public void updateStationDescription(StationDescription[] var1, int var2) throws MethodException;
 
-    default public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus, int n) {
-    }
+    public void updateSubscriptionStatus(SubscriptionStatus var1, int var2) throws MethodException;
 
-    default public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) {
-    }
+    public void informationEPGChannelList(EPGShortInfo[] var1) throws MethodException;
 
-    default public void informationChannelArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationChannelArt(ImageInformation[] var1) throws MethodException;
 
-    default public void informationBackgroundArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationBackgroundArt(ImageInformation[] var1) throws MethodException;
 
-    default public void informationAlbumArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationAlbumArt(ImageInformation[] var1) throws MethodException;
 
-    default public void informationGenreArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationGenreArt(ImageInformation[] var1) throws MethodException;
 
-    default public void informationStudioArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationStudioArt(ImageInformation[] var1) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

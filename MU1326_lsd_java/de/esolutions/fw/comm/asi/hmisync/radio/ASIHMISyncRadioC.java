@@ -3,35 +3,27 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.radio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncRadioC {
-    default public void selectStation(long l) {
-    }
+    public void selectStation(long var1) throws MethodException;
 
-    default public void selectBand(int n) {
-    }
+    public void selectBand(int var1) throws MethodException;
 
-    default public void seekStation(int n) {
-    }
+    public void seekStation(int var1) throws MethodException;
 
-    default public void enableStationDetails(boolean bl) {
-    }
+    public void enableStationDetails(boolean var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

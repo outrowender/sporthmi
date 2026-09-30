@@ -7,6 +7,6 @@ import de.esolutions.fw.comm.core.method.MethodException;
 
 public class InvalidAttributeException
 extends MethodException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 }
 

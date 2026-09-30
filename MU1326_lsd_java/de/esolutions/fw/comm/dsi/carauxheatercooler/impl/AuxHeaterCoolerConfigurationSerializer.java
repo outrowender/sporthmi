@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carauxheatercooler.impl;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.AuxHeaterCoolerExtendedConditioningSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerConfiguration;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerExtendedConditioning;
 
 public class AuxHeaterCoolerConfigurationSerializer {
-    public static void putOptionalAuxHeaterCoolerConfiguration(ISerializer iSerializer, AuxHeaterCoolerConfiguration auxHeaterCoolerConfiguration) {
+    public static void putOptionalAuxHeaterCoolerConfiguration(ISerializer iSerializer, AuxHeaterCoolerConfiguration auxHeaterCoolerConfiguration) throws SerializerException {
         boolean bl = auxHeaterCoolerConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AuxHeaterCoolerConfigurationSerializer {
         }
     }
 
-    public static void putOptionalAuxHeaterCoolerConfigurationVarArray(ISerializer iSerializer, AuxHeaterCoolerConfiguration[] auxHeaterCoolerConfigurationArray) {
+    public static void putOptionalAuxHeaterCoolerConfigurationVarArray(ISerializer iSerializer, AuxHeaterCoolerConfiguration[] auxHeaterCoolerConfigurationArray) throws SerializerException {
         boolean bl = auxHeaterCoolerConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AuxHeaterCoolerConfigurationSerializer {
         }
     }
 
-    public static AuxHeaterCoolerConfiguration getOptionalAuxHeaterCoolerConfiguration(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerConfiguration getOptionalAuxHeaterCoolerConfiguration(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerConfiguration auxHeaterCoolerConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class AuxHeaterCoolerConfigurationSerializer {
         return auxHeaterCoolerConfiguration;
     }
 
-    public static AuxHeaterCoolerConfiguration[] getOptionalAuxHeaterCoolerConfigurationVarArray(IDeserializer iDeserializer) {
+    public static AuxHeaterCoolerConfiguration[] getOptionalAuxHeaterCoolerConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AuxHeaterCoolerConfiguration[] auxHeaterCoolerConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

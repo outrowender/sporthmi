@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.LDWHCAViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class LDWHCAViewOptionsSerializer {
-    public static void putOptionalLDWHCAViewOptions(ISerializer iSerializer, LDWHCAViewOptions lDWHCAViewOptions) {
+    public static void putOptionalLDWHCAViewOptions(ISerializer iSerializer, LDWHCAViewOptions lDWHCAViewOptions) throws SerializerException {
         boolean bl = lDWHCAViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class LDWHCAViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalLDWHCAViewOptionsVarArray(ISerializer iSerializer, LDWHCAViewOptions[] lDWHCAViewOptionsArray) {
+    public static void putOptionalLDWHCAViewOptionsVarArray(ISerializer iSerializer, LDWHCAViewOptions[] lDWHCAViewOptionsArray) throws SerializerException {
         boolean bl = lDWHCAViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class LDWHCAViewOptionsSerializer {
         }
     }
 
-    public static LDWHCAViewOptions getOptionalLDWHCAViewOptions(IDeserializer iDeserializer) {
+    public static LDWHCAViewOptions getOptionalLDWHCAViewOptions(IDeserializer iDeserializer) throws SerializerException {
         LDWHCAViewOptions lDWHCAViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class LDWHCAViewOptionsSerializer {
         return lDWHCAViewOptions;
     }
 
-    public static LDWHCAViewOptions[] getOptionalLDWHCAViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static LDWHCAViewOptions[] getOptionalLDWHCAViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         LDWHCAViewOptions[] lDWHCAViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

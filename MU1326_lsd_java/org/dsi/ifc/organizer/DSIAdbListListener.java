@@ -10,34 +10,24 @@ import org.dsi.ifc.organizer.IndexInformation;
 
 public interface DSIAdbListListener
 extends DSIListener {
-    default public void updateViewSize(AdbViewSize adbViewSize, int n) {
-    }
+    public void updateViewSize(AdbViewSize var1, int var2);
 
-    default public void invalidData(int n) {
-    }
+    public void invalidData(int var1);
 
-    default public void stopSpellerResult(int n, int n2) {
-    }
+    public void stopSpellerResult(int var1, int var2);
 
-    default public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
-    }
+    public void spellerResult(int var1, int var2, DataSet[] var3, int var4, String var5, String var6);
 
-    default public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
-    }
+    public void validateSpellerCharsResult(int var1, int var2, String var3, String var4);
 
-    default public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
-    }
+    public void getViewWindowResult(int var1, DataSet[] var2, int var3);
 
-    default public void getSpellerViewWindowResult(int n, int n2, DataSet[] dataSetArray, int n3) {
-    }
+    public void getSpellerViewWindowResult(int var1, int var2, DataSet[] var3, int var4);
 
-    default public void getValidHanziCharsWindowResult(int n, int n2, int n3, String string, int n4) {
-    }
+    public void getValidHanziCharsWindowResult(int var1, int var2, int var3, String var4, int var5);
 
-    default public void setListStyleResult(int n) {
-    }
+    public void setListStyleResult(int var1);
 
-    default public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray, int n) {
-    }
+    public void updateAlphabeticalIndex(IndexInformation[] var1, int var2);
 }
 

@@ -3,26 +3,21 @@
  */
 package de.esolutions.fw.comm.asi.fec;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface FecManagerC {
-    default public void checkDataSignature(String string, short[] sArray, short[] sArray2) {
-    }
+    public void checkDataSignature(String var1, short[] var2, short[] var3) throws MethodException;
 
-    default public void fecDetails(long l, long l2) {
-    }
+    public void fecDetails(long var1, long var3) throws MethodException;
 
-    default public void importFecs(int n) {
-    }
+    public void importFecs(int var1) throws MethodException;
 
-    default public void exportCCD(int n) {
-    }
+    public void exportCCD(int var1) throws MethodException;
 
-    default public void getHistory() {
-    }
+    public void getHistory() throws MethodException;
 
-    default public void encryptFile(String string, String string2, byte[] byArray) {
-    }
+    public void encryptFile(String var1, String var2, byte[] var3) throws MethodException;
 
-    default public void decryptFile(String string, String string2, byte[] byArray) {
-    }
+    public void decryptFile(String var1, String var2, byte[] var3) throws MethodException;
 }
 

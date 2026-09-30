@@ -5,18 +5,21 @@ package de.esolutions.fw.comm.asi.connectivity.bluetooth.impl;
 
 import de.esolutions.fw.comm.asi.connectivity.bluetooth.BluetoothDevice;
 import de.esolutions.fw.comm.asi.connectivity.bluetooth.BluetoothInformationServiceReply;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothInformationServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothInformationServiceReplyProxy$2;
+import de.esolutions.fw.comm.asi.connectivity.bluetooth.impl.BluetoothDeviceSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BluetoothInformationServiceReplyProxy
 implements BluetoothInformationServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.connectivity.bluetooth.BluetoothInformationService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public BluetoothInformationServiceReplyProxy() {
@@ -24,21 +27,28 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateBluetoothState(int n) {
-        BluetoothInformationServiceReplyProxy$1 bluetoothInformationServiceReplyProxy$1 = new BluetoothInformationServiceReplyProxy$1(this, n);
-        this.proxy.remoteCallMethod((short)2, bluetoothInformationServiceReplyProxy$1);
+    public void updateBluetoothState(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void updateBluetoothDevices(BluetoothDevice[] bluetoothDeviceArray) {
-        BluetoothInformationServiceReplyProxy$2 bluetoothInformationServiceReplyProxy$2 = new BluetoothInformationServiceReplyProxy$2(this, bluetoothDeviceArray);
-        this.proxy.remoteCallMethod((short)1, bluetoothInformationServiceReplyProxy$2);
+    public void updateBluetoothDevices(final BluetoothDevice[] bluetoothDeviceArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                BluetoothDeviceSerializer.putOptionalBluetoothDeviceVarArray(iSerializer, bluetoothDeviceArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 }
 

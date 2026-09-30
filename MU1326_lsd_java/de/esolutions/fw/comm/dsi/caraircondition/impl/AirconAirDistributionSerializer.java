@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconAirDistribution;
 
 public class AirconAirDistributionSerializer {
-    public static void putOptionalAirconAirDistribution(ISerializer iSerializer, AirconAirDistribution airconAirDistribution) {
+    public static void putOptionalAirconAirDistribution(ISerializer iSerializer, AirconAirDistribution airconAirDistribution) throws SerializerException {
         boolean bl = airconAirDistribution == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class AirconAirDistributionSerializer {
         }
     }
 
-    public static void putOptionalAirconAirDistributionVarArray(ISerializer iSerializer, AirconAirDistribution[] airconAirDistributionArray) {
+    public static void putOptionalAirconAirDistributionVarArray(ISerializer iSerializer, AirconAirDistribution[] airconAirDistributionArray) throws SerializerException {
         boolean bl = airconAirDistributionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class AirconAirDistributionSerializer {
         }
     }
 
-    public static AirconAirDistribution getOptionalAirconAirDistribution(IDeserializer iDeserializer) {
+    public static AirconAirDistribution getOptionalAirconAirDistribution(IDeserializer iDeserializer) throws SerializerException {
         AirconAirDistribution airconAirDistribution = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class AirconAirDistributionSerializer {
         return airconAirDistribution;
     }
 
-    public static AirconAirDistribution[] getOptionalAirconAirDistributionVarArray(IDeserializer iDeserializer) {
+    public static AirconAirDistribution[] getOptionalAirconAirDistributionVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconAirDistribution[] airconAirDistributionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

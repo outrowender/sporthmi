@@ -10,11 +10,13 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingTelephone;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingTelephoneC;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingTelephoneReply;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingTelephoneProxy$1;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingTelephoneProxy$2;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingTelephoneProxy$3;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingTelephoneProxy$4;
 import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingTelephoneReplyService;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataCombinedNumbersSerializer;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataFavoriteListSerializer;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataInitialsSerializer;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataPhonebookSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataCombinedNumbers;
@@ -38,8 +40,7 @@ DSIFastListScrollingTelephoneC {
         return this.proxy;
     }
 
-    @Override
-    public void pushFunctionAvailabilityTelephone(int n) {
+    public void pushFunctionAvailabilityTelephone(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -50,8 +51,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void pushMOSTOperationStateTelephone(short s) {
+    public void pushMOSTOperationStateTelephone(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -62,8 +62,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void responsePhonebook(int n, int n2, int n3, int n4, int n5, long l, int n6, int n7, int n8, int n9, int n10, int n11, int n12) {
+    public void responsePhonebook(int n, int n2, int n3, int n4, int n5, long l, int n6, int n7, int n8, int n9, int n10, int n11, int n12) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -86,32 +85,57 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void responsePhonebookArray(int n, int n2, DataPhonebook[] dataPhonebookArray) {
-        DSIFastListScrollingTelephoneProxy$1 dSIFastListScrollingTelephoneProxy$1 = new DSIFastListScrollingTelephoneProxy$1(this, n, n2, dataPhonebookArray);
-        this.proxy.remoteCallMethod((short)20, dSIFastListScrollingTelephoneProxy$1);
+    public void responsePhonebookArray(final int n, final int n2, final DataPhonebook[] dataPhonebookArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                DataPhonebookSerializer.putOptionalDataPhonebookVarArray(iSerializer, dataPhonebookArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void responseGetInitialsTelephone(int n, int n2, int n3, int n4, DataInitials[] dataInitialsArray) {
-        DSIFastListScrollingTelephoneProxy$2 dSIFastListScrollingTelephoneProxy$2 = new DSIFastListScrollingTelephoneProxy$2(this, n, n2, n3, n4, dataInitialsArray);
-        this.proxy.remoteCallMethod((short)15, dSIFastListScrollingTelephoneProxy$2);
+    public void responseGetInitialsTelephone(final int n, final int n2, final int n3, final int n4, final DataInitials[] dataInitialsArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+                iSerializer.putInt32(n4);
+                DataInitialsSerializer.putOptionalDataInitialsVarArray(iSerializer, dataInitialsArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void pushupdateFavoriteList(int n, int n2, DataFavoriteList[] dataFavoriteListArray) {
-        DSIFastListScrollingTelephoneProxy$3 dSIFastListScrollingTelephoneProxy$3 = new DSIFastListScrollingTelephoneProxy$3(this, n, n2, dataFavoriteListArray);
-        this.proxy.remoteCallMethod((short)14, dSIFastListScrollingTelephoneProxy$3);
+    public void pushupdateFavoriteList(final int n, final int n2, final DataFavoriteList[] dataFavoriteListArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                DataFavoriteListSerializer.putOptionalDataFavoriteListVarArray(iSerializer, dataFavoriteListArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void pushCombinedNumbers(int n, int n2, DataCombinedNumbers[] dataCombinedNumbersArray) {
-        DSIFastListScrollingTelephoneProxy$4 dSIFastListScrollingTelephoneProxy$4 = new DSIFastListScrollingTelephoneProxy$4(this, n, n2, dataCombinedNumbersArray);
-        this.proxy.remoteCallMethod((short)10, dSIFastListScrollingTelephoneProxy$4);
+    public void pushCombinedNumbers(final int n, final int n2, final DataCombinedNumbers[] dataCombinedNumbersArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                DataCombinedNumbersSerializer.putOptionalDataCombinedNumbersVarArray(iSerializer, dataCombinedNumbersArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void pushCurrentListSizeTelephone(int n, int n2, int n3) {
+    public void pushCurrentListSizeTelephone(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -124,8 +148,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void responsePhonebookJobs(int n, int n2, int n3) {
+    public void responsePhonebookJobs(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -138,8 +161,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void responseNotifyCombinedNumbersPush(boolean bl) {
+    public void responseNotifyCombinedNumbersPush(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -150,8 +172,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void responseNotifyCurrentListSizes(boolean bl) {
+    public void responseNotifyCurrentListSizes(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -162,8 +183,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void responseNotifyFavoriteListPush(boolean bl) {
+    public void responseNotifyFavoriteListPush(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -174,8 +194,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -186,8 +205,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -198,13 +216,11 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)22, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -215,8 +231,7 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -227,13 +242,11 @@ DSIFastListScrollingTelephoneC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

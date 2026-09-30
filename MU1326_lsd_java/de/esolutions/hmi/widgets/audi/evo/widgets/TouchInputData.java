@@ -23,8 +23,8 @@ import java.util.List;
 public class TouchInputData
 implements ITouchInputData,
 FastDeleteHelper {
-    protected static final char PASSWORD_REPLACE_CHARACTER;
-    protected static final int INITAL_CAPACITY;
+    protected static final char PASSWORD_REPLACE_CHARACTER = '*';
+    protected static final int INITAL_CAPACITY = 32;
     protected IntList caseInformation;
     protected Buffer currentDisplayTextBuffer;
     protected String oldDisplayText;
@@ -34,9 +34,9 @@ FastDeleteHelper {
     private int kbdType = 5;
     private BckSpaceGestureHandler fastDeleteHandler;
     private long lastDeleteTime = -1L;
-    protected static final int DELETE_INTO_WORD_STATE_START;
-    protected static final int DELETE_INTO_WORD_STATE_CHAR_DELETED;
-    protected static final int DELETE_INTO_WORD_STATE_SPACE_DELETED;
+    protected static final int DELETE_INTO_WORD_STATE_START = 1;
+    protected static final int DELETE_INTO_WORD_STATE_CHAR_DELETED = 2;
+    protected static final int DELETE_INTO_WORD_STATE_SPACE_DELETED = 3;
     protected int deleteIntoWordState = 1;
     protected boolean showHint;
     protected boolean isPasswordMode = false;
@@ -45,7 +45,7 @@ FastDeleteHelper {
     protected boolean hasCaseBalancing = false;
     protected boolean isUpperCaseOnlyMode = false;
     private List registeredDUListeners = new LinkedList();
-    private int maximumTextLength = -129;
+    private int maximumTextLength = Integer.MAX_VALUE;
     private int minimumTextLength = 0;
     protected ICaseBalancingStrategy caseBalancingStrategy;
 
@@ -64,7 +64,6 @@ FastDeleteHelper {
         this.fastDeleteHandler = new BckSpaceGestureHandler(BckSpaceGestureHandlerConfig.getTouchPadType(this.kbdType), this);
     }
 
-    @Override
     public void setPasswordMode(boolean bl) {
         this.isPasswordMode = bl;
         if (bl) {
@@ -73,7 +72,6 @@ FastDeleteHelper {
         }
     }
 
-    @Override
     public void clear(boolean bl) {
         boolean bl2 = this.isEmpty();
         this.startPosCurrentWord = 0;
@@ -106,7 +104,6 @@ FastDeleteHelper {
         return n != this.startPosCurrentWord;
     }
 
-    @Override
     public String buildModelString() {
         int n = this.enteredCharsWithAlternatives.size();
         Buffer buffer = new Buffer(n * 3);
@@ -137,32 +134,26 @@ FastDeleteHelper {
         return string2;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.enteredCharsWithAlternatives.isEmpty();
     }
 
-    @Override
     public boolean isStartOfText() {
         return this.cursorPos == 0;
     }
 
-    @Override
     public boolean isStartOfWord() {
         return this.cursorPos - this.startPosCurrentWord == 0;
     }
 
-    @Override
     public String getCurrentWord() {
         return this.currentDisplayTextBuffer.substring(this.startPosCurrentWord);
     }
 
-    @Override
     public String getCurrentText() {
         return this.currentDisplayTextBuffer.toString();
     }
 
-    @Override
     public String getCurrentDisplayString() {
         if (this.isPasswordMode) {
             return this.hiddenCharsBuffer.toString();
@@ -202,30 +193,26 @@ FastDeleteHelper {
         this.currentDisplayTextBuffer.append(string);
     }
 
-    @Override
     public void moveCursor(int n) {
         this.cursorPos += n;
         this.cursorPos = Math.min(this.getTextLength(), this.cursorPos);
         this.cursorPos = Math.max(0, this.cursorPos);
     }
 
-    @Override
     public int getCursorPos() {
         return this.cursorPos;
     }
 
-    @Override
     public int getTextLength() {
         return this.enteredCharsWithAlternatives.size();
     }
 
-    @Override
     public char insertString(String string, String[] stringArray, boolean bl) {
         if (string == null) {
             return this.insertString("", stringArray, bl);
         }
         if (this.isPasswordMode) {
-            IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchController#stringEntered: hide already entered characters (if it's a Password field)");
+            IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchController#stringEntered: hide already entered characters (if it's a Password field)");
             this.hideCharacters();
         }
         this.deleteIntoWordState = 1;
@@ -263,7 +250,6 @@ FastDeleteHelper {
         return '\u0000';
     }
 
-    @Override
     public void hideCharacters() {
         if (this.hiddenCharsBuffer == null) {
             return;
@@ -275,7 +261,6 @@ FastDeleteHelper {
         this.unHiddenLength = 0;
     }
 
-    @Override
     public boolean delete(boolean bl) {
         long l = AbstractWidget.framework.getMonotonicTime();
         int n = 0;
@@ -284,7 +269,7 @@ FastDeleteHelper {
                 n = (int)(l - this.lastDeleteTime);
             }
         } else {
-            n = -129;
+            n = Integer.MAX_VALUE;
         }
         this.lastDeleteTime = l;
         this.fastDeleteHandler.backspaceGesture(n);
@@ -296,7 +281,6 @@ FastDeleteHelper {
         return false;
     }
 
-    @Override
     public void insertAutoCompletion(String string) {
         int n;
         int n2 = this.getTextLength();
@@ -339,12 +323,10 @@ FastDeleteHelper {
         return 2;
     }
 
-    @Override
     public int getKeyboardType() {
         return this.kbdType;
     }
 
-    @Override
     public void setKbdType(int n) {
         if (this.kbdType != n) {
             this.kbdType = n;
@@ -352,17 +334,14 @@ FastDeleteHelper {
         }
     }
 
-    @Override
     public int getWordLength() {
         return this.getTextLength();
     }
 
-    @Override
     public boolean isEditMode() {
         return true;
     }
 
-    @Override
     public boolean deleteOneChar() {
         this.cursorPos = Math.max(this.cursorPos - 1, 0);
         String string = (String)this.enteredCharsWithAlternatives.remove(this.cursorPos);
@@ -395,25 +374,20 @@ FastDeleteHelper {
         return this.refreshStartOfWord();
     }
 
-    @Override
     public void deleteWordIncludingPrecedingWhitespaces() {
     }
 
-    @Override
     public boolean lock() {
         return true;
     }
 
-    @Override
     public void unlock() {
     }
 
-    @Override
     public void setCaseBalanced(boolean bl) {
         this.hasCaseBalancing = bl;
     }
 
-    @Override
     public String doCaseBalancingForSuggestion(String string) {
         int n;
         boolean bl;
@@ -461,12 +435,10 @@ FastDeleteHelper {
         return buffer.toString();
     }
 
-    @Override
     public final void registerDataChangeListener(ITouchInputDataChangeHandler iTouchInputDataChangeHandler) {
         this.registeredDUListeners.add(iTouchInputDataChangeHandler);
     }
 
-    @Override
     public void unregisterDataChangeListener(ITouchInputDataChangeHandler iTouchInputDataChangeHandler) {
         Iterator iterator = this.registeredDUListeners.iterator();
         while (iterator.hasNext()) {
@@ -494,27 +466,22 @@ FastDeleteHelper {
         this.oldDisplayText = string;
     }
 
-    @Override
     public void setUpperCaseOnly(boolean bl) {
         this.isUpperCaseOnlyMode = bl;
     }
 
-    @Override
     public void setMaximumTextLength(int n) {
         this.maximumTextLength = n;
     }
 
-    @Override
     public int getMaximumTextLength() {
         return this.maximumTextLength;
     }
 
-    @Override
     public void setMinimumTextLength(int n) {
         this.minimumTextLength = n;
     }
 
-    @Override
     public int getMinimumTextLength() {
         return this.minimumTextLength;
     }

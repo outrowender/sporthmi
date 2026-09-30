@@ -20,7 +20,6 @@ implements IConfigPathResolver {
         this.resolver = iConfigValueResolver;
     }
 
-    @Override
     public ConfigValue resolvePath(String[] stringArray, ConfigValue configValue) {
         if (stringArray == null) {
             return configValue;

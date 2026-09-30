@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 import de.esolutions.fw.comm.dsi.tmc.impl.TmcPhonemeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.TmcMessage;
 import org.dsi.ifc.tmc.TmcPhoneme;
 
 public class TmcMessageSerializer {
-    public static void putOptionalTmcMessage(ISerializer iSerializer, TmcMessage tmcMessage) {
+    public static void putOptionalTmcMessage(ISerializer iSerializer, TmcMessage tmcMessage) throws SerializerException {
         boolean bl = tmcMessage == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -125,7 +126,7 @@ public class TmcMessageSerializer {
         }
     }
 
-    public static void putOptionalTmcMessageVarArray(ISerializer iSerializer, TmcMessage[] tmcMessageArray) {
+    public static void putOptionalTmcMessageVarArray(ISerializer iSerializer, TmcMessage[] tmcMessageArray) throws SerializerException {
         boolean bl = tmcMessageArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -136,7 +137,7 @@ public class TmcMessageSerializer {
         }
     }
 
-    public static TmcMessage getOptionalTmcMessage(IDeserializer iDeserializer) {
+    public static TmcMessage getOptionalTmcMessage(IDeserializer iDeserializer) throws SerializerException {
         TmcMessage tmcMessage = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -253,7 +254,7 @@ public class TmcMessageSerializer {
         return tmcMessage;
     }
 
-    public static TmcMessage[] getOptionalTmcMessageVarArray(IDeserializer iDeserializer) {
+    public static TmcMessage[] getOptionalTmcMessageVarArray(IDeserializer iDeserializer) throws SerializerException {
         TmcMessage[] tmcMessageArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

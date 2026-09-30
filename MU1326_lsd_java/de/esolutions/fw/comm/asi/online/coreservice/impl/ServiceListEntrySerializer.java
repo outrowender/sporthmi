@@ -7,10 +7,11 @@ import de.esolutions.fw.comm.asi.online.coreservice.ServiceListEntry;
 import de.esolutions.fw.comm.dsi.online.impl.OSRLicenseSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRLicense;
 
 public class ServiceListEntrySerializer {
-    public static void putOptionalServiceListEntry(ISerializer iSerializer, ServiceListEntry serviceListEntry) {
+    public static void putOptionalServiceListEntry(ISerializer iSerializer, ServiceListEntry serviceListEntry) throws SerializerException {
         boolean bl = serviceListEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class ServiceListEntrySerializer {
         }
     }
 
-    public static void putOptionalServiceListEntryVarArray(ISerializer iSerializer, ServiceListEntry[] serviceListEntryArray) {
+    public static void putOptionalServiceListEntryVarArray(ISerializer iSerializer, ServiceListEntry[] serviceListEntryArray) throws SerializerException {
         boolean bl = serviceListEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class ServiceListEntrySerializer {
         }
     }
 
-    public static ServiceListEntry getOptionalServiceListEntry(IDeserializer iDeserializer) {
+    public static ServiceListEntry getOptionalServiceListEntry(IDeserializer iDeserializer) throws SerializerException {
         ServiceListEntry serviceListEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class ServiceListEntrySerializer {
         return serviceListEntry;
     }
 
-    public static ServiceListEntry[] getOptionalServiceListEntryVarArray(IDeserializer iDeserializer) {
+    public static ServiceListEntry[] getOptionalServiceListEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceListEntry[] serviceListEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

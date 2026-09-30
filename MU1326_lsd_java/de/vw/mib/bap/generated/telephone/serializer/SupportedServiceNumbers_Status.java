@@ -4,19 +4,18 @@
 package de.vw.mib.bap.generated.telephone.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
-import de.vw.mib.bap.generated.telephone.serializer.SupportedServiceNumbers_Status$ServiceNumbers;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class SupportedServiceNumbers_Status
 implements StatusProperty {
-    public final SupportedServiceNumbers_Status$ServiceNumbers serviceNumbers = new SupportedServiceNumbers_Status$ServiceNumbers();
-    public static final int EXTENSION_1_MIN;
+    public final ServiceNumbers serviceNumbers = new ServiceNumbers();
+    public static final int EXTENSION_1_MIN = 0;
     public int extension_1;
-    private static final int EXTENSION_1_BITSIZE;
-    public static final int EXTENSION_2_MIN;
+    private static final int EXTENSION_1_BITSIZE = 8;
+    public static final int EXTENSION_2_MIN = 0;
     public int extension_2;
-    private static final int EXTENSION_2_BITSIZE;
+    private static final int EXTENSION_2_BITSIZE = 8;
 
     public SupportedServiceNumbers_Status() {
         this.internalReset();
@@ -33,13 +32,11 @@ implements StatusProperty {
         this.extension_2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.serviceNumbers.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SupportedServiceNumbers_Status supportedServiceNumbers_Status = (SupportedServiceNumbers_Status)bAPEntity;
         return this.serviceNumbers.equalTo(supportedServiceNumbers_Status.serviceNumbers) && this.extension_1 == supportedServiceNumbers_Status.extension_1 && this.extension_2 == supportedServiceNumbers_Status.extension_2;
@@ -48,7 +45,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SupportedServiceNumbers_Status:");
@@ -61,7 +57,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.serviceNumbers.bitSize();
@@ -69,14 +64,12 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.serviceNumbers.serialize(bitStream);
         bitStream.pushByte((byte)this.extension_1);
         bitStream.pushByte((byte)this.extension_2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.serviceNumbers.deserialize(bitStream);
         this.extension_1 = bitStream.popFrontByte();
@@ -87,9 +80,98 @@ implements StatusProperty {
         return 59;
     }
 
-    @Override
     public int getFunctionId() {
         return SupportedServiceNumbers_Status.functionId();
+    }
+
+    public static final class ServiceNumbers
+    implements BAPEntity {
+        private static final int RESERVED_BIT_4__7_BITSIZE = 4;
+        public boolean emergencyCallSupported;
+        public boolean serviceCallSupported;
+        public boolean infoCallSupported;
+        public boolean voiceMailboxSupported;
+        private static final int SERVICE_NUMBERS_BITSIZE = 8;
+
+        public ServiceNumbers() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public ServiceNumbers(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.emergencyCallSupported = false;
+            this.serviceCallSupported = false;
+            this.infoCallSupported = false;
+            this.voiceMailboxSupported = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            ServiceNumbers serviceNumbers = (ServiceNumbers)bAPEntity;
+            return this.emergencyCallSupported == serviceNumbers.emergencyCallSupported && this.serviceCallSupported == serviceNumbers.serviceCallSupported && this.infoCallSupported == serviceNumbers.infoCallSupported && this.voiceMailboxSupported == serviceNumbers.voiceMailboxSupported;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("ServiceNumbers:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.emergencyCallSupported) {
+                stringBuffer.append("true  (emergency call supported");
+            } else {
+                stringBuffer.append("false  (emergency call not supported");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.serviceCallSupported) {
+                stringBuffer.append("true  (service call supported");
+            } else {
+                stringBuffer.append("false  (service call not supported");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.infoCallSupported) {
+                stringBuffer.append("true  (info call supported");
+            } else {
+                stringBuffer.append("false  (info call not supported");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.voiceMailboxSupported) {
+                stringBuffer.append("true  (voice mailbox supported");
+            } else {
+                stringBuffer.append("false  (voice mailbox not supported");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(4);
+            bitStream.pushBoolean(this.emergencyCallSupported);
+            bitStream.pushBoolean(this.serviceCallSupported);
+            bitStream.pushBoolean(this.infoCallSupported);
+            bitStream.pushBoolean(this.voiceMailboxSupported);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(4);
+            this.emergencyCallSupported = bitStream.popFrontBoolean();
+            this.serviceCallSupported = bitStream.popFrontBoolean();
+            this.infoCallSupported = bitStream.popFrontBoolean();
+            this.voiceMailboxSupported = bitStream.popFrontBoolean();
+        }
     }
 }
 

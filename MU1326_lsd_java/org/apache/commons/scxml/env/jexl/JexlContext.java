@@ -11,7 +11,7 @@ import org.apache.commons.scxml.env.SimpleContext;
 public class JexlContext
 extends SimpleContext
 implements org.apache.commons.jexl.JexlContext {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public JexlContext() {
         this.getVars().put("_builtin", new Builtin());
@@ -27,18 +27,15 @@ implements org.apache.commons.jexl.JexlContext {
         this.getVars().put("_builtin", new Builtin());
     }
 
-    @Override
     public void setVars(Map map) {
         super.setVars(map);
         this.getVars().put("_builtin", new Builtin());
     }
 
-    @Override
     public Map getVars() {
         return super.getVars();
     }
 
-    @Override
     public void reset() {
         super.reset();
         this.getVars().put("_builtin", new Builtin());

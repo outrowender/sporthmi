@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.dom;
 
+import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,7 +21,7 @@ import org.apache.xerces.xs.XSTypeDefinition;
 public class PSVIElementNSImpl
 extends ElementNSImpl
 implements ElementPSVI {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 6815489624636016068L;
     protected XSElementDeclaration fDeclaration = null;
     protected XSTypeDefinition fTypeDecl = null;
     protected boolean fNil = false;
@@ -45,67 +46,54 @@ implements ElementPSVI {
         super(coreDocumentImpl, string, string2);
     }
 
-    @Override
     public String getSchemaDefault() {
         return this.fDeclaration == null ? null : this.fDeclaration.getConstraintValue();
     }
 
-    @Override
     public String getSchemaNormalizedValue() {
         return this.fNormalizedValue;
     }
 
-    @Override
     public boolean getIsSchemaSpecified() {
         return this.fSpecified;
     }
 
-    @Override
     public short getValidationAttempted() {
         return this.fValidationAttempted;
     }
 
-    @Override
     public short getValidity() {
         return this.fValidity;
     }
 
-    @Override
     public StringList getErrorCodes() {
         return this.fErrorCodes;
     }
 
-    @Override
     public String getValidationContext() {
         return this.fValidationContext;
     }
 
-    @Override
     public boolean getNil() {
         return this.fNil;
     }
 
-    @Override
     public XSNotationDeclaration getNotation() {
         return this.fNotation;
     }
 
-    @Override
     public XSTypeDefinition getTypeDefinition() {
         return this.fTypeDecl;
     }
 
-    @Override
     public XSSimpleTypeDefinition getMemberTypeDefinition() {
         return this.fMemberType;
     }
 
-    @Override
     public XSElementDeclaration getElementDeclaration() {
         return this.fDeclaration;
     }
 
-    @Override
     public XSModel getSchemaInformation() {
         return this.fSchemaInformation;
     }
@@ -128,27 +116,24 @@ implements ElementPSVI {
         this.fNil = elementPSVI.getNil();
     }
 
-    @Override
     public Object getActualNormalizedValue() {
         return this.fActualValue;
     }
 
-    @Override
     public short getActualNormalizedValueType() {
         return this.fActualValueType;
     }
 
-    @Override
     public ShortList getItemValueTypes() {
         return this.fItemValueTypes;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        throw new NotSerializableException(super.getClass().getName());
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        throw new NotSerializableException(this.getClass().getName());
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        throw new NotSerializableException(super.getClass().getName());
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        throw new NotSerializableException(this.getClass().getName());
     }
 }
 

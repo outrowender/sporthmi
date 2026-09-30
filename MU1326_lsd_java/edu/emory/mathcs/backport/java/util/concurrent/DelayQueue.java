@@ -6,12 +6,12 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.PriorityQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.BlockingQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.DelayQueue$Itr;
 import edu.emory.mathcs.backport.java.util.concurrent.Delayed;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DelayQueue
 extends AbstractQueue
@@ -28,7 +28,6 @@ implements BlockingQueue {
         this.addAll(collection);
     }
 
-    @Override
     public boolean add(Object object) {
         return this.offer(object);
     }
@@ -36,7 +35,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offer(Object object) {
         Object object2 = this.lock;
         synchronized (object2) {
@@ -49,12 +47,10 @@ implements BlockingQueue {
         }
     }
 
-    @Override
     public void put(Object object) {
         this.offer(object);
     }
 
-    @Override
     public boolean offer(Object object, long l, TimeUnit timeUnit) {
         return this.offer(object);
     }
@@ -62,7 +58,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object poll() {
         Object object = this.lock;
         synchronized (object) {
@@ -81,8 +76,7 @@ implements BlockingQueue {
         }
     }
 
-    @Override
-    public Object take() {
+    public Object take() throws InterruptedException {
         Object object = this.lock;
         synchronized (object) {
             while (true) {
@@ -106,8 +100,7 @@ implements BlockingQueue {
         }
     }
 
-    @Override
-    public Object poll(long l, TimeUnit timeUnit) {
+    public Object poll(long l, TimeUnit timeUnit) throws InterruptedException {
         long l2 = timeUnit.toNanos(l);
         long l3 = Utils.nanoTime() + l2;
         Object object = this.lock;
@@ -147,7 +140,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object peek() {
         Object object = this.lock;
         synchronized (object) {
@@ -158,7 +150,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int size() {
         Object object = this.lock;
         synchronized (object) {
@@ -169,7 +160,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection) {
         if (collection == null) {
             throw new NullPointerException();
@@ -195,7 +185,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection, int n) {
         if (collection == null) {
             throw new NullPointerException();
@@ -223,7 +212,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         Object object = this.lock;
         synchronized (object) {
@@ -231,15 +219,13 @@ implements BlockingQueue {
         }
     }
 
-    @Override
     public int remainingCapacity() {
-        return -129;
+        return Integer.MAX_VALUE;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray() {
         Object object = this.lock;
         synchronized (object) {
@@ -250,7 +236,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray(Object[] objectArray) {
         Object object = this.lock;
         synchronized (object) {
@@ -261,7 +246,6 @@ implements BlockingQueue {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean remove(Object object) {
         Object object2 = this.lock;
         synchronized (object2) {
@@ -269,9 +253,8 @@ implements BlockingQueue {
         }
     }
 
-    @Override
     public Iterator iterator() {
-        return new DelayQueue$Itr(this, this.toArray());
+        return new Itr(this.toArray());
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -283,16 +266,51 @@ implements BlockingQueue {
         }
     }
 
-    static /* synthetic */ Object access$000(DelayQueue delayQueue) {
-        return delayQueue.lock;
-    }
-
-    static /* synthetic */ PriorityQueue access$100(DelayQueue delayQueue) {
-        return delayQueue.q;
-    }
-
     static {
         $assertionsDisabled = !(class$edu$emory$mathcs$backport$java$util$concurrent$DelayQueue == null ? (class$edu$emory$mathcs$backport$java$util$concurrent$DelayQueue = DelayQueue.class$("edu.emory.mathcs.backport.java.util.concurrent.DelayQueue")) : class$edu$emory$mathcs$backport$java$util$concurrent$DelayQueue).desiredAssertionStatus();
+    }
+
+    private class Itr
+    implements Iterator {
+        final Object[] array;
+        int cursor;
+        int lastRet = -1;
+
+        Itr(Object[] objectArray) {
+            this.array = objectArray;
+        }
+
+        public boolean hasNext() {
+            return this.cursor < this.array.length;
+        }
+
+        public Object next() {
+            if (this.cursor >= this.array.length) {
+                throw new NoSuchElementException();
+            }
+            this.lastRet = this.cursor;
+            return this.array[this.cursor++];
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void remove() {
+            if (this.lastRet < 0) {
+                throw new IllegalStateException();
+            }
+            Object object = this.array[this.lastRet];
+            this.lastRet = -1;
+            Object object2 = DelayQueue.this.lock;
+            synchronized (object2) {
+                Iterator iterator = DelayQueue.this.q.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next() != object) continue;
+                    iterator.remove();
+                    return;
+                }
+            }
+        }
     }
 }
 

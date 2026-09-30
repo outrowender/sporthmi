@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.map;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerManeuverViewReply;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerManeuverViewReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIMapViewerManeuverViewReply {
         super(n, (class$org$dsi$ifc$map$DSIMapViewerManeuverViewListener == null ? (class$org$dsi$ifc$map$DSIMapViewerManeuverViewListener = DSIMapViewerManeuverViewDispatcher.class$("org.dsi.ifc.map.DSIMapViewerManeuverViewListener")) : class$org$dsi$ifc$map$DSIMapViewerManeuverViewListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateManoeuvreViewActive(int n, int n2) {
+    public void updateManoeuvreViewActive(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIMapViewerManeuverViewReply {
         }
     }
 
-    @Override
-    public void updateManoeuvreViewsAvailable(short[] sArray, int n) {
+    public void updateManoeuvreViewsAvailable(short[] sArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIMapViewerManeuverViewReply {
         }
     }
 
-    @Override
-    public void updateBapExitViewId(int n, int n2) {
+    public void updateBapExitViewId(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -114,8 +111,7 @@ implements DSIMapViewerManeuverViewReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -131,14 +127,13 @@ implements DSIMapViewerManeuverViewReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMapViewerManeuverViewListener dSIMapViewerManeuverViewListener = (DSIMapViewerManeuverViewListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerManeuverViewDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerManeuverViewDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMapViewerManeuverViewListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerManeuverViewDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerManeuverViewDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMapViewerManeuverViewListener, new Object[]{string, string2});
                     continue;
                 }

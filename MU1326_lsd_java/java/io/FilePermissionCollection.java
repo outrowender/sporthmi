@@ -13,10 +13,9 @@ import java.util.Vector;
 final class FilePermissionCollection
 extends PermissionCollection
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2202956749081564585L;
     Vector permissions = new Vector();
 
-    @Override
     public void add(Permission permission) {
         if (!this.isReadOnly()) {
             if (!(permission instanceof FilePermission)) {
@@ -28,12 +27,10 @@ implements Serializable {
         this.permissions.addElement(permission);
     }
 
-    @Override
     public Enumeration elements() {
         return this.permissions.elements();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         if (permission instanceof FilePermission) {
             FilePermission filePermission = (FilePermission)permission;

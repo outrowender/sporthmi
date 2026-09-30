@@ -21,57 +21,41 @@ import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCorrectedDirection;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCorrectedPosition;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCountryRegionVersion;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sVersionsNavDB;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2NavigationDiagServiceS {
-    default public void responseErrorNavigation(sClientResponseError sClientResponseError2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseErrorNavigation(sClientResponseError var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseSubsystemState(sSubsystemState sSubsystemState2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseSubsystemState(sSubsystemState var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseVersionsNavDB(sVersionsNavDB sVersionsNavDB2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseVersionsNavDB(sVersionsNavDB var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseActiveNavDB(sActiveNavDB sActiveNavDB2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseActiveNavDB(sActiveNavDB var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseGPSNoSatellite(sGPSNoSatellite sGPSNoSatellite2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseGPSNoSatellite(sGPSNoSatellite var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseGPSOffroad(sGPSOffroad sGPSOffroad2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseGPSOffroad(sGPSOffroad var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseNavCalibrationState(sNavCalibrationState sNavCalibrationState2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseNavCalibrationState(sNavCalibrationState var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseNavCorrectedPosition(sNavCorrectedPosition sNavCorrectedPosition2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseNavCorrectedPosition(sNavCorrectedPosition var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseNavCorrectedDirection(sNavCorrectedDirection sNavCorrectedDirection2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseNavCorrectedDirection(sNavCorrectedDirection var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseResetCalibration(sRoutineResponse sRoutineResponse2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseResetCalibration(sRoutineResponse var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseSparePartNumberNavDB(sSparePartNumber sSparePartNumber2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseSparePartNumberNavDB(sSparePartNumber var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseApplicationSoftwareVersionNumberNavDB(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseApplicationSoftwareVersionNumberNavDB(sApplicationSoftwareVersionNumber var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseHardwareNumberNavDB(sHardwareNumber sHardwareNumber2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseHardwareNumberNavDB(sHardwareNumber var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseHardwareVersionNumberNavDB(sHardwareVersionNumber sHardwareVersionNumber2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseHardwareVersionNumberNavDB(sHardwareVersionNumber var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseSerialNumberNavDB(sSerialNumber sSerialNumber2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseSerialNumberNavDB(sSerialNumber var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseSystemNameNavDB(sSystemName sSystemName2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseSystemNameNavDB(sSystemName var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 
-    default public void responseCountryRegionVersion(sNavCountryRegionVersion sNavCountryRegionVersion2, MMX2NavigationDiagServiceReply mMX2NavigationDiagServiceReply) {
-    }
+    public void responseCountryRegionVersion(sNavCountryRegionVersion var1, MMX2NavigationDiagServiceReply var2) throws MethodException;
 }
 

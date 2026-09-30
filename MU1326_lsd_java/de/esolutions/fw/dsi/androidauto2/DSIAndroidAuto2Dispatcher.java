@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.androidauto2;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.androidauto2.DSIAndroidAuto2Reply;
 import de.esolutions.fw.comm.dsi.androidauto2.impl.DSIAndroidAuto2ReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -27,13 +28,11 @@ implements DSIAndroidAuto2Reply {
         super(n, (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2Listener == null ? (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2Listener = DSIAndroidAuto2Dispatcher.class$("org.dsi.ifc.androidauto2.DSIAndroidAuto2Listener")) : class$org$dsi$ifc$androidauto2$DSIAndroidAuto2Listener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void videoFocusRequestNotification(int n, int n2) {
+    public void videoFocusRequestNotification(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -49,8 +48,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void videoAvailable(boolean bl, int n) {
+    public void videoAvailable(boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -66,8 +64,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void audioFocusRequestNotification(int n, int n2) {
+    public void audioFocusRequestNotification(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -83,8 +80,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void audioAvailable(int n, boolean bl, int n2) {
+    public void audioAvailable(int n, boolean bl, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -100,8 +96,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void voiceSessionNotification(int n, int n2) {
+    public void voiceSessionNotification(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -117,8 +112,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void microphoneRequestNotification(int n, int n2) {
+    public void microphoneRequestNotification(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -134,8 +128,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void navFocusRequestNotification(int n, int n2) {
+    public void navFocusRequestNotification(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -151,8 +144,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updateCallState(CallState[] callStateArray, int n) {
+    public void updateCallState(CallState[] callStateArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -180,8 +172,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updateTelephonyState(TelephonyState telephonyState, int n) {
+    public void updateTelephonyState(TelephonyState telephonyState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -209,8 +200,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updateNowPlayingData(TrackData trackData, int n) {
+    public void updateNowPlayingData(TrackData trackData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -238,8 +228,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
+    public void updatePlaybackState(PlaybackInfo playbackInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -267,8 +256,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updatePlayposition(int n, int n2) {
+    public void updatePlayposition(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -296,8 +284,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
+    public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -325,8 +312,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updateNavigationNextTurnEvent(String string, int n, int n2, int n3, int n4, int n5) {
+    public void updateNavigationNextTurnEvent(String string, int n, int n2, int n3, int n4, int n5) throws MethodException {
         if ((n5 & 0x80) == 128) {
             n5 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -354,8 +340,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void updateNavigationNextTurnDistance(int n, int n2, int n3) {
+    public void updateNavigationNextTurnDistance(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -383,8 +368,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void setExternalDestination(double d2, double d3, String string, String string2, int n) {
+    public void setExternalDestination(double d2, double d3, String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -400,8 +384,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void bluetoothPairingRequest(String string, int n) {
+    public void bluetoothPairingRequest(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -417,8 +400,7 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -434,14 +416,13 @@ implements DSIAndroidAuto2Reply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAndroidAuto2Listener dSIAndroidAuto2Listener = (DSIAndroidAuto2Listener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAndroidAuto2Dispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAndroidAuto2Dispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAndroidAuto2Listener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAndroidAuto2Dispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAndroidAuto2Dispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAndroidAuto2Listener, new Object[]{string, string2});
                     continue;
                 }

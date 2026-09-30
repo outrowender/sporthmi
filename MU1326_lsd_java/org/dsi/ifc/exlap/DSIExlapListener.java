@@ -8,13 +8,10 @@ import org.dsi.ifc.exlap.Service;
 
 public interface DSIExlapListener
 extends DSIListener {
-    default public void startResult(int n) {
-    }
+    public void startResult(int var1);
 
-    default public void stopResult(int n) {
-    }
+    public void stopResult(int var1);
 
-    default public void updateAvailableServices(Service[] serviceArray, int n) {
-    }
+    public void updateAvailableServices(Service[] var1, int var2);
 }
 

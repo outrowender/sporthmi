@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIRadioTaggingListener
 extends DSIListener {
-    default public void tagResult(int n) {
-    }
+    public void tagResult(int var1);
 
-    default public void updateCompatibleDevAvail(int n, int n2) {
-    }
+    public void updateCompatibleDevAvail(int var1, int var2);
 
-    default public void groupTagsResult(int n, int n2) {
-    }
+    public void groupTagsResult(int var1, int var2);
 }
 

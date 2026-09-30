@@ -34,7 +34,7 @@ public class DiagnosisReportGenerator {
         IAdapterSnapshot iAdapterSnapshot = iAdapterDiagnosis.createSnapshot();
         if (iAdapterSnapshot != null) {
             TraceTimeStamp traceTimeStamp = new TraceTimeStamp(iAdapterSnapshot.getTimeStamp());
-            infoStream.begin(new StringBuffer().append("Snapshot @").append(traceTimeStamp.toUTCTimeString(true)).toString());
+            infoStream.begin("Snapshot @" + traceTimeStamp.toUTCTimeString(true));
             IInfoBase[] iInfoBaseArray = iAdapterSnapshot.getAllProviders();
             if (iInfoBaseArray != null && iInfoBaseArray.length > 0) {
                 InfoUtils.printInfos(iInfoBaseArray, infoStream);
@@ -158,7 +158,7 @@ public class DiagnosisReportGenerator {
             }
             int n = iAdapterErrorLog.getNumDroppedDispatcherErrors();
             if (n > 0) {
-                infoStream.print(new StringBuffer().append("Dispatcher errors dropped: ").append(n).toString());
+                infoStream.print("Dispatcher errors dropped: " + n);
             }
             if ((iInfoBaseArray = iAdapterErrorLog.getProviderErrors()) != null) {
                 InfoUtils.printInfos(iInfoBaseArray, infoStream);
@@ -167,7 +167,7 @@ public class DiagnosisReportGenerator {
             }
             n = iAdapterErrorLog.getNumDroppedProviderErrors();
             if (n > 0) {
-                infoStream.print(new StringBuffer().append("Provider errors dropped: ").append(n).toString());
+                infoStream.print("Provider errors dropped: " + n);
             }
             infoStream.end();
         }

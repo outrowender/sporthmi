@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.media;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMediaPlayerReply;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMediaPlayerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSIMediaPlayerReply {
         super(n, (class$org$dsi$ifc$media$DSIMediaPlayerListener == null ? (class$org$dsi$ifc$media$DSIMediaPlayerListener = DSIMediaPlayerDispatcher.class$("org.dsi.ifc.media.DSIMediaPlayerListener")) : class$org$dsi$ifc$media$DSIMediaPlayerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateVideoFormat(int n, int n2) {
+    public void updateVideoFormat(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateVideoNorm(int n, int n2) {
+    public void updateVideoNorm(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -91,8 +89,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateCmdBlockingMask(int n, int n2) {
+    public void updateCmdBlockingMask(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -120,8 +117,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateNumVideoAngles(int n, int n2) {
+    public void updateNumVideoAngles(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -149,8 +145,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackModeList(PlaybackMode[] playbackModeArray, int n) {
+    public void updatePlaybackModeList(PlaybackMode[] playbackModeArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -178,8 +173,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackMode(int n, int n2) {
+    public void updatePlaybackMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -207,8 +201,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackState(int n, int n2) {
+    public void updatePlaybackState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -236,8 +229,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateActiveMedia(long l, long l2, int n, int n2, int n3) {
+    public void updateActiveMedia(long l, long l2, int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -265,8 +257,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackFolder(ListEntry[] listEntryArray, int n) {
+    public void updatePlaybackFolder(ListEntry[] listEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -294,8 +285,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateCapabilities(Capabilities capabilities, int n) {
+    public void updateCapabilities(Capabilities capabilities, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -323,8 +313,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlayPosition(long l, int n, int n2, int n3) {
+    public void updatePlayPosition(long l, int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -352,8 +341,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlayViewSize(int n, int n2, int n3) {
+    public void updatePlayViewSize(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -381,8 +369,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateActiveVideoAngle(int n, int n2) {
+    public void updateActiveVideoAngle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -410,8 +397,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateAudioStreamList(AudioStream[] audioStreamArray, int n) {
+    public void updateAudioStreamList(AudioStream[] audioStreamArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -439,8 +425,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateActiveAudioStream(int n, int n2) {
+    public void updateActiveAudioStream(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -468,8 +453,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateSubtitleList(int[] nArray, int n) {
+    public void updateSubtitleList(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -497,8 +481,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updateActiveSubtitle(int n, int n2) {
+    public void updateActiveSubtitle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -526,8 +509,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseCmdBlocked(int n) {
+    public void responseCmdBlocked(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -543,8 +525,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseRating(long l, int n) {
+    public void responseRating(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -560,8 +541,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseFullyQualifiedName(long l, String string) {
+    public void responseFullyQualifiedName(long l, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -577,8 +557,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseCoverArt(long l, ResourceLocator resourceLocator) {
+    public void responseCoverArt(long l, ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -594,8 +573,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responsePlayView(ListEntry[] listEntryArray, int n, int n2, int n3) {
+    public void responsePlayView(ListEntry[] listEntryArray, int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -611,8 +589,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseDetailInfo(EntryInfo entryInfo) {
+    public void responseDetailInfo(EntryInfo entryInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -628,8 +605,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void indicationDvdEvent(int n) {
+    public void indicationDvdEvent(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -645,8 +621,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseSetPlaySelection(int n, int n2) {
+    public void responseSetPlaySelection(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -662,8 +637,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseSetPlaySelectionAB(int n, boolean bl) {
+    public void responseSetPlaySelectionAB(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -679,8 +653,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseSetPlaybackURL(String string) {
+    public void responseSetPlaybackURL(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -696,8 +669,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responseSetVideoRect(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
+    public void responseSetVideoRect(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -713,8 +685,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void responsePlaySimilarEntry(long l, boolean bl) {
+    public void responsePlaySimilarEntry(long l, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -730,8 +701,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void tempPMLRequest(int n) {
+    public void tempPMLRequest(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -747,8 +717,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackContentFolder(ListEntry[] listEntryArray, int n) {
+    public void updatePlaybackContentFolder(ListEntry[] listEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -776,8 +745,7 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -793,14 +761,13 @@ implements DSIMediaPlayerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMediaPlayerListener dSIMediaPlayerListener = (DSIMediaPlayerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaPlayerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaPlayerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMediaPlayerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaPlayerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaPlayerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMediaPlayerListener, new Object[]{string, string2});
                     continue;
                 }

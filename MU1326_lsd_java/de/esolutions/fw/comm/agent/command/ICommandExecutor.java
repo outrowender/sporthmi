@@ -16,73 +16,50 @@ import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface ICommandExecutor {
-    default public boolean doRegisterService(IService iService, IServiceWorker iServiceWorker, boolean bl) {
-    }
+    public boolean doRegisterService(IService var1, IServiceWorker var2, boolean var3);
 
-    default public boolean doBrokerProxyAlive() {
-    }
+    public boolean doBrokerProxyAlive();
 
-    default public boolean doRegisterRemoteService(ServiceInstanceID serviceInstanceID, short s, boolean bl) {
-    }
+    public boolean doRegisterRemoteService(ServiceInstanceID var1, short var2, boolean var3);
 
-    default public boolean doRegisterServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener, boolean bl) {
-    }
+    public boolean doRegisterServiceInstanceListener(ServiceInstanceID var1, IServiceInstanceListener var2, boolean var3);
 
-    default public boolean doRegisterServiceListener(IService iService, IServiceListener iServiceListener, boolean bl) {
-    }
+    public boolean doRegisterServiceListener(IService var1, IServiceListener var2, boolean var3);
 
-    default public boolean doRegisterProxyListener(Proxy proxy, IProxyListener iProxyListener, boolean bl) {
-    }
+    public boolean doRegisterProxyListener(Proxy var1, IProxyListener var2, boolean var3);
 
-    default public boolean doConnectProxy(Proxy proxy) {
-    }
+    public boolean doConnectProxy(Proxy var1);
 
-    default public boolean doSetupProxy(Proxy proxy, IClientHandler iClientHandler) {
-    }
+    public boolean doSetupProxy(Proxy var1, IClientHandler var2);
 
-    default public boolean doDisconnectProxy(Proxy proxy) {
-    }
+    public boolean doDisconnectProxy(Proxy var1);
 
-    default public boolean doBrokerServiceUpdate(BrokerServiceUpdate[] brokerServiceUpdateArray) {
-    }
+    public boolean doBrokerServiceUpdate(BrokerServiceUpdate[] var1);
 
-    default public boolean doBrokerAgentUpdate(BrokerAgentUpdate[] brokerAgentUpdateArray) {
-    }
+    public boolean doBrokerAgentUpdate(BrokerAgentUpdate[] var1);
 
-    default public boolean doTimer() {
-    }
+    public boolean doTimer();
 
-    default public boolean doLookupService(ServiceInstanceID serviceInstanceID) {
-    }
+    public boolean doLookupService(ServiceInstanceID var1);
 
-    default public boolean doQuit() {
-    }
+    public boolean doQuit();
 
-    default public boolean doConnectBrokerLink() {
-    }
+    public boolean doConnectBrokerLink();
 
-    default public boolean doSetupBrokerLink(IClientHandler iClientHandler) {
-    }
+    public boolean doSetupBrokerLink(IClientHandler var1);
 
-    default public void dropSetupBrokerLink(IClientHandler iClientHandler) {
-    }
+    public void dropSetupBrokerLink(IClientHandler var1);
 
-    default public void dropSetupProxy(Proxy proxy, boolean bl) {
-    }
+    public void dropSetupProxy(Proxy var1, boolean var2);
 
-    default public void dropConnectProxy(Proxy proxy, boolean bl) {
-    }
+    public void dropConnectProxy(Proxy var1, boolean var2);
 
-    default public boolean doClientHandlerUpdate(IClientHandler iClientHandler, boolean bl) {
-    }
+    public boolean doClientHandlerUpdate(IClientHandler var1, boolean var2);
 
-    default public boolean doForceDisconnect(short s) {
-    }
+    public boolean doForceDisconnect(short var1);
 
-    default public boolean doQueryService(ServiceInstanceID serviceInstanceID, IServiceQueryReply iServiceQueryReply) {
-    }
+    public boolean doQueryService(ServiceInstanceID var1, IServiceQueryReply var2);
 
-    default public void dropQueryService(ServiceInstanceID serviceInstanceID, IServiceQueryReply iServiceQueryReply, boolean bl) {
-    }
+    public void dropQueryService(ServiceInstanceID var1, IServiceQueryReply var2, boolean var3);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.RequestIncomingService;
 
 public class RequestIncomingServiceSerializer {
-    public static void putOptionalRequestIncomingService(ISerializer iSerializer, RequestIncomingService requestIncomingService) {
+    public static void putOptionalRequestIncomingService(ISerializer iSerializer, RequestIncomingService requestIncomingService) throws SerializerException {
         boolean bl = requestIncomingService == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RequestIncomingServiceSerializer {
         }
     }
 
-    public static void putOptionalRequestIncomingServiceVarArray(ISerializer iSerializer, RequestIncomingService[] requestIncomingServiceArray) {
+    public static void putOptionalRequestIncomingServiceVarArray(ISerializer iSerializer, RequestIncomingService[] requestIncomingServiceArray) throws SerializerException {
         boolean bl = requestIncomingServiceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RequestIncomingServiceSerializer {
         }
     }
 
-    public static RequestIncomingService getOptionalRequestIncomingService(IDeserializer iDeserializer) {
+    public static RequestIncomingService getOptionalRequestIncomingService(IDeserializer iDeserializer) throws SerializerException {
         RequestIncomingService requestIncomingService = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RequestIncomingServiceSerializer {
         return requestIncomingService;
     }
 
-    public static RequestIncomingService[] getOptionalRequestIncomingServiceVarArray(IDeserializer iDeserializer) {
+    public static RequestIncomingService[] getOptionalRequestIncomingServiceVarArray(IDeserializer iDeserializer) throws SerializerException {
         RequestIncomingService[] requestIncomingServiceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

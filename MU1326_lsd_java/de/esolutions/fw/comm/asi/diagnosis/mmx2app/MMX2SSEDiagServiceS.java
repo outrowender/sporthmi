@@ -5,12 +5,11 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SSEDiagServiceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2SSEDiagServiceS {
-    default public void responseErrorSSE(sClientResponseError sClientResponseError2, MMX2SSEDiagServiceReply mMX2SSEDiagServiceReply) {
-    }
+    public void responseErrorSSE(sClientResponseError var1, MMX2SSEDiagServiceReply var2) throws MethodException;
 
-    default public void responseClippingCounterMic1(long l, long l2, MMX2SSEDiagServiceReply mMX2SSEDiagServiceReply) {
-    }
+    public void responseClippingCounterMic1(long var1, long var3, MMX2SSEDiagServiceReply var5) throws MethodException;
 }
 

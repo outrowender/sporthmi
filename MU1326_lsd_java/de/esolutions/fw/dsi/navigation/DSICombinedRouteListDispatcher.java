@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.navigation;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.navigation.DSICombinedRouteListReply;
 import de.esolutions.fw.comm.dsi.navigation.impl.DSICombinedRouteListReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -27,13 +28,11 @@ implements DSICombinedRouteListReply {
         super(n, (class$org$dsi$ifc$navigation$DSICombinedRouteListListener == null ? (class$org$dsi$ifc$navigation$DSICombinedRouteListListener = DSICombinedRouteListDispatcher.class$("org.dsi.ifc.navigation.DSICombinedRouteListListener")) : class$org$dsi$ifc$navigation$DSICombinedRouteListListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void windowChanged(int n) {
+    public void windowChanged(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -49,8 +48,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void combinedRouteListResult(long l, CombinedRouteListElement[] combinedRouteListElementArray, int n) {
+    public void combinedRouteListResult(long l, CombinedRouteListElement[] combinedRouteListElementArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -66,8 +64,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void trafficInformationResult(TmcMessage tmcMessage, int n) {
+    public void trafficInformationResult(TmcMessage tmcMessage, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -83,8 +80,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void poiInformationResult(NavPoiInfo navPoiInfo, int n) {
+    public void poiInformationResult(NavPoiInfo navPoiInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -100,8 +96,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void updateElementsTotal(long l, long l2, int n) {
+    public void updateElementsTotal(long l, long l2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -129,8 +124,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] lArray, NavRectangle navRectangle) {
+    public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] lArray, NavRectangle navRectangle) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -146,8 +140,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void requestPriceInfoResult(NavPriceInfo navPriceInfo, int n) {
+    public void requestPriceInfoResult(NavPriceInfo navPriceInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -163,8 +156,7 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -180,14 +172,13 @@ implements DSICombinedRouteListReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICombinedRouteListListener dSICombinedRouteListListener = (DSICombinedRouteListListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICombinedRouteListDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICombinedRouteListDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICombinedRouteListListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICombinedRouteListDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICombinedRouteListDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICombinedRouteListListener, new Object[]{string, string2});
                     continue;
                 }

@@ -58,7 +58,7 @@ public class ICacheCallback {
     }
 
     public void destroy(int n) {
-        if (super.getClass() == (class$de$esolutions$graphics$eal$ICacheCallback == null ? (class$de$esolutions$graphics$eal$ICacheCallback = ICacheCallback.class$("de.esolutions.graphics.eal.ICacheCallback")) : class$de$esolutions$graphics$eal$ICacheCallback)) {
+        if (this.getClass() == (class$de$esolutions$graphics$eal$ICacheCallback == null ? (class$de$esolutions$graphics$eal$ICacheCallback = ICacheCallback.class$("de.esolutions.graphics.eal.ICacheCallback")) : class$de$esolutions$graphics$eal$ICacheCallback)) {
             ealswigJNI.eal_ICacheCallback_destroy(this.swigCPtr, this, n);
         } else {
             ealswigJNI.eal_ICacheCallback_destroySwigExplicitICacheCallback(this.swigCPtr, this, n);

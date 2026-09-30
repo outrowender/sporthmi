@@ -3,104 +3,73 @@
  */
 package de.esolutions.fw.comm.dsi.asiainput;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.asiainput.UserDefinedEntry;
 import org.dsi.ifc.asiainput.WordDatabase;
 
 public interface DSIAsiaInputC {
-    default public void initialize(int n) {
-    }
+    public void initialize(int var1) throws MethodException;
 
-    default public void addSymbol(char c2) {
-    }
+    public void addSymbol(char var1) throws MethodException;
 
-    default public void addSymbols(String string) {
-    }
+    public void addSymbols(String var1) throws MethodException;
 
-    default public void removeSymbol() {
-    }
+    public void removeSymbol() throws MethodException;
 
-    default public void removeAllSymbols() {
-    }
+    public void removeAllSymbols() throws MethodException;
 
-    default public void clear() {
-    }
+    public void clear() throws MethodException;
 
-    default public void buildCandidates() {
-    }
+    public void buildCandidates() throws MethodException;
 
-    default public void getSpelling() {
-    }
+    public void getSpelling() throws MethodException;
 
-    default public void getCandidates(int n) {
-    }
+    public void getCandidates(int var1) throws MethodException;
 
-    default public void selectCandidate(int n) {
-    }
+    public void selectCandidate(int var1) throws MethodException;
 
-    default public void setBooleanParameter(int n, boolean bl) {
-    }
+    public void setBooleanParameter(int var1, boolean var2) throws MethodException;
 
-    default public void setIntParameter(int n, int n2) {
-    }
+    public void setIntParameter(int var1, int var2) throws MethodException;
 
-    default public void getBooleanParameter(int n) {
-    }
+    public void getBooleanParameter(int var1) throws MethodException;
 
-    default public void getIntParameter(int n) {
-    }
+    public void getIntParameter(int var1) throws MethodException;
 
-    default public void getVersionInfo() {
-    }
+    public void getVersionInfo() throws MethodException;
 
-    default public void setStringParameter(int n, String string) {
-    }
+    public void setStringParameter(int var1, String var2) throws MethodException;
 
-    default public void getStringParameter(int n) {
-    }
+    public void getStringParameter(int var1) throws MethodException;
 
-    default public void setPredictionContext(String string) {
-    }
+    public void setPredictionContext(String var1) throws MethodException;
 
-    default public void clearPredictionContext() {
-    }
+    public void clearPredictionContext() throws MethodException;
 
-    default public void addUserDefinedEntry(UserDefinedEntry userDefinedEntry) {
-    }
+    public void addUserDefinedEntry(UserDefinedEntry var1) throws MethodException;
 
-    default public void setAdditionalWordDatabases(WordDatabase[] wordDatabaseArray) {
-    }
+    public void setAdditionalWordDatabases(WordDatabase[] var1) throws MethodException;
 
-    default public void setUserDatabaseState(int n, int n2) {
-    }
+    public void setUserDatabaseState(int var1, int var2) throws MethodException;
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings() throws MethodException;
 
-    default public void getSegmentation(String string) {
-    }
+    public void getSegmentation(String var1) throws MethodException;
 
-    default public void requestSegmentationForTruffles(String string) {
-    }
+    public void requestSegmentationForTruffles(String var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

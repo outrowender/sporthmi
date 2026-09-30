@@ -6,7 +6,6 @@ package de.esolutions.fw.util.commons.timeout;
 import de.esolutions.fw.util.commons.timeout.ITimeOutHandler;
 import de.esolutions.fw.util.commons.timeout.MonoTimer;
 import de.esolutions.fw.util.commons.timeout.MonoTimerTask;
-import de.esolutions.fw.util.commons.timeout.TimeOutTimer$TimeOutTask;
 
 public class TimeOutTimer {
     private static Object timerLock = new Object();
@@ -42,15 +41,39 @@ public class TimeOutTimer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public TimeOutTimer$TimeOutTask schedule(ITimeOutHandler iTimeOutHandler, long l) {
-        TimeOutTimer$TimeOutTask timeOutTimer$TimeOutTask = new TimeOutTimer$TimeOutTask(Thread.currentThread(), iTimeOutHandler);
+    public TimeOutTask schedule(ITimeOutHandler iTimeOutHandler, long l) {
+        TimeOutTask timeOutTask = new TimeOutTask(Thread.currentThread(), iTimeOutHandler);
         Object object = timerLock;
         synchronized (object) {
             if (timer != null) {
-                timer.schedule((MonoTimerTask)timeOutTimer$TimeOutTask, l);
+                timer.schedule((MonoTimerTask)timeOutTask, l);
             }
         }
-        return timeOutTimer$TimeOutTask;
+        return timeOutTask;
+    }
+
+    public static class TimeOutTask
+    extends MonoTimerTask {
+        private final Thread thread;
+        private final ITimeOutHandler handler;
+        private boolean armed;
+
+        public TimeOutTask(Thread thread, ITimeOutHandler iTimeOutHandler) {
+            this.thread = thread;
+            this.handler = iTimeOutHandler;
+            this.armed = true;
+        }
+
+        public void disarm() {
+            this.armed = false;
+            this.cancel();
+        }
+
+        public void run() {
+            if (this.armed) {
+                this.handler.timeoutOccurred(this.thread);
+            }
+        }
     }
 }
 

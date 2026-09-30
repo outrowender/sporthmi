@@ -32,7 +32,7 @@ public class sUsbOvercurrent {
     }
 
     public String toString() {
-        return new StringBuffer("sUsbOvercurrent{").append("msg_id=").append(this.msg_id).append(", state=").append(this.state).append("}").toString();
+        return "sUsbOvercurrent{" + "msg_id=" + this.msg_id + ", state=" + this.state + "}";
     }
 }
 

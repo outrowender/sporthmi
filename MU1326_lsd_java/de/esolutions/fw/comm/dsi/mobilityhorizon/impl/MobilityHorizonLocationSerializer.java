@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.mobilityhorizon.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.mobilityhorizon.MobilityHorizonLocation;
 
 public class MobilityHorizonLocationSerializer {
-    public static void putOptionalMobilityHorizonLocation(ISerializer iSerializer, MobilityHorizonLocation mobilityHorizonLocation) {
+    public static void putOptionalMobilityHorizonLocation(ISerializer iSerializer, MobilityHorizonLocation mobilityHorizonLocation) throws SerializerException {
         boolean bl = mobilityHorizonLocation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MobilityHorizonLocationSerializer {
         }
     }
 
-    public static void putOptionalMobilityHorizonLocationVarArray(ISerializer iSerializer, MobilityHorizonLocation[] mobilityHorizonLocationArray) {
+    public static void putOptionalMobilityHorizonLocationVarArray(ISerializer iSerializer, MobilityHorizonLocation[] mobilityHorizonLocationArray) throws SerializerException {
         boolean bl = mobilityHorizonLocationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MobilityHorizonLocationSerializer {
         }
     }
 
-    public static MobilityHorizonLocation getOptionalMobilityHorizonLocation(IDeserializer iDeserializer) {
+    public static MobilityHorizonLocation getOptionalMobilityHorizonLocation(IDeserializer iDeserializer) throws SerializerException {
         MobilityHorizonLocation mobilityHorizonLocation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class MobilityHorizonLocationSerializer {
         return mobilityHorizonLocation;
     }
 
-    public static MobilityHorizonLocation[] getOptionalMobilityHorizonLocationVarArray(IDeserializer iDeserializer) {
+    public static MobilityHorizonLocation[] getOptionalMobilityHorizonLocationVarArray(IDeserializer iDeserializer) throws SerializerException {
         MobilityHorizonLocation[] mobilityHorizonLocationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

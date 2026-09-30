@@ -25,28 +25,23 @@ implements DSISwdlLogging {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$swdllogging$DSISwdlLogging == null ? (class$org$dsi$ifc$swdllogging$DSISwdlLogging = DSISwdlLoggingProvider.class$("org.dsi.ifc.swdllogging.DSISwdlLogging")) : class$org$dsi$ifc$swdllogging$DSISwdlLogging).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISwdlLoggingProxy(this.instance, (DSISwdlLoggingReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getHistory() {
         try {
             this.proxy.getHistory();
@@ -56,7 +51,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void setUpdate(String string) {
         try {
             this.proxy.setUpdate(string);
@@ -66,7 +60,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void selectSubUpdate(int n) {
         try {
             this.proxy.selectSubUpdate(n);
@@ -76,7 +69,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void getGeneralInformation() {
         try {
             this.proxy.getGeneralInformation();
@@ -86,7 +78,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void getUnusualEvents() {
         try {
             this.proxy.getUnusualEvents();
@@ -96,7 +87,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void getUnusualEvent(int n) {
         try {
             this.proxy.getUnusualEvent(n);
@@ -106,7 +96,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -116,7 +105,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -126,7 +114,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -136,7 +123,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -146,7 +132,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -156,7 +141,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -166,7 +150,6 @@ implements DSISwdlLogging {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

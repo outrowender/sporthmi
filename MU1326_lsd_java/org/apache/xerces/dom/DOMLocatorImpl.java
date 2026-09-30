@@ -48,32 +48,26 @@ implements DOMLocator {
         this.fUtf16Offset = n4;
     }
 
-    @Override
     public int getLineNumber() {
         return this.fLineNumber;
     }
 
-    @Override
     public int getColumnNumber() {
         return this.fColumnNumber;
     }
 
-    @Override
     public String getUri() {
         return this.fUri;
     }
 
-    @Override
     public Node getRelatedNode() {
         return this.fRelatedNode;
     }
 
-    @Override
     public int getByteOffset() {
         return this.fByteOffset;
     }
 
-    @Override
     public int getUtf16Offset() {
         return this.fUtf16Offset;
     }

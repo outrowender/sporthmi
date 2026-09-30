@@ -31,7 +31,6 @@ implements ScreenWidgetRenderer {
         this.controller = abstractScreenWidget;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.getEALManager().newScreenConnected(this.controller);
@@ -54,7 +53,6 @@ implements ScreenWidgetRenderer {
         iWrappedNode3D.setPosition(0.0f, 0.0f, 0.0f);
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.destroyNode();
@@ -71,12 +69,10 @@ implements ScreenWidgetRenderer {
         this.layerMapBorder = null;
     }
 
-    @Override
     public RedrawContext createRedrawContextRoot() {
         return new RedrawContextHigh();
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         IWrappedNode3D iWrappedNode3D = this.getParentNodeForChild(abstractWidget);
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
@@ -87,7 +83,6 @@ implements ScreenWidgetRenderer {
         ((RedrawContextHigh)redrawContext).parentNode = iWrappedNode3D;
     }
 
-    @Override
     public void invalidateViewPort() {
         this.getEALManager().getScreensLayer().setInvalid(true);
     }
@@ -134,7 +129,7 @@ implements ScreenWidgetRenderer {
     private IWrappedLayer createLayer(int n) {
         int n2;
         String string;
-        logChannel3DEngine.log(-2137614336, "ScreenRendererHigh#createLayer(%1) - Called", (long)n);
+        logChannel3DEngine.log(10000000, "ScreenRendererHigh#createLayer(%1) - Called", (long)n);
         int n3 = this.getTerminal().getLayout().getDistance(1);
         int n4 = this.getTerminal().getLayout().getDistance(2);
         switch (n) {
@@ -154,7 +149,7 @@ implements ScreenWidgetRenderer {
                 break;
             }
             default: {
-                logChannel3DEngine.log(-1601830656, "ScreenRendererHigh#createLayer: Could not create layer for ID %1 as it is unknown.", (long)n);
+                logChannel3DEngine.log(100000, "ScreenRendererHigh#createLayer: Could not create layer for ID %1 as it is unknown.", (long)n);
                 return null;
             }
         }
@@ -185,19 +180,16 @@ implements ScreenWidgetRenderer {
         return iWrappedLayer;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.node == null) {
             this.node = this.getEALManager().createNode3D(this.getEALManager().getScreensNode(), EALManager.createNodeName("screenRoot", this.controller.getID(), (AbstractRenderer)this), 0.0f, 0.0f);
         }
     }
 
-    @Override
     public void handlePaintError(Exception exception) {
         exception.printStackTrace();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

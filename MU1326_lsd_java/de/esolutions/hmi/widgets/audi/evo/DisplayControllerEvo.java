@@ -39,7 +39,6 @@ IDisplayControllerWidget {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         AbstractScreenWidget abstractScreenWidget = (AbstractScreenWidget)initializationContext.getScreen();
@@ -55,14 +54,13 @@ IDisplayControllerWidget {
         this.setOpacityOnBackgroundLayers(this.backgroundOpacity, true);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        logDisplay.log(-2137614336, "DisplayControllerEvo#processModelUpdateEvent");
+        logDisplay.log(10000000, "DisplayControllerEvo#processModelUpdateEvent");
         this.prepareAndSwitchToTargetContext();
     }
 
     protected int[] getExtents(int n) {
-        logDisplay.log(14808325, "DisplayControllerEvo#getExtents displayableID = %1", (long)n);
+        logDisplay.log(100000000, "DisplayControllerEvo#getExtents displayableID = %1", (long)n);
         return hmiService.getDisplayManager().getExtends(n);
     }
 
@@ -79,7 +77,7 @@ IDisplayControllerWidget {
                         this.setPosition(this.positionsOfDisplayables[i3][0], this.positionsOfDisplayables[i3][1], this.positionsOfDisplayables[i3][2]);
                         continue;
                     }
-                    logDisplay.log(-2137614336, "DisplayControllerEvo#positionDisplayables length of array != 3");
+                    logDisplay.log(10000000, "DisplayControllerEvo#positionDisplayables length of array != 3");
                 }
             }
         } else {
@@ -93,7 +91,7 @@ IDisplayControllerWidget {
 
     protected void switchToTargetContext() {
         if (logDisplay.isDebug()) {
-            logDisplay.log(-2137614336, "DisplayControllerEvo#switchToTargetContext context: %1", (long)this.getTargetContextID());
+            logDisplay.log(10000000, "DisplayControllerEvo#switchToTargetContext context: %1", (long)this.getTargetContextID());
         }
         hmiService.getDisplayManager().switchContext(this.getTargetContextID(), this.terminal.getTerminalID(), this);
     }
@@ -108,8 +106,8 @@ IDisplayControllerWidget {
             int n2 = this.getMaxOpacityIndex(n);
             if (f3 < f2 && n2 < this.maxOpacitiesSet.length) {
                 if (this.maxOpacitiesSet[n2]) return;
-                if (-2137614336 <= logDisplay.getCurrentLogThreshold()) {
-                    logDisplay.log(-2137614336, "DisplayControllerEvo#setOpacity maxOpacity for displayable %2 is %1 ", (Object)Float.toString(f3 * 51266), (long)n);
+                if (10000000 <= logDisplay.getCurrentLogThreshold()) {
+                    logDisplay.log(10000000, "DisplayControllerEvo#setOpacity maxOpacity for displayable %2 is %1 ", (Object)Float.toString(f3 * 100.0f), (long)n);
                 }
                 f2 = f3;
                 this.maxOpacitiesSet[n2] = true;
@@ -117,10 +115,10 @@ IDisplayControllerWidget {
                 this.maxOpacitiesSet[n2] = false;
             }
         }
-        if (-2137614336 <= logDisplay.getCurrentLogThreshold()) {
-            logDisplay.log(-2137614336, "DisplayControllerEvo#setOpacity displayable: %2, opacity: %1", (Object)Float.toString(f2), (long)n);
+        if (10000000 <= logDisplay.getCurrentLogThreshold()) {
+            logDisplay.log(10000000, "DisplayControllerEvo#setOpacity displayable: %2, opacity: %1", (Object)Float.toString(f2), (long)n);
         }
-        hmiService.getDisplayManager().setOpacity(n, this.terminal.getTerminalID(), (int)(f2 * 51266));
+        hmiService.getDisplayManager().setOpacity(n, this.terminal.getTerminalID(), (int)(f2 * 100.0f));
     }
 
     private int getMaxOpacityIndex(int n) {
@@ -135,18 +133,17 @@ IDisplayControllerWidget {
         if (this.maxOpacities != null) {
             for (int i2 = 0; i2 < this.maxOpacities.length; ++i2) {
                 if (n != this.maxOpacities[i2][0]) continue;
-                f2 = (float)this.maxOpacities[i2][1] / 51266;
+                f2 = (float)this.maxOpacities[i2][1] / 100.0f;
                 break;
             }
         }
         return f2;
     }
 
-    @Override
     public void setOpacityOnBackgroundLayers(float f2, boolean bl) {
         this.backgroundOpacity = f2;
         int n = bl ? this.getTargetContextID() : hmiService.getDisplayManager().getCurrentContextID(this.terminal.getTerminalID());
-        logDisplay.log(-2137614336, "DisplayControllerEvo#setOpacityOnBackgroundLayers setting opacity on backgroundlayers for context: %1", (long)n);
+        logDisplay.log(10000000, "DisplayControllerEvo#setOpacityOnBackgroundLayers setting opacity on backgroundlayers for context: %1", (long)n);
         int[] nArray = hmiService.getDisplayManager().getDisplayables(n);
         if (nArray != null) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -158,7 +155,7 @@ IDisplayControllerWidget {
 
     public void setPositionOnBackgroundLayers(int n, int n2, boolean bl) {
         int n3 = bl ? this.getTargetContextID() : hmiService.getDisplayManager().getCurrentContextID(this.terminal.getTerminalID());
-        logDisplay.log(-2137614336, "DisplayControllerEvo#setPositionOnBackgroundLayers setting position on backgroundlayers for context: %1", (long)n3);
+        logDisplay.log(10000000, "DisplayControllerEvo#setPositionOnBackgroundLayers setting position on backgroundlayers for context: %1", (long)n3);
         int[] nArray = hmiService.getDisplayManager().getDisplayables(n3);
         if (nArray != null) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -179,7 +176,6 @@ IDisplayControllerWidget {
         return bl;
     }
 
-    @Override
     public int getTargetContextID() {
         if (this.model != null) {
             return ((ChoiceModelGUI)this.model).getValue();
@@ -187,18 +183,18 @@ IDisplayControllerWidget {
         if (this.modelID != -1) {
             HMIModel hMIModel = hmiService.getModel(this.terminal.getTerminalID(), this.modelID);
             if (hMIModel != null) {
-                logDisplay.log(-2137614336, "DisplayControllerEvo#getTargetContextID returning explictely fetched model !!!!! ID = %1", (long)this.modelID);
+                logDisplay.log(10000000, "DisplayControllerEvo#getTargetContextID returning explictely fetched model !!!!! ID = %1", (long)this.modelID);
                 return ((ChoiceModelGUI)((Object)hMIModel)).getValue();
             }
         } else if (this.staticContext != -1) {
             return this.staticContext;
         }
-        logDisplay.log(-2137614336, "DisplayControllerEvo#getTargetContextID no model present and no static context set, returning CONTEXT.HMI");
+        logDisplay.log(10000000, "DisplayControllerEvo#getTargetContextID no model present and no static context set, returning CONTEXT.HMI");
         return 0;
     }
 
     public void setPosition(int n, int n2, int n3) {
-        logDisplay.log(-2137614336, "DisplayControllerEvo#setPosition displayable: %1, xPos: %2, yPos %3", (long)n, (long)n2, (long)n3);
+        logDisplay.log(10000000, "DisplayControllerEvo#setPosition displayable: %1, xPos: %2, yPos %3", (long)n, (long)n2, (long)n3);
         hmiService.getDisplayManager().setPosition(n, this.terminal.getTerminalID(), n2, n3);
     }
 
@@ -206,7 +202,6 @@ IDisplayControllerWidget {
         this.positionsOfDisplayables = nArray;
     }
 
-    @Override
     public void disconnecting() {
         if (this.maxOpacitiesSet != null) {
             for (int i2 = 0; i2 < this.maxOpacitiesSet.length; ++i2) {
@@ -217,7 +212,6 @@ IDisplayControllerWidget {
         super.disconnecting();
     }
 
-    @Override
     public void predisconnecting() {
         AbstractScreenWidget abstractScreenWidget = (AbstractScreenWidget)this.initContext.getScreen();
         if (abstractScreenWidget != null && (abstractScreenWidget.getScreenType() == 4 || abstractScreenWidget.getScreenType() == 14) && this.model != null) {
@@ -238,10 +232,9 @@ IDisplayControllerWidget {
         }
     }
 
-    @Override
     public void activeContext(int n, int n2) {
         if (this.model != null) {
-            logDisplay.log(-2137614336, "DisplayControllerEvo#activeContext activeContext: %1, terminal: %2", (long)n, (long)n2);
+            logDisplay.log(10000000, "DisplayControllerEvo#activeContext activeContext: %1, terminal: %2", (long)n, (long)n2);
             ((ChoiceModelGUI)this.model).itemSelected(n, n2);
         }
     }
@@ -250,12 +243,10 @@ IDisplayControllerWidget {
         this.staticContext = n;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void prepareAndSwitchToTargetContext() {
         if (this.preparedContext != this.getTargetContextID()) {
             this.prepareContextSwitch();
@@ -263,7 +254,6 @@ IDisplayControllerWidget {
         this.switchToTargetContext();
     }
 
-    @Override
     public IPresetPopupData getPresetPopupData() {
         return new PresetPopupData(0, -19456, new Preset(1, this.modelID, 0, null, null, 99), null, null, -1, null);
     }

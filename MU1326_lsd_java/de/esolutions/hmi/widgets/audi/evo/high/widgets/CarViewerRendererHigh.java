@@ -23,8 +23,8 @@ extends AbstractRendererHigh
 implements ICarViewerRenderer {
     private final CarViewerController controller;
     private Car3DResourceHandler car3DResourceHandler;
-    private static final String NODE_PATH_PITCH;
-    private static final String NODE_PATH_ROLL;
+    private static final String NODE_PATH_PITCH = "gyro_pitch_angle";
+    private static final String NODE_PATH_ROLL = "gyro_roll_angle";
     private IWrappedNode3D pitchTextParentNode;
     private IWrappedNode3D rollTextParentNode;
     private boolean resourcesLoaded;
@@ -33,7 +33,6 @@ implements ICarViewerRenderer {
         this.controller = carViewerController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.car3DResourceHandler = this.getEALManager().getCar3DResourceHandler();
@@ -49,7 +48,6 @@ implements ICarViewerRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         if (this.car3DResourceHandler != null) {
             boolean bl;
@@ -75,17 +73,16 @@ implements ICarViewerRenderer {
         this.car3DResourceHandler.setScale(this.controller.getScale());
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.isConnected()) {
-            logChannel3DCar.log(-2137614336, "CarViewerRendererHigh#render do nothing because not connected");
+            logChannel3DCar.log(10000000, "CarViewerRendererHigh#render do nothing because not connected");
             return;
         }
         if (!this.resourcesLoaded) {
             this.loadResources();
         }
         if (!this.controller.shouldRender()) {
-            logChannel3DCar.log(-2137614336, "CarViewerRendererHigh#render set invisible because should not render");
+            logChannel3DCar.log(10000000, "CarViewerRendererHigh#render set invisible because should not render");
             this.setVisible(false);
             return;
         }
@@ -99,11 +96,11 @@ implements ICarViewerRenderer {
         }
         if (!this.controller.getTerminalImpl().getCarCodingHelper().hasGyro()) {
             this.resourcesLoaded = true;
-            logChannel3DCar.log(-2137614336, "CarViewerRendererHigh#loadResources derivate has no gyro");
+            logChannel3DCar.log(10000000, "CarViewerRendererHigh#loadResources derivate has no gyro");
             return;
         }
-        INode3D iNode3D = this.getEALManager().getShortcutNode3D("gyro_pitch_angle");
-        INode3D iNode3D2 = this.getEALManager().getShortcutNode3D("gyro_roll_angle");
+        INode3D iNode3D = this.getEALManager().getShortcutNode3D(NODE_PATH_PITCH);
+        INode3D iNode3D2 = this.getEALManager().getShortcutNode3D(NODE_PATH_ROLL);
         if (iNode3D == null || iNode3D2 == null) {
             this.resourcesLoaded = false;
             logChannel3DCar.log(10000, "CarViewerRendererHigh#loadResources failed to load pitch/roll angle node(s)");
@@ -148,15 +145,13 @@ implements ICarViewerRenderer {
         iNode.dispose();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.car3DResourceHandler != null && this.car3DResourceHandler.isVisible() != bl) {
-            logChannel3DCar.log(-2137614336, "CarViewerController#setVisible: visibility of carViewer changed to: %1", bl);
+            logChannel3DCar.log(10000000, "CarViewerController#setVisible: visibility of carViewer changed to: %1", bl);
             if (this.car3DResourceHandler.getMode() == 1) {
                 this.car3DResourceHandler.startGridTranslationAnimation();
             }
@@ -164,84 +159,72 @@ implements ICarViewerRenderer {
         this.car3DResourceHandler.setVisible(bl);
     }
 
-    @Override
     public void setCarMenuIndex(int n) {
         if (this.car3DResourceHandler != null && this.controller.isConnected()) {
             this.car3DResourceHandler.setActiveCarMenuOverlay(n);
         }
     }
 
-    @Override
     public void setMode(int n) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setMode(n);
         }
     }
 
-    @Override
     public void setDriveSelectValues(int n, float f2, float f3, int n2, int n3, int n4, int n5, int n6, int n7, boolean bl, boolean bl2, boolean bl3) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setDriveSelectValues(n, f2, f3, n2, n3, n4, n5, n6, n7, bl, bl2, bl3);
         }
     }
 
-    @Override
     public void setDriveSelectDDBOpen(boolean bl) {
         if (this.car3DResourceHandler != null) {
             // empty if block
         }
     }
 
-    @Override
     public void setAmbientLightValues(float[] fArray, float[] fArray2, float[] fArray3) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setAmbientLightValues(fArray, fArray2, fArray3);
         }
     }
 
-    @Override
     public void setAmbientLightPackage(int n) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setAmbientLightPackage(n);
         }
     }
 
-    @Override
     public void setUGDOMode(int n) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setUGDOMode(n);
         }
     }
 
-    @Override
     public void setViewSizeTargetChanged(int n, boolean bl) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setViewSizeTargetChanged(n, bl);
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(int n) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setViewSizeAnimationFinished(n);
         }
     }
 
-    @Override
     public void setSmallStagePositionPercentage(float f2) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setSmallStagePositionPercentage(f2);
         }
     }
 
-    @Override
     public void stopAnimations() {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.stopAnimations();
         }
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
@@ -253,14 +236,12 @@ implements ICarViewerRenderer {
         }
     }
 
-    @Override
     public void setDriveSelectPHEVValues(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setDriveSelectPHEVValues(n, n2, n3, n4, n5, n6, n7);
         }
     }
 
-    @Override
     public void updateSmallStageTranslationOffset(float f2) {
         if (this.car3DResourceHandler != null) {
             this.car3DResourceHandler.setSmallStageTranslationOffset(f2);

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.tmc;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tmc.DSITmcOnRouteReply;
 import de.esolutions.fw.comm.dsi.tmc.impl.DSITmcOnRouteReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSITmcOnRouteReply {
         super(n, (class$org$dsi$ifc$tmc$DSITmcOnRouteListener == null ? (class$org$dsi$ifc$tmc$DSITmcOnRouteListener = DSITmcOnRouteDispatcher.class$("org.dsi.ifc.tmc.DSITmcOnRouteListener")) : class$org$dsi$ifc$tmc$DSITmcOnRouteListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray, int n) {
+    public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -59,8 +58,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void updateUrgentMessages(TmcMessage[] tmcMessageArray, int n) {
+    public void updateUrgentMessages(TmcMessage[] tmcMessageArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -88,8 +86,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void tmcMessage(TmcMessage tmcMessage) {
+    public void tmcMessage(TmcMessage tmcMessage) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -105,8 +102,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void updateTmcMessagesAheadCalculationHorizon(long l, int n) {
+    public void updateTmcMessagesAheadCalculationHorizon(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -134,8 +130,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void setTmcWarningModeResult(int n) {
+    public void setTmcWarningModeResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -151,8 +146,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void updateCurrentlyBlockedTMCMessages(long[] lArray, int n) {
+    public void updateCurrentlyBlockedTMCMessages(long[] lArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -180,8 +174,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void blockTMCMessagesResult(long[] lArray, long[] lArray2) {
+    public void blockTMCMessagesResult(long[] lArray, long[] lArray2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -197,8 +190,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void unblockTMCMessagesResult(long[] lArray, long[] lArray2) {
+    public void unblockTMCMessagesResult(long[] lArray, long[] lArray2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -214,8 +206,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void unblockAllTMCMessagesResult(int n) {
+    public void unblockAllTMCMessagesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -231,8 +222,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void updateNaviCoreAvailableToChangeTMCBlockings(int n, int n2) {
+    public void updateNaviCoreAvailableToChangeTMCBlockings(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -260,8 +250,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
+    public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -277,8 +266,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void updateSpeedAndFlowAhead(SpeedAndFlowSegment[] speedAndFlowSegmentArray, int n) {
+    public void updateSpeedAndFlowAhead(SpeedAndFlowSegment[] speedAndFlowSegmentArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -306,8 +294,7 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -323,14 +310,13 @@ implements DSITmcOnRouteReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITmcOnRouteListener dSITmcOnRouteListener = (DSITmcOnRouteListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITmcOnRouteDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITmcOnRouteDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITmcOnRouteListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITmcOnRouteDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITmcOnRouteDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITmcOnRouteListener, new Object[]{string, string2});
                     continue;
                 }

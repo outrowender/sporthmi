@@ -7,25 +7,18 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIObjectPushListener
 extends DSIListener {
-    default public void updateOPPIncomingObject(String string, String string2, int n, int n2) {
-    }
+    public void updateOPPIncomingObject(String var1, String var2, int var3, int var4);
 
-    default public void responseOPPAbortSending(int n) {
-    }
+    public void responseOPPAbortSending(int var1);
 
-    default public void responseOPPAcceptObject(int n) {
-    }
+    public void responseOPPAcceptObject(int var1);
 
-    default public void responseOPPSendContacts(int n) {
-    }
+    public void responseOPPSendContacts(int var1);
 
-    default public void responseOPPSendMessages(int n) {
-    }
+    public void responseOPPSendMessages(int var1);
 
-    default public void responseOPPSendBinary(int n) {
-    }
+    public void responseOPPSendBinary(int var1);
 
-    default public void updateVCardsReceived(String string, int n) {
-    }
+    public void updateVCardsReceived(String var1, int var2);
 }
 

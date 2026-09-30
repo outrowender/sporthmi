@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.HybridSinkState;
 
 public class HybridSinkStateSerializer {
-    public static void putOptionalHybridSinkState(ISerializer iSerializer, HybridSinkState hybridSinkState) {
+    public static void putOptionalHybridSinkState(ISerializer iSerializer, HybridSinkState hybridSinkState) throws SerializerException {
         boolean bl = hybridSinkState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class HybridSinkStateSerializer {
         }
     }
 
-    public static void putOptionalHybridSinkStateVarArray(ISerializer iSerializer, HybridSinkState[] hybridSinkStateArray) {
+    public static void putOptionalHybridSinkStateVarArray(ISerializer iSerializer, HybridSinkState[] hybridSinkStateArray) throws SerializerException {
         boolean bl = hybridSinkStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class HybridSinkStateSerializer {
         }
     }
 
-    public static HybridSinkState getOptionalHybridSinkState(IDeserializer iDeserializer) {
+    public static HybridSinkState getOptionalHybridSinkState(IDeserializer iDeserializer) throws SerializerException {
         HybridSinkState hybridSinkState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class HybridSinkStateSerializer {
         return hybridSinkState;
     }
 
-    public static HybridSinkState[] getOptionalHybridSinkStateVarArray(IDeserializer iDeserializer) {
+    public static HybridSinkState[] getOptionalHybridSinkStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         HybridSinkState[] hybridSinkStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

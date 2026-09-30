@@ -7,76 +7,55 @@ import org.apache.xerces.xni.Augmentations;
 import org.apache.xerces.xni.XMLLocator;
 import org.apache.xerces.xni.XMLResourceIdentifier;
 import org.apache.xerces.xni.XMLString;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDTDSource;
 
 public interface XMLDTDHandler {
-    public static final short CONDITIONAL_INCLUDE;
-    public static final short CONDITIONAL_IGNORE;
+    public static final short CONDITIONAL_INCLUDE = 0;
+    public static final short CONDITIONAL_IGNORE = 1;
 
-    default public void startDTD(XMLLocator xMLLocator, Augmentations augmentations) {
-    }
+    public void startDTD(XMLLocator var1, Augmentations var2) throws XNIException;
 
-    default public void startParameterEntity(String string, XMLResourceIdentifier xMLResourceIdentifier, String string2, Augmentations augmentations) {
-    }
+    public void startParameterEntity(String var1, XMLResourceIdentifier var2, String var3, Augmentations var4) throws XNIException;
 
-    default public void textDecl(String string, String string2, Augmentations augmentations) {
-    }
+    public void textDecl(String var1, String var2, Augmentations var3) throws XNIException;
 
-    default public void endParameterEntity(String string, Augmentations augmentations) {
-    }
+    public void endParameterEntity(String var1, Augmentations var2) throws XNIException;
 
-    default public void startExternalSubset(XMLResourceIdentifier xMLResourceIdentifier, Augmentations augmentations) {
-    }
+    public void startExternalSubset(XMLResourceIdentifier var1, Augmentations var2) throws XNIException;
 
-    default public void endExternalSubset(Augmentations augmentations) {
-    }
+    public void endExternalSubset(Augmentations var1) throws XNIException;
 
-    default public void comment(XMLString xMLString, Augmentations augmentations) {
-    }
+    public void comment(XMLString var1, Augmentations var2) throws XNIException;
 
-    default public void processingInstruction(String string, XMLString xMLString, Augmentations augmentations) {
-    }
+    public void processingInstruction(String var1, XMLString var2, Augmentations var3) throws XNIException;
 
-    default public void elementDecl(String string, String string2, Augmentations augmentations) {
-    }
+    public void elementDecl(String var1, String var2, Augmentations var3) throws XNIException;
 
-    default public void startAttlist(String string, Augmentations augmentations) {
-    }
+    public void startAttlist(String var1, Augmentations var2) throws XNIException;
 
-    default public void attributeDecl(String string, String string2, String string3, String[] stringArray, String string4, XMLString xMLString, XMLString xMLString2, Augmentations augmentations) {
-    }
+    public void attributeDecl(String var1, String var2, String var3, String[] var4, String var5, XMLString var6, XMLString var7, Augmentations var8) throws XNIException;
 
-    default public void endAttlist(Augmentations augmentations) {
-    }
+    public void endAttlist(Augmentations var1) throws XNIException;
 
-    default public void internalEntityDecl(String string, XMLString xMLString, XMLString xMLString2, Augmentations augmentations) {
-    }
+    public void internalEntityDecl(String var1, XMLString var2, XMLString var3, Augmentations var4) throws XNIException;
 
-    default public void externalEntityDecl(String string, XMLResourceIdentifier xMLResourceIdentifier, Augmentations augmentations) {
-    }
+    public void externalEntityDecl(String var1, XMLResourceIdentifier var2, Augmentations var3) throws XNIException;
 
-    default public void unparsedEntityDecl(String string, XMLResourceIdentifier xMLResourceIdentifier, String string2, Augmentations augmentations) {
-    }
+    public void unparsedEntityDecl(String var1, XMLResourceIdentifier var2, String var3, Augmentations var4) throws XNIException;
 
-    default public void notationDecl(String string, XMLResourceIdentifier xMLResourceIdentifier, Augmentations augmentations) {
-    }
+    public void notationDecl(String var1, XMLResourceIdentifier var2, Augmentations var3) throws XNIException;
 
-    default public void startConditional(short s, Augmentations augmentations) {
-    }
+    public void startConditional(short var1, Augmentations var2) throws XNIException;
 
-    default public void ignoredCharacters(XMLString xMLString, Augmentations augmentations) {
-    }
+    public void ignoredCharacters(XMLString var1, Augmentations var2) throws XNIException;
 
-    default public void endConditional(Augmentations augmentations) {
-    }
+    public void endConditional(Augmentations var1) throws XNIException;
 
-    default public void endDTD(Augmentations augmentations) {
-    }
+    public void endDTD(Augmentations var1) throws XNIException;
 
-    default public void setDTDSource(XMLDTDSource xMLDTDSource) {
-    }
+    public void setDTDSource(XMLDTDSource var1);
 
-    default public XMLDTDSource getDTDSource() {
-    }
+    public XMLDTDSource getDTDSource();
 }
 

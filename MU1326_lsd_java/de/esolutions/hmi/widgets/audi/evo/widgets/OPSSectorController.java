@@ -18,12 +18,10 @@ extends AbstractWidgetController {
     private OPSController opsController;
     private LogChannel logChannel = IWidgetLogChannel.logChannelParking;
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.parent instanceof OPSController) {
@@ -48,7 +46,6 @@ extends AbstractWidgetController {
         this.highlighted = ((ChoiceModelGUI)this.model).getStatus() == 1;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.getModelData();
         this.notifyParent();
@@ -59,13 +56,11 @@ extends AbstractWidgetController {
         return this.value;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         this.notifyParent();
     }
 
-    @Override
     public boolean isHighlighted() {
         return this.highlighted;
     }

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.BCCounterSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCDistanceSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCCounter;
 import org.dsi.ifc.carkombi.BCStatisticsDistanceEU;
 import org.dsi.ifc.global.CarBCDistance;
 
 public class BCStatisticsDistanceEUSerializer {
-    public static void putOptionalBCStatisticsDistanceEU(ISerializer iSerializer, BCStatisticsDistanceEU bCStatisticsDistanceEU) {
+    public static void putOptionalBCStatisticsDistanceEU(ISerializer iSerializer, BCStatisticsDistanceEU bCStatisticsDistanceEU) throws SerializerException {
         boolean bl = bCStatisticsDistanceEU == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BCStatisticsDistanceEUSerializer {
         }
     }
 
-    public static void putOptionalBCStatisticsDistanceEUVarArray(ISerializer iSerializer, BCStatisticsDistanceEU[] bCStatisticsDistanceEUArray) {
+    public static void putOptionalBCStatisticsDistanceEUVarArray(ISerializer iSerializer, BCStatisticsDistanceEU[] bCStatisticsDistanceEUArray) throws SerializerException {
         boolean bl = bCStatisticsDistanceEUArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BCStatisticsDistanceEUSerializer {
         }
     }
 
-    public static BCStatisticsDistanceEU getOptionalBCStatisticsDistanceEU(IDeserializer iDeserializer) {
+    public static BCStatisticsDistanceEU getOptionalBCStatisticsDistanceEU(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsDistanceEU bCStatisticsDistanceEU = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class BCStatisticsDistanceEUSerializer {
         return bCStatisticsDistanceEU;
     }
 
-    public static BCStatisticsDistanceEU[] getOptionalBCStatisticsDistanceEUVarArray(IDeserializer iDeserializer) {
+    public static BCStatisticsDistanceEU[] getOptionalBCStatisticsDistanceEUVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsDistanceEU[] bCStatisticsDistanceEUArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

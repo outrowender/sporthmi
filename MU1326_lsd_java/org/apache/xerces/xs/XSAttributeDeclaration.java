@@ -6,40 +6,31 @@ package org.apache.xerces.xs;
 import org.apache.xerces.xs.ShortList;
 import org.apache.xerces.xs.XSAnnotation;
 import org.apache.xerces.xs.XSComplexTypeDefinition;
+import org.apache.xerces.xs.XSException;
 import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 
 public interface XSAttributeDeclaration
 extends XSObject {
-    default public XSSimpleTypeDefinition getTypeDefinition() {
-    }
+    public XSSimpleTypeDefinition getTypeDefinition();
 
-    default public short getScope() {
-    }
+    public short getScope();
 
-    default public XSComplexTypeDefinition getEnclosingCTDefinition() {
-    }
+    public XSComplexTypeDefinition getEnclosingCTDefinition();
 
-    default public short getConstraintType() {
-    }
+    public short getConstraintType();
 
-    default public String getConstraintValue() {
-    }
+    public String getConstraintValue();
 
-    default public Object getActualVC() {
-    }
+    public Object getActualVC() throws XSException;
 
-    default public short getActualVCType() {
-    }
+    public short getActualVCType() throws XSException;
 
-    default public ShortList getItemValueTypes() {
-    }
+    public ShortList getItemValueTypes() throws XSException;
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

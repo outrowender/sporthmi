@@ -3,6 +3,7 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
@@ -14,36 +15,35 @@ import java.util.TimeZoneTable;
 
 public class GregorianCalendar
 extends Calendar {
-    private static final long serialVersionUID;
-    public static final int BC;
-    public static final int AD;
+    private static final long serialVersionUID = -8125100834729963327L;
+    public static final int BC = 0;
+    public static final int AD = 1;
     private long gregorianCutover = -12219292800000L;
     private transient int changeYear = 1582;
     private transient int julianSkew = (this.changeYear - 2000) / 400 + this.julianError() - (this.changeYear - 2000) / 100;
-    static byte[] DaysInMonth;
+    static byte[] DaysInMonth = new byte[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private static int[] DaysInYear;
     private static int[] maximums;
     private static int[] minimums;
     private static int[] leastMaximums;
-    private static final int CACHED_YEAR;
-    private static final int CACHED_MONTH;
-    private static final int CACHED_DATE;
-    private static final int CACHED_DAY_OF_WEEK;
-    private static final int CACHED_TZ_OFFSET;
+    private static final int CACHED_YEAR = 0;
+    private static final int CACHED_MONTH = 1;
+    private static final int CACHED_DATE = 2;
+    private static final int CACHED_DAY_OF_WEEK = 3;
+    private static final int CACHED_TZ_OFFSET = 4;
     private transient boolean isCached = false;
-    private static final int CACHED_ZONE_OFFSET;
-    private static final int CACHED_DST_OFFSET;
-    private static final int CACHED_ERA;
-    private static final int CACHED_WEEK_OF_YEAR;
-    private static final int CACHED_WEEK_OF_MONTH;
-    private static final int CACHED_DAY_OF_YEAR;
-    private static final int CACHED_DAY_OF_WEEK_IN_MONTH;
+    private static final int CACHED_ZONE_OFFSET = 5;
+    private static final int CACHED_DST_OFFSET = 6;
+    private static final int CACHED_ERA = 7;
+    private static final int CACHED_WEEK_OF_YEAR = 8;
+    private static final int CACHED_WEEK_OF_MONTH = 9;
+    private static final int CACHED_DAY_OF_YEAR = 10;
+    private static final int CACHED_DAY_OF_WEEK_IN_MONTH = 11;
     private transient int[] cachedFields = new int[12];
     private transient long nextMidnightMillis = 0L;
     private transient long lastMidnightMillis = 0L;
 
     static {
-        DaysInMonth = new byte[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int[] nArray = new int[12];
         nArray[1] = 31;
         nArray[2] = 59;
@@ -57,7 +57,7 @@ extends Calendar {
         nArray[10] = 304;
         nArray[11] = 334;
         DaysInYear = nArray;
-        maximums = new int[]{1, -757961967, 11, 53, 6, 31, 366, 7, 6, 1, 11, 23, 59, 59, 999, 3052290, -2131872256};
+        maximums = new int[]{1, 292278994, 11, 53, 6, 31, 366, 7, 6, 1, 11, 23, 59, 59, 999, 43200000, 3600000};
         int[] nArray2 = new int[17];
         nArray2[1] = 1;
         nArray2[3] = 1;
@@ -65,9 +65,9 @@ extends Calendar {
         nArray2[6] = 1;
         nArray2[7] = 1;
         nArray2[8] = -1;
-        nArray2[15] = 13790461;
+        nArray2[15] = -43200000;
         minimums = nArray2;
-        leastMaximums = new int[]{1, -22320367, 11, 52, 4, 28, 365, 7, 4, 1, 11, 23, 59, 59, 999, 3052290, -2131872256};
+        leastMaximums = new int[]{1, 292269054, 11, 52, 4, 28, 365, 7, 4, 1, 11, 23, 59, 59, 999, 43200000, 3600000};
     }
 
     public GregorianCalendar() {
@@ -113,7 +113,6 @@ extends Calendar {
         this.setMinimalDaysInFirstWeek(1);
     }
 
-    @Override
     public void add(int n, int n2) {
         if (n2 == 0) {
             return;
@@ -167,32 +166,32 @@ extends Calendar {
                 break;
             }
             case 13: {
-                this.time += (long)n2 * 0;
+                this.time += (long)n2 * 1000L;
                 break;
             }
             case 12: {
-                this.time += (long)n2 * 0;
+                this.time += (long)n2 * 60000L;
                 break;
             }
             case 10: 
             case 11: {
-                this.time += (long)n2 * 0;
+                this.time += (long)n2 * 3600000L;
                 break;
             }
             case 9: {
-                l = 0;
+                l = 43200000L;
                 break;
             }
             case 5: 
             case 6: 
             case 7: {
-                l = 0;
+                l = 86400000L;
                 break;
             }
             case 3: 
             case 4: 
             case 8: {
-                l = 0;
+                l = 604800000L;
             }
         }
         if (l > 0L) {
@@ -210,14 +209,14 @@ extends Calendar {
     private final void fullFieldsCalc(long l, int n, int n2) {
         int n3;
         int n4;
-        long l2 = l / 0;
+        long l2 = l / 86400000L;
         long l3 = (long)n + (long)n2;
         while (l3 < 0L) {
-            l3 += 0;
+            l3 += 86400000L;
             --l2;
         }
-        while (l3 >= 0) {
-            l3 -= 0;
+        while (l3 >= 86400000L) {
+            l3 -= 86400000L;
             ++l2;
         }
         int n5 = (int)l3;
@@ -229,7 +228,7 @@ extends Calendar {
             n7 -= this.daysInMonth(bl, n6);
             ++n6;
         }
-        this.fields[7] = this.mod7(l2 - 0) + 1;
+        this.fields[7] = this.mod7(l2 - 3L) + 1;
         TimeZone timeZone = this.getTimeZone();
         boolean bl2 = timeZone.inDaylightTime(new Date(l));
         this.fields[16] = n3 = bl2 ? timeZone.getDSTSavings() : 0;
@@ -250,8 +249,8 @@ extends Calendar {
         this.fields[2] = n6;
         this.fields[5] = n7;
         this.fields[8] = (n7 - 1) / 7 + 1;
-        this.fields[4] = (n7 - 1 + this.mod7(l2 - (long)n7 - 0 - (long)(this.getFirstDayOfWeek() - 1))) / 7 + 1;
-        int n8 = this.mod7(l2 - 0 - (long)(this.fields[6] - 1) - (long)(this.getFirstDayOfWeek() - 1));
+        this.fields[4] = (n7 - 1 + this.mod7(l2 - (long)n7 - 2L - (long)(this.getFirstDayOfWeek() - 1))) / 7 + 1;
+        int n8 = this.mod7(l2 - 3L - (long)(this.fields[6] - 1) - (long)(this.getFirstDayOfWeek() - 1));
         int n9 = (this.fields[6] - 1 + n8) / 7 + (7 - n8 >= this.getMinimalDaysInFirstWeek() ? 1 : 0);
         this.fields[3] = n9 == 0 ? (7 - this.mod7(n8 - (this.isLeapYear(this.fields[1] - 1) ? 2 : 1)) >= this.getMinimalDaysInFirstWeek() ? 53 : 52) : (this.fields[6] >= (bl ? 367 : 366) - this.mod7(n8 + (bl ? 2 : 1)) ? (7 - this.mod7(n8 + (bl ? 2 : 1)) >= this.getMinimalDaysInFirstWeek() ? 1 : n9) : n9);
     }
@@ -270,7 +269,6 @@ extends Calendar {
         this.fields[8] = this.cachedFields[11];
     }
 
-    @Override
     protected void computeFields() {
         this.actualComputeFields();
         int n = 0;
@@ -283,7 +281,7 @@ extends Calendar {
     private void actualComputeFields() {
         int n;
         int n2;
-        int n3 = n2 = (int)(this.time % 0);
+        int n3 = n2 = (int)(this.time % 86400000L);
         int n4 = this.getTimeZone().getOffset(this.time);
         long l = this.time + (long)n4;
         if (this.time > 0L && l < 0L && n4 > 0) {
@@ -292,16 +290,16 @@ extends Calendar {
             l = Long.MIN_VALUE;
         }
         if (this.isCached) {
-            if (n4 != this.cachedFields[4] || n4 <= 10803706 || n4 >= 6039045) {
+            if (n4 != this.cachedFields[4] || n4 <= -86400000 || n4 >= 86400000) {
                 this.isCached = false;
             } else {
                 if (n2 < 0) {
-                    n2 += 6039045;
+                    n2 += 86400000;
                 }
                 if ((n2 += n4) < 0) {
-                    n2 += 6039045;
-                } else if (n2 >= 6039045) {
-                    n2 -= 6039045;
+                    n2 += 86400000;
+                } else if (n2 >= 86400000) {
+                    n2 -= 86400000;
                 }
                 if (l >= this.nextMidnightMillis || l <= this.lastMidnightMillis) {
                     this.isCached = false;
@@ -355,7 +353,6 @@ extends Calendar {
         }
     }
 
-    @Override
     protected void computeTime() {
         long l;
         int n;
@@ -393,10 +390,10 @@ extends Calendar {
                 throw new IllegalArgumentException();
             }
             if (this.isSet[1]) {
-                if (this.isSet[0] && this.fields[0] == 0 && (this.fields[1] < 1 || this.fields[1] > -22320367)) {
+                if (this.isSet[0] && this.fields[0] == 0 && (this.fields[1] < 1 || this.fields[1] > 292269054)) {
                     throw new IllegalArgumentException();
                 }
-                if (this.fields[1] < 1 || this.fields[1] > -757961967) {
+                if (this.fields[1] < 1 || this.fields[1] > 292278994) {
                     throw new IllegalArgumentException();
                 }
             }
@@ -410,9 +407,9 @@ extends Calendar {
         } else if (this.isSet[10]) {
             n3 = this.fields[9] * 12 + this.fields[10];
         }
-        long l2 = n3 * -2131872256;
+        long l2 = n3 * 3600000;
         if (this.isSet[12]) {
-            l2 += (long)(this.fields[12] * 1625948160);
+            l2 += (long)(this.fields[12] * 60000);
         }
         if (this.isSet[13]) {
             l2 += (long)(this.fields[13] * 1000);
@@ -460,10 +457,10 @@ extends Calendar {
             } else {
                 int n5 = this.isSet[7] ? this.fields[7] - 1 : this.getFirstDayOfWeek() - 1;
                 if (this.isSet[4] && this.lastDateFieldSet != 8) {
-                    int n6 = this.mod7(l - 0 - (long)(this.getFirstDayOfWeek() - 1));
-                    l += (long)((this.fields[4] - 1) * 7 + this.mod7((long)(n6 + n5) - (l - 0)) - n6);
+                    int n6 = this.mod7(l - 3L - (long)(this.getFirstDayOfWeek() - 1));
+                    l += (long)((this.fields[4] - 1) * 7 + this.mod7((long)(n6 + n5) - (l - 3L)) - n6);
                 } else if (this.isSet[8]) {
-                    l = this.fields[8] >= 0 ? (l += (long)(this.mod7((long)n5 - (l - 0)) + (this.fields[8] - 1) * 7)) : (l += (long)(this.daysInMonth(n != 0, n2) + this.mod7((long)n5 - (l + (long)this.daysInMonth(n != 0, n2) - 0)) + this.fields[8] * 7));
+                    l = this.fields[8] >= 0 ? (l += (long)(this.mod7((long)n5 - (l - 3L)) + (this.fields[8] - 1) * 7)) : (l += (long)(this.daysInMonth(n != 0, n2) + this.mod7((long)n5 - (l + (long)this.daysInMonth(n != 0, n2) - 3L)) + this.fields[8] * 7));
                 }
             }
         } else {
@@ -474,10 +471,10 @@ extends Calendar {
             l = this.daysFromBaseYear(n4);
             if (n2 != 0) {
                 n = this.isSet[7] ? this.fields[7] - 1 : this.getFirstDayOfWeek() - 1;
-                int n8 = this.mod7(l - 0 - (long)(this.getFirstDayOfWeek() - 1));
-                l += (long)((this.fields[3] - 1) * 7 + this.mod7((long)(n8 + n) - (l - 0)) - n8);
+                int n8 = this.mod7(l - 3L - (long)(this.getFirstDayOfWeek() - 1));
+                l += (long)((this.fields[3] - 1) * 7 + this.mod7((long)(n8 + n) - (l - 3L)) - n8);
                 if (7 - n8 < this.getMinimalDaysInFirstWeek()) {
-                    l += 0;
+                    l += 7L;
                 }
             } else if (this.isSet[6]) {
                 if (!(this.isLenient() || this.fields[6] >= 1 && this.fields[6] <= 365 + (this.isLeapYear(n4) ? 1 : 0))) {
@@ -485,12 +482,12 @@ extends Calendar {
                 }
                 l += (long)(this.fields[6] - 1);
             } else if (this.isSet[7]) {
-                l += (long)this.mod7((long)(this.fields[7] - 1) - (l - 0));
+                l += (long)this.mod7((long)(this.fields[7] - 1) - (l - 3L));
             }
         }
         this.lastDateFieldSet = 0;
-        if (n4 == this.changeYear && (l2 += l * 0) >= this.gregorianCutover + (long)(this.julianError() * 6039045)) {
-            l2 -= (long)(this.julianError() * 6039045);
+        if (n4 == this.changeYear && (l2 += l * 86400000L) >= this.gregorianCutover + (long)(this.julianError() * 86400000)) {
+            l2 -= (long)(this.julianError() * 86400000);
         }
         l2 = (n2 = this.getOffset(l2)) == (n = this.getTimeZone().getOffset(l2 - (long)n2)) ? (l2 -= (long)n2) : (l2 -= (long)n);
         this.time = l2;
@@ -507,11 +504,11 @@ extends Calendar {
         if (l2 < this.gregorianCutover) {
             l3 -= (long)this.julianSkew;
         }
-        while ((n = (int)(l3 / 0)) != 0) {
+        while ((n = (int)(l3 / 365L)) != 0) {
             l3 = l - this.daysFromBaseYear(n2 += n);
         }
         if (l3 < 0L) {
-            l3 = l3 + 0 + (long)(this.isLeapYear(--n2) ? 1 : 0);
+            l3 = l3 + 365L + (long)(this.isLeapYear(--n2) ? 1 : 0);
             if (n2 == this.changeYear && l2 < this.gregorianCutover) {
                 l3 -= (long)this.julianError();
             }
@@ -522,14 +519,14 @@ extends Calendar {
 
     private long daysFromBaseYear(int n) {
         if (n >= 1970) {
-            long l = (long)(n - 1970) * 0 + (long)((n - 1969) / 4);
+            long l = (long)(n - 1970) * 365L + (long)((n - 1969) / 4);
             l = n > this.changeYear ? (l -= (long)((n - 1901) / 100 - (n - 1601) / 400)) : (l += (long)this.julianSkew);
             return l;
         }
         if (n <= this.changeYear) {
-            return (long)(n - 1970) * 0 + (long)((n - 1972) / 4) + (long)this.julianSkew;
+            return (long)(n - 1970) * 365L + (long)((n - 1972) / 4) + (long)this.julianSkew;
         }
-        return (long)(n - 1970) * 0 + (long)((n - 1972) / 4) - (long)((n - 2000) / 100) + (long)((n - 2000) / 400);
+        return (long)(n - 1970) * 365L + (long)((n - 1972) / 4) - (long)((n - 2000) / 100) + (long)((n - 2000) / 400);
     }
 
     private int daysInMonth() {
@@ -554,12 +551,10 @@ extends Calendar {
         return DaysInYear[n];
     }
 
-    @Override
     public boolean equals(Object object) {
         return super.equals(object) && this.gregorianCutover == ((GregorianCalendar)object).gregorianCutover;
     }
 
-    @Override
     public int getActualMaximum(int n) {
         int n2 = this.getMaximum(n);
         if (n2 == this.getLeastMaximum(n)) {
@@ -619,12 +614,10 @@ extends Calendar {
         return n3;
     }
 
-    @Override
     public int getActualMinimum(int n) {
         return this.getMinimum(n);
     }
 
-    @Override
     public int getGreatestMinimum(int n) {
         return minimums[n];
     }
@@ -633,17 +626,14 @@ extends Calendar {
         return new Date(this.gregorianCutover);
     }
 
-    @Override
     public int getLeastMaximum(int n) {
         return leastMaximums[n];
     }
 
-    @Override
     public int getMaximum(int n) {
         return maximums[n];
     }
 
-    @Override
     public int getMinimum(int n) {
         return minimums[n];
     }
@@ -654,10 +644,10 @@ extends Calendar {
         if (!(timeZone instanceof TimeZoneTable) && !timeZone.useDaylightTime()) {
             return timeZone.getRawOffset();
         }
-        long l2 = l / 0;
-        int n2 = (int)(l % 0);
+        long l2 = l / 86400000L;
+        int n2 = (int)(l % 86400000L);
         if (n2 < 0) {
-            n2 += 6039045;
+            n2 += 86400000;
             --l2;
         }
         int n3 = 1970;
@@ -665,11 +655,11 @@ extends Calendar {
         if (l < this.gregorianCutover) {
             l3 -= (long)this.julianSkew;
         }
-        while ((n = (int)(l3 / 0)) != 0) {
+        while ((n = (int)(l3 / 365L)) != 0) {
             l3 = l2 - this.daysFromBaseYear(n3 += n);
         }
         if (l3 < 0L) {
-            l3 = l3 + 0 + (long)(this.isLeapYear(--n3) ? 1 : 0);
+            l3 = l3 + 365L + (long)(this.isLeapYear(--n3) ? 1 : 0);
             if (n3 == this.changeYear && l < this.gregorianCutover) {
                 l3 -= (long)this.julianError();
             }
@@ -685,12 +675,11 @@ extends Calendar {
             n6 -= this.daysInMonth(bl, n5);
             ++n5;
         }
-        int n7 = this.mod7(l2 - 0) + 1;
+        int n7 = this.mod7(l2 - 3L) + 1;
         int n8 = timeZone.getOffset(1, n3, n5, n6, n7, n2);
         return n8;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode() + ((int)(this.gregorianCutover >>> 32) ^ (int)this.gregorianCutover);
     }
@@ -715,14 +704,13 @@ extends Calendar {
     }
 
     private int mod7(long l) {
-        int n = (int)(l % 0);
+        int n = (int)(l % 7L);
         if (l < 0L && n < 0) {
             return n + 7;
         }
         return n;
     }
 
-    @Override
     public void roll(int n, int n2) {
         if (n2 == 0) {
             return;
@@ -812,7 +800,6 @@ extends Calendar {
         this.complete();
     }
 
-    @Override
     public void roll(int n, boolean bl) {
         this.roll(n, bl ? 1 : -1);
     }
@@ -829,29 +816,26 @@ extends Calendar {
         this.isCached = false;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.setGregorianChange(new Date(this.gregorianCutover));
         this.isCached = false;
     }
 
-    @Override
     public void setFirstDayOfWeek(int n) {
         super.setFirstDayOfWeek(n);
         this.isCached = false;
     }
 
-    @Override
     public void setMinimalDaysInFirstWeek(int n) {
         super.setMinimalDaysInFirstWeek(n);
         this.isCached = false;
     }
 
-    @Override
     public void setTimeZone(TimeZone timeZone) {
         super.setTimeZone(timeZone);
         this.isCached = false;

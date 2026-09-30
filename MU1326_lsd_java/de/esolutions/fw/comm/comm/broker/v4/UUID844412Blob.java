@@ -22,7 +22,7 @@ public class UUID844412Blob {
     }
 
     public String toString() {
-        return new StringBuffer("UUID844412Blob{").append("bytes=").append("[").append(this.bytes == null ? "null" : new StringBuffer().append("size=").append(this.bytes.length).toString()).append("]").append("}").toString();
+        return "UUID844412Blob{" + "bytes=" + "[" + (this.bytes == null ? "null" : "size=" + this.bytes.length) + "]" + "}";
     }
 }
 

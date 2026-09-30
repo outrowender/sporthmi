@@ -25,28 +25,23 @@ implements DSIBAP {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$bap$DSIBAP == null ? (class$org$dsi$ifc$bap$DSIBAP = DSIBAPProvider.class$("org.dsi.ifc.bap.DSIBAP")) : class$org$dsi$ifc$bap$DSIBAP).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIBAPProxy(this.instance, (DSIBAPReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getBAPState(int n) {
         try {
             this.proxy.getBAPState(n);
@@ -56,7 +51,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void setHMIState(int n, int n2) {
         try {
             this.proxy.setHMIState(n, n2);
@@ -66,7 +60,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void request(int n, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.request(n, n2, n3, n4, n5);
@@ -76,7 +69,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void requestVoid(int n, int n2, int n3) {
         try {
             this.proxy.requestVoid(n, n2, n3);
@@ -86,7 +78,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void requestByteSequence(int n, int n2, int n3, byte[] byArray) {
         try {
             this.proxy.requestByteSequence(n, n2, n3, byArray);
@@ -96,7 +87,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void requestError(int n, int n2, int n3) {
         try {
             this.proxy.requestError(n, n2, n3);
@@ -106,7 +96,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -116,7 +105,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -126,7 +114,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -136,7 +123,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -146,7 +132,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -156,7 +141,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -166,7 +150,6 @@ implements DSIBAP {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

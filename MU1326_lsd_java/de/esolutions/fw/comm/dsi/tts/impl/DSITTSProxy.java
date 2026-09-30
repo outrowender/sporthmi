@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tts.DSITTS;
 import de.esolutions.fw.comm.dsi.tts.DSITTSC;
 import de.esolutions.fw.comm.dsi.tts.DSITTSReply;
-import de.esolutions.fw.comm.dsi.tts.impl.DSITTSProxy$1;
 import de.esolutions.fw.comm.dsi.tts.impl.DSITTSReplyService;
+import de.esolutions.fw.comm.dsi.tts.impl.TTSPromptSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tts.TTSPrompt;
@@ -32,14 +34,18 @@ DSITTSC {
         return this.proxy;
     }
 
-    @Override
-    public void speakPrompt(short s, TTSPrompt tTSPrompt) {
-        DSITTSProxy$1 dSITTSProxy$1 = new DSITTSProxy$1(this, s, tTSPrompt);
-        this.proxy.remoteCallMethod((short)10, dSITTSProxy$1);
+    public void speakPrompt(final short s, final TTSPrompt tTSPrompt) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt16(s);
+                TTSPromptSerializer.putOptionalTTSPrompt(iSerializer, tTSPrompt);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void setLanguage(short s, String string, int n, int n2, int n3) {
+    public void setLanguage(short s, String string, int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -54,8 +60,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void init(short s) {
+    public void init(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -66,8 +71,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void requestAudioTrigger(short s, int n) {
+    public void requestAudioTrigger(short s, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -79,8 +83,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void requestPlayTone(short s, int n) {
+    public void requestPlayTone(short s, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -92,8 +95,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void requestSkipSpeaking(short s, int n, int n2) {
+    public void requestSkipSpeaking(short s, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -106,8 +108,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -118,8 +119,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -130,13 +130,11 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -147,8 +145,7 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -159,13 +156,11 @@ DSITTSC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

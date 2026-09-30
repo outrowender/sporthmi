@@ -4,8 +4,12 @@
 package java.security.cert;
 
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Principal;
 import java.security.PublicKey;
+import java.security.SignatureException;
 import java.security.cert.CRL;
 import java.security.cert.CRLException;
 import java.security.cert.X509CRLEntry;
@@ -22,47 +26,33 @@ implements X509Extension {
         super("X.509");
     }
 
-    public abstract byte[] getEncoded() {
-    }
+    public abstract byte[] getEncoded() throws CRLException;
 
-    public abstract Principal getIssuerDN() {
-    }
+    public abstract Principal getIssuerDN();
 
-    public abstract Date getNextUpdate() {
-    }
+    public abstract Date getNextUpdate();
 
-    public abstract X509CRLEntry getRevokedCertificate(BigInteger bigInteger) {
-    }
+    public abstract X509CRLEntry getRevokedCertificate(BigInteger var1);
 
-    public abstract Set getRevokedCertificates() {
-    }
+    public abstract Set getRevokedCertificates();
 
-    public abstract String getSigAlgName() {
-    }
+    public abstract String getSigAlgName();
 
-    public abstract String getSigAlgOID() {
-    }
+    public abstract String getSigAlgOID();
 
-    public abstract byte[] getSigAlgParams() {
-    }
+    public abstract byte[] getSigAlgParams();
 
-    public abstract byte[] getSignature() {
-    }
+    public abstract byte[] getSignature();
 
-    public abstract byte[] getTBSCertList() {
-    }
+    public abstract byte[] getTBSCertList() throws CRLException;
 
-    public abstract Date getThisUpdate() {
-    }
+    public abstract Date getThisUpdate();
 
-    public abstract int getVersion() {
-    }
+    public abstract int getVersion();
 
-    public abstract void verify(PublicKey publicKey) {
-    }
+    public abstract void verify(PublicKey var1) throws CRLException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException;
 
-    public abstract void verify(PublicKey publicKey, String string) {
-    }
+    public abstract void verify(PublicKey var1, String var2) throws CRLException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException;
 
     public boolean equals(Object object) {
         if (object == null) {

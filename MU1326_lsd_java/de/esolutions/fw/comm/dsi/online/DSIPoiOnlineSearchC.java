@@ -3,70 +3,50 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 
 public interface DSIPoiOnlineSearchC {
-    default public void poiStartSelectionZoom(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void poiStartSelectionZoom(String var1, int var2, int var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void dynamicPoiStartSelectionZoom(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
-    }
+    public void dynamicPoiStartSelectionZoom(int var1, int var2, int var3, int var4, int var5, int var6, int var7) throws MethodException;
 
-    default public void poiStartSelection(String string, int n, int n2, int n3, int n4) {
-    }
+    public void poiStartSelection(String var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void dynamicPoiStartSelection(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void dynamicPoiStartSelection(int var1, int var2, int var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void poiStopSelection() {
-    }
+    public void poiStopSelection() throws MethodException;
 
-    default public void poiRequestValueList(int n, int n2) {
-    }
+    public void poiRequestValueList(int var1, int var2) throws MethodException;
 
-    default public void poiStartVoiceSelection(int n, int n2, int n3, int n4, boolean bl, int n5) {
-    }
+    public void poiStartVoiceSelection(int var1, int var2, int var3, int var4, boolean var5, int var6) throws MethodException;
 
-    default public void poiRawVoiceDataAvailable(String string, int n) {
-    }
+    public void poiRawVoiceDataAvailable(String var1, int var2) throws MethodException;
 
-    default public void poiRequestSpellingSuggestion() {
-    }
+    public void poiRequestSpellingSuggestion() throws MethodException;
 
-    default public void usedPoi(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, int n) {
-    }
+    public void usedPoi(PoiOnlineSearchValuelistElement var1, int var2) throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void setFallbackLanguage(String string) {
-    }
+    public void setFallbackLanguage(String var1) throws MethodException;
 
-    default public void poiVoiceSearchActive() {
-    }
+    public void poiVoiceSearchActive() throws MethodException;
 
-    default public void precheckDynamicPOICategory(int n) {
-    }
+    public void precheckDynamicPOICategory(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

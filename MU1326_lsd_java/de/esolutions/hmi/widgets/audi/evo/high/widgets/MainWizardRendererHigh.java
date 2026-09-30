@@ -19,9 +19,7 @@ import de.esolutions.hmi.widgets.audi.base.eal.WrappedNode3D;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractRendererHigh;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$Cursor;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$PlaceholderItemEntry;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$Slot;
+import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IKanziTemplateRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.MainWizardController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PlaceholderMenuRenderer;
@@ -32,29 +30,29 @@ extends AbstractRendererHigh
 implements PlaceholderMenuRenderer,
 IKanziTemplateRenderer {
     private final MainWizardController controller;
-    private static final int PLACEHOLDER_COUNT;
+    private static final int PLACEHOLDER_COUNT = 9;
     private static IWrappedNode3D animNode;
     private static IWrappedNode3D cursorNode;
     private static final IWrappedNode3D[] ITEM_NODES_3D;
     private static final INode3D[] ITEM_PARENT_NODES;
     private static final INode3DText[] LABELS;
     private static final String[] LABEL_TEXTS;
-    private static final int SCROLL_ARROW_BEFORE;
-    private static final int SCROLL_ARROW_AFTER;
+    private static final int SCROLL_ARROW_BEFORE = 0;
+    private static final int SCROLL_ARROW_AFTER = 1;
     private static final INode2D[] SCROLL_ARROWS;
     private static INode2D decorator;
     private static boolean resourcesLoaded;
     private static boolean projectMerged;
     private IWrappedFont font;
-    private static final String PROPERTY_KEY_ITEM_POS;
-    private static final int COLOR_COUNT;
+    private static final String PROPERTY_KEY_ITEM_POS = "mw_CursorPos";
+    private static final int COLOR_COUNT = 4;
     private final int[] ealColors = new int[4];
-    private static final int COLOR_INDEX_FOCUS_CURSOR;
+    private static final int COLOR_INDEX_FOCUS_CURSOR = 0;
     private boolean colorsInitialized;
     private int colorWhite;
     private int colorLocked;
     private final EALPropertyCache propertyCache = new EALPropertyCache();
-    public static final float BASELINE_OFFSET_DEFAULT;
+    public static final float BASELINE_OFFSET_DEFAULT = 0.0f;
     private float baselineOffset = 0.0f;
     private Buffer stringBuilder = new Buffer();
 
@@ -62,7 +60,6 @@ IKanziTemplateRenderer {
         this.controller = mainWizardController;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.shouldRender()) {
             if (resourcesLoaded) {
@@ -100,7 +97,7 @@ IKanziTemplateRenderer {
         int n;
         boolean bl;
         boolean bl2;
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#applyProperties");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#applyProperties");
         float f2 = this.controller.getInOutPosition();
         if (animNode.isVisible() != f2 > 0.0f) {
             animNode.setVisible(f2 > 0.0f);
@@ -112,9 +109,9 @@ IKanziTemplateRenderer {
         this.propertyCache.setProperty(animNode, "mw_desaturate", this.controller.getMainWizardDesaturation());
         this.propertyCache.setProperty(animNode, "mw_darken", this.controller.getMainWizardDarkening());
         if (this.controller.isBouncing()) {
-            this.propertyCache.setProperty(cursorNode, "mw_CursorPos", this.controller.getFocusCursor().getCurrentPosition() + this.controller.getBounceOffset());
+            this.propertyCache.setProperty(cursorNode, PROPERTY_KEY_ITEM_POS, this.controller.getFocusCursor().getCurrentPosition() + this.controller.getBounceOffset());
         } else {
-            this.propertyCache.setProperty(cursorNode, "mw_CursorPos", this.controller.getFocusCursor().getCurrentPosition());
+            this.propertyCache.setProperty(cursorNode, PROPERTY_KEY_ITEM_POS, this.controller.getFocusCursor().getCurrentPosition());
         }
         float f3 = this.controller.getScrollbarLength();
         if (f3 <= 0.0f) {
@@ -125,10 +122,10 @@ IKanziTemplateRenderer {
             bl2 = f4 > 0.0f;
             boolean bl3 = bl = f4 + f3 < 1.0f;
             if (logChannelWizardRenderer.isDebug()) {
-                logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#applyProperties viewport position %1, length %2", (Object)new Float(f4), (Object)new Float(f3));
+                logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#applyProperties viewport position %1, length %2", (Object)new Float(f4), (Object)new Float(f3));
             }
         }
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#applyProperties scroll arrows visible ? before=%1, after=%2", bl2, bl);
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#applyProperties scroll arrows visible ? before=%1, after=%2", bl2, bl);
         this.propertyCache.setProperty((INode)SCROLL_ARROWS[0], "Visible", bl2);
         this.propertyCache.setProperty((INode)SCROLL_ARROWS[0], "ealOpacity", bl2 ? f2 : 0.0f);
         this.propertyCache.setProperty((INode)SCROLL_ARROWS[1], "Visible", bl);
@@ -136,7 +133,7 @@ IKanziTemplateRenderer {
         List list = this.controller.getSlots();
         for (n = 0; n < 9; ++n) {
             object = ITEM_NODES_3D[n];
-            this.propertyCache.setProperty((IWrappedNode3D)object, "mw_CursorPos", 0.0f);
+            this.propertyCache.setProperty((IWrappedNode3D)object, PROPERTY_KEY_ITEM_POS, 0.0f);
             INode3DText iNode3DText = LABELS[n];
             if (!iNode3DText.isVisible()) continue;
             iNode3DText.setVisible(false);
@@ -145,32 +142,32 @@ IKanziTemplateRenderer {
         this.font.getFontGroup().activate();
         object = this.controller.getFocusCursor();
         for (int i2 = 0; i2 < n; ++i2) {
-            AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = (AbstractPlaceholderMenuController$Slot)list.get(i2);
+            AbstractPlaceholderMenuController.Slot slot = (AbstractPlaceholderMenuController.Slot)list.get(i2);
             IWrappedNode3D iWrappedNode3D = ITEM_NODES_3D[i2];
             INode3DText iNode3DText = LABELS[i2];
-            if (abstractPlaceholderMenuController$Slot.isEnabled()) {
+            if (slot.isEnabled()) {
                 int n2;
                 boolean bl4;
                 int n3;
                 int n4;
                 int[] nArray;
-                float f5 = abstractPlaceholderMenuController$Slot.getPosition();
-                this.propertyCache.setProperty(iWrappedNode3D, "mw_CursorPos", f5);
-                if (f5 > 0.0f && f5 < 4161) {
+                float f5 = slot.getPosition();
+                this.propertyCache.setProperty(iWrappedNode3D, PROPERTY_KEY_ITEM_POS, f5);
+                if (f5 > 0.0f && f5 < 9.0f) {
                     if (!iNode3DText.isVisible()) {
                         iNode3DText.setVisible(true);
                     }
-                    String string = abstractPlaceholderMenuController$Slot.getItemEntry().getLabelText();
+                    String string = slot.getItemEntry().getLabelText();
                     if (logChannelWizardRenderer.isDebug2()) {
-                        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#applyProperties Setting label at position %1 to '%2'", (Object)String.valueOf(f5), (Object)string);
+                        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#applyProperties Setting label at position %1 to '%2'", (Object)String.valueOf(f5), (Object)string);
                     }
-                    iNode3DText.setColor(this.controller.isLocked(abstractPlaceholderMenuController$Slot.getItem()) ? (long)this.colorLocked : (long)this.colorWhite);
+                    iNode3DText.setColor(this.controller.isLocked(slot.getItem()) ? (long)this.colorLocked : (long)this.colorWhite);
                     if (LABEL_TEXTS[i2] == null || !LABEL_TEXTS[i2].equals(string)) {
                         iNode3DText.setText(this.font.getLayout(), string);
                         MainWizardRendererHigh.LABEL_TEXTS[i2] = string;
                     }
-                    int n5 = 63;
-                    int n6 = this.font.getSize();
+                    float f6 = 0.5f;
+                    int n5 = this.font.getSize();
                     nArray = this.controller.getMainWizardTextOffset();
                     n4 = 0;
                     this.baselineOffset = 0.0f;
@@ -178,23 +175,23 @@ IKanziTemplateRenderer {
                         n4 = Math.round(f5) - 3;
                         this.baselineOffset = nArray[n4];
                     }
-                    float f6 = this.flipTextAndReturnTranslationX(iNode3DText);
-                    n3 = (int)((float)n6 * n5 + this.baselineOffset);
-                    if (iNode3DText.getTranslationY() != (float)n3 || iNode3DText.getTranslationX() != f6) {
-                        iNode3DText.setTranslation(f6, n3, 0.0f);
+                    float f7 = this.flipTextAndReturnTranslationX(iNode3DText);
+                    n3 = (int)((float)n5 * f6 + this.baselineOffset);
+                    if (iNode3DText.getTranslationY() != (float)n3 || iNode3DText.getTranslationX() != f7) {
+                        iNode3DText.setTranslation(f7, n3, 0.0f);
                     }
                 }
-                this.propertyCache.setProperty(iWrappedNode3D, "icon_highlight", (bl4 = abstractPlaceholderMenuController$Slot.isFocused()) && !this.controller.isLocked(abstractPlaceholderMenuController$Slot.getItem()) ? 1.0f : 0.0f);
-                iWrappedNode3D.setOpacity(this.controller.isLocked(abstractPlaceholderMenuController$Slot.getItem()) ? this.controller.getLockingShadingOpacity() : this.controller.getRenderOpacity());
-                Object object2 = abstractPlaceholderMenuController$Slot.getItemEntry().getIconData(bl4 ? 0 : 1);
+                this.propertyCache.setProperty(iWrappedNode3D, "icon_highlight", (bl4 = slot.isFocused()) && !this.controller.isLocked(slot.getItem()) ? 1.0f : 0.0f);
+                iWrappedNode3D.setOpacity(this.controller.isLocked(slot.getItem()) ? this.controller.getLockingShadingOpacity() : this.controller.getRenderOpacity());
+                Object object2 = slot.getItemEntry().getIconData(bl4 ? 0 : 1);
                 if (object2 == null) {
-                    logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties no icon data found for itemEntry %1", (Object)abstractPlaceholderMenuController$Slot.getItemEntry());
+                    logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties no icon data found for itemEntry %1", (Object)slot.getItemEntry());
                     n2 = -1;
                 } else {
                     n2 = (Integer)object2;
                 }
                 if (n2 >= 0) {
-                    int n7 = 0;
+                    int n6 = 0;
                     n4 = 0;
                     int[][] nArray2 = this.controller.getMainWizardIconDecoratorMapping();
                     if (nArray2 != null) {
@@ -205,12 +202,12 @@ IKanziTemplateRenderer {
                             } else {
                                 logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties no mapping found for iconIndex %1 ", (long)n4);
                             }
-                            n7 = nArray2[n2][1];
+                            n6 = nArray2[n2][1];
                             if (bl4) {
-                                if (n7 >= 0) {
-                                    this.propertyCache.setProperty((INode)decorator, "AtlasIndex", (float)n7);
+                                if (n6 >= 0) {
+                                    this.propertyCache.setProperty((INode)decorator, "AtlasIndex", (float)n6);
                                 } else {
-                                    logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties no mapping found for decoratorIndex %1 ", (long)n7);
+                                    logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties no mapping found for decoratorIndex %1 ", (long)n6);
                                 }
                             }
                         } else {
@@ -221,29 +218,29 @@ IKanziTemplateRenderer {
                     }
                 }
                 if (!bl4) continue;
-                if (!((AbstractPlaceholderMenuController$Cursor)object).isCursorWidthInitialized()) {
-                    int n8 = this.calculateCurrentFocusWidth((AbstractPlaceholderMenuController$Cursor)object, (int)iNode3DText.getWidth());
-                    ((AbstractPlaceholderMenuController$Cursor)object).setTargetWidth(n8);
+                if (!((AbstractPlaceholderMenuController.Cursor)object).isCursorWidthInitialized()) {
+                    int n7 = this.calculateCurrentFocusWidth((AbstractPlaceholderMenuController.Cursor)object, (int)iNode3DText.getWidth());
+                    ((AbstractPlaceholderMenuController.Cursor)object).setTargetWidth(n7);
                 }
-                if ((nArray = abstractPlaceholderMenuController$Slot.getItem().getColorIndices()) != null && nArray.length > 0) {
+                if ((nArray = slot.getItem().getColorIndices()) != null && nArray.length > 0) {
                     int[] nArray3 = redrawContext.getActiveColorPlate();
-                    int n9 = nArray[0];
-                    if (nArray3 != null && nArray3.length > n9) {
-                        n3 = this.controller.isLocked(abstractPlaceholderMenuController$Slot.getItem()) ? this.colorLocked : EALManager.createColorCode(nArray3[n9]);
+                    int n8 = nArray[0];
+                    if (nArray3 != null && nArray3.length > n8) {
+                        n3 = this.controller.isLocked(slot.getItem()) ? this.colorLocked : EALManager.createColorCode(nArray3[n8]);
                         this.propertyCache.setColorProperty(cursorNode, "Color", n3);
                         continue;
                     }
-                    logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties color index %2 not in activeColorPlate %1", (Object)nArray3, (long)n9);
+                    logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties color index %2 not in activeColorPlate %1", (Object)nArray3, (long)n8);
                     continue;
                 }
-                logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties color index %2 not set at menu item %1", (Object)abstractPlaceholderMenuController$Slot.getItemEntry(), 0L);
+                logChannelWizardRenderer.log(10000, "MainWizardRendererHigh#applyProperties color index %2 not set at menu item %1", (Object)slot.getItemEntry(), 0L);
                 continue;
             }
             if (!iNode3DText.isVisible()) continue;
             iNode3DText.setVisible(false);
         }
-        if (((AbstractPlaceholderMenuController$Cursor)object).isVisible() && ((AbstractPlaceholderMenuController$Cursor)object).isCursorWidthInitialized()) {
-            this.propertyCache.setProperty(animNode, "mw_bracket_width", ((AbstractPlaceholderMenuController$Cursor)object).getCurrentWidth());
+        if (((AbstractPlaceholderMenuController.Cursor)object).isVisible() && ((AbstractPlaceholderMenuController.Cursor)object).isCursorWidthInitialized()) {
+            this.propertyCache.setProperty(animNode, "mw_bracket_width", ((AbstractPlaceholderMenuController.Cursor)object).getCurrentWidth());
         }
     }
 
@@ -253,35 +250,34 @@ IKanziTemplateRenderer {
             iNode3DText.setScale(1.0f, 1.0f, 1.0f);
             return 0.0f;
         }
-        iNode3DText.setScale(32959, 1.0f, 1.0f);
+        iNode3DText.setScale(-1.0f, 1.0f, 1.0f);
         return Math.abs(iNode3DText.getWidth());
     }
 
-    private int calculateCurrentFocusWidth(AbstractPlaceholderMenuController$Cursor abstractPlaceholderMenuController$Cursor, int n) {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry;
-        float f2 = abstractPlaceholderMenuController$Cursor.getHddsOffset();
+    private int calculateCurrentFocusWidth(AbstractPlaceholderMenuController.Cursor cursor, int n) {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry;
+        float f2 = cursor.getHddsOffset();
         if (f2 == 0.0f) {
             return n;
         }
         boolean bl = f2 > 0.0f;
-        for (abstractPlaceholderMenuController$PlaceholderItemEntry = abstractPlaceholderMenuController$Cursor.getTargetItemEntry().getNextIteratedEntry(bl); abstractPlaceholderMenuController$PlaceholderItemEntry != null && !abstractPlaceholderMenuController$PlaceholderItemEntry.isVisible(); abstractPlaceholderMenuController$PlaceholderItemEntry = abstractPlaceholderMenuController$PlaceholderItemEntry.getNextIteratedEntry(bl)) {
+        for (placeholderItemEntry = cursor.getTargetItemEntry().getNextIteratedEntry(bl); placeholderItemEntry != null && !placeholderItemEntry.isVisible(); placeholderItemEntry = placeholderItemEntry.getNextIteratedEntry(bl)) {
         }
-        int n2 = this.getLabelWidth(abstractPlaceholderMenuController$PlaceholderItemEntry);
+        int n2 = this.getLabelWidth(placeholderItemEntry);
         if (n2 == -1) {
             return n;
         }
         return (int)((float)n + (float)(n2 - n) * Math.abs(f2));
     }
 
-    private int getLabelWidth(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+    private int getLabelWidth(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        if (placeholderItemEntry == null) {
             return -1;
         }
-        String string = abstractPlaceholderMenuController$PlaceholderItemEntry.getLabelText();
+        String string = placeholderItemEntry.getLabelText();
         return this.getEALManager().getTextWidth(string, this.font);
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         this.font = this.getInheritedFont();
         super.connect(initializationContext);
@@ -290,12 +286,12 @@ IKanziTemplateRenderer {
     private void loadResources() {
         Object object;
         int n;
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#loadResources: loading resources");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#loadResources: loading resources");
         EALManager eALManager = this.getEALManager();
         if (projectMerged) {
-            logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#loadResources: project already merged");
+            logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#loadResources: project already merged");
         } else {
-            logChannelWizardRenderer.log(1078071040, "MainWizardRendererHigh#loadResources: merging project");
+            logChannelWizardRenderer.log(1000000, "MainWizardRendererHigh#loadResources: merging project");
             n = this.getInitContext().getScreenID();
             object = eALManager.mergeProject(9, 170, n);
             if (object == null) {
@@ -303,7 +299,7 @@ IKanziTemplateRenderer {
             }
             this.disposeNode((INode)object);
             projectMerged = true;
-            logChannelWizardRenderer.log(1078071040, "MainWizardRendererHigh#loadResources: project merged");
+            logChannelWizardRenderer.log(1000000, "MainWizardRendererHigh#loadResources: project merged");
         }
         animNode = new WrappedNode3D(eALManager.getShortcutNode3D("mw_animControls"), 1.0f, 1.0f, false, 0, this.isLTR());
         if (animNode == null) {
@@ -346,7 +342,7 @@ IKanziTemplateRenderer {
             }
             MainWizardRendererHigh.ITEM_PARENT_NODES[n] = iNode3D2;
             String string2 = this.concat("textnode", n);
-            logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#loadResources: creating label node '%1'", (Object)string2);
+            logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#loadResources: creating label node '%1'", (Object)string2);
             INode3DText iNode3DText = this.createTextNode(string2);
             if (iNode3DText == null) {
                 this.clearResources();
@@ -356,17 +352,17 @@ IKanziTemplateRenderer {
             MainWizardRendererHigh.LABELS[n] = iNode3DText;
         }
         resourcesLoaded = true;
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#loadResources: resources loaded");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#loadResources: resources loaded");
     }
 
     private void clearResources() {
         int n;
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#clearResources: clearing resources");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#clearResources: clearing resources");
         if (animNode != null) {
             this.propertyCache.setProperty(animNode, "mw_RingPos", 0.0f);
         }
         this.propertyCache.clearAll();
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#clearResources: disposing labels");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#clearResources: disposing labels");
         for (n = 0; n < LABELS.length; ++n) {
             INode3DText iNode3DText = LABELS[n];
             if (iNode3DText == null) continue;
@@ -375,17 +371,17 @@ IKanziTemplateRenderer {
             MainWizardRendererHigh.LABELS[n] = null;
             MainWizardRendererHigh.LABEL_TEXTS[n] = null;
         }
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#clearResources: disposing item nodes");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#clearResources: disposing item nodes");
         for (n = 0; n < ITEM_NODES_3D.length; ++n) {
             this.disposeNode(ITEM_NODES_3D[n]);
             MainWizardRendererHigh.ITEM_NODES_3D[n] = null;
         }
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#clearResources: disposing item layers");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#clearResources: disposing item layers");
         for (n = 0; n < ITEM_PARENT_NODES.length; ++n) {
             this.disposeNode(ITEM_PARENT_NODES[n]);
             MainWizardRendererHigh.ITEM_PARENT_NODES[n] = null;
         }
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#clearResources: disposing scroll arrows");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#clearResources: disposing scroll arrows");
         for (n = 0; n < SCROLL_ARROWS.length; ++n) {
             this.disposeNode(SCROLL_ARROWS[n]);
             MainWizardRendererHigh.SCROLL_ARROWS[n] = null;
@@ -399,7 +395,7 @@ IKanziTemplateRenderer {
         this.disposeNode(animNode);
         animNode = null;
         resourcesLoaded = false;
-        logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#clearResources: resources cleared");
+        logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#clearResources: resources cleared");
     }
 
     private void disposeNode(IWrappedNode3D iWrappedNode3D) {
@@ -417,18 +413,15 @@ IKanziTemplateRenderer {
         iNode.dispose();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.clearResources();
     }
 
-    @Override
     public void inOutPositionChanged() {
         float f2 = this.controller.getInOutPosition();
         if (animNode != null) {
@@ -439,12 +432,10 @@ IKanziTemplateRenderer {
         }
     }
 
-    @Override
     public StringUtility getStringUtility() {
         return ((HMITerminalImplMIB2High)this.getTerminal()).getStringUtility(this.font);
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
@@ -467,11 +458,11 @@ IKanziTemplateRenderer {
     private INode3DText createTextNode(String string) {
         INode3DText iNode3DText = new INode3DText(this.getEALManager().getProject(), string);
         if (!iNode3DText.isValid()) {
-            logChannelWizardRenderer.log(-2137614336, "MainWizardRendererHigh#createTextNode could not create text node '%1'", (Object)string);
+            logChannelWizardRenderer.log(10000000, "MainWizardRendererHigh#createTextNode could not create text node '%1'", (Object)string);
             iNode3DText.dispose();
             return null;
         }
-        iNode3DText.rotateX(13379);
+        iNode3DText.rotateX(180.0f);
         return iNode3DText;
     }
 

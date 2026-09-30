@@ -6,6 +6,7 @@ package java.text;
 import com.ibm.oti.text.CompactByteArray;
 import com.ibm.oti.util.Msg;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.MissingResourceException;
 
@@ -22,11 +23,11 @@ class BreakDictionary {
     private short[] rowIndexFlagsIndex = null;
     private byte[] rowIndexShifts = null;
 
-    public BreakDictionary(InputStream inputStream) {
+    public BreakDictionary(InputStream inputStream) throws IOException {
         this.readDictionaryFile(new DataInputStream(inputStream));
     }
 
-    public void readDictionaryFile(DataInputStream dataInputStream) {
+    public void readDictionaryFile(DataInputStream dataInputStream) throws IOException {
         this.version = dataInputStream.readInt();
         if (this.version != supportedVersion) {
             throw new MissingResourceException(Msg.getString("K000f", this.version), dataInputStream.toString(), "");
@@ -85,7 +86,7 @@ class BreakDictionary {
         }
         this.reverseColumnMap = new char[this.numCols];
         c2 = '\u0000';
-        while (c2 < '\uffff0000') {
+        while (c2 < '\uffff') {
             byte by = this.columnMap.elementAt(c2);
             if (by != 0) {
                 this.reverseColumnMap[by] = c2;

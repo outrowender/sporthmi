@@ -6,13 +6,10 @@ package de.esolutions.hmi.widgets.audi.evo.online;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 
 public interface IGridImageLocker {
-    default public void addLockImage(IconController iconController) {
-    }
+    public void addLockImage(IconController var1);
 
-    default public void clearMenuImages() {
-    }
+    public void clearMenuImages();
 
-    default public int getCurrentLockingState() {
-    }
+    public int getCurrentLockingState();
 }
 

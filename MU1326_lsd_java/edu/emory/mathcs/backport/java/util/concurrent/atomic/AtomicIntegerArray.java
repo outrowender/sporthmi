@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class AtomicIntegerArray
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2862133569453604235L;
     private final int[] array;
 
     public AtomicIntegerArray(int n) {

@@ -32,7 +32,7 @@ public class SoundRange {
     }
 
     public String toString() {
-        return new StringBuffer("SoundRange{").append("min=").append(this.min).append(", max=").append(this.max).append("}").toString();
+        return "SoundRange{" + "min=" + this.min + ", max=" + this.max + "}";
     }
 }
 

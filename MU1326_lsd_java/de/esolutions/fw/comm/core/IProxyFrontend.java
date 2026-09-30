@@ -6,7 +6,6 @@ package de.esolutions.fw.comm.core;
 import de.esolutions.fw.comm.core.Proxy;
 
 public interface IProxyFrontend {
-    default public Proxy getProxy() {
-    }
+    public Proxy getProxy();
 }
 

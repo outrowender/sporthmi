@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SeatContent;
 
 public class SeatContentSerializer {
-    public static void putOptionalSeatContent(ISerializer iSerializer, SeatContent seatContent) {
+    public static void putOptionalSeatContent(ISerializer iSerializer, SeatContent seatContent) throws SerializerException {
         boolean bl = seatContent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class SeatContentSerializer {
         }
     }
 
-    public static void putOptionalSeatContentVarArray(ISerializer iSerializer, SeatContent[] seatContentArray) {
+    public static void putOptionalSeatContentVarArray(ISerializer iSerializer, SeatContent[] seatContentArray) throws SerializerException {
         boolean bl = seatContentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class SeatContentSerializer {
         }
     }
 
-    public static SeatContent getOptionalSeatContent(IDeserializer iDeserializer) {
+    public static SeatContent getOptionalSeatContent(IDeserializer iDeserializer) throws SerializerException {
         SeatContent seatContent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class SeatContentSerializer {
         return seatContent;
     }
 
-    public static SeatContent[] getOptionalSeatContentVarArray(IDeserializer iDeserializer) {
+    public static SeatContent[] getOptionalSeatContentVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatContent[] seatContentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

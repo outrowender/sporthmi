@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.ICalParseResult;
 
 public class ICalParseResultSerializer {
-    public static void putOptionalICalParseResult(ISerializer iSerializer, ICalParseResult iCalParseResult) {
+    public static void putOptionalICalParseResult(ISerializer iSerializer, ICalParseResult iCalParseResult) throws SerializerException {
         boolean bl = iCalParseResult == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ICalParseResultSerializer {
         }
     }
 
-    public static void putOptionalICalParseResultVarArray(ISerializer iSerializer, ICalParseResult[] iCalParseResultArray) {
+    public static void putOptionalICalParseResultVarArray(ISerializer iSerializer, ICalParseResult[] iCalParseResultArray) throws SerializerException {
         boolean bl = iCalParseResultArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ICalParseResultSerializer {
         }
     }
 
-    public static ICalParseResult getOptionalICalParseResult(IDeserializer iDeserializer) {
+    public static ICalParseResult getOptionalICalParseResult(IDeserializer iDeserializer) throws SerializerException {
         ICalParseResult iCalParseResult = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ICalParseResultSerializer {
         return iCalParseResult;
     }
 
-    public static ICalParseResult[] getOptionalICalParseResultVarArray(IDeserializer iDeserializer) {
+    public static ICalParseResult[] getOptionalICalParseResultVarArray(IDeserializer iDeserializer) throws SerializerException {
         ICalParseResult[] iCalParseResultArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -31,7 +31,6 @@ implements IMethod {
         this.createTime = l2;
     }
 
-    @Override
     public short getMethodID() {
         return this.methodID;
     }
@@ -52,17 +51,15 @@ implements IMethod {
         return this.invokeTime;
     }
 
-    @Override
     public IService getService() {
         return this.service;
     }
 
     public String toString() {
-        return new StringBuffer().append("[MethodId=").append(this.methodID).append(",numCalls=").append(this.numCalls).append(",service=").append(this.service.getInstanceID()).append("]").toString();
+        return "[MethodId=" + this.methodID + ",numCalls=" + this.numCalls + ",service=" + this.service.getInstanceID() + "]";
     }
 
-    @Override
-    public void invoke() {
+    public void invoke() throws MethodException {
         this.stub.methodPreInvoke(this);
         if (this.service != null) {
             try {

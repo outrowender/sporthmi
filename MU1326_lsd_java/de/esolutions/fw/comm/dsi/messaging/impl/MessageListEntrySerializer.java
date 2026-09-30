@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 import de.esolutions.fw.comm.dsi.messaging.impl.MatchedAddressSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.MatchedAddress;
 import org.dsi.ifc.messaging.MessageListEntry;
 
 public class MessageListEntrySerializer {
-    public static void putOptionalMessageListEntry(ISerializer iSerializer, MessageListEntry messageListEntry) {
+    public static void putOptionalMessageListEntry(ISerializer iSerializer, MessageListEntry messageListEntry) throws SerializerException {
         boolean bl = messageListEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class MessageListEntrySerializer {
         }
     }
 
-    public static void putOptionalMessageListEntryVarArray(ISerializer iSerializer, MessageListEntry[] messageListEntryArray) {
+    public static void putOptionalMessageListEntryVarArray(ISerializer iSerializer, MessageListEntry[] messageListEntryArray) throws SerializerException {
         boolean bl = messageListEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class MessageListEntrySerializer {
         }
     }
 
-    public static MessageListEntry getOptionalMessageListEntry(IDeserializer iDeserializer) {
+    public static MessageListEntry getOptionalMessageListEntry(IDeserializer iDeserializer) throws SerializerException {
         MessageListEntry messageListEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -85,7 +86,7 @@ public class MessageListEntrySerializer {
         return messageListEntry;
     }
 
-    public static MessageListEntry[] getOptionalMessageListEntryVarArray(IDeserializer iDeserializer) {
+    public static MessageListEntry[] getOptionalMessageListEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         MessageListEntry[] messageListEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

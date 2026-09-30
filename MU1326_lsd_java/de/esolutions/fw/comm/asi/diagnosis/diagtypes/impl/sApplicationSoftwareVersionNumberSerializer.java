@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sApplicationSoftwareVersionNumber;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sApplicationSoftwareVersionNumberSerializer {
-    public static void putOptionalsApplicationSoftwareVersionNumber(ISerializer iSerializer, sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) {
+    public static void putOptionalsApplicationSoftwareVersionNumber(ISerializer iSerializer, sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) throws SerializerException {
         boolean bl = sApplicationSoftwareVersionNumber2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sApplicationSoftwareVersionNumberSerializer {
         }
     }
 
-    public static void putOptionalsApplicationSoftwareVersionNumberVarArray(ISerializer iSerializer, sApplicationSoftwareVersionNumber[] sApplicationSoftwareVersionNumberArray) {
+    public static void putOptionalsApplicationSoftwareVersionNumberVarArray(ISerializer iSerializer, sApplicationSoftwareVersionNumber[] sApplicationSoftwareVersionNumberArray) throws SerializerException {
         boolean bl = sApplicationSoftwareVersionNumberArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sApplicationSoftwareVersionNumberSerializer {
         }
     }
 
-    public static sApplicationSoftwareVersionNumber getOptionalsApplicationSoftwareVersionNumber(IDeserializer iDeserializer) {
+    public static sApplicationSoftwareVersionNumber getOptionalsApplicationSoftwareVersionNumber(IDeserializer iDeserializer) throws SerializerException {
         sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sApplicationSoftwareVersionNumberSerializer {
         return sApplicationSoftwareVersionNumber2;
     }
 
-    public static sApplicationSoftwareVersionNumber[] getOptionalsApplicationSoftwareVersionNumberVarArray(IDeserializer iDeserializer) {
+    public static sApplicationSoftwareVersionNumber[] getOptionalsApplicationSoftwareVersionNumberVarArray(IDeserializer iDeserializer) throws SerializerException {
         sApplicationSoftwareVersionNumber[] sApplicationSoftwareVersionNumberArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

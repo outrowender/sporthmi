@@ -13,7 +13,7 @@ import org.w3c.dom.NamedNodeMap;
 public class DeferredElementNSImpl
 extends ElementNSImpl
 implements DeferredNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -5001885145370927385L;
     protected transient int fNodeIndex;
 
     DeferredElementNSImpl(DeferredDocumentImpl deferredDocumentImpl, int n) {
@@ -22,12 +22,10 @@ implements DeferredNode {
         this.needsSyncChildren(true);
     }
 
-    @Override
     public final int getNodeIndex() {
         return this.fNodeIndex;
     }
 
-    @Override
     protected final void synchronizeData() {
         this.needsSyncData(false);
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument;
@@ -56,7 +54,6 @@ implements DeferredNode {
         deferredDocumentImpl.mutationEvents = bl;
     }
 
-    @Override
     protected final void synchronizeChildren() {
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument();
         deferredDocumentImpl.synchronizeChildren(this, this.fNodeIndex);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.asiatrafficinfomenu.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.asiatrafficinfomenu.TunerData;
 
 public class TunerDataSerializer {
-    public static void putOptionalTunerData(ISerializer iSerializer, TunerData tunerData) {
+    public static void putOptionalTunerData(ISerializer iSerializer, TunerData tunerData) throws SerializerException {
         boolean bl = tunerData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TunerDataSerializer {
         }
     }
 
-    public static void putOptionalTunerDataVarArray(ISerializer iSerializer, TunerData[] tunerDataArray) {
+    public static void putOptionalTunerDataVarArray(ISerializer iSerializer, TunerData[] tunerDataArray) throws SerializerException {
         boolean bl = tunerDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TunerDataSerializer {
         }
     }
 
-    public static TunerData getOptionalTunerData(IDeserializer iDeserializer) {
+    public static TunerData getOptionalTunerData(IDeserializer iDeserializer) throws SerializerException {
         TunerData tunerData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TunerDataSerializer {
         return tunerData;
     }
 
-    public static TunerData[] getOptionalTunerDataVarArray(IDeserializer iDeserializer) {
+    public static TunerData[] getOptionalTunerDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         TunerData[] tunerDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

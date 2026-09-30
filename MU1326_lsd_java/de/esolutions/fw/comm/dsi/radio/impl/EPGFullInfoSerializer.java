@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.radio.impl.EPGExtendedFullProgramInfoSerializer
 import de.esolutions.fw.comm.dsi.radio.impl.EPGFullProgramInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.EPGExtendedFullProgramInfo;
 import org.dsi.ifc.radio.EPGFullInfo;
 import org.dsi.ifc.radio.EPGFullProgramInfo;
 
 public class EPGFullInfoSerializer {
-    public static void putOptionalEPGFullInfo(ISerializer iSerializer, EPGFullInfo ePGFullInfo) {
+    public static void putOptionalEPGFullInfo(ISerializer iSerializer, EPGFullInfo ePGFullInfo) throws SerializerException {
         boolean bl = ePGFullInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class EPGFullInfoSerializer {
         }
     }
 
-    public static void putOptionalEPGFullInfoVarArray(ISerializer iSerializer, EPGFullInfo[] ePGFullInfoArray) {
+    public static void putOptionalEPGFullInfoVarArray(ISerializer iSerializer, EPGFullInfo[] ePGFullInfoArray) throws SerializerException {
         boolean bl = ePGFullInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class EPGFullInfoSerializer {
         }
     }
 
-    public static EPGFullInfo getOptionalEPGFullInfo(IDeserializer iDeserializer) {
+    public static EPGFullInfo getOptionalEPGFullInfo(IDeserializer iDeserializer) throws SerializerException {
         EPGFullInfo ePGFullInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class EPGFullInfoSerializer {
         return ePGFullInfo;
     }
 
-    public static EPGFullInfo[] getOptionalEPGFullInfoVarArray(IDeserializer iDeserializer) {
+    public static EPGFullInfo[] getOptionalEPGFullInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EPGFullInfo[] ePGFullInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

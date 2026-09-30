@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.map.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.map.ViewPort;
 
 public class ViewPortSerializer {
-    public static void putOptionalViewPort(ISerializer iSerializer, ViewPort viewPort) {
+    public static void putOptionalViewPort(ISerializer iSerializer, ViewPort viewPort) throws SerializerException {
         boolean bl = viewPort == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ViewPortSerializer {
         }
     }
 
-    public static void putOptionalViewPortVarArray(ISerializer iSerializer, ViewPort[] viewPortArray) {
+    public static void putOptionalViewPortVarArray(ISerializer iSerializer, ViewPort[] viewPortArray) throws SerializerException {
         boolean bl = viewPortArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ViewPortSerializer {
         }
     }
 
-    public static ViewPort getOptionalViewPort(IDeserializer iDeserializer) {
+    public static ViewPort getOptionalViewPort(IDeserializer iDeserializer) throws SerializerException {
         ViewPort viewPort = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class ViewPortSerializer {
         return viewPort;
     }
 
-    public static ViewPort[] getOptionalViewPortVarArray(IDeserializer iDeserializer) {
+    public static ViewPort[] getOptionalViewPortVarArray(IDeserializer iDeserializer) throws SerializerException {
         ViewPort[] viewPortArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

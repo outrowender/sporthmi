@@ -3,130 +3,92 @@
  */
 package de.esolutions.fw.comm.dsi.startup;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIStartupReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "29537988-2009-51c5-92b7-a91acc90fdcf";
+    public static final String IPL_COMM_INTERFACE_KEY = "315540c0-c0b8-557f-8f71-77bd39010efd";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.16";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.16";
 
-    default public void updateDomainStatusRoot(int n, int n2) {
-    }
+    public void updateDomainStatusRoot(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusTuner(int n, int n2) {
-    }
+    public void updateDomainStatusTuner(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusMedia(int n, int n2) {
-    }
+    public void updateDomainStatusMedia(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusAddressbook(int n, int n2) {
-    }
+    public void updateDomainStatusAddressbook(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusPhone(int n, int n2) {
-    }
+    public void updateDomainStatusPhone(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusNav(int n, int n2) {
-    }
+    public void updateDomainStatusNav(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusInfo(int n, int n2) {
-    }
+    public void updateDomainStatusInfo(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusCar(int n, int n2) {
-    }
+    public void updateDomainStatusCar(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusAudio(int n, int n2) {
-    }
+    public void updateDomainStatusAudio(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusSDS(int n, int n2) {
-    }
+    public void updateDomainStatusSDS(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusSWDL(int n, int n2) {
-    }
+    public void updateDomainStatusSWDL(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusEarlyApps(int n, int n2) {
-    }
+    public void updateDomainStatusEarlyApps(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusPostStartup(int n, int n2) {
-    }
+    public void updateDomainStatusPostStartup(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusCommunication(int n, int n2) {
-    }
+    public void updateDomainStatusCommunication(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusIpServices(int n, int n2) {
-    }
+    public void updateDomainStatusIpServices(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusGEMMI(int n, int n2) {
-    }
+    public void updateDomainStatusGEMMI(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusBapkombi(int n, int n2) {
-    }
+    public void updateDomainStatusBapkombi(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusBluetooth(int n, int n2) {
-    }
+    public void updateDomainStatusBluetooth(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusBrowser(int n, int n2) {
-    }
+    public void updateDomainStatusBrowser(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusExplorer(int n, int n2) {
-    }
+    public void updateDomainStatusExplorer(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusCalendar(int n, int n2) {
-    }
+    public void updateDomainStatusCalendar(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusPictureStore(int n, int n2) {
-    }
+    public void updateDomainStatusPictureStore(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusStreetView(int n, int n2) {
-    }
+    public void updateDomainStatusStreetView(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusMobilityHorizon(int n, int n2) {
-    }
+    public void updateDomainStatusMobilityHorizon(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusExBoxM(int n, int n2) {
-    }
+    public void updateDomainStatusExBoxM(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusMirrorLink(int n, int n2) {
-    }
+    public void updateDomainStatusMirrorLink(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusSFA(int n, int n2) {
-    }
+    public void updateDomainStatusSFA(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusSearch(int n, int n2) {
-    }
+    public void updateDomainStatusSearch(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusDiagnosis(int n, int n2) {
-    }
+    public void updateDomainStatusDiagnosis(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusAsiaLanguageSupport(int n, int n2) {
-    }
+    public void updateDomainStatusAsiaLanguageSupport(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusExLAP(int n, int n2) {
-    }
+    public void updateDomainStatusExLAP(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusTVTuner(int n, int n2) {
-    }
+    public void updateDomainStatusTVTuner(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusMediaOnline(int n, int n2) {
-    }
+    public void updateDomainStatusMediaOnline(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusMediaRouter(int n, int n2) {
-    }
+    public void updateDomainStatusMediaRouter(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusRadioDataServer(int n, int n2) {
-    }
+    public void updateDomainStatusRadioDataServer(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusSmartphoneIntegration(int n, int n2) {
-    }
+    public void updateDomainStatusSmartphoneIntegration(int var1, int var2) throws MethodException;
 
-    default public void updateDomainStatusWirelessCharger(int n, int n2) {
-    }
+    public void updateDomainStatusWirelessCharger(int var1, int var2) throws MethodException;
 
-    default public void startDomain(int n, int n2) {
-    }
+    public void startDomain(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

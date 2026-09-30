@@ -9,24 +9,24 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class BAP_Config_Status
 implements StatusProperty {
-    public static final int BAP_VERSION_MAJOR_MIN;
+    public static final int BAP_VERSION_MAJOR_MIN = 3;
     public int bap_Version_major;
-    private static final int BAP_VERSION_MAJOR_BITSIZE;
-    public static final int BAP_VERSION_MINOR_MIN;
+    private static final int BAP_VERSION_MAJOR_BITSIZE = 8;
+    public static final int BAP_VERSION_MINOR_MIN = 0;
     public int bap_Version_minor;
-    private static final int BAP_VERSION_MINOR_BITSIZE;
-    public static final int LSG_CLASS_MIN;
+    private static final int BAP_VERSION_MINOR_BITSIZE = 8;
+    public static final int LSG_CLASS_MIN = 50;
     public int lsg_Class;
-    private static final int LSG_CLASS_BITSIZE;
-    public static final int LSG_SUB_CLASS_MIN;
+    private static final int LSG_CLASS_BITSIZE = 8;
+    public static final int LSG_SUB_CLASS_MIN = 0;
     public int lsg_Sub_Class;
-    private static final int LSG_SUB_CLASS_BITSIZE;
-    public static final int LSG_VERSION_MAJOR_MIN;
+    private static final int LSG_SUB_CLASS_BITSIZE = 8;
+    public static final int LSG_VERSION_MAJOR_MIN = 4;
     public int lsg_Version_major;
-    private static final int LSG_VERSION_MAJOR_BITSIZE;
-    public static final int LSG_VERSION_MINOR_MIN;
+    private static final int LSG_VERSION_MAJOR_BITSIZE = 8;
+    public static final int LSG_VERSION_MINOR_MIN = 4;
     public int lsg_Version_minor;
-    private static final int LSG_VERSION_MINOR_BITSIZE;
+    private static final int LSG_VERSION_MINOR_BITSIZE = 8;
 
     public BAP_Config_Status() {
         this.internalReset();
@@ -47,12 +47,10 @@ implements StatusProperty {
         this.lsg_Version_minor = 4;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         BAP_Config_Status bAP_Config_Status = (BAP_Config_Status)bAPEntity;
         return this.bap_Version_major == bAP_Config_Status.bap_Version_major && this.bap_Version_minor == bAP_Config_Status.bap_Version_minor && this.lsg_Class == bAP_Config_Status.lsg_Class && this.lsg_Sub_Class == bAP_Config_Status.lsg_Sub_Class && this.lsg_Version_major == bAP_Config_Status.lsg_Version_major && this.lsg_Version_minor == bAP_Config_Status.lsg_Version_minor;
@@ -61,7 +59,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("BAP_Config_Status:");
@@ -80,7 +77,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -91,7 +87,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.bap_Version_major);
         bitStream.pushByte((byte)this.bap_Version_minor);
@@ -101,7 +96,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.lsg_Version_minor);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.bap_Version_major = bitStream.popFrontByte();
         this.bap_Version_minor = bitStream.popFrontByte();
@@ -115,7 +109,6 @@ implements StatusProperty {
         return 2;
     }
 
-    @Override
     public int getFunctionId() {
         return BAP_Config_Status.functionId();
     }

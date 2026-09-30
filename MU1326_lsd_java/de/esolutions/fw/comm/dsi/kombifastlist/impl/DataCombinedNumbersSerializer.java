@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataCombinedNumbers;
 
 public class DataCombinedNumbersSerializer {
-    public static void putOptionalDataCombinedNumbers(ISerializer iSerializer, DataCombinedNumbers dataCombinedNumbers) {
+    public static void putOptionalDataCombinedNumbers(ISerializer iSerializer, DataCombinedNumbers dataCombinedNumbers) throws SerializerException {
         boolean bl = dataCombinedNumbers == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class DataCombinedNumbersSerializer {
         }
     }
 
-    public static void putOptionalDataCombinedNumbersVarArray(ISerializer iSerializer, DataCombinedNumbers[] dataCombinedNumbersArray) {
+    public static void putOptionalDataCombinedNumbersVarArray(ISerializer iSerializer, DataCombinedNumbers[] dataCombinedNumbersArray) throws SerializerException {
         boolean bl = dataCombinedNumbersArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class DataCombinedNumbersSerializer {
         }
     }
 
-    public static DataCombinedNumbers getOptionalDataCombinedNumbers(IDeserializer iDeserializer) {
+    public static DataCombinedNumbers getOptionalDataCombinedNumbers(IDeserializer iDeserializer) throws SerializerException {
         DataCombinedNumbers dataCombinedNumbers = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class DataCombinedNumbersSerializer {
         return dataCombinedNumbers;
     }
 
-    public static DataCombinedNumbers[] getOptionalDataCombinedNumbersVarArray(IDeserializer iDeserializer) {
+    public static DataCombinedNumbers[] getOptionalDataCombinedNumbersVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataCombinedNumbers[] dataCombinedNumbersArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

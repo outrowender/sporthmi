@@ -13,7 +13,7 @@ import org.apache.commons.scxml.Context;
 public class SimpleContext
 implements Context,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Log log = LogFactory.getLog(class$org$apache$commons$scxml$Context == null ? (class$org$apache$commons$scxml$Context = SimpleContext.class$("org.apache.commons.scxml.Context")) : class$org$apache$commons$scxml$Context);
     private Context parent;
     private Map vars;
@@ -36,7 +36,6 @@ Serializable {
         this.vars = map == null ? new HashMap() : map;
     }
 
-    @Override
     public void set(String string, Object object) {
         if (this.vars.containsKey(string)) {
             this.setLocal(string, object);
@@ -47,7 +46,6 @@ Serializable {
         }
     }
 
-    @Override
     public Object get(String string) {
         if (this.vars.containsKey(string)) {
             return this.vars.get(string);
@@ -58,7 +56,6 @@ Serializable {
         return null;
     }
 
-    @Override
     public boolean has(String string) {
         if (this.vars.containsKey(string)) {
             return true;
@@ -66,17 +63,14 @@ Serializable {
         return this.parent != null && this.parent.has(string);
     }
 
-    @Override
     public void reset() {
         this.vars.clear();
     }
 
-    @Override
     public Context getParent() {
         return this.parent;
     }
 
-    @Override
     public void setLocal(String string, Object object) {
         this.vars.put(string, object);
         if (this.log.isDebugEnabled() && !string.equals("_ALL_STATES")) {
@@ -88,7 +82,6 @@ Serializable {
         this.vars = map;
     }
 
-    @Override
     public Map getVars() {
         return this.vars;
     }

@@ -26,25 +26,24 @@ implements AnimationListener {
     private PictureWallIconRenderer renderer;
     private PictureWallLineController parentController;
     private AbstractAnimation animation;
-    public static final int ANIMATION_TYPE;
-    private static final int STATE_SMALL;
-    private static final int STATE_SCALE_UP;
-    private static final int STATE_SCALE_DOWN;
-    private static final int STATE_LARGE;
+    public static final int ANIMATION_TYPE = 94;
+    private static final int STATE_SMALL = 0;
+    private static final int STATE_SCALE_UP = 1;
+    private static final int STATE_SCALE_DOWN = 2;
+    private static final int STATE_LARGE = 3;
     private int state = 0;
     protected int x_small;
     protected int y_small;
     protected int x_large;
     protected int y_large;
 
-    @Override
     public void animate(int n, float f2, int n2) {
         float f3;
-        pictureWallLogCh.log(-2137614336, "PictureWallIconController#animate value = %1", (double)f2);
-        if (f2 > 8416580) {
-            f2 = 31300;
+        pictureWallLogCh.log(10000000, "PictureWallIconController#animate value = %1", (double)f2);
+        if (f2 > 950.0f) {
+            f2 = 1000.0f;
         }
-        float f4 = f2 / 31300;
+        float f4 = f2 / 1000.0f;
         float f5 = 1.0f - f4;
         if (this.state == 2) {
             f3 = f5;
@@ -53,19 +52,17 @@ implements AnimationListener {
         }
         f3 = f5 * (float)this.x_small + f4 * (float)this.x_large;
         float f6 = f5 * (float)this.y_small + f4 * (float)this.y_large;
-        float f7 = f5 * 53826 + f4 * 39747;
-        float f8 = f5 * 37954 + f4 * 20547;
+        float f7 = f5 * 105.0f + f4 * 310.0f;
+        float f8 = f5 * 74.0f + f4 * 208.0f;
         this.setBounds((int)f3, (int)f6, (int)f7, (int)f8);
         this.magnifierCursor.setBounds((int)f3, (int)f6 + 1, (int)f7, (int)f8 - 2);
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        pictureWallLogCh.log(-2137614336, "PictureWallIconController#animationFinished column = %1, state = %2", (long)this.column, (long)this.state);
+        pictureWallLogCh.log(10000000, "PictureWallIconController#animationFinished column = %1, state = %2", (long)this.column, (long)this.state);
         switch (this.state) {
             case 1: {
                 this.setState(true);
@@ -81,12 +78,10 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
     }
 
-    @Override
     public void disconnecting() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -118,13 +113,12 @@ implements AnimationListener {
         return this.parentController;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
     public void hideLargePreview(int n, boolean bl) {
-        pictureWallLogCh.log(-2137614336, "PictureWallIconController#hideLargePreview state = %1", (long)this.state);
+        pictureWallLogCh.log(10000000, "PictureWallIconController#hideLargePreview state = %1", (long)this.state);
         if (this.state != 0) {
             if (bl) {
                 this.state = 2;
@@ -182,7 +176,6 @@ implements AnimationListener {
         this.magnifierCursor.setVisible(true);
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         super.setBounds(n, n2, n3, n4);
     }
@@ -208,7 +201,7 @@ implements AnimationListener {
     }
 
     private void setState(boolean bl) {
-        pictureWallLogCh.log(-2137614336, "PictureWallIconController#setState large = %1", bl);
+        pictureWallLogCh.log(10000000, "PictureWallIconController#setState large = %1", bl);
         if (bl) {
             this.setBounds(this.x_large, this.y_large, 310, 208);
             this.magnifierCursor.setBounds(this.x_large, this.y_large + 1, 310, 206);
@@ -251,7 +244,7 @@ implements AnimationListener {
     private void startAnimation(int n) {
         if (this.isConnected() && (this.animation == null || !this.animation.isAnimating())) {
             this.getAnimation(n);
-            this.animation.startDynamicAnimation(0.0f, 31300, n, false, this);
+            this.animation.startDynamicAnimation(0.0f, 1000.0f, n, false, this);
         }
     }
 }

@@ -18,7 +18,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateDelta;
 public class MenuDecoratorProxyController
 extends AbstractWidgetController
 implements IMenuCallback {
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.forwardProperty();
@@ -32,7 +31,6 @@ implements IMenuCallback {
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
@@ -56,7 +54,7 @@ implements IMenuCallback {
         }
         ScreenMainArea screenMainArea = screenWidgetEVO.getSpecialArea();
         if (screenMainArea == null) {
-            menuLogCh.log(-1601830656, "MenuDecoratorProxyController#getDecorator: special area is null. Screen: %1", (long)this.getScreenId());
+            menuLogCh.log(100000, "MenuDecoratorProxyController#getDecorator: special area is null. Screen: %1", (long)this.getScreenId());
             return null;
         }
         if (!(screenMainArea instanceof ContainerController)) {
@@ -66,14 +64,14 @@ implements IMenuCallback {
         ContainerController containerController = (ContainerController)screenMainArea;
         AbstractWidget abstractWidget = containerController.getMenuDecorator();
         if (abstractWidget == null) {
-            menuLogCh.log(-1601830656, "MenuDecoratorProxyController#getDecorator: special area has no menu decorator. Screen: %1", (long)this.getScreenId());
+            menuLogCh.log(100000, "MenuDecoratorProxyController#getDecorator: special area has no menu decorator. Screen: %1", (long)this.getScreenId());
             return null;
         }
         int n = 0;
         while (abstractWidget instanceof IDecoratorProvider) {
             abstractWidget = ((IDecoratorProvider)((Object)abstractWidget)).getMenuDecorator();
             if (++n <= 10) continue;
-            menuLogCh.log(-1601830656, "MenuDecoratorProxyController#getDecorator: The extraction of embedded decorators encounterd the maximum hiearchy depth of 10. Please clean up your widget hierarchy.", (long)this.getScreenId());
+            menuLogCh.log(100000, "MenuDecoratorProxyController#getDecorator: The extraction of embedded decorators encounterd the maximum hiearchy depth of 10. Please clean up your widget hierarchy.", (long)this.getScreenId());
             break;
         }
         if (!(abstractWidget instanceof IMenuCallback)) {
@@ -83,7 +81,6 @@ implements IMenuCallback {
         return (IMenuCallback)((Object)abstractWidget);
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
         IMenuCallback iMenuCallback = this.getDecorator();
         MenuController menuController = this.getMenu();
@@ -93,7 +90,6 @@ implements IMenuCallback {
         }
     }
 
-    @Override
     public void menuFocusChangeFinished() {
         IMenuCallback iMenuCallback = this.getDecorator();
         MenuController menuController = this.getMenu();
@@ -103,23 +99,18 @@ implements IMenuCallback {
         }
     }
 
-    @Override
     public void menuLayouted() {
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 }

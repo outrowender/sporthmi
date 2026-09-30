@@ -29,28 +29,23 @@ implements DSIFastListScrollingTelephone {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephone == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephone = DSIFastListScrollingTelephoneProvider.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingTelephone")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephone).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIFastListScrollingTelephoneProxy(this.instance, (DSIFastListScrollingTelephoneReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void pushFunctionAvailabilityTelephone(int n) {
         try {
             this.proxy.pushFunctionAvailabilityTelephone(n);
@@ -60,7 +55,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void pushMOSTOperationStateTelephone(short s) {
         try {
             this.proxy.pushMOSTOperationStateTelephone(s);
@@ -70,7 +64,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responsePhonebook(int n, int n2, int n3, int n4, int n5, long l, int n6, int n7, int n8, int n9, int n10, int n11, int n12) {
         try {
             this.proxy.responsePhonebook(n, n2, n3, n4, n5, l, n6, n7, n8, n9, n10, n11, n12);
@@ -80,7 +73,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responsePhonebookArray(int n, int n2, DataPhonebook[] dataPhonebookArray) {
         try {
             this.proxy.responsePhonebookArray(n, n2, dataPhonebookArray);
@@ -90,7 +82,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responseGetInitialsTelephone(int n, int n2, int n3, int n4, DataInitials[] dataInitialsArray) {
         try {
             this.proxy.responseGetInitialsTelephone(n, n2, n3, n4, dataInitialsArray);
@@ -100,7 +91,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void pushupdateFavoriteList(int n, int n2, DataFavoriteList[] dataFavoriteListArray) {
         try {
             this.proxy.pushupdateFavoriteList(n, n2, dataFavoriteListArray);
@@ -110,7 +100,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void pushCombinedNumbers(int n, int n2, DataCombinedNumbers[] dataCombinedNumbersArray) {
         try {
             this.proxy.pushCombinedNumbers(n, n2, dataCombinedNumbersArray);
@@ -120,7 +109,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void pushCurrentListSizeTelephone(int n, int n2, int n3) {
         try {
             this.proxy.pushCurrentListSizeTelephone(n, n2, n3);
@@ -130,7 +118,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responsePhonebookJobs(int n, int n2, int n3) {
         try {
             this.proxy.responsePhonebookJobs(n, n2, n3);
@@ -140,7 +127,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responseNotifyCombinedNumbersPush(boolean bl) {
         try {
             this.proxy.responseNotifyCombinedNumbersPush(bl);
@@ -150,7 +136,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responseNotifyCurrentListSizes(boolean bl) {
         try {
             this.proxy.responseNotifyCurrentListSizes(bl);
@@ -160,7 +145,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void responseNotifyFavoriteListPush(boolean bl) {
         try {
             this.proxy.responseNotifyFavoriteListPush(bl);
@@ -170,7 +154,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -180,7 +163,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -190,7 +172,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -200,7 +181,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -210,7 +190,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -220,7 +199,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -230,7 +208,6 @@ implements DSIFastListScrollingTelephone {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

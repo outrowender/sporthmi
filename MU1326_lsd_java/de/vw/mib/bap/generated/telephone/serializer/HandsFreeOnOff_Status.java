@@ -25,13 +25,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.handsFreeOnOff.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         HandsFreeOnOff_Status handsFreeOnOff_Status = (HandsFreeOnOff_Status)bAPEntity;
         return this.handsFreeOnOff.equalTo(handsFreeOnOff_Status.handsFreeOnOff);
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("HandsFreeOnOff_Status:");
@@ -49,18 +46,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.handsFreeOnOff.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.handsFreeOnOff.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.handsFreeOnOff.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements StatusProperty {
         return 33;
     }
 
-    @Override
     public int getFunctionId() {
         return HandsFreeOnOff_Status.functionId();
     }

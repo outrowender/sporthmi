@@ -19,10 +19,10 @@ import de.esolutions.fw.util.services.job.InterceptorConfig;
 import de.esolutions.fw.util.services.threading.ThreadPoolManager;
 
 public final class DispatcherConfig {
-    public static final int prioDefault;
-    public static final String threadPoolDefault;
-    public static final String threadPolicyDefault;
-    public static final boolean dumpInfoProviderDefault;
+    public static final int prioDefault = 5;
+    public static final String threadPoolDefault = "default";
+    public static final String threadPolicyDefault = "ondemand";
+    public static final boolean dumpInfoProviderDefault = false;
     private int prio;
     private String threadPool;
     private String threadPolicy;
@@ -35,8 +35,8 @@ public final class DispatcherConfig {
 
     public void reset() {
         this.prio = 5;
-        this.threadPool = "default";
-        this.threadPolicy = "ondemand";
+        this.threadPool = threadPoolDefault;
+        this.threadPolicy = threadPolicyDefault;
         this.dumpInfoProvider = false;
         this.interceptors = null;
     }
@@ -80,21 +80,21 @@ public final class DispatcherConfig {
 
     public DispatcherBase createDispatcher(String string, ITimeSource iTimeSource, IJobLogger iJobLogger, ThreadPoolManager threadPoolManager) {
         ThreadPool threadPool = threadPoolManager.getThreadPool(this.threadPool);
-        DispatcherBase dispatcherBase = this.threadPolicy.equals("ondemand") ? new PooledDispatcher(string, iTimeSource, iJobLogger, threadPool) : new DispatcherBase(string, iTimeSource, iJobLogger, threadPool);
+        DispatcherBase dispatcherBase = this.threadPolicy.equals(threadPolicyDefault) ? new PooledDispatcher(string, iTimeSource, iJobLogger, threadPool) : new DispatcherBase(string, iTimeSource, iJobLogger, threadPool);
         this.setupDispatcher(dispatcherBase);
         return dispatcherBase;
     }
 
     public DispatcherBase createDispatcher(String string, ITimeSource iTimeSource, IJobLogger iJobLogger, JobQueue jobQueue, ThreadPoolManager threadPoolManager) {
         ThreadPool threadPool = threadPoolManager.getThreadPool(this.threadPool);
-        DispatcherBase dispatcherBase = this.threadPolicy.equals("ondemand") ? new PooledDispatcher(string, iTimeSource, iJobLogger, jobQueue, threadPool) : new DispatcherBase(string, iTimeSource, iJobLogger, jobQueue, threadPool);
+        DispatcherBase dispatcherBase = this.threadPolicy.equals(threadPolicyDefault) ? new PooledDispatcher(string, iTimeSource, iJobLogger, jobQueue, threadPool) : new DispatcherBase(string, iTimeSource, iJobLogger, jobQueue, threadPool);
         this.setupDispatcher(dispatcherBase);
         return dispatcherBase;
     }
 
     public DispatcherBase createDispatcher(String string, ITimeSource iTimeSource, IJobLogger iJobLogger, JobQueue jobQueue, IInterceptor iInterceptor, Job job, ThreadPoolManager threadPoolManager) {
         ThreadPool threadPool = threadPoolManager.getThreadPool(this.threadPool);
-        DispatcherBase dispatcherBase = this.threadPolicy.equals("ondemand") ? new PooledDispatcher(string, iTimeSource, iJobLogger, jobQueue, iInterceptor, job, threadPool) : new DispatcherBase(string, iTimeSource, iJobLogger, jobQueue, iInterceptor, job, threadPool);
+        DispatcherBase dispatcherBase = this.threadPolicy.equals(threadPolicyDefault) ? new PooledDispatcher(string, iTimeSource, iJobLogger, jobQueue, iInterceptor, job, threadPool) : new DispatcherBase(string, iTimeSource, iJobLogger, jobQueue, iInterceptor, job, threadPool);
         this.setupDispatcher(dispatcherBase);
         return dispatcherBase;
     }

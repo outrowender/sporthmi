@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlSeatheaterInstallation;
 
 public class BatteryControlSeatheaterInstallationSerializer {
-    public static void putOptionalBatteryControlSeatheaterInstallation(ISerializer iSerializer, BatteryControlSeatheaterInstallation batteryControlSeatheaterInstallation) {
+    public static void putOptionalBatteryControlSeatheaterInstallation(ISerializer iSerializer, BatteryControlSeatheaterInstallation batteryControlSeatheaterInstallation) throws SerializerException {
         boolean bl = batteryControlSeatheaterInstallation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BatteryControlSeatheaterInstallationSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlSeatheaterInstallationVarArray(ISerializer iSerializer, BatteryControlSeatheaterInstallation[] batteryControlSeatheaterInstallationArray) {
+    public static void putOptionalBatteryControlSeatheaterInstallationVarArray(ISerializer iSerializer, BatteryControlSeatheaterInstallation[] batteryControlSeatheaterInstallationArray) throws SerializerException {
         boolean bl = batteryControlSeatheaterInstallationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BatteryControlSeatheaterInstallationSerializer {
         }
     }
 
-    public static BatteryControlSeatheaterInstallation getOptionalBatteryControlSeatheaterInstallation(IDeserializer iDeserializer) {
+    public static BatteryControlSeatheaterInstallation getOptionalBatteryControlSeatheaterInstallation(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlSeatheaterInstallation batteryControlSeatheaterInstallation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BatteryControlSeatheaterInstallationSerializer {
         return batteryControlSeatheaterInstallation;
     }
 
-    public static BatteryControlSeatheaterInstallation[] getOptionalBatteryControlSeatheaterInstallationVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlSeatheaterInstallation[] getOptionalBatteryControlSeatheaterInstallationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlSeatheaterInstallation[] batteryControlSeatheaterInstallationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

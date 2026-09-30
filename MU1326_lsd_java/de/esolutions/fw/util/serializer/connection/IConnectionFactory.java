@@ -6,7 +6,6 @@ package de.esolutions.fw.util.serializer.connection;
 import de.esolutions.fw.util.serializer.connection.Connection;
 
 public interface IConnectionFactory {
-    default public Connection createConnection() {
-    }
+    public Connection createConnection();
 }
 

@@ -30,8 +30,8 @@ extends AbstractInfoBase {
         super(stub.getStubID());
         IService iService = stub.getService();
         this.svcID = iService.getInstanceID();
-        this.svcClass = super.getClass().getName();
-        this.svcWorker = super.getClass().getName();
+        this.svcClass = iService.getClass().getName();
+        this.svcWorker = stub.getServiceHandler().getServiceWorker().getClass().getName();
         this.peerProxyID = stub.getRemoteProxyID();
         this.peerAgentID = stub.getRemoteAgentID();
         this.callsTotal = stub.getTotalCalls();
@@ -47,19 +47,17 @@ extends AbstractInfoBase {
         this.durationAvg = nArray2[2];
     }
 
-    @Override
-    protected Object fieldValueToObject(Field field) {
+    protected Object fieldValueToObject(Field field) throws IllegalArgumentException, IllegalAccessException {
         if (field == null) {
             return null;
         }
         String string = field.getName();
-        if (string.equals("callsTotal") && this.callsTotal == 0 || string.equals("callsPending") && this.callsPending == 0 || string.equals("callsError") && this.callsError == 0 || string.equals("latencyMin") && this.latencyMin == -129 || string.equals("latencyMax") && this.latencyMin == -129 || string.equals("latencyAvg") && this.latencyMin == -129 || string.equals("durationMin") && this.durationMin == -129 || string.equals("durationMax") && this.durationMin == -129 || string.equals("durationAvg") && this.durationMin == -129) {
+        if (string.equals("callsTotal") && this.callsTotal == 0 || string.equals("callsPending") && this.callsPending == 0 || string.equals("callsError") && this.callsError == 0 || string.equals("latencyMin") && this.latencyMin == Integer.MAX_VALUE || string.equals("latencyMax") && this.latencyMin == Integer.MAX_VALUE || string.equals("latencyAvg") && this.latencyMin == Integer.MAX_VALUE || string.equals("durationMin") && this.durationMin == Integer.MAX_VALUE || string.equals("durationMax") && this.durationMin == Integer.MAX_VALUE || string.equals("durationAvg") && this.durationMin == Integer.MAX_VALUE) {
             return null;
         }
         return super.fieldValueToObject(field);
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return this.svcID;
     }

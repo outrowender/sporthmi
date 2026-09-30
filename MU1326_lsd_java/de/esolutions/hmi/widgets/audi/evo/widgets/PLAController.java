@@ -13,9 +13,8 @@ import de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAStatusListener;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.evo.widgets.OPSController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.PLAController$1;
-import de.esolutions.hmi.widgets.audi.evo.widgets.PLAController$2;
 import java.util.Arrays;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -28,8 +27,8 @@ IWidgetLogChannel {
     private IPLAStatus plaStatus;
     private IPLAStatusCallbackListener listener;
     private OPSController opsController;
-    private static final int TOOLBAR_POSITION_DISABLED;
-    private static final int TOOLBAR_POSITION_ENABLED;
+    private static final int TOOLBAR_POSITION_DISABLED = 0;
+    private static final int TOOLBAR_POSITION_ENABLED = 1;
     private int[] toolbarPositions = new int[6];
     private int cursorPosition = 0;
     static /* synthetic */ Class class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService;
@@ -39,48 +38,69 @@ IWidgetLogChannel {
     }
 
     public void initTracker() {
-        this.serviceTracker = new ServiceTracker(AbstractWidget.widgetsActivator.getBundleContext(), (class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService == null ? (class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService = PLAController.class$("de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAInterappService")) : class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService).getName(), (ServiceTrackerCustomizer)new PLAController$1(this));
+        this.serviceTracker = new ServiceTracker(AbstractWidget.widgetsActivator.getBundleContext(), (class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService == null ? (class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService = PLAController.class$("de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAInterappService")) : class$de$audi$atip$interapp$earlyfunc$core$parking$pla$IPLAInterappService).getName(), new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                PLAController.this.plaInterApp = null;
+                AbstractWidget.widgetsActivator.getBundleContext().ungetService(serviceReference);
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = AbstractWidget.widgetsActivator.getBundleContext().getService(serviceReference);
+                if (object instanceof IPLAInterappService) {
+                    PLAController.this.plaInterApp = (IPLAInterappService)object;
+                    PLAController.this.plaInterApp.registerStatusListener(PLAController.this);
+                }
+                return object;
+            }
+        });
         this.serviceTracker.open();
     }
 
-    @Override
     public void updatePLAStatusStandbyMode(IPLAStatus iPLAStatus) {
-        logChannelParking.log(-2137614336, "updatePLAStatusStandbyMode status=%1", (Object)iPLAStatus);
+        logChannelParking.log(10000000, "updatePLAStatusStandbyMode status=%1", (Object)iPLAStatus);
         this.updateData(6, iPLAStatus);
     }
 
-    @Override
     public void updatePLAStatusSearchMode(IPLAStatus iPLAStatus) {
-        logChannelParking.log(-2137614336, "updatePLAStatusSearchMode status=%1", (Object)iPLAStatus);
+        logChannelParking.log(10000000, "updatePLAStatusSearchMode status=%1", (Object)iPLAStatus);
         this.updateData(1, iPLAStatus);
     }
 
-    @Override
     public void updatePLAStatusInSelectionMode(IPLAStatus iPLAStatus) {
-        logChannelParking.log(-2137614336, "updatePLAStatusInSelectionMode status=%1", (Object)iPLAStatus);
+        logChannelParking.log(10000000, "updatePLAStatusInSelectionMode status=%1", (Object)iPLAStatus);
         this.updateData(2, iPLAStatus);
     }
 
-    @Override
     public void updatePLAStatusOutSelectionMode(IPLAStatus iPLAStatus) {
-        logChannelParking.log(-2137614336, "updatePLAStatusOutSelectionMode status=%1", (Object)iPLAStatus);
+        logChannelParking.log(10000000, "updatePLAStatusOutSelectionMode status=%1", (Object)iPLAStatus);
         this.updateData(3, iPLAStatus);
     }
 
-    @Override
     public void registerCallbackListener(IPLAStatusCallbackListener iPLAStatusCallbackListener) {
-        logChannelParking.log(-2137614336, "registerCallbackListener listener=%1", (Object)iPLAStatusCallbackListener);
+        logChannelParking.log(10000000, "registerCallbackListener listener=%1", (Object)iPLAStatusCallbackListener);
         this.listener = iPLAStatusCallbackListener;
     }
 
-    @Override
     public void unregisterCallbackListener(IPLAStatusCallbackListener iPLAStatusCallbackListener) {
-        logChannelParking.log(-2137614336, "unregisterCallbackListener listener=%1", (Object)iPLAStatusCallbackListener);
+        logChannelParking.log(10000000, "unregisterCallbackListener listener=%1", (Object)iPLAStatusCallbackListener);
         this.listener = null;
     }
 
-    private void updateData(int n, IPLAStatus iPLAStatus) {
-        AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new PLAController$2(this, iPLAStatus, n)));
+    private void updateData(final int n, final IPLAStatus iPLAStatus) {
+        AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new Runnable(){
+
+            public void run() {
+                PLAController.this.setCursorPositions(iPLAStatus);
+                PLAController.this.plaMode = n;
+                PLAController.this.plaStatus = iPLAStatus;
+                PLAController.this.opsController.setDataChanged();
+                PLAController.this.opsController.triggerRepaint();
+            }
+        }));
     }
 
     public IPLAStatus getPLAStatus() {
@@ -182,23 +202,20 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void updatePLAStatusIdleMode() {
-        logChannelParking.log(-2137614336, "updatePLAStatusIdleMode");
+        logChannelParking.log(10000000, "updatePLAStatusIdleMode");
         if (null != this.plaInterApp) {
             IPLAStatus iPLAStatus = this.plaInterApp.getDefaultPLAStatus();
             this.updateData(0, iPLAStatus);
         }
     }
 
-    @Override
     public void updatePLAStatusParkInActive(IPLAStatus iPLAStatus) {
-        logChannelParking.log(-2137614336, "updatePLAStatusStandbyMode status=%1", (Object)iPLAStatus);
+        logChannelParking.log(10000000, "updatePLAStatusStandbyMode status=%1", (Object)iPLAStatus);
     }
 
-    @Override
     public void updatePLAStatusParkOutActive(IPLAStatus iPLAStatus) {
-        logChannelParking.log(-2137614336, "updatePLAStatusStandbyMode status=%1", (Object)iPLAStatus);
+        logChannelParking.log(10000000, "updatePLAStatusStandbyMode status=%1", (Object)iPLAStatus);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -208,33 +225,6 @@ IWidgetLogChannel {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IPLAInterappService access$002(PLAController pLAController, IPLAInterappService iPLAInterappService) {
-        pLAController.plaInterApp = iPLAInterappService;
-        return pLAController.plaInterApp;
-    }
-
-    static /* synthetic */ IPLAInterappService access$000(PLAController pLAController) {
-        return pLAController.plaInterApp;
-    }
-
-    static /* synthetic */ void access$100(PLAController pLAController, IPLAStatus iPLAStatus) {
-        pLAController.setCursorPositions(iPLAStatus);
-    }
-
-    static /* synthetic */ int access$202(PLAController pLAController, int n) {
-        pLAController.plaMode = n;
-        return pLAController.plaMode;
-    }
-
-    static /* synthetic */ IPLAStatus access$302(PLAController pLAController, IPLAStatus iPLAStatus) {
-        pLAController.plaStatus = iPLAStatus;
-        return pLAController.plaStatus;
-    }
-
-    static /* synthetic */ OPSController access$400(PLAController pLAController) {
-        return pLAController.opsController;
     }
 }
 

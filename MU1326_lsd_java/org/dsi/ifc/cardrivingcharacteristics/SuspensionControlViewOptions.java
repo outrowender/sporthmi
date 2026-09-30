@@ -239,7 +239,7 @@ public class SuspensionControlViewOptions {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(2122383360);
+        StringBuffer stringBuffer = new StringBuffer(33150);
         stringBuffer.append("SuspensionControlViewOptions");
         stringBuffer.append('(');
         stringBuffer.append("liftMode");

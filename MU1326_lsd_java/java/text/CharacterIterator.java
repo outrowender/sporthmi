@@ -5,36 +5,26 @@ package java.text;
 
 public interface CharacterIterator
 extends Cloneable {
-    public static final char DONE;
+    public static final char DONE = '\uffff';
 
-    default public Object clone() {
-    }
+    public Object clone();
 
-    default public char current() {
-    }
+    public char current();
 
-    default public char first() {
-    }
+    public char first();
 
-    default public int getBeginIndex() {
-    }
+    public int getBeginIndex();
 
-    default public int getEndIndex() {
-    }
+    public int getEndIndex();
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public char last() {
-    }
+    public char last();
 
-    default public char next() {
-    }
+    public char next();
 
-    default public char previous() {
-    }
+    public char previous();
 
-    default public char setIndex(int n) {
-    }
+    public char setIndex(int var1);
 }
 

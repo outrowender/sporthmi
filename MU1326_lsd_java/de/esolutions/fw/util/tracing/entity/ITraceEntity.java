@@ -7,28 +7,20 @@ import de.esolutions.fw.util.tracing.entity.IExternalTraceEntity;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 
 public interface ITraceEntity {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public TraceEntityURI getURI() {
-    }
+    public TraceEntityURI getURI();
 
-    default public TraceEntityURI getParentURI() {
-    }
+    public TraceEntityURI getParentURI();
 
-    default public short getFrontendFilterLevel() {
-    }
+    public short getFrontendFilterLevel();
 
-    default public ITraceEntity getParent() {
-    }
+    public ITraceEntity getParent();
 
-    default public int getCreateEpoch() {
-    }
+    public int getCreateEpoch();
 
-    default public short getCoreFilterLevel() {
-    }
+    public short getCoreFilterLevel();
 
-    default public IExternalTraceEntity createExternalCoreEntity() {
-    }
+    public IExternalTraceEntity createExternalCoreEntity();
 }
 

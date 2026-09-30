@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -23,7 +24,7 @@ import java.util.Vector;
 public class File
 implements Serializable,
 Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 301077366599181567L;
     private String path;
     byte[] properPath;
     public static final char separatorChar;
@@ -42,8 +43,7 @@ Comparable {
         caseSensitive = File.isCaseSensitiveImpl();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     public File(File file, String string) {
         if (string != null) {
@@ -71,9 +71,9 @@ Comparable {
             string2 = string2.substring(1, string2.length());
         }
         if ((string = this.fixSlashes(string)).length() > 0 && string.charAt(string.length() - 1) == separatorChar) {
-            return new StringBuffer(String.valueOf(string)).append(string2).toString();
+            return String.valueOf(string) + string2;
         }
-        return new StringBuffer(String.valueOf(string)).append(separatorChar).append(string2).toString();
+        return String.valueOf(string) + separatorChar + string2;
     }
 
     public File(URI uRI) {
@@ -107,11 +107,9 @@ Comparable {
         }
     }
 
-    private static native byte[][] rootsImpl() {
-    }
+    private static native byte[][] rootsImpl();
 
-    private static native boolean isCaseSensitiveImpl() {
-    }
+    private static native boolean isCaseSensitiveImpl();
 
     public static File[] listRoots() {
         byte[][] byArray = File.rootsImpl();
@@ -187,9 +185,8 @@ Comparable {
         return bl && !this.isReadOnlyImpl(this.properPath(true));
     }
 
-    @Override
     public int compareTo(Object object) {
-        if (super.getClass() == object.getClass()) {
+        if (this.getClass() == object.getClass()) {
             return this.getPath().compareTo(((File)object).getPath());
         }
         throw new ClassCastException(Msg.getString("K0069"));
@@ -214,11 +211,9 @@ Comparable {
         return bl ? this.deleteDirImpl(this.properPath(true)) : this.deleteFileImpl(this.properPath(true));
     }
 
-    private native boolean deleteDirImpl(byte[] byArray) {
-    }
+    private native boolean deleteDirImpl(byte[] var1);
 
-    private native boolean deleteFileImpl(byte[] byArray) {
-    }
+    private native boolean deleteFileImpl(byte[] var1);
 
     public void deleteOnExit() {
         SecurityManager securityManager = System.getSecurityManager();
@@ -249,8 +244,7 @@ Comparable {
         return this.existsImpl(this.properPath(true));
     }
 
-    private native boolean existsImpl(byte[] byArray) {
-    }
+    private native boolean existsImpl(byte[] var1);
 
     public String getAbsolutePath() {
         byte[] byArray = this.properPath(false);
@@ -261,7 +255,7 @@ Comparable {
         return new File(this.getAbsolutePath());
     }
 
-    public String getCanonicalPath() {
+    public String getCanonicalPath() throws IOException {
         byte[] byArray = this.properPath(false);
         if (separatorChar == '/') {
             byArray = this.resolveLink(byArray, byArray.length, false);
@@ -327,7 +321,7 @@ Comparable {
         return Util.toString(byArray2);
     }
 
-    private byte[] resolve(byte[] byArray) {
+    private byte[] resolve(byte[] byArray) throws IOException {
         int n = 1;
         byte[] byArray2 = byArray;
         int n2 = 1;
@@ -370,7 +364,7 @@ Comparable {
         throw new InternalError();
     }
 
-    private byte[] resolveLink(byte[] byArray, int n, boolean bl) {
+    private byte[] resolveLink(byte[] byArray, int n, boolean bl) throws IOException {
         byte[] byArray2;
         boolean bl2 = false;
         while ((byArray2 = this.getLinkImpl(byArray)) != byArray) {
@@ -396,12 +390,11 @@ Comparable {
         return byArray;
     }
 
-    public File getCanonicalFile() {
+    public File getCanonicalFile() throws IOException {
         return new File(this.getCanonicalPath());
     }
 
-    private native byte[] getCanonImpl(byte[] byArray) {
-    }
+    private native byte[] getCanonImpl(byte[] var1);
 
     public String getName() {
         int n = this.path.lastIndexOf(separator);
@@ -441,17 +434,16 @@ Comparable {
 
     public int hashCode() {
         if (caseSensitive) {
-            return this.path.hashCode() ^ 0x91D51200;
+            return this.path.hashCode() ^ 0x12D591;
         }
-        return this.path.toLowerCase().hashCode() ^ 0x91D51200;
+        return this.path.toLowerCase().hashCode() ^ 0x12D591;
     }
 
     public boolean isAbsolute() {
         return this.isAbsoluteImpl(Util.getBytes(this.path));
     }
 
-    private native boolean isAbsoluteImpl(byte[] byArray) {
-    }
+    private native boolean isAbsoluteImpl(byte[] var1);
 
     public boolean isDirectory() {
         if (this.path.length() == 0) {
@@ -464,8 +456,7 @@ Comparable {
         return this.isDirectoryImpl(this.properPath(true));
     }
 
-    private native boolean isDirectoryImpl(byte[] byArray) {
-    }
+    private native boolean isDirectoryImpl(byte[] var1);
 
     public boolean isFile() {
         if (this.path.length() == 0) {
@@ -478,8 +469,7 @@ Comparable {
         return this.isFileImpl(this.properPath(true));
     }
 
-    private native boolean isFileImpl(byte[] byArray) {
-    }
+    private native boolean isFileImpl(byte[] var1);
 
     public boolean isHidden() {
         if (this.path.length() == 0) {
@@ -492,17 +482,13 @@ Comparable {
         return this.isHiddenImpl(this.properPath(true));
     }
 
-    private native boolean isHiddenImpl(byte[] byArray) {
-    }
+    private native boolean isHiddenImpl(byte[] var1);
 
-    private native boolean isReadOnlyImpl(byte[] byArray) {
-    }
+    private native boolean isReadOnlyImpl(byte[] var1);
 
-    private native boolean isWriteOnlyImpl(byte[] byArray) {
-    }
+    private native boolean isWriteOnlyImpl(byte[] var1);
 
-    private native byte[] getLinkImpl(byte[] byArray) {
-    }
+    private native byte[] getLinkImpl(byte[] var1);
 
     public long lastModified() {
         long l;
@@ -513,11 +499,10 @@ Comparable {
         if ((l = this.lastModifiedImpl(this.properPath(true))) == -1L || l == 0L) {
             return 0L;
         }
-        return l * 0;
+        return l * 1000L;
     }
 
-    private native long lastModifiedImpl(byte[] byArray) {
-    }
+    private native long lastModifiedImpl(byte[] var1);
 
     public boolean setLastModified(long l) {
         if (l >= 0L) {
@@ -530,8 +515,7 @@ Comparable {
         throw new IllegalArgumentException(Msg.getString("K006a"));
     }
 
-    private native boolean setLastModifiedImpl(byte[] byArray, long l) {
-    }
+    private native boolean setLastModifiedImpl(byte[] var1, long var2);
 
     public boolean setReadOnly() {
         SecurityManager securityManager = System.getSecurityManager();
@@ -541,8 +525,7 @@ Comparable {
         return this.setReadOnlyImpl(this.properPath(true));
     }
 
-    private native boolean setReadOnlyImpl(byte[] byArray) {
-    }
+    private native boolean setReadOnlyImpl(byte[] var1);
 
     public long length() {
         SecurityManager securityManager = System.getSecurityManager();
@@ -552,8 +535,7 @@ Comparable {
         return this.lengthImpl(this.properPath(true));
     }
 
-    private native long lengthImpl(byte[] byArray) {
-    }
+    private native long lengthImpl(byte[] var1);
 
     public String[] list() {
         SecurityManager securityManager = System.getSecurityManager();
@@ -659,8 +641,7 @@ Comparable {
         return objectArray;
     }
 
-    private static synchronized native byte[][] listImpl(byte[] byArray) {
-    }
+    private static synchronized native byte[][] listImpl(byte[] var0);
 
     public boolean mkdir() {
         SecurityManager securityManager = System.getSecurityManager();
@@ -670,8 +651,7 @@ Comparable {
         return this.mkdirImpl(this.properPath(true));
     }
 
-    private native boolean mkdirImpl(byte[] byArray) {
-    }
+    private native boolean mkdirImpl(byte[] var1);
 
     public boolean mkdirs() {
         if (this.exists()) {
@@ -687,7 +667,7 @@ Comparable {
         return new File(string).mkdirs() && this.mkdir();
     }
 
-    public boolean createNewFile() {
+    public boolean createNewFile() throws IOException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkWrite(this.path);
@@ -707,14 +687,13 @@ Comparable {
         throw new IOException(Msg.getString("K01c2", this.path));
     }
 
-    private native int newFileImpl(byte[] byArray) {
-    }
+    private native int newFileImpl(byte[] var1);
 
-    public static File createTempFile(String string, String string2) {
+    public static File createTempFile(String string, String string2) throws IOException {
         return File.createTempFile(string, string2, null);
     }
 
-    public static File createTempFile(String string, String string2, File file) {
+    public static File createTempFile(String string, String string2, File file) throws IOException {
         if (string != null) {
             if (string.length() >= 3) {
                 File file2;
@@ -735,7 +714,7 @@ Comparable {
     private static File genTempFile(String string, String string2, File file) {
         if (counter == 0) {
             int n = new Random().nextInt();
-            counter = (n / -65536 & 0xFFFF0000) + 10000;
+            counter = (n / 65535 & 0xFFFF) + 10000;
         }
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(string);
@@ -765,26 +744,25 @@ Comparable {
         int n = string.length();
         if (this.path.charAt(0) == '\\') {
             if (n > 1 && string.charAt(1) == ':') {
-                this.properPath = Util.getBytes(new StringBuffer(String.valueOf(string.substring(0, 2))).append(this.path).toString());
+                this.properPath = Util.getBytes(String.valueOf(string.substring(0, 2)) + this.path);
                 return this.properPath;
             }
             if (n > 0 && string.charAt(n - 1) == separatorChar) {
-                this.properPath = Util.getBytes(new StringBuffer(String.valueOf(string)).append(this.path.substring(1)).toString());
+                this.properPath = Util.getBytes(String.valueOf(string) + this.path.substring(1));
                 return this.properPath;
             }
-            this.properPath = Util.getBytes(new StringBuffer(String.valueOf(string)).append(this.path).toString());
+            this.properPath = Util.getBytes(String.valueOf(string) + this.path);
             return this.properPath;
         }
         if (n > 0 && string.charAt(n - 1) == separatorChar) {
-            this.properPath = Util.getBytes(new StringBuffer(String.valueOf(string)).append(this.path).toString());
+            this.properPath = Util.getBytes(String.valueOf(string) + this.path);
             return this.properPath;
         }
-        this.properPath = Util.getBytes(new StringBuffer(String.valueOf(string)).append(separator).append(this.path).toString());
+        this.properPath = Util.getBytes(String.valueOf(string) + separator + this.path);
         return this.properPath;
     }
 
-    private static native byte[] properPathImpl(byte[] byArray) {
-    }
+    private static native byte[] properPathImpl(byte[] var0);
 
     public boolean renameTo(File file) {
         SecurityManager securityManager = System.getSecurityManager();
@@ -795,8 +773,7 @@ Comparable {
         return this.renameToImpl(this.properPath(true), file.properPath(true));
     }
 
-    private native boolean renameToImpl(byte[] byArray, byte[] byArray2) {
-    }
+    private native boolean renameToImpl(byte[] var1, byte[] var2);
 
     public String toString() {
         return this.path.toString();
@@ -818,13 +795,13 @@ Comparable {
         }
     }
 
-    public URL toURL() {
+    public URL toURL() throws MalformedURLException {
         String string = this.getAbsoluteName();
         if (!string.startsWith("/")) {
             return new URL("file", "", -1, new StringBuffer(string.length() + 1).append('/').append(string).toString(), null);
         }
         if (string.startsWith("//")) {
-            return new URL(new StringBuffer("file:").append(string).toString());
+            return new URL("file:" + string);
         }
         return new URL("file", "", -1, string, null);
     }
@@ -840,12 +817,12 @@ Comparable {
         return string;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeChar(separatorChar);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         char c2 = objectInputStream.readChar();
         this.path = this.path.replace(c2, separatorChar);

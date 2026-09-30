@@ -12,24 +12,21 @@ import java.io.PrintStream;
 
 public class AgentSnapshotCommand
 extends AbstractAgentDiagnosisCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"agent_snapshot", "as"};
     }
 
-    @Override
     public String getDescription() {
         return "take an agent snapshot for info commands";
     }
 
-    @Override
     protected void handleWithAgentDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentDiagnosis iAgentDiagnosis = this.getDiagnosis();
         IAgentSnapshot iAgentSnapshot = iAgentDiagnosis.createSnapshot();
         if (iAgentSnapshot != null) {
             doctorShell.getState().setSnapshot(iAgentSnapshot);
             TraceTimeStamp traceTimeStamp = new TraceTimeStamp(iAgentSnapshot.getTimeStamp());
-            printStream.println(new StringBuffer().append("Snapshot taken: ").append(traceTimeStamp.toUTCTimeString(true)).toString());
+            printStream.println("Snapshot taken: " + traceTimeStamp.toUTCTimeString(true));
         } else {
             printStream.println("Error taking snapshot!");
         }

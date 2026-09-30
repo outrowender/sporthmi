@@ -19,8 +19,8 @@ public class ProgressBarController
 extends AbstractWidgetController
 implements ListItemWidget,
 IEmptyableWidget {
-    public static final float MIN_PROGRESS;
-    public static final float MAX_PROGRESS;
+    public static final float MIN_PROGRESS = 0.0f;
+    public static final float MAX_PROGRESS = 1.0f;
     private ProgressBarRenderer renderer;
     private int minimumModelValue = -1;
     private int maximumModelValue = -1;
@@ -35,7 +35,6 @@ IEmptyableWidget {
         this.resetContent();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -44,19 +43,16 @@ IEmptyableWidget {
         this.renderer = progressBarRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateContent();
     }
 
-    @Override
     public void disconnecting() {
         this.resetContent();
         super.disconnecting();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 4 || n == 14) {
@@ -116,7 +112,7 @@ IEmptyableWidget {
             this.progress = this.calculateContentValue(this.minimumModelValue, this.maximumModelValue, n);
             this.hasContent = this.calculateHasContent(this.minimumModelValue, n);
         } else {
-            logChannel.log(-1601830656, "ProgressBarController#calculateContent: Unknown model %2: %1", this.model, (long)this.modelID);
+            logChannel.log(100000, "ProgressBarController#calculateContent: Unknown model %2: %1", this.model, (long)this.modelID);
             this.resetContent();
         }
     }
@@ -130,7 +126,7 @@ IEmptyableWidget {
     protected float calculateContentValue(int n, int n2, int n3) {
         int n4 = n2 - n;
         if (n4 == 0) {
-            logChannel.log(-1601830656, "ProgressBarController: min and max values are equal: %1, %2", (long)n, (long)n2);
+            logChannel.log(100000, "ProgressBarController: min and max values are equal: %1, %2", (long)n, (long)n2);
             return 0.0f;
         }
         int n5 = n3 - n;
@@ -176,7 +172,6 @@ IEmptyableWidget {
         this.maximumModelValue = n;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.preferredWidth != -1) {
             return this.preferredWidth;
@@ -187,7 +182,6 @@ IEmptyableWidget {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.preferredHeight != -1) {
             return this.preferredHeight;
@@ -202,17 +196,14 @@ IEmptyableWidget {
         this.modelColumn = n;
     }
 
-    @Override
     public int getModelColumn() {
         return this.modelColumn;
     }
 
-    @Override
     public boolean hasContent() {
         return this.hasContent;
     }
 
-    @Override
     public boolean shouldRender() {
         return super.shouldRender() && this.hasContent;
     }

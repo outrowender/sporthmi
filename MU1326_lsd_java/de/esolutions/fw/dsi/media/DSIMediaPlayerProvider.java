@@ -25,28 +25,23 @@ implements DSIMediaPlayer {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIMediaPlayer == null ? (class$org$dsi$ifc$media$DSIMediaPlayer = DSIMediaPlayerProvider.class$("org.dsi.ifc.media.DSIMediaPlayer")) : class$org$dsi$ifc$media$DSIMediaPlayer).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMediaPlayerProxy(this.instance, (DSIMediaPlayerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setPlaybackMode(int n) {
         try {
             this.proxy.setPlaybackMode(n);
@@ -56,7 +51,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setVideoNorm(int n) {
         try {
             this.proxy.setVideoNorm(n);
@@ -66,7 +60,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setRating(long l, int n) {
         try {
             this.proxy.setRating(l, n);
@@ -76,7 +69,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void requestCoverArt(long l) {
         try {
             this.proxy.requestCoverArt(l);
@@ -86,7 +78,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void requestFullyQualifiedName(long l) {
         try {
             this.proxy.requestFullyQualifiedName(l);
@@ -96,7 +87,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setEntry(long l, int n) {
         try {
             this.proxy.setEntry(l, n);
@@ -106,7 +96,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void play() {
         try {
             this.proxy.play();
@@ -116,7 +105,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void resume() {
         try {
             this.proxy.resume();
@@ -126,7 +114,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void pause() {
         try {
             this.proxy.pause();
@@ -136,7 +123,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void stop() {
         try {
             this.proxy.stop();
@@ -146,7 +132,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void seek(int n, int n2) {
         try {
             this.proxy.seek(n, n2);
@@ -156,7 +141,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void skip(int n, int n2) {
         try {
             this.proxy.skip(n, n2);
@@ -166,7 +150,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setActiveMedia(long l, long l2, int n) {
         try {
             this.proxy.setActiveMedia(l, l2, n);
@@ -176,7 +159,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void requestPlayView(long l, int n, int n2, int n3) {
         try {
             this.proxy.requestPlayView(l, n, n2, n3);
@@ -186,7 +168,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void executeMenuCmd(int n) {
         try {
             this.proxy.executeMenuCmd(n);
@@ -196,7 +177,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setVideoAngle(int n) {
         try {
             this.proxy.setVideoAngle(n);
@@ -206,7 +186,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setAudioStream(int n) {
         try {
             this.proxy.setAudioStream(n);
@@ -216,7 +195,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setVideoFormat(int n) {
         try {
             this.proxy.setVideoFormat(n);
@@ -226,7 +204,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setSubtitleLanguage(int n) {
         try {
             this.proxy.setSubtitleLanguage(n);
@@ -236,7 +213,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void requestDetailInfo(long l) {
         try {
             this.proxy.requestDetailInfo(l);
@@ -246,7 +222,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setPlaySelection(int n, long l, boolean bl) {
         try {
             this.proxy.setPlaySelection(n, l, bl);
@@ -256,7 +231,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setPlaySelectionAB(int n) {
         try {
             this.proxy.setPlaySelectionAB(n);
@@ -266,7 +240,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setPlaybackURL(String string) {
         try {
             this.proxy.setPlaybackURL(string);
@@ -276,7 +249,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setVideoRect(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
         try {
             this.proxy.setVideoRect(n, n2, n3, n4, n5, n6, n7, n8);
@@ -286,7 +258,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void playSimilarEntry(long l, int n) {
         try {
             this.proxy.playSimilarEntry(l, n);
@@ -296,7 +267,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void grantTempPMLRequest() {
         try {
             this.proxy.grantTempPMLRequest();
@@ -306,7 +276,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void denyTempPMLRequest() {
         try {
             this.proxy.denyTempPMLRequest();
@@ -316,7 +285,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void requestTouchEvent(int n, int n2, int n3) {
         try {
             this.proxy.requestTouchEvent(n, n2, n3);
@@ -326,7 +294,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -336,7 +303,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -346,7 +312,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -356,7 +321,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -366,7 +330,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -376,7 +339,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -386,7 +348,6 @@ implements DSIMediaPlayer {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

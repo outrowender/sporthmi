@@ -40,13 +40,13 @@ import java.io.IOException;
 public class ProtocolHandler
 implements ITimeSyncSender,
 IFileTransferSender {
-    protected static final byte protocolRevision;
-    public static final int STATE_INIT;
-    public static final int STATE_CONNECTED;
-    public static final int STATE_PASSIVE_CONNECT;
-    public static final int STATE_EXIT;
-    public static final int STATE_DISCONNECTED;
-    public static final int STATE_ERROR;
+    protected static final byte protocolRevision = 1;
+    public static final int STATE_INIT = 0;
+    public static final int STATE_CONNECTED = 1;
+    public static final int STATE_PASSIVE_CONNECT = 2;
+    public static final int STATE_EXIT = 3;
+    public static final int STATE_DISCONNECTED = 4;
+    public static final int STATE_ERROR = 5;
     protected Connection connection;
     protected IProtocolActions actions;
     protected MessageSender sender;
@@ -93,7 +93,7 @@ IFileTransferSender {
         return this.peerName;
     }
 
-    public synchronized boolean connect(boolean bl, boolean bl2) {
+    public synchronized boolean connect(boolean bl, boolean bl2) throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         if (this.state != 0) {
             throw new ProtocolException("connect only allowed in INIT state");
         }
@@ -103,7 +103,7 @@ IFileTransferSender {
         return this.doHandshakeSlave(bl);
     }
 
-    public synchronized boolean disconnect() {
+    public synchronized boolean disconnect() throws ProtocolException, TransportException, IOException, InterruptedException {
         if (this.state != 1 && this.state != 2) {
             throw new ProtocolException("disconnect only allowed in CONNECTED state");
         }
@@ -114,7 +114,7 @@ IFileTransferSender {
     /*
      * Unable to fully structure code
      */
-    public AbstractMessage handleIncomingMessage() {
+    public AbstractMessage handleIncomingMessage() throws IOException, ProtocolException, InterruptedException {
         if (this.state != 1) {
             throw new ProtocolException("handle incoming message only allowed in CONNECTED state");
         }
@@ -131,7 +131,7 @@ IFileTransferSender {
                 return null;
             }
             catch (IOException var2_4) {
-                var3_9 = super.getClass().getName();
+                var3_9 = var2_4.getClass().getName();
                 if (var3_9.equals("java.net.SocketTimeoutException")) {
                     if (!this.endOnTimeOut) continue;
                     return null;
@@ -142,10 +142,10 @@ IFileTransferSender {
                 return null;
             }
             catch (TransportException var2_6) {
-                throw new ProtocolException(new StringBuffer().append("transport has problems: ").append(var2_6.getMessage()).toString());
+                throw new ProtocolException("transport has problems: " + var2_6.getMessage());
             }
             catch (SerializerException var2_7) {
-                throw new ProtocolException(new StringBuffer().append("serializer has problems: ").append(var2_7.getMessage()).toString());
+                throw new ProtocolException("serializer has problems: " + var2_7.getMessage());
             }
             break;
         }
@@ -173,7 +173,7 @@ IFileTransferSender {
                     break;
                 }
                 catch (TransportException var4_10) {
-                    throw new ProtocolException(new StringBuffer().append("transport has problems: ").append(var4_10.getMessage()).toString());
+                    throw new ProtocolException("transport has problems: " + var4_10.getMessage());
                 }
             }
             case 3: {
@@ -265,48 +265,46 @@ IFileTransferSender {
         return var1_1;
     }
 
-    public synchronized void sendSyncMarker(int n, long l) {
+    public synchronized void sendSyncMarker(int n, long l) throws TransportException, IOException, InterruptedException {
         this.sender.sendSyncMarker(n, l);
     }
 
-    @Override
-    public synchronized void sendTimeSync(long l, byte by, byte by2) {
+    public synchronized void sendTimeSync(long l, byte by, byte by2) throws TransportException, IOException, InterruptedException {
         this.sender.sendTimeSync(l, by, by2);
     }
 
-    public synchronized void sendCreateEntity(IExternalTraceEntity iExternalTraceEntity) {
+    public synchronized void sendCreateEntity(IExternalTraceEntity iExternalTraceEntity) throws TransportException, IOException, InterruptedException {
         this.sender.sendCreateEntity(iExternalTraceEntity);
     }
 
-    public synchronized void sendLogData(ITraceMessage iTraceMessage) {
+    public synchronized void sendLogData(ITraceMessage iTraceMessage) throws IOException, TransportException, InterruptedException {
         this.sender.sendLogData(iTraceMessage);
     }
 
-    public synchronized void sendExecuteCallback(int n, byte[] byArray) {
+    public synchronized void sendExecuteCallback(int n, byte[] byArray) throws IOException, TransportException, InterruptedException {
         this.sender.sendExecuteCallback(n, byArray);
     }
 
-    public synchronized void sendChangeLevel(TraceEntityURI traceEntityURI, short s) {
+    public synchronized void sendChangeLevel(TraceEntityURI traceEntityURI, short s) throws IOException, TransportException, InterruptedException {
         this.sender.sendChangeLevel(traceEntityURI, s);
     }
 
-    public synchronized void sendDroppedMessages(int n) {
+    public synchronized void sendDroppedMessages(int n) throws IOException, TransportException, InterruptedException {
         this.sender.sendDroppedMessages(n);
     }
 
-    public synchronized void sendToggleEntity(TraceEntityURI traceEntityURI, boolean bl) {
+    public synchronized void sendToggleEntity(TraceEntityURI traceEntityURI, boolean bl) throws IOException, TransportException, InterruptedException {
         this.sender.sendToggleEntity(traceEntityURI, bl);
     }
 
-    public synchronized void sendRegisterTimeZone(int n, int n2, String string) {
+    public synchronized void sendRegisterTimeZone(int n, int n2, String string) throws IOException, TransportException, InterruptedException {
         this.sender.sendRegisterTimeZone(n, n2, string);
     }
 
-    public synchronized void sendUpdateTimeZone(int n, long l, long l2) {
+    public synchronized void sendUpdateTimeZone(int n, long l, long l2) throws IOException, TransportException, InterruptedException {
         this.sender.sendUpdateTimeZone(n, l, l2);
     }
 
-    @Override
     public synchronized boolean sendFileRequest(int n, String string, byte by) {
         try {
             this.sender.sendFileRequest(n, string, by);
@@ -318,7 +316,6 @@ IFileTransferSender {
         return true;
     }
 
-    @Override
     public synchronized boolean sendFileStatus(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
         try {
             this.sender.sendFileStatus(n, string, by, l, l2, by2, byArray);
@@ -330,7 +327,6 @@ IFileTransferSender {
         return true;
     }
 
-    @Override
     public synchronized boolean sendFileTransfer(int n, int n2, byte by, int n3, byte[] byArray) {
         try {
             this.sender.sendFileTransfer(n, n2, by, n3, byArray);
@@ -342,19 +338,19 @@ IFileTransferSender {
         return true;
     }
 
-    public synchronized void sendCreateEntityBulk(IExternalTraceEntity[] iExternalTraceEntityArray) {
+    public synchronized void sendCreateEntityBulk(IExternalTraceEntity[] iExternalTraceEntityArray) throws IOException, TransportException, InterruptedException {
         this.sender.sendCreateEntityBulk(iExternalTraceEntityArray);
     }
 
-    public synchronized void sendChangeLevelBulk(IExternalTraceEntity[] iExternalTraceEntityArray) {
+    public synchronized void sendChangeLevelBulk(IExternalTraceEntity[] iExternalTraceEntityArray) throws IOException, TransportException, InterruptedException {
         this.sender.sendChangeLevelBulk(iExternalTraceEntityArray);
     }
 
-    public synchronized void sendLogDataBulk(ITraceMessage[] iTraceMessageArray) {
+    public synchronized void sendLogDataBulk(ITraceMessage[] iTraceMessageArray) throws IOException, TransportException, InterruptedException {
         this.sender.sendLogDataBulkd(iTraceMessageArray);
     }
 
-    private boolean doHandshakeMaster(boolean bl, boolean bl2) {
+    private boolean doHandshakeMaster(boolean bl, boolean bl2) throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         this.sender.sendInit((byte)1, this.myName, this.maxEntities);
         if (bl) {
             if (!this.actions.handlePassiveInit()) {
@@ -394,7 +390,7 @@ IFileTransferSender {
         return true;
     }
 
-    private boolean doHandshakeSlave(boolean bl) {
+    private boolean doHandshakeSlave(boolean bl) throws ProtocolException, SerializerException, TransportException, IOException, InterruptedException {
         InitMessage initMessage = this.receiver.recvInitMessage();
         byte by = initMessage.getProtocolRevision();
         this.peerName = initMessage.getMyName();

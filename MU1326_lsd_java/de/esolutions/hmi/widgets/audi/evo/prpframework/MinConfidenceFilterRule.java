@@ -10,7 +10,6 @@ import java.util.List;
 
 public class MinConfidenceFilterRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         int n = this.getParam(5);
         Iterator iterator = list.iterator();
@@ -22,7 +21,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Min-Confidence-Filter-Rule";
     }

@@ -12,55 +12,38 @@ import org.dsi.ifc.tmc.TrafficSource;
 
 public interface DSITmcListener
 extends DSIListener {
-    default public void updateEventsOnRoute(long l, int n) {
-    }
+    public void updateEventsOnRoute(long var1, int var3);
 
-    default public void updateEventsTotal(int n, long l, long l2, int n2) {
-    }
+    public void updateEventsTotal(int var1, long var2, long var4, int var6);
 
-    default public void updateTmcState(int n, int n2) {
-    }
+    public void updateTmcState(int var1, int var2);
 
-    default public void updateActiveTrafficSources(int[] nArray, int n) {
-    }
+    public void updateActiveTrafficSources(int[] var1, int var2);
 
-    default public void updateIsEngineeringMode(boolean bl, int n) {
-    }
+    public void updateIsEngineeringMode(boolean var1, int var2);
 
-    default public void updateCurrentLanguage(String string, int n) {
-    }
+    public void updateCurrentLanguage(String var1, int var2);
 
-    default public void updateIsTmcProAvailable(boolean bl, int n) {
-    }
+    public void updateIsTmcProAvailable(boolean var1, int var2);
 
-    default public void windowChange(int n) {
-    }
+    public void windowChange(int var1);
 
-    default public void tmcWindowResult(int n, int n2, TmcListElement[] tmcListElementArray) {
-    }
+    public void tmcWindowResult(int var1, int var2, TmcListElement[] var3);
 
-    default public void setMessageFilterResult(int n, int n2) {
-    }
+    public void setMessageFilterResult(int var1, int var2);
 
-    default public void getMessageIdsForListElementResult(long[] lArray) {
-    }
+    public void getMessageIdsForListElementResult(long[] var1);
 
-    default public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) {
-    }
+    public void getBoundingRectangleForTrafficMessagesResult(NavRectangle var1);
 
-    default public void updateAreaWarning(AreaWarningInfo areaWarningInfo, int n) {
-    }
+    public void updateAreaWarning(AreaWarningInfo var1, int var2);
 
-    default public void updateAreaWarnings(AreaWarningInfo[] areaWarningInfoArray, int n) {
-    }
+    public void updateAreaWarnings(AreaWarningInfo[] var1, int var2);
 
-    default public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray, int n) {
-    }
+    public void updateLocalHazardInformation(LocalHazardInformation[] var1, int var2);
 
-    default public void updateTrafficFlowStatisticsStatus(boolean bl, int n) {
-    }
+    public void updateTrafficFlowStatisticsStatus(boolean var1, int var2);
 
-    default public void updateTrafficSourceInformation(TrafficSource[] trafficSourceArray, int n) {
-    }
+    public void updateTrafficSourceInformation(TrafficSource[] var1, int var2);
 }
 

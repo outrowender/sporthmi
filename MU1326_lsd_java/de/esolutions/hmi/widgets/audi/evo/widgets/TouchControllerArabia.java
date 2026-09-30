@@ -20,7 +20,6 @@ extends TouchController {
         this(new TouchInputDataArabia());
     }
 
-    @Override
     protected void setLanguage(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
         super.setLanguage(touchCharSetAndTTSHandler);
         if (this.inputData == null) {
@@ -38,17 +37,15 @@ extends TouchController {
         this.setAutoCharsetSwitch(false);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.inputData.setSystemLanguageArabic(!this.isLTR());
         this.inputData.setRTL(TouchControllerArabia.isArabicCharSetActivated());
     }
 
-    @Override
     protected void stringEntered(String string, String[] stringArray) {
         if (string == null || string.length() == 0 || this.isInputLocked()) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchController#stringEntered return because inputString is Empty or cuz blockSpellerInput=%1", this.isInputLocked());
+            tpLogChannelKeypanel.log(10000000, "TouchController#stringEntered return because inputString is Empty or cuz blockSpellerInput=%1", this.isInputLocked());
             return;
         }
         char c2 = string.charAt(string.length() - 1);
@@ -65,7 +62,6 @@ extends TouchController {
         super.stringEntered(string, stringArray);
     }
 
-    @Override
     protected void handleHKBackShortPress() {
         this.inputData.setDeleteWithTouchPad(false);
         super.handleHKBackShortPress();
@@ -86,7 +82,6 @@ extends TouchController {
         return this.orientationMark;
     }
 
-    @Override
     public int getLanguageIndicatorIconIndex() {
         if (this.touchUtil != null && !this.isLatinOnly() && this.terminal != null && this.terminal.getViewSizeManager() != null && this.terminal.getViewSizeManager().getCurrentViewSize() == 2) {
             return this.touchUtil.getLanguageIndicatorIconIndex();
@@ -108,7 +103,6 @@ extends TouchController {
         }
     }
 
-    @Override
     protected void updateModelText(String string, char c2) {
         string = StringUtility.revertTextToArabicBlock(string);
         super.updateModelText(string, c2);

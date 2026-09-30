@@ -27,10 +27,9 @@ implements AnimationListener {
     private boolean useCrossfading;
     private boolean avoidFlickering = false;
     private int crossFadeState = 0;
-    static final int ANIMATION_TYPE;
+    static final int ANIMATION_TYPE = 104;
     private DABSlideShowHandler dabSlsHandler = null;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof IconController) {
             if (this.containerA == null) {
@@ -42,7 +41,6 @@ implements AnimationListener {
         super.add(abstractWidget);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         String string = "";
         int n = 1;
@@ -63,7 +61,6 @@ implements AnimationListener {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.renderer == null) {
             this.renderer = ((ExtHMITerminalEvo)((Object)this.terminal)).getRendererFactory().createCompositeRenderer(this);
@@ -79,10 +76,10 @@ implements AnimationListener {
     }
 
     public void updateContent(ModelUpdateEvent modelUpdateEvent) {
-        logChannelCoverStack.log(-2137614336, "IconCrossFadeController#updateContent crossFadeState: %1", (long)this.crossFadeState);
+        logChannelCoverStack.log(10000000, "IconCrossFadeController#updateContent crossFadeState: %1", (long)this.crossFadeState);
         IconController iconController = null;
         if (this.dabSlsHandler != null && !this.dabSlsHandler.isUpdateEventProccessable(((ResourceLocatorModel)this.model).getResourceLocator())) {
-            logChannel.log(-2137614336, "IconCrossFadeController#processCrossFading: : blocked processing ResourceLocator UpdateEvent , DABSlideShow Timer is running");
+            logChannel.log(10000000, "IconCrossFadeController#processCrossFading: : blocked processing ResourceLocator UpdateEvent , DABSlideShow Timer is running");
             this.dabSlsHandler.setModelUpdateEvent(modelUpdateEvent);
             return;
         }
@@ -91,17 +88,17 @@ implements AnimationListener {
                 this.dabSlsHandler = new DABSlideShowHandler(this);
             }
             if (this.dabSlsHandler.startSlsTimer(((ResourceLocatorModel)this.model).getResourceLocator()) == 0) {
-                logChannel.log(-2137614336, "IconCrossFadeController#processCrossFading : (re)started DABSlideShow Timer ");
+                logChannel.log(10000000, "IconCrossFadeController#processCrossFading : (re)started DABSlideShow Timer ");
             }
         }
         switch (this.crossFadeState) {
             case 0: {
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#updateContent updateIconB");
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#updateContent updateIconB");
                 iconController = this.containerB;
                 break;
             }
             case 1: {
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#updateContent updateIconA");
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#updateContent updateIconA");
                 iconController = this.containerA;
                 break;
             }
@@ -119,26 +116,26 @@ implements AnimationListener {
         iconController.setModel(this.model);
         if (modelUpdateEvent != null) {
             iconController.processModelUpdateEvent(modelUpdateEvent);
-            logChannelCoverStack.log(-2137614336, "IconCrossFadeController#updateIcon forward modelUpdateEvent");
+            logChannelCoverStack.log(10000000, "IconCrossFadeController#updateIcon forward modelUpdateEvent");
         }
         this.processCrossFading();
     }
 
     public void processCrossFading() {
-        logChannelCoverStack.log(-2137614336, "IconCrossFadeController#processCrossFading crossFadeState: %1", (long)this.crossFadeState);
+        logChannelCoverStack.log(10000000, "IconCrossFadeController#processCrossFading crossFadeState: %1", (long)this.crossFadeState);
         IconController iconController = this.containerA;
         IconController iconController2 = this.containerB;
         if (iconController.getWidth() != iconController2.getWidth() || iconController.getHeight() != iconController2.getHeight()) {
             this.avoidFlickering = false;
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animate A res: %1/%2, B res: %3/%4", (Object)String.valueOf(iconController.getWidth()), (Object)String.valueOf(iconController.getHeight()), (Object)String.valueOf(iconController2.getWidth()), (Object)String.valueOf(iconController2.getHeight()));
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#processCrossFading avoidFlickering: %1", this.avoidFlickering);
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#animate A res: %1/%2, B res: %3/%4", (Object)String.valueOf(iconController.getWidth()), (Object)String.valueOf(iconController.getHeight()), (Object)String.valueOf(iconController2.getWidth()), (Object)String.valueOf(iconController2.getHeight()));
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#processCrossFading avoidFlickering: %1", this.avoidFlickering);
             }
         } else {
             this.avoidFlickering = true;
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animate A res: %1/%2, B res: %3/%4", (Object)String.valueOf(iconController.getWidth()), (Object)String.valueOf(iconController.getHeight()), (Object)String.valueOf(iconController2.getWidth()), (Object)String.valueOf(iconController2.getHeight()));
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#processCrossFading avoidFlickering: %1", this.avoidFlickering);
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#animate A res: %1/%2, B res: %3/%4", (Object)String.valueOf(iconController.getWidth()), (Object)String.valueOf(iconController.getHeight()), (Object)String.valueOf(iconController2.getWidth()), (Object)String.valueOf(iconController2.getHeight()));
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#processCrossFading avoidFlickering: %1", this.avoidFlickering);
             }
         }
     }
@@ -146,10 +143,10 @@ implements AnimationListener {
     public void startCrossFadingAnimation() {
         if (this.getAnimation().isAnimating()) {
             this.getAnimation().setTarget(this.animation.getTarget());
-            logChannelCoverStack.log(-2137614336, "IconCrossFadeController#startCrossFadingAnimation");
+            logChannelCoverStack.log(10000000, "IconCrossFadeController#startCrossFadingAnimation");
         } else {
-            this.getAnimation().startDynamicAnimation(0.0f, 31300, 104, true, this);
-            logChannelCoverStack.log(-2137614336, "IconCrossFadeController#startCrossFadingAnimation");
+            this.getAnimation().startDynamicAnimation(0.0f, 1000.0f, 104, true, this);
+            logChannelCoverStack.log(10000000, "IconCrossFadeController#startCrossFadingAnimation");
         }
     }
 
@@ -176,14 +173,12 @@ implements AnimationListener {
         this.useCrossfading = bl;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
-        logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animationStarted");
+        logChannelCoverStack.log(10000000, "IconCrossFadeController#animationStarted");
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animationFinished");
+        logChannelCoverStack.log(10000000, "IconCrossFadeController#animationFinished");
         switch (this.crossFadeState) {
             case 0: {
                 this.containerB.setOpacity(1.0f);
@@ -202,20 +197,19 @@ implements AnimationListener {
         this.crossFadeState = this.crossFadeState == 0 ? 1 : 0;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
-        logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animate progress: %1", (double)this.animation.getProgress());
+        logChannelCoverStack.log(10000000, "IconCrossFadeController#animate progress: %1", (double)this.animation.getProgress());
         switch (this.crossFadeState) {
             case 0: {
                 this.containerB.setOpacity(this.animation.getProgress());
                 this.containerA.setOpacity(!this.avoidFlickering ? 1.0f - this.animation.getProgress() : this.containerA.getOpacity());
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animateA opacity: %1", (double)this.containerA.getOpacity());
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#animateA opacity: %1", (double)this.containerA.getOpacity());
                 break;
             }
             case 1: {
                 this.containerB.setOpacity(1.0f - this.animation.getProgress());
                 this.containerA.setOpacity(!this.avoidFlickering ? this.animation.getProgress() : 1.0f);
-                logChannelCoverStack.log(-2137614336, "IconCrossFadeController#animateB opacity: %1", (double)this.containerA.getOpacity());
+                logChannelCoverStack.log(10000000, "IconCrossFadeController#animateB opacity: %1", (double)this.containerA.getOpacity());
                 break;
             }
             default: {
@@ -224,7 +218,6 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void disconnecting() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -239,7 +232,7 @@ implements AnimationListener {
             this.dabSlsHandler.cancelSlsTimer();
         }
         this.crossFadeState = 0;
-        logChannelCoverStack.log(-2137614336, "IconCrossFadeController#disconnecting - reset icons and crossfadeState");
+        logChannelCoverStack.log(10000000, "IconCrossFadeController#disconnecting - reset icons and crossfadeState");
         super.disconnecting();
     }
 
@@ -247,12 +240,10 @@ implements AnimationListener {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
-    @Override
     public void setViewSizeOpacity(float f2) {
         if (this.viewSizeOpacity != f2) {
             this.viewSizeOpacity = f2;

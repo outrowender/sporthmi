@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
 import de.esolutions.fw.comm.asi.hmisync.media.impl.MediaSourceSlotSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MediaActiveSourceStateSerializer {
-    public static void putOptionalMediaActiveSourceState(ISerializer iSerializer, MediaActiveSourceState mediaActiveSourceState) {
+    public static void putOptionalMediaActiveSourceState(ISerializer iSerializer, MediaActiveSourceState mediaActiveSourceState) throws SerializerException {
         boolean bl = mediaActiveSourceState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MediaActiveSourceStateSerializer {
         }
     }
 
-    public static void putOptionalMediaActiveSourceStateVarArray(ISerializer iSerializer, MediaActiveSourceState[] mediaActiveSourceStateArray) {
+    public static void putOptionalMediaActiveSourceStateVarArray(ISerializer iSerializer, MediaActiveSourceState[] mediaActiveSourceStateArray) throws SerializerException {
         boolean bl = mediaActiveSourceStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MediaActiveSourceStateSerializer {
         }
     }
 
-    public static MediaActiveSourceState getOptionalMediaActiveSourceState(IDeserializer iDeserializer) {
+    public static MediaActiveSourceState getOptionalMediaActiveSourceState(IDeserializer iDeserializer) throws SerializerException {
         MediaActiveSourceState mediaActiveSourceState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class MediaActiveSourceStateSerializer {
         return mediaActiveSourceState;
     }
 
-    public static MediaActiveSourceState[] getOptionalMediaActiveSourceStateVarArray(IDeserializer iDeserializer) {
+    public static MediaActiveSourceState[] getOptionalMediaActiveSourceStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaActiveSourceState[] mediaActiveSourceStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

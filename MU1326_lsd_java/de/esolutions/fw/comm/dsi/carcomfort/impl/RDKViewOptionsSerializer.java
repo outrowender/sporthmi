@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.RDKConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKConfiguration;
 import org.dsi.ifc.carcomfort.RDKViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class RDKViewOptionsSerializer {
-    public static void putOptionalRDKViewOptions(ISerializer iSerializer, RDKViewOptions rDKViewOptions) {
+    public static void putOptionalRDKViewOptions(ISerializer iSerializer, RDKViewOptions rDKViewOptions) throws SerializerException {
         boolean bl = rDKViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -49,7 +50,7 @@ public class RDKViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalRDKViewOptionsVarArray(ISerializer iSerializer, RDKViewOptions[] rDKViewOptionsArray) {
+    public static void putOptionalRDKViewOptionsVarArray(ISerializer iSerializer, RDKViewOptions[] rDKViewOptionsArray) throws SerializerException {
         boolean bl = rDKViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -60,7 +61,7 @@ public class RDKViewOptionsSerializer {
         }
     }
 
-    public static RDKViewOptions getOptionalRDKViewOptions(IDeserializer iDeserializer) {
+    public static RDKViewOptions getOptionalRDKViewOptions(IDeserializer iDeserializer) throws SerializerException {
         RDKViewOptions rDKViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class RDKViewOptionsSerializer {
         return rDKViewOptions;
     }
 
-    public static RDKViewOptions[] getOptionalRDKViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static RDKViewOptions[] getOptionalRDKViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKViewOptions[] rDKViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

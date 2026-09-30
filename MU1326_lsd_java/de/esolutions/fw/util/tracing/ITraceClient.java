@@ -6,25 +6,18 @@ package de.esolutions.fw.util.tracing;
 import de.esolutions.fw.util.tracing.TraceChannel;
 
 public interface ITraceClient {
-    default public boolean enableChannel(TraceChannel traceChannel) {
-    }
+    public boolean enableChannel(TraceChannel var1);
 
-    default public boolean disableChannel(TraceChannel traceChannel) {
-    }
+    public boolean disableChannel(TraceChannel var1);
 
-    default public boolean logMessage(TraceChannel traceChannel, short s, short s2, String string, Object[] objectArray) {
-    }
+    public boolean logMessage(TraceChannel var1, short var2, short var3, String var4, Object[] var5);
 
-    default public boolean logMessage(TraceChannel traceChannel, short s, short s2, short s3, byte[] byArray) {
-    }
+    public boolean logMessage(TraceChannel var1, short var2, short var3, short var4, byte[] var5);
 
-    default public boolean registerChannel(TraceChannel traceChannel) {
-    }
+    public boolean registerChannel(TraceChannel var1);
 
-    default public boolean unregisterChannel(TraceChannel traceChannel) {
-    }
+    public boolean unregisterChannel(TraceChannel var1);
 
-    default public boolean changeChannelFilterLevel(TraceChannel traceChannel, short s) {
-    }
+    public boolean changeChannelFilterLevel(TraceChannel var1, short var2);
 }
 

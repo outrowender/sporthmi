@@ -7,8 +7,10 @@ import de.esolutions.fw.util.serializer.adapter.DefaultExtendedDeserializer;
 import de.esolutions.fw.util.serializer.connection.Connection;
 import de.esolutions.fw.util.serializer.stream.BEDefaultDeserializer;
 import de.esolutions.fw.util.tracing.protocol.message.MessageReceiver;
+import de.esolutions.fw.util.transport.exception.TransportException;
 import de.esolutions.fw.util.transport.packet.PacketTransport;
 import de.esolutions.fw.util.transport.socket.InputStreamTransport;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class MessageReader {
@@ -25,11 +27,11 @@ public class MessageReader {
         this.receiver = new MessageReceiver(this.c);
     }
 
-    public void open() {
+    public void open() throws IOException, TransportException, InterruptedException {
         this.c.open();
     }
 
-    public void close() {
+    public void close() throws IOException, TransportException, InterruptedException {
         this.c.close(false);
         this.in.close();
     }

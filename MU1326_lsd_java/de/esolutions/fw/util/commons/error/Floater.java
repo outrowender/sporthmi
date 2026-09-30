@@ -11,7 +11,7 @@ public class Floater {
 
     public int freeKiB() {
         long l = Runtime.getRuntime().freeMemory();
-        int n = (int)(l / 0);
+        int n = (int)(l / 1024L);
         return n;
     }
 
@@ -55,7 +55,7 @@ public class Floater {
                     var4_4 = true;
                     if (this.freeKiB() < var1_1) break;
                     System.out.print("FLOATER: GC. wasted=");
-                    System.out.print(this.totalSize / 0);
+                    System.out.print(this.totalSize / 1024L);
                     System.out.print(", blockSize=");
                     System.out.print(var2_2);
                     System.out.print(", freeHeap=");
@@ -85,7 +85,7 @@ public class Floater {
         this.totalSize = 0L;
         System.gc();
         System.out.print("free: ");
-        System.out.println(Runtime.getRuntime().freeMemory() / 0);
+        System.out.println(Runtime.getRuntime().freeMemory() / 1024L);
     }
 }
 

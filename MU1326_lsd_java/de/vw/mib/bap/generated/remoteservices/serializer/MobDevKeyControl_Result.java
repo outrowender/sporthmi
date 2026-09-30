@@ -10,21 +10,21 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MobDevKeyControl_Result
 implements ResultMethod {
     public int asg_Id;
-    public static final int ASG_ID_C_GW_OCU;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG;
+    public static final int ASG_ID_C_GW_OCU = 2;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG = 0;
     public int resultCode;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_SMARTCARD_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_PHYSICAL_KEY_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_CLAMP_15_NOT_ACTIVE;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_COMMAND_TYPE_NOT_SUPPORTED;
-    public static final int RESULT_CODE_ABORT_NOT_SUCCESSFUL;
-    public static final int RESULT_CODE_ABORT_SUCCESSFUL;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL;
-    public static final int RESULT_CODE_SUCCESSFUL;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_FAILED = 10;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_SMARTCARD_FAILED = 9;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_FAILED = 8;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_WITH_PHYSICAL_KEY_FAILED = 7;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_FAILED = 6;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_CLAMP_15_NOT_ACTIVE = 5;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_COMMAND_TYPE_NOT_SUPPORTED = 4;
+    public static final int RESULT_CODE_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int RESULT_CODE_ABORT_SUCCESSFUL = 2;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL = 1;
+    public static final int RESULT_CODE_SUCCESSFUL = 0;
 
     public MobDevKeyControl_Result() {
         this.internalReset();
@@ -41,12 +41,10 @@ implements ResultMethod {
         this.resultCode = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeyControl_Result mobDevKeyControl_Result = (MobDevKeyControl_Result)bAPEntity;
         return this.asg_Id == mobDevKeyControl_Result.asg_Id && this.resultCode == mobDevKeyControl_Result.resultCode;
@@ -55,12 +53,10 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public int getResultCode() {
         return this.resultCode;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeyControl_Result");
@@ -69,18 +65,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.asg_Id);
         bitStream.pushByte((byte)this.resultCode);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontByte();
         this.resultCode = bitStream.popFrontByte();
@@ -90,7 +83,6 @@ implements ResultMethod {
         return 26;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeyControl_Result.functionId();
     }

@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.commons.error;
 
 public interface IFatalErrorHandler {
-    default public void handleFatalError(Throwable throwable, String string) {
-    }
+    public void handleFatalError(Throwable var1, String var2);
 }
 

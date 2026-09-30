@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ListItemWidgetCache {
-    public static final int MAX_CACHED_WIDGETS_PER_RECORD_SET;
+    public static final int MAX_CACHED_WIDGETS_PER_RECORD_SET = 15;
     private Map cache = new HashMap(5);
 
     public boolean add(int n, AbstractWidgetController abstractWidgetController) {

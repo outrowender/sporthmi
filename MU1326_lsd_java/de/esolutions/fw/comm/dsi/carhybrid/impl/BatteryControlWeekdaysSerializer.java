@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlWeekdays;
 
 public class BatteryControlWeekdaysSerializer {
-    public static void putOptionalBatteryControlWeekdays(ISerializer iSerializer, BatteryControlWeekdays batteryControlWeekdays) {
+    public static void putOptionalBatteryControlWeekdays(ISerializer iSerializer, BatteryControlWeekdays batteryControlWeekdays) throws SerializerException {
         boolean bl = batteryControlWeekdays == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class BatteryControlWeekdaysSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlWeekdaysVarArray(ISerializer iSerializer, BatteryControlWeekdays[] batteryControlWeekdaysArray) {
+    public static void putOptionalBatteryControlWeekdaysVarArray(ISerializer iSerializer, BatteryControlWeekdays[] batteryControlWeekdaysArray) throws SerializerException {
         boolean bl = batteryControlWeekdaysArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class BatteryControlWeekdaysSerializer {
         }
     }
 
-    public static BatteryControlWeekdays getOptionalBatteryControlWeekdays(IDeserializer iDeserializer) {
+    public static BatteryControlWeekdays getOptionalBatteryControlWeekdays(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlWeekdays batteryControlWeekdays = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class BatteryControlWeekdaysSerializer {
         return batteryControlWeekdays;
     }
 
-    public static BatteryControlWeekdays[] getOptionalBatteryControlWeekdaysVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlWeekdays[] getOptionalBatteryControlWeekdaysVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlWeekdays[] batteryControlWeekdaysArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

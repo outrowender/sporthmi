@@ -8,27 +8,22 @@ import de.esolutions.fw.comm.asi.online.coreservice.KeyValPair;
 import de.esolutions.fw.comm.asi.online.coreservice.OAuthToken;
 import de.esolutions.fw.comm.asi.online.coreservice.Result;
 import de.esolutions.fw.comm.asi.online.coreservice.ServiceListEntry;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$10;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$11;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$12;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$13;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$14;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$15;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$16;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$17;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$2;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$3;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$4;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$5;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$6;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$7;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$8;
-import de.esolutions.fw.comm.asi.online.coreservice.impl.ExtOnlineCoreServiceReplyProxy$9;
+import de.esolutions.fw.comm.asi.online.coreservice.impl.KeyValPairSerializer;
+import de.esolutions.fw.comm.asi.online.coreservice.impl.OAuthTokenSerializer;
+import de.esolutions.fw.comm.asi.online.coreservice.impl.ResultSerializer;
+import de.esolutions.fw.comm.asi.online.coreservice.impl.ServiceListEntrySerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.online.impl.OSRNotifyPropertiesSLSerializer;
+import de.esolutions.fw.comm.dsi.online.impl.OSRNotifyPropertiesSerializer;
+import de.esolutions.fw.comm.dsi.online.impl.OSRServiceStateSerializer;
+import de.esolutions.fw.comm.dsi.online.impl.OSRUserSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRNotifyProperties;
 import org.dsi.ifc.online.OSRNotifyPropertiesSL;
 import org.dsi.ifc.online.OSRServiceState;
@@ -38,7 +33,7 @@ public class ExtOnlineCoreServiceReplyProxy
 implements ExtOnlineCoreServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.online.coreservice.ExtOnlineCoreService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ExtOnlineCoreServiceReplyProxy() {
@@ -46,111 +41,186 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void initResponse(int n) {
-        ExtOnlineCoreServiceReplyProxy$1 extOnlineCoreServiceReplyProxy$1 = new ExtOnlineCoreServiceReplyProxy$1(this, n);
-        this.proxy.remoteCallMethod((short)25, extOnlineCoreServiceReplyProxy$1);
+    public void initResponse(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void registerServiceResponse(int n) {
-        ExtOnlineCoreServiceReplyProxy$2 extOnlineCoreServiceReplyProxy$2 = new ExtOnlineCoreServiceReplyProxy$2(this, n);
-        this.proxy.remoteCallMethod((short)31, extOnlineCoreServiceReplyProxy$2);
+    public void registerServiceResponse(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)31, iSerializable);
     }
 
-    @Override
-    public void enableApplication() {
-        ExtOnlineCoreServiceReplyProxy$3 extOnlineCoreServiceReplyProxy$3 = new ExtOnlineCoreServiceReplyProxy$3(this);
-        this.proxy.remoteCallMethod((short)2, extOnlineCoreServiceReplyProxy$3);
+    public void enableApplication() throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void disableApplication() {
-        ExtOnlineCoreServiceReplyProxy$4 extOnlineCoreServiceReplyProxy$4 = new ExtOnlineCoreServiceReplyProxy$4(this);
-        this.proxy.remoteCallMethod((short)1, extOnlineCoreServiceReplyProxy$4);
+    public void disableApplication() throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void getServiceListEntryResponse(int n, ServiceListEntry serviceListEntry) {
-        ExtOnlineCoreServiceReplyProxy$5 extOnlineCoreServiceReplyProxy$5 = new ExtOnlineCoreServiceReplyProxy$5(this, n, serviceListEntry);
-        this.proxy.remoteCallMethod((short)21, extOnlineCoreServiceReplyProxy$5);
+    public void getServiceListEntryResponse(final int n, final ServiceListEntry serviceListEntry) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ServiceListEntrySerializer.putOptionalServiceListEntry(iSerializer, serviceListEntry);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-        ExtOnlineCoreServiceReplyProxy$6 extOnlineCoreServiceReplyProxy$6 = new ExtOnlineCoreServiceReplyProxy$6(this, oSRNotifyPropertiesArray);
-        this.proxy.remoteCallMethod((short)32, extOnlineCoreServiceReplyProxy$6);
+    public void updateApplicationState(final OSRNotifyProperties[] oSRNotifyPropertiesArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRNotifyPropertiesSerializer.putOptionalOSRNotifyPropertiesVarArray(iSerializer, oSRNotifyPropertiesArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)32, iSerializable);
     }
 
-    @Override
-    public void updateServices(OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray) {
-        ExtOnlineCoreServiceReplyProxy$7 extOnlineCoreServiceReplyProxy$7 = new ExtOnlineCoreServiceReplyProxy$7(this, oSRNotifyPropertiesSLArray);
-        this.proxy.remoteCallMethod((short)36, extOnlineCoreServiceReplyProxy$7);
+    public void updateServices(final OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRNotifyPropertiesSLSerializer.putOptionalOSRNotifyPropertiesSLVarArray(iSerializer, oSRNotifyPropertiesSLArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void updateServiceState(int n) {
-        ExtOnlineCoreServiceReplyProxy$8 extOnlineCoreServiceReplyProxy$8 = new ExtOnlineCoreServiceReplyProxy$8(this, n);
-        this.proxy.remoteCallMethod((short)35, extOnlineCoreServiceReplyProxy$8);
+    public void updateServiceState(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)35, iSerializable);
     }
 
-    @Override
-    public void precheckOnlineServiceServiceIDResponse(OSRServiceState oSRServiceState) {
-        ExtOnlineCoreServiceReplyProxy$9 extOnlineCoreServiceReplyProxy$9 = new ExtOnlineCoreServiceReplyProxy$9(this, oSRServiceState);
-        this.proxy.remoteCallMethod((short)29, extOnlineCoreServiceReplyProxy$9);
+    public void precheckOnlineServiceServiceIDResponse(final OSRServiceState oSRServiceState) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRServiceStateSerializer.putOptionalOSRServiceState(iSerializer, oSRServiceState);
+            }
+        };
+        this.proxy.remoteCallMethod((short)29, iSerializable);
     }
 
-    @Override
-    public void precheckOnlineServiceResponse(OSRServiceState[] oSRServiceStateArray) {
-        ExtOnlineCoreServiceReplyProxy$10 extOnlineCoreServiceReplyProxy$10 = new ExtOnlineCoreServiceReplyProxy$10(this, oSRServiceStateArray);
-        this.proxy.remoteCallMethod((short)27, extOnlineCoreServiceReplyProxy$10);
+    public void precheckOnlineServiceResponse(final OSRServiceState[] oSRServiceStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRServiceStateSerializer.putOptionalOSRServiceStateVarArray(iSerializer, oSRServiceStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void keyStoreChanged() {
-        ExtOnlineCoreServiceReplyProxy$11 extOnlineCoreServiceReplyProxy$11 = new ExtOnlineCoreServiceReplyProxy$11(this);
-        this.proxy.remoteCallMethod((short)13, extOnlineCoreServiceReplyProxy$11);
+    public void keyStoreChanged() throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void updateLoggedInUser(OSRUser oSRUser, int n) {
-        ExtOnlineCoreServiceReplyProxy$12 extOnlineCoreServiceReplyProxy$12 = new ExtOnlineCoreServiceReplyProxy$12(this, oSRUser, n);
-        this.proxy.remoteCallMethod((short)34, extOnlineCoreServiceReplyProxy$12);
+    public void updateLoggedInUser(final OSRUser oSRUser, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)34, iSerializable);
     }
 
-    @Override
-    public void getTokenResponse(int n, OAuthToken oAuthToken, String string) {
-        ExtOnlineCoreServiceReplyProxy$13 extOnlineCoreServiceReplyProxy$13 = new ExtOnlineCoreServiceReplyProxy$13(this, n, oAuthToken, string);
-        this.proxy.remoteCallMethod((short)23, extOnlineCoreServiceReplyProxy$13);
+    public void getTokenResponse(final int n, final OAuthToken oAuthToken, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putEnum(n);
+                OAuthTokenSerializer.putOptionalOAuthToken(iSerializer, oAuthToken);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)23, iSerializable);
     }
 
-    @Override
-    public void onlineResponse(int n, KeyValPair[] keyValPairArray) {
-        ExtOnlineCoreServiceReplyProxy$14 extOnlineCoreServiceReplyProxy$14 = new ExtOnlineCoreServiceReplyProxy$14(this, n, keyValPairArray);
-        this.proxy.remoteCallMethod((short)7, extOnlineCoreServiceReplyProxy$14);
+    public void onlineResponse(final int n, final KeyValPair[] keyValPairArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                KeyValPairSerializer.putOptionalKeyValPairVarArray(iSerializer, keyValPairArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void dataResponse(int n, byte[] byArray) {
-        ExtOnlineCoreServiceReplyProxy$15 extOnlineCoreServiceReplyProxy$15 = new ExtOnlineCoreServiceReplyProxy$15(this, n, byArray);
-        this.proxy.remoteCallMethod((short)8, extOnlineCoreServiceReplyProxy$15);
+    public void dataResponse(final int n, final byte[] byArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putOptionalInt8VarArray(byArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void finalResponse(int n, Result result) {
-        ExtOnlineCoreServiceReplyProxy$16 extOnlineCoreServiceReplyProxy$16 = new ExtOnlineCoreServiceReplyProxy$16(this, n, result);
-        this.proxy.remoteCallMethod((short)19, extOnlineCoreServiceReplyProxy$16);
+    public void finalResponse(final int n, final Result result) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                ResultSerializer.putOptionalResult(iSerializer, result);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void updateCredentials(int n, int n2, String string, String string2, String string3) {
-        ExtOnlineCoreServiceReplyProxy$17 extOnlineCoreServiceReplyProxy$17 = new ExtOnlineCoreServiceReplyProxy$17(this, n, n2, string, string2, string3);
-        this.proxy.remoteCallMethod((short)33, extOnlineCoreServiceReplyProxy$17);
+    public void updateCredentials(final int n, final int n2, final String string, final String string2, final String string3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putEnum(n2);
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+                iSerializer.putOptionalString(string3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)33, iSerializable);
     }
 }
 

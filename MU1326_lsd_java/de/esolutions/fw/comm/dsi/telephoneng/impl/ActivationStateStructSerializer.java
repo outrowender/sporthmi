@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.ActivationStateStruct;
 
 public class ActivationStateStructSerializer {
-    public static void putOptionalActivationStateStruct(ISerializer iSerializer, ActivationStateStruct activationStateStruct) {
+    public static void putOptionalActivationStateStruct(ISerializer iSerializer, ActivationStateStruct activationStateStruct) throws SerializerException {
         boolean bl = activationStateStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ActivationStateStructSerializer {
         }
     }
 
-    public static void putOptionalActivationStateStructVarArray(ISerializer iSerializer, ActivationStateStruct[] activationStateStructArray) {
+    public static void putOptionalActivationStateStructVarArray(ISerializer iSerializer, ActivationStateStruct[] activationStateStructArray) throws SerializerException {
         boolean bl = activationStateStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ActivationStateStructSerializer {
         }
     }
 
-    public static ActivationStateStruct getOptionalActivationStateStruct(IDeserializer iDeserializer) {
+    public static ActivationStateStruct getOptionalActivationStateStruct(IDeserializer iDeserializer) throws SerializerException {
         ActivationStateStruct activationStateStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class ActivationStateStructSerializer {
         return activationStateStruct;
     }
 
-    public static ActivationStateStruct[] getOptionalActivationStateStructVarArray(IDeserializer iDeserializer) {
+    public static ActivationStateStruct[] getOptionalActivationStateStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         ActivationStateStruct[] activationStateStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

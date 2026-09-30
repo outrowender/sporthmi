@@ -25,28 +25,23 @@ implements DSIOnlineTraffic {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIOnlineTraffic == null ? (class$org$dsi$ifc$online$DSIOnlineTraffic = DSIOnlineTrafficProvider.class$("org.dsi.ifc.online.DSIOnlineTraffic")) : class$org$dsi$ifc$online$DSIOnlineTraffic).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIOnlineTrafficProxy(this.instance, (DSIOnlineTrafficReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setOnlineTrafficDataStatus(int n) {
         try {
             this.proxy.setOnlineTrafficDataStatus(n);
@@ -56,7 +51,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void getNewData() {
         try {
             this.proxy.getNewData();
@@ -66,7 +60,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void setNewData(String string) {
         try {
             this.proxy.setNewData(string);
@@ -76,7 +69,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void setTimeoutForFallback(long l) {
         try {
             this.proxy.setTimeoutForFallback(l);
@@ -86,7 +78,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void setNewSession() {
         try {
             this.proxy.setNewSession();
@@ -96,7 +87,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void getNewFCDInformation() {
         try {
             this.proxy.getNewFCDInformation();
@@ -106,7 +96,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void getInventory() {
         try {
             this.proxy.getInventory();
@@ -116,7 +105,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -126,7 +114,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -136,7 +123,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -146,7 +132,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -156,7 +141,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -166,7 +150,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -176,7 +159,6 @@ implements DSIOnlineTraffic {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

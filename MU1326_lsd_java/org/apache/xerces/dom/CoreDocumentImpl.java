@@ -30,11 +30,9 @@ import org.apache.xerces.dom.NodeListCache;
 import org.apache.xerces.dom.NotationImpl;
 import org.apache.xerces.dom.ObjectFactory;
 import org.apache.xerces.dom.ParentNode;
-import org.apache.xerces.dom.ParentNode$UserDataRecord;
 import org.apache.xerces.dom.ProcessingInstructionImpl;
 import org.apache.xerces.dom.TextImpl;
 import org.apache.xerces.util.URI;
-import org.apache.xerces.util.URI$MalformedURIException;
 import org.apache.xerces.util.XML11Char;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.xni.NamespaceContext;
@@ -65,7 +63,7 @@ import org.w3c.dom.ls.LSSerializer;
 public class CoreDocumentImpl
 extends ParentNode
 implements Document {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 0L;
     protected DocumentTypeImpl docType;
     protected ElementImpl docElement;
     transient NodeListCache fFreeNLCache;
@@ -79,7 +77,7 @@ implements Document {
     transient DOMNormalizer domNormalizer = null;
     transient DOMConfigurationImpl fConfiguration = null;
     transient Object fXPathEvaluator = null;
-    private static final int[] kidOK;
+    private static final int[] kidOK = new int[13];
     protected int changes = 0;
     protected boolean allowGrammarAccess;
     protected boolean errorChecking = true;
@@ -119,22 +117,18 @@ implements Document {
         }
     }
 
-    @Override
     public final Document getOwnerDocument() {
         return null;
     }
 
-    @Override
     public short getNodeType() {
         return 9;
     }
 
-    @Override
     public String getNodeName() {
         return "#document";
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         CoreDocumentImpl coreDocumentImpl = new CoreDocumentImpl();
         this.callUserDataHandlers(this, coreDocumentImpl, (short)1);
@@ -167,8 +161,7 @@ implements Document {
         coreDocumentImpl.errorChecking = this.errorChecking;
     }
 
-    @Override
-    public Node insertBefore(Node node, Node node2) {
+    public Node insertBefore(Node node, Node node2) throws DOMException {
         short s = node.getNodeType();
         if (this.errorChecking) {
             if (this.needsSyncChildren()) {
@@ -191,8 +184,7 @@ implements Document {
         return node;
     }
 
-    @Override
-    public Node removeChild(Node node) {
+    public Node removeChild(Node node) throws DOMException {
         super.removeChild(node);
         short s = node.getNodeType();
         if (s == 1) {
@@ -203,8 +195,7 @@ implements Document {
         return node;
     }
 
-    @Override
-    public Node replaceChild(Node node, Node node2) {
+    public Node replaceChild(Node node, Node node2) throws DOMException {
         if (node.getOwnerDocument() == null && node instanceof DocumentTypeImpl) {
             ((DocumentTypeImpl)node).ownerDocument = this;
         }
@@ -221,16 +212,13 @@ implements Document {
         return node2;
     }
 
-    @Override
-    public String getTextContent() {
+    public String getTextContent() throws DOMException {
         return null;
     }
 
-    @Override
-    public void setTextContent(String string) {
+    public void setTextContent(String string) throws DOMException {
     }
 
-    @Override
     public Object getFeature(String string, String string2) {
         boolean bl;
         boolean bl2 = bl = string2 == null || string2.length() == 0;
@@ -256,8 +244,7 @@ implements Document {
         return super.getFeature(string, string2);
     }
 
-    @Override
-    public Attr createAttribute(String string) {
+    public Attr createAttribute(String string) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string2);
@@ -265,23 +252,19 @@ implements Document {
         return new AttrImpl(this, string);
     }
 
-    @Override
-    public CDATASection createCDATASection(String string) {
+    public CDATASection createCDATASection(String string) throws DOMException {
         return new CDATASectionImpl(this, string);
     }
 
-    @Override
     public Comment createComment(String string) {
         return new CommentImpl(this, string);
     }
 
-    @Override
     public DocumentFragment createDocumentFragment() {
         return new DocumentFragmentImpl(this);
     }
 
-    @Override
-    public Element createElement(String string) {
+    public Element createElement(String string) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string2);
@@ -289,8 +272,7 @@ implements Document {
         return new ElementImpl(this, string);
     }
 
-    @Override
-    public EntityReference createEntityReference(String string) {
+    public EntityReference createEntityReference(String string) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string2);
@@ -298,8 +280,7 @@ implements Document {
         return new EntityReferenceImpl(this, string);
     }
 
-    @Override
-    public ProcessingInstruction createProcessingInstruction(String string, String string2) {
+    public ProcessingInstruction createProcessingInstruction(String string, String string2) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string3 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string3);
@@ -307,12 +288,10 @@ implements Document {
         return new ProcessingInstructionImpl(this, string, string2);
     }
 
-    @Override
     public Text createTextNode(String string) {
         return new TextImpl(this, string);
     }
 
-    @Override
     public DocumentType getDoctype() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -320,7 +299,6 @@ implements Document {
         return this.docType;
     }
 
-    @Override
     public Element getDocumentElement() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();
@@ -328,12 +306,10 @@ implements Document {
         return this.docElement;
     }
 
-    @Override
     public NodeList getElementsByTagName(String string) {
         return new DeepNodeListImpl(this, string);
     }
 
-    @Override
     public DOMImplementation getImplementation() {
         return CoreDOMImplementationImpl.getDOMImplementation();
     }
@@ -342,7 +318,6 @@ implements Document {
         this.errorChecking = bl;
     }
 
-    @Override
     public void setStrictErrorChecking(boolean bl) {
         this.errorChecking = bl;
     }
@@ -351,12 +326,10 @@ implements Document {
         return this.errorChecking;
     }
 
-    @Override
     public boolean getStrictErrorChecking() {
         return this.errorChecking;
     }
 
-    @Override
     public String getInputEncoding() {
         return this.actualEncoding;
     }
@@ -373,7 +346,6 @@ implements Document {
         this.setXmlEncoding(string);
     }
 
-    @Override
     public String getXmlEncoding() {
         return this.encoding;
     }
@@ -382,7 +354,6 @@ implements Document {
         return this.getXmlEncoding();
     }
 
-    @Override
     public void setXmlVersion(String string) {
         if (string.equals("1.0") || string.equals("1.1")) {
             if (!this.getXmlVersion().equals(string)) {
@@ -401,7 +372,6 @@ implements Document {
         this.setXmlVersion(string);
     }
 
-    @Override
     public String getXmlVersion() {
         return this.version == null ? "1.0" : this.version;
     }
@@ -410,8 +380,7 @@ implements Document {
         return this.getXmlVersion();
     }
 
-    @Override
-    public void setXmlStandalone(boolean bl) {
+    public void setXmlStandalone(boolean bl) throws DOMException {
         this.standalone = bl;
     }
 
@@ -419,7 +388,6 @@ implements Document {
         this.setXmlStandalone(bl);
     }
 
-    @Override
     public boolean getXmlStandalone() {
         return this.standalone;
     }
@@ -428,13 +396,11 @@ implements Document {
         return this.getXmlStandalone();
     }
 
-    @Override
     public String getDocumentURI() {
         return this.fDocumentURI;
     }
 
-    @Override
-    public Node renameNode(Node node, String string, String string2) {
+    public Node renameNode(Node node, String string, String string2) throws DOMException {
         if (this.errorChecking && node.getOwnerDocument() != this && node != this) {
             String string3 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "WRONG_DOCUMENT_ERR", null);
             throw new DOMException(4, string3);
@@ -528,7 +494,6 @@ implements Document {
         throw new DOMException(9, string6);
     }
 
-    @Override
     public void normalizeDocument() {
         if (this.isNormalized() && !this.isNormalizeDocRequired()) {
             return;
@@ -549,7 +514,6 @@ implements Document {
         this.xmlVersionChanged = false;
     }
 
-    @Override
     public DOMConfiguration getDomConfig() {
         if (this.fConfiguration == null) {
             this.fConfiguration = new DOMConfigurationImpl();
@@ -557,20 +521,18 @@ implements Document {
         return this.fConfiguration;
     }
 
-    @Override
     public String getBaseURI() {
         if (this.fDocumentURI != null && this.fDocumentURI.length() != 0) {
             try {
                 return new URI(this.fDocumentURI).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 return null;
             }
         }
         return this.fDocumentURI;
     }
 
-    @Override
     public void setDocumentURI(String string) {
         this.fDocumentURI = string;
     }
@@ -597,7 +559,7 @@ implements Document {
         return false;
     }
 
-    public String saveXML(Node node) {
+    public String saveXML(Node node) throws DOMException {
         if (this.errorChecking && node != null && this != node.getOwnerDocument()) {
             String string = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "WRONG_DOCUMENT_ERR", null);
             throw new DOMException(4, string);
@@ -617,11 +579,11 @@ implements Document {
         return false;
     }
 
-    public DocumentType createDocumentType(String string, String string2, String string3) {
+    public DocumentType createDocumentType(String string, String string2, String string3) throws DOMException {
         return new DocumentTypeImpl(this, string, string2, string3);
     }
 
-    public Entity createEntity(String string) {
+    public Entity createEntity(String string) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string2);
@@ -629,7 +591,7 @@ implements Document {
         return new EntityImpl(this, string);
     }
 
-    public Notation createNotation(String string) {
+    public Notation createNotation(String string) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string2);
@@ -637,7 +599,7 @@ implements Document {
         return new NotationImpl(this, string);
     }
 
-    public ElementDefinitionImpl createElementDefinition(String string) {
+    public ElementDefinitionImpl createElementDefinition(String string) throws DOMException {
         if (this.errorChecking && !CoreDocumentImpl.isXMLName(string, this.xml11Version)) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_CHARACTER_ERR", null);
             throw new DOMException(5, string2);
@@ -645,7 +607,6 @@ implements Document {
         return new ElementDefinitionImpl(this, string);
     }
 
-    @Override
     protected int getNodeNumber() {
         if (this.documentNumber == 0) {
             CoreDOMImplementationImpl coreDOMImplementationImpl = (CoreDOMImplementationImpl)CoreDOMImplementationImpl.getDOMImplementation();
@@ -672,12 +633,11 @@ implements Document {
         return n;
     }
 
-    @Override
-    public Node importNode(Node node, boolean bl) {
+    public Node importNode(Node node, boolean bl) throws DOMException {
         return this.importNode(node, bl, false, null);
     }
 
-    private Node importNode(Node node, boolean bl, boolean bl2, Hashtable hashtable) {
+    private Node importNode(Node node, boolean bl, boolean bl2, Hashtable hashtable) throws DOMException {
         Node node2;
         Node node3 = null;
         Hashtable hashtable2 = null;
@@ -823,7 +783,6 @@ implements Document {
         return node3;
     }
 
-    @Override
     public Node adoptNode(Node node) {
         Object object;
         Object object2;
@@ -945,7 +904,6 @@ implements Document {
         }
     }
 
-    @Override
     public Element getElementById(String string) {
         return this.getIdentifier(string);
     }
@@ -1007,30 +965,27 @@ implements Document {
         return this.identifiers.keys();
     }
 
-    @Override
-    public Element createElementNS(String string, String string2) {
+    public Element createElementNS(String string, String string2) throws DOMException {
         return new ElementNSImpl(this, string, string2);
     }
 
-    public Element createElementNS(String string, String string2, String string3) {
+    public Element createElementNS(String string, String string2, String string3) throws DOMException {
         return new ElementNSImpl(this, string, string2, string3);
     }
 
-    @Override
-    public Attr createAttributeNS(String string, String string2) {
+    public Attr createAttributeNS(String string, String string2) throws DOMException {
         return new AttrNSImpl(this, string, string2);
     }
 
-    public Attr createAttributeNS(String string, String string2, String string3) {
+    public Attr createAttributeNS(String string, String string2, String string3) throws DOMException {
         return new AttrNSImpl(this, string, string2, string3);
     }
 
-    @Override
     public NodeList getElementsByTagNameNS(String string, String string2) {
         return new DeepNodeListImpl(this, string, string2);
     }
 
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         CoreDocumentImpl coreDocumentImpl = (CoreDocumentImpl)super.clone();
         coreDocumentImpl.docType = null;
         coreDocumentImpl.docElement = null;
@@ -1063,12 +1018,10 @@ implements Document {
         return 0 != (kidOK[node.getNodeType()] & 1 << node2.getNodeType());
     }
 
-    @Override
     protected void changed() {
         ++this.changes;
     }
 
-    @Override
     protected int changes() {
         return this.changes;
     }
@@ -1100,8 +1053,8 @@ implements Document {
             Object object2;
             Hashtable hashtable2;
             if (this.userData != null && (hashtable2 = (Hashtable)this.userData.get(node)) != null && (object2 = hashtable2.remove(string)) != null) {
-                ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)object2;
-                return parentNode$UserDataRecord.fData;
+                ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)object2;
+                return userDataRecord.fData;
             }
             return null;
         }
@@ -1116,10 +1069,10 @@ implements Document {
                 this.userData.put(node, hashtable);
             }
         }
-        Object object3 = hashtable.put(string, new ParentNode$UserDataRecord(this, object, userDataHandler));
+        Object object3 = hashtable.put(string, new ParentNode.UserDataRecord(object, userDataHandler));
         if (object3 != null) {
-            ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)object3;
-            return parentNode$UserDataRecord.fData;
+            ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)object3;
+            return userDataRecord.fData;
         }
         return null;
     }
@@ -1134,8 +1087,8 @@ implements Document {
         }
         Object object = hashtable.get(string);
         if (object != null) {
-            ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)object;
-            return parentNode$UserDataRecord.fData;
+            ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)object;
+            return userDataRecord.fData;
         }
         return null;
     }
@@ -1187,9 +1140,9 @@ implements Document {
         Enumeration enumeration = hashtable.keys();
         while (enumeration.hasMoreElements()) {
             String string = (String)enumeration.nextElement();
-            ParentNode$UserDataRecord parentNode$UserDataRecord = (ParentNode$UserDataRecord)hashtable.get(string);
-            if (parentNode$UserDataRecord.fHandler == null) continue;
-            parentNode$UserDataRecord.fHandler.handle(s, string, parentNode$UserDataRecord.fData, node, node2);
+            ParentNode.UserDataRecord userDataRecord = (ParentNode.UserDataRecord)hashtable.get(string);
+            if (userDataRecord.fHandler == null) continue;
+            userDataRecord.fHandler.handle(s, string, userDataRecord.fData, node, node2);
         }
     }
 
@@ -1333,7 +1286,6 @@ implements Document {
     }
 
     static {
-        kidOK = new int[13];
         CoreDocumentImpl.kidOK[9] = 1410;
         CoreDocumentImpl.kidOK[1] = 442;
         CoreDocumentImpl.kidOK[5] = 442;

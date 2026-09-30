@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.comm.broker.v4.UUID844412Blob;
 import de.esolutions.fw.comm.comm.broker.v4.impl.UUID844412BlobSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class InstanceIDSerializer {
-    public static void putOptionalInstanceID(ISerializer iSerializer, InstanceID instanceID) {
+    public static void putOptionalInstanceID(ISerializer iSerializer, InstanceID instanceID) throws SerializerException {
         boolean bl = instanceID == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class InstanceIDSerializer {
         }
     }
 
-    public static void putOptionalInstanceIDVarArray(ISerializer iSerializer, InstanceID[] instanceIDArray) {
+    public static void putOptionalInstanceIDVarArray(ISerializer iSerializer, InstanceID[] instanceIDArray) throws SerializerException {
         boolean bl = instanceIDArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class InstanceIDSerializer {
         }
     }
 
-    public static InstanceID getOptionalInstanceID(IDeserializer iDeserializer) {
+    public static InstanceID getOptionalInstanceID(IDeserializer iDeserializer) throws SerializerException {
         InstanceID instanceID = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class InstanceIDSerializer {
         return instanceID;
     }
 
-    public static InstanceID[] getOptionalInstanceIDVarArray(IDeserializer iDeserializer) {
+    public static InstanceID[] getOptionalInstanceIDVarArray(IDeserializer iDeserializer) throws SerializerException {
         InstanceID[] instanceIDArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

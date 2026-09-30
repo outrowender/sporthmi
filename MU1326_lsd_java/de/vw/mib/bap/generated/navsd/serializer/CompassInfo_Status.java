@@ -10,26 +10,26 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CompassInfo_Status
 implements StatusProperty {
     public int direction_Symbolic;
-    private static final int DIRECTION_SYMBOLIC_BITSIZE;
-    public static final int DIRECTION_SYMBOLIC_N;
-    public static final int DIRECTION_SYMBOLIC_NNO;
-    public static final int DIRECTION_SYMBOLIC_NO;
-    public static final int DIRECTION_SYMBOLIC_ONO;
-    public static final int DIRECTION_SYMBOLIC_O;
-    public static final int DIRECTION_SYMBOLIC_OSO;
-    public static final int DIRECTION_SYMBOLIC_SO;
-    public static final int DIRECTION_SYMBOLIC_SSO;
-    public static final int DIRECTION_SYMBOLIC_S;
-    public static final int DIRECTION_SYMBOLIC_SSW;
-    public static final int DIRECTION_SYMBOLIC_SW;
-    public static final int DIRECTION_SYMBOLIC_WSW;
-    public static final int DIRECTION_SYMBOLIC_W;
-    public static final int DIRECTION_SYMBOLIC_WNW;
-    public static final int DIRECTION_SYMBOLIC_NW;
-    public static final int DIRECTION_SYMBOLIC_NNW;
-    public static final int DIRECTION_SYMBOLIC_NOT_SUPPORTED;
+    private static final int DIRECTION_SYMBOLIC_BITSIZE = 8;
+    public static final int DIRECTION_SYMBOLIC_N = 0;
+    public static final int DIRECTION_SYMBOLIC_NNO = 1;
+    public static final int DIRECTION_SYMBOLIC_NO = 2;
+    public static final int DIRECTION_SYMBOLIC_ONO = 3;
+    public static final int DIRECTION_SYMBOLIC_O = 4;
+    public static final int DIRECTION_SYMBOLIC_OSO = 5;
+    public static final int DIRECTION_SYMBOLIC_SO = 6;
+    public static final int DIRECTION_SYMBOLIC_SSO = 7;
+    public static final int DIRECTION_SYMBOLIC_S = 8;
+    public static final int DIRECTION_SYMBOLIC_SSW = 9;
+    public static final int DIRECTION_SYMBOLIC_SW = 10;
+    public static final int DIRECTION_SYMBOLIC_WSW = 11;
+    public static final int DIRECTION_SYMBOLIC_W = 12;
+    public static final int DIRECTION_SYMBOLIC_WNW = 13;
+    public static final int DIRECTION_SYMBOLIC_NW = 14;
+    public static final int DIRECTION_SYMBOLIC_NNW = 15;
+    public static final int DIRECTION_SYMBOLIC_NOT_SUPPORTED = 255;
     public int direction_Angle;
-    private static final int DIRECTION_ANGLE_BITSIZE;
+    private static final int DIRECTION_ANGLE_BITSIZE = 16;
 
     public CompassInfo_Status() {
         this.internalReset();
@@ -46,12 +46,10 @@ implements StatusProperty {
         this.direction_Angle = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CompassInfo_Status compassInfo_Status = (CompassInfo_Status)bAPEntity;
         return this.direction_Symbolic == compassInfo_Status.direction_Symbolic && this.direction_Angle == compassInfo_Status.direction_Angle;
@@ -60,7 +58,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CompassInfo_Status:");
@@ -143,20 +140,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.direction_Symbolic);
         bitStream.pushShort((short)this.direction_Angle);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.direction_Symbolic = bitStream.popFrontByte();
         this.direction_Angle = bitStream.popFrontShort();
@@ -166,7 +160,6 @@ implements StatusProperty {
         return 16;
     }
 
-    @Override
     public int getFunctionId() {
         return CompassInfo_Status.functionId();
     }

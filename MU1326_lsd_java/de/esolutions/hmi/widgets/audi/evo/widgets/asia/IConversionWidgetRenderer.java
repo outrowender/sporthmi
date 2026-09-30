@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface IConversionWidgetRenderer
 extends IRenderer {
-    default public void fillInLayoutData(List list) {
-    }
+    public void fillInLayoutData(List var1);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.ChapterInfo;
 
 public class ChapterInfoSerializer {
-    public static void putOptionalChapterInfo(ISerializer iSerializer, ChapterInfo chapterInfo) {
+    public static void putOptionalChapterInfo(ISerializer iSerializer, ChapterInfo chapterInfo) throws SerializerException {
         boolean bl = chapterInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ChapterInfoSerializer {
         }
     }
 
-    public static void putOptionalChapterInfoVarArray(ISerializer iSerializer, ChapterInfo[] chapterInfoArray) {
+    public static void putOptionalChapterInfoVarArray(ISerializer iSerializer, ChapterInfo[] chapterInfoArray) throws SerializerException {
         boolean bl = chapterInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ChapterInfoSerializer {
         }
     }
 
-    public static ChapterInfo getOptionalChapterInfo(IDeserializer iDeserializer) {
+    public static ChapterInfo getOptionalChapterInfo(IDeserializer iDeserializer) throws SerializerException {
         ChapterInfo chapterInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ChapterInfoSerializer {
         return chapterInfo;
     }
 
-    public static ChapterInfo[] getOptionalChapterInfoVarArray(IDeserializer iDeserializer) {
+    public static ChapterInfo[] getOptionalChapterInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ChapterInfo[] chapterInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -34,10 +34,10 @@ public class TraceMsgStats {
         this.maxSize = 0;
         this.avgSizeSum = 0L;
         this.maxFreq = 0;
-        this.minFreq = -129;
+        this.minFreq = Integer.MAX_VALUE;
         this.avgFreqSum = 0L;
         this.maxRate = 0;
-        this.minRate = -129;
+        this.minRate = Integer.MAX_VALUE;
         this.avgRateSum = 0L;
         this.speedmeter.reset();
         this.isValid = false;
@@ -87,7 +87,7 @@ public class TraceMsgStats {
             n2 = (int)(this.avgRateSum / this.msgCount);
             n3 = (int)(this.avgSizeSum / this.msgCount);
         }
-        printStream.print(new StringBuffer().append("messages=#").append(this.msgCount).append(", freq(min=").append(this.minFreq).append(",avg=").append(n).append(",max=").append(this.maxFreq).append(")[Hz], rate(min=").append(this.minRate).append(",avg=").append(n2).append(",max=").append(this.maxRate).append(")[B/s], size(").append(this.minSize).append(",avg=").append(n3).append(",max=").append(this.maxSize).append(")[B]").toString());
+        printStream.print("messages=#" + this.msgCount + ", freq(min=" + this.minFreq + ",avg=" + n + ",max=" + this.maxFreq + ")[Hz], rate(min=" + this.minRate + ",avg=" + n2 + ",max=" + this.maxRate + ")[B/s], size(" + this.minSize + ",avg=" + n3 + ",max=" + this.maxSize + ")[B]");
     }
 }
 

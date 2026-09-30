@@ -8,9 +8,9 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class HandsFreeOnOff_HandsFreeOnOff
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean on;
-    private static final int HANDS_FREE_ON_OFF_HANDS_FREE_ON_OFF_BITSIZE;
+    private static final int HANDS_FREE_ON_OFF_HANDS_FREE_ON_OFF_BITSIZE = 8;
 
     public HandsFreeOnOff_HandsFreeOnOff() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements BAPEntity {
         this.on = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         HandsFreeOnOff_HandsFreeOnOff handsFreeOnOff_HandsFreeOnOff = (HandsFreeOnOff_HandsFreeOnOff)bAPEntity;
         return this.on == handsFreeOnOff_HandsFreeOnOff.on;
@@ -40,7 +38,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("HandsFreeOnOff_HandsFreeOnOff:");
@@ -53,19 +50,16 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.on);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.on = bitStream.popFrontBoolean();

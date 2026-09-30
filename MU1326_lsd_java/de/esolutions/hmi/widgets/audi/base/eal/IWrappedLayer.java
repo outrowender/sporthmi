@@ -7,46 +7,32 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedViewport;
 
 public interface IWrappedLayer {
-    default public IWrappedNode3D getNode() {
-    }
+    public IWrappedNode3D getNode();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getWidth() {
-    }
+    public int getWidth();
 
-    default public int getHeight() {
-    }
+    public int getHeight();
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public boolean invalidateObject() {
-    }
+    public boolean invalidateObject();
 
-    default public void setInvalid(boolean bl) {
-    }
+    public void setInvalid(boolean var1);
 
-    default public boolean isInvalid() {
-    }
+    public boolean isInvalid();
 
-    default public void setLayoutDirectionLeftToRight(boolean bl) {
-    }
+    public void setLayoutDirectionLeftToRight(boolean var1);
 
-    default public void setLayerOpacity(float f2) {
-    }
+    public void setLayerOpacity(float var1);
 
-    default public boolean isLayoutDirectionLeftToRight() {
-    }
+    public boolean isLayoutDirectionLeftToRight();
 
-    default public IWrappedNode3D getMainNode() {
-    }
+    public IWrappedNode3D getMainNode();
 
-    default public void setViewport(IWrappedViewport iWrappedViewport) {
-    }
+    public void setViewport(IWrappedViewport var1);
 
-    default public IWrappedViewport getViewport() {
-    }
+    public IWrappedViewport getViewport();
 }
 

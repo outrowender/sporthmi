@@ -32,7 +32,7 @@ public class Result {
     }
 
     public String toString() {
-        return new StringBuffer("Result{").append("result=").append(this.result).append(", httpStatus=").append(this.httpStatus).append("}").toString();
+        return "Result{" + "result=" + this.result + ", httpStatus=" + this.httpStatus + "}";
     }
 }
 

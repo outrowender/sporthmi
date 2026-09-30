@@ -7,10 +7,8 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIAdbSdsListener
 extends DSIListener {
-    default public void getAllVoiceTagsResult(int n, int[] nArray) {
-    }
+    public void getAllVoiceTagsResult(int var1, int[] var2);
 
-    default public void deleteVoiceTagsResult(int n) {
-    }
+    public void deleteVoiceTagsResult(int var1);
 }
 

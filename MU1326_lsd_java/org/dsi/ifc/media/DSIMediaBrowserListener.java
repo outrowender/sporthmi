@@ -11,55 +11,38 @@ import org.dsi.ifc.media.SearchListEntryExt;
 
 public interface DSIMediaBrowserListener
 extends DSIListener {
-    default public void updateBrowseMode(int n, int n2) {
-    }
+    public void updateBrowseMode(int var1, int var2);
 
-    default public void updateContentFilter(int n, int n2) {
-    }
+    public void updateContentFilter(int var1, int var2);
 
-    default public void updateBrowseMedia(long l, long l2, int n) {
-    }
+    public void updateBrowseMedia(long var1, long var3, int var5);
 
-    default public void updateBrowseFolder(ListEntry[] listEntryArray, int n) {
-    }
+    public void updateBrowseFolder(ListEntry[] var1, int var2);
 
-    default public void updateListSize(int n, int n2, int n3) {
-    }
+    public void updateListSize(int var1, int var2, int var3);
 
-    default public void updateAlphabeticalIndex(CharacterInfo[] characterInfoArray, int n) {
-    }
+    public void updateAlphabeticalIndex(CharacterInfo[] var1, int var2);
 
-    default public void responseList(ListEntry[] listEntryArray, int n) {
-    }
+    public void responseList(ListEntry[] var1, int var2);
 
-    default public void responsePickList(ListEntry[] listEntryArray) {
-    }
+    public void responsePickList(ListEntry[] var1);
 
-    default public void selectionResult(int n, int n2, boolean bl, long l, long l2, long l3, long l4, long l5) {
-    }
+    public void selectionResult(int var1, int var2, boolean var3, long var4, long var6, long var8, long var10, long var12);
 
-    default public void responseSetSearchCriteria(int n, boolean bl) {
-    }
+    public void responseSetSearchCriteria(int var1, boolean var2);
 
-    default public void updateSearchSize(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateSearchSize(int var1, int var2, int var3, int var4, int var5);
 
-    default public void responseSelectSearchResult(long l, long l2, boolean bl) {
-    }
+    public void responseSelectSearchResult(long var1, long var3, boolean var5);
 
-    default public void responseSetSearchString(String string, boolean bl) {
-    }
+    public void responseSetSearchString(String var1, boolean var2);
 
-    default public void updateSearchSpellerState(int n, int n2) {
-    }
+    public void updateSearchSpellerState(int var1, int var2);
 
-    default public void responseSearchList(SearchListEntry[] searchListEntryArray, int n) {
-    }
+    public void responseSearchList(SearchListEntry[] var1, int var2);
 
-    default public void responseSearchListExt(SearchListEntryExt[] searchListEntryExtArray, int n) {
-    }
+    public void responseSearchListExt(SearchListEntryExt[] var1, int var2);
 
-    default public void responseFullyQualifiedName(long l, String string) {
-    }
+    public void responseFullyQualifiedName(long var1, String var3);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.WCVehiclePanelInfo;
 
 public class WCVehiclePanelInfoSerializer {
-    public static void putOptionalWCVehiclePanelInfo(ISerializer iSerializer, WCVehiclePanelInfo wCVehiclePanelInfo) {
+    public static void putOptionalWCVehiclePanelInfo(ISerializer iSerializer, WCVehiclePanelInfo wCVehiclePanelInfo) throws SerializerException {
         boolean bl = wCVehiclePanelInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class WCVehiclePanelInfoSerializer {
         }
     }
 
-    public static void putOptionalWCVehiclePanelInfoVarArray(ISerializer iSerializer, WCVehiclePanelInfo[] wCVehiclePanelInfoArray) {
+    public static void putOptionalWCVehiclePanelInfoVarArray(ISerializer iSerializer, WCVehiclePanelInfo[] wCVehiclePanelInfoArray) throws SerializerException {
         boolean bl = wCVehiclePanelInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class WCVehiclePanelInfoSerializer {
         }
     }
 
-    public static WCVehiclePanelInfo getOptionalWCVehiclePanelInfo(IDeserializer iDeserializer) {
+    public static WCVehiclePanelInfo getOptionalWCVehiclePanelInfo(IDeserializer iDeserializer) throws SerializerException {
         WCVehiclePanelInfo wCVehiclePanelInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class WCVehiclePanelInfoSerializer {
         return wCVehiclePanelInfo;
     }
 
-    public static WCVehiclePanelInfo[] getOptionalWCVehiclePanelInfoVarArray(IDeserializer iDeserializer) {
+    public static WCVehiclePanelInfo[] getOptionalWCVehiclePanelInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         WCVehiclePanelInfo[] wCVehiclePanelInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

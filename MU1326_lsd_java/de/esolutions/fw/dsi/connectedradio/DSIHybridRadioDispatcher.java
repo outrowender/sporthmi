@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.connectedradio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.connectedradio.DSIHybridRadioReply;
 import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIHybridRadioReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIHybridRadioReply {
         super(n, (class$org$dsi$ifc$connectedradio$DSIHybridRadioListener == null ? (class$org$dsi$ifc$connectedradio$DSIHybridRadioListener = DSIHybridRadioDispatcher.class$("org.dsi.ifc.connectedradio.DSIHybridRadioListener")) : class$org$dsi$ifc$connectedradio$DSIHybridRadioListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getOnlineRadioAvailabilityResult(int n, int n2, RadioStation[] radioStationArray) {
+    public void getOnlineRadioAvailabilityResult(int n, int n2, RadioStation[] radioStationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void getRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) {
+    public void getRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void indicateRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) {
+    public void indicateRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -79,8 +76,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void getStreamResult(int n, int n2, RadioStation radioStation) {
+    public void getStreamResult(int n, int n2, RadioStation radioStation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -96,8 +92,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void startSlideshowResult(int n, int n2, RadioStation radioStation) {
+    public void startSlideshowResult(int n, int n2, RadioStation radioStation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -113,8 +108,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void stopSlideshowResult(int n, int n2, RadioStation radioStation) {
+    public void stopSlideshowResult(int n, int n2, RadioStation radioStation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -130,8 +124,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void updateSlideshow(int n, RadioStation radioStation, int n2) {
+    public void updateSlideshow(int n, RadioStation radioStation, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -159,8 +152,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void updateRadioText(int n, RadioStation radioStation, int n2) {
+    public void updateRadioText(int n, RadioStation radioStation, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -188,8 +180,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void cancelGetRadioStationLogoResult(int n, int n2) {
+    public void cancelGetRadioStationLogoResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -205,8 +196,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -234,8 +224,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -251,8 +240,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -268,8 +256,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -285,8 +272,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -302,8 +288,7 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -319,14 +304,13 @@ implements DSIHybridRadioReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIHybridRadioListener dSIHybridRadioListener = (DSIHybridRadioListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIHybridRadioDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIHybridRadioDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIHybridRadioListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIHybridRadioDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIHybridRadioDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIHybridRadioListener, new Object[]{string, string2});
                     continue;
                 }

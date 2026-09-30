@@ -7,69 +7,61 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIMediaRecorder
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_ACTIVEMEDIA;
-    public static final int ATTR_IMPORTSUMMARY;
-    public static final int ATTR_IMPORTPROGRESS;
-    public static final int ATTR_DELETIONPROGRESS;
-    public static final int ATTR_DATABASESPACE;
-    public static final int ATTR_IMPORTSTATUS;
-    public static final int ATTR_DELETIONSTATUS;
-    public static final int ATTR_TARGETMEDIA;
-    public static final int RT_SETACTIVEMEDIA;
-    public static final int RT_SETSELECTION;
-    public static final int RT_SETTARGETMEDIA;
-    public static final int RT_STARTIMPORT;
-    public static final int RT_ABORTIMPORT;
-    public static final int RT_STARTDELETE;
-    public static final int RT_ABORTDELETE;
-    public static final int RT_SETENCODINGQUALITY;
-    public static final int RP_RESPONSESETSELECTION;
-    public static final int RP_RESPONSESETENCODINGQUALITY;
-    public static final int IMPORTSTATUS_IDLE;
-    public static final int IMPORTSTATUS_IMPORTING;
-    public static final int IMPORTSTATUS_PRE_PROCESSING;
-    public static final int IMPORTSTATUS_POST_PROCESSING;
-    public static final int IMPORTSTATUS_SUCCESS;
-    public static final int IMPORTSTATUS_ABORTED;
-    public static final int IMPORTSTATUS_SUSPEND;
-    public static final int IMPORTSTATUS_READY_FOR_SELECTION;
-    public static final int IMPORTSTATUS_READY_FOR_RESUME;
-    public static final int DELETIONSTATUS_IDLE;
-    public static final int DELETIONSTATUS_DELETING;
-    public static final int DELETIONSTATUS_PRE_PROCESSING;
-    public static final int DELETIONSTATUS_POST_PROCESSING;
-    public static final int DELETIONSTATUS_SUCCESS;
-    public static final int DELETIONSTATUS_ABORTED;
-    public static final int DELETIONSTATUS_FINISHED_WITH_ERRORS;
-    public static final int DELETIONSTATUS_READY_FOR_SELECTION;
-    public static final int ENCODINGQUALITY_MAX;
-    public static final int ENCODINGQUALITY_HIGH;
-    public static final int ENCODINGQUALITY_MEDIUM;
-    public static final int ENCODINGQUALITY_LOW;
+    public static final String VERSION = "2.11.52";
+    public static final int ATTR_ACTIVEMEDIA = 1;
+    public static final int ATTR_IMPORTSUMMARY = 2;
+    public static final int ATTR_IMPORTPROGRESS = 3;
+    public static final int ATTR_DELETIONPROGRESS = 4;
+    public static final int ATTR_DATABASESPACE = 5;
+    public static final int ATTR_IMPORTSTATUS = 6;
+    public static final int ATTR_DELETIONSTATUS = 7;
+    public static final int ATTR_TARGETMEDIA = 8;
+    public static final int RT_SETACTIVEMEDIA = 1000;
+    public static final int RT_SETSELECTION = 1001;
+    public static final int RT_SETTARGETMEDIA = 1002;
+    public static final int RT_STARTIMPORT = 1003;
+    public static final int RT_ABORTIMPORT = 1004;
+    public static final int RT_STARTDELETE = 1005;
+    public static final int RT_ABORTDELETE = 1006;
+    public static final int RT_SETENCODINGQUALITY = 1007;
+    public static final int RP_RESPONSESETSELECTION = 2000;
+    public static final int RP_RESPONSESETENCODINGQUALITY = 2001;
+    public static final int IMPORTSTATUS_IDLE = 0;
+    public static final int IMPORTSTATUS_IMPORTING = 1;
+    public static final int IMPORTSTATUS_PRE_PROCESSING = 2;
+    public static final int IMPORTSTATUS_POST_PROCESSING = 3;
+    public static final int IMPORTSTATUS_SUCCESS = 4;
+    public static final int IMPORTSTATUS_ABORTED = 5;
+    public static final int IMPORTSTATUS_SUSPEND = 6;
+    public static final int IMPORTSTATUS_READY_FOR_SELECTION = 7;
+    public static final int IMPORTSTATUS_READY_FOR_RESUME = 8;
+    public static final int DELETIONSTATUS_IDLE = 0;
+    public static final int DELETIONSTATUS_DELETING = 1;
+    public static final int DELETIONSTATUS_PRE_PROCESSING = 2;
+    public static final int DELETIONSTATUS_POST_PROCESSING = 3;
+    public static final int DELETIONSTATUS_SUCCESS = 4;
+    public static final int DELETIONSTATUS_ABORTED = 5;
+    public static final int DELETIONSTATUS_FINISHED_WITH_ERRORS = 6;
+    public static final int DELETIONSTATUS_READY_FOR_SELECTION = 7;
+    public static final int ENCODINGQUALITY_MAX = 0;
+    public static final int ENCODINGQUALITY_HIGH = 1;
+    public static final int ENCODINGQUALITY_MEDIUM = 2;
+    public static final int ENCODINGQUALITY_LOW = 3;
 
-    default public void setActiveMedia(long l, long l2) {
-    }
+    public void setActiveMedia(long var1, long var3);
 
-    default public void setSelection(int n) {
-    }
+    public void setSelection(int var1);
 
-    default public void startImport(boolean bl) {
-    }
+    public void startImport(boolean var1);
 
-    default public void abortImport() {
-    }
+    public void abortImport();
 
-    default public void startDelete() {
-    }
+    public void startDelete();
 
-    default public void abortDelete() {
-    }
+    public void abortDelete();
 
-    default public void setTargetMedia(long l, long l2) {
-    }
+    public void setTargetMedia(long var1, long var3);
 
-    default public void setEncodingQuality(int n) {
-    }
+    public void setEncodingQuality(int var1);
 }
 

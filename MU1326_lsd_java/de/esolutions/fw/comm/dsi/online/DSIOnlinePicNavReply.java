@@ -3,30 +3,25 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.PicNavSyncInfo;
 
 public interface DSIOnlinePicNavReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "62427d00-ba7b-5a5e-9d31-35938979b03c";
+    public static final String IPL_COMM_INTERFACE_KEY = "8e99220c-4b18-5840-99fe-b790acdd6ba0";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void updateSyncStatus(int n, int n2) {
-    }
+    public void updateSyncStatus(int var1, int var2) throws MethodException;
 
-    default public void synchronizeResult(int n, PicNavSyncInfo picNavSyncInfo) {
-    }
+    public void synchronizeResult(int var1, PicNavSyncInfo var2) throws MethodException;
 
-    default public void getPendingTransactionsResult(int n, PicNavSyncInfo picNavSyncInfo) {
-    }
+    public void getPendingTransactionsResult(int var1, PicNavSyncInfo var2) throws MethodException;
 
-    default public void setActiveProfileResult(int n) {
-    }
+    public void setActiveProfileResult(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

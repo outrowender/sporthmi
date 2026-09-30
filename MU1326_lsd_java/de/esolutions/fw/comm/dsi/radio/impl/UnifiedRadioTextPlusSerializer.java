@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.UnifiedRadioTextPlus;
 
 public class UnifiedRadioTextPlusSerializer {
-    public static void putOptionalUnifiedRadioTextPlus(ISerializer iSerializer, UnifiedRadioTextPlus unifiedRadioTextPlus) {
+    public static void putOptionalUnifiedRadioTextPlus(ISerializer iSerializer, UnifiedRadioTextPlus unifiedRadioTextPlus) throws SerializerException {
         boolean bl = unifiedRadioTextPlus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class UnifiedRadioTextPlusSerializer {
         }
     }
 
-    public static void putOptionalUnifiedRadioTextPlusVarArray(ISerializer iSerializer, UnifiedRadioTextPlus[] unifiedRadioTextPlusArray) {
+    public static void putOptionalUnifiedRadioTextPlusVarArray(ISerializer iSerializer, UnifiedRadioTextPlus[] unifiedRadioTextPlusArray) throws SerializerException {
         boolean bl = unifiedRadioTextPlusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class UnifiedRadioTextPlusSerializer {
         }
     }
 
-    public static UnifiedRadioTextPlus getOptionalUnifiedRadioTextPlus(IDeserializer iDeserializer) {
+    public static UnifiedRadioTextPlus getOptionalUnifiedRadioTextPlus(IDeserializer iDeserializer) throws SerializerException {
         UnifiedRadioTextPlus unifiedRadioTextPlus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class UnifiedRadioTextPlusSerializer {
         return unifiedRadioTextPlus;
     }
 
-    public static UnifiedRadioTextPlus[] getOptionalUnifiedRadioTextPlusVarArray(IDeserializer iDeserializer) {
+    public static UnifiedRadioTextPlus[] getOptionalUnifiedRadioTextPlusVarArray(IDeserializer iDeserializer) throws SerializerException {
         UnifiedRadioTextPlus[] unifiedRadioTextPlusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

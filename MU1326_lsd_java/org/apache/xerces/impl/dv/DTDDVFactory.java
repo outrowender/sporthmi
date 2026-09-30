@@ -9,28 +9,26 @@ import org.apache.xerces.impl.dv.DatatypeValidator;
 import org.apache.xerces.impl.dv.ObjectFactory;
 
 public abstract class DTDDVFactory {
-    private static final String DEFAULT_FACTORY_CLASS;
+    private static final String DEFAULT_FACTORY_CLASS = "org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl";
 
-    public static final synchronized DTDDVFactory getInstance() {
-        return DTDDVFactory.getInstance("org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl");
+    public static final synchronized DTDDVFactory getInstance() throws DVFactoryException {
+        return DTDDVFactory.getInstance(DEFAULT_FACTORY_CLASS);
     }
 
-    public static final synchronized DTDDVFactory getInstance(String string) {
+    public static final synchronized DTDDVFactory getInstance(String string) throws DVFactoryException {
         try {
             return (DTDDVFactory)ObjectFactory.newInstance(string, ObjectFactory.findClassLoader(), true);
         }
         catch (ClassCastException classCastException) {
-            throw new DVFactoryException(new StringBuffer().append("DTD factory class ").append(string).append(" does not extend from DTDDVFactory.").toString());
+            throw new DVFactoryException("DTD factory class " + string + " does not extend from DTDDVFactory.");
         }
     }
 
     protected DTDDVFactory() {
     }
 
-    public abstract DatatypeValidator getBuiltInDV(String string) {
-    }
+    public abstract DatatypeValidator getBuiltInDV(String var1);
 
-    public abstract Hashtable getBuiltInTypes() {
-    }
+    public abstract Hashtable getBuiltInTypes();
 }
 

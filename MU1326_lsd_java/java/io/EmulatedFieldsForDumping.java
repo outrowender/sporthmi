@@ -1,19 +1,16 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
 import java.io.EmulatedFields;
-import java.io.EmulatedFields$ObjectSlot;
+import java.io.IOException;
 import java.io.ObjectOutput;
-import java.io.ObjectOutputStream$PutField;
+import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
 
 class EmulatedFieldsForDumping
-extends ObjectOutputStream$PutField {
+extends ObjectOutputStream.PutField {
     private EmulatedFields emulatedFields;
 
     EmulatedFieldsForDumping(ObjectStreamClass objectStreamClass) {
@@ -24,59 +21,49 @@ extends ObjectOutputStream$PutField {
         return this.emulatedFields;
     }
 
-    @Override
     public void put(String string, byte by) {
         this.emulatedFields.put(string, by);
     }
 
-    @Override
     public void put(String string, char c2) {
         this.emulatedFields.put(string, c2);
     }
 
-    @Override
     public void put(String string, double d2) {
         this.emulatedFields.put(string, d2);
     }
 
-    @Override
     public void put(String string, float f2) {
         this.emulatedFields.put(string, f2);
     }
 
-    @Override
     public void put(String string, int n) {
         this.emulatedFields.put(string, n);
     }
 
-    @Override
     public void put(String string, long l) {
         this.emulatedFields.put(string, l);
     }
 
-    @Override
     public void put(String string, Object object) {
         this.emulatedFields.put(string, object);
     }
 
-    @Override
     public void put(String string, short s) {
         this.emulatedFields.put(string, s);
     }
 
-    @Override
     public void put(String string, boolean bl) {
         this.emulatedFields.put(string, bl);
     }
 
-    @Override
-    public void write(ObjectOutput objectOutput) {
-        EmulatedFields$ObjectSlot[] emulatedFields$ObjectSlotArray = this.emulatedFields.slots();
+    public void write(ObjectOutput objectOutput) throws IOException {
+        EmulatedFields.ObjectSlot[] objectSlotArray = this.emulatedFields.slots();
         int n = 0;
-        while (n < emulatedFields$ObjectSlotArray.length) {
-            EmulatedFields$ObjectSlot emulatedFields$ObjectSlot = emulatedFields$ObjectSlotArray[n];
-            Object object = emulatedFields$ObjectSlot.getFieldValue();
-            Class clazz = emulatedFields$ObjectSlot.getField().getType();
+        while (n < objectSlotArray.length) {
+            EmulatedFields.ObjectSlot objectSlot = objectSlotArray[n];
+            Object object = objectSlot.getFieldValue();
+            Class clazz = objectSlot.getField().getType();
             if (clazz == Integer.TYPE) {
                 objectOutput.writeInt(object != null ? (Integer)object : 0);
             } else if (clazz == Byte.TYPE) {

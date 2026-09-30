@@ -11,13 +11,13 @@ import de.vw.mib.bap.stream.BitStream;
 public final class DestinationsList_GetArray
 implements BAPGetArray {
     public int asg_Id;
-    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTAENOUS_FSG_MESSAGE;
-    private static final int ASG_ID_BITSIZE;
+    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS = 9;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTAENOUS_FSG_MESSAGE = 0;
+    private static final int ASG_ID_BITSIZE = 4;
     public int taid;
-    public static final int TAID_MIN;
-    private static final int TAID_BITSIZE;
+    public static final int TAID_MIN = 0;
+    private static final int TAID_BITSIZE = 4;
     public ArrayHeader arrayHeader = new ArrayHeader();
 
     public DestinationsList_GetArray() {
@@ -35,13 +35,11 @@ implements BAPGetArray {
         this.taid = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DestinationsList_GetArray destinationsList_GetArray = (DestinationsList_GetArray)bAPEntity;
         return this.asg_Id == destinationsList_GetArray.asg_Id && this.taid == destinationsList_GetArray.taid && this.arrayHeader.equalTo(destinationsList_GetArray.arrayHeader);
@@ -50,29 +48,25 @@ implements BAPGetArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DestinationsList_GetArray");
-        stringBuffer.append(new StringBuffer().append("\n - asg_Id:").append(this.asg_Id).toString());
-        stringBuffer.append(new StringBuffer().append("\n - taid:").append(this.taid).toString());
-        stringBuffer.append(new StringBuffer().append("\n - arrayHeader:").append(this.arrayHeader.toString()).toString());
+        stringBuffer.append("\n - asg_Id:" + this.asg_Id);
+        stringBuffer.append("\n - taid:" + this.taid);
+        stringBuffer.append("\n - arrayHeader:" + this.arrayHeader.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
         this.arrayHeader.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -83,37 +77,30 @@ implements BAPGetArray {
         return 16;
     }
 
-    @Override
     public int getFunctionId() {
         return DestinationsList_GetArray.functionId();
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }

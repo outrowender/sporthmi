@@ -72,7 +72,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 public class RendererFactoryHigh
 implements IRendererFactory,
 WidgetConstants {
-    @Override
     public int getUppercaseFontHeight(IRenderer iRenderer, int n) {
         AbstractRendererHigh abstractRendererHigh = (AbstractRendererHigh)iRenderer;
         IWrappedFont[] iWrappedFontArray = abstractRendererHigh.getFonts();
@@ -85,78 +84,64 @@ WidgetConstants {
         return -1;
     }
 
-    @Override
     public LabelRenderer createLabelRenderer(LabelController labelController) {
         return new LabelRendererHigh(labelController);
     }
 
-    @Override
     public LabelRenderer createMultiLineLabelRenderer(LabelController labelController, int n) {
         MultiLineLabelRendererHigh multiLineLabelRendererHigh = new MultiLineLabelRendererHigh(labelController);
         multiLineLabelRendererHigh.setAutoWrap(n);
         return multiLineLabelRendererHigh;
     }
 
-    @Override
     public IconRenderer createIconRenderer(IconController iconController) {
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
         iconRendererHigh.setAlignment(2, 5);
         return iconRendererHigh;
     }
 
-    @Override
     public IconRenderer createIconRenderer(IconController iconController, int n, int n2) {
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
         iconRendererHigh.setAlignment(n, n2);
         return iconRendererHigh;
     }
 
-    @Override
     public CheckboxRenderer createCheckboxRenderer(CheckboxController checkboxController) {
         return new CheckboxRendererHigh(checkboxController);
     }
 
-    @Override
     public RadioButtonRenderer createRadioButtonRenderer(RadioButtonController radioButtonController) {
         return new RadioButtonRendererHigh(radioButtonController);
     }
 
-    @Override
     public RotaryRenderer createRotaryRenderer(RotaryController rotaryController) {
         return new RotaryPreviewRendererHigh(rotaryController);
     }
 
-    @Override
     public CompositeRenderer createCompositeRenderer(AbstractWidgetController abstractWidgetController) {
         return new CompositeRendererHigh(abstractWidgetController);
     }
 
-    @Override
     public CompositeRenderer createMenuRenderer(MenuController menuController) {
         return new MenuRendererHigh(menuController);
     }
 
-    @Override
     public CursorRenderer createFocusCursorRenderer(CursorController cursorController) {
         return new FocusCursorRendererHigh(cursorController);
     }
 
-    @Override
     public CursorRenderer createSelectionCursorRenderer(CursorController cursorController) {
         return new SelectionCursorRendererHigh(cursorController);
     }
 
-    @Override
     public ScrollbarRenderer createScrollbarRenderer(ScrollbarController scrollbarController) {
         return new ScrollbarRendererKanziHigh(scrollbarController);
     }
 
-    @Override
     public GlassplateRenderer createGlassplateRenderer(GlassplateController glassplateController) {
         return new GlassplateRendererHigh(glassplateController);
     }
 
-    @Override
     public ComboBoxRenderer createComboRenderer(ComboBoxController comboBoxController, IRenderer iRenderer) {
         ComboBoxRendererHigh comboBoxRendererHigh = new ComboBoxRendererHigh(comboBoxController);
         AbstractRendererHigh abstractRendererHigh = (AbstractRendererHigh)iRenderer;
@@ -167,14 +152,12 @@ WidgetConstants {
         return comboBoxRendererHigh;
     }
 
-    @Override
     public ITimeDateSetttingsRenderer createInternalCursorWidgetRenderer(AbstractInternalCursorWidgetController abstractInternalCursorWidgetController, IRenderer iRenderer, int[] nArray) {
         InternalCursorWidgetRendererHigh internalCursorWidgetRendererHigh = new InternalCursorWidgetRendererHigh(abstractInternalCursorWidgetController);
         RendererFactoryHigh.copyFonts((AbstractRendererHigh)iRenderer, internalCursorWidgetRendererHigh, nArray);
         return internalCursorWidgetRendererHigh;
     }
 
-    @Override
     public FormfieldInputRenderer createFormfieldInputRenderer(FormfieldInputController formfieldInputController, boolean bl, boolean bl2) {
         FormfieldInputRendererHigh formfieldInputRendererHigh = new FormfieldInputRendererHigh(formfieldInputController);
         formfieldInputRendererHigh.setEnableDropShadowWidth(bl2);
@@ -182,12 +165,10 @@ WidgetConstants {
         return formfieldInputRendererHigh;
     }
 
-    @Override
     public ComboBoxBackgroundRenderer createComboBoxBackgroundRenderer(ComboBoxBackgroundController comboBoxBackgroundController) {
         return new ComboBoxBackgroundRendererHigh(comboBoxBackgroundController);
     }
 
-    @Override
     public ISpellerRenderer createSpellerRendererEuropeHigh(SpellerController spellerController, SpellerController spellerController2) {
         SpellerRendererEuropeHigh spellerRendererEuropeHigh = new SpellerRendererEuropeHigh(spellerController);
         spellerRendererEuropeHigh.setFonts(((SpellerRendererEuropeHigh)spellerController2.getRenderer()).getFonts());
@@ -219,18 +200,15 @@ WidgetConstants {
         }
     }
 
-    @Override
     public InstructionTextRenderer createInstructionTextRenderer(InstructionTextContoller instructionTextContoller) {
         return new InstructionTextRendererHigh(instructionTextContoller);
     }
 
-    @Override
     public IFingerTraceRenderer createFingerTraceRenderer(FingerTraceController fingerTraceController) {
         AbstractFingerTraceRendererHigh abstractFingerTraceRendererHigh = AbstractWidget.isAsia() ? new FingerTraceRendererFullScreenHigh(fingerTraceController) : new FingerTraceRendererHigh(fingerTraceController);
         return abstractFingerTraceRendererHigh;
     }
 
-    @Override
     public IConversionWidgetRenderer createConversionLineRenderer(ConversionLineController conversionLineController, IRenderer iRenderer) {
         if (AbstractWidget.isAsia()) {
             ConversionLineWidgetRenderer conversionLineWidgetRenderer = new ConversionLineWidgetRenderer(conversionLineController);

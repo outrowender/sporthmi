@@ -6,13 +6,14 @@ package org.apache.xerces.util;
 import java.io.IOException;
 import org.apache.xerces.dom.DOMInputImpl;
 import org.apache.xerces.util.URI;
-import org.apache.xerces.util.URI$MalformedURIException;
 import org.apache.xerces.xni.XMLResourceIdentifier;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.apache.xerces.xni.parser.XMLInputSource;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
 
 public class XMLCatalogResolver
@@ -64,8 +65,7 @@ LSResourceResolver {
         this.fUseLiteralSystemId = bl;
     }
 
-    @Override
-    public InputSource resolveEntity(String string, String string2) {
+    public InputSource resolveEntity(String string, String string2) throws SAXException, IOException {
         String string3 = null;
         if (string != null && string2 != null) {
             string3 = this.resolvePublic(string, string2);
@@ -80,8 +80,7 @@ LSResourceResolver {
         return null;
     }
 
-    @Override
-    public InputSource resolveEntity(String string, String string2, String string3, String string4) {
+    public InputSource resolveEntity(String string, String string2, String string3, String string4) throws SAXException, IOException {
         Object object;
         String string5 = null;
         if (!this.getUseLiteralSystemId() && string3 != null) {
@@ -89,7 +88,7 @@ LSResourceResolver {
                 object = new URI(new URI(string3), string4);
                 string4 = ((URI)object).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 // empty catch block
             }
         }
@@ -106,12 +105,10 @@ LSResourceResolver {
         return null;
     }
 
-    @Override
-    public InputSource getExternalSubset(String string, String string2) {
+    public InputSource getExternalSubset(String string, String string2) throws SAXException, IOException {
         return null;
     }
 
-    @Override
     public LSInput resolveResource(String string, String string2, String string3, String string4, String string5) {
         String string6 = null;
         try {
@@ -123,7 +120,7 @@ LSResourceResolver {
                     URI uRI = new URI(new URI(string5), string4);
                     string4 = uRI.toString();
                 }
-                catch (URI$MalformedURIException uRI$MalformedURIException) {
+                catch (URI.MalformedURIException malformedURIException) {
                     // empty catch block
                 }
             }
@@ -144,8 +141,7 @@ LSResourceResolver {
         return null;
     }
 
-    @Override
-    public XMLInputSource resolveEntity(XMLResourceIdentifier xMLResourceIdentifier) {
+    public XMLInputSource resolveEntity(XMLResourceIdentifier xMLResourceIdentifier) throws XNIException, IOException {
         String string = this.resolveIdentifier(xMLResourceIdentifier);
         if (string != null) {
             return new XMLInputSource(xMLResourceIdentifier.getPublicId(), string, xMLResourceIdentifier.getBaseSystemId());
@@ -153,7 +149,7 @@ LSResourceResolver {
         return null;
     }
 
-    public String resolveIdentifier(XMLResourceIdentifier xMLResourceIdentifier) {
+    public String resolveIdentifier(XMLResourceIdentifier xMLResourceIdentifier) throws IOException, XNIException {
         String string = null;
         String string2 = xMLResourceIdentifier.getNamespace();
         if (string2 != null) {
@@ -172,7 +168,7 @@ LSResourceResolver {
         return string;
     }
 
-    public final synchronized String resolveSystem(String string) {
+    public final synchronized String resolveSystem(String string) throws IOException {
         if (this.fCatalogsChanged) {
             this.parseCatalogs();
             this.fCatalogsChanged = false;
@@ -180,7 +176,7 @@ LSResourceResolver {
         return "";
     }
 
-    public final synchronized String resolvePublic(String string, String string2) {
+    public final synchronized String resolvePublic(String string, String string2) throws IOException {
         if (this.fCatalogsChanged) {
             this.parseCatalogs();
             this.fCatalogsChanged = false;
@@ -188,7 +184,7 @@ LSResourceResolver {
         return "";
     }
 
-    public final synchronized String resolveURI(String string) {
+    public final synchronized String resolveURI(String string) throws IOException {
         if (this.fCatalogsChanged) {
             this.parseCatalogs();
             this.fCatalogsChanged = false;
@@ -207,7 +203,7 @@ LSResourceResolver {
         this.fPreferPublic = bl;
     }
 
-    private void parseCatalogs() {
+    private void parseCatalogs() throws IOException {
     }
 }
 

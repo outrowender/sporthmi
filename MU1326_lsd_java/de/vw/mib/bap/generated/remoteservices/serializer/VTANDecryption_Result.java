@@ -11,28 +11,28 @@ import de.vw.mib.bap.stream.BitStream;
 public final class VTANDecryption_Result
 implements ResultMethod {
     public int asg_Id;
-    public static final int ASG_ID_C_GW_OCU;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG;
+    public static final int ASG_ID_C_GW_OCU = 2;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG = 0;
     public int vtantype;
-    public static final int VTANTYPE_MOBILE_DEVICE_KEY;
-    public static final int VTANTYPE_INIT_UNKNOWN;
+    public static final int VTANTYPE_MOBILE_DEVICE_KEY = 1;
+    public static final int VTANTYPE_INIT_UNKNOWN = 0;
     public final BAPString vtan = new BAPString(31);
-    private static final int MAX_VTAN_LENGTH;
+    private static final int MAX_VTAN_LENGTH = 31;
     public final BAPString param1 = new BAPString(243);
-    private static final int MAX_PARAM1_LENGTH;
+    private static final int MAX_PARAM1_LENGTH = 243;
     public final BAPString param2 = new BAPString(243);
-    private static final int MAX_PARAM2_LENGTH;
+    private static final int MAX_PARAM2_LENGTH = 243;
     public int resultCode;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_DECRYPTION_TIMED_OUT;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_CHALLENGE_TIMED_OUT;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_INPUT_DATA_VALIDATION_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_FAILED;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL_CLAMP_15_NOT_ACTIVE;
-    public static final int RESULT_CODE_ABORT_NOT_SUCCESSFUL;
-    public static final int RESULT_CODE_ABORT_SUCCESSFUL;
-    public static final int RESULT_CODE_NOT_SUCCESSFUL;
-    public static final int RESULT_CODE_SUCCESSFUL;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_DECRYPTION_TIMED_OUT = 8;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_CHALLENGE_TIMED_OUT = 7;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_INPUT_DATA_VALIDATION_FAILED = 6;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_AUTHENTICATION_FAILED = 5;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL_CLAMP_15_NOT_ACTIVE = 4;
+    public static final int RESULT_CODE_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int RESULT_CODE_ABORT_SUCCESSFUL = 2;
+    public static final int RESULT_CODE_NOT_SUCCESSFUL = 1;
+    public static final int RESULT_CODE_SUCCESSFUL = 0;
 
     public VTANDecryption_Result() {
         this.internalReset();
@@ -50,7 +50,6 @@ implements ResultMethod {
         this.resultCode = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.vtan.reset();
@@ -58,7 +57,6 @@ implements ResultMethod {
         this.param2.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         VTANDecryption_Result vTANDecryption_Result = (VTANDecryption_Result)bAPEntity;
         return this.asg_Id == vTANDecryption_Result.asg_Id && this.vtantype == vTANDecryption_Result.vtantype && this.vtan.equalTo(vTANDecryption_Result.vtan) && this.param1.equalTo(vTANDecryption_Result.param1) && this.param2.equalTo(vTANDecryption_Result.param2) && this.resultCode == vTANDecryption_Result.resultCode;
@@ -67,12 +65,10 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public int getResultCode() {
         return this.resultCode;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("VTANDecryption_Result");
@@ -85,12 +81,10 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.asg_Id);
         bitStream.pushByte((byte)this.vtantype);
@@ -100,7 +94,6 @@ implements ResultMethod {
         bitStream.pushByte((byte)this.resultCode);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontByte();
         this.vtantype = bitStream.popFrontByte();
@@ -114,7 +107,6 @@ implements ResultMethod {
         return 25;
     }
 
-    @Override
     public int getFunctionId() {
         return VTANDecryption_Result.functionId();
     }

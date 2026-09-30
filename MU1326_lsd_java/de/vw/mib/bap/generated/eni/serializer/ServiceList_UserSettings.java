@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ServiceList_UserSettings
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean serviceAllowedByVehicle;
     public boolean serviceActivatedAllowedByDriver;
 
@@ -27,12 +27,10 @@ implements BAPEntity {
         this.serviceActivatedAllowedByDriver = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceList_UserSettings serviceList_UserSettings = (ServiceList_UserSettings)bAPEntity;
         return this.serviceAllowedByVehicle == serviceList_UserSettings.serviceAllowedByVehicle && this.serviceActivatedAllowedByDriver == serviceList_UserSettings.serviceActivatedAllowedByDriver;
@@ -41,28 +39,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceList_UserSettings");
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllowedByVehicle:").append(this.serviceAllowedByVehicle).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceActivatedAllowedByDriver:").append(this.serviceActivatedAllowedByDriver).toString());
+        stringBuffer.append("\n - serviceAllowedByVehicle:" + this.serviceAllowedByVehicle);
+        stringBuffer.append("\n - serviceActivatedAllowedByDriver:" + this.serviceActivatedAllowedByDriver);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.serviceAllowedByVehicle);
         bitStream.pushBoolean(this.serviceActivatedAllowedByDriver);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.serviceAllowedByVehicle = bitStream.popFrontBoolean();

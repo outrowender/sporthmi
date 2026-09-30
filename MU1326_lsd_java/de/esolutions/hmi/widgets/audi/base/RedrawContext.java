@@ -4,37 +4,28 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface RedrawContext {
-    public static final int BLACK;
-    public static final int WHITE;
-    public static final int CYAN;
-    public static final int DISABLED_OPACITY;
-    public static final int TRANSPARENT;
+    public static final int BLACK = -16777216;
+    public static final int WHITE = -1;
+    public static final int CYAN = -16711681;
+    public static final int DISABLED_OPACITY = 0x4D000000;
+    public static final int TRANSPARENT = 0;
 
-    default public int[] setColorIndices(int[] nArray) {
-    }
+    public int[] setColorIndices(int[] var1);
 
-    default public void setActiveColorPlate(int[] nArray) {
-    }
+    public void setActiveColorPlate(int[] var1);
 
-    default public int[] getActiveColorPlate() {
-    }
+    public int[] getActiveColorPlate();
 
-    default public void setScreenID(int n) {
-    }
+    public void setScreenID(int var1);
 
-    default public int getScreenID() {
-    }
+    public int getScreenID();
 
-    default public void setNodeIndex(int n) {
-    }
+    public void setNodeIndex(int var1);
 
-    default public int getNodeIndex() {
-    }
+    public int getNodeIndex();
 
-    default public int getCalculatedNodeIndex(int n) {
-    }
+    public int getCalculatedNodeIndex(int var1);
 
-    default public int getColor(int n) {
-    }
+    public int getColor(int var1);
 }
 

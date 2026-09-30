@@ -4,7 +4,6 @@
 package de.esolutions.fw.dsi.admin;
 
 import de.esolutions.fw.comm.agent.Agent;
-import de.esolutions.fw.dsi.admin.DSIAdmin$AgentCustomizer;
 import de.esolutions.fw.dsi.admin.IProviderService;
 import de.esolutions.fw.dsi.admin.ProviderTracker;
 import de.esolutions.fw.dsi.admin.ServiceStateMap;
@@ -17,7 +16,6 @@ import de.esolutions.fw.dsi.comm.DSIServiceWorker;
 import de.esolutions.fw.dsi.comm.IDSIServiceWorker;
 import de.esolutions.fw.dsi.comm.SimpleDSIServiceWorker;
 import de.esolutions.fw.dsi.config.AdapterConfig;
-import de.esolutions.fw.dsi.config.AdapterConfig$ServiceInfo;
 import de.esolutions.fw.dsi.diag.AdapterDiagnosis;
 import de.esolutions.fw.dsi.diag.DiagnosisReportGenerator;
 import de.esolutions.fw.dsi.diag.IAdapterDiagnosis;
@@ -27,6 +25,7 @@ import de.esolutions.fw.util.commons.job.IDispatcherManager;
 import de.esolutions.fw.util.tracing.TraceChannel;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -49,12 +48,12 @@ IProviderService {
     private Agent agent;
     private TraceChannel tracer;
     private final ServiceStateMap svcMap;
-    private AdapterConfig$ServiceInfo[] serviceInfos;
+    private AdapterConfig.ServiceInfo[] serviceInfos;
     private IDispatcherManager dispatcherManager;
     private ServiceRegistration serviceAdminRegistration;
     private ServiceRegistration adminRegistration;
     private ServiceRegistration dsiBootRegistration;
-    private static final String ADMIN_INSTANCE;
+    private static final String ADMIN_INSTANCE = "0";
     private HashMap sharedServiceWorkers = new HashMap();
     private boolean useSimpleWorker;
     private List providerList = new ArrayList();
@@ -86,7 +85,7 @@ IProviderService {
             this.tracer.log((short)4, "Couldn't load adapter properties: error=%1", (Object)exception.getMessage());
         }
         this.tracer.log((short)0, "Waiting for COMM Agent registration.");
-        object = new ServiceTracker(bundleContext, (class$de$esolutions$fw$comm$agent$Agent == null ? (class$de$esolutions$fw$comm$agent$Agent = DSIAdmin.class$("de.esolutions.fw.comm.agent.Agent")) : class$de$esolutions$fw$comm$agent$Agent).getName(), (ServiceTrackerCustomizer)new DSIAdmin$AgentCustomizer(this, null));
+        object = new ServiceTracker(bundleContext, (class$de$esolutions$fw$comm$agent$Agent == null ? (class$de$esolutions$fw$comm$agent$Agent = DSIAdmin.class$("de.esolutions.fw.comm.agent.Agent")) : class$de$esolutions$fw$comm$agent$Agent).getName(), (ServiceTrackerCustomizer)new AgentCustomizer());
         ((ServiceTracker)object).open();
     }
 
@@ -105,7 +104,6 @@ IProviderService {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    @Override
     public boolean startService(String string, int n) {
         boolean bl = false;
         if (this.agent == null) {
@@ -159,7 +157,7 @@ IProviderService {
         }
     }
 
-    private IProvider createProvider(String string, String string2, int n, IDispatcher iDispatcher) {
+    private IProvider createProvider(String string, String string2, int n, IDispatcher iDispatcher) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException, ClassNotFoundException {
         this.tracer.log((short)0, "creating provider for service \"%1:%2\"", (Object)string, (Object)String.valueOf(n));
         Class clazz = Class.forName(string2);
         Constructor constructor = clazz.getConstructor(new Class[]{Integer.TYPE, class$org$osgi$framework$BundleContext == null ? (class$org$osgi$framework$BundleContext = DSIAdmin.class$("org.osgi.framework.BundleContext")) : class$org$osgi$framework$BundleContext, class$de$esolutions$fw$comm$agent$Agent == null ? (class$de$esolutions$fw$comm$agent$Agent = DSIAdmin.class$("de.esolutions.fw.comm.agent.Agent")) : class$de$esolutions$fw$comm$agent$Agent, class$de$esolutions$fw$dsi$base$IDispatcher == null ? (class$de$esolutions$fw$dsi$base$IDispatcher = DSIAdmin.class$("de.esolutions.fw.dsi.base.IDispatcher")) : class$de$esolutions$fw$dsi$base$IDispatcher});
@@ -172,7 +170,7 @@ IProviderService {
         return iProvider;
     }
 
-    private IDispatcher createDispatcher(String string, int n) {
+    private IDispatcher createDispatcher(String string, int n) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
         this.tracer.log((short)0, "creating dispatcher for service \"%1:%2\"", (Object)string, (Object)String.valueOf(n));
         String string2 = this.getGeneratedClassName(string, "Dispatcher");
         Class clazz = Class.forName(string2);
@@ -185,7 +183,6 @@ IProviderService {
         return iDispatcher;
     }
 
-    @Override
     public boolean stopService(String string, int n) {
         if (this.isServiceInBlacklist(string)) {
             Channels.BENCH_STARTUP.log((short)2, "DSIAdapter.stopService(%1,%2) service is blacklisted, stopService was ignored ", (Object)string, (Object)new Integer(n));
@@ -329,17 +326,17 @@ IProviderService {
         Properties properties = new Properties();
         if (string.equals("ServiceAdmin")) {
             properties.put("DEVICE_NAME", (class$org$dsi$ifc$base$ServiceAdmin == null ? (class$org$dsi$ifc$base$ServiceAdmin = DSIAdmin.class$("org.dsi.ifc.base.ServiceAdmin")) : class$org$dsi$ifc$base$ServiceAdmin).getName());
-            properties.put("DEVICE_INSTANCE", "0");
+            properties.put("DEVICE_INSTANCE", ADMIN_INSTANCE);
             this.serviceAdminRegistration = bundleContext.registerService((class$org$dsi$ifc$base$ServiceAdmin == null ? (class$org$dsi$ifc$base$ServiceAdmin = DSIAdmin.class$("org.dsi.ifc.base.ServiceAdmin")) : class$org$dsi$ifc$base$ServiceAdmin).getName(), (Object)this, (Dictionary)properties);
             Channels.DSI_ADMIN.log((short)1, "DSI Adapter registered as ServiceAdmin OSGi service.");
         } else if (string.equals("JDSIAdmin")) {
             properties.put("DEVICE_NAME", (class$org$dsi$ifc$admin$JDSIAdmin == null ? (class$org$dsi$ifc$admin$JDSIAdmin = DSIAdmin.class$("org.dsi.ifc.admin.JDSIAdmin")) : class$org$dsi$ifc$admin$JDSIAdmin).getName());
-            properties.put("DEVICE_INSTANCE", "0");
+            properties.put("DEVICE_INSTANCE", ADMIN_INSTANCE);
             this.adminRegistration = bundleContext.registerService((class$org$dsi$ifc$admin$JDSIAdmin == null ? (class$org$dsi$ifc$admin$JDSIAdmin = DSIAdmin.class$("org.dsi.ifc.admin.JDSIAdmin")) : class$org$dsi$ifc$admin$JDSIAdmin).getName(), (Object)this, (Dictionary)properties);
             Channels.DSI_ADMIN.log((short)1, "DSI Adapter registered as JDSIAdmin OSGi service.");
         } else if (string.equals("DSIBoot")) {
             properties.put("DEVICE_NAME", (class$org$dsi$ifc$boot$DSIBoot == null ? (class$org$dsi$ifc$boot$DSIBoot = DSIAdmin.class$("org.dsi.ifc.boot.DSIBoot")) : class$org$dsi$ifc$boot$DSIBoot).getName());
-            properties.put("DEVICE_INSTANCE", "0");
+            properties.put("DEVICE_INSTANCE", ADMIN_INSTANCE);
             this.dsiBootRegistration = bundleContext.registerService((class$org$dsi$ifc$boot$DSIBoot == null ? (class$org$dsi$ifc$boot$DSIBoot = DSIAdmin.class$("org.dsi.ifc.boot.DSIBoot")) : class$org$dsi$ifc$boot$DSIBoot).getName(), (Object)this, (Dictionary)properties);
             Channels.DSI_ADMIN.log((short)1, "DSI Adapter registered as DSIBoot OSGi service.");
         } else {
@@ -358,11 +355,10 @@ IProviderService {
         }
     }
 
-    @Override
     public void onConnected(IProvider iProvider) {
         if (iProvider != null) {
             int n;
-            String string = super.getClass().getName();
+            String string = iProvider.getClass().getName();
             if (this.svcMap.setServiceState(string, n = iProvider.getInstance(), 2)) {
                 Channels.SERVICE_STATE.log((short)1, "CONNECTED: changedServiceState: name=%1 instance=%2 newState=PENDING", (Object)string, (Object)new Integer(n));
                 this.svcMap.checkAndClearRestartFlag(string, n);
@@ -372,10 +368,9 @@ IProviderService {
         }
     }
 
-    @Override
     public void onDisconnected(IProvider iProvider) {
         if (iProvider != null) {
-            String string = super.getClass().getName();
+            String string = iProvider.getClass().getName();
             int n = iProvider.getInstance();
             String string2 = ((AbstractProvider)iProvider).getClassName();
             this.providerList.remove(iProvider);
@@ -397,24 +392,20 @@ IProviderService {
         }
     }
 
-    @Override
     public void onDisconnecting(IProvider iProvider) {
     }
 
-    @Override
     public void onConnectionFailed(IProvider iProvider) {
     }
 
-    @Override
     public void onConnectionLost(IProvider iProvider) {
         if (iProvider != null) {
-            String string = super.getClass().getName();
+            String string = iProvider.getClass().getName();
             int n = iProvider.getInstance();
             this.svcMap.setServiceState(string, n, 0);
         }
     }
 
-    @Override
     public void onConnecting(IProvider iProvider) {
     }
 
@@ -435,7 +426,6 @@ IProviderService {
         return this.diagnosis;
     }
 
-    @Override
     public boolean checkAndClearStopFlag(String string, int n) {
         Boolean bl = this.svcMap.checkAndClearStopFlag(string, n);
         if (bl != null) {
@@ -447,7 +437,6 @@ IProviderService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stopServiceWorker(IDSIServiceWorker iDSIServiceWorker) {
         if (iDSIServiceWorker != null && iDSIServiceWorker.getUseCount() == 0) {
             DSIAdmin dSIAdmin = this;
@@ -460,33 +449,47 @@ IProviderService {
         }
     }
 
-    static /* synthetic */ BundleContext access$000(DSIAdmin dSIAdmin) {
-        return dSIAdmin.bundleContext;
-    }
-
-    static /* synthetic */ Agent access$102(DSIAdmin dSIAdmin, Agent agent) {
-        dSIAdmin.agent = agent;
-        return dSIAdmin.agent;
-    }
-
-    static /* synthetic */ TraceChannel access$200(DSIAdmin dSIAdmin) {
-        return dSIAdmin.tracer;
-    }
-
-    static /* synthetic */ void access$300(DSIAdmin dSIAdmin, BundleContext bundleContext) {
-        dSIAdmin.registerAdminService(bundleContext);
-    }
-
-    static /* synthetic */ void access$500(DSIAdmin dSIAdmin) {
-        dSIAdmin.startEarlyProviders();
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private class AgentCustomizer
+    implements ServiceTrackerCustomizer {
+        private AgentCustomizer() {
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            Object object = DSIAdmin.this.bundleContext.getService(serviceReference);
+            if (object instanceof Agent) {
+                DSIAdmin.this.agent = (Agent)object;
+                DSIAdmin.this.tracer.log((short)1, "COMM Agent service available.");
+                DSIAdmin.this.registerAdminService(DSIAdmin.this.bundleContext);
+                new Thread("DSIAdmin:EarlyStartup"){
+
+                    public void run() {
+                        DSIAdmin.this.startEarlyProviders();
+                    }
+                }.start();
+            } else {
+                DSIAdmin.this.bundleContext.ungetService(serviceReference);
+            }
+            return object;
+        }
+
+        public void modifiedService(ServiceReference serviceReference, Object object) {
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
+            if (object instanceof Agent) {
+                DSIAdmin.this.tracer.log((short)1, "COMM Agent unregistered.");
+                DSIAdmin.this.agent = null;
+                DSIAdmin.this.stop(DSIAdmin.this.bundleContext);
+            }
         }
     }
 }

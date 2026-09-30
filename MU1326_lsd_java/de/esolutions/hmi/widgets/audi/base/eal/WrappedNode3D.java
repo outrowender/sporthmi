@@ -67,13 +67,11 @@ IWidgetLogChannel {
         this.isLtr = bl2;
     }
 
-    @Override
     public void setShouldFlipBack(boolean bl) {
         this.shouldFlipBack = bl;
         this.updateScaleAndTranslation();
     }
 
-    @Override
     public boolean setDestroyedFlag() {
         if (this.destroyed) {
             if (logChannel3DEngine.isDebug()) {
@@ -94,19 +92,16 @@ IWidgetLogChannel {
         return 1.0f;
     }
 
-    @Override
     public String getNodeName() {
         return this.node.getName();
     }
 
-    @Override
     public void updateScreenSize() {
         if (this.parent != null) {
             this.setScreenSize(this.parent.getScreenWidth(), this.parent.getScreenHeight());
         }
     }
 
-    @Override
     public void setScreenSize(int n, int n2) {
         if (n == this.screenWidth && n2 == this.screenHeight) {
             return;
@@ -122,7 +117,6 @@ IWidgetLogChannel {
         this.updateClipping();
     }
 
-    @Override
     public void setPosition(float f2, float f3, float f4) {
         this.posX = f2;
         this.posY = f3;
@@ -173,17 +167,14 @@ IWidgetLogChannel {
         return iNode3D.getTranslationZ() == f4;
     }
 
-    @Override
     public float getOriginX() {
         return 0.0f;
     }
 
-    @Override
     public float getOriginY() {
         return 0.0f;
     }
 
-    @Override
     public void setRotationX(float f2) {
         if (this.rotX == f2) {
             return;
@@ -195,7 +186,6 @@ IWidgetLogChannel {
         this.rotX = f2;
     }
 
-    @Override
     public void setRotationY(float f2) {
         if (this.rotY == f2) {
             return;
@@ -207,7 +197,6 @@ IWidgetLogChannel {
         this.rotY = f2;
     }
 
-    @Override
     public void setRotationZ(float f2) {
         if (this.rotZ == f2) {
             return;
@@ -219,22 +208,18 @@ IWidgetLogChannel {
         this.rotZ = f2;
     }
 
-    @Override
     public float getRotationX() {
         return this.rotX;
     }
 
-    @Override
     public float getRotationY() {
         return this.rotY;
     }
 
-    @Override
     public float getRotationZ() {
         return this.rotZ;
     }
 
-    @Override
     public void setScale(float f2, float f3, float f4) {
         this.scaleX = f2;
         this.scaleY = f3;
@@ -253,7 +238,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void setOpacity(float f2) {
         float f3 = this.getEALOpacity();
         if (f3 == f2) {
@@ -265,12 +249,10 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public float getOpacity() {
         return this.opacity;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.visible == bl) {
             return;
@@ -282,12 +264,10 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean isVisible() {
         return this.visible;
     }
 
-    @Override
     public boolean isValid() {
         if (EALManager.IGNORE_INVALID_EAL_NODES) {
             return true;
@@ -295,7 +275,6 @@ IWidgetLogChannel {
         return this.node.isValid();
     }
 
-    @Override
     public INode3D getNode() {
         return this.node;
     }
@@ -315,12 +294,10 @@ IWidgetLogChannel {
         this.setOpacityForced(this.opacity);
     }
 
-    @Override
     public void add(IWrappedNode3D iWrappedNode3D) {
         this.addByIndex(iWrappedNode3D, iWrappedNode3D.getNodeIndex());
     }
 
-    @Override
     public void addByIndex(IWrappedNode3D iWrappedNode3D, int n) {
         if (iWrappedNode3D != null) {
             if (!this.assertNoAncestor(iWrappedNode3D)) {
@@ -356,13 +333,12 @@ IWidgetLogChannel {
         return true;
     }
 
-    @Override
     public boolean remove(IWrappedNode3D iWrappedNode3D) {
         if (logChannel3DEngine.isDebug()) {
-            logChannel3DEngine.log(-2137614336, "WrappedNode3D#remove: Removing '%1' from '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
+            logChannel3DEngine.log(10000000, "WrappedNode3D#remove: Removing '%1' from '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
         }
         if (!this.node.remove(iWrappedNode3D.getNode())) {
-            logChannel3DEngine.log(-1601830656, "WrappedNode3D#remove: Could not remove '%1' from '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
+            logChannel3DEngine.log(100000, "WrappedNode3D#remove: Could not remove '%1' from '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
             return false;
         }
         iWrappedNode3D.setParent(null);
@@ -378,14 +354,13 @@ IWidgetLogChannel {
         return true;
     }
 
-    @Override
     public boolean removeWrappedChild(IWrappedNode3D iWrappedNode3D) {
         if (logChannel3DEngine.isDebug()) {
-            logChannel3DEngine.log(-2137614336, "WrappedNode3D#removeWrappedChild: Removing '%1' from '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
+            logChannel3DEngine.log(10000000, "WrappedNode3D#removeWrappedChild: Removing '%1' from '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
         }
         iWrappedNode3D.setParent(null);
         if (this.children != null && !this.children.remove(iWrappedNode3D)) {
-            logChannel3DEngine.log(-1601830656, "WrappedNode3D#removeWrappedChild: Node '%1' is not a child of '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
+            logChannel3DEngine.log(100000, "WrappedNode3D#removeWrappedChild: Node '%1' is not a child of '%2'", (Object)iWrappedNode3D.getNode().getName(), (Object)this.node.getName());
             return false;
         }
         if (iWrappedNode3D.isClipping() || iWrappedNode3D.hasClippingChild()) {
@@ -397,7 +372,6 @@ IWidgetLogChannel {
         return true;
     }
 
-    @Override
     public void removeAllChildren() {
         long l;
         if (this.node == null) {
@@ -433,7 +407,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void setParent(IWrappedNode3D iWrappedNode3D) {
         if (this.parent == iWrappedNode3D) {
             return;
@@ -443,37 +416,30 @@ IWidgetLogChannel {
         this.storePosition();
     }
 
-    @Override
     public int getEALChildCount() {
         return (int)this.node.getChildCount();
     }
 
-    @Override
     public List getWrappedChildren() {
         return this.children;
     }
 
-    @Override
     public float getWidth() {
         return Math.abs(this.unscaledWidth * this.scaleX);
     }
 
-    @Override
     public float getHeight() {
         return this.unscaledHeight * this.scaleY;
     }
 
-    @Override
     public float getUnscaledWidth() {
         return this.unscaledWidth;
     }
 
-    @Override
     public float getUnscaledHeight() {
         return this.unscaledHeight;
     }
 
-    @Override
     public void setSize(float f2, float f3) {
         if (this.unscaledWidth == f2 && this.unscaledHeight == f3) {
             return;
@@ -483,7 +449,6 @@ IWidgetLogChannel {
         this.storePosition();
     }
 
-    @Override
     public void setClipping(boolean bl) {
         if (this.clipping == bl) {
             return;
@@ -506,9 +471,6 @@ IWidgetLogChannel {
         }
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void unclip() {
         this.screenClippingX = 0.0f;
         this.screenClippingY = 0.0f;
@@ -516,11 +478,11 @@ IWidgetLogChannel {
         this.screenClippingHeight = this.screenHeight;
         this.updateClippingInheritance();
         float f2 = this.clipRound(WrappedNode3D.getScreenCoordinate(this.screenClippingX, this.screenWidth));
-        int n = EALManager.isAnnotationsEnabled() ? 192 : (int)0.0f;
-        float f3 = this.clipRound(1.0f - WrappedNode3D.getScreenCoordinate(this.screenClippingY + this.screenClippingHeight + n, this.screenHeight));
-        float f4 = this.clipRound(WrappedNode3D.getScreenCoordinate(this.screenClippingWidth, this.screenWidth));
-        float f5 = this.clipRound(WrappedNode3D.getScreenCoordinate(this.screenClippingHeight, this.screenHeight));
-        this.node.clip(f2, f3, f4, f5);
+        float f3 = EALManager.isAnnotationsEnabled() ? -2.0f : 0.0f;
+        float f4 = this.clipRound(1.0f - WrappedNode3D.getScreenCoordinate(this.screenClippingY + this.screenClippingHeight + f3, this.screenHeight));
+        float f5 = this.clipRound(WrappedNode3D.getScreenCoordinate(this.screenClippingWidth, this.screenWidth));
+        float f6 = this.clipRound(WrappedNode3D.getScreenCoordinate(this.screenClippingHeight, this.screenHeight));
+        this.node.clip(f2, f4, f5, f6);
         if (this.hasClippingChild) {
             for (int i2 = 0; i2 < this.children.size(); ++i2) {
                 IWrappedNode3D iWrappedNode3D = (IWrappedNode3D)this.children.get(i2);
@@ -529,9 +491,6 @@ IWidgetLogChannel {
         }
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void clip() {
         float f2;
         float f3;
@@ -572,18 +531,18 @@ IWidgetLogChannel {
         this.updateClippingInheritance();
         if (this.screenWidth == 0 || this.screenHeight == 0) {
             if (this.parent == null) {
-                logChannel3DEngine.log(-1601830656, "WrappedNode3D#clip: parent is still null and screen size is not set. screen width: %1, height: %2", (long)this.screenWidth, (long)this.screenHeight);
+                logChannel3DEngine.log(100000, "WrappedNode3D#clip: parent is still null and screen size is not set. screen width: %1, height: %2", (long)this.screenWidth, (long)this.screenHeight);
             } else {
                 logChannel3DEngine.log(10000, "WrappedNode3D#clip: screen size is invalid. width: %2, height: %3, parent: %1", (Object)this.parent, (long)this.screenWidth, (long)this.screenHeight);
             }
             return;
         }
-        int n = EALManager.isAnnotationsEnabled() ? 192 : (int)0.0f;
-        float f8 = WrappedNode3D.getScreenCoordinate(this.screenClippingX, this.screenWidth);
-        float f9 = 1.0f - WrappedNode3D.getScreenCoordinate(this.screenClippingY + this.screenClippingHeight + n, this.screenHeight);
-        float f10 = WrappedNode3D.getScreenCoordinate(this.screenClippingWidth, this.screenWidth);
-        float f11 = WrappedNode3D.getScreenCoordinate(this.screenClippingHeight, this.screenHeight);
-        this.node.clip(f8, f9, f10, f11);
+        float f8 = EALManager.isAnnotationsEnabled() ? -2.0f : 0.0f;
+        float f9 = WrappedNode3D.getScreenCoordinate(this.screenClippingX, this.screenWidth);
+        float f10 = 1.0f - WrappedNode3D.getScreenCoordinate(this.screenClippingY + this.screenClippingHeight + f8, this.screenHeight);
+        float f11 = WrappedNode3D.getScreenCoordinate(this.screenClippingWidth, this.screenWidth);
+        float f12 = WrappedNode3D.getScreenCoordinate(this.screenClippingHeight, this.screenHeight);
+        this.node.clip(f9, f10, f11, f12);
     }
 
     private float crop(float f2, float f3, float f4) {
@@ -634,27 +593,22 @@ IWidgetLogChannel {
         return f2 / f3;
     }
 
-    @Override
     public IWrappedNode3D getParent() {
         return this.parent;
     }
 
-    @Override
     public float getX() {
         return this.posX;
     }
 
-    @Override
     public float getY() {
         return this.posY;
     }
 
-    @Override
     public float getZ() {
         return this.posZ;
     }
 
-    @Override
     public void updateClipping() {
         if (this.clipping) {
             this.clip();
@@ -670,17 +624,14 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean hasClippingChild() {
         return this.hasClippingChild;
     }
 
-    @Override
     public void setHasClippingChild(boolean bl) {
         this.hasClippingChild = true;
     }
 
-    @Override
     public void updateHasClippingChild() {
         if (this.children == null) {
             this.hasClippingChild = false;
@@ -695,12 +646,10 @@ IWidgetLogChannel {
         this.hasClippingChild = false;
     }
 
-    @Override
     public boolean isClipping() {
         return this.clipping;
     }
 
-    @Override
     public void resetTransformation() {
         if (!this.node.resetTransformations()) {
             logChannel3DEngine.log(10000, "WrappedNode3D#resetTransformation: Could not reset transformation in node %1", (Object)this.node.getName());
@@ -728,22 +677,18 @@ IWidgetLogChannel {
         this.storePosition();
     }
 
-    @Override
     public float getScaleX() {
         return this.scaleX;
     }
 
-    @Override
     public float getScaleY() {
         return this.scaleY;
     }
 
-    @Override
     public float getScaleZ() {
         return this.scaleZ;
     }
 
-    @Override
     public void setClippingRectangle(float f2, float f3, float f4, float f5) {
         if (this.clippingX == f2 && this.clippingY == f3 && this.clippingWidth == f4 && this.clippingHeight == f5) {
             return;
@@ -755,12 +700,10 @@ IWidgetLogChannel {
         this.updateClipping();
     }
 
-    @Override
     public void useClippingRectangle(boolean bl) {
         this.useClippingRectangle = bl;
     }
 
-    @Override
     public void dispose() {
     }
 
@@ -784,7 +727,6 @@ IWidgetLogChannel {
         return this.useClippingRectangle;
     }
 
-    @Override
     public void setClippingInheritance(int n) {
         if (this.clippingInheritanceType == n) {
             return;
@@ -793,57 +735,46 @@ IWidgetLogChannel {
         this.updateClipping();
     }
 
-    @Override
     public int getClippingInheritance() {
         return this.clippingInheritanceType;
     }
 
-    @Override
     public float getScreenClippingX() {
         return this.screenClippingX;
     }
 
-    @Override
     public float getScreenClippingY() {
         return this.screenClippingY;
     }
 
-    @Override
     public float getScreenClippingWidth() {
         return this.screenClippingWidth;
     }
 
-    @Override
     public float getScreenClippingHeight() {
         return this.screenClippingHeight;
     }
 
-    @Override
     public int getScreenHeight() {
         return this.screenHeight;
     }
 
-    @Override
     public int getScreenWidth() {
         return this.screenWidth;
     }
 
-    @Override
     public boolean isInstance() {
         return this.isInstance;
     }
 
-    @Override
     public boolean setNodeName(String string) {
         return this.node.setName(string);
     }
 
-    @Override
     public int getNodeIndex() {
         return this.nodeIndex;
     }
 
-    @Override
     public void setNodeIndex(int n) {
         if (n == this.nodeIndex) {
             return;
@@ -865,7 +796,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean invalidateObject() {
         return this.node.invalidateObject();
     }
@@ -879,22 +809,18 @@ IWidgetLogChannel {
         return buffer.toString();
     }
 
-    @Override
     public float getCurrentNodeScaleX() {
         return this.currentNodeScaleX;
     }
 
-    @Override
     public float getCurrentNodeScaleY() {
         return this.currentNodeScaleY;
     }
 
-    @Override
     public void ignoreOpacity(boolean bl) {
         this.ignoreOpacity = bl;
     }
 
-    @Override
     public void setHorizontalFlip(boolean bl) {
         if (this.flipHorizontally != bl) {
             this.flipHorizontally = bl;
@@ -902,12 +828,10 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean isHorizontallyFlipped() {
         return this.flipHorizontally;
     }
 
-    @Override
     public void setLanguageOrientation(boolean bl) {
         this.isLtr = bl;
         this.updateScaleAndTranslation();

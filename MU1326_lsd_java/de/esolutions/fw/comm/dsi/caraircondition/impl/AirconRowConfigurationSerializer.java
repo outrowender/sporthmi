@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconBCMeasuresConfigurat
 import de.esolutions.fw.comm.dsi.global.impl.CarArrayListTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconAirDistributionConfig;
 import org.dsi.ifc.caraircondition.AirconAirFlow;
 import org.dsi.ifc.caraircondition.AirconBCMeasuresConfiguration;
@@ -16,7 +17,7 @@ import org.dsi.ifc.caraircondition.AirconRowConfiguration;
 import org.dsi.ifc.global.CarArrayListTransmittableElements;
 
 public class AirconRowConfigurationSerializer {
-    public static void putOptionalAirconRowConfiguration(ISerializer iSerializer, AirconRowConfiguration airconRowConfiguration) {
+    public static void putOptionalAirconRowConfiguration(ISerializer iSerializer, AirconRowConfiguration airconRowConfiguration) throws SerializerException {
         boolean bl = airconRowConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class AirconRowConfigurationSerializer {
         }
     }
 
-    public static void putOptionalAirconRowConfigurationVarArray(ISerializer iSerializer, AirconRowConfiguration[] airconRowConfigurationArray) {
+    public static void putOptionalAirconRowConfigurationVarArray(ISerializer iSerializer, AirconRowConfiguration[] airconRowConfigurationArray) throws SerializerException {
         boolean bl = airconRowConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class AirconRowConfigurationSerializer {
         }
     }
 
-    public static AirconRowConfiguration getOptionalAirconRowConfiguration(IDeserializer iDeserializer) {
+    public static AirconRowConfiguration getOptionalAirconRowConfiguration(IDeserializer iDeserializer) throws SerializerException {
         AirconRowConfiguration airconRowConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class AirconRowConfigurationSerializer {
         return airconRowConfiguration;
     }
 
-    public static AirconRowConfiguration[] getOptionalAirconRowConfigurationVarArray(IDeserializer iDeserializer) {
+    public static AirconRowConfiguration[] getOptionalAirconRowConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconRowConfiguration[] airconRowConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

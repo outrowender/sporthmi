@@ -21,12 +21,10 @@ extends INode2D {
         return iNode2DManaged == null ? 0L : iNode2DManaged.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -38,7 +36,6 @@ extends INode2D {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -47,7 +44,6 @@ extends INode2D {
         this(ealswigJNI.new_eal_api_INode2DManaged(IProject.getCPtr(iProject), iProject, string), true);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode2DManaged_dispose(this.swigCPtr, this);
     }

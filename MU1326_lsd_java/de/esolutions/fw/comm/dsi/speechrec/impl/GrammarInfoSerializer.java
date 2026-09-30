@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.GrammarInfo;
 
 public class GrammarInfoSerializer {
-    public static void putOptionalGrammarInfo(ISerializer iSerializer, GrammarInfo grammarInfo) {
+    public static void putOptionalGrammarInfo(ISerializer iSerializer, GrammarInfo grammarInfo) throws SerializerException {
         boolean bl = grammarInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class GrammarInfoSerializer {
         }
     }
 
-    public static void putOptionalGrammarInfoVarArray(ISerializer iSerializer, GrammarInfo[] grammarInfoArray) {
+    public static void putOptionalGrammarInfoVarArray(ISerializer iSerializer, GrammarInfo[] grammarInfoArray) throws SerializerException {
         boolean bl = grammarInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class GrammarInfoSerializer {
         }
     }
 
-    public static GrammarInfo getOptionalGrammarInfo(IDeserializer iDeserializer) {
+    public static GrammarInfo getOptionalGrammarInfo(IDeserializer iDeserializer) throws SerializerException {
         GrammarInfo grammarInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class GrammarInfoSerializer {
         return grammarInfo;
     }
 
-    public static GrammarInfo[] getOptionalGrammarInfoVarArray(IDeserializer iDeserializer) {
+    public static GrammarInfo[] getOptionalGrammarInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         GrammarInfo[] grammarInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -14,6 +14,7 @@ import de.esolutions.fw.util.transport.exception.TransportPartialPacketException
 import de.esolutions.fw.util.transport.exception.TransportTimeoutException;
 import de.esolutions.fw.util.transport.packet.PacketHeader;
 import de.esolutions.fw.util.transport.socket.IByteTransport;
+import java.io.IOException;
 
 public class PacketTransport
 implements ITransport {
@@ -38,7 +39,6 @@ implements ITransport {
         this.txData = new TransportBuffer(n);
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
         this.debug = iTransportDebug;
         this.stream.setDebug(iTransportDebug);
@@ -51,8 +51,7 @@ implements ITransport {
         this.rxHeaderData = new byte[4];
     }
 
-    @Override
-    public void open() {
+    public void open() throws IOException {
         if (this.isOpen) {
             return;
         }
@@ -70,13 +69,11 @@ implements ITransport {
         this.isOpen = true;
     }
 
-    @Override
     public boolean isOpen() {
         return this.isOpen;
     }
 
-    @Override
-    public void close(boolean bl) {
+    public void close(boolean bl) throws IOException {
         if (!this.isOpen) {
             return;
         }
@@ -84,12 +81,10 @@ implements ITransport {
         this.isOpen = false;
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException, TransportException, InterruptedException {
     }
 
-    @Override
-    public void send(IWriter iWriter) {
+    public void send(IWriter iWriter) throws IOException, TransportException {
         byte[] byArray;
         int n;
         if (!this.isOpen) {
@@ -108,13 +103,11 @@ implements ITransport {
         transportBuffer.resetWindow();
     }
 
-    @Override
-    public void sendSync(IWriter iWriter) {
+    public void sendSync(IWriter iWriter) throws IOException, TransportException {
         this.send(iWriter);
     }
 
-    @Override
-    public IReadable recv() {
+    public IReadable recv() throws IOException, TransportException {
         int n;
         if (!this.isOpen) {
             throw new TransportException("Transport recv without open!");
@@ -128,7 +121,7 @@ implements ITransport {
             throw new TransportTimeoutException("No header!");
         }
         if (n < 4) {
-            throw new TransportPartialPacketException(new StringBuffer().append("Partial header: ").append(n).append(" of ").append(4).toString());
+            throw new TransportPartialPacketException("Partial header: " + n + " of " + 4);
         }
         int n2 = PacketHeader.decode(this.rxHeaderData);
         if (n2 < 0) {
@@ -139,7 +132,7 @@ implements ITransport {
             this.debug.log(System.currentTimeMillis(), 518, n2, l2);
         }
         if ((n = this.read(transportBuffer.data(), n2, l2)) < n2) {
-            throw new TransportPartialPacketException(new StringBuffer().append("Partial payload: ").append(n).append(" of ").append(n2).toString());
+            throw new TransportPartialPacketException("Partial payload: " + n + " of " + n2);
         }
         if (this.debug != null) {
             this.debug.log(System.currentTimeMillis(), 530, n2, l2);
@@ -148,7 +141,7 @@ implements ITransport {
         return transportBuffer;
     }
 
-    protected int read(byte[] byArray, int n, Object object) {
+    protected int read(byte[] byArray, int n, Object object) throws IOException, TransportException {
         if (n <= this.rxBufferAvailable) {
             System.arraycopy((Object)this.rxData.data(), this.rxBufferPos, (Object)byArray, 0, n);
             this.rxBufferAvailable -= n;
@@ -178,29 +171,24 @@ implements ITransport {
         return n - n2;
     }
 
-    @Override
     public int maxMsgSize() {
         return this.stream.getSendBufferSize() - 4;
     }
 
-    @Override
     public boolean isReliable() {
         return this.stream.isReliable();
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return this.stream.detectsPeerReset();
     }
 
-    @Override
     public boolean keepsRecordBoundaries() {
         return true;
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[Packet:").append(this.stream.getDescription()).append("]").toString();
+        return "[Packet:" + this.stream.getDescription() + "]";
     }
 }
 

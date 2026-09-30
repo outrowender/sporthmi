@@ -8,34 +8,24 @@ import org.dsi.ifc.powermanagement.ClampSignal;
 
 public interface DSIPowerManagementListener
 extends DSIListener {
-    default public void updatePowerManagementState(int n, int n2, int n3) {
-    }
+    public void updatePowerManagementState(int var1, int var2, int var3);
 
-    default public void updatePowerManagementStateRight(int n, int n2, int n3) {
-    }
+    public void updatePowerManagementStateRight(int var1, int var2, int var3);
 
-    default public void updateBEMState(int n, int n2) {
-    }
+    public void updateBEMState(int var1, int var2);
 
-    default public void updateTelMaxPopup(boolean bl, int n) {
-    }
+    public void updateTelMaxPopup(boolean var1, int var2);
 
-    default public void updateTStandbyPopup(boolean bl, int n) {
-    }
+    public void updateTStandbyPopup(boolean var1, int var2);
 
-    default public void updateClampSignal(ClampSignal clampSignal, int n) {
-    }
+    public void updateClampSignal(ClampSignal var1, int var2);
 
-    default public void updateRVCActive(boolean bl, int n) {
-    }
+    public void updateRVCActive(boolean var1, int var2);
 
-    default public void updateChildLockState(int n, int n2) {
-    }
+    public void updateChildLockState(int var1, int var2);
 
-    default public void updateLastOn(int n, int n2) {
-    }
+    public void updateLastOn(int var1, int var2);
 
-    default public void updateSplashScreenAnimation(int n, int n2) {
-    }
+    public void updateSplashScreenAnimation(int var1, int var2);
 }
 

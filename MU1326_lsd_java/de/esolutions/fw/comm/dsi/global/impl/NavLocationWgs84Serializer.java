@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 
 public class NavLocationWgs84Serializer {
-    public static void putOptionalNavLocationWgs84(ISerializer iSerializer, NavLocationWgs84 navLocationWgs84) {
+    public static void putOptionalNavLocationWgs84(ISerializer iSerializer, NavLocationWgs84 navLocationWgs84) throws SerializerException {
         boolean bl = navLocationWgs84 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NavLocationWgs84Serializer {
         }
     }
 
-    public static void putOptionalNavLocationWgs84VarArray(ISerializer iSerializer, NavLocationWgs84[] navLocationWgs84Array) {
+    public static void putOptionalNavLocationWgs84VarArray(ISerializer iSerializer, NavLocationWgs84[] navLocationWgs84Array) throws SerializerException {
         boolean bl = navLocationWgs84Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NavLocationWgs84Serializer {
         }
     }
 
-    public static NavLocationWgs84 getOptionalNavLocationWgs84(IDeserializer iDeserializer) {
+    public static NavLocationWgs84 getOptionalNavLocationWgs84(IDeserializer iDeserializer) throws SerializerException {
         NavLocationWgs84 navLocationWgs84 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NavLocationWgs84Serializer {
         return navLocationWgs84;
     }
 
-    public static NavLocationWgs84[] getOptionalNavLocationWgs84VarArray(IDeserializer iDeserializer) {
+    public static NavLocationWgs84[] getOptionalNavLocationWgs84VarArray(IDeserializer iDeserializer) throws SerializerException {
         NavLocationWgs84[] navLocationWgs84Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

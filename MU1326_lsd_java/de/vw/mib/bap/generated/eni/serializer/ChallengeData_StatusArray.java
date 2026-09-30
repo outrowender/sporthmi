@@ -14,25 +14,24 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ChallengeData_StatusArray
 implements BAPStatusArray {
     public int asg_Id;
-    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
-    private static final int ASG_ID_BITSIZE;
+    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS = 9;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE = 0;
+    private static final int ASG_ID_BITSIZE = 4;
     public int taid;
-    public static final int TAID_MIN;
-    private static final int TAID_BITSIZE;
+    public static final int TAID_MIN = 0;
+    private static final int TAID_BITSIZE = 4;
     public int totalNumListElements;
-    public static final int TOTAL_NUM_LIST_ELEMENTS_MIN;
+    public static final int TOTAL_NUM_LIST_ELEMENTS_MIN = 0;
     public int authorizationType;
-    public static final int AUTHORIZATION_TYPE_SPIN_CHALLENGE;
-    public static final int AUTHORIZATION_TYPE_UNKNOWN_DEFAULT;
+    public static final int AUTHORIZATION_TYPE_SPIN_CHALLENGE = 1;
+    public static final int AUTHORIZATION_TYPE_UNKNOWN_DEFAULT = 0;
     public int hashProcedureVersion;
-    public static final int HASH_PROCEDURE_VERSION_MIN;
+    public static final int HASH_PROCEDURE_VERSION_MIN = 0;
     public ArrayHeader arrayHeader = new ArrayHeader();
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 255;
     public BAPArrayData data = new BAPArrayData(255, this.arrayHeader);
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new ChallengeData_Data(this.getArrayHeader());
     }
@@ -55,14 +54,12 @@ implements BAPStatusArray {
         this.hashProcedureVersion = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ChallengeData_StatusArray challengeData_StatusArray = (ChallengeData_StatusArray)bAPEntity;
         return this.asg_Id == challengeData_StatusArray.asg_Id && this.taid == challengeData_StatusArray.taid && this.totalNumListElements == challengeData_StatusArray.totalNumListElements && this.authorizationType == challengeData_StatusArray.authorizationType && this.hashProcedureVersion == challengeData_StatusArray.hashProcedureVersion && this.arrayHeader.equalTo(challengeData_StatusArray.arrayHeader) && this.data.equalTo(challengeData_StatusArray.data);
@@ -71,26 +68,23 @@ implements BAPStatusArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ChallengeData_StatusArray");
-        stringBuffer.append(new StringBuffer().append("\n - asg_Id:").append(this.asg_Id).toString());
-        stringBuffer.append(new StringBuffer().append("\n - taid:").append(this.taid).toString());
-        stringBuffer.append(new StringBuffer().append("\n - totalNumListElements:").append(this.totalNumListElements).toString());
-        stringBuffer.append(new StringBuffer().append("\n - authorizationType:").append(this.authorizationType).toString());
-        stringBuffer.append(new StringBuffer().append("\n - hashProcedureVersion:").append(this.hashProcedureVersion).toString());
-        stringBuffer.append(new StringBuffer().append("\n - arrayHeader:").append(this.arrayHeader.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - data:").append(this.data.toString()).toString());
+        stringBuffer.append("\n - asg_Id:" + this.asg_Id);
+        stringBuffer.append("\n - taid:" + this.taid);
+        stringBuffer.append("\n - totalNumListElements:" + this.totalNumListElements);
+        stringBuffer.append("\n - authorizationType:" + this.authorizationType);
+        stringBuffer.append("\n - hashProcedureVersion:" + this.hashProcedureVersion);
+        stringBuffer.append("\n - arrayHeader:" + this.arrayHeader.toString());
+        stringBuffer.append("\n - data:" + this.data.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
@@ -101,7 +95,6 @@ implements BAPStatusArray {
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -122,67 +115,54 @@ implements BAPStatusArray {
         return 30;
     }
 
-    @Override
     public int getFunctionId() {
         return ChallengeData_StatusArray.functionId();
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }
 
-    @Override
     public boolean isBroadcast() {
         return this.asg_Id >>> 3 == 1;
     }
 
-    @Override
     public void setBroadcast(boolean bl) {
         this.asg_Id = bl ? this.asg_Id | 8 : this.asg_Id & 7;
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.totalNumListElements;
     }
 
-    @Override
     public void setNumberOfElements(int n) {
         this.totalNumListElements = n;
     }

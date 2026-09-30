@@ -39,7 +39,6 @@ implements Comparable {
         return this.arrayOffset;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             throw new NullPointerException("ob is null");
@@ -82,8 +81,7 @@ implements Comparable {
         return object instanceof IntBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract int get() {
-    }
+    public abstract int get();
 
     public IntBuffer get(int[] nArray) {
         if (nArray == null) {
@@ -118,8 +116,7 @@ implements Comparable {
         return this;
     }
 
-    public abstract int get(int n) {
-    }
+    public abstract int get(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -141,11 +138,9 @@ implements Comparable {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract IntBuffer put(int n) {
-    }
+    public abstract IntBuffer put(int var1);
 
     public final IntBuffer put(int[] nArray) {
         if (nArray == null) {
@@ -191,14 +186,12 @@ implements Comparable {
         return this.put(nArray);
     }
 
-    public abstract IntBuffer put(int n, int n2) {
-    }
+    public abstract IntBuffer put(int var1, int var2);
 
-    public abstract IntBuffer slice() {
-    }
+    public abstract IntBuffer slice();
 
     public String toString() {
-        return new StringBuffer("java.nio.IntBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.IntBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static IntBuffer wrap(int[] nArray) {
@@ -221,7 +214,6 @@ implements Comparable {
         return new IntBufferImpl(nArray, n, n2, nArray.length, 0);
     }
 
-    public abstract ByteOrder order() {
-    }
+    public abstract ByteOrder order();
 }
 

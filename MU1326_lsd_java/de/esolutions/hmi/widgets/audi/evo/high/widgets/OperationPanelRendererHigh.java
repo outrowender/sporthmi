@@ -31,9 +31,9 @@ extends AbstractRendererHigh {
     private boolean resourcesLoaded = false;
     private int cursorposition = 0;
     boolean spellerAvailable = false;
-    private static final int TUNER_MODE_EPG;
-    private static final int KEY_ID_SPELLER;
-    private static final int KEY_ID_TO_IMAGE_OFFSET;
+    private static final int TUNER_MODE_EPG = 13;
+    private static final int KEY_ID_SPELLER = 11;
+    private static final int KEY_ID_TO_IMAGE_OFFSET = 12;
     private List keyIdImageMapping = Arrays.asList(new Object[]{new Integer(1), new Integer(2), new Integer(3), new Integer(4), new Integer(5), new Integer(6), new Integer(7), new Integer(8), new Integer(9), new Integer(10)});
     private List spellerImageMapping = Arrays.asList(new Object[]{new Integer(20), new Integer(21), new Integer(22), new Integer(23), new Integer(24), new Integer(25), new Integer(26), new Integer(27), new Integer(28), new Integer(29)});
     private List additionalKeysImageMapping = Arrays.asList(new Object[]{new Integer(32), new Integer(33), new Integer(36), new Integer(38)});
@@ -80,7 +80,7 @@ extends AbstractRendererHigh {
         if (this.keys == null) {
             this.keys = new IWrappedNode3DImage[50];
             n2 = this.controller.getPanelKeys().size();
-            logOperationalPanel.log(-2137614336, "OperationPanelRendererHigh#createNodes panel keys: %1: ", (Object)this.controller.getPanelKeys());
+            logOperationalPanel.log(10000000, "OperationPanelRendererHigh#createNodes panel keys: %1: ", (Object)this.controller.getPanelKeys());
             for (n = 0; n < n2; ++n) {
                 Object object = this.controller.getPanelKeys().get(n);
                 int n4 = (Integer)object;
@@ -116,7 +116,7 @@ extends AbstractRendererHigh {
                     iWrappedNode3DImage = this.getEALManager().createImage3D(this.rootNode, EALManager.createNodeName(string, this), this.getTextureDescription(n6, true), 0, true, (Object)this);
                 }
                 if (iWrappedNode3DImage == null) {
-                    logOperationalPanel.log(-1601830656, "OperationPanelRendererHigh#createNodes keyNode for key %1 could not created", (Object)string);
+                    logOperationalPanel.log(100000, "OperationPanelRendererHigh#createNodes keyNode for key %1 could not created", (Object)string);
                     continue;
                 }
                 this.keys[n3] = iWrappedNode3DImage;
@@ -125,7 +125,7 @@ extends AbstractRendererHigh {
             this.controller.setRenderedKeys(n3 - 1);
         }
         if (this.background != null) {
-            logOperationalPanel.log(-2137614336, "OperationPanelRendererHigh#createNodes background ");
+            logOperationalPanel.log(10000000, "OperationPanelRendererHigh#createNodes background ");
             n2 = this.controller.getIndexBackgroundImages();
             this.createImage3D(n2, -1);
             for (n = 0; n < n3 - 1; ++n) {
@@ -144,14 +144,13 @@ extends AbstractRendererHigh {
     private IWrappedNode3DImage createImage3D(int n, int n2) {
         TextureDescription textureDescription = this.getTextureDescription(n, true);
         if (textureDescription == null) {
-            logOperationalPanel.log(-1601830656, "OperationPanelRendererHigh#createImage3D background image is missing ");
+            logOperationalPanel.log(100000, "OperationPanelRendererHigh#createImage3D background image is missing ");
             return null;
         }
         IWrappedNode3DImage iWrappedNode3DImage = this.getEALManager().createImage3D(this.background, EALManager.createNodeName("OperationPanelBackground", n2, (AbstractRenderer)this), textureDescription, 0, true, (Object)this);
         return iWrappedNode3DImage;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         if (!this.resourcesLoaded) {
@@ -167,7 +166,6 @@ extends AbstractRendererHigh {
         this.updateCursorPosition();
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
     }
@@ -175,7 +173,7 @@ extends AbstractRendererHigh {
     private void updateCursorPosition() {
         int n = 5;
         this.cursorposition = this.controller.getCursorposition();
-        logOperationalPanel.log(-2137614336, "OperationPanelRendererHigh#updateCursorPosition cursorPos: %1", (long)this.cursorposition);
+        logOperationalPanel.log(10000000, "OperationPanelRendererHigh#updateCursorPosition cursorPos: %1", (long)this.cursorposition);
         if (this.keys == null) {
             return;
         }
@@ -200,7 +198,7 @@ extends AbstractRendererHigh {
             this.background.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
             List list = this.background.getWrappedChildren();
             if (list != null) {
-                logOperationalPanel.log(-2137614336, "OperationPanelRendererHigh#doLayout childrensize: %1", (long)list.size());
+                logOperationalPanel.log(10000000, "OperationPanelRendererHigh#doLayout childrensize: %1", (long)list.size());
                 for (n2 = 0; n2 < list.size(); ++n2) {
                     IWrappedNode3D iWrappedNode3D = (IWrappedNode3D)list.get(n2);
                     if (n2 != 0) {
@@ -244,12 +242,10 @@ extends AbstractRendererHigh {
         return n5 + this.controller.getX();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         this.resourcesLoaded = false;
         if (this.keys != null) {

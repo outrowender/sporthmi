@@ -3,42 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.upnp;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.upnp.DeviceInfo;
 import org.dsi.ifc.upnp.EntryInfo;
 import org.dsi.ifc.upnp.PlaybackMode;
 
 public interface DSIUPNPPlayerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "b2460ea2-323f-538a-8290-4872acffc102";
+    public static final String IPL_COMM_INTERFACE_KEY = "d60ab136-6c8a-5316-86b9-edfdbaa8b238";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void updatePlaybackModeList(String string, PlaybackMode[] playbackModeArray, int n) {
-    }
+    public void updatePlaybackModeList(String var1, PlaybackMode[] var2, int var3) throws MethodException;
 
-    default public void updatePlaybackMode(String string, int n, int n2) {
-    }
+    public void updatePlaybackMode(String var1, int var2, int var3) throws MethodException;
 
-    default public void updatePlaybackState(String string, int n, int n2) {
-    }
+    public void updatePlaybackState(String var1, int var2, int var3) throws MethodException;
 
-    default public void updatePlayPosition(String string, String string2, int n, int n2, int n3) {
-    }
+    public void updatePlayPosition(String var1, String var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void updateDetailInfo(String string, EntryInfo entryInfo, ResourceLocator resourceLocator, int n) {
-    }
+    public void updateDetailInfo(String var1, EntryInfo var2, ResourceLocator var3, int var4) throws MethodException;
 
-    default public void updateDeviceList(DeviceInfo[] deviceInfoArray, int n) {
-    }
+    public void updateDeviceList(DeviceInfo[] var1, int var2) throws MethodException;
 
-    default public void updateVolume(String string, int n, int n2) {
-    }
+    public void updateVolume(String var1, int var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

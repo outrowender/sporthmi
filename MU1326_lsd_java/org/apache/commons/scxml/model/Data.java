@@ -11,7 +11,7 @@ import org.w3c.dom.Node;
 public class Data
 implements NamespacePrefixesHolder,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String id = null;
     private String src = null;
     private String expr = null;
@@ -58,12 +58,10 @@ Serializable {
         this.node = node;
     }
 
-    @Override
     public final Map getNamespaces() {
         return this.namespaces;
     }
 
-    @Override
     public final void setNamespaces(Map map) {
         this.namespaces = map;
     }

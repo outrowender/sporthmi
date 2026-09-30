@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eRoutineAction
 extends IEnum {
-    public static final int ROUTINE_START;
-    public static final int ROUTINE_STOP;
-    public static final int ROUTINE_RESULTS;
+    public static final int ROUTINE_START = 1;
+    public static final int ROUTINE_STOP = 2;
+    public static final int ROUTINE_RESULTS = 3;
 }
 

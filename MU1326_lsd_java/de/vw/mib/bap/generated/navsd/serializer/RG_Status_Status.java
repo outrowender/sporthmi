@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class RG_Status_Status
 implements StatusProperty {
     public int rg_Status;
-    private static final int RG_STATUS_BITSIZE;
-    public static final int RG_STATUS_RG_NOT_ACTIVE;
-    public static final int RG_STATUS_RG_ACTIVE;
-    public static final int RG_STATUS_RG_SUSPENDED_DF4_1;
-    public static final int RG_STATUS_NOT_SUPPORTED;
+    private static final int RG_STATUS_BITSIZE = 8;
+    public static final int RG_STATUS_RG_NOT_ACTIVE = 0;
+    public static final int RG_STATUS_RG_ACTIVE = 1;
+    public static final int RG_STATUS_RG_SUSPENDED_DF4_1 = 2;
+    public static final int RG_STATUS_NOT_SUPPORTED = 255;
 
     public RG_Status_Status() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StatusProperty {
         this.rg_Status = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RG_Status_Status rG_Status_Status = (RG_Status_Status)bAPEntity;
         return this.rg_Status == rG_Status_Status.rg_Status;
@@ -44,7 +42,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RG_Status_Status:");
@@ -73,18 +70,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.rg_Status);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.rg_Status = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements StatusProperty {
         return 17;
     }
 
-    @Override
     public int getFunctionId() {
         return RG_Status_Status.functionId();
     }

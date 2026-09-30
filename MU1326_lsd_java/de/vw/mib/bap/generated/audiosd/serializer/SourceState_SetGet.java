@@ -10,26 +10,26 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SourceState_SetGet
 implements SetGetProperty {
     public int stateInfo;
-    private static final int STATE_INFO_BITSIZE;
-    public static final int STATE_INFO_UNKNOWN_OFF;
-    public static final int STATE_INFO_SCAN;
-    public static final int STATE_INFO_MIX;
-    public static final int STATE_INFO_REPEAT;
-    public static final int STATE_INFO_REPEAT_MIX;
-    public static final int STATE_INFO_MANUAL_TUNING;
-    public static final int STATE_INFO_SEEK;
-    public static final int STATE_INFO_PLAY_MORE_LIKE_THIS;
+    private static final int STATE_INFO_BITSIZE = 8;
+    public static final int STATE_INFO_UNKNOWN_OFF = 0;
+    public static final int STATE_INFO_SCAN = 1;
+    public static final int STATE_INFO_MIX = 2;
+    public static final int STATE_INFO_REPEAT = 3;
+    public static final int STATE_INFO_REPEAT_MIX = 4;
+    public static final int STATE_INFO_MANUAL_TUNING = 5;
+    public static final int STATE_INFO_SEEK = 6;
+    public static final int STATE_INFO_PLAY_MORE_LIKE_THIS = 7;
     public int stateInfo_Scope;
-    private static final int STATE_INFO_SCOPE_BITSIZE;
-    public static final int STATE_INFO_SCOPE_UNKNOWN_SCOPE_ANY_SCOPE;
-    public static final int STATE_INFO_SCOPE_FILE_TRACK;
-    public static final int STATE_INFO_SCOPE_DEVICE;
-    public static final int STATE_INFO_SCOPE_MEDIUM;
-    public static final int STATE_INFO_SCOPE_DIRECTORY_WITHOUT_SUBDIRECTORIES;
-    public static final int STATE_INFO_SCOPE_DIRECTORY_WITH_SUBDIRECTORIES;
-    public static final int STATE_INFO_SCOPE_ALL_DIRECTORIES_ALL_FOLDERS;
-    public static final int STATE_INFO_SCOPE_PLAYLIST;
-    public static final int STATE_INFO_SCOPE_ALL_PLAYLISTS;
+    private static final int STATE_INFO_SCOPE_BITSIZE = 8;
+    public static final int STATE_INFO_SCOPE_UNKNOWN_SCOPE_ANY_SCOPE = 0;
+    public static final int STATE_INFO_SCOPE_FILE_TRACK = 1;
+    public static final int STATE_INFO_SCOPE_DEVICE = 2;
+    public static final int STATE_INFO_SCOPE_MEDIUM = 3;
+    public static final int STATE_INFO_SCOPE_DIRECTORY_WITHOUT_SUBDIRECTORIES = 4;
+    public static final int STATE_INFO_SCOPE_DIRECTORY_WITH_SUBDIRECTORIES = 5;
+    public static final int STATE_INFO_SCOPE_ALL_DIRECTORIES_ALL_FOLDERS = 6;
+    public static final int STATE_INFO_SCOPE_PLAYLIST = 7;
+    public static final int STATE_INFO_SCOPE_ALL_PLAYLISTS = 8;
 
     public SourceState_SetGet() {
         this.internalReset();
@@ -46,12 +46,10 @@ implements SetGetProperty {
         this.stateInfo_Scope = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SourceState_SetGet sourceState_SetGet = (SourceState_SetGet)bAPEntity;
         return this.stateInfo == sourceState_SetGet.stateInfo && this.stateInfo_Scope == sourceState_SetGet.stateInfo_Scope;
@@ -60,7 +58,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SourceState_SetGet:");
@@ -147,20 +144,17 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.stateInfo);
         bitStream.pushByte((byte)this.stateInfo_Scope);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.stateInfo = bitStream.popFrontByte();
         this.stateInfo_Scope = bitStream.popFrontByte();
@@ -170,7 +164,6 @@ implements SetGetProperty {
         return 20;
     }
 
-    @Override
     public int getFunctionId() {
         return SourceState_SetGet.functionId();
     }

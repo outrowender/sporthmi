@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.navigation.ncfs.sBoundingBox;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sTileInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTileInfoSerializer {
-    public static void putOptionalsTileInfo(ISerializer iSerializer, sTileInfo sTileInfo2) {
+    public static void putOptionalsTileInfo(ISerializer iSerializer, sTileInfo sTileInfo2) throws SerializerException {
         boolean bl = sTileInfo2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sTileInfoSerializer {
         }
     }
 
-    public static void putOptionalsTileInfoVarArray(ISerializer iSerializer, sTileInfo[] sTileInfoArray) {
+    public static void putOptionalsTileInfoVarArray(ISerializer iSerializer, sTileInfo[] sTileInfoArray) throws SerializerException {
         boolean bl = sTileInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sTileInfoSerializer {
         }
     }
 
-    public static sTileInfo getOptionalsTileInfo(IDeserializer iDeserializer) {
+    public static sTileInfo getOptionalsTileInfo(IDeserializer iDeserializer) throws SerializerException {
         sTileInfo sTileInfo2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class sTileInfoSerializer {
         return sTileInfo2;
     }
 
-    public static sTileInfo[] getOptionalsTileInfoVarArray(IDeserializer iDeserializer) {
+    public static sTileInfo[] getOptionalsTileInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTileInfo[] sTileInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

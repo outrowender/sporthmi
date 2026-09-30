@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radiodata.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radiodata.CountryRegionData;
 
 public class CountryRegionDataSerializer {
-    public static void putOptionalCountryRegionData(ISerializer iSerializer, CountryRegionData countryRegionData) {
+    public static void putOptionalCountryRegionData(ISerializer iSerializer, CountryRegionData countryRegionData) throws SerializerException {
         boolean bl = countryRegionData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class CountryRegionDataSerializer {
         }
     }
 
-    public static void putOptionalCountryRegionDataVarArray(ISerializer iSerializer, CountryRegionData[] countryRegionDataArray) {
+    public static void putOptionalCountryRegionDataVarArray(ISerializer iSerializer, CountryRegionData[] countryRegionDataArray) throws SerializerException {
         boolean bl = countryRegionDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class CountryRegionDataSerializer {
         }
     }
 
-    public static CountryRegionData getOptionalCountryRegionData(IDeserializer iDeserializer) {
+    public static CountryRegionData getOptionalCountryRegionData(IDeserializer iDeserializer) throws SerializerException {
         CountryRegionData countryRegionData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -127,7 +128,7 @@ public class CountryRegionDataSerializer {
         return countryRegionData;
     }
 
-    public static CountryRegionData[] getOptionalCountryRegionDataVarArray(IDeserializer iDeserializer) {
+    public static CountryRegionData[] getOptionalCountryRegionDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         CountryRegionData[] countryRegionDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

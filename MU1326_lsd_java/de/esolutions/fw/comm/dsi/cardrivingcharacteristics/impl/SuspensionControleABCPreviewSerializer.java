@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControleABCPreview;
 
 public class SuspensionControleABCPreviewSerializer {
-    public static void putOptionalSuspensionControleABCPreview(ISerializer iSerializer, SuspensionControleABCPreview suspensionControleABCPreview) {
+    public static void putOptionalSuspensionControleABCPreview(ISerializer iSerializer, SuspensionControleABCPreview suspensionControleABCPreview) throws SerializerException {
         boolean bl = suspensionControleABCPreview == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SuspensionControleABCPreviewSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControleABCPreviewVarArray(ISerializer iSerializer, SuspensionControleABCPreview[] suspensionControleABCPreviewArray) {
+    public static void putOptionalSuspensionControleABCPreviewVarArray(ISerializer iSerializer, SuspensionControleABCPreview[] suspensionControleABCPreviewArray) throws SerializerException {
         boolean bl = suspensionControleABCPreviewArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SuspensionControleABCPreviewSerializer {
         }
     }
 
-    public static SuspensionControleABCPreview getOptionalSuspensionControleABCPreview(IDeserializer iDeserializer) {
+    public static SuspensionControleABCPreview getOptionalSuspensionControleABCPreview(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControleABCPreview suspensionControleABCPreview = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SuspensionControleABCPreviewSerializer {
         return suspensionControleABCPreview;
     }
 
-    public static SuspensionControleABCPreview[] getOptionalSuspensionControleABCPreviewVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControleABCPreview[] getOptionalSuspensionControleABCPreviewVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControleABCPreview[] suspensionControleABCPreviewArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.ListWarningIDsDynValues;
 
 public class ListWarningIDsDynValuesSerializer {
-    public static void putOptionalListWarningIDsDynValues(ISerializer iSerializer, ListWarningIDsDynValues listWarningIDsDynValues) {
+    public static void putOptionalListWarningIDsDynValues(ISerializer iSerializer, ListWarningIDsDynValues listWarningIDsDynValues) throws SerializerException {
         boolean bl = listWarningIDsDynValues == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ListWarningIDsDynValuesSerializer {
         }
     }
 
-    public static void putOptionalListWarningIDsDynValuesVarArray(ISerializer iSerializer, ListWarningIDsDynValues[] listWarningIDsDynValuesArray) {
+    public static void putOptionalListWarningIDsDynValuesVarArray(ISerializer iSerializer, ListWarningIDsDynValues[] listWarningIDsDynValuesArray) throws SerializerException {
         boolean bl = listWarningIDsDynValuesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ListWarningIDsDynValuesSerializer {
         }
     }
 
-    public static ListWarningIDsDynValues getOptionalListWarningIDsDynValues(IDeserializer iDeserializer) {
+    public static ListWarningIDsDynValues getOptionalListWarningIDsDynValues(IDeserializer iDeserializer) throws SerializerException {
         ListWarningIDsDynValues listWarningIDsDynValues = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ListWarningIDsDynValuesSerializer {
         return listWarningIDsDynValues;
     }
 
-    public static ListWarningIDsDynValues[] getOptionalListWarningIDsDynValuesVarArray(IDeserializer iDeserializer) {
+    public static ListWarningIDsDynValues[] getOptionalListWarningIDsDynValuesVarArray(IDeserializer iDeserializer) throws SerializerException {
         ListWarningIDsDynValues[] listWarningIDsDynValuesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

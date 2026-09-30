@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKSpeedLimitAvailability;
 
 public class RDKSpeedLimitAvailabilitySerializer {
-    public static void putOptionalRDKSpeedLimitAvailability(ISerializer iSerializer, RDKSpeedLimitAvailability rDKSpeedLimitAvailability) {
+    public static void putOptionalRDKSpeedLimitAvailability(ISerializer iSerializer, RDKSpeedLimitAvailability rDKSpeedLimitAvailability) throws SerializerException {
         boolean bl = rDKSpeedLimitAvailability == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RDKSpeedLimitAvailabilitySerializer {
         }
     }
 
-    public static void putOptionalRDKSpeedLimitAvailabilityVarArray(ISerializer iSerializer, RDKSpeedLimitAvailability[] rDKSpeedLimitAvailabilityArray) {
+    public static void putOptionalRDKSpeedLimitAvailabilityVarArray(ISerializer iSerializer, RDKSpeedLimitAvailability[] rDKSpeedLimitAvailabilityArray) throws SerializerException {
         boolean bl = rDKSpeedLimitAvailabilityArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RDKSpeedLimitAvailabilitySerializer {
         }
     }
 
-    public static RDKSpeedLimitAvailability getOptionalRDKSpeedLimitAvailability(IDeserializer iDeserializer) {
+    public static RDKSpeedLimitAvailability getOptionalRDKSpeedLimitAvailability(IDeserializer iDeserializer) throws SerializerException {
         RDKSpeedLimitAvailability rDKSpeedLimitAvailability = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RDKSpeedLimitAvailabilitySerializer {
         return rDKSpeedLimitAvailability;
     }
 
-    public static RDKSpeedLimitAvailability[] getOptionalRDKSpeedLimitAvailabilityVarArray(IDeserializer iDeserializer) {
+    public static RDKSpeedLimitAvailability[] getOptionalRDKSpeedLimitAvailabilityVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKSpeedLimitAvailability[] rDKSpeedLimitAvailabilityArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

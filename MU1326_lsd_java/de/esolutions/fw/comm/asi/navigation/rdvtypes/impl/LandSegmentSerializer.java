@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.asi.navigation.rdvtypes.impl.BlankZoneInfoSerialize
 import de.esolutions.fw.comm.asi.navigation.rdvtypes.impl.RangeZoneInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class LandSegmentSerializer {
-    public static void putOptionalLandSegment(ISerializer iSerializer, LandSegment landSegment) {
+    public static void putOptionalLandSegment(ISerializer iSerializer, LandSegment landSegment) throws SerializerException {
         boolean bl = landSegment == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class LandSegmentSerializer {
         }
     }
 
-    public static void putOptionalLandSegmentVarArray(ISerializer iSerializer, LandSegment[] landSegmentArray) {
+    public static void putOptionalLandSegmentVarArray(ISerializer iSerializer, LandSegment[] landSegmentArray) throws SerializerException {
         boolean bl = landSegmentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class LandSegmentSerializer {
         }
     }
 
-    public static LandSegment getOptionalLandSegment(IDeserializer iDeserializer) {
+    public static LandSegment getOptionalLandSegment(IDeserializer iDeserializer) throws SerializerException {
         LandSegment landSegment = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class LandSegmentSerializer {
         return landSegment;
     }
 
-    public static LandSegment[] getOptionalLandSegmentVarArray(IDeserializer iDeserializer) {
+    public static LandSegment[] getOptionalLandSegmentVarArray(IDeserializer iDeserializer) throws SerializerException {
         LandSegment[] landSegmentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

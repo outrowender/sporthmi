@@ -4,23 +4,23 @@
 package de.esolutions.fw.util.tracing;
 
 public class TraceMessageTypes {
-    public static final short STRING_OLD;
-    public static final short STRING_UTF8;
-    public static final short PROBE;
-    public static final short COMM;
-    public static final short MLP;
-    public static final short APP;
-    public static final short CKCM;
-    public static final short BT_HCI;
-    public static final short TPEG;
-    public static final short ANNOTATION;
-    public static final short AISIN_NAVPOS;
-    public static final short ESOPOSPROVIDER;
-    public static final short FPK_PROFILE_CHANNEL;
-    public static final short USER;
-    public static final short VW;
-    public static final short[] ALL_MESSAGE_TYPES;
-    public static final String[] MESSAGE_TYPE_NAMES;
+    public static final short STRING_OLD = 0;
+    public static final short STRING_UTF8 = 1;
+    public static final short PROBE = 2;
+    public static final short COMM = 3;
+    public static final short MLP = 4;
+    public static final short APP = 128;
+    public static final short CKCM = 128;
+    public static final short BT_HCI = 129;
+    public static final short TPEG = 130;
+    public static final short ANNOTATION = 131;
+    public static final short AISIN_NAVPOS = 132;
+    public static final short ESOPOSPROVIDER = 133;
+    public static final short FPK_PROFILE_CHANNEL = 134;
+    public static final short USER = 256;
+    public static final short VW = 22103;
+    public static final short[] ALL_MESSAGE_TYPES = new short[]{0, 1, 2, 3, 4, 128, 129, 130, 131, 132, 133, 134, 22103};
+    public static final String[] MESSAGE_TYPE_NAMES = new String[]{"STRING_OLD", "STRING_UTF8", "PROBE", "COMM", "MLP", "CKCM", "BT_HCI", "TPEG", "ANNOTATION", "AISIN_NAVPOS", "ESOPOSPROVIDER", "FPK_PROFILE_CHANNEL", "VW"};
 
     public static String getName(short s) {
         switch (s) {
@@ -65,11 +65,6 @@ public class TraceMessageTypes {
             }
         }
         return null;
-    }
-
-    static {
-        ALL_MESSAGE_TYPES = new short[]{0, 1, 2, 3, 4, 128, 129, 130, 131, 132, 133, 134, 22103};
-        MESSAGE_TYPE_NAMES = new String[]{"STRING_OLD", "STRING_UTF8", "PROBE", "COMM", "MLP", "CKCM", "BT_HCI", "TPEG", "ANNOTATION", "AISIN_NAVPOS", "ESOPOSPROVIDER", "FPK_PROFILE_CHANNEL", "VW"};
     }
 }
 

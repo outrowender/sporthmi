@@ -35,20 +35,20 @@ import java.util.Date;
 public class RouteBriefingMenuItemController
 extends MenuItemController
 implements RouteSelectionConstants {
-    private static final int TABULATOR;
-    private static final int HEIGHT;
-    private static final int HEIGHT_NO_TRAFFIC;
-    private static final int WIDTH;
-    private static final int HEIGHT_ASIA;
-    private static final int HEIGHT_ASIA_NO_TRAFFIC;
-    private static final String DEFAULT_TEXT;
-    private static final int BITMAP_INDEX_ICON_ROUTE1;
-    private static final int BITMAP_INDEX_ICON_ROUTE2;
-    private static final int BITMAP_INDEX_ICON_ROUTE3;
-    private static final int BITMAP_INDEX_ICON_TRAFFIC;
-    private static final int BITMAP_INDEX_ICON_CLOSED_ROAD;
-    private static final int BITMAP_INDEX_ICON_TRAFFIC_NAR;
-    private static final int BITMAP_INDEX_ICON_CLOSED_ROAD_NAR;
+    private static final int TABULATOR = 111;
+    private static final int HEIGHT = 98;
+    private static final int HEIGHT_NO_TRAFFIC = 68;
+    private static final int WIDTH = 204;
+    private static final int HEIGHT_ASIA = 128;
+    private static final int HEIGHT_ASIA_NO_TRAFFIC = 98;
+    private static final String DEFAULT_TEXT = "--:--";
+    private static final int BITMAP_INDEX_ICON_ROUTE1 = 0;
+    private static final int BITMAP_INDEX_ICON_ROUTE2 = 1;
+    private static final int BITMAP_INDEX_ICON_ROUTE3 = 2;
+    private static final int BITMAP_INDEX_ICON_TRAFFIC = 3;
+    private static final int BITMAP_INDEX_ICON_CLOSED_ROAD = 4;
+    private static final int BITMAP_INDEX_ICON_TRAFFIC_NAR = 5;
+    private static final int BITMAP_INDEX_ICON_CLOSED_ROAD_NAR = 6;
     Distance dta;
     DateMetric eta;
     DateMetric trafficOffset;
@@ -64,7 +64,6 @@ implements RouteSelectionConstants {
     private ListCell[] listCells = null;
     private int trafficState = 0;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof WaitAnimController) {
             this.updatingIcon = (WaitAnimController)abstractWidget;
@@ -77,7 +76,6 @@ implements RouteSelectionConstants {
         super.add(abstractWidget);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (!this.isSetUp) {
@@ -151,7 +149,6 @@ implements RouteSelectionConstants {
         return RouteBriefingMenuItemController.isAsia();
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (this.model != null && this.hasState(36) && keyEvent.getKeyCode() == 17) {
             ((ListModelGUI)this.model).itemSelected(RouteBriefingMenuItemController.mapSelectionNumberToRowIndex(this.selectionNumber), 0, this.terminal.getTerminalID());
@@ -159,15 +156,12 @@ implements RouteSelectionConstants {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
     }
 
@@ -175,9 +169,8 @@ implements RouteSelectionConstants {
         return n - 1;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
+        sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
         switch (modelUpdateEvent.getUpdateType()) {
             case 1: 
             case 8: 
@@ -200,19 +193,17 @@ implements RouteSelectionConstants {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void setFocused(boolean bl) {
         super.setFocused(bl);
-        menuItemLogCh.log(-2137614336, "RouteBriefingMenuItem#setFocused on index = %2. Focused = %1", bl, (long)RouteBriefingMenuItemController.mapSelectionNumberToRowIndex(this.selectionNumber));
+        menuItemLogCh.log(10000000, "RouteBriefingMenuItem#setFocused on index = %2. Focused = %1", bl, (long)RouteBriefingMenuItemController.mapSelectionNumberToRowIndex(this.selectionNumber));
         if (bl && this.model != null && this.hasState(36)) {
             ((ListModelGUI)this.model).itemFocused(RouteBriefingMenuItemController.mapSelectionNumberToRowIndex(this.selectionNumber), 0, this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public void setOpacity(float f2) {
         super.setOpacity(f2);
-        f2 = !this.isFocused() ? (float)-842249153 : 1.0f;
+        f2 = !this.isFocused() ? 0.8f : 1.0f;
         if (this.isSetUp) {
             this.iconRoute.setOpacity(f2);
             this.iconTraffic.setOpacity(f2);
@@ -264,17 +255,17 @@ implements RouteSelectionConstants {
         int[] nArray = this.getBitmapIndices();
         IWrappedFont[] iWrappedFontArray = ((CompositeRendererHigh)this.getRenderer()).getFonts();
         if (iWrappedFontArray == null) {
-            sideBarLogChannel.log(-1601830656, "RouteBriefingMenuItem#setupWidgetsAndLayout No fonts have been set.");
+            sideBarLogChannel.log(100000, "RouteBriefingMenuItem#setupWidgetsAndLayout No fonts have been set.");
         }
         if (nArray == null) {
-            sideBarLogChannel.log(-1601830656, "RouteBriefingMenuItem#setupWidgetsAndLayout No bitmaps have been set.");
+            sideBarLogChannel.log(100000, "RouteBriefingMenuItem#setupWidgetsAndLayout No bitmaps have been set.");
         }
         int n = this.isAsiaWrap() ? 30 : 0;
         this.iconRoute = RouteBriefingMenuItemController.createIcon(nArray, new int[]{this.getRouteImageIndex()}, 10, 14, 0, 0);
         this.iconTraffic = RouteBriefingMenuItemController.createIcon(nArray, new int[]{3, 4, 5, 6}, 10, n + 63, 0, 0);
-        this.labelETA = RouteBriefingMenuItemController.createLabelWithTextDescriptorRenderer("--:--", 45, n + 40, 155, 100);
-        this.labelDTA = RouteBriefingMenuItemController.createLabelWithTextDescriptorRenderer("--:--", 45, n + 10, 155, 100);
-        this.labelTraffic = RouteBriefingMenuItemController.createLabelWithTextDescriptorRenderer("--:--", 45, n + 70, 155, 100);
+        this.labelETA = RouteBriefingMenuItemController.createLabelWithTextDescriptorRenderer(DEFAULT_TEXT, 45, n + 40, 155, 100);
+        this.labelDTA = RouteBriefingMenuItemController.createLabelWithTextDescriptorRenderer(DEFAULT_TEXT, 45, n + 10, 155, 100);
+        this.labelTraffic = RouteBriefingMenuItemController.createLabelWithTextDescriptorRenderer(DEFAULT_TEXT, 45, n + 70, 155, 100);
         this.labelTraffic.setVisible(false);
         this.labelDTA.setModel(this.dta);
         this.labelETA.setModel(this.eta);
@@ -297,7 +288,7 @@ implements RouteSelectionConstants {
     }
 
     private void updateContent() {
-        sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#updateContent");
+        sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#updateContent");
         if (this.model != null && this.isSetUp) {
             if (this.listCells == null) {
                 this.listCells = new ListCell[((ListModelGUI)this.model).getMaxColumns()];
@@ -312,16 +303,16 @@ implements RouteSelectionConstants {
                 }
                 if (this.updatingIcon != null) {
                     this.updatingIcon.setVisible(bl);
-                    sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#updateContent Updating-Icon visible = %1", bl);
+                    sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#updateContent Updating-Icon visible = %1", bl);
                 }
                 this.eta.setDate(l);
-                this.dta.setValue((float)n / 31300);
-                sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#updateContent ETA = %1, DTA = %2", (Object)this.eta.getFormattedValue(), (Object)this.dta.getFormattedValue());
+                this.dta.setValue((float)n / 1000.0f);
+                sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#updateContent ETA = %1, DTA = %2", (Object)this.eta.getFormattedValue(), (Object)this.dta.getFormattedValue());
                 this.labelDTA.updateContent();
                 this.labelETA.updateContent();
                 int n2 = ((IntegerListCell)this.listCells[5]).getValue();
                 this.setWithTraffic(n2);
-                sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#updateContent Traffic available = %1", (long)n2);
+                sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#updateContent Traffic available = %1", (long)n2);
                 if (this.trafficState != 0) {
                     ListCell listCell2 = this.listCells[6];
                     if (listCell2 != null) {
@@ -357,7 +348,7 @@ implements RouteSelectionConstants {
                             this.labelRouteTag.setModel(new Integer(n3));
                             this.labelRouteTag.updateContent();
                             bl3 = true;
-                            sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#updateContent Current tag is: %1.", (long)n3);
+                            sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#updateContent Current tag is: %1.", (long)n3);
                         } else {
                             sideBarLogChannel.log(10000, "RouteBriefingMenuItemController#updateContent Data type of list cell for route tag is not integer (but %1)", (Object)listCell3);
                         }
@@ -367,7 +358,7 @@ implements RouteSelectionConstants {
                     this.labelRouteTag.setOnScreen(bl3);
                 }
             } else {
-                sideBarLogChannel.log(-2137614336, "RouteBriefingMenuItemController#updateValue couldn't get row: %1", (long)RouteBriefingMenuItemController.mapSelectionNumberToRowIndex(this.selectionNumber));
+                sideBarLogChannel.log(10000000, "RouteBriefingMenuItemController#updateValue couldn't get row: %1", (long)RouteBriefingMenuItemController.mapSelectionNumberToRowIndex(this.selectionNumber));
             }
         }
     }

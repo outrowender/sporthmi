@@ -8,19 +8,14 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D;
 
 public interface IWrappedNode3DQuickDraw
 extends IWrappedNode3D {
-    default public INode3DQuickDraw getQuickDrawNode() {
-    }
+    public INode3DQuickDraw getQuickDrawNode();
 
-    default public void add(float f2, float f3) {
-    }
+    public void add(float var1, float var2);
 
-    default public void setLineWidth(float f2) {
-    }
+    public void setLineWidth(float var1);
 
-    default public void setLineColor(int n) {
-    }
+    public void setLineColor(int var1);
 
-    default public void clearArea() {
-    }
+    public void clearArea();
 }
 

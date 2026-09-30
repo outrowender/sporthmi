@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.media.impl;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MediaSourceSlotSerializer {
-    public static void putOptionalMediaSourceSlot(ISerializer iSerializer, MediaSourceSlot mediaSourceSlot) {
+    public static void putOptionalMediaSourceSlot(ISerializer iSerializer, MediaSourceSlot mediaSourceSlot) throws SerializerException {
         boolean bl = mediaSourceSlot == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class MediaSourceSlotSerializer {
         }
     }
 
-    public static void putOptionalMediaSourceSlotVarArray(ISerializer iSerializer, MediaSourceSlot[] mediaSourceSlotArray) {
+    public static void putOptionalMediaSourceSlotVarArray(ISerializer iSerializer, MediaSourceSlot[] mediaSourceSlotArray) throws SerializerException {
         boolean bl = mediaSourceSlotArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class MediaSourceSlotSerializer {
         }
     }
 
-    public static MediaSourceSlot getOptionalMediaSourceSlot(IDeserializer iDeserializer) {
+    public static MediaSourceSlot getOptionalMediaSourceSlot(IDeserializer iDeserializer) throws SerializerException {
         MediaSourceSlot mediaSourceSlot = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class MediaSourceSlotSerializer {
         return mediaSourceSlot;
     }
 
-    public static MediaSourceSlot[] getOptionalMediaSourceSlotVarArray(IDeserializer iDeserializer) {
+    public static MediaSourceSlot[] getOptionalMediaSourceSlotVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaSourceSlot[] mediaSourceSlotArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

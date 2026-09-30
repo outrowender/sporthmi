@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carvehiclestates;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequent;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequentViewOptions;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoMidFrequent;
@@ -16,60 +17,43 @@ import org.dsi.ifc.carvehiclestates.VehicleInfoViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public interface DSICarVehicleStatesReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "01233b5d-75cd-5163-928f-f10a23ccd2e7";
+    public static final String IPL_COMM_INTERFACE_KEY = "49b8560c-29e3-50ed-b6e3-35667b14ad8f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.28";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.28";
 
-    default public void updateOilLevelViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateOilLevelViewOption(CarViewOption var1, int var2) throws MethodException;
 
-    default public void updateOilLevelData(OilLevelData oilLevelData, int n) {
-    }
+    public void updateOilLevelData(OilLevelData var1, int var2) throws MethodException;
 
-    default public void updateVINViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateVINViewOption(CarViewOption var1, int var2) throws MethodException;
 
-    default public void updateVINData(String string, int n) {
-    }
+    public void updateVINData(String var1, int var2) throws MethodException;
 
-    default public void updateKeyViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateKeyViewOption(CarViewOption var1, int var2) throws MethodException;
 
-    default public void updateKeyData(KeyData keyData, int n) {
-    }
+    public void updateKeyData(KeyData var1, int var2) throws MethodException;
 
-    default public void updateDrvSchoolSystem(boolean bl, int n) {
-    }
+    public void updateDrvSchoolSystem(boolean var1, int var2) throws MethodException;
 
-    default public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
-    }
+    public void updateVehicleInfoViewOptions(VehicleInfoViewOptions var1, int var2) throws MethodException;
 
-    default public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
-    }
+    public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions var1, int var2) throws MethodException;
 
-    default public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
-    }
+    public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions var1, int var2) throws MethodException;
 
-    default public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
-    }
+    public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent var1, int var2) throws MethodException;
 
-    default public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
-    }
+    public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent var1, int var2) throws MethodException;
 
-    default public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) {
-    }
+    public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions var1, int var2) throws MethodException;
 
-    default public void updateSemiStaticVehicleData(SemiStaticVehicleData semiStaticVehicleData, int n) {
-    }
+    public void updateSemiStaticVehicleData(SemiStaticVehicleData var1, int var2) throws MethodException;
 
-    default public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) {
-    }
+    public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

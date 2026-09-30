@@ -7,16 +7,12 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIKOMOViewListener
 extends DSIListener {
-    default public void updateKomoViewEnabled(boolean bl, int n) {
-    }
+    public void updateKomoViewEnabled(boolean var1, int var2);
 
-    default public void updateVisibility(boolean bl, int n) {
-    }
+    public void updateVisibility(boolean var1, int var2);
 
-    default public void komoViewResult(int n) {
-    }
+    public void komoViewResult(int var1);
 
-    default public void updateCurrentKomoViewType(int n, int n2) {
-    }
+    public void updateCurrentKomoViewType(int var1, int var2);
 }
 

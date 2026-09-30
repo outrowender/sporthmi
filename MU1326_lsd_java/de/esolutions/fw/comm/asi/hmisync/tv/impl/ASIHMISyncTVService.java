@@ -24,18 +24,15 @@ extends AbstractService {
         this.p_ASIHMISyncTV = aSIHMISyncTVS;
     }
 
-    @Override
     public IProxyFrontend createReplyProxy() {
         return new ASIHMISyncTVReplyProxy();
     }
 
-    @Override
     public CallContext getCallContext() {
         return context;
     }
 
-    @Override
-    public void handleCallMethod(short s, IDeserializer iDeserializer, IProxyFrontend iProxyFrontend) {
+    public void handleCallMethod(short s, IDeserializer iDeserializer, IProxyFrontend iProxyFrontend) throws MethodException {
         try {
             switch (s) {
                 case 7: {
@@ -95,12 +92,12 @@ extends AbstractService {
                     break;
                 }
                 default: {
-                    throw new MethodException(new StringBuffer().append("Invalid Method Id ").append(s).toString());
+                    throw new MethodException("Invalid Method Id " + s);
                 }
             }
         }
         catch (SerializerException serializerException) {
-            throw new MethodException(new StringBuffer().append("Deserialization failed: method=").append(s).append(", error=").append(serializerException.getMessage()).toString());
+            throw new MethodException("Deserialization failed: method=" + s + ", error=" + serializerException.getMessage());
         }
     }
 }

@@ -5,13 +5,11 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.BlockingDeque;
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingDeque$DescendingItr;
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingDeque$Itr;
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingDeque$Node;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -24,9 +22,9 @@ public class LinkedBlockingDeque
 extends AbstractQueue
 implements BlockingDeque,
 Serializable {
-    private static final long serialVersionUID;
-    private transient LinkedBlockingDeque$Node first;
-    private transient LinkedBlockingDeque$Node last;
+    private static final long serialVersionUID = -387911632671998426L;
+    private transient Node first;
+    private transient Node last;
     private transient int count;
     private final int capacity;
     private final ReentrantLock lock = new ReentrantLock();
@@ -34,7 +32,7 @@ Serializable {
     private final Condition notFull = this.lock.newCondition();
 
     public LinkedBlockingDeque() {
-        this(-129);
+        this(Integer.MAX_VALUE);
     }
 
     public LinkedBlockingDeque(int n) {
@@ -45,7 +43,7 @@ Serializable {
     }
 
     public LinkedBlockingDeque(Collection collection) {
-        this(-129);
+        this(Integer.MAX_VALUE);
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
             Object object = iterator.next();
@@ -54,103 +52,101 @@ Serializable {
     }
 
     private boolean linkFirst(Object object) {
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node;
+        Node node;
         if (this.count >= this.capacity) {
             return false;
         }
         ++this.count;
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node2 = this.first;
-        this.first = linkedBlockingDeque$Node = new LinkedBlockingDeque$Node(object, null, linkedBlockingDeque$Node2);
+        Node node2 = this.first;
+        this.first = node = new Node(object, null, node2);
         if (this.last == null) {
-            this.last = linkedBlockingDeque$Node;
+            this.last = node;
         } else {
-            linkedBlockingDeque$Node2.prev = linkedBlockingDeque$Node;
+            node2.prev = node;
         }
         this.notEmpty.signal();
         return true;
     }
 
     private boolean linkLast(Object object) {
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node;
+        Node node;
         if (this.count >= this.capacity) {
             return false;
         }
         ++this.count;
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node2 = this.last;
-        this.last = linkedBlockingDeque$Node = new LinkedBlockingDeque$Node(object, linkedBlockingDeque$Node2, null);
+        Node node2 = this.last;
+        this.last = node = new Node(object, node2, null);
         if (this.first == null) {
-            this.first = linkedBlockingDeque$Node;
+            this.first = node;
         } else {
-            linkedBlockingDeque$Node2.next = linkedBlockingDeque$Node;
+            node2.next = node;
         }
         this.notEmpty.signal();
         return true;
     }
 
     private Object unlinkFirst() {
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node;
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node2 = this.first;
-        if (linkedBlockingDeque$Node2 == null) {
+        Node node;
+        Node node2 = this.first;
+        if (node2 == null) {
             return null;
         }
-        this.first = linkedBlockingDeque$Node = linkedBlockingDeque$Node2.next;
-        if (linkedBlockingDeque$Node == null) {
+        this.first = node = node2.next;
+        if (node == null) {
             this.last = null;
         } else {
-            linkedBlockingDeque$Node.prev = null;
+            node.prev = null;
         }
         --this.count;
         this.notFull.signal();
-        return linkedBlockingDeque$Node2.item;
+        return node2.item;
     }
 
     private Object unlinkLast() {
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node;
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node2 = this.last;
-        if (linkedBlockingDeque$Node2 == null) {
+        Node node;
+        Node node2 = this.last;
+        if (node2 == null) {
             return null;
         }
-        this.last = linkedBlockingDeque$Node = linkedBlockingDeque$Node2.prev;
-        if (linkedBlockingDeque$Node == null) {
+        this.last = node = node2.prev;
+        if (node == null) {
             this.first = null;
         } else {
-            linkedBlockingDeque$Node.next = null;
+            node.next = null;
         }
         --this.count;
         this.notFull.signal();
-        return linkedBlockingDeque$Node2.item;
+        return node2.item;
     }
 
-    private void unlink(LinkedBlockingDeque$Node linkedBlockingDeque$Node) {
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node2 = linkedBlockingDeque$Node.prev;
-        LinkedBlockingDeque$Node linkedBlockingDeque$Node3 = linkedBlockingDeque$Node.next;
-        if (linkedBlockingDeque$Node2 == null) {
-            if (linkedBlockingDeque$Node3 == null) {
+    private void unlink(Node node) {
+        Node node2 = node.prev;
+        Node node3 = node.next;
+        if (node2 == null) {
+            if (node3 == null) {
                 this.last = null;
                 this.first = null;
             } else {
-                linkedBlockingDeque$Node3.prev = null;
-                this.first = linkedBlockingDeque$Node3;
+                node3.prev = null;
+                this.first = node3;
             }
-        } else if (linkedBlockingDeque$Node3 == null) {
-            linkedBlockingDeque$Node2.next = null;
-            this.last = linkedBlockingDeque$Node2;
+        } else if (node3 == null) {
+            node2.next = null;
+            this.last = node2;
         } else {
-            linkedBlockingDeque$Node2.next = linkedBlockingDeque$Node3;
-            linkedBlockingDeque$Node3.prev = linkedBlockingDeque$Node2;
+            node2.next = node3;
+            node3.prev = node2;
         }
         --this.count;
         this.notFull.signalAll();
     }
 
-    @Override
     public void addFirst(Object object) {
         if (!this.offerFirst(object)) {
             throw new IllegalStateException("Deque full");
         }
     }
 
-    @Override
     public void addLast(Object object) {
         if (!this.offerLast(object)) {
             throw new IllegalStateException("Deque full");
@@ -160,7 +156,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offerFirst(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -178,7 +173,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offerLast(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -196,8 +190,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void putFirst(Object object) {
+    public void putFirst(Object object) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -215,8 +208,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void putLast(Object object) {
+    public void putLast(Object object) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -231,8 +223,7 @@ Serializable {
         }
     }
 
-    @Override
-    public boolean offerFirst(Object object, long l, TimeUnit timeUnit) {
+    public boolean offerFirst(Object object, long l, TimeUnit timeUnit) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -258,8 +249,7 @@ Serializable {
         }
     }
 
-    @Override
-    public boolean offerLast(Object object, long l, TimeUnit timeUnit) {
+    public boolean offerLast(Object object, long l, TimeUnit timeUnit) throws InterruptedException {
         if (object == null) {
             throw new NullPointerException();
         }
@@ -285,7 +275,6 @@ Serializable {
         }
     }
 
-    @Override
     public Object removeFirst() {
         Object object = this.pollFirst();
         if (object == null) {
@@ -294,7 +283,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object removeLast() {
         Object object = this.pollLast();
         if (object == null) {
@@ -306,7 +294,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object pollFirst() {
         this.lock.lock();
         try {
@@ -321,7 +308,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object pollLast() {
         this.lock.lock();
         try {
@@ -336,8 +322,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object takeFirst() {
+    public Object takeFirst() throws InterruptedException {
         this.lock.lock();
         try {
             Object object;
@@ -355,8 +340,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object takeLast() {
+    public Object takeLast() throws InterruptedException {
         this.lock.lock();
         try {
             Object object;
@@ -371,8 +355,7 @@ Serializable {
         }
     }
 
-    @Override
-    public Object pollFirst(long l, TimeUnit timeUnit) {
+    public Object pollFirst(long l, TimeUnit timeUnit) throws InterruptedException {
         long l2 = timeUnit.toNanos(l);
         long l3 = Utils.nanoTime() + l2;
         this.lock.lockInterruptibly();
@@ -396,8 +379,7 @@ Serializable {
         }
     }
 
-    @Override
-    public Object pollLast(long l, TimeUnit timeUnit) {
+    public Object pollLast(long l, TimeUnit timeUnit) throws InterruptedException {
         long l2 = timeUnit.toNanos(l);
         long l3 = Utils.nanoTime() + l2;
         this.lock.lockInterruptibly();
@@ -421,7 +403,6 @@ Serializable {
         }
     }
 
-    @Override
     public Object getFirst() {
         Object object = this.peekFirst();
         if (object == null) {
@@ -430,7 +411,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object getLast() {
         Object object = this.peekLast();
         if (object == null) {
@@ -442,7 +422,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object peekFirst() {
         this.lock.lock();
         try {
@@ -457,7 +436,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object peekLast() {
         this.lock.lock();
         try {
@@ -472,21 +450,20 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean removeFirstOccurrence(Object object) {
         if (object == null) {
             return false;
         }
         this.lock.lock();
         try {
-            LinkedBlockingDeque$Node linkedBlockingDeque$Node = this.first;
-            while (linkedBlockingDeque$Node != null) {
-                if (object.equals(linkedBlockingDeque$Node.item)) {
-                    this.unlink(linkedBlockingDeque$Node);
+            Node node = this.first;
+            while (node != null) {
+                if (object.equals(node.item)) {
+                    this.unlink(node);
                     boolean bl = true;
                     return bl;
                 }
-                linkedBlockingDeque$Node = linkedBlockingDeque$Node.next;
+                node = node.next;
             }
             boolean bl = false;
             return bl;
@@ -499,21 +476,20 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean removeLastOccurrence(Object object) {
         if (object == null) {
             return false;
         }
         this.lock.lock();
         try {
-            LinkedBlockingDeque$Node linkedBlockingDeque$Node = this.last;
-            while (linkedBlockingDeque$Node != null) {
-                if (object.equals(linkedBlockingDeque$Node.item)) {
-                    this.unlink(linkedBlockingDeque$Node);
+            Node node = this.last;
+            while (node != null) {
+                if (object.equals(node.item)) {
+                    this.unlink(node);
                     boolean bl = true;
                     return bl;
                 }
-                linkedBlockingDeque$Node = linkedBlockingDeque$Node.prev;
+                node = node.prev;
             }
             boolean bl = false;
             return bl;
@@ -523,53 +499,43 @@ Serializable {
         }
     }
 
-    @Override
     public boolean add(Object object) {
         this.addLast(object);
         return true;
     }
 
-    @Override
     public boolean offer(Object object) {
         return this.offerLast(object);
     }
 
-    @Override
-    public void put(Object object) {
+    public void put(Object object) throws InterruptedException {
         this.putLast(object);
     }
 
-    @Override
-    public boolean offer(Object object, long l, TimeUnit timeUnit) {
+    public boolean offer(Object object, long l, TimeUnit timeUnit) throws InterruptedException {
         return this.offerLast(object, l, timeUnit);
     }
 
-    @Override
     public Object remove() {
         return this.removeFirst();
     }
 
-    @Override
     public Object poll() {
         return this.pollFirst();
     }
 
-    @Override
-    public Object take() {
+    public Object take() throws InterruptedException {
         return this.takeFirst();
     }
 
-    @Override
-    public Object poll(long l, TimeUnit timeUnit) {
+    public Object poll(long l, TimeUnit timeUnit) throws InterruptedException {
         return this.pollFirst(l, timeUnit);
     }
 
-    @Override
     public Object element() {
         return this.getFirst();
     }
 
-    @Override
     public Object peek() {
         return this.peekFirst();
     }
@@ -577,7 +543,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int remainingCapacity() {
         this.lock.lock();
         try {
@@ -592,7 +557,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection) {
         if (collection == null) {
             throw new NullPointerException();
@@ -602,10 +566,10 @@ Serializable {
         }
         this.lock.lock();
         try {
-            LinkedBlockingDeque$Node linkedBlockingDeque$Node = this.first;
-            while (linkedBlockingDeque$Node != null) {
-                collection.add(linkedBlockingDeque$Node.item);
-                linkedBlockingDeque$Node = linkedBlockingDeque$Node.next;
+            Node node = this.first;
+            while (node != null) {
+                collection.add(node.item);
+                node = node.next;
             }
             int n = this.count;
             this.count = 0;
@@ -623,7 +587,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection, int n) {
         if (collection == null) {
             throw new NullPointerException();
@@ -652,17 +615,14 @@ Serializable {
         }
     }
 
-    @Override
     public void push(Object object) {
         this.addFirst(object);
     }
 
-    @Override
     public Object pop() {
         return this.removeFirst();
     }
 
-    @Override
     public boolean remove(Object object) {
         return this.removeFirstOccurrence(object);
     }
@@ -670,7 +630,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int size() {
         this.lock.lock();
         try {
@@ -685,20 +644,19 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean contains(Object object) {
         if (object == null) {
             return false;
         }
         this.lock.lock();
         try {
-            LinkedBlockingDeque$Node linkedBlockingDeque$Node = this.first;
-            while (linkedBlockingDeque$Node != null) {
-                if (object.equals(linkedBlockingDeque$Node.item)) {
+            Node node = this.first;
+            while (node != null) {
+                if (object.equals(node.item)) {
                     boolean bl = true;
                     return bl;
                 }
-                linkedBlockingDeque$Node = linkedBlockingDeque$Node.next;
+                node = node.next;
             }
             boolean bl = false;
             return bl;
@@ -711,17 +669,17 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    boolean removeNode(LinkedBlockingDeque$Node linkedBlockingDeque$Node) {
+    boolean removeNode(Node node) {
         this.lock.lock();
         try {
-            LinkedBlockingDeque$Node linkedBlockingDeque$Node2 = this.first;
-            while (linkedBlockingDeque$Node2 != null) {
-                if (linkedBlockingDeque$Node2 == linkedBlockingDeque$Node) {
-                    this.unlink(linkedBlockingDeque$Node2);
+            Node node2 = this.first;
+            while (node2 != null) {
+                if (node2 == node) {
+                    this.unlink(node2);
                     boolean bl = true;
                     return bl;
                 }
-                linkedBlockingDeque$Node2 = linkedBlockingDeque$Node2.next;
+                node2 = node2.next;
             }
             boolean bl = false;
             return bl;
@@ -734,7 +692,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray() {
         this.lock.lock();
         try {
@@ -756,12 +713,11 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray(Object[] objectArray) {
         this.lock.lock();
         try {
             if (objectArray.length < this.count) {
-                objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), this.count);
+                objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), this.count);
             }
             int n = 0;
             Object[] objectArray2 = this.first;
@@ -783,7 +739,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String toString() {
         this.lock.lock();
         try {
@@ -798,7 +753,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         this.lock.lock();
         try {
@@ -812,27 +766,25 @@ Serializable {
         }
     }
 
-    @Override
     public Iterator iterator() {
-        return new LinkedBlockingDeque$Itr(this, null);
+        return new Itr();
     }
 
-    @Override
     public Iterator descendingIterator() {
-        return new LinkedBlockingDeque$DescendingItr(this, null);
+        return new DescendingItr();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         this.lock.lock();
         try {
             objectOutputStream.defaultWriteObject();
-            LinkedBlockingDeque$Node linkedBlockingDeque$Node = this.first;
-            while (linkedBlockingDeque$Node != null) {
-                objectOutputStream.writeObject(linkedBlockingDeque$Node.item);
-                linkedBlockingDeque$Node = linkedBlockingDeque$Node.next;
+            Node node = this.first;
+            while (node != null) {
+                objectOutputStream.writeObject(node.item);
+                node = node.next;
             }
             objectOutputStream.writeObject(null);
         }
@@ -841,7 +793,7 @@ Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         Object object;
         objectInputStream.defaultReadObject();
         this.count = 0;
@@ -852,16 +804,94 @@ Serializable {
         }
     }
 
-    static /* synthetic */ ReentrantLock access$200(LinkedBlockingDeque linkedBlockingDeque) {
-        return linkedBlockingDeque.lock;
+    private class Itr
+    extends AbstractItr {
+        private Itr() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        void advance() {
+            ReentrantLock reentrantLock = LinkedBlockingDeque.this.lock;
+            reentrantLock.lock();
+            try {
+                this.next = this.next == null ? LinkedBlockingDeque.this.first : this.next.next;
+                this.nextItem = this.next == null ? null : this.next.item;
+            }
+            finally {
+                reentrantLock.unlock();
+            }
+        }
     }
 
-    static /* synthetic */ LinkedBlockingDeque$Node access$300(LinkedBlockingDeque linkedBlockingDeque) {
-        return linkedBlockingDeque.first;
+    static final class Node {
+        Object item;
+        Node prev;
+        Node next;
+
+        Node(Object object, Node node, Node node2) {
+            this.item = object;
+            this.prev = node;
+            this.next = node2;
+        }
     }
 
-    static /* synthetic */ LinkedBlockingDeque$Node access$400(LinkedBlockingDeque linkedBlockingDeque) {
-        return linkedBlockingDeque.last;
+    private abstract class AbstractItr
+    implements Iterator {
+        Node next;
+        Object nextItem;
+        private Node lastRet;
+
+        AbstractItr() {
+            this.advance();
+        }
+
+        abstract void advance();
+
+        public boolean hasNext() {
+            return this.next != null;
+        }
+
+        public Object next() {
+            if (this.next == null) {
+                throw new NoSuchElementException();
+            }
+            this.lastRet = this.next;
+            Object object = this.nextItem;
+            this.advance();
+            return object;
+        }
+
+        public void remove() {
+            Node node = this.lastRet;
+            if (node == null) {
+                throw new IllegalStateException();
+            }
+            this.lastRet = null;
+            LinkedBlockingDeque.this.removeNode(node);
+        }
+    }
+
+    private class DescendingItr
+    extends AbstractItr {
+        private DescendingItr() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        void advance() {
+            ReentrantLock reentrantLock = LinkedBlockingDeque.this.lock;
+            reentrantLock.lock();
+            try {
+                this.next = this.next == null ? LinkedBlockingDeque.this.last : this.next.prev;
+                this.nextItem = this.next == null ? null : this.next.item;
+            }
+            finally {
+                reentrantLock.unlock();
+            }
+        }
     }
 }
 

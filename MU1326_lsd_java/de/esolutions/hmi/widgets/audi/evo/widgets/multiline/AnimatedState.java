@@ -13,7 +13,7 @@ public final class AnimatedState {
     public static int layoutMaxVPHeight = MAX_VP_HEIGHTS[0];
     public static final int[] FOOTERS = new int[]{7, 7};
     public static int layoutFooterHeight = FOOTERS[0];
-    public static final int SPELLER_HEIGHT;
+    public static final int SPELLER_HEIGHT = 64;
     private int remainingHeigt = 0;
     private int spellerOffset = 0;
     private int header = 0;

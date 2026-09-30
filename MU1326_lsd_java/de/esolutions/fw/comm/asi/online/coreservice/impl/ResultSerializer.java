@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.online.coreservice.impl;
 import de.esolutions.fw.comm.asi.online.coreservice.Result;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ResultSerializer {
-    public static void putOptionalResult(ISerializer iSerializer, Result result) {
+    public static void putOptionalResult(ISerializer iSerializer, Result result) throws SerializerException {
         boolean bl = result == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ResultSerializer {
         }
     }
 
-    public static void putOptionalResultVarArray(ISerializer iSerializer, Result[] resultArray) {
+    public static void putOptionalResultVarArray(ISerializer iSerializer, Result[] resultArray) throws SerializerException {
         boolean bl = resultArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ResultSerializer {
         }
     }
 
-    public static Result getOptionalResult(IDeserializer iDeserializer) {
+    public static Result getOptionalResult(IDeserializer iDeserializer) throws SerializerException {
         Result result = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ResultSerializer {
         return result;
     }
 
-    public static Result[] getOptionalResultVarArray(IDeserializer iDeserializer) {
+    public static Result[] getOptionalResultVarArray(IDeserializer iDeserializer) throws SerializerException {
         Result[] resultArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

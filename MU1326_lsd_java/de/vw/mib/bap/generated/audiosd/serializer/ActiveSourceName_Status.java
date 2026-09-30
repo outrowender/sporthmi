@@ -11,7 +11,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ActiveSourceName_Status
 implements StatusProperty {
     public final BAPString sourceName = new BAPString(61);
-    private static final int MAX_SOURCE_NAME_LENGTH;
+    private static final int MAX_SOURCE_NAME_LENGTH = 61;
 
     public ActiveSourceName_Status() {
         this.internalReset();
@@ -26,13 +26,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.sourceName.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveSourceName_Status activeSourceName_Status = (ActiveSourceName_Status)bAPEntity;
         return this.sourceName.equalTo(activeSourceName_Status.sourceName);
@@ -41,7 +39,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveSourceName_Status:");
@@ -50,18 +47,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.sourceName.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.sourceName.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.sourceName.deserialize(bitStream);
     }
@@ -70,7 +64,6 @@ implements StatusProperty {
         return 17;
     }
 
-    @Override
     public int getFunctionId() {
         return ActiveSourceName_Status.functionId();
     }

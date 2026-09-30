@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.DirectionToWaypoint;
 
 public class DirectionToWaypointSerializer {
-    public static void putOptionalDirectionToWaypoint(ISerializer iSerializer, DirectionToWaypoint directionToWaypoint) {
+    public static void putOptionalDirectionToWaypoint(ISerializer iSerializer, DirectionToWaypoint directionToWaypoint) throws SerializerException {
         boolean bl = directionToWaypoint == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DirectionToWaypointSerializer {
         }
     }
 
-    public static void putOptionalDirectionToWaypointVarArray(ISerializer iSerializer, DirectionToWaypoint[] directionToWaypointArray) {
+    public static void putOptionalDirectionToWaypointVarArray(ISerializer iSerializer, DirectionToWaypoint[] directionToWaypointArray) throws SerializerException {
         boolean bl = directionToWaypointArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DirectionToWaypointSerializer {
         }
     }
 
-    public static DirectionToWaypoint getOptionalDirectionToWaypoint(IDeserializer iDeserializer) {
+    public static DirectionToWaypoint getOptionalDirectionToWaypoint(IDeserializer iDeserializer) throws SerializerException {
         DirectionToWaypoint directionToWaypoint = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DirectionToWaypointSerializer {
         return directionToWaypoint;
     }
 
-    public static DirectionToWaypoint[] getOptionalDirectionToWaypointVarArray(IDeserializer iDeserializer) {
+    public static DirectionToWaypoint[] getOptionalDirectionToWaypointVarArray(IDeserializer iDeserializer) throws SerializerException {
         DirectionToWaypoint[] directionToWaypointArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

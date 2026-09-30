@@ -5,20 +5,18 @@ package de.esolutions.fw.comm.asi.imageserver;
 
 import de.esolutions.fw.comm.asi.imageserver.Image;
 import de.esolutions.fw.comm.asi.imageserver.ImageInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ImageServerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "4859e928-623e-4248-8210-d55453bef3a4";
+    public static final String IPL_COMM_INTERFACE_KEY = "b9a016f3-d0ec-5bf0-bc90-42549185f0a0";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.0.1";
+    public static final String IPL_COMM_MODULE_VERSION = "2.0.1";
 
-    default public void responseImage(String string, Image image, int n) {
-    }
+    public void responseImage(String var1, Image var2, int var3) throws MethodException;
 
-    default public void responseImageInformation(String string, ImageInfo imageInfo, int n) {
-    }
+    public void responseImageInformation(String var1, ImageInfo var2, int var3) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 }
 

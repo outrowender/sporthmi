@@ -3,47 +3,35 @@
  */
 package java.io;
 
+import java.io.IOException;
+
 public interface DataOutput {
-    default public void write(byte[] byArray) {
-    }
+    public void write(byte[] var1) throws IOException;
 
-    default public void write(byte[] byArray, int n, int n2) {
-    }
+    public void write(byte[] var1, int var2, int var3) throws IOException;
 
-    default public void write(int n) {
-    }
+    public void write(int var1) throws IOException;
 
-    default public void writeBoolean(boolean bl) {
-    }
+    public void writeBoolean(boolean var1) throws IOException;
 
-    default public void writeByte(int n) {
-    }
+    public void writeByte(int var1) throws IOException;
 
-    default public void writeBytes(String string) {
-    }
+    public void writeBytes(String var1) throws IOException;
 
-    default public void writeChar(int n) {
-    }
+    public void writeChar(int var1) throws IOException;
 
-    default public void writeChars(String string) {
-    }
+    public void writeChars(String var1) throws IOException;
 
-    default public void writeDouble(double d2) {
-    }
+    public void writeDouble(double var1) throws IOException;
 
-    default public void writeFloat(float f2) {
-    }
+    public void writeFloat(float var1) throws IOException;
 
-    default public void writeInt(int n) {
-    }
+    public void writeInt(int var1) throws IOException;
 
-    default public void writeLong(long l) {
-    }
+    public void writeLong(long var1) throws IOException;
 
-    default public void writeShort(int n) {
-    }
+    public void writeShort(int var1) throws IOException;
 
-    default public void writeUTF(String string) {
-    }
+    public void writeUTF(String var1) throws IOException;
 }
 

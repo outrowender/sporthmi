@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.audio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.audio.DSIAudioManagementReply;
 import de.esolutions.fw.comm.dsi.audio.impl.DSIAudioManagementReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIAudioManagementReply {
         super(n, (class$org$dsi$ifc$audio$DSIAudioManagementListener == null ? (class$org$dsi$ifc$audio$DSIAudioManagementListener = DSIAudioManagementDispatcher.class$("org.dsi.ifc.audio.DSIAudioManagementListener")) : class$org$dsi$ifc$audio$DSIAudioManagementListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void errorConnection(int n, int n2, int n3) {
+    public void errorConnection(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void fadedIn(int n, int n2) {
+    public void fadedIn(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void pauseConnection(int n, int n2) {
+    public void pauseConnection(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void updateActiveConnection(int n, int n2, int n3) {
+    public void updateActiveConnection(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -107,8 +103,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void updateActiveEntertainmentConnection(int n, int n2, int n3) {
+    public void updateActiveEntertainmentConnection(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -136,8 +131,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void startConnection(int n, int n2) {
+    public void startConnection(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -153,8 +147,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void stopConnection(int n, int n2) {
+    public void stopConnection(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -170,8 +163,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void updateAMAvailable(int n, int n2, int n3) {
+    public void updateAMAvailable(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -199,8 +191,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void responseVolumelock(int n, int n2, boolean bl) {
+    public void responseVolumelock(int n, int n2, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -216,8 +207,7 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -233,14 +223,13 @@ implements DSIAudioManagementReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAudioManagementListener dSIAudioManagementListener = (DSIAudioManagementListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAudioManagementDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAudioManagementDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAudioManagementListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAudioManagementDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAudioManagementDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAudioManagementListener, new Object[]{string, string2});
                     continue;
                 }

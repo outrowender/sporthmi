@@ -16,7 +16,7 @@ extends Writer {
     public PipedWriter() {
     }
 
-    public PipedWriter(PipedReader pipedReader) {
+    public PipedWriter(PipedReader pipedReader) throws IOException {
         super(pipedReader);
         this.connect(pipedReader);
     }
@@ -24,8 +24,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.dest != null) {
@@ -39,7 +38,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void connect(PipedReader pipedReader) {
+    public void connect(PipedReader pipedReader) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.dest == null) {
@@ -54,8 +53,7 @@ extends Writer {
         }
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         if (this.dest != null) {
             this.dest.flush();
         }
@@ -64,8 +62,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(char[] cArray, int n, int n2) {
+    public void write(char[] cArray, int n, int n2) throws IOException {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
             synchronized (object) {
@@ -86,8 +83,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (!this.closed) {

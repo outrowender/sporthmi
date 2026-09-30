@@ -6,10 +6,8 @@ package org.apache.xerces.xs;
 import org.apache.xerces.xs.XSObject;
 
 public interface XSObjectList {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public XSObject item(int n) {
-    }
+    public XSObject item(int var1);
 }
 

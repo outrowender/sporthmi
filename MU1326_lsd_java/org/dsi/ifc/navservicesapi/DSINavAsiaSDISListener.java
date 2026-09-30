@@ -8,19 +8,14 @@ import org.dsi.ifc.navservicesapi.AddressDataSDIS;
 
 public interface DSINavAsiaSDISListener
 extends DSIListener {
-    default public void updateRouteGuidanceActive(boolean bl, int n) {
-    }
+    public void updateRouteGuidanceActive(boolean var1, int var2);
 
-    default public void updateCarPosition(double d2, double d3, int n, int n2, int n3, int n4) {
-    }
+    public void updateCarPosition(double var1, double var3, int var5, int var6, int var7, int var8);
 
-    default public void updateDestinationInfo(AddressDataSDIS[] addressDataSDISArray, int n) {
-    }
+    public void updateDestinationInfo(AddressDataSDIS[] var1, int var2);
 
-    default public void updateNextDestinationInfo(int n, int n2, int n3, int n4) {
-    }
+    public void updateNextDestinationInfo(int var1, int var2, int var3, int var4);
 
-    default public void startGuidanceToDestinationsResult(int n) {
-    }
+    public void startGuidanceToDestinationsResult(int var1);
 }
 

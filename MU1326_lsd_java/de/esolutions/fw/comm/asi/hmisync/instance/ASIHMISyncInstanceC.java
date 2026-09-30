@@ -3,26 +3,21 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.instance;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncInstanceC {
-    default public void requestInstanceId(String string, String string2) {
-    }
+    public void requestInstanceId(String var1, String var2) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

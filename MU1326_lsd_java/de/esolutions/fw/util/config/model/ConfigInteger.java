@@ -1,13 +1,11 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.model.ConfigScalar;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public class ConfigInteger
 extends ConfigScalar {
@@ -21,17 +19,14 @@ extends ConfigScalar {
         this.value = new Integer(n);
     }
 
-    @Override
     public boolean isInteger() {
         return true;
     }
 
-    @Override
     public Integer getInteger() {
         return this.value;
     }
 
-    @Override
     public Integer getInteger(Integer n) {
         if (this.value == null) {
             return n;
@@ -39,22 +34,18 @@ extends ConfigScalar {
         return this.value;
     }
 
-    @Override
     public Boolean convertToBoolean() {
         return new Boolean(this.value != 0);
     }
 
-    @Override
     public Integer convertToInteger() {
         return this.value;
     }
 
-    @Override
     public Double convertToDouble() {
-        return new Double((double)this.value.intValue());
+        return new Double(this.value.intValue());
     }
 
-    @Override
     public String convertToString() {
         return this.value.toString();
     }
@@ -77,8 +68,7 @@ extends ConfigScalar {
         return n;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         if (this.value == null) {
             iConfigExporter.writeNull();
         } else {

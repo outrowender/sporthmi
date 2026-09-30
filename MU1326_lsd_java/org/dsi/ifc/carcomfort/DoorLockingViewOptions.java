@@ -354,7 +354,7 @@ public class DoorLockingViewOptions {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(-1736114176);
+        StringBuffer stringBuffer = new StringBuffer(34200);
         stringBuffer.append("DoorLockingViewOptions");
         stringBuffer.append('(');
         stringBuffer.append("message");

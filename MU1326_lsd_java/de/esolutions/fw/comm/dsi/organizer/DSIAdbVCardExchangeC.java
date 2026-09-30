@@ -3,46 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIAdbVCardExchangeC {
-    default public void importVCard(ResourceLocator[] resourceLocatorArray, int n) {
-    }
+    public void importVCard(ResourceLocator[] var1, int var2) throws MethodException;
 
-    default public void exportVCard(int n, String string, long[] lArray, int n2) {
-    }
+    public void exportVCard(int var1, String var2, long[] var3, int var4) throws MethodException;
 
-    default public void exportSpellerVCard(int n, int n2, String string, long[] lArray, int n3) {
-    }
+    public void exportSpellerVCard(int var1, int var2, String var3, long[] var4, int var5) throws MethodException;
 
-    default public void createVCard(int n, long[] lArray, int n2) {
-    }
+    public void createVCard(int var1, long[] var2, int var3) throws MethodException;
 
-    default public void parseVCard(String string) {
-    }
+    public void parseVCard(String var1) throws MethodException;
 
-    default public void requestAbort(int n) {
-    }
+    public void requestAbort(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

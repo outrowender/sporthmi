@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.UnitmasterSupportedCo
 import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.UnitmasterSupportedSkinsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterConfiguration;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterSupportedConsumptionUnits;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterSupportedSkins;
 
 public class UnitmasterConfigurationSerializer {
-    public static void putOptionalUnitmasterConfiguration(ISerializer iSerializer, UnitmasterConfiguration unitmasterConfiguration) {
+    public static void putOptionalUnitmasterConfiguration(ISerializer iSerializer, UnitmasterConfiguration unitmasterConfiguration) throws SerializerException {
         boolean bl = unitmasterConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class UnitmasterConfigurationSerializer {
         }
     }
 
-    public static void putOptionalUnitmasterConfigurationVarArray(ISerializer iSerializer, UnitmasterConfiguration[] unitmasterConfigurationArray) {
+    public static void putOptionalUnitmasterConfigurationVarArray(ISerializer iSerializer, UnitmasterConfiguration[] unitmasterConfigurationArray) throws SerializerException {
         boolean bl = unitmasterConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class UnitmasterConfigurationSerializer {
         }
     }
 
-    public static UnitmasterConfiguration getOptionalUnitmasterConfiguration(IDeserializer iDeserializer) {
+    public static UnitmasterConfiguration getOptionalUnitmasterConfiguration(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterConfiguration unitmasterConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class UnitmasterConfigurationSerializer {
         return unitmasterConfiguration;
     }
 
-    public static UnitmasterConfiguration[] getOptionalUnitmasterConfigurationVarArray(IDeserializer iDeserializer) {
+    public static UnitmasterConfiguration[] getOptionalUnitmasterConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterConfiguration[] unitmasterConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

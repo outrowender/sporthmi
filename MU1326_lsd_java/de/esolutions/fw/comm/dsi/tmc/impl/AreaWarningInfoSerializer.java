@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.AreaWarningInfo;
 
 public class AreaWarningInfoSerializer {
-    public static void putOptionalAreaWarningInfo(ISerializer iSerializer, AreaWarningInfo areaWarningInfo) {
+    public static void putOptionalAreaWarningInfo(ISerializer iSerializer, AreaWarningInfo areaWarningInfo) throws SerializerException {
         boolean bl = areaWarningInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AreaWarningInfoSerializer {
         }
     }
 
-    public static void putOptionalAreaWarningInfoVarArray(ISerializer iSerializer, AreaWarningInfo[] areaWarningInfoArray) {
+    public static void putOptionalAreaWarningInfoVarArray(ISerializer iSerializer, AreaWarningInfo[] areaWarningInfoArray) throws SerializerException {
         boolean bl = areaWarningInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AreaWarningInfoSerializer {
         }
     }
 
-    public static AreaWarningInfo getOptionalAreaWarningInfo(IDeserializer iDeserializer) {
+    public static AreaWarningInfo getOptionalAreaWarningInfo(IDeserializer iDeserializer) throws SerializerException {
         AreaWarningInfo areaWarningInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AreaWarningInfoSerializer {
         return areaWarningInfo;
     }
 
-    public static AreaWarningInfo[] getOptionalAreaWarningInfoVarArray(IDeserializer iDeserializer) {
+    public static AreaWarningInfo[] getOptionalAreaWarningInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         AreaWarningInfo[] areaWarningInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

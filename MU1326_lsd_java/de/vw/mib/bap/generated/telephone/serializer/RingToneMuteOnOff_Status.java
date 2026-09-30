@@ -25,13 +25,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.ringToneMuteOnOff.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RingToneMuteOnOff_Status ringToneMuteOnOff_Status = (RingToneMuteOnOff_Status)bAPEntity;
         return this.ringToneMuteOnOff.equalTo(ringToneMuteOnOff_Status.ringToneMuteOnOff);
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RingToneMuteOnOff_Status:");
@@ -49,18 +46,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.ringToneMuteOnOff.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.ringToneMuteOnOff.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.ringToneMuteOnOff.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements StatusProperty {
         return 56;
     }
 
-    @Override
     public int getFunctionId() {
         return RingToneMuteOnOff_Status.functionId();
     }

@@ -10,7 +10,7 @@ import org.apache.commons.scxml.model.Data;
 
 public class Datamodel
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private List data = new ArrayList();
 
     public final List getData() {

@@ -86,7 +86,6 @@ implements IServiceFinder {
         return null;
     }
 
-    @Override
     public synchronized ServiceHandler findService(ServiceInstanceID serviceInstanceID) {
         Iterator iterator = this.serviceMap.keySet().iterator();
         while (iterator.hasNext()) {

@@ -11,39 +11,28 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
 
 public interface IWrappedNode3DImage
 extends IWrappedNode3D {
-    public static final String FILENAME_NO_TEXTURE;
+    public static final String FILENAME_NO_TEXTURE = "<no texture>";
 
-    default public IINodeImage getInterfaceImage() {
-    }
+    public IINodeImage getInterfaceImage();
 
-    default public INode3DImage getImageNode() {
-    }
+    public INode3DImage getImageNode();
 
-    default public String getFilename() {
-    }
+    public String getFilename();
 
-    default public boolean setModulateColor(int n) {
-    }
+    public boolean setModulateColor(int var1);
 
-    default public boolean setTexture(IWrappedTexture iWrappedTexture, boolean bl, Object object) {
-    }
+    public boolean setTexture(IWrappedTexture var1, boolean var2, Object var3);
 
-    default public boolean setMaterial(IMaterial iMaterial) {
-    }
+    public boolean setMaterial(IMaterial var1);
 
-    default public IWrappedTexture getTexture() {
-    }
+    public IWrappedTexture getTexture();
 
-    default public void mirrorX() {
-    }
+    public void mirrorX();
 
-    default public void mirrorY() {
-    }
+    public void mirrorY();
 
-    default public void mirrorXY() {
-    }
+    public void mirrorXY();
 
-    default public void releaseTexture() {
-    }
+    public void releaseTexture();
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.telephone;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.telephone.DSINADReply;
 import de.esolutions.fw.comm.dsi.telephone.impl.DSINADReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -30,13 +31,11 @@ implements DSINADReply {
         super(n, (class$org$dsi$ifc$telephone$DSINADListener == null ? (class$org$dsi$ifc$telephone$DSINADListener = DSINADDispatcher.class$("org.dsi.ifc.telephone.DSINADListener")) : class$org$dsi$ifc$telephone$DSINADListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseAbortNetworkRegistration(int n) {
+    public void responseAbortNetworkRegistration(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -52,8 +51,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseAbortNetworkSearch(int n) {
+    public void responseAbortNetworkSearch(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -69,8 +67,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseChangeSIMCode(int n, int n2) {
+    public void responseChangeSIMCode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -86,8 +83,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseSIMPINRequired(int n) {
+    public void responseSIMPINRequired(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -103,8 +99,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateSIMPINRequired(boolean bl, int n) {
+    public void updateSIMPINRequired(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -132,8 +127,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseNetworkRegistration(int n) {
+    public void responseNetworkRegistration(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -149,8 +143,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
+    public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -166,8 +159,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseUnlockSIM(int n) {
+    public void responseUnlockSIM(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -183,8 +175,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseCheckSIMPINCode(int n) {
+    public void responseCheckSIMPINCode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -200,8 +191,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n) {
+    public void responseRestoreFactorySettings(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -217,8 +207,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseTelPower(int n) {
+    public void responseTelPower(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -234,8 +223,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void responseSetAutomaticPinEntryActive(int n) {
+    public void responseSetAutomaticPinEntryActive(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -251,8 +239,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateActivationState(ActivationStateStruct activationStateStruct, int n) {
+    public void updateActivationState(ActivationStateStruct activationStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -280,8 +267,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateAutomaticPinEntryActive(boolean bl, int n) {
+    public void updateAutomaticPinEntryActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -309,8 +295,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateLockState(LockStateStruct lockStateStruct, int n) {
+    public void updateLockState(LockStateStruct lockStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -338,8 +323,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) {
+    public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -367,8 +351,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
+    public void updatePhoneInformation(PhoneInformation phoneInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -396,8 +379,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) {
+    public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -425,8 +407,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateNetworkType(int n, int n2) {
+    public void updateNetworkType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -454,8 +435,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) {
+    public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -483,8 +463,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateSignalQuality(int n, int n2) {
+    public void updateSignalQuality(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -512,8 +491,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void updateServiceProvider(ServiceProvider serviceProvider, int n) {
+    public void updateServiceProvider(ServiceProvider serviceProvider, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -541,8 +519,7 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -558,14 +535,13 @@ implements DSINADReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSINADListener dSINADListener = (DSINADListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSINADDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSINADDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSINADListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSINADDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSINADDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSINADListener, new Object[]{string, string2});
                     continue;
                 }

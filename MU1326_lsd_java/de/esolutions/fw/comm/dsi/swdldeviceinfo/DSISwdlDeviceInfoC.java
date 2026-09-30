@@ -3,77 +3,55 @@
  */
 package de.esolutions.fw.comm.dsi.swdldeviceinfo;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISwdlDeviceInfoC {
-    default public void setAccessType(int n) {
-    }
+    public void setAccessType(int var1) throws MethodException;
 
-    default public void getDevices() {
-    }
+    public void getDevices() throws MethodException;
 
-    default public void getModules(int n) {
-    }
+    public void getModules(int var1) throws MethodException;
 
-    default public void getLanguages(int n) {
-    }
+    public void getLanguages(int var1) throws MethodException;
 
-    default public void getErrors(int n) {
-    }
+    public void getErrors(int var1) throws MethodException;
 
-    default public void isDataModule(int n, int n2) {
-    }
+    public void isDataModule(int var1, int var2) throws MethodException;
 
-    default public void isNoExclusiveBoloUpdate(int n, int n2) {
-    }
+    public void isNoExclusiveBoloUpdate(int var1, int var2) throws MethodException;
 
-    default public void getVersions(int n, int n2) {
-    }
+    public void getVersions(int var1, int var2) throws MethodException;
 
-    default public void getTargetVersions(int n, int n2) {
-    }
+    public void getTargetVersions(int var1, int var2) throws MethodException;
 
-    default public void getAdditionalInfo(int n, int n2) {
-    }
+    public void getAdditionalInfo(int var1, int var2) throws MethodException;
 
-    default public void toggleSelection(int n, int n2, short s) {
-    }
+    public void toggleSelection(int var1, int var2, short var3) throws MethodException;
 
-    default public void getFileNames(int n, int n2) {
-    }
+    public void getFileNames(int var1, int var2) throws MethodException;
 
-    default public void getFileDetails(int n, int n2, short s) {
-    }
+    public void getFileDetails(int var1, int var2, short var3) throws MethodException;
 
-    default public void getInfoFilePath(int n) {
-    }
+    public void getInfoFilePath(int var1) throws MethodException;
 
-    default public void setDeviceSelection(int n, int n2) {
-    }
+    public void setDeviceSelection(int var1, int var2) throws MethodException;
 
-    default public void getNumberOfPopups() {
-    }
+    public void getNumberOfPopups() throws MethodException;
 
-    default public void getPopup(int n) {
-    }
+    public void getPopup(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

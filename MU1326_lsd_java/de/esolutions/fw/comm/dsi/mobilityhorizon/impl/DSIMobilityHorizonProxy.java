@@ -10,9 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.DSIMobilityHorizon;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.DSIMobilityHorizonC;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.DSIMobilityHorizonReply;
-import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.DSIMobilityHorizonProxy$1;
-import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.DSIMobilityHorizonProxy$2;
+import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.ConsumptionInfoSerializer;
 import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.DSIMobilityHorizonReplyService;
+import de.esolutions.fw.comm.dsi.mobilityhorizon.impl.MobilityHorizonLocationSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mobilityhorizon.ConsumptionInfo;
@@ -34,20 +36,27 @@ DSIMobilityHorizonC {
         return this.proxy;
     }
 
-    @Override
-    public void setConsumptionInfo(ConsumptionInfo[] consumptionInfoArray) {
-        DSIMobilityHorizonProxy$1 dSIMobilityHorizonProxy$1 = new DSIMobilityHorizonProxy$1(this, consumptionInfoArray);
-        this.proxy.remoteCallMethod((short)5, dSIMobilityHorizonProxy$1);
+    public void setConsumptionInfo(final ConsumptionInfo[] consumptionInfoArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ConsumptionInfoSerializer.putOptionalConsumptionInfoVarArray(iSerializer, consumptionInfoArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void setLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray) {
-        DSIMobilityHorizonProxy$2 dSIMobilityHorizonProxy$2 = new DSIMobilityHorizonProxy$2(this, mobilityHorizonLocationArray);
-        this.proxy.remoteCallMethod((short)6, dSIMobilityHorizonProxy$2);
+    public void setLocations(final MobilityHorizonLocation[] mobilityHorizonLocationArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MobilityHorizonLocationSerializer.putOptionalMobilityHorizonLocationVarArray(iSerializer, mobilityHorizonLocationArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void setConsideredLocationTypes(int[] nArray) {
+    public void setConsideredLocationTypes(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -58,8 +67,7 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setDriveTrainMode(int n) {
+    public void setDriveTrainMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -70,8 +78,7 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void requestLocationRangeLevel(int n) {
+    public void requestLocationRangeLevel(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -82,8 +89,7 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -94,8 +100,7 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -106,13 +111,11 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -123,8 +126,7 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -135,13 +137,11 @@ DSIMobilityHorizonC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

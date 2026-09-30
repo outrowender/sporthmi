@@ -25,24 +25,24 @@ import java.util.List;
 
 public abstract class AnimationController
 extends AbstractAnimationController {
-    private static final String TEXT_POPUP_BOUND;
-    protected static final String TEXT_UNKNOWN_SCREENTYPE;
-    protected static final String TEXT_REARVIEW;
-    protected static final String TEXT_VIDEO;
-    protected static final String TEXT_MEDIA_FULLSCREEN;
-    protected static final String TEXT_TV;
-    protected static final String TEXT_BROWSER;
-    protected static final String TEXT_BROWSER_BOOKMARK;
-    protected static final String TEXT_MAP;
-    protected static final String TEXT_MAP_RCCI;
-    protected static final String TEXT_HMI_ONLY;
-    protected static final String TEXT_STANDBY;
-    protected static final String TEXT_WIZARD;
-    protected static final String TEXT_FULLSCREEN_SDS_POPUP;
+    private static final String TEXT_POPUP_BOUND = "POPUP_BOUND";
+    protected static final String TEXT_UNKNOWN_SCREENTYPE = "UNKNOWN SCREENTYPE";
+    protected static final String TEXT_REARVIEW = "REARVIEW";
+    protected static final String TEXT_VIDEO = "VIDEO";
+    protected static final String TEXT_MEDIA_FULLSCREEN = "MEDIA FULLSCREEN";
+    protected static final String TEXT_TV = "TV";
+    protected static final String TEXT_BROWSER = "BROWSER";
+    protected static final String TEXT_BROWSER_BOOKMARK = "BROWSER BOOKMARK";
+    protected static final String TEXT_MAP = "MAP";
+    protected static final String TEXT_MAP_RCCI = "MAP RCCI";
+    protected static final String TEXT_HMI_ONLY = "HMI_ONLY";
+    protected static final String TEXT_STANDBY = "STANDBY";
+    protected static final String TEXT_WIZARD = "WIZARD";
+    protected static final String TEXT_FULLSCREEN_SDS_POPUP = "FULLSCREEN SDS POPUP";
     private final Buffer statisticsBuffer;
-    protected static final boolean SHOW_SCREEN_CHANGE_ANIMATION_INFO;
-    protected static final boolean LOG_SCREEN_CHANGE;
-    protected static final int[] COMPUTED_ANIMATION_INFO_NO_ANIMATION;
+    protected static final boolean SHOW_SCREEN_CHANGE_ANIMATION_INFO = Boolean.getBoolean("showScreenChangeAnimationInfo");
+    protected static final boolean LOG_SCREEN_CHANGE = System.getProperty("logScreenChange", "true").equals("true");
+    protected static final int[] COMPUTED_ANIMATION_INFO_NO_ANIMATION = new int[]{0, 0, 0, 0};
     protected int[] modelledAnimationInfo;
     protected int[] currentAnimationInfo = new int[]{0, 0, 0, 0};
     protected int[] computedAnimationInfo = new int[]{0, 0, 0, 0};
@@ -65,13 +65,12 @@ extends AbstractAnimationController {
         this.statisticsBuffer = SHOW_SCREEN_CHANGE_ANIMATION_INFO ? new Buffer() : null;
     }
 
-    @Override
     public void startWaitAnimation(int n) {
         IAbstractCursorBarWidget iAbstractCursorBarWidget = (IAbstractCursorBarWidget)((Object)this.widgetRegistry.getWidget(1, n, this.connectedMainScreen));
         if (iAbstractCursorBarWidget != null) {
             iAbstractCursorBarWidget.startWaitAnimation(0);
         } else {
-            this.logAnimation.log(-2137614336, "Animation#startWaitAnimation no cursor to fade");
+            this.logAnimation.log(10000000, "Animation#startWaitAnimation no cursor to fade");
         }
     }
 
@@ -99,7 +98,6 @@ extends AbstractAnimationController {
         }
     }
 
-    @Override
     public void registerService(IFrameworkAccess iFrameworkAccess) {
         if (this.terminal.getTerminalID() == 0) {
             Hashtable hashtable = new Hashtable();
@@ -120,7 +118,6 @@ extends AbstractAnimationController {
         return abstractAnimation;
     }
 
-    @Override
     public void newMainScreenConnected(Screen screen) {
         if (!this.firstScreenWasShown) {
             this.firstScreenWasShown = true;
@@ -132,16 +129,13 @@ extends AbstractAnimationController {
         this.widgetRegistry.newScreenConnected(screen);
     }
 
-    @Override
     public IAnimation getIAnimation(int n) {
         return this.getAnimation(n);
     }
 
-    protected abstract AbstractAnimation createAnimation(int n) {
-    }
+    protected abstract AbstractAnimation createAnimation(int var1);
 
-    public abstract CombinedAnimation getCombinedAnimation(int n) {
-    }
+    public abstract CombinedAnimation getCombinedAnimation(int var1);
 
     protected void logScreenChangeEngine(int[] nArray, Screen screen, Screen screen2, int[] nArray2, int[] nArray3) {
         if (!this.logAnimation.isDebug()) {
@@ -157,29 +151,29 @@ extends AbstractAnimationController {
         IDisplayControllerWidget iDisplayControllerWidget2 = ((AbstractScreenWidget)screen2).getDisplayController();
         String string4 = this.getAnimationName(nArray3[0]);
         String string5 = this.getAnimationName(nArray3[2]);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine calculated new animationtypes for terminal: %1", (long)this.terminal.getTerminalID());
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine current screen-leave-type: %1", (Object)string);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine modelled info bitfield current screen: %1", (long)nArray[0]);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine modelled info bitfield target screen: %1", (long)nArray[1]);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine currentContext: %1", (long)n);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine currentScreenID: %1", (long)n2);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine currentScreenType: %1", (Object)string2);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine calculated new animationtypes for terminal: %1", (long)this.terminal.getTerminalID());
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine current screen-leave-type: %1", (Object)string);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine modelled info bitfield current screen: %1", (long)nArray[0]);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine modelled info bitfield target screen: %1", (long)nArray[1]);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine currentContext: %1", (long)n);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine currentScreenID: %1", (long)n2);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine currentScreenType: %1", (Object)string2);
         if (iDisplayControllerWidget != null) {
-            this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine currentScreen has displayController with contextID: %1", (long)iDisplayControllerWidget.getTargetContextID());
+            this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine currentScreen has displayController with contextID: %1", (long)iDisplayControllerWidget.getTargetContextID());
         } else {
-            this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine currentScreen has no displayController, its context must be HMI_ONLY");
+            this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine currentScreen has no displayController, its context must be HMI_ONLY");
         }
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine targetScreenID: %1", (long)n3);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine targetScreenType: %1", (Object)string3);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine targetScreenID: %1", (long)n3);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine targetScreenType: %1", (Object)string3);
         if (iDisplayControllerWidget2 != null) {
-            this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine targetScreen has displayController with contextID: %1", (long)iDisplayControllerWidget2.getTargetContextID());
+            this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine targetScreen has displayController with contextID: %1", (long)iDisplayControllerWidget2.getTargetContextID());
         } else {
-            this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine targetScreen has no displayController, its context must be HMI_ONLY");
+            this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine targetScreen has no displayController, its context must be HMI_ONLY");
         }
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine ########computedAnimationType for currentScreen: %1", (Object)string4);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine computed additional info bitfield current screen: %1", (long)nArray3[1]);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine ########computedAnimationType for targetScreen: %1", (Object)string5);
-        this.logAnimation.log(-2137614336, "AnimationController#logScreenChangeEngine computed additional info bitfield target screen: %1", (long)nArray3[3]);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine ########computedAnimationType for currentScreen: %1", (Object)string4);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine computed additional info bitfield current screen: %1", (long)nArray3[1]);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine ########computedAnimationType for targetScreen: %1", (Object)string5);
+        this.logAnimation.log(10000000, "AnimationController#logScreenChangeEngine computed additional info bitfield target screen: %1", (long)nArray3[3]);
     }
 
     protected String[] getScreenChangeEngineInfo(int[] nArray, Screen screen, Screen screen2, int[] nArray2, int[] nArray3) {
@@ -221,19 +215,19 @@ extends AbstractAnimationController {
 
     protected boolean checkParameters(int[] nArray, Screen screen, Screen screen2, int[] nArray2) {
         if (this.connectedMainScreen != null && screen == null) {
-            this.logAnimation.log(-2137614336, "AnimationController#checkParameters currentScreen is null");
+            this.logAnimation.log(10000000, "AnimationController#checkParameters currentScreen is null");
             return false;
         }
         if (screen2 == null) {
-            this.logAnimation.log(-2137614336, "AnimationController#checkParameters targetScreen is null");
+            this.logAnimation.log(10000000, "AnimationController#checkParameters targetScreen is null");
             return false;
         }
         if (nArray == null || nArray.length != 2) {
-            this.logAnimation.log(-2137614336, "AnimationController#checkParameters modelledTypes == null or length != 2");
+            this.logAnimation.log(10000000, "AnimationController#checkParameters modelledTypes == null or length != 2");
             return false;
         }
         if (nArray2[0] != 0 && !this.isScreenChangeType(nArray2[0])) {
-            this.logAnimation.log(-2137614336, "AnimationController#checkParameters type for currentScreenLeaveAnimation is unknown");
+            this.logAnimation.log(10000000, "AnimationController#checkParameters type for currentScreenLeaveAnimation is unknown");
             return false;
         }
         return true;
@@ -242,34 +236,34 @@ extends AbstractAnimationController {
     protected String getScreenTypeName(int n) {
         switch (n) {
             case 0: {
-                return "HMI_ONLY";
+                return TEXT_HMI_ONLY;
             }
             case 1: {
-                return "MAP";
+                return TEXT_MAP;
             }
             case 4: {
-                return "BROWSER";
+                return TEXT_BROWSER;
             }
             case 2: {
-                return "TV";
+                return TEXT_TV;
             }
             case 3: {
-                return "VIDEO";
+                return TEXT_VIDEO;
             }
             case 5: {
-                return "REARVIEW";
+                return TEXT_REARVIEW;
             }
             case 8: {
-                return "POPUP_BOUND";
+                return TEXT_POPUP_BOUND;
             }
             case 6: {
-                return "STANDBY";
+                return TEXT_STANDBY;
             }
             case 9: {
-                return "FULLSCREEN SDS POPUP";
+                return TEXT_FULLSCREEN_SDS_POPUP;
             }
         }
-        return "UNKNOWN SCREENTYPE";
+        return TEXT_UNKNOWN_SCREENTYPE;
     }
 
     protected void initialize(int[] nArray, IScreenData iScreenData, IScreenData iScreenData2, int[] nArray2) {
@@ -278,7 +272,7 @@ extends AbstractAnimationController {
         this.currentScreen = iScreenData.getScreen();
         this.targetScreen = iScreenData2.getScreen();
         this.modelledAnimationInfo = nArray;
-        this.logAnimation.log(-2137614336, "AnimationController#initialize currentAnimationInfo Exit: %1", (long)nArray2[0]);
+        this.logAnimation.log(10000000, "AnimationController#initialize currentAnimationInfo Exit: %1", (long)nArray2[0]);
         System.arraycopy((Object)nArray2, 0, (Object)this.currentAnimationInfo, 0, nArray2.length);
         System.arraycopy((Object)COMPUTED_ANIMATION_INFO_NO_ANIMATION, 0, (Object)this.computedAnimationInfo, 0, COMPUTED_ANIMATION_INFO_NO_ANIMATION.length);
         if (this.currentScreen != null) {
@@ -303,7 +297,6 @@ extends AbstractAnimationController {
         }
     }
 
-    @Override
     public Screen getConnectedMainScreen() {
         return this.connectedMainScreen;
     }
@@ -316,7 +309,6 @@ extends AbstractAnimationController {
         this.widgetRegistry = widgetRegistry;
     }
 
-    @Override
     public boolean isFirstScreenShown() {
         return this.firstScreenWasShown;
     }
@@ -336,12 +328,6 @@ extends AbstractAnimationController {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        SHOW_SCREEN_CHANGE_ANIMATION_INFO = Boolean.getBoolean("showScreenChangeAnimationInfo");
-        LOG_SCREEN_CHANGE = System.getProperty("logScreenChange", "true").equals("true");
-        COMPUTED_ANIMATION_INFO_NO_ANIMATION = new int[]{0, 0, 0, 0};
     }
 }
 

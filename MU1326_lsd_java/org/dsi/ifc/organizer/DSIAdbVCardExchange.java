@@ -8,38 +8,32 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIAdbVCardExchange
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_IMPORTVCARD;
-    public static final int RT_EXPORTVCARD;
-    public static final int RT_EXPORTSPELLERVCARD;
-    public static final int RT_CREATEVCARD;
-    public static final int RT_PARSEVCARD;
-    public static final int RT_REQUESTABORT;
-    public static final int ATTR_EXPORTCOUNT;
-    public static final int ATTR_IMPORTCOUNT;
-    public static final int RP_IMPORTVCARDRESULT;
-    public static final int RP_EXPORTVCARDRESULT;
-    public static final int RP_EXPORTSPELLERVCARDRESULT;
-    public static final int RP_CREATEVCARDRESULT;
-    public static final int RP_PARSEVCARDRESULT;
-    public static final int RP_RESPONSEABORT;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_IMPORTVCARD = 1000;
+    public static final int RT_EXPORTVCARD = 1001;
+    public static final int RT_EXPORTSPELLERVCARD = 1002;
+    public static final int RT_CREATEVCARD = 1004;
+    public static final int RT_PARSEVCARD = 1005;
+    public static final int RT_REQUESTABORT = 1006;
+    public static final int ATTR_EXPORTCOUNT = 4;
+    public static final int ATTR_IMPORTCOUNT = 5;
+    public static final int RP_IMPORTVCARDRESULT = 2000;
+    public static final int RP_EXPORTVCARDRESULT = 2001;
+    public static final int RP_EXPORTSPELLERVCARDRESULT = 2002;
+    public static final int RP_CREATEVCARDRESULT = 2004;
+    public static final int RP_PARSEVCARDRESULT = 2005;
+    public static final int RP_RESPONSEABORT = 2006;
 
-    default public void importVCard(ResourceLocator[] resourceLocatorArray, int n) {
-    }
+    public void importVCard(ResourceLocator[] var1, int var2);
 
-    default public void exportVCard(int n, String string, long[] lArray, int n2) {
-    }
+    public void exportVCard(int var1, String var2, long[] var3, int var4);
 
-    default public void exportSpellerVCard(int n, int n2, String string, long[] lArray, int n3) {
-    }
+    public void exportSpellerVCard(int var1, int var2, String var3, long[] var4, int var5);
 
-    default public void createVCard(int n, long[] lArray, int n2) {
-    }
+    public void createVCard(int var1, long[] var2, int var3);
 
-    default public void parseVCard(String string) {
-    }
+    public void parseVCard(String var1);
 
-    default public void requestAbort(int n) {
-    }
+    public void requestAbort(int var1);
 }
 

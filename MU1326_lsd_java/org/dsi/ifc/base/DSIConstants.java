@@ -4,6 +4,6 @@
 package org.dsi.ifc.base;
 
 public interface DSIConstants {
-    public static final String EMPTY_STRING;
+    public static final String EMPTY_STRING = "";
 }
 

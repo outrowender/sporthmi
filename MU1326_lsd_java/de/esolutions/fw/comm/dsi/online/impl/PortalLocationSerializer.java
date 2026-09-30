@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PortalLocation;
 
 public class PortalLocationSerializer {
-    public static void putOptionalPortalLocation(ISerializer iSerializer, PortalLocation portalLocation) {
+    public static void putOptionalPortalLocation(ISerializer iSerializer, PortalLocation portalLocation) throws SerializerException {
         boolean bl = portalLocation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class PortalLocationSerializer {
         }
     }
 
-    public static void putOptionalPortalLocationVarArray(ISerializer iSerializer, PortalLocation[] portalLocationArray) {
+    public static void putOptionalPortalLocationVarArray(ISerializer iSerializer, PortalLocation[] portalLocationArray) throws SerializerException {
         boolean bl = portalLocationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class PortalLocationSerializer {
         }
     }
 
-    public static PortalLocation getOptionalPortalLocation(IDeserializer iDeserializer) {
+    public static PortalLocation getOptionalPortalLocation(IDeserializer iDeserializer) throws SerializerException {
         PortalLocation portalLocation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class PortalLocationSerializer {
         return portalLocation;
     }
 
-    public static PortalLocation[] getOptionalPortalLocationVarArray(IDeserializer iDeserializer) {
+    public static PortalLocation[] getOptionalPortalLocationVarArray(IDeserializer iDeserializer) throws SerializerException {
         PortalLocation[] portalLocationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

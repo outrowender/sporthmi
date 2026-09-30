@@ -42,7 +42,6 @@ IWriteable {
         }
     }
 
-    @Override
     public int size() {
         return this.window.getSize();
     }
@@ -51,44 +50,38 @@ IWriteable {
         return this.data;
     }
 
-    @Override
     public byte[] getData() {
         return this.data;
     }
 
-    @Override
-    public byte[] getData(int n, int n2) {
+    public byte[] getData(int n, int n2) throws TransportBufferException {
         if (n + n2 > this.size) {
-            throw new TransportBufferException(new StringBuffer().append("getData out of range: data=(@").append(n).append(",").append(n2).append(") size=").append(this.size).toString());
+            throw new TransportBufferException("getData out of range: data=(@" + n + "," + n2 + ") size=" + this.size);
         }
         byte[] byArray = new byte[n2];
         System.arraycopy((Object)this.data, n, (Object)byArray, 0, n2);
         return byArray;
     }
 
-    @Override
     public byte[] getDirectData() {
         return this.data;
     }
 
-    @Override
     public int getDirectOffset() {
         return this.window.getOffset();
     }
 
-    @Override
-    public IReadable createSubBuffer(int n, int n2) {
+    public IReadable createSubBuffer(int n, int n2) throws TransportBufferException {
         if (n + n2 > this.size()) {
-            throw new TransportBufferException(new StringBuffer().append("Invalid window for sub buffer: new=(@").append(n).append(",").append(n2).append(") size=").append(this.size()).toString());
+            throw new TransportBufferException("Invalid window for sub buffer: new=(@" + n + "," + n2 + ") size=" + this.size());
         }
         return new TransportSubBuffer(this, n, n2);
     }
 
-    @Override
-    public void setData(byte[] byArray) {
+    public void setData(byte[] byArray) throws TransportBufferException {
         int n = this.window.getSize();
         if (byArray.length != n) {
-            throw new TransportBufferException(new StringBuffer().append("Invalid data size: expected=").append(n).append(" found: ").append(byArray.length).toString());
+            throw new TransportBufferException("Invalid data size: expected=" + n + " found: " + byArray.length);
         }
         if (this.size == n) {
             this.data = byArray;
@@ -97,8 +90,7 @@ IWriteable {
         }
     }
 
-    @Override
-    public void setData(int n, byte[] byArray) {
+    public void setData(int n, byte[] byArray) throws TransportBufferException {
         int n2 = this.window.getSize();
         int n3 = this.window.getOffset();
         int n4 = byArray.length;
@@ -108,8 +100,7 @@ IWriteable {
         System.arraycopy((Object)byArray, 0, (Object)this.data, n3 + n, n4);
     }
 
-    @Override
-    public void setData(int n, byte[] byArray, int n2) {
+    public void setData(int n, byte[] byArray, int n2) throws TransportBufferException {
         int n3 = this.window.getSize();
         int n4 = this.window.getOffset();
         if (n2 + n > n3) {
@@ -118,38 +109,33 @@ IWriteable {
         System.arraycopy((Object)byArray, 0, (Object)this.data, n4 + n, n2);
     }
 
-    @Override
-    public WriteableWindow setWindow(WriteableWindow writeableWindow) {
+    public WriteableWindow setWindow(WriteableWindow writeableWindow) throws TransportBufferException {
         if (!writeableWindow.isInside(this.size)) {
-            throw new TransportBufferException(new StringBuffer().append("Invalid window (").append(writeableWindow.getOffset()).append(",").append(writeableWindow.getSize()).append(") current (").append(this.window.getOffset()).append(",").append(this.window.getSize()).append(")").toString());
+            throw new TransportBufferException("Invalid window (" + writeableWindow.getOffset() + "," + writeableWindow.getSize() + ") current (" + this.window.getOffset() + "," + this.window.getSize() + ")");
         }
         WriteableWindow writeableWindow2 = this.window;
         this.window = writeableWindow;
         return writeableWindow2;
     }
 
-    @Override
-    public WriteableWindow setLocalWindow(int n, int n2) {
+    public WriteableWindow setLocalWindow(int n, int n2) throws TransportBufferException {
         WriteableWindow writeableWindow = new WriteableWindow(this.window.getOffset() + n, n2);
         if (!writeableWindow.isInside(this.size)) {
-            throw new TransportBufferException(new StringBuffer().append("Invalid window (").append(writeableWindow.getOffset()).append(",").append(writeableWindow.getSize()).append(") current (").append(this.window.getOffset()).append(",").append(this.window.getSize()).append(")").toString());
+            throw new TransportBufferException("Invalid window (" + writeableWindow.getOffset() + "," + writeableWindow.getSize() + ") current (" + this.window.getOffset() + "," + this.window.getSize() + ")");
         }
         WriteableWindow writeableWindow2 = this.window;
         this.window = writeableWindow;
         return writeableWindow2;
     }
 
-    @Override
     public void resetWindow() {
         this.window = new WriteableWindow(0, this.data.length);
     }
 
-    @Override
     public void setDebugTag(Object object) {
         this.debugTag = object;
     }
 
-    @Override
     public Object getDebugTag() {
         return this.debugTag;
     }

@@ -17,12 +17,10 @@ extends Command {
         this.handler = iClientHandler;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doSetupBrokerLink(this.handler);
     }
 
-    @Override
     public void drop(ICommandExecutor iCommandExecutor, boolean bl) {
         iCommandExecutor.dropSetupBrokerLink(this.handler);
     }

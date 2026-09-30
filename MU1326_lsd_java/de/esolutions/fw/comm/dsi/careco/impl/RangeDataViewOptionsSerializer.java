@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.careco.impl.RangeDataConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.RangeDataConfiguration;
 import org.dsi.ifc.careco.RangeDataViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class RangeDataViewOptionsSerializer {
-    public static void putOptionalRangeDataViewOptions(ISerializer iSerializer, RangeDataViewOptions rangeDataViewOptions) {
+    public static void putOptionalRangeDataViewOptions(ISerializer iSerializer, RangeDataViewOptions rangeDataViewOptions) throws SerializerException {
         boolean bl = rangeDataViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -59,7 +60,7 @@ public class RangeDataViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalRangeDataViewOptionsVarArray(ISerializer iSerializer, RangeDataViewOptions[] rangeDataViewOptionsArray) {
+    public static void putOptionalRangeDataViewOptionsVarArray(ISerializer iSerializer, RangeDataViewOptions[] rangeDataViewOptionsArray) throws SerializerException {
         boolean bl = rangeDataViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -70,7 +71,7 @@ public class RangeDataViewOptionsSerializer {
         }
     }
 
-    public static RangeDataViewOptions getOptionalRangeDataViewOptions(IDeserializer iDeserializer) {
+    public static RangeDataViewOptions getOptionalRangeDataViewOptions(IDeserializer iDeserializer) throws SerializerException {
         RangeDataViewOptions rangeDataViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -119,7 +120,7 @@ public class RangeDataViewOptionsSerializer {
         return rangeDataViewOptions;
     }
 
-    public static RangeDataViewOptions[] getOptionalRangeDataViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static RangeDataViewOptions[] getOptionalRangeDataViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         RangeDataViewOptions[] rangeDataViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

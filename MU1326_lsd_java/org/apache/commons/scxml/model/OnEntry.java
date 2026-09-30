@@ -7,6 +7,6 @@ import org.apache.commons.scxml.model.Executable;
 
 public class OnEntry
 extends Executable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 }
 

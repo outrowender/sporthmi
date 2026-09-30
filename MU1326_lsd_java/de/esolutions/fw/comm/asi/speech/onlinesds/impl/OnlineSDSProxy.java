@@ -7,12 +7,14 @@ import de.esolutions.fw.comm.asi.speech.onlinesds.LanguageInfo;
 import de.esolutions.fw.comm.asi.speech.onlinesds.OnlineSDS;
 import de.esolutions.fw.comm.asi.speech.onlinesds.OnlineSDSC;
 import de.esolutions.fw.comm.asi.speech.onlinesds.OnlineSDSReply;
-import de.esolutions.fw.comm.asi.speech.onlinesds.impl.OnlineSDSProxy$1;
+import de.esolutions.fw.comm.asi.speech.onlinesds.impl.LanguageInfoSerializer;
 import de.esolutions.fw.comm.asi.speech.onlinesds.impl.OnlineSDSReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -32,14 +34,17 @@ OnlineSDSC {
         return this.proxy;
     }
 
-    @Override
-    public void onlineCapabilities(LanguageInfo[] languageInfoArray) {
-        OnlineSDSProxy$1 onlineSDSProxy$1 = new OnlineSDSProxy$1(this, languageInfoArray);
-        this.proxy.remoteCallMethod((short)13, onlineSDSProxy$1);
+    public void onlineCapabilities(final LanguageInfo[] languageInfoArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                LanguageInfoSerializer.putOptionalLanguageInfoVarArray(iSerializer, languageInfoArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void responseSetLanguage(int n) {
+    public void responseSetLanguage(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -50,8 +55,7 @@ OnlineSDSC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void sendOnlineResult(int n, int n2, String string) {
+    public void sendOnlineResult(int n, int n2, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt16(n);
@@ -64,8 +68,7 @@ OnlineSDSC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void responseCancel(int n, int n2) {
+    public void responseCancel(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt16(n);

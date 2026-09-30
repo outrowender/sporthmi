@@ -10,21 +10,21 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.caraircondition.DSICarAirCondition;
 import de.esolutions.fw.comm.dsi.caraircondition.DSICarAirConditionC;
 import de.esolutions.fw.comm.dsi.caraircondition.DSICarAirConditionReply;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$1;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$10;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$11;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$12;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$13;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$14;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$2;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$3;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$4;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$5;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$6;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$7;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$8;
-import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionProxy$9;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconAirDistributionSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconAirVolumeSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconBCMeasuresConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconBlowerCompensationSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconContentSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconFreshAirConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconNozzleListRecordSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconPureAirSetupSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconSteeringWheelHeaterSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconSynchronisationSerializer;
+import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconTempSerializer;
 import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionReplyService;
+import de.esolutions.fw.comm.dsi.global.impl.CarArrayListUpdateInfoSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconAirDistribution;
@@ -56,8 +56,7 @@ DSICarAirConditionC {
         return this.proxy;
     }
 
-    @Override
-    public void setAirconAirCirculationMan(boolean bl) {
+    public void setAirconAirCirculationMan(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -68,8 +67,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setAirconAirCirculationAuto(boolean bl) {
+    public void setAirconAirCirculationAuto(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -80,8 +78,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setAirconMiddleExhaustion(int n) {
+    public void setAirconMiddleExhaustion(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -92,8 +89,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setAirconRearWindowHeater(boolean bl) {
+    public void setAirconRearWindowHeater(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -104,8 +100,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setAirconIndirectVentilation(boolean bl) {
+    public void setAirconIndirectVentilation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -116,8 +111,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setAirconPopupTime(int n) {
+    public void setAirconPopupTime(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -128,8 +122,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setAirconHeater(boolean bl) {
+    public void setAirconHeater(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -140,8 +133,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setAirconRearAuxHeater(boolean bl) {
+    public void setAirconRearAuxHeater(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -152,8 +144,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setAirconFrontWindowHeater(boolean bl) {
+    public void setAirconFrontWindowHeater(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -164,8 +155,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setAirconDefrost(boolean bl) {
+    public void setAirconDefrost(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -176,8 +166,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setAirconMaxDefrost(boolean bl) {
+    public void setAirconMaxDefrost(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -188,8 +177,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)110, genericSerializable);
     }
 
-    @Override
-    public void setAirconSolar(boolean bl) {
+    public void setAirconSolar(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -200,8 +188,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void setAirconAC(boolean bl) {
+    public void setAirconAC(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -212,8 +199,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setAirconMaxAC(boolean bl) {
+    public void setAirconMaxAC(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -224,8 +210,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)109, genericSerializable);
     }
 
-    @Override
-    public void setAirconEcoAC(boolean bl) {
+    public void setAirconEcoAC(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -236,8 +221,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)141, genericSerializable);
     }
 
-    @Override
-    public void setAirconRearControl(boolean bl) {
+    public void setAirconRearControl(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -248,8 +232,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setAirconRearControlFondPlus(boolean bl) {
+    public void setAirconRearControlFondPlus(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -260,14 +243,17 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)143, genericSerializable);
     }
 
-    @Override
-    public void setAirconSteeringWheelHeater(AirconSteeringWheelHeater airconSteeringWheelHeater) {
-        DSICarAirConditionProxy$1 dSICarAirConditionProxy$1 = new DSICarAirConditionProxy$1(this, airconSteeringWheelHeater);
-        this.proxy.remoteCallMethod((short)113, dSICarAirConditionProxy$1);
+    public void setAirconSteeringWheelHeater(final AirconSteeringWheelHeater airconSteeringWheelHeater) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconSteeringWheelHeaterSerializer.putOptionalAirconSteeringWheelHeater(iSerializer, airconSteeringWheelHeater);
+            }
+        };
+        this.proxy.remoteCallMethod((short)113, iSerializable);
     }
 
-    @Override
-    public void setAirconFrontWindowHeaterAuto(boolean bl) {
+    public void setAirconFrontWindowHeaterAuto(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -278,20 +264,27 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setAirconBlowerCompensation(AirconBlowerCompensation airconBlowerCompensation) {
-        DSICarAirConditionProxy$2 dSICarAirConditionProxy$2 = new DSICarAirConditionProxy$2(this, airconBlowerCompensation);
-        this.proxy.remoteCallMethod((short)137, dSICarAirConditionProxy$2);
+    public void setAirconBlowerCompensation(final AirconBlowerCompensation airconBlowerCompensation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconBlowerCompensationSerializer.putOptionalAirconBlowerCompensation(iSerializer, airconBlowerCompensation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)137, iSerializable);
     }
 
-    @Override
-    public void setAirconSynchronisation(AirconSynchronisation airconSynchronisation) {
-        DSICarAirConditionProxy$3 dSICarAirConditionProxy$3 = new DSICarAirConditionProxy$3(this, airconSynchronisation);
-        this.proxy.remoteCallMethod((short)145, dSICarAirConditionProxy$3);
+    public void setAirconSynchronisation(final AirconSynchronisation airconSynchronisation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconSynchronisationSerializer.putOptionalAirconSynchronisation(iSerializer, airconSynchronisation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)145, iSerializable);
     }
 
-    @Override
-    public void setAirconSuppressVisualisation(boolean bl) {
+    public void setAirconSuppressVisualisation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -302,8 +295,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void setAirconSystemOnOffRow(int n, boolean bl) {
+    public void setAirconSystemOnOffRow(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -315,8 +307,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)195, genericSerializable);
     }
 
-    @Override
-    public void setAirconAirCirculationSensitivity(int n) {
+    public void setAirconAirCirculationSensitivity(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -327,8 +318,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setAirconResidualHeat(boolean bl) {
+    public void setAirconResidualHeat(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -339,44 +329,71 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void showAirconPopup(AirconContent airconContent) {
-        DSICarAirConditionProxy$4 dSICarAirConditionProxy$4 = new DSICarAirConditionProxy$4(this, airconContent);
-        this.proxy.remoteCallMethod((short)196, dSICarAirConditionProxy$4);
+    public void showAirconPopup(final AirconContent airconContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconContentSerializer.putOptionalAirconContent(iSerializer, airconContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)196, iSerializable);
     }
 
-    @Override
-    public void cancelAirconPopup(AirconContent airconContent, int n) {
-        DSICarAirConditionProxy$5 dSICarAirConditionProxy$5 = new DSICarAirConditionProxy$5(this, airconContent, n);
-        this.proxy.remoteCallMethod((short)169, dSICarAirConditionProxy$5);
+    public void cancelAirconPopup(final AirconContent airconContent, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconContentSerializer.putOptionalAirconContent(iSerializer, airconContent);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)169, iSerializable);
     }
 
-    @Override
-    public void setAirconContent(AirconContent airconContent) {
-        DSICarAirConditionProxy$6 dSICarAirConditionProxy$6 = new DSICarAirConditionProxy$6(this, airconContent);
-        this.proxy.remoteCallMethod((short)179, dSICarAirConditionProxy$6);
+    public void setAirconContent(final AirconContent airconContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconContentSerializer.putOptionalAirconContent(iSerializer, airconContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)179, iSerializable);
     }
 
-    @Override
-    public void setAirconTempZone(int n, AirconTemp airconTemp) {
-        DSICarAirConditionProxy$7 dSICarAirConditionProxy$7 = new DSICarAirConditionProxy$7(this, n, airconTemp);
-        this.proxy.remoteCallMethod((short)40, dSICarAirConditionProxy$7);
+    public void setAirconTempZone(final int n, final AirconTemp airconTemp) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                AirconTempSerializer.putOptionalAirconTemp(iSerializer, airconTemp);
+            }
+        };
+        this.proxy.remoteCallMethod((short)40, iSerializable);
     }
 
-    @Override
-    public void setAirconAirVolume(int n, AirconAirVolume airconAirVolume) {
-        DSICarAirConditionProxy$8 dSICarAirConditionProxy$8 = new DSICarAirConditionProxy$8(this, n, airconAirVolume);
-        this.proxy.remoteCallMethod((short)13, dSICarAirConditionProxy$8);
+    public void setAirconAirVolume(final int n, final AirconAirVolume airconAirVolume) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                AirconAirVolumeSerializer.putOptionalAirconAirVolume(iSerializer, airconAirVolume);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void setAirconAirDistribution(int n, AirconAirDistribution airconAirDistribution) {
-        DSICarAirConditionProxy$9 dSICarAirConditionProxy$9 = new DSICarAirConditionProxy$9(this, n, airconAirDistribution);
-        this.proxy.remoteCallMethod((short)175, dSICarAirConditionProxy$9);
+    public void setAirconAirDistribution(final int n, final AirconAirDistribution airconAirDistribution) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                AirconAirDistributionSerializer.putOptionalAirconAirDistribution(iSerializer, airconAirDistribution);
+            }
+        };
+        this.proxy.remoteCallMethod((short)175, iSerializable);
     }
 
-    @Override
-    public void setAirconFootwellTemp(int n, int n2) {
+    public void setAirconFootwellTemp(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -388,8 +405,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setAirconSeatHeater(int n, int n2, int n3) {
+    public void setAirconSeatHeater(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -402,8 +418,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)281, genericSerializable);
     }
 
-    @Override
-    public void setAirconSeatVentilation(int n, int n2, int n3) {
+    public void setAirconSeatVentilation(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -416,8 +431,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)282, genericSerializable);
     }
 
-    @Override
-    public void setAirconHMIIsReady(boolean bl) {
+    public void setAirconHMIIsReady(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -428,8 +442,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setAirconSeatHeaterDistribution(int n, int n2) {
+    public void setAirconSeatHeaterDistribution(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -441,8 +454,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)111, genericSerializable);
     }
 
-    @Override
-    public void setAirconSeatVentilationDistribution(int n, int n2) {
+    public void setAirconSeatVentilationDistribution(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -454,8 +466,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)112, genericSerializable);
     }
 
-    @Override
-    public void setAirconTempStep(int n, int n2) {
+    public void setAirconTempStep(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -467,8 +478,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)114, genericSerializable);
     }
 
-    @Override
-    public void setAirconClimateStyle(int n, int n2) {
+    public void setAirconClimateStyle(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -480,13 +490,11 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)178, genericSerializable);
     }
 
-    @Override
-    public void setAirconSetFactoryDefaultMaster() {
+    public void setAirconSetFactoryDefaultMaster() throws MethodException {
         this.proxy.remoteCallMethod((short)192, null);
     }
 
-    @Override
-    public void setAirconSetFactoryDefaultRow(int n) {
+    public void setAirconSetFactoryDefaultRow(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -497,8 +505,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)193, genericSerializable);
     }
 
-    @Override
-    public void setAirconNozzleControlRow1(int n) {
+    public void setAirconNozzleControlRow1(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -509,8 +516,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)183, genericSerializable);
     }
 
-    @Override
-    public void setAirconNozzleControlRow2(int n) {
+    public void setAirconNozzleControlRow2(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -521,8 +527,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)184, genericSerializable);
     }
 
-    @Override
-    public void setAirconNozzleControlRow3(int n) {
+    public void setAirconNozzleControlRow3(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -533,20 +538,30 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)185, genericSerializable);
     }
 
-    @Override
-    public void requestAirconNozzleListRow(int n, CarArrayListUpdateInfo carArrayListUpdateInfo) {
-        DSICarAirConditionProxy$10 dSICarAirConditionProxy$10 = new DSICarAirConditionProxy$10(this, n, carArrayListUpdateInfo);
-        this.proxy.remoteCallMethod((short)170, dSICarAirConditionProxy$10);
+    public void requestAirconNozzleListRow(final int n, final CarArrayListUpdateInfo carArrayListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)170, iSerializable);
     }
 
-    @Override
-    public void setAirconNozzleListRow(int n, CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
-        DSICarAirConditionProxy$11 dSICarAirConditionProxy$11 = new DSICarAirConditionProxy$11(this, n, carArrayListUpdateInfo, airconNozzleListRecordArray);
-        this.proxy.remoteCallMethod((short)186, dSICarAirConditionProxy$11);
+    public void setAirconNozzleListRow(final int n, final CarArrayListUpdateInfo carArrayListUpdateInfo, final AirconNozzleListRecord[] airconNozzleListRecordArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                CarArrayListUpdateInfoSerializer.putOptionalCarArrayListUpdateInfo(iSerializer, carArrayListUpdateInfo);
+                AirconNozzleListRecordSerializer.putOptionalAirconNozzleListRecordVarArray(iSerializer, airconNozzleListRecordArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)186, iSerializable);
     }
 
-    @Override
-    public void setAirconSideWindowDefrost(boolean bl) {
+    public void setAirconSideWindowDefrost(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -557,20 +572,27 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)194, genericSerializable);
     }
 
-    @Override
-    public void setAirconPureAir(AirconPureAirSetup airconPureAirSetup) {
-        DSICarAirConditionProxy$12 dSICarAirConditionProxy$12 = new DSICarAirConditionProxy$12(this, airconPureAirSetup);
-        this.proxy.remoteCallMethod((short)187, dSICarAirConditionProxy$12);
+    public void setAirconPureAir(final AirconPureAirSetup airconPureAirSetup) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconPureAirSetupSerializer.putOptionalAirconPureAirSetup(iSerializer, airconPureAirSetup);
+            }
+        };
+        this.proxy.remoteCallMethod((short)187, iSerializable);
     }
 
-    @Override
-    public void setAirconFreshAirConfig(AirconFreshAirConfiguration airconFreshAirConfiguration) {
-        DSICarAirConditionProxy$13 dSICarAirConditionProxy$13 = new DSICarAirConditionProxy$13(this, airconFreshAirConfiguration);
-        this.proxy.remoteCallMethod((short)180, dSICarAirConditionProxy$13);
+    public void setAirconFreshAirConfig(final AirconFreshAirConfiguration airconFreshAirConfiguration) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AirconFreshAirConfigurationSerializer.putOptionalAirconFreshAirConfiguration(iSerializer, airconFreshAirConfiguration);
+            }
+        };
+        this.proxy.remoteCallMethod((short)180, iSerializable);
     }
 
-    @Override
-    public void setAirconAirQuality(int n, int n2) {
+    public void setAirconAirQuality(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -582,8 +604,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)176, genericSerializable);
     }
 
-    @Override
-    public void setAirconSeatNeckHeater(int n, boolean bl, int n2) {
+    public void setAirconSeatNeckHeater(int n, boolean bl, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -596,8 +617,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)189, genericSerializable);
     }
 
-    @Override
-    public void setAirconSeatSurfaceHeater(int n, boolean bl, boolean bl2, int n2) {
+    public void setAirconSeatSurfaceHeater(int n, boolean bl, boolean bl2, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -611,8 +631,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)190, genericSerializable);
     }
 
-    @Override
-    public void setAirconIndividualClimatisation(int n, boolean bl) {
+    public void setAirconIndividualClimatisation(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -624,8 +643,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)181, genericSerializable);
     }
 
-    @Override
-    public void setAirconIonisator(int n, int n2) {
+    public void setAirconIonisator(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -637,14 +655,19 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)280, genericSerializable);
     }
 
-    @Override
-    public void setAirconBodyCloseMeasures(int n, boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration) {
-        DSICarAirConditionProxy$14 dSICarAirConditionProxy$14 = new DSICarAirConditionProxy$14(this, n, bl, airconBCMeasuresConfiguration);
-        this.proxy.remoteCallMethod((short)177, dSICarAirConditionProxy$14);
+    public void setAirconBodyCloseMeasures(final int n, final boolean bl, final AirconBCMeasuresConfiguration airconBCMeasuresConfiguration) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+                AirconBCMeasuresConfigurationSerializer.putOptionalAirconBCMeasuresConfiguration(iSerializer, airconBCMeasuresConfiguration);
+            }
+        };
+        this.proxy.remoteCallMethod((short)177, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -655,8 +678,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -667,13 +689,11 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)41, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -684,8 +704,7 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -696,13 +715,11 @@ DSICarAirConditionC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -13,6 +13,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 import org.w3c.dom.ranges.Range;
+import org.w3c.dom.ranges.RangeException;
 
 public class RangeImpl
 implements Range {
@@ -28,9 +29,9 @@ implements Range {
     Node fSplitNode = null;
     boolean fInsertedFromRange = false;
     Node fRemoveChild = null;
-    static final int EXTRACT_CONTENTS;
-    static final int CLONE_CONTENTS;
-    static final int DELETE_CONTENTS;
+    static final int EXTRACT_CONTENTS = 1;
+    static final int CLONE_CONTENTS = 2;
+    static final int DELETE_CONTENTS = 3;
 
     public RangeImpl(DocumentImpl documentImpl) {
         this.fDocument = documentImpl;
@@ -41,7 +42,6 @@ implements Range {
         this.fDetach = false;
     }
 
-    @Override
     public Node getStartContainer() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -49,7 +49,6 @@ implements Range {
         return this.fStartContainer;
     }
 
-    @Override
     public int getStartOffset() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -57,7 +56,6 @@ implements Range {
         return this.fStartOffset;
     }
 
-    @Override
     public Node getEndContainer() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -65,7 +63,6 @@ implements Range {
         return this.fEndContainer;
     }
 
-    @Override
     public int getEndOffset() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -73,7 +70,6 @@ implements Range {
         return this.fEndOffset;
     }
 
-    @Override
     public boolean getCollapsed() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -81,7 +77,6 @@ implements Range {
         return this.fStartContainer == this.fEndContainer && this.fStartOffset == this.fEndOffset;
     }
 
-    @Override
     public Node getCommonAncestorContainer() {
         Node node;
         if (this.fDetach) {
@@ -103,8 +98,7 @@ implements Range {
         return (Node)object;
     }
 
-    @Override
-    public void setStart(Node node, int n) {
+    public void setStart(Node node, int n) throws RangeException, DOMException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -124,8 +118,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void setEnd(Node node, int n) {
+    public void setEnd(Node node, int n) throws RangeException, DOMException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -145,8 +138,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void setStartBefore(Node node) {
+    public void setStartBefore(Node node) throws RangeException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -169,8 +161,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void setStartAfter(Node node) {
+    public void setStartAfter(Node node) throws RangeException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -193,8 +184,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void setEndBefore(Node node) {
+    public void setEndBefore(Node node) throws RangeException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -217,8 +207,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void setEndAfter(Node node) {
+    public void setEndAfter(Node node) throws RangeException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -241,7 +230,6 @@ implements Range {
         }
     }
 
-    @Override
     public void collapse(boolean bl) {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -255,8 +243,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void selectNode(Node node) {
+    public void selectNode(Node node) throws RangeException {
         Node node2;
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
@@ -281,8 +268,7 @@ implements Range {
         }
     }
 
-    @Override
-    public void selectNodeContents(Node node) {
+    public void selectNodeContents(Node node) throws RangeException {
         if (this.fDocument.errorChecking) {
             if (this.fDetach) {
                 throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -309,8 +295,7 @@ implements Range {
         }
     }
 
-    @Override
-    public short compareBoundaryPoints(short s, Range range) {
+    public short compareBoundaryPoints(short s, Range range) throws DOMException {
         Node node;
         int n;
         int n2;
@@ -403,23 +388,19 @@ implements Range {
         return -1;
     }
 
-    @Override
-    public void deleteContents() {
+    public void deleteContents() throws DOMException {
         this.traverseContents(3);
     }
 
-    @Override
-    public DocumentFragment extractContents() {
+    public DocumentFragment extractContents() throws DOMException {
         return this.traverseContents(1);
     }
 
-    @Override
-    public DocumentFragment cloneContents() {
+    public DocumentFragment cloneContents() throws DOMException {
         return this.traverseContents(2);
     }
 
-    @Override
-    public void insertNode(Node node) {
+    public void insertNode(Node node) throws DOMException, RangeException {
         if (node == null) {
             return;
         }
@@ -478,8 +459,7 @@ implements Range {
         this.fInsertedFromRange = false;
     }
 
-    @Override
-    public void surroundContents(Node node) {
+    public void surroundContents(Node node) throws DOMException, RangeException {
         if (node == null) {
             return;
         }
@@ -509,7 +489,6 @@ implements Range {
         this.selectNode(node);
     }
 
-    @Override
     public Range cloneRange() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -520,7 +499,6 @@ implements Range {
         return range;
     }
 
-    @Override
     public String toString() {
         int n;
         if (this.fDetach) {
@@ -566,7 +544,6 @@ implements Range {
         return stringBuffer.toString();
     }
 
-    @Override
     public void detach() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -714,7 +691,7 @@ implements Range {
         }
     }
 
-    private DocumentFragment traverseContents(int n) {
+    private DocumentFragment traverseContents(int n) throws DOMException {
         int n2;
         Node node;
         Node node2;
@@ -1027,7 +1004,7 @@ implements Range {
         return node2;
     }
 
-    void checkIndex(Node node, int n) {
+    void checkIndex(Node node, int n) throws DOMException {
         if (n < 0) {
             throw new DOMException(1, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INDEX_SIZE_ERR", null));
         }

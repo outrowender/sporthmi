@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.swdlprogress;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.swdlprogress.DSISwdlProgressReply;
 import de.esolutions.fw.comm.dsi.swdlprogress.impl.DSISwdlProgressReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSISwdlProgressReply {
         super(n, (class$org$dsi$ifc$swdlprogress$DSISwdlProgressListener == null ? (class$org$dsi$ifc$swdlprogress$DSISwdlProgressListener = DSISwdlProgressDispatcher.class$("org.dsi.ifc.swdlprogress.DSISwdlProgressListener")) : class$org$dsi$ifc$swdlprogress$DSISwdlProgressListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateGeneralProgress(GeneralProgress generalProgress, int n) {
+    public void updateGeneralProgress(GeneralProgress generalProgress, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray, int n) {
+    public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void updateTriggerPanel(int n, int n2) {
+    public void updateTriggerPanel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void updateLostDevices(String[] stringArray, int n) {
+    public void updateLostDevices(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void updateOverviewStatus(int n, int n2) {
+    public void updateOverviewStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -174,8 +169,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void updateActiveDevices(String[] stringArray, int n) {
+    public void updateActiveDevices(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -203,8 +197,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void getStaticProgressDetails(int n, int n2, short s, String string) {
+    public void getStaticProgressDetails(int n, int n2, short s, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -220,8 +213,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void getDynamicProgressDetails(int n, byte by, String string) {
+    public void getDynamicProgressDetails(int n, byte by, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -237,8 +229,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) {
+    public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -254,8 +245,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void indicateDismissPopUp(int n, String string) {
+    public void indicateDismissPopUp(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -271,8 +261,7 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -288,14 +277,13 @@ implements DSISwdlProgressReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISwdlProgressListener dSISwdlProgressListener = (DSISwdlProgressListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlProgressDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlProgressDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISwdlProgressListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlProgressDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlProgressDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISwdlProgressListener, new Object[]{string, string2});
                     continue;
                 }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCSteeringInformation;
 
 public class PDCSteeringInformationSerializer {
-    public static void putOptionalPDCSteeringInformation(ISerializer iSerializer, PDCSteeringInformation pDCSteeringInformation) {
+    public static void putOptionalPDCSteeringInformation(ISerializer iSerializer, PDCSteeringInformation pDCSteeringInformation) throws SerializerException {
         boolean bl = pDCSteeringInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class PDCSteeringInformationSerializer {
         }
     }
 
-    public static void putOptionalPDCSteeringInformationVarArray(ISerializer iSerializer, PDCSteeringInformation[] pDCSteeringInformationArray) {
+    public static void putOptionalPDCSteeringInformationVarArray(ISerializer iSerializer, PDCSteeringInformation[] pDCSteeringInformationArray) throws SerializerException {
         boolean bl = pDCSteeringInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class PDCSteeringInformationSerializer {
         }
     }
 
-    public static PDCSteeringInformation getOptionalPDCSteeringInformation(IDeserializer iDeserializer) {
+    public static PDCSteeringInformation getOptionalPDCSteeringInformation(IDeserializer iDeserializer) throws SerializerException {
         PDCSteeringInformation pDCSteeringInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class PDCSteeringInformationSerializer {
         return pDCSteeringInformation;
     }
 
-    public static PDCSteeringInformation[] getOptionalPDCSteeringInformationVarArray(IDeserializer iDeserializer) {
+    public static PDCSteeringInformation[] getOptionalPDCSteeringInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCSteeringInformation[] pDCSteeringInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.HUDContent;
 
 public class HUDContentSerializer {
-    public static void putOptionalHUDContent(ISerializer iSerializer, HUDContent hUDContent) {
+    public static void putOptionalHUDContent(ISerializer iSerializer, HUDContent hUDContent) throws SerializerException {
         boolean bl = hUDContent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class HUDContentSerializer {
         }
     }
 
-    public static void putOptionalHUDContentVarArray(ISerializer iSerializer, HUDContent[] hUDContentArray) {
+    public static void putOptionalHUDContentVarArray(ISerializer iSerializer, HUDContent[] hUDContentArray) throws SerializerException {
         boolean bl = hUDContentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class HUDContentSerializer {
         }
     }
 
-    public static HUDContent getOptionalHUDContent(IDeserializer iDeserializer) {
+    public static HUDContent getOptionalHUDContent(IDeserializer iDeserializer) throws SerializerException {
         HUDContent hUDContent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -95,7 +96,7 @@ public class HUDContentSerializer {
         return hUDContent;
     }
 
-    public static HUDContent[] getOptionalHUDContentVarArray(IDeserializer iDeserializer) {
+    public static HUDContent[] getOptionalHUDContentVarArray(IDeserializer iDeserializer) throws SerializerException {
         HUDContent[] hUDContentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

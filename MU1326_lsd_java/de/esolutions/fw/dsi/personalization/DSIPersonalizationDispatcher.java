@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.personalization;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.personalization.DSIPersonalizationReply;
 import de.esolutions.fw.comm.dsi.personalization.impl.DSIPersonalizationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIPersonalizationReply {
         super(n, (class$org$dsi$ifc$personalization$DSIPersonalizationListener == null ? (class$org$dsi$ifc$personalization$DSIPersonalizationListener = DSIPersonalizationDispatcher.class$("org.dsi.ifc.personalization.DSIPersonalizationListener")) : class$org$dsi$ifc$personalization$DSIPersonalizationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void copyProfile(int n, int n2) {
+    public void copyProfile(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIPersonalizationReply {
         }
     }
 
-    @Override
-    public void resetProfile(int n) {
+    public void resetProfile(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIPersonalizationReply {
         }
     }
 
-    @Override
-    public void resetAllProfiles() {
+    public void resetAllProfiles() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIPersonalizationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,14 +90,13 @@ implements DSIPersonalizationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPersonalizationListener dSIPersonalizationListener = (DSIPersonalizationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPersonalizationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPersonalizationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPersonalizationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPersonalizationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPersonalizationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPersonalizationListener, new Object[]{string, string2});
                     continue;
                 }

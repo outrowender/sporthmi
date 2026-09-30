@@ -18,28 +18,28 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.PartialPopupController;
 public class UserGuideController
 extends AbstractWidgetController
 implements AnimationListener {
-    private static final String ANIMATIONPREFABPATH_DELETE;
-    private static final String ANIMATIONPREFABPATH_DELETE_AND_SPACE;
-    private static final String ANIMATIONPREFABPATH_EMPTY_FIELD;
-    private static final String ANIMATIONPREFABPATH_ASSUME_AUTOCOMPLETION;
-    private static final String ANIMATIONPREFABPATH_SPELLER_UMLAUTS;
-    private static final String ANIMATIONPREFABPATH_CLOSE_SPELLER;
-    private static final String ANIMATIONPREFABPATH_SPACE;
-    private static final String ANIMATIONPREFABPATH_TEXT_INPUT;
-    private static final String ANIMATIONPREFABPATH_MAP_UNLOCKED;
-    private static final String ANIMATIONPREFABPATH_MAP_LOCKED;
-    public static final int ANIMATION_ID_DELETE;
-    public static final int ANIMATION_ID_DELETE_SPACE;
-    public static final int ANIMATION_ID_CLOSE_SPELLER;
-    public static final int ANIMATION_ID_SPACE;
-    public static final int ANIMATION_ID_TEXT_INPUT;
-    public static final int ANIMATION_ID_EMPTY_FIELD;
-    public static final int ANIMATION_ID_ASSUME_AUTOCOMPLETION_SPELLER;
-    public static final int ANIMATION_ID_INITIAL_MAP_UNLOCKED;
-    public static final int ANIMATION_ID_SPELLER_UMLAUTS;
-    public static final int ANIMATION_ID_ASSUME_AUTOCOMPLETION_TOUCH;
-    public static final int ANIMATION_ID_INITIAL_MAP_LOCKED;
-    private static final int MAX_ANIMATION_COUNT;
+    private static final String ANIMATIONPREFABPATH_DELETE = "Prefabs/ug_delete";
+    private static final String ANIMATIONPREFABPATH_DELETE_AND_SPACE = "Prefabs/ug_delete_space";
+    private static final String ANIMATIONPREFABPATH_EMPTY_FIELD = "Prefabs/ug_empty_textfield";
+    private static final String ANIMATIONPREFABPATH_ASSUME_AUTOCOMPLETION = "Prefabs/ug_autocomplete_suggestion";
+    private static final String ANIMATIONPREFABPATH_SPELLER_UMLAUTS = "Prefabs/ug_speller_umlauts";
+    private static final String ANIMATIONPREFABPATH_CLOSE_SPELLER = "Prefabs/ug_close";
+    private static final String ANIMATIONPREFABPATH_SPACE = "Prefabs/ug_space";
+    private static final String ANIMATIONPREFABPATH_TEXT_INPUT = "Prefabs/ug_texteingabe";
+    private static final String ANIMATIONPREFABPATH_MAP_UNLOCKED = "Prefabs/ug_map";
+    private static final String ANIMATIONPREFABPATH_MAP_LOCKED = "Prefabs/ug_map_gesperrt";
+    public static final int ANIMATION_ID_DELETE = 0;
+    public static final int ANIMATION_ID_DELETE_SPACE = 1;
+    public static final int ANIMATION_ID_CLOSE_SPELLER = 2;
+    public static final int ANIMATION_ID_SPACE = 3;
+    public static final int ANIMATION_ID_TEXT_INPUT = 4;
+    public static final int ANIMATION_ID_EMPTY_FIELD = 5;
+    public static final int ANIMATION_ID_ASSUME_AUTOCOMPLETION_SPELLER = 6;
+    public static final int ANIMATION_ID_INITIAL_MAP_UNLOCKED = 7;
+    public static final int ANIMATION_ID_SPELLER_UMLAUTS = 8;
+    public static final int ANIMATION_ID_ASSUME_AUTOCOMPLETION_TOUCH = 9;
+    public static final int ANIMATION_ID_INITIAL_MAP_LOCKED = 10;
+    private static final int MAX_ANIMATION_COUNT = 3;
     IRenderer renderer = null;
     private AbstractAnimation userGuideAnimation;
     private float progress;
@@ -59,7 +59,6 @@ implements AnimationListener {
     private float fadeOutLabel1;
     private float fadeInLabel1;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -68,7 +67,6 @@ implements AnimationListener {
         this.renderer = iRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         this.closePopupAfterRunningAnimation = false;
         this.animationCounter = 0;
@@ -77,56 +75,49 @@ implements AnimationListener {
             if (abstractWidget instanceof LabelController) {
                 this.label1 = (LabelController)abstractWidget;
             } else {
-                logUserHints.log(-2137614336, "UserGuideController#initializeWidget: child at position one is not a Labelcontroller. prefabPath=%1", (Object)this.animationPrefabPath);
+                logUserHints.log(10000000, "UserGuideController#initializeWidget: child at position one is not a Labelcontroller. prefabPath=%1", (Object)this.animationPrefabPath);
             }
             abstractWidget = this.getChild(1);
             if (abstractWidget instanceof LabelController) {
                 this.label2 = (LabelController)abstractWidget;
             } else {
-                logUserHints.log(-2137614336, "UserGuideController#initializeWidget: child at position two is not a Labelcontroller. prefabPath=%1", (Object)this.animationPrefabPath);
+                logUserHints.log(10000000, "UserGuideController#initializeWidget: child at position two is not a Labelcontroller. prefabPath=%1", (Object)this.animationPrefabPath);
             }
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         this.closeHint();
         super.keyPressed(keyEvent);
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         this.closeHint();
         super.keyTurned(wheelButtonEvent);
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         this.closeHint();
         super.touchPadPressed(touchEvent);
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         this.closeHint();
         super.touchPadPositionMoved(touchEvent);
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
-        if (this.animationPrefabPath != "Prefabs/ug_empty_textfield") {
+        if (this.animationPrefabPath != ANIMATIONPREFABPATH_EMPTY_FIELD) {
             this.closeHint();
         }
         super.touchPadReleased(touchEvent);
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         this.closeHint();
         super.touchPadCharactersRecognized(touchEvent);
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         this.closeHint();
         super.keyMoved(joystickEvent);
@@ -145,7 +136,6 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void disconnecting() {
         if (this.userGuideAnimation != null && this.userGuideAnimation.isAnimating()) {
             this.userGuideAnimation.stopAnimation();
@@ -160,20 +150,19 @@ implements AnimationListener {
             this.userGuideAnimation.addListener(this);
         }
         if (framework.getSysApp().isStandstill()) {
-            this.userGuideAnimation.startDynamicAnimation(0.0f, 31300, this.currentAnimationId, false, this);
+            this.userGuideAnimation.startDynamicAnimation(0.0f, 1000.0f, this.currentAnimationId, false, this);
         } else {
-            this.userGuideAnimation.startDynamicAnimation(31300, 31300, this.currentAnimationId, false, this);
+            this.userGuideAnimation.startDynamicAnimation(1000.0f, 1000.0f, this.currentAnimationId, false, this);
         }
     }
 
-    @Override
     public void animate(int n, float f2) {
         if (n == this.currentAnimationId) {
             if (this.userGuideAnimation == null) {
                 logUserHints.log(10000, "UserGuideController#animate: the user guide animation is null");
                 return;
             }
-            this.progress = (this.userGuideAnimation.getProgress() - -842249154) / -842249153;
+            this.progress = (this.userGuideAnimation.getProgress() - 0.2f) / 0.8f;
             this.progress = Math.min(1.0f, this.progress);
             this.progress = Math.max(0.0f, this.progress);
             if (this.label1 != null) {
@@ -186,12 +175,10 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
         this.progress = 0.0f;
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         this.progress = 1.0f;
         if (this.closePopupAfterRunningAnimation) {
@@ -216,7 +203,6 @@ implements AnimationListener {
         return this.hasPointer;
     }
 
-    @Override
     protected void forceRepaintInPartialPopup() {
         super.forceRepaintInPartialPopup();
         this.startAnimation();
@@ -229,58 +215,58 @@ implements AnimationListener {
     public void setAnimationId(int n) {
         switch (n) {
             case 0: {
-                this.animationPrefabPath = "Prefabs/ug_delete";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_DELETE;
                 break;
             }
             case 1: {
-                this.animationPrefabPath = "Prefabs/ug_delete_space";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_DELETE_AND_SPACE;
                 break;
             }
             case 2: {
-                this.animationPrefabPath = "Prefabs/ug_close";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_CLOSE_SPELLER;
                 break;
             }
             case 3: {
-                this.animationPrefabPath = "Prefabs/ug_space";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_SPACE;
                 break;
             }
             case 4: {
-                this.animationPrefabPath = "Prefabs/ug_texteingabe";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_TEXT_INPUT;
                 break;
             }
             case 5: {
-                this.animationPrefabPath = "Prefabs/ug_empty_textfield";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_EMPTY_FIELD;
                 break;
             }
             case 6: {
-                this.animationPrefabPath = "Prefabs/ug_autocomplete_suggestion";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_ASSUME_AUTOCOMPLETION;
                 break;
             }
             case 8: 
             case 9: {
-                this.animationPrefabPath = "Prefabs/ug_speller_umlauts";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_SPELLER_UMLAUTS;
                 break;
             }
             case 10: {
-                this.animationPrefabPath = "Prefabs/ug_map_gesperrt";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_MAP_LOCKED;
                 this.hasPointer = false;
                 this.isMapHint = true;
                 this.currentAnimationId = 102;
-                this.fadeOutLabel2 = -842216259;
-                this.fadeInLabel2 = 1024120638;
-                this.fadeOutLabel1 = 0x6666E63E;
-                this.fadeInLabel1 = -1883081409;
+                this.fadeOutLabel2 = -0.1f;
+                this.fadeInLabel2 = 0.42f;
+                this.fadeOutLabel1 = 0.45f;
+                this.fadeInLabel1 = 0.96f;
                 break;
             }
             case 7: {
-                this.animationPrefabPath = "Prefabs/ug_map";
+                this.animationPrefabPath = ANIMATIONPREFABPATH_MAP_UNLOCKED;
                 this.hasPointer = false;
                 this.isMapHint = true;
                 this.currentAnimationId = 102;
-                this.fadeOutLabel2 = 181871421;
-                this.fadeInLabel2 = -2048192193;
-                this.fadeOutLabel1 = 1024071487;
-                this.fadeInLabel1 = -330205121;
+                this.fadeOutLabel2 = 0.04f;
+                this.fadeInLabel2 = 0.57f;
+                this.fadeOutLabel1 = 0.59f;
+                this.fadeInLabel1 = 0.97f;
                 break;
             }
         }

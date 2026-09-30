@@ -3,7 +3,6 @@
  */
 package de.esolutions.fw.comm.agent.diag;
 
-import de.esolutions.fw.comm.agent.diag.InfoStream$Entry;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.StringUtils;
 import java.io.PrintStream;
@@ -40,21 +39,21 @@ public class InfoStream {
     }
 
     public void end() {
-        InfoStream$Entry infoStream$Entry;
+        Entry entry;
         ArrayList arrayList = (ArrayList)this.stack.pop();
         ListIterator listIterator = arrayList.listIterator();
         int n = 0;
         while (listIterator.hasNext()) {
-            infoStream$Entry = (InfoStream$Entry)listIterator.next();
-            int n2 = infoStream$Entry.key.length();
+            entry = (Entry)listIterator.next();
+            int n2 = entry.key.length();
             if (n2 <= n) continue;
             n = n2;
         }
         listIterator = arrayList.listIterator();
         while (listIterator.hasNext()) {
-            infoStream$Entry = (InfoStream$Entry)listIterator.next();
-            String string = this.brief ? infoStream$Entry.key : StringUtils.padString(infoStream$Entry.key, n, 4);
-            String string2 = infoStream$Entry.value;
+            entry = (Entry)listIterator.next();
+            String string = this.brief ? entry.key : StringUtils.padString(entry.key, n, 4);
+            String string2 = entry.value;
             Buffer buffer = new Buffer();
             if (!this.brief) {
                 this.addIndent(buffer);
@@ -82,14 +81,14 @@ public class InfoStream {
         ArrayList arrayList = (ArrayList)this.stack.peek();
         if (arrayList != null) {
             String string2 = object == null ? "[null]" : object.toString();
-            arrayList.add(new InfoStream$Entry(string, string2));
+            arrayList.add(new Entry(string, string2));
         }
     }
 
     public void print(String string, int n) {
         ArrayList arrayList = (ArrayList)this.stack.peek();
         if (arrayList != null) {
-            arrayList.add(new InfoStream$Entry(string, Integer.toString(n)));
+            arrayList.add(new Entry(string, Integer.toString(n)));
         }
     }
 
@@ -101,6 +100,16 @@ public class InfoStream {
 
     public boolean isBrief() {
         return this.brief;
+    }
+
+    private static class Entry {
+        public final String key;
+        public final String value;
+
+        public Entry(String string, String string2) {
+            this.key = string;
+            this.value = string2;
+        }
     }
 }
 

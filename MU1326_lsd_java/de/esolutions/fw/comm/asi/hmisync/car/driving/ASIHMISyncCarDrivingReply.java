@@ -5,62 +5,46 @@ package de.esolutions.fw.comm.asi.hmisync.car.driving;
 
 import de.esolutions.fw.comm.asi.hmisync.car.driving.TADConfiguration;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.TADVehicleInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarDrivingReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "cf0d1065-933d-46b1-baf6-eb334745e56f";
+    public static final String IPL_COMM_INTERFACE_KEY = "379cb220-0a06-531f-b0fc-2506d73807a9";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo, boolean bl) {
-    }
+    public void updateTADVehicleInfo(TADVehicleInfo var1, boolean var2) throws MethodException;
 
-    default public void updateTADConfiguration(TADConfiguration tADConfiguration, boolean bl) {
-    }
+    public void updateTADConfiguration(TADConfiguration var1, boolean var2) throws MethodException;
 
-    default public void updateTADCurrentRollAngle(float f2, boolean bl) {
-    }
+    public void updateTADCurrentRollAngle(float var1, boolean var2) throws MethodException;
 
-    default public void updateTADPosMaxRollAngle(float f2, boolean bl) {
-    }
+    public void updateTADPosMaxRollAngle(float var1, boolean var2) throws MethodException;
 
-    default public void updateTADNegMaxRollAngle(float f2, boolean bl) {
-    }
+    public void updateTADNegMaxRollAngle(float var1, boolean var2) throws MethodException;
 
-    default public void updateTADCurrentPitchAngle(float f2, boolean bl) {
-    }
+    public void updateTADCurrentPitchAngle(float var1, boolean var2) throws MethodException;
 
-    default public void updateTADPosMaxPitch(float f2, boolean bl) {
-    }
+    public void updateTADPosMaxPitch(float var1, boolean var2) throws MethodException;
 
-    default public void updateTADNegMaxPitch(float f2, boolean bl) {
-    }
+    public void updateTADNegMaxPitch(float var1, boolean var2) throws MethodException;
 
-    default public void updateTADVisibilityState(int n, boolean bl) {
-    }
+    public void updateTADVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateSuspensionControlCurrentLevel(int n, boolean bl) {
-    }
+    public void updateSuspensionControlCurrentLevel(int var1, boolean var2) throws MethodException;
 
-    default public void updateSuspensionControlTargetLevel(int n, boolean bl) {
-    }
+    public void updateSuspensionControlTargetLevel(int var1, boolean var2) throws MethodException;
 
-    default public void updateSuspensionVisibilityState(int[] nArray, boolean bl) {
-    }
+    public void updateSuspensionVisibilityState(int[] var1, boolean var2) throws MethodException;
 
-    default public void updateDriveSelectActiveProfile(int n, boolean bl) {
-    }
+    public void updateDriveSelectActiveProfile(int var1, boolean var2) throws MethodException;
 
-    default public void updateDriveSelectActiveProfileVisibilityState(int n, boolean bl) {
-    }
+    public void updateDriveSelectActiveProfileVisibilityState(int var1, boolean var2) throws MethodException;
 }
 

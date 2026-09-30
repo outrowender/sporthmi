@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.SearchQuery;
 
 public class SearchQuerySerializer {
-    public static void putOptionalSearchQuery(ISerializer iSerializer, SearchQuery searchQuery) {
+    public static void putOptionalSearchQuery(ISerializer iSerializer, SearchQuery searchQuery) throws SerializerException {
         boolean bl = searchQuery == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class SearchQuerySerializer {
         }
     }
 
-    public static void putOptionalSearchQueryVarArray(ISerializer iSerializer, SearchQuery[] searchQueryArray) {
+    public static void putOptionalSearchQueryVarArray(ISerializer iSerializer, SearchQuery[] searchQueryArray) throws SerializerException {
         boolean bl = searchQueryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class SearchQuerySerializer {
         }
     }
 
-    public static SearchQuery getOptionalSearchQuery(IDeserializer iDeserializer) {
+    public static SearchQuery getOptionalSearchQuery(IDeserializer iDeserializer) throws SerializerException {
         SearchQuery searchQuery = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class SearchQuerySerializer {
         return searchQuery;
     }
 
-    public static SearchQuery[] getOptionalSearchQueryVarArray(IDeserializer iDeserializer) {
+    public static SearchQuery[] getOptionalSearchQueryVarArray(IDeserializer iDeserializer) throws SerializerException {
         SearchQuery[] searchQueryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

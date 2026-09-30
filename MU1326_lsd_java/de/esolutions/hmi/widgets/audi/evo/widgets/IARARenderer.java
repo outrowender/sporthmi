@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IARARenderer
 extends IRenderer {
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 }
 

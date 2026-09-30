@@ -25,28 +25,23 @@ implements DSIAdbSetup {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbSetup == null ? (class$org$dsi$ifc$organizer$DSIAdbSetup = DSIAdbSetupProvider.class$("org.dsi.ifc.organizer.DSIAdbSetup")) : class$org$dsi$ifc$organizer$DSIAdbSetup).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbSetupProxy(this.instance, (DSIAdbSetupReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -56,7 +51,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setSortOrder(int n) {
         try {
             this.proxy.setSortOrder(n);
@@ -66,7 +60,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setPublicProfileVisibility(boolean bl) {
         try {
             this.proxy.setPublicProfileVisibility(bl);
@@ -76,7 +69,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void resetToFactorySettings() {
         try {
             this.proxy.resetToFactorySettings();
@@ -86,7 +78,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void resetTopDestination() {
         try {
             this.proxy.resetTopDestination();
@@ -96,7 +87,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void createBackupFile(String string) {
         try {
             this.proxy.createBackupFile(string);
@@ -106,7 +96,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void importBackupFile(String string) {
         try {
             this.proxy.importBackupFile(string);
@@ -116,7 +105,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setPictureVisibility(boolean bl) {
         try {
             this.proxy.setPictureVisibility(bl);
@@ -126,7 +114,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setContextSpecificVisibility(boolean bl) {
         try {
             this.proxy.setContextSpecificVisibility(bl);
@@ -136,7 +123,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -146,7 +132,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -156,7 +141,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -166,7 +150,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -176,7 +159,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -186,7 +168,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -196,7 +177,6 @@ implements DSIAdbSetup {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

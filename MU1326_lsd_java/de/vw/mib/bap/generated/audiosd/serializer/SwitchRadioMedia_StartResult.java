@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SwitchRadioMedia_StartResult
 implements StartResultMethod {
     public int source;
-    private static final int SOURCE_BITSIZE;
-    public static final int SOURCE_RADIO_LAST_MODE;
-    public static final int SOURCE_MEDIA_LAST_MODE;
-    public static final int SOURCE_RADIO_PRESET_LIST;
-    public static final int SOURCE_RADIO_COMMON_LIST;
+    private static final int SOURCE_BITSIZE = 8;
+    public static final int SOURCE_RADIO_LAST_MODE = 0;
+    public static final int SOURCE_MEDIA_LAST_MODE = 1;
+    public static final int SOURCE_RADIO_PRESET_LIST = 2;
+    public static final int SOURCE_RADIO_COMMON_LIST = 3;
 
     public SwitchRadioMedia_StartResult() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StartResultMethod {
         this.source = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SwitchRadioMedia_StartResult switchRadioMedia_StartResult = (SwitchRadioMedia_StartResult)bAPEntity;
         return this.source == switchRadioMedia_StartResult.source;
@@ -44,7 +42,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SwitchRadioMedia_StartResult:");
@@ -73,18 +70,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.source);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.source = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements StartResultMethod {
         return 45;
     }
 
-    @Override
     public int getFunctionId() {
         return SwitchRadioMedia_StartResult.functionId();
     }

@@ -4,13 +4,10 @@
 package de.vw.mib.bap.array.fsg;
 
 public interface FsgArrayObjectId {
-    default public long getEntryId() {
-    }
+    public long getEntryId();
 
-    default public int getPosIndex() {
-    }
+    public int getPosIndex();
 
-    default public int getInternalUserId() {
-    }
+    public int getInternalUserId();
 }
 

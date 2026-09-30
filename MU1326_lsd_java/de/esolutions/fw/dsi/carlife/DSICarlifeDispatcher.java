@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carlife;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carlife.DSICarlifeReply;
 import de.esolutions.fw.comm.dsi.carlife.impl.DSICarlifeReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -30,13 +31,11 @@ implements DSICarlifeReply {
         super(n, (class$org$dsi$ifc$carlife$DSICarlifeListener == null ? (class$org$dsi$ifc$carlife$DSICarlifeListener = DSICarlifeDispatcher.class$("org.dsi.ifc.carlife.DSICarlifeListener")) : class$org$dsi$ifc$carlife$DSICarlifeListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseSetMode(Resource[] resourceArray, AppState[] appStateArray) {
+    public void responseSetMode(Resource[] resourceArray, AppState[] appStateArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -52,8 +51,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updateCallState(CallState callState, int n) {
+    public void updateCallState(CallState callState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -81,8 +79,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updateNowPlayingData(TrackData trackData, int n) {
+    public void updateNowPlayingData(TrackData trackData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -110,8 +107,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
+    public void updatePlaybackState(PlaybackInfo playbackInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -139,8 +135,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updatePlaymodeState(PlaymodeInfo playmodeInfo, int n) {
+    public void updatePlaymodeState(PlaymodeInfo playmodeInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -168,8 +163,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updatePlayposition(int n, int n2) {
+    public void updatePlayposition(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -197,8 +191,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
+    public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -226,8 +219,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updateNavigationNextTurnInfo(String string, int n, int n2, int n3, int n4, int n5) {
+    public void updateNavigationNextTurnInfo(String string, int n, int n2, int n3, int n4, int n5) throws MethodException {
         if ((n5 & 0x80) == 128) {
             n5 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -255,8 +247,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
+    public void updateDeviceInfo(DeviceInfo deviceInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -284,8 +275,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void requestModeChange(Resource[] resourceArray, AppState[] appStateArray) {
+    public void requestModeChange(Resource[] resourceArray, AppState[] appStateArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -301,8 +291,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void updateVideoAvailable(boolean bl, int n) {
+    public void updateVideoAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -330,8 +319,7 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -347,14 +335,13 @@ implements DSICarlifeReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarlifeListener dSICarlifeListener = (DSICarlifeListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarlifeDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarlifeDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarlifeListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarlifeDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarlifeDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarlifeListener, new Object[]{string, string2});
                     continue;
                 }

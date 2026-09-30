@@ -13,28 +13,20 @@ import org.dsi.ifc.tollcollect.TCPaymentInfoDetails;
 
 public interface DSITollCollectListener
 extends DSIListener {
-    default public void updateCardState(int n, int n2) {
-    }
+    public void updateCardState(int var1, int var2);
 
-    default public void updateCardError(TCCardError tCCardError, int n) {
-    }
+    public void updateCardError(TCCardError var1, int var2);
 
-    default public void updateCardDateInformation(TCCardDateInformation tCCardDateInformation, int n) {
-    }
+    public void updateCardDateInformation(TCCardDateInformation var1, int var2);
 
-    default public void updateHardwareInformation(TCHardwareInformation[] tCHardwareInformationArray, int n) {
-    }
+    public void updateHardwareInformation(TCHardwareInformation[] var1, int var2);
 
-    default public void updateCurrentTollPayment(NavPriceInfo navPriceInfo, int n) {
-    }
+    public void updateCurrentTollPayment(NavPriceInfo var1, int var2);
 
-    default public void requestPaymentHistoryListResult(TCPaymentInfo[] tCPaymentInfoArray) {
-    }
+    public void requestPaymentHistoryListResult(TCPaymentInfo[] var1);
 
-    default public void requestPaymentHistoryDetailsResult(int n, TCPaymentInfoDetails tCPaymentInfoDetails) {
-    }
+    public void requestPaymentHistoryDetailsResult(int var1, TCPaymentInfoDetails var2);
 
-    default public void setLanguageResponse(boolean bl) {
-    }
+    public void setLanguageResponse(boolean var1);
 }
 

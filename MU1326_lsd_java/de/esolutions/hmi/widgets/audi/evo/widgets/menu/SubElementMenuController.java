@@ -35,12 +35,11 @@ implements ContentEnabledListener {
     private LabelController label;
     private ComboBoxController comboBox;
     private Map visibilityMap;
-    public static final int CHAIN_ALL_ACTIONS;
-    public static final int CHAIN_ALL_TRIGGER;
+    public static final int CHAIN_ALL_ACTIONS = 17;
+    public static final int CHAIN_ALL_TRIGGER = 3;
     private int maxShownEntries = -1;
     private boolean keyWasPressedToOpenAudiConnect = false;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -86,7 +85,6 @@ implements ContentEnabledListener {
         return ((MenuItemController)this.getAllMenuItems().get(0)).getLabelId();
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.label == null) {
@@ -120,7 +118,6 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     protected void afterConnected() {
         super.afterConnected();
         MenuItemController menuItemController = (MenuItemController)this.getTopItem();
@@ -249,11 +246,9 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     public void setContentEnabled(int n, boolean bl) {
     }
 
-    @Override
     public void setContentVisible(int n, boolean bl) {
         if (this.visibilityMap == null) {
             this.visibilityMap = new HashMap();
@@ -269,7 +264,6 @@ implements ContentEnabledListener {
         return -1;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         int n;
         if (keyEvent.getKeyCode() == 15) {
@@ -317,7 +311,7 @@ implements ContentEnabledListener {
     private boolean isRemoteHMISubElement() {
         if (this.model != null) {
             int n = ((ChoiceModelGUI)this.model).getID();
-            return n == -2128607744 || n == 1847403264;
+            return n == 401537 || n == 2301294;
         }
         return false;
     }
@@ -330,7 +324,6 @@ implements ContentEnabledListener {
         return infolineTimerController;
     }
 
-    @Override
     public void setFocused(boolean bl) {
         super.setFocused(bl);
         if (this.isRemoteHMISubElement()) {
@@ -368,7 +361,6 @@ implements ContentEnabledListener {
         this.calculateNewLayout();
     }
 
-    @Override
     protected String calculateInfolineContent() {
         return ((MenuItemController)this.getTopItem()).calculateInfolineContent();
     }
@@ -404,7 +396,6 @@ implements ContentEnabledListener {
         this.comboBox.doLayout();
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         super.invalidateLayout(abstractWidget);
         if (this.isConnectedSubtree() && abstractWidget != this.label) {
@@ -412,7 +403,6 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     public void setX(int n) {
         super.setX(n);
         if (this.comboBox != null) {
@@ -420,7 +410,6 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     public void setY(int n) {
         super.setY(n);
         if (this.comboBox != null) {
@@ -431,7 +420,6 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         super.setBounds(n, n2, n3, n4);
         if (this.comboBox != null) {
@@ -442,7 +430,6 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.updateMaxShownEntriesFromModel();
         if (this.isFocused() && this.getModelStatus() == 1 && this.comboBox.isVisible()) {
@@ -466,7 +453,6 @@ implements ContentEnabledListener {
         return this.comboBox;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (this.comboBox != null) {
             this.comboBox.setEnabled(bl);
@@ -474,13 +460,11 @@ implements ContentEnabledListener {
         super.setEnabled(bl);
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
         this.comboBox.reset();
         super.handleFocusChanged(n, n2, n3);
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         if (!bl && this.isConnected() && this.comboBox.isOpen()) {
@@ -488,7 +472,6 @@ implements ContentEnabledListener {
         }
     }
 
-    @Override
     public void disconnecting() {
         this.keyWasPressedToOpenAudiConnect = false;
         super.disconnecting();

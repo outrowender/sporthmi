@@ -19,36 +19,30 @@ implements IExtendedReplyService {
         this.instanceID = serviceInstanceID;
     }
 
-    @Override
     public ServiceInstanceID getInstanceID() {
         return this.instanceID;
     }
 
-    @Override
     public void setInstanceID(ServiceInstanceID serviceInstanceID) {
         this.instanceID = serviceInstanceID;
     }
 
-    @Override
     public IProxyFrontend createReplyProxy() {
         return null;
     }
 
-    @Override
     public CallContext getCallContext() {
         return null;
     }
 
-    @Override
-    public void handleCallMethod(short s, IDeserializer iDeserializer, IProxyFrontend iProxyFrontend) {
-        throw new MethodException(new StringBuffer().append("Unknown method: ").append(s).toString());
+    public void handleCallMethod(short s, IDeserializer iDeserializer, IProxyFrontend iProxyFrontend) throws MethodException {
+        throw new MethodException("Unknown method: " + s);
     }
 
     public void setCheckIK(Boolean bl) {
         this.checkIK = bl;
     }
 
-    @Override
     public Boolean getCheckIK() {
         return this.checkIK;
     }

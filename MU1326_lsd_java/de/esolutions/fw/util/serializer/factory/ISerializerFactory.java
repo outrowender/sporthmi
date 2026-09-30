@@ -9,16 +9,12 @@ import de.esolutions.fw.util.serializer.IStreamDeserializer;
 import de.esolutions.fw.util.serializer.IStreamSerializer;
 
 public interface ISerializerFactory {
-    default public IStreamSerializer createStreamSerializer() {
-    }
+    public IStreamSerializer createStreamSerializer();
 
-    default public IStreamDeserializer createStreamDeserializer() {
-    }
+    public IStreamDeserializer createStreamDeserializer();
 
-    default public ISerializer createExtendedSerializer() {
-    }
+    public ISerializer createExtendedSerializer();
 
-    default public IDeserializer createExtendedDeserializer() {
-    }
+    public IDeserializer createExtendedDeserializer();
 }
 

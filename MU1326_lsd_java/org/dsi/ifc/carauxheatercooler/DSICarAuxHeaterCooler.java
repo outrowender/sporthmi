@@ -9,124 +9,108 @@ import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerTimer;
 
 public interface DSICarAuxHeaterCooler
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_AUXHEATERCOOLERVIEWOPTIONS;
-    public static final int ATTR_AUXHEATERCOOLERSTATE;
-    public static final int ATTR_AUXHEATERCOOLERONOFF;
-    public static final int ATTR_AUXHEATERCOOLERREMAININGTIME;
-    public static final int ATTR_AUXHEATERCOOLERRUNNINGTIME;
-    public static final int ATTR_AUXHEATERCOOLERMODE;
-    public static final int ATTR_AUXHEATERCOOLERENGINEHEATER;
-    public static final int ATTR_AUXHEATERCOOLERACTIVETIMER;
-    public static final int ATTR_AUXHEATERCOOLERTIMER1;
-    public static final int ATTR_AUXHEATERCOOLERTIMER2;
-    public static final int ATTR_AUXHEATERCOOLERTIMER3;
-    public static final int ATTR_AUXHEATERCOOLERDEFAULTSTARTMODE;
-    public static final int ATTR_AUXHEATERCOOLERERRORREASON;
-    public static final int ATTR_AUXHEATERCOOLERCURRENTHEATERSTATE;
-    public static final int ATTR_AUXHEATERCOOLERPOPUP;
-    public static final int ATTR_AUXHEATERCOOLERMODE2;
-    public static final int ATTR_AUXHEATERCOOLEREXTENDEDCONDITIONING;
-    public static final int ATTR_AUXHEATERCOOLERWINDOWHEATING;
-    public static final int ATTR_AUXHEATERCOOLERUNLOCKCLIMATING;
-    public static final int ATTR_AUXHEATERCOOLERTARGETTEMPERATURE;
-    public static final int ATTR_AUXHEATERCOOLERAIRQUALITY;
-    public static final int TIMERMODE_STARTTIMER;
-    public static final int TIMERMODE_GOALTIMER;
-    public static final int AUXHEATERCOOLERSTATE_OFF;
-    public static final int AUXHEATERCOOLERSTATE_HEATING;
-    public static final int AUXHEATERCOOLERSTATE_VENTILATION;
-    public static final int AUXHEATERCOOLERHEATERSTATE_OK;
-    public static final int AUXHEATERCOOLERHEATERSTATE_FUELLOW;
-    public static final int AUXHEATERCOOLERHEATERSTATE_BATTERYLOW;
-    public static final int AUXHEATERCOOLERHEATERSTATE_FUELLOWBATTERYLOW;
-    public static final int AUXHEATERCOOLERHEATERSTATE_HEATERDEFECT;
-    public static final int AUXHEATERCOOLERACTIVETIMER_NONE;
-    public static final int AUXHEATERCOOLERACTIVETIMER_TIMER1;
-    public static final int AUXHEATERCOOLERACTIVETIMER_TIMER2;
-    public static final int AUXHEATERCOOLERACTIVETIMER_TIMER3;
-    public static final int AUXHEATERCOOLERDEFAULTSTARTMODE_VENTILATION;
-    public static final int AUXHEATERCOOLERDEFAULTSTARTMODE_HEATING;
-    public static final int AUXHEATERCOOLERDATEMODE_ABSOLUTEDATE;
-    public static final int AUXHEATERCOOLERDATEMODE_RELATIVEDATE;
-    public static final int AUXHEATERCOOLERDATEMODE_WEEKDATE;
-    public static final int AUXHEATERCOOLERDATEMODE_NEXTOCCURENCE;
-    public static final int AUXHEATERCOOLERMODE_ECONOMY;
-    public static final int AUXHEATERCOOLERMODE_NORMAL;
-    public static final int AUXHEATERCOOLERMODE_COMFORT;
-    public static final int AUXHEATERCOOLERREASON_NOREASON;
-    public static final int AUXHEATERCOOLERREASON_IMMEDIATESTARTUP;
-    public static final int AUXHEATERCOOLERREASON_TIMER1;
-    public static final int AUXHEATERCOOLERREASON_TIMER2;
-    public static final int AUXHEATERCOOLERREASON_TIMER3;
-    public static final int AUXHEATERCOOLERPOPUP_NONE;
-    public static final int AUXHEATERCOOLERPOPUP_CHANGEAUXHEATERTIMERORSTARTAUXHEATER;
-    public static final int AUXHEATERCOOLERUNLOCKCLIMATINGSTATE_OFF;
-    public static final int AUXHEATERCOOLERUNLOCKCLIMATINGSTATE_ON;
-    public static final int RT_SETAUXHEATERCOOLERONOFF;
-    public static final int RT_SETAUXHEATERCOOLERRUNNINGTIME;
-    public static final int RT_SETAUXHEATERCOOLERMODE;
-    public static final int RT_SETAUXHEATERCOOLERENGINEHEATER;
-    public static final int RT_SETAUXHEATERCOOLERACTIVETIMER;
-    public static final int RT_SETAUXHEATERCOOLERTIMER1;
-    public static final int RT_SETAUXHEATERCOOLERTIMER2;
-    public static final int RT_SETAUXHEATERCOOLERTIMER3;
-    public static final int RT_SETAUXHEATERSETFACTORYDEFAULT;
-    public static final int RT_SETAUXHEATERCOOLERDEFAULTSTARTMODE;
-    public static final int RT_SETAUXHEATERCOOLEREXTENDEDCONDITIONING;
-    public static final int RT_SETAUXHEATERCOOLERWINDOWHEATING;
-    public static final int RT_SETAUXHEATERCOOLERUNLOCKCLIMATING;
-    public static final int RT_SETAUXHEATERCOOLERTARGETTEMPERATURE;
-    public static final int RT_SETAUXHEATERCOOLERAIRQUALITY;
-    public static final int RT_SETAUXHEATERCOOLERPOPUP;
-    public static final int RP_ACKNOWLEDGEAUXHEATERSETFACTORYDEFAULT;
+    public static final String VERSION = "2.11.11";
+    public static final int ATTR_AUXHEATERCOOLERVIEWOPTIONS = 1;
+    public static final int ATTR_AUXHEATERCOOLERSTATE = 3;
+    public static final int ATTR_AUXHEATERCOOLERONOFF = 4;
+    public static final int ATTR_AUXHEATERCOOLERREMAININGTIME = 5;
+    public static final int ATTR_AUXHEATERCOOLERRUNNINGTIME = 6;
+    public static final int ATTR_AUXHEATERCOOLERMODE = 7;
+    public static final int ATTR_AUXHEATERCOOLERENGINEHEATER = 8;
+    public static final int ATTR_AUXHEATERCOOLERACTIVETIMER = 9;
+    public static final int ATTR_AUXHEATERCOOLERTIMER1 = 10;
+    public static final int ATTR_AUXHEATERCOOLERTIMER2 = 11;
+    public static final int ATTR_AUXHEATERCOOLERTIMER3 = 12;
+    public static final int ATTR_AUXHEATERCOOLERDEFAULTSTARTMODE = 13;
+    public static final int ATTR_AUXHEATERCOOLERERRORREASON = 14;
+    public static final int ATTR_AUXHEATERCOOLERCURRENTHEATERSTATE = 15;
+    public static final int ATTR_AUXHEATERCOOLERPOPUP = 16;
+    public static final int ATTR_AUXHEATERCOOLERMODE2 = 17;
+    public static final int ATTR_AUXHEATERCOOLEREXTENDEDCONDITIONING = 18;
+    public static final int ATTR_AUXHEATERCOOLERWINDOWHEATING = 19;
+    public static final int ATTR_AUXHEATERCOOLERUNLOCKCLIMATING = 20;
+    public static final int ATTR_AUXHEATERCOOLERTARGETTEMPERATURE = 21;
+    public static final int ATTR_AUXHEATERCOOLERAIRQUALITY = 22;
+    public static final int TIMERMODE_STARTTIMER = 0;
+    public static final int TIMERMODE_GOALTIMER = 1;
+    public static final int AUXHEATERCOOLERSTATE_OFF = 0;
+    public static final int AUXHEATERCOOLERSTATE_HEATING = 1;
+    public static final int AUXHEATERCOOLERSTATE_VENTILATION = 2;
+    public static final int AUXHEATERCOOLERHEATERSTATE_OK = 0;
+    public static final int AUXHEATERCOOLERHEATERSTATE_FUELLOW = 1;
+    public static final int AUXHEATERCOOLERHEATERSTATE_BATTERYLOW = 2;
+    public static final int AUXHEATERCOOLERHEATERSTATE_FUELLOWBATTERYLOW = 3;
+    public static final int AUXHEATERCOOLERHEATERSTATE_HEATERDEFECT = 4;
+    public static final int AUXHEATERCOOLERACTIVETIMER_NONE = 0;
+    public static final int AUXHEATERCOOLERACTIVETIMER_TIMER1 = 1;
+    public static final int AUXHEATERCOOLERACTIVETIMER_TIMER2 = 2;
+    public static final int AUXHEATERCOOLERACTIVETIMER_TIMER3 = 3;
+    public static final int AUXHEATERCOOLERDEFAULTSTARTMODE_VENTILATION = 1;
+    public static final int AUXHEATERCOOLERDEFAULTSTARTMODE_HEATING = 2;
+    public static final int AUXHEATERCOOLERDATEMODE_ABSOLUTEDATE = 0;
+    public static final int AUXHEATERCOOLERDATEMODE_RELATIVEDATE = 1;
+    public static final int AUXHEATERCOOLERDATEMODE_WEEKDATE = 2;
+    public static final int AUXHEATERCOOLERDATEMODE_NEXTOCCURENCE = 3;
+    public static final int AUXHEATERCOOLERMODE_ECONOMY = 0;
+    public static final int AUXHEATERCOOLERMODE_NORMAL = 1;
+    public static final int AUXHEATERCOOLERMODE_COMFORT = 2;
+    public static final int AUXHEATERCOOLERREASON_NOREASON = 0;
+    public static final int AUXHEATERCOOLERREASON_IMMEDIATESTARTUP = 1;
+    public static final int AUXHEATERCOOLERREASON_TIMER1 = 2;
+    public static final int AUXHEATERCOOLERREASON_TIMER2 = 3;
+    public static final int AUXHEATERCOOLERREASON_TIMER3 = 4;
+    public static final int AUXHEATERCOOLERPOPUP_NONE = 0;
+    public static final int AUXHEATERCOOLERPOPUP_CHANGEAUXHEATERTIMERORSTARTAUXHEATER = 1;
+    public static final int AUXHEATERCOOLERUNLOCKCLIMATINGSTATE_OFF = 0;
+    public static final int AUXHEATERCOOLERUNLOCKCLIMATINGSTATE_ON = 1;
+    public static final int RT_SETAUXHEATERCOOLERONOFF = 1000;
+    public static final int RT_SETAUXHEATERCOOLERRUNNINGTIME = 1001;
+    public static final int RT_SETAUXHEATERCOOLERMODE = 1002;
+    public static final int RT_SETAUXHEATERCOOLERENGINEHEATER = 1003;
+    public static final int RT_SETAUXHEATERCOOLERACTIVETIMER = 1004;
+    public static final int RT_SETAUXHEATERCOOLERTIMER1 = 1005;
+    public static final int RT_SETAUXHEATERCOOLERTIMER2 = 1006;
+    public static final int RT_SETAUXHEATERCOOLERTIMER3 = 1007;
+    public static final int RT_SETAUXHEATERSETFACTORYDEFAULT = 1008;
+    public static final int RT_SETAUXHEATERCOOLERDEFAULTSTARTMODE = 1009;
+    public static final int RT_SETAUXHEATERCOOLEREXTENDEDCONDITIONING = 1011;
+    public static final int RT_SETAUXHEATERCOOLERWINDOWHEATING = 1012;
+    public static final int RT_SETAUXHEATERCOOLERUNLOCKCLIMATING = 1013;
+    public static final int RT_SETAUXHEATERCOOLERTARGETTEMPERATURE = 1014;
+    public static final int RT_SETAUXHEATERCOOLERAIRQUALITY = 1015;
+    public static final int RT_SETAUXHEATERCOOLERPOPUP = 1010;
+    public static final int RP_ACKNOWLEDGEAUXHEATERSETFACTORYDEFAULT = 2000;
 
-    default public void setAuxHeaterCoolerOnOff(boolean bl) {
-    }
+    public void setAuxHeaterCoolerOnOff(boolean var1);
 
-    default public void setAuxHeaterCoolerRunningTime(short s) {
-    }
+    public void setAuxHeaterCoolerRunningTime(short var1);
 
-    default public void setAuxHeaterCoolerMode(int n) {
-    }
+    public void setAuxHeaterCoolerMode(int var1);
 
-    default public void setAuxHeaterCoolerDefaultStartMode(int n) {
-    }
+    public void setAuxHeaterCoolerDefaultStartMode(int var1);
 
-    default public void setAuxHeaterCoolerEngineHeater(boolean bl) {
-    }
+    public void setAuxHeaterCoolerEngineHeater(boolean var1);
 
-    default public void setAuxHeaterCoolerActiveTimer(int n) {
-    }
+    public void setAuxHeaterCoolerActiveTimer(int var1);
 
-    default public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-    }
+    public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer var1);
 
-    default public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-    }
+    public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer var1);
 
-    default public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-    }
+    public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer var1);
 
-    default public void setAuxHeaterCoolerPopup(int n) {
-    }
+    public void setAuxHeaterCoolerPopup(int var1);
 
-    default public void setAuxHeaterSetFactoryDefault() {
-    }
+    public void setAuxHeaterSetFactoryDefault();
 
-    default public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning) {
-    }
+    public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning var1);
 
-    default public void setAuxHeaterCoolerWindowHeating(boolean bl) {
-    }
+    public void setAuxHeaterCoolerWindowHeating(boolean var1);
 
-    default public void setAuxHeaterCoolerUnlockClimating(int n) {
-    }
+    public void setAuxHeaterCoolerUnlockClimating(int var1);
 
-    default public void setAuxHeaterCoolerTargetTemperature(float f2) {
-    }
+    public void setAuxHeaterCoolerTargetTemperature(float var1);
 
-    default public void setAuxHeaterCoolerAirQuality(boolean bl) {
-    }
+    public void setAuxHeaterCoolerAirQuality(boolean var1);
 }
 

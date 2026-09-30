@@ -20,7 +20,6 @@ implements ITraceCommand {
         this.key = string;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.registerBackend(this.backend, this.config, this.key);
         return false;

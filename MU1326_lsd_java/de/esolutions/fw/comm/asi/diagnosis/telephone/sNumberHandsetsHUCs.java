@@ -42,7 +42,7 @@ public class sNumberHandsetsHUCs {
     }
 
     public String toString() {
-        return new StringBuffer("sNumberHandsetsHUCs{").append("msg_id=").append(this.msg_id).append(", numberHandsets=").append(this.numberHandsets).append(", numberHUCs=").append(this.numberHUCs).append("}").toString();
+        return "sNumberHandsetsHUCs{" + "msg_id=" + this.msg_id + ", numberHandsets=" + this.numberHandsets + ", numberHUCs=" + this.numberHUCs + "}";
     }
 }
 

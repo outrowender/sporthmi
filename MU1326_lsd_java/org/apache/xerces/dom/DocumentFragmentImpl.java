@@ -12,7 +12,7 @@ import org.w3c.dom.Text;
 public class DocumentFragmentImpl
 extends ParentNode
 implements DocumentFragment {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -7596449967279236746L;
 
     public DocumentFragmentImpl(CoreDocumentImpl coreDocumentImpl) {
         super(coreDocumentImpl);
@@ -21,17 +21,14 @@ implements DocumentFragment {
     public DocumentFragmentImpl() {
     }
 
-    @Override
     public short getNodeType() {
         return 11;
     }
 
-    @Override
     public String getNodeName() {
         return "#document-fragment";
     }
 
-    @Override
     public void normalize() {
         if (this.isNormalized()) {
             return;

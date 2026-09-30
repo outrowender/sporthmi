@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSSupportedFVModes;
 
 public class VPSSupportedFVModesSerializer {
-    public static void putOptionalVPSSupportedFVModes(ISerializer iSerializer, VPSSupportedFVModes vPSSupportedFVModes) {
+    public static void putOptionalVPSSupportedFVModes(ISerializer iSerializer, VPSSupportedFVModes vPSSupportedFVModes) throws SerializerException {
         boolean bl = vPSSupportedFVModes == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class VPSSupportedFVModesSerializer {
         }
     }
 
-    public static void putOptionalVPSSupportedFVModesVarArray(ISerializer iSerializer, VPSSupportedFVModes[] vPSSupportedFVModesArray) {
+    public static void putOptionalVPSSupportedFVModesVarArray(ISerializer iSerializer, VPSSupportedFVModes[] vPSSupportedFVModesArray) throws SerializerException {
         boolean bl = vPSSupportedFVModesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class VPSSupportedFVModesSerializer {
         }
     }
 
-    public static VPSSupportedFVModes getOptionalVPSSupportedFVModes(IDeserializer iDeserializer) {
+    public static VPSSupportedFVModes getOptionalVPSSupportedFVModes(IDeserializer iDeserializer) throws SerializerException {
         VPSSupportedFVModes vPSSupportedFVModes = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class VPSSupportedFVModesSerializer {
         return vPSSupportedFVModes;
     }
 
-    public static VPSSupportedFVModes[] getOptionalVPSSupportedFVModesVarArray(IDeserializer iDeserializer) {
+    public static VPSSupportedFVModes[] getOptionalVPSSupportedFVModesVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSSupportedFVModes[] vPSSupportedFVModesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

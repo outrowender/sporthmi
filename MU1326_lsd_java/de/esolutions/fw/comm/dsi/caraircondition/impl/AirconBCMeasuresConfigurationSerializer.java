@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconBCMeasuresConfiguration;
 
 public class AirconBCMeasuresConfigurationSerializer {
-    public static void putOptionalAirconBCMeasuresConfiguration(ISerializer iSerializer, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration) {
+    public static void putOptionalAirconBCMeasuresConfiguration(ISerializer iSerializer, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration) throws SerializerException {
         boolean bl = airconBCMeasuresConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class AirconBCMeasuresConfigurationSerializer {
         }
     }
 
-    public static void putOptionalAirconBCMeasuresConfigurationVarArray(ISerializer iSerializer, AirconBCMeasuresConfiguration[] airconBCMeasuresConfigurationArray) {
+    public static void putOptionalAirconBCMeasuresConfigurationVarArray(ISerializer iSerializer, AirconBCMeasuresConfiguration[] airconBCMeasuresConfigurationArray) throws SerializerException {
         boolean bl = airconBCMeasuresConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class AirconBCMeasuresConfigurationSerializer {
         }
     }
 
-    public static AirconBCMeasuresConfiguration getOptionalAirconBCMeasuresConfiguration(IDeserializer iDeserializer) {
+    public static AirconBCMeasuresConfiguration getOptionalAirconBCMeasuresConfiguration(IDeserializer iDeserializer) throws SerializerException {
         AirconBCMeasuresConfiguration airconBCMeasuresConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class AirconBCMeasuresConfigurationSerializer {
         return airconBCMeasuresConfiguration;
     }
 
-    public static AirconBCMeasuresConfiguration[] getOptionalAirconBCMeasuresConfigurationVarArray(IDeserializer iDeserializer) {
+    public static AirconBCMeasuresConfiguration[] getOptionalAirconBCMeasuresConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconBCMeasuresConfiguration[] airconBCMeasuresConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

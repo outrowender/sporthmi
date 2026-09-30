@@ -3,108 +3,78 @@
  */
 package de.esolutions.fw.comm.dsi.generalvehiclestates;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.generalvehiclestates.AirbagData;
 import org.dsi.ifc.generalvehiclestates.TLOViewOptions;
 import org.dsi.ifc.generalvehiclestates.TankInfo;
 import org.dsi.ifc.global.CarViewOption;
 
 public interface DSIGeneralVehicleStatesReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "be2f0709-0d19-5602-8c96-36664db9baa5";
+    public static final String IPL_COMM_INTERFACE_KEY = "1478b2dc-c598-51ec-96fc-05c4419eeba2";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.18";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.18";
 
-    default public void updateAirbagData(AirbagData airbagData, int n) {
-    }
+    public void updateAirbagData(AirbagData var1, int var2) throws MethodException;
 
-    default public void updateTankInfo(TankInfo tankInfo, int n) {
-    }
+    public void updateTankInfo(TankInfo var1, int var2) throws MethodException;
 
-    default public void updateDimmedHeadlight(boolean bl, int n) {
-    }
+    public void updateDimmedHeadlight(boolean var1, int var2) throws MethodException;
 
-    default public void updateAcousticParkingSystem(boolean bl, int n) {
-    }
+    public void updateAcousticParkingSystem(boolean var1, int var2) throws MethodException;
 
-    default public void updateReverseGear(boolean bl, int n) {
-    }
+    public void updateReverseGear(boolean var1, int var2) throws MethodException;
 
-    default public void updateVehicleStandstill(boolean bl, int n) {
-    }
+    public void updateVehicleStandstill(boolean var1, int var2) throws MethodException;
 
-    default public void updateCarVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateCarVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateTVVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateTVVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateHDDVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateHDDVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateBrowserSlideShowVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserSlideShowVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateBrowserBordBookVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserBordBookVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateBrowserTravelAgentVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserTravelAgentVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateBrowserWebVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserWebVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateBWSVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBWSVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateRadiotextVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateRadiotextVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateDisplayDayNightDesign(boolean bl, int n) {
-    }
+    public void updateDisplayDayNightDesign(boolean var1, int var2) throws MethodException;
 
-    default public void updateBTBondingVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBTBondingVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateMessagingVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateMessagingVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateDestinationInputVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateDestinationInputVelocityThreshold(boolean var1, int var2) throws MethodException;
 
-    default public void updateDSSSViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateDSSSViewOption(CarViewOption var1, int var2) throws MethodException;
 
-    default public void updateServiceKeyData(byte[] byArray, int n) {
-    }
+    public void updateServiceKeyData(byte[] var1, int var2) throws MethodException;
 
-    default public void updateServiceKeyViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateServiceKeyViewOption(CarViewOption var1, int var2) throws MethodException;
 
-    default public void updatePersonalizationStatus(boolean bl, int n, int n2) {
-    }
+    public void updatePersonalizationStatus(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateTLOViewOptions(TLOViewOptions tLOViewOptions, int n) {
-    }
+    public void updateTLOViewOptions(TLOViewOptions var1, int var2) throws MethodException;
 
-    default public void updateEmergencyAssistVolLowering(int n, int n2) {
-    }
+    public void updateEmergencyAssistVolLowering(int var1, int var2) throws MethodException;
 
-    default public void updateParkingBrake(boolean bl, int n) {
-    }
+    public void updateParkingBrake(boolean var1, int var2) throws MethodException;
 
-    default public void updateAppConnectTrigger(int n, int n2) {
-    }
+    public void updateAppConnectTrigger(int var1, int var2) throws MethodException;
 
-    default public void updateSTPState(int n, int n2) {
-    }
+    public void updateSTPState(int var1, int var2) throws MethodException;
 
-    default public void updateAutomaticGearShiftTransMode(int n, int n2) {
-    }
+    public void updateAutomaticGearShiftTransMode(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

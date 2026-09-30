@@ -19,7 +19,6 @@ import de.esolutions.hmi.widgets.audi.evo.LineElement;
 import de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.LabelRendererHigh;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.TextDescriptorLabelRenderer$1Tag;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ITextDescriptorController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LabelRenderer;
 import java.util.ArrayList;
@@ -75,7 +74,6 @@ Alignment {
         return nArray;
     }
 
-    @Override
     public String calculateDisplayData(String string, boolean bl) {
         return string;
     }
@@ -175,7 +173,7 @@ Alignment {
                     if (n >= n4) {
                         String string2 = lineElement.nodeText;
                         if (bl) {
-                            string2 = new StringBuffer().append('\u2026').append(string2).toString();
+                            string2 = '\u2026' + string2;
                         }
                         string = stringUtilityEAL.abbreviateTextEllipsis(string2, n, true);
                         int n5 = stringUtilityEAL.getStringWidth(string);
@@ -205,7 +203,7 @@ Alignment {
                     if (n7 >= n8) {
                         string = lineElement.nodeText;
                         if (bl) {
-                            string = new StringBuffer().append(string).append('\u2026').toString();
+                            string = string + '\u2026';
                         }
                         String string3 = stringUtilityEAL.abbreviateTextEllipsis(string, n7, false);
                         lineElement.widthActual = stringUtilityEAL.getStringWidth(string3);
@@ -235,7 +233,7 @@ Alignment {
                 } else {
                     IWrappedNode3DText iWrappedNode3DText = eALManager.createText3D(iWrappedNode3D, EALManager.createNodeName("element_text", i2, (AbstractRenderer)this), lineElement.nodeText, (IWrappedFont)lineElement.font);
                     iWrappedNode3DText.setText(lineElement.nodeText, (IWrappedFont)lineElement.font);
-                    textDescriptorLogCh.log(-2137614336, "TextDescriptorLabelRenderer#createLineElementsNodes Create textNode with text = %1, font = %2", (Object)lineElement.text, lineElement.font);
+                    textDescriptorLogCh.log(10000000, "TextDescriptorLabelRenderer#createLineElementsNodes Create textNode with text = %1, font = %2", (Object)lineElement.text, lineElement.font);
                     iWrappedNode3DText.getInterfaceText().setColor(n);
                     iWrappedNode3D2 = iWrappedNode3DText;
                 }
@@ -259,7 +257,7 @@ Alignment {
             LineElement lineElement = lineElementArray[i2];
             int n4 = -1;
             if (lineElement.bitmapIndex != -1) {
-                textDescriptorLogCh.log(1078071040, "TextDescriptorLabelRenderer#createLineElementNodes e.bitmapIndex ", (long)lineElement.bitmapIndex);
+                textDescriptorLogCh.log(1000000, "TextDescriptorLabelRenderer#createLineElementNodes e.bitmapIndex ", (long)lineElement.bitmapIndex);
             } else {
                 for (n3 = lineElement.fontIndex; iWrappedFontArray.length <= n3; --n3) {
                 }
@@ -299,7 +297,7 @@ Alignment {
                     for (n6 = lineElement.fontIndex; n6 >= iWrappedFontArray.length; --n6) {
                     }
                     if (n6 < lineElement.fontIndex) {
-                        textDescriptorLogCh.log(-1601830656, "TextDescriptorLabelRenderer#createLineElementNodes Font with index %1 has not been set.", (long)lineElement.fontIndex);
+                        textDescriptorLogCh.log(100000, "TextDescriptorLabelRenderer#createLineElementNodes Font with index %1 has not been set.", (long)lineElement.fontIndex);
                     }
                     n5 = -EALManager.getFontHeightUppercase(iWrappedFontArray[0]) + EALManager.getFontHeightUppercase(iWrappedFontArray[n6]);
                     break;
@@ -344,13 +342,11 @@ Alignment {
         }
     }
 
-    @Override
     public void disconnect() {
         this.destroyTextElementNodes();
         this.destroyTextNodes();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -359,11 +355,11 @@ Alignment {
         Object[] objectArray;
         ArrayList arrayList = new ArrayList();
         if (stringBuffer == null) {
-            textDescriptorLogCh.log(-1601830656, "TextDescriptorRenderer#parseTextDescriptor Text descriptor is null.");
+            textDescriptorLogCh.log(100000, "TextDescriptorRenderer#parseTextDescriptor Text descriptor is null.");
             return null;
         }
         String string = stringBuffer.toString();
-        textDescriptorLogCh.log(-2137614336, "TextDescriptorRenderer#parseTextDescriptor Text descriptor = %1", (Object)string);
+        textDescriptorLogCh.log(10000000, "TextDescriptorRenderer#parseTextDescriptor Text descriptor = %1", (Object)string);
         int n = 0;
         int n2 = string.indexOf(36);
         while (n2 != -1) {
@@ -460,7 +456,6 @@ Alignment {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         int n;
         EALManager eALManager = ((HMITerminalEAL)((Object)this.getTerminal())).getEALManager();
@@ -526,11 +521,10 @@ Alignment {
     public TextDescriptorLabelRenderer(AbstractWidgetController abstractWidgetController) {
         this.controller = abstractWidgetController;
         if (!(abstractWidgetController instanceof ITextDescriptorController)) {
-            textDescriptorLogCh.log(-1601830656, "TextDescriptorRenderer#TextDescriptorRenderer Supplied Controller ist not an instance of ITextDescriptorController!");
+            textDescriptorLogCh.log(100000, "TextDescriptorRenderer#TextDescriptorRenderer Supplied Controller ist not an instance of ITextDescriptorController!");
         }
     }
 
-    @Override
     public int getPreferredWidth() {
         EALManager eALManager = this.getEALManager();
         List list = ((ITextDescriptorController)((Object)this.controller)).getLineDescription();
@@ -547,17 +541,14 @@ Alignment {
         return this.cachedPreferredWidth;
     }
 
-    @Override
     public int getPreferredHeight() {
         return EALManager.getFontHeightUppercase(this.getInheritedFont());
     }
 
-    @Override
     public int getNumberOfRows(int n) {
         return 0;
     }
 
-    @Override
     public String getText() {
         if (this.LineElements != null) {
             Buffer buffer = new Buffer();
@@ -589,7 +580,6 @@ Alignment {
         this.abbreviateText = bl;
     }
 
-    @Override
     public void setAlignment(int n, int n2) {
         this.vAlign = n2;
         this.hAlign = n;
@@ -599,12 +589,10 @@ Alignment {
         this.allowLineBreak = bl;
     }
 
-    @Override
     public int getBaseline() {
         return 0;
     }
 
-    @Override
     public boolean hasContent() {
         return true;
     }
@@ -627,13 +615,12 @@ Alignment {
         return false;
     }
 
-    @Override
     public boolean isTextDescriptorSupported() {
         return true;
     }
 
     private void lineDescriptionListToArray(List list) {
-        textDescriptorLogCh.log(-2137614336, "TextDescriptorLabelRenderer#lineDescriptionListToArray t = %1", (Object)list);
+        textDescriptorLogCh.log(10000000, "TextDescriptorLabelRenderer#lineDescriptionListToArray t = %1", (Object)list);
         if (list != null) {
             this.LineElements = new LineElement[list.size()];
             list.toArray(this.LineElements);
@@ -642,17 +629,14 @@ Alignment {
         }
     }
 
-    @Override
     public int getPreferredLineHeight() {
         return this.getPreferredHeight();
     }
 
-    @Override
     public int getFontHeight() {
         return this.getPreferredHeight();
     }
 
-    @Override
     public void setFirstVisibleLine(int n) {
         textDescriptorLogCh.log(10000, "TextDescriptorLabelRenderer#setFirstVisibleLine: firstRendereredLine is not supported in this renderer");
     }
@@ -686,7 +670,19 @@ Alignment {
 
     public static StringBuffer createTextDescriptorFromMetricsData(String string) {
         Object object;
-        TextDescriptorLabelRenderer$1Tag textDescriptorLabelRenderer$1Tag;
+        class Tag {
+            int x0;
+            int x1;
+            boolean font;
+            boolean valid = true;
+
+            public Tag(int n, int n2, boolean bl) {
+                this.x0 = n;
+                this.x1 = n2;
+                this.font = bl;
+            }
+        }
+        Tag tag;
         int n;
         boolean bl = true;
         boolean bl2 = false;
@@ -698,40 +694,40 @@ Alignment {
             char c2 = string.charAt(n);
             if (!('0' <= c2 && c2 <= ':' || c2 == '-' || '\u00bc' <= c2 && c2 <= '\u00be')) {
                 if (bl3 != bl) continue;
-                arrayList.add(new TextDescriptorLabelRenderer$1Tag(n3, n, bl3));
+                arrayList.add(new Tag(n3, n, bl3));
                 n3 = n;
                 bl3 = bl2;
                 continue;
             }
             if (bl3 != bl2) continue;
-            arrayList.add(new TextDescriptorLabelRenderer$1Tag(n3, n, bl3));
+            arrayList.add(new Tag(n3, n, bl3));
             n3 = n;
             bl3 = bl;
         }
-        arrayList.add(new TextDescriptorLabelRenderer$1Tag(n3, n, bl3));
+        arrayList.add(new Tag(n3, n, bl3));
         if (arrayList.size() >= 2) {
-            TextDescriptorLabelRenderer$1Tag textDescriptorLabelRenderer$1Tag2 = null;
-            textDescriptorLabelRenderer$1Tag = (TextDescriptorLabelRenderer$1Tag)arrayList.get(0);
-            object = (TextDescriptorLabelRenderer$1Tag)arrayList.get(1);
+            Tag tag2 = null;
+            tag = (Tag)arrayList.get(0);
+            object = (Tag)arrayList.get(1);
             for (n = 2; n < arrayList.size(); ++n) {
                 CharSequence charSequence;
-                textDescriptorLabelRenderer$1Tag2 = textDescriptorLabelRenderer$1Tag;
-                textDescriptorLabelRenderer$1Tag = object;
-                object = (TextDescriptorLabelRenderer$1Tag)arrayList.get(n);
-                if (textDescriptorLabelRenderer$1Tag.x1 - textDescriptorLabelRenderer$1Tag.x0 != 1 || textDescriptorLabelRenderer$1Tag2.font != bl || ((TextDescriptorLabelRenderer$1Tag)object).font != bl || !(charSequence = string.subSequence(textDescriptorLabelRenderer$1Tag.x0, textDescriptorLabelRenderer$1Tag.x1)).equals(",") && !charSequence.equals(".") && !charSequence.equals(":")) continue;
-                textDescriptorLabelRenderer$1Tag2.x1 = ((TextDescriptorLabelRenderer$1Tag)object).x1;
-                textDescriptorLabelRenderer$1Tag.valid = false;
-                ((TextDescriptorLabelRenderer$1Tag)object).valid = false;
+                tag2 = tag;
+                tag = object;
+                object = (Tag)arrayList.get(n);
+                if (tag.x1 - tag.x0 != 1 || tag2.font != bl || ((Tag)object).font != bl || !(charSequence = string.subSequence(tag.x0, tag.x1)).equals(",") && !charSequence.equals(".") && !charSequence.equals(":")) continue;
+                tag2.x1 = ((Tag)object).x1;
+                tag.valid = false;
+                ((Tag)object).valid = false;
             }
         }
         StringBuffer stringBuffer = new StringBuffer();
         while (arrayList.size() > 0) {
-            textDescriptorLabelRenderer$1Tag = (TextDescriptorLabelRenderer$1Tag)arrayList.remove(0);
-            if (!textDescriptorLabelRenderer$1Tag.valid) continue;
-            object = string.substring(textDescriptorLabelRenderer$1Tag.x0, textDescriptorLabelRenderer$1Tag.x1);
+            tag = (Tag)arrayList.remove(0);
+            if (!tag.valid) continue;
+            object = string.substring(tag.x0, tag.x1);
             stringBuffer.append((String)object);
-            int n4 = textDescriptorLabelRenderer$1Tag.font ? 0 : 1;
-            stringBuffer.append(new StringBuffer().append("[font=").append(n4).toString());
+            int n4 = tag.font ? 0 : 1;
+            stringBuffer.append("[font=" + n4);
             if (((String)object).indexOf("am") != -1 || ((String)object).indexOf("AM") != -1) {
                 stringBuffer.append(',');
                 stringBuffer.append("a=top");
@@ -742,9 +738,8 @@ Alignment {
         return stringBuffer;
     }
 
-    @Override
     public void setAutoWrap(int n) {
-        logChannel.log(-2137614336, "TextDescriptorLabelRenderer#setAutoWrap: wrapMode = %1", (long)n);
+        logChannel.log(10000000, "TextDescriptorLabelRenderer#setAutoWrap: wrapMode = %1", (long)n);
         this.setAllowLineBreak(n == 0);
     }
 
@@ -757,12 +752,10 @@ Alignment {
         logChannel.log(10000, "TextDescriptorLabelRenderer#setMaxLines: not supported in this renderer");
     }
 
-    @Override
     public void setLineHeight(int n) {
         this.lineHeight = n;
     }
 
-    @Override
     public int getLineHeight() {
         return this.lineHeight;
     }

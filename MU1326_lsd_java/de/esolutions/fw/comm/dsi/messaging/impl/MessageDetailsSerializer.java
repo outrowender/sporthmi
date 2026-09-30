@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.messaging.impl.ExtractedItemSerializer;
 import de.esolutions.fw.comm.dsi.messaging.impl.MatchedAddressSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.AttachmentInformation;
 import org.dsi.ifc.messaging.ExtractedItem;
 import org.dsi.ifc.messaging.MatchedAddress;
 import org.dsi.ifc.messaging.MessageDetails;
 
 public class MessageDetailsSerializer {
-    public static void putOptionalMessageDetails(ISerializer iSerializer, MessageDetails messageDetails) {
+    public static void putOptionalMessageDetails(ISerializer iSerializer, MessageDetails messageDetails) throws SerializerException {
         boolean bl = messageDetails == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -55,7 +56,7 @@ public class MessageDetailsSerializer {
         }
     }
 
-    public static void putOptionalMessageDetailsVarArray(ISerializer iSerializer, MessageDetails[] messageDetailsArray) {
+    public static void putOptionalMessageDetailsVarArray(ISerializer iSerializer, MessageDetails[] messageDetailsArray) throws SerializerException {
         boolean bl = messageDetailsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -66,7 +67,7 @@ public class MessageDetailsSerializer {
         }
     }
 
-    public static MessageDetails getOptionalMessageDetails(IDeserializer iDeserializer) {
+    public static MessageDetails getOptionalMessageDetails(IDeserializer iDeserializer) throws SerializerException {
         MessageDetails messageDetails = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -109,7 +110,7 @@ public class MessageDetailsSerializer {
         return messageDetails;
     }
 
-    public static MessageDetails[] getOptionalMessageDetailsVarArray(IDeserializer iDeserializer) {
+    public static MessageDetails[] getOptionalMessageDetailsVarArray(IDeserializer iDeserializer) throws SerializerException {
         MessageDetails[] messageDetailsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

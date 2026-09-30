@@ -17,7 +17,7 @@ implements IWidgetLogChannel {
     private static boolean isActive = SystemProperties.getBoolean("EnableAutomaticViewSizeChange", true);
 
     public ViewSizeHistoryManager(int n) {
-        logViewSize.log(1078071040, "ViewSizeHistoryManager#constructor initializing with view size %1", (long)n);
+        logViewSize.log(1000000, "ViewSizeHistoryManager#constructor initializing with view size %1", (long)n);
         this.preferredViewSize = n;
         this.currentViewSize = n;
         this.isSimulator = AbstractWidget.framework.isSimulator();
@@ -30,21 +30,21 @@ implements IWidgetLogChannel {
             }
             return this.preferredViewSize;
         }
-        logViewSize.log(1078071040, "ViewSizeHistoryManager#getPreferredViewSize Automatic view size change is disabled.");
+        logViewSize.log(1000000, "ViewSizeHistoryManager#getPreferredViewSize Automatic view size change is disabled.");
         return this.currentViewSize;
     }
 
     public void setPreferredViewSize(int n) {
-        logViewSize.log(1078071040, "ViewSizeHistoryManager#setPreferredViewSize preferred view size: %1", (long)n);
+        logViewSize.log(1000000, "ViewSizeHistoryManager#setPreferredViewSize preferred view size: %1", (long)n);
         this.preferredViewSize = n;
         this.preferredViewSizeInitialized = true;
     }
 
     public void setCurrentViewSize(int n) {
-        logViewSize.log(1078071040, "ViewSizeHistoryManager#setCurrentViewSize setting current view size to %1", (long)n);
+        logViewSize.log(1000000, "ViewSizeHistoryManager#setCurrentViewSize setting current view size to %1", (long)n);
         this.currentViewSize = n;
         if (!this.preferredViewSizeInitialized) {
-            logViewSize.log(1078071040, "ViewSizeHistoryManager#setCurrentViewSize setting initial preferred view size to %1", (long)n);
+            logViewSize.log(1000000, "ViewSizeHistoryManager#setCurrentViewSize setting initial preferred view size to %1", (long)n);
             this.preferredViewSize = n;
             this.preferredViewSizeInitialized = true;
         }

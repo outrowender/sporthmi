@@ -29,28 +29,23 @@ implements DSIMapViewerStreetViewCtrl {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$map$DSIMapViewerStreetViewCtrl == null ? (class$org$dsi$ifc$map$DSIMapViewerStreetViewCtrl = DSIMapViewerStreetViewCtrlProvider.class$("org.dsi.ifc.map.DSIMapViewerStreetViewCtrl")) : class$org$dsi$ifc$map$DSIMapViewerStreetViewCtrl).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMapViewerStreetViewCtrlProxy(this.instance, (DSIMapViewerStreetViewCtrlReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void streetViewEnabled(boolean bl) {
         try {
             this.proxy.streetViewEnabled(bl);
@@ -60,7 +55,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void streetViewVisible(boolean bl) {
         try {
             this.proxy.streetViewVisible(bl);
@@ -70,7 +64,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void streetViewFreeze(boolean bl) {
         try {
             this.proxy.streetViewFreeze(bl);
@@ -80,7 +73,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void goToView() {
         try {
             this.proxy.goToView();
@@ -90,7 +82,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setStreetViewZoomIndex(int n) {
         try {
             this.proxy.setStreetViewZoomIndex(n);
@@ -100,7 +91,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void streetViewThumbnails(StreetViewThumbnail[] streetViewThumbnailArray) {
         try {
             this.proxy.streetViewThumbnails(streetViewThumbnailArray);
@@ -110,7 +100,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void loadStreetView(boolean bl) {
         try {
             this.proxy.loadStreetView(bl);
@@ -120,7 +109,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void rotateView(short s, short s2) {
         try {
             this.proxy.rotateView(s, s2);
@@ -130,7 +118,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void rotateViewByPolarCoordinates(int n, int n2) {
         try {
             this.proxy.rotateViewByPolarCoordinates(n, n2);
@@ -140,7 +127,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setAzimuth(int n) {
         try {
             this.proxy.setAzimuth(n);
@@ -150,7 +136,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setInclination(int n) {
         try {
             this.proxy.setInclination(n);
@@ -160,7 +145,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void getInfoForScreenPosition(short s, short s2) {
         try {
             this.proxy.getInfoForScreenPosition(s, s2);
@@ -170,7 +154,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setPosition(NavLocationWgs84 navLocationWgs84) {
         try {
             this.proxy.setPosition(navLocationWgs84);
@@ -180,7 +163,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setCrossHairsVisibility(boolean bl) {
         try {
             this.proxy.setCrossHairsVisibility(bl);
@@ -190,7 +172,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setDayNightView(boolean bl) {
         try {
             this.proxy.setDayNightView(bl);
@@ -200,7 +181,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void snapshot() {
         try {
             this.proxy.snapshot();
@@ -210,7 +190,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setViewRotationByPolarCoordinates(float f2, float f3) {
         try {
             this.proxy.setViewRotationByPolarCoordinates(f2, f3);
@@ -220,7 +199,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void startViewRotationByPolarCoordinates(float f2, float f3) {
         try {
             this.proxy.startViewRotationByPolarCoordinates(f2, f3);
@@ -230,7 +208,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void stopViewRotationByPolarCoordinates() {
         try {
             this.proxy.stopViewRotationByPolarCoordinates();
@@ -240,7 +217,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setScreenViewport(Rect rect) {
         try {
             this.proxy.setScreenViewport(rect);
@@ -250,7 +226,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setCrossHairsPosition(Point point) {
         try {
             this.proxy.setCrossHairsPosition(point);
@@ -260,7 +235,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setStreetViewZoomLevel(float f2) {
         try {
             this.proxy.setStreetViewZoomLevel(f2);
@@ -270,7 +244,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -280,7 +253,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -290,7 +262,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -300,7 +271,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -310,7 +280,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -320,7 +289,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -330,7 +298,6 @@ implements DSIMapViewerStreetViewCtrl {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

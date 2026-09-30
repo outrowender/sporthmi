@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class FSG_Setup_GeneralSettings
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean eCallOnlyModeDf3_5;
 
     public FSG_Setup_GeneralSettings() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.eCallOnlyModeDf3_5 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Setup_GeneralSettings fSG_Setup_GeneralSettings = (FSG_Setup_GeneralSettings)bAPEntity;
         return this.eCallOnlyModeDf3_5 == fSG_Setup_GeneralSettings.eCallOnlyModeDf3_5;
@@ -39,7 +37,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Setup_GeneralSettings");
@@ -47,18 +44,15 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.eCallOnlyModeDf3_5);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.eCallOnlyModeDf3_5 = bitStream.popFrontBoolean();

@@ -32,7 +32,7 @@ public class A2LSState {
     }
 
     public String toString() {
-        return new StringBuffer("A2LSState{").append("currentDevice=").append(this.currentDevice).append(", requestingDevice=").append(this.requestingDevice).append("}").toString();
+        return "A2LSState{" + "currentDevice=" + this.currentDevice + ", requestingDevice=" + this.requestingDevice + "}";
     }
 }
 

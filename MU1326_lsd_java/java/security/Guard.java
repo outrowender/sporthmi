@@ -4,7 +4,6 @@
 package java.security;
 
 public interface Guard {
-    default public void checkGuard(Object object) {
-    }
+    public void checkGuard(Object var1) throws SecurityException;
 }
 

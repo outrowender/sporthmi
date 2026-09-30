@@ -62,7 +62,7 @@ public class sSimState {
     }
 
     public String toString() {
-        return new StringBuffer("sSimState{").append("msg_id=").append(this.msg_id).append(", activeSimLocation=").append(this.activeSimLocation).append(", availableSimCards=").append(this.availableSimCards).append(", simID=").append(this.simID).append(", simIMSI=").append(this.simIMSI).append("}").toString();
+        return "sSimState{" + "msg_id=" + this.msg_id + ", activeSimLocation=" + this.activeSimLocation + ", availableSimCards=" + this.availableSimCards + ", simID=" + this.simID + ", simIMSI=" + this.simIMSI + "}";
     }
 }
 

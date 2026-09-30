@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eUsbOvercurrent
 extends IEnum {
-    public static final int USB_STATE_OK;
-    public static final int USB_STATE_OVERCURRENT;
+    public static final int USB_STATE_OK = 0;
+    public static final int USB_STATE_OVERCURRENT = 255;
 }
 

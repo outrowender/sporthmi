@@ -14,7 +14,6 @@ import org.apache.commons.scxml.Evaluator;
 import org.apache.commons.scxml.SCXMLExecutor;
 import org.apache.commons.scxml.SCXMLListener;
 import org.apache.commons.scxml.TriggerEvent;
-import org.apache.commons.scxml.env.AbstractStateMachine$EntryListener;
 import org.apache.commons.scxml.env.SimpleDispatcher;
 import org.apache.commons.scxml.env.SimpleErrorHandler;
 import org.apache.commons.scxml.env.SimpleErrorReporter;
@@ -23,6 +22,8 @@ import org.apache.commons.scxml.env.jexl.JexlEvaluatorFactory;
 import org.apache.commons.scxml.io.SCXMLParser;
 import org.apache.commons.scxml.model.ModelException;
 import org.apache.commons.scxml.model.SCXML;
+import org.apache.commons.scxml.model.Transition;
+import org.apache.commons.scxml.model.TransitionTarget;
 import org.xml.sax.SAXException;
 
 public abstract class AbstractStateMachine {
@@ -37,7 +38,7 @@ public abstract class AbstractStateMachine {
     }
 
     public AbstractStateMachine(URL uRL, Context context, Evaluator evaluator) {
-        this.log = LogFactory.getLog(super.getClass());
+        this.log = LogFactory.getLog(this.getClass());
         SimpleErrorHandler simpleErrorHandler = new SimpleErrorHandler();
         try {
             this.stateMachine = SCXMLParser.parse(uRL, simpleErrorHandler);
@@ -67,7 +68,7 @@ public abstract class AbstractStateMachine {
         this.engine.setStateMachine(sCXML);
         this.engine.setSuperStep(true);
         this.engine.setRootContext(context);
-        this.engine.addListener(sCXML, (SCXMLListener)new AbstractStateMachine$EntryListener(this));
+        this.engine.addListener(sCXML, (SCXMLListener)new EntryListener());
         try {
             this.engine.go();
         }
@@ -104,7 +105,7 @@ public abstract class AbstractStateMachine {
     }
 
     public boolean invoke(String string) {
-        Class clazz = super.getClass();
+        Class clazz = this.getClass();
         try {
             Method method = clazz.getDeclaredMethod(string, SIGNATURE);
             method.invoke(this, PARAMETERS);
@@ -146,6 +147,22 @@ public abstract class AbstractStateMachine {
     protected void logError(Exception exception) {
         if (this.log.isErrorEnabled()) {
             this.log.error(exception.getMessage(), exception);
+        }
+    }
+
+    protected class EntryListener
+    implements SCXMLListener {
+        protected EntryListener() {
+        }
+
+        public void onEntry(TransitionTarget transitionTarget) {
+            AbstractStateMachine.this.invoke(transitionTarget.getId());
+        }
+
+        public void onTransition(TransitionTarget transitionTarget, TransitionTarget transitionTarget2, Transition transition) {
+        }
+
+        public void onExit(TransitionTarget transitionTarget) {
         }
     }
 }

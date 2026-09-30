@@ -4,17 +4,17 @@
 package org.dsi.ifc.displaycontroller;
 
 public interface Constants {
-    public static final int DISPLAYSTATE_OFF;
-    public static final int DISPLAYSTATE_ON;
-    public static final int TURNSTATE_NOT_USED;
-    public static final int TURNSTATE_CLOSED;
-    public static final int TURNSTATE_OPEN;
-    public static final int TURNSTATE_FASTOPEN;
-    public static final int TURNSTATE_GAUGES;
-    public static final int TURNSTATE_LEARNING;
-    public static final int DISPLAYID_PRIMARY_DEFAULT;
-    public static final int DISPLAYID_SECONDARY;
-    public static final int DISPLAYID_RSE_LEFT;
-    public static final int DISPLAYID_RSE_RIGHT;
+    public static final int DISPLAYSTATE_OFF = 0;
+    public static final int DISPLAYSTATE_ON = 1;
+    public static final int TURNSTATE_NOT_USED = -1;
+    public static final int TURNSTATE_CLOSED = 0;
+    public static final int TURNSTATE_OPEN = 1;
+    public static final int TURNSTATE_FASTOPEN = 2;
+    public static final int TURNSTATE_GAUGES = 3;
+    public static final int TURNSTATE_LEARNING = 4;
+    public static final int DISPLAYID_PRIMARY_DEFAULT = 0;
+    public static final int DISPLAYID_SECONDARY = 1;
+    public static final int DISPLAYID_RSE_LEFT = 2;
+    public static final int DISPLAYID_RSE_RIGHT = 3;
 }
 

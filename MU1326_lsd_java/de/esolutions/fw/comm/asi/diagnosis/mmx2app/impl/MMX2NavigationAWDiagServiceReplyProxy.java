@@ -4,38 +4,20 @@
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2NavigationAWDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$10;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$11;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$12;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$13;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$14;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$15;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$16;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$17;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$18;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$19;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$20;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$21;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$22;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$3;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$4;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$5;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$6;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$7;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$8;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2NavigationAWDiagServiceReplyProxy$9;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2NavigationAWDiagServiceReplyProxy
 implements MMX2NavigationAWDiagServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.diagnosis.mmx2app.MMX2NavigationAWDiagService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public MMX2NavigationAWDiagServiceReplyProxy() {
@@ -43,141 +25,236 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void requestSubsystemStates(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$1 mMX2NavigationAWDiagServiceReplyProxy$1 = new MMX2NavigationAWDiagServiceReplyProxy$1(this, l);
-        this.proxy.remoteCallMethod((short)16, mMX2NavigationAWDiagServiceReplyProxy$1);
+    public void requestSubsystemStates(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void requestVersionsNavDB(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$2 mMX2NavigationAWDiagServiceReplyProxy$2 = new MMX2NavigationAWDiagServiceReplyProxy$2(this, l);
-        this.proxy.remoteCallMethod((short)19, mMX2NavigationAWDiagServiceReplyProxy$2);
+    public void requestVersionsNavDB(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void requestActiveNavDB(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$3 mMX2NavigationAWDiagServiceReplyProxy$3 = new MMX2NavigationAWDiagServiceReplyProxy$3(this, l);
-        this.proxy.remoteCallMethod((short)0, mMX2NavigationAWDiagServiceReplyProxy$3);
+    public void requestActiveNavDB(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void requestGPSNoSatellite(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$4 mMX2NavigationAWDiagServiceReplyProxy$4 = new MMX2NavigationAWDiagServiceReplyProxy$4(this, l);
-        this.proxy.remoteCallMethod((short)4, mMX2NavigationAWDiagServiceReplyProxy$4);
+    public void requestGPSNoSatellite(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 
-    @Override
-    public void requestGPSOffroad(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$5 mMX2NavigationAWDiagServiceReplyProxy$5 = new MMX2NavigationAWDiagServiceReplyProxy$5(this, l);
-        this.proxy.remoteCallMethod((short)5, mMX2NavigationAWDiagServiceReplyProxy$5);
+    public void requestGPSOffroad(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void requestNavCalibrationState(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$6 mMX2NavigationAWDiagServiceReplyProxy$6 = new MMX2NavigationAWDiagServiceReplyProxy$6(this, l);
-        this.proxy.remoteCallMethod((short)9, mMX2NavigationAWDiagServiceReplyProxy$6);
+    public void requestNavCalibrationState(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void requestNavCorrectedPosition(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$7 mMX2NavigationAWDiagServiceReplyProxy$7 = new MMX2NavigationAWDiagServiceReplyProxy$7(this, l);
-        this.proxy.remoteCallMethod((short)11, mMX2NavigationAWDiagServiceReplyProxy$7);
+    public void requestNavCorrectedPosition(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void requestNavCorrectedDirection(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$8 mMX2NavigationAWDiagServiceReplyProxy$8 = new MMX2NavigationAWDiagServiceReplyProxy$8(this, l);
-        this.proxy.remoteCallMethod((short)10, mMX2NavigationAWDiagServiceReplyProxy$8);
+    public void requestNavCorrectedDirection(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void requestUnitStateDSRC(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$9 mMX2NavigationAWDiagServiceReplyProxy$9 = new MMX2NavigationAWDiagServiceReplyProxy$9(this, l);
-        this.proxy.remoteCallMethod((short)18, mMX2NavigationAWDiagServiceReplyProxy$9);
+    public void requestUnitStateDSRC(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void requestAntennaStateDSRC(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$10 mMX2NavigationAWDiagServiceReplyProxy$10 = new MMX2NavigationAWDiagServiceReplyProxy$10(this, l);
-        this.proxy.remoteCallMethod((short)1, mMX2NavigationAWDiagServiceReplyProxy$10);
+    public void requestAntennaStateDSRC(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void requestAntennaStateVICS(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$11 mMX2NavigationAWDiagServiceReplyProxy$11 = new MMX2NavigationAWDiagServiceReplyProxy$11(this, l);
-        this.proxy.remoteCallMethod((short)2, mMX2NavigationAWDiagServiceReplyProxy$11);
+    public void requestAntennaStateVICS(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void requestRadioBeaconStateVICS(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$12 mMX2NavigationAWDiagServiceReplyProxy$12 = new MMX2NavigationAWDiagServiceReplyProxy$12(this, l);
-        this.proxy.remoteCallMethod((short)12, mMX2NavigationAWDiagServiceReplyProxy$12);
+    public void requestRadioBeaconStateVICS(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void requestInfraredBeaconStateVICS(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$13 mMX2NavigationAWDiagServiceReplyProxy$13 = new MMX2NavigationAWDiagServiceReplyProxy$13(this, l);
-        this.proxy.remoteCallMethod((short)8, mMX2NavigationAWDiagServiceReplyProxy$13);
+    public void requestInfraredBeaconStateVICS(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void requestResetCalibration(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$14 mMX2NavigationAWDiagServiceReplyProxy$14 = new MMX2NavigationAWDiagServiceReplyProxy$14(this, l, n);
-        this.proxy.remoteCallMethod((short)13, mMX2NavigationAWDiagServiceReplyProxy$14);
+    public void requestResetCalibration(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void requestSparePartNumber(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$15 mMX2NavigationAWDiagServiceReplyProxy$15 = new MMX2NavigationAWDiagServiceReplyProxy$15(this, l, n);
-        this.proxy.remoteCallMethod((short)15, mMX2NavigationAWDiagServiceReplyProxy$15);
+    public void requestSparePartNumber(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void requestApplicationSoftwareVersionNumber(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$16 mMX2NavigationAWDiagServiceReplyProxy$16 = new MMX2NavigationAWDiagServiceReplyProxy$16(this, l, n);
-        this.proxy.remoteCallMethod((short)3, mMX2NavigationAWDiagServiceReplyProxy$16);
+    public void requestApplicationSoftwareVersionNumber(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void requestHardwareNumber(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$17 mMX2NavigationAWDiagServiceReplyProxy$17 = new MMX2NavigationAWDiagServiceReplyProxy$17(this, l, n);
-        this.proxy.remoteCallMethod((short)6, mMX2NavigationAWDiagServiceReplyProxy$17);
+    public void requestHardwareNumber(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void requestHardwareVersionNumber(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$18 mMX2NavigationAWDiagServiceReplyProxy$18 = new MMX2NavigationAWDiagServiceReplyProxy$18(this, l, n);
-        this.proxy.remoteCallMethod((short)7, mMX2NavigationAWDiagServiceReplyProxy$18);
+    public void requestHardwareVersionNumber(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void requestSerialNumber(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$19 mMX2NavigationAWDiagServiceReplyProxy$19 = new MMX2NavigationAWDiagServiceReplyProxy$19(this, l, n);
-        this.proxy.remoteCallMethod((short)14, mMX2NavigationAWDiagServiceReplyProxy$19);
+    public void requestSerialNumber(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void requestSystemName(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$20 mMX2NavigationAWDiagServiceReplyProxy$20 = new MMX2NavigationAWDiagServiceReplyProxy$20(this, l, n);
-        this.proxy.remoteCallMethod((short)17, mMX2NavigationAWDiagServiceReplyProxy$20);
+    public void requestSystemName(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void requestCountryRegionVersion(long l) {
-        MMX2NavigationAWDiagServiceReplyProxy$21 mMX2NavigationAWDiagServiceReplyProxy$21 = new MMX2NavigationAWDiagServiceReplyProxy$21(this, l);
-        this.proxy.remoteCallMethod((short)45, mMX2NavigationAWDiagServiceReplyProxy$21);
+    public void requestCountryRegionVersion(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)45, iSerializable);
     }
 
-    @Override
-    public void requestDeleteMemory(long l, int n) {
-        MMX2NavigationAWDiagServiceReplyProxy$22 mMX2NavigationAWDiagServiceReplyProxy$22 = new MMX2NavigationAWDiagServiceReplyProxy$22(this, l, n);
-        this.proxy.remoteCallMethod((short)42, mMX2NavigationAWDiagServiceReplyProxy$22);
+    public void requestDeleteMemory(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)42, iSerializable);
     }
 }
 

@@ -27,28 +27,23 @@ implements DSIBlocking {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$navigation$DSIBlocking == null ? (class$org$dsi$ifc$navigation$DSIBlocking = DSIBlockingProvider.class$("org.dsi.ifc.navigation.DSIBlocking")) : class$org$dsi$ifc$navigation$DSIBlocking).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIBlockingProxy(this.instance, (DSIBlockingReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void blockArea(NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
         try {
             this.proxy.blockArea(navLocationWgs84, navLocationWgs842);
@@ -58,7 +53,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void blockRouteSegments(long l, long l2) {
         try {
             this.proxy.blockRouteSegments(l, l2);
@@ -68,7 +62,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void blockRoadSegments(NavLocation navLocation) {
         try {
             this.proxy.blockRoadSegments(navLocation);
@@ -78,7 +71,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void blockRouteBasedOnLength(int n, int n2) {
         try {
             this.proxy.blockRouteBasedOnLength(n, n2);
@@ -88,7 +80,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void persistBlock(long[] lArray) {
         try {
             this.proxy.persistBlock(lArray);
@@ -98,7 +89,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void deleteBlock(long[] lArray) {
         try {
             this.proxy.deleteBlock(lArray);
@@ -108,7 +98,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void setBlockDescription(long[] lArray, String string) {
         try {
             this.proxy.setBlockDescription(lArray, string);
@@ -118,7 +107,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void getBoundingRectangleOfBlocks(long[] lArray) {
         try {
             this.proxy.getBoundingRectangleOfBlocks(lArray);
@@ -128,7 +116,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -138,7 +125,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -148,7 +134,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -158,7 +143,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -168,7 +152,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -178,7 +161,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -188,7 +170,6 @@ implements DSIBlocking {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

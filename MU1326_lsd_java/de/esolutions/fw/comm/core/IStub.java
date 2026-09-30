@@ -8,27 +8,20 @@ import de.esolutions.fw.comm.core.IService;
 import de.esolutions.fw.comm.core.Proxy;
 
 public interface IStub {
-    public static final short INVALID_ID;
+    public static final short INVALID_ID = -1;
 
-    default public IService getService() {
-    }
+    public IService getService();
 
-    default public short getStubID() {
-    }
+    public short getStubID();
 
-    default public short getRemoteProxyID() {
-    }
+    public short getRemoteProxyID();
 
-    default public short getRemoteAgentID() {
-    }
+    public short getRemoteAgentID();
 
-    default public IProxyFrontend getReplyProxyFrontend() {
-    }
+    public IProxyFrontend getReplyProxyFrontend();
 
-    default public Proxy getReplyProxy() {
-    }
+    public Proxy getReplyProxy();
 
-    default public Proxy getRequestProxy() {
-    }
+    public Proxy getRequestProxy();
 }
 

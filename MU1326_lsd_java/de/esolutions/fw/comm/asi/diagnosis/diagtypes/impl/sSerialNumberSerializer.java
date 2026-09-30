@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSerialNumber;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sSerialNumberSerializer {
-    public static void putOptionalsSerialNumber(ISerializer iSerializer, sSerialNumber sSerialNumber2) {
+    public static void putOptionalsSerialNumber(ISerializer iSerializer, sSerialNumber sSerialNumber2) throws SerializerException {
         boolean bl = sSerialNumber2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sSerialNumberSerializer {
         }
     }
 
-    public static void putOptionalsSerialNumberVarArray(ISerializer iSerializer, sSerialNumber[] sSerialNumberArray) {
+    public static void putOptionalsSerialNumberVarArray(ISerializer iSerializer, sSerialNumber[] sSerialNumberArray) throws SerializerException {
         boolean bl = sSerialNumberArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sSerialNumberSerializer {
         }
     }
 
-    public static sSerialNumber getOptionalsSerialNumber(IDeserializer iDeserializer) {
+    public static sSerialNumber getOptionalsSerialNumber(IDeserializer iDeserializer) throws SerializerException {
         sSerialNumber sSerialNumber2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sSerialNumberSerializer {
         return sSerialNumber2;
     }
 
-    public static sSerialNumber[] getOptionalsSerialNumberVarArray(IDeserializer iDeserializer) {
+    public static sSerialNumber[] getOptionalsSerialNumberVarArray(IDeserializer iDeserializer) throws SerializerException {
         sSerialNumber[] sSerialNumberArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

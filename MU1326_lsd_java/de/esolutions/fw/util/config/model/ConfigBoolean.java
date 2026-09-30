@@ -1,13 +1,11 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.model.ConfigScalar;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public class ConfigBoolean
 extends ConfigScalar {
@@ -21,17 +19,14 @@ extends ConfigScalar {
         this.value = bl;
     }
 
-    @Override
     public boolean isBoolean() {
         return true;
     }
 
-    @Override
     public Boolean getBoolean() {
         return this.value;
     }
 
-    @Override
     public Boolean getBoolean(Boolean bl) {
         if (this.value == null) {
             return bl;
@@ -39,22 +34,18 @@ extends ConfigScalar {
         return this.value;
     }
 
-    @Override
     public Boolean convertToBoolean() {
         return this.value;
     }
 
-    @Override
     public Integer convertToInteger() {
         return new Integer(this.value != false ? 1 : 0);
     }
 
-    @Override
     public Double convertToDouble() {
         return new Double(this.value != false ? 1.0 : 0.0);
     }
 
-    @Override
     public String convertToString() {
         return this.value.toString();
     }
@@ -77,8 +68,7 @@ extends ConfigScalar {
         return n;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         if (this.value == null) {
             iConfigExporter.writeNull();
         } else {

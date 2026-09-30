@@ -3,146 +3,103 @@
  */
 package de.esolutions.fw.comm.dsi.mirrorlink;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.mirrorlink.Application;
 import org.dsi.ifc.mirrorlink.Device;
 import org.dsi.ifc.mirrorlink.Notification;
 
 public interface DSIMirrorLinkReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "6fc7566e-a8c2-57e2-8cf0-22c0e333afe3";
+    public static final String IPL_COMM_INTERFACE_KEY = "aeae54ea-8c0f-58f6-bd12-0a4bd5ec2950";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.13";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.13";
 
-    default public void responseClientCapabilities(int n) {
-    }
+    public void responseClientCapabilities(int var1) throws MethodException;
 
-    default public void responseAccessMode(int n, int n2) {
-    }
+    public void responseAccessMode(int var1, int var2) throws MethodException;
 
-    default public void responseDayNightMode(int n, int n2) {
-    }
+    public void responseDayNightMode(int var1, int var2) throws MethodException;
 
-    default public void responseUsableViewPort(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void responseUsableViewPort(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void responseContextVisible(boolean bl, int n) {
-    }
+    public void responseContextVisible(boolean var1, int var2) throws MethodException;
 
-    default public void responseConnectDevice(int n, int n2) {
-    }
+    public void responseConnectDevice(int var1, int var2) throws MethodException;
 
-    default public void responseDisconnectDevice(int n, int n2) {
-    }
+    public void responseDisconnectDevice(int var1, int var2) throws MethodException;
 
-    default public void responseRotateScreen(int n, int n2) {
-    }
+    public void responseRotateScreen(int var1, int var2) throws MethodException;
 
-    default public void responseSoftKeyEvent(int n, int n2, int n3) {
-    }
+    public void responseSoftKeyEvent(int var1, int var2, int var3) throws MethodException;
 
-    default public void responseLaunchApp(int n, int n2) {
-    }
+    public void responseLaunchApp(int var1, int var2) throws MethodException;
 
-    default public void responseTerminateApp(int n, int n2) {
-    }
+    public void responseTerminateApp(int var1, int var2) throws MethodException;
 
-    default public void responseSpellerResult(String string, String string2, boolean bl, int n) {
-    }
+    public void responseSpellerResult(String var1, String var2, boolean var3, int var4) throws MethodException;
 
-    default public void responseSendString(int n) {
-    }
+    public void responseSendString(int var1) throws MethodException;
 
-    default public void responseAudioOption(int n, int n2) {
-    }
+    public void responseAudioOption(int var1, int var2) throws MethodException;
 
-    default public void responseAudioConnectionAudible(int n, boolean bl, int n2) {
-    }
+    public void responseAudioConnectionAudible(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void responseSendTouchEvents(int n) {
-    }
+    public void responseSendTouchEvents(int var1) throws MethodException;
 
-    default public void updateDiscoveredDevices(Device[] deviceArray, int n) {
-    }
+    public void updateDiscoveredDevices(Device[] var1, int var2) throws MethodException;
 
-    default public void updateDeviceConnectionStatus(int n, int n2, int n3) {
-    }
+    public void updateDeviceConnectionStatus(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateDeviceSoftKeys(int[] nArray, int n) {
-    }
+    public void updateDeviceSoftKeys(int[] var1, int var2) throws MethodException;
 
-    default public void updateApplicationStatus(int n, int n2, int n3, int n4) {
-    }
+    public void updateApplicationStatus(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void updateScreenOrientation(int n, int n2) {
-    }
+    public void updateScreenOrientation(int var1, int var2) throws MethodException;
 
-    default public void updateShowKeyboard(int n, String string, int n2) {
-    }
+    public void updateShowKeyboard(int var1, String var2, int var3) throws MethodException;
 
-    default public void updateScreenOrientationAvailable(boolean bl, int n) {
-    }
+    public void updateScreenOrientationAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void updateScreenRotationAvailable(boolean bl, int n) {
-    }
+    public void updateScreenRotationAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void updateAudioConnectionRequested(int n, boolean bl, int n2) {
-    }
+    public void updateAudioConnectionRequested(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void responseKeyboardMode(int n, int n2) {
-    }
+    public void responseKeyboardMode(int var1, int var2) throws MethodException;
 
-    default public void updateAvailableApplicationsList(int n, int n2) {
-    }
+    public void updateAvailableApplicationsList(int var1, int var2) throws MethodException;
 
-    default public void responseAvailableApplicationsWindow(int n, Application[] applicationArray, int n2) {
-    }
+    public void responseAvailableApplicationsWindow(int var1, Application[] var2, int var3) throws MethodException;
 
-    default public void updateSingleApplicationMode(boolean bl, int n) {
-    }
+    public void updateSingleApplicationMode(boolean var1, int var2) throws MethodException;
 
-    default public void responseDisplayKeyboard(int n, int n2) {
-    }
+    public void responseDisplayKeyboard(int var1, int var2) throws MethodException;
 
-    default public void responseDismissHMIKeyboard(int n) {
-    }
+    public void responseDismissHMIKeyboard(int var1) throws MethodException;
 
-    default public void responseFactorySettings(int n) {
-    }
+    public void responseFactorySettings(int var1) throws MethodException;
 
-    default public void updatePhoneViewAvailable(boolean bl, int n) {
-    }
+    public void updatePhoneViewAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void responsePhoneView(int n) {
-    }
+    public void responsePhoneView(int var1) throws MethodException;
 
-    default public void updateUncertifiedContent(boolean bl, int n) {
-    }
+    public void updateUncertifiedContent(boolean var1, int var2) throws MethodException;
 
-    default public void updateDeviceStatus(int n, int n2) {
-    }
+    public void updateDeviceStatus(int var1, int var2) throws MethodException;
 
-    default public void updateSWaPStatus(int n, int n2) {
-    }
+    public void updateSWaPStatus(int var1, int var2) throws MethodException;
 
-    default public void responseContextSwitched() {
-    }
+    public void responseContextSwitched() throws MethodException;
 
-    default public void updateShowNotification(Notification notification, int n) {
-    }
+    public void updateShowNotification(Notification var1, int var2) throws MethodException;
 
-    default public void updateNotificationServiceEnabled(boolean bl, int n) {
-    }
+    public void updateNotificationServiceEnabled(boolean var1, int var2) throws MethodException;
 
-    default public void updateLocationDataServicesEnabled(boolean bl, int n) {
-    }
+    public void updateLocationDataServicesEnabled(boolean var1, int var2) throws MethodException;
 
-    default public void updateSwitchToClientNativeUI(int n) {
-    }
+    public void updateSwitchToClientNativeUI(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

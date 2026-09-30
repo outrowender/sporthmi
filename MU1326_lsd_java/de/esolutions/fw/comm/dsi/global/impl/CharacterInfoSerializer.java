@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CharacterInfo;
 
 public class CharacterInfoSerializer {
-    public static void putOptionalCharacterInfo(ISerializer iSerializer, CharacterInfo characterInfo) {
+    public static void putOptionalCharacterInfo(ISerializer iSerializer, CharacterInfo characterInfo) throws SerializerException {
         boolean bl = characterInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class CharacterInfoSerializer {
         }
     }
 
-    public static void putOptionalCharacterInfoVarArray(ISerializer iSerializer, CharacterInfo[] characterInfoArray) {
+    public static void putOptionalCharacterInfoVarArray(ISerializer iSerializer, CharacterInfo[] characterInfoArray) throws SerializerException {
         boolean bl = characterInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class CharacterInfoSerializer {
         }
     }
 
-    public static CharacterInfo getOptionalCharacterInfo(IDeserializer iDeserializer) {
+    public static CharacterInfo getOptionalCharacterInfo(IDeserializer iDeserializer) throws SerializerException {
         CharacterInfo characterInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class CharacterInfoSerializer {
         return characterInfo;
     }
 
-    public static CharacterInfo[] getOptionalCharacterInfoVarArray(IDeserializer iDeserializer) {
+    public static CharacterInfo[] getOptionalCharacterInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharacterInfo[] characterInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

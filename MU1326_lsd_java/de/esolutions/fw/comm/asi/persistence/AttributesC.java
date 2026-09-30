@@ -3,23 +3,19 @@
  */
 package de.esolutions.fw.comm.asi.persistence;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface AttributesC {
-    default public void subscribe(long[] lArray, long[] lArray2) {
-    }
+    public void subscribe(long[] var1, long[] var2) throws MethodException;
 
-    default public void unsubscribe(long[] lArray, long[] lArray2) {
-    }
+    public void unsubscribe(long[] var1, long[] var2) throws MethodException;
 
-    default public void unsubscribeAll() {
-    }
+    public void unsubscribeAll() throws MethodException;
 
-    default public void putInts(long[] lArray, long[] lArray2, int[] nArray) {
-    }
+    public void putInts(long[] var1, long[] var2, int[] var3) throws MethodException;
 
-    default public void putStrings(long[] lArray, long[] lArray2, String[] stringArray) {
-    }
+    public void putStrings(long[] var1, long[] var2, String[] var3) throws MethodException;
 
-    default public void putBlobs(long[] lArray, long[] lArray2, short[][] sArray) {
-    }
+    public void putBlobs(long[] var1, long[] var2, short[][] var3) throws MethodException;
 }
 

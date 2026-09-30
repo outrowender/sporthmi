@@ -9,11 +9,11 @@ import org.apache.commons.id.AbstractStringIdentifierGenerator;
 public class AlphanumericGenerator
 extends AbstractStringIdentifierGenerator
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 20060120L;
     private boolean wrapping = true;
     private char[] count = null;
-    private static final char Z_CHAR;
-    private static final char NINE_CHAR;
+    private static final char Z_CHAR = 'z';
+    private static final char NINE_CHAR = '9';
 
     public AlphanumericGenerator(boolean bl) {
         this(bl, 15);
@@ -36,16 +36,14 @@ implements Serializable {
         for (int i2 = 0; i2 < this.count.length; ++i2) {
             char c2 = this.count[i2];
             if (c2 >= '0' && c2 <= '9' || c2 >= 'a' && c2 <= 'z') continue;
-            throw new IllegalArgumentException(new StringBuffer().append("character ").append(this.count[i2]).append(" is not valid").toString());
+            throw new IllegalArgumentException("character " + this.count[i2] + " is not valid");
         }
     }
 
-    @Override
     public long maxLength() {
         return this.count.length;
     }
 
-    @Override
     public long minLength() {
         return this.count.length;
     }
@@ -62,7 +60,6 @@ implements Serializable {
         return this.count.length;
     }
 
-    @Override
     public synchronized String nextStringIdentifier() {
         block4: for (int i2 = this.count.length - 1; i2 >= 0; --i2) {
             switch (this.count[i2]) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.ncfs.impl;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sRestriction;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sRestrictionSerializer {
-    public static void putOptionalsRestriction(ISerializer iSerializer, sRestriction sRestriction2) {
+    public static void putOptionalsRestriction(ISerializer iSerializer, sRestriction sRestriction2) throws SerializerException {
         boolean bl = sRestriction2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class sRestrictionSerializer {
         }
     }
 
-    public static void putOptionalsRestrictionVarArray(ISerializer iSerializer, sRestriction[] sRestrictionArray) {
+    public static void putOptionalsRestrictionVarArray(ISerializer iSerializer, sRestriction[] sRestrictionArray) throws SerializerException {
         boolean bl = sRestrictionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class sRestrictionSerializer {
         }
     }
 
-    public static sRestriction getOptionalsRestriction(IDeserializer iDeserializer) {
+    public static sRestriction getOptionalsRestriction(IDeserializer iDeserializer) throws SerializerException {
         sRestriction sRestriction2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class sRestrictionSerializer {
         return sRestriction2;
     }
 
-    public static sRestriction[] getOptionalsRestrictionVarArray(IDeserializer iDeserializer) {
+    public static sRestriction[] getOptionalsRestrictionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sRestriction[] sRestrictionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

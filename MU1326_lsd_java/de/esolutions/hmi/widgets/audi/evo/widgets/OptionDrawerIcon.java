@@ -8,21 +8,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.DrawerIcon;
 
 public interface OptionDrawerIcon
 extends DrawerIcon {
-    default public AbstractWidget getParent() {
-    }
+    public AbstractWidget getParent();
 
-    @Override
-    default public void setX(int n) {
-    }
+    public void setX(int var1);
 
-    @Override
-    default public void setY(int n) {
-    }
+    public void setY(int var1);
 
-    default public void setLayout(int n, int n2) {
-    }
+    public void setLayout(int var1, int var2);
 
-    default public void setCompositesDirty(boolean bl) {
-    }
+    public void setCompositesDirty(boolean var1);
 }
 

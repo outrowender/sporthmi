@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCSpeed;
 
 public class CarBCSpeedSerializer {
-    public static void putOptionalCarBCSpeed(ISerializer iSerializer, CarBCSpeed carBCSpeed) {
+    public static void putOptionalCarBCSpeed(ISerializer iSerializer, CarBCSpeed carBCSpeed) throws SerializerException {
         boolean bl = carBCSpeed == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCSpeedSerializer {
         }
     }
 
-    public static void putOptionalCarBCSpeedVarArray(ISerializer iSerializer, CarBCSpeed[] carBCSpeedArray) {
+    public static void putOptionalCarBCSpeedVarArray(ISerializer iSerializer, CarBCSpeed[] carBCSpeedArray) throws SerializerException {
         boolean bl = carBCSpeedArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCSpeedSerializer {
         }
     }
 
-    public static CarBCSpeed getOptionalCarBCSpeed(IDeserializer iDeserializer) {
+    public static CarBCSpeed getOptionalCarBCSpeed(IDeserializer iDeserializer) throws SerializerException {
         CarBCSpeed carBCSpeed = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCSpeedSerializer {
         return carBCSpeed;
     }
 
-    public static CarBCSpeed[] getOptionalCarBCSpeedVarArray(IDeserializer iDeserializer) {
+    public static CarBCSpeed[] getOptionalCarBCSpeedVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCSpeed[] carBCSpeedArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

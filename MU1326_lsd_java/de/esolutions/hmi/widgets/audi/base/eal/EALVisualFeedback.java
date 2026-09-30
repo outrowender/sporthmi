@@ -20,7 +20,7 @@ import java.nio.ByteBuffer;
 
 public class EALVisualFeedback
 implements IVisualFeedback {
-    private static final int VISUAL_FEEDBACK_FONT_SIZE;
+    private static final int VISUAL_FEEDBACK_FONT_SIZE = 25;
     private final EALManager ealManager;
     private final HMITerminalImpl terminal;
     private INode2D visualFeedbackNode;
@@ -39,21 +39,18 @@ implements IVisualFeedback {
         this.screenHeight = hMITerminalImpl.getLayout().getDistance(2);
     }
 
-    @Override
     public void showTextFeedback(String string) {
         if (this.init()) {
             this.showFeedbackText(string);
         }
     }
 
-    @Override
     public void showFullScreenFeedback() {
         if (this.init()) {
             this.showFullScreenOverlay();
         }
     }
 
-    @Override
     public void hideFeedback() {
         if (this.initialized) {
             this.feedbackBkgNode.setVisible(false);
@@ -67,7 +64,7 @@ implements IVisualFeedback {
             return true;
         }
         INode2D iNode2D = this.ealManager.getVisualFeedbackNode();
-        if (null != iNode2D && iNode2D.isValid() && this.createFeedbackNodes(iNode2D, -2139062144, 0xFF00FF)) {
+        if (null != iNode2D && iNode2D.isValid() && this.createFeedbackNodes(iNode2D, -2139062144, -16711936)) {
             this.visualFeedbackNode = iNode2D;
             this.initialized = true;
             return true;
@@ -81,10 +78,10 @@ implements IVisualFeedback {
             return false;
         }
         colorRGBAf colorRGBAf2 = new colorRGBAf(1.0f, 1.0f, 1.0f, 1.0f);
-        colorRGBAf2.setFAlpha((float)(n >> 24 & 0xFF) / 32579);
-        colorRGBAf2.setFRed((float)(n >> 16 & 0xFF) / 32579);
-        colorRGBAf2.setFGreen((float)(n >> 8 & 0xFF) / 32579);
-        colorRGBAf2.setFBlue((float)(n & 0xFF) / 32579);
+        colorRGBAf2.setFAlpha((float)(n >> 24 & 0xFF) / 255.0f);
+        colorRGBAf2.setFRed((float)(n >> 16 & 0xFF) / 255.0f);
+        colorRGBAf2.setFGreen((float)(n >> 8 & 0xFF) / 255.0f);
+        colorRGBAf2.setFBlue((float)(n & 0xFF) / 255.0f);
         iNode2DImage.setModulateColor(colorRGBAf2);
         iNode2D.add(iNode2DImage);
         INode2DText iNode2DText = new INode2DText(this.ealManager.getProject(), "feedbackText");
@@ -93,7 +90,7 @@ implements IVisualFeedback {
             return false;
         }
         iNode2DText.setColor(EALManager.createColorCode(n2));
-        iNode2DText.setTranslation(41025, this.screenHeight >> 1);
+        iNode2DText.setTranslation(20.0f, this.screenHeight >> 1);
         IWrappedFont iWrappedFont = (IWrappedFont)this.terminal.getFontLoader().getFont(FontLoader.STANDARD_FONT_PLAIN, 0, 25);
         this.feedbackFont = iWrappedFont.getFontGroup();
         iNode2D.add(iNode2DText);
@@ -146,8 +143,8 @@ implements IVisualFeedback {
         this.feedbackTextNode.setText(25, string);
         long l = this.feedbackTextNode.getWidth();
         long l2 = this.feedbackTextNode.getHeight();
-        this.feedbackBkgNode.setTranslation(8257, (long)this.screenHeight - l2 - 0 >> 1);
-        this.feedbackBkgNode.setScale(l + 0, l2 + 0);
+        this.feedbackBkgNode.setTranslation(10.0f, (long)this.screenHeight - l2 - 40L >> 1);
+        this.feedbackBkgNode.setScale(l + 20L, l2 + 20L);
         this.feedbackBkgNode.setVisible(true);
         this.feedbackTextNode.setVisible(true);
         this.visualFeedbackNode.setVisible(true);

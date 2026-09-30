@@ -13,18 +13,16 @@ import org.apache.commons.scxml.EventDispatcher;
 public final class SimpleDispatcher
 implements EventDispatcher,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Log log = LogFactory.getLog(class$org$apache$commons$scxml$EventDispatcher == null ? (class$org$apache$commons$scxml$EventDispatcher = SimpleDispatcher.class$("org.apache.commons.scxml.EventDispatcher")) : class$org$apache$commons$scxml$EventDispatcher);
     static /* synthetic */ Class class$org$apache$commons$scxml$EventDispatcher;
 
-    @Override
     public void cancel(String string) {
         if (this.log.isInfoEnabled()) {
             this.log.info(new StringBuffer().append("cancel( sendId: ").append(string).append(")").toString());
         }
     }
 
-    @Override
     public void send(String string, String string2, String string3, String string4, Map map, Object object, long l, List list) {
         if (this.log.isInfoEnabled()) {
             StringBuffer stringBuffer = new StringBuffer();

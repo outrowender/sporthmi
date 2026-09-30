@@ -46,7 +46,7 @@ public class InstanceID {
     }
 
     public String toString() {
-        return new StringBuffer("InstanceID{").append("id=").append(this.id).append(", handle=").append(this.handle).append(", key=").append(this.key).append("}").toString();
+        return "InstanceID{" + "id=" + this.id + ", handle=" + this.handle + ", key=" + this.key + "}";
     }
 }
 

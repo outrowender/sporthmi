@@ -4,19 +4,14 @@
 package de.vw.mib.bap.array.timer;
 
 public interface Timer {
-    default public void retrigger(Object object) {
-    }
+    public void retrigger(Object var1);
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public boolean isRunning() {
-    }
+    public boolean isRunning();
 
-    default public void setUserInfo(Object object) {
-    }
+    public void setUserInfo(Object var1);
 
-    default public Object getUserInfo() {
-    }
+    public Object getUserInfo();
 }
 

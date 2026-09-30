@@ -7,88 +7,60 @@ import org.apache.xerces.xni.Augmentations;
 import org.apache.xerces.xni.QName;
 
 public interface XMLAttributes {
-    default public int addAttribute(QName qName, String string, String string2) {
-    }
+    public int addAttribute(QName var1, String var2, String var3);
 
-    default public void removeAllAttributes() {
-    }
+    public void removeAllAttributes();
 
-    default public void removeAttributeAt(int n) {
-    }
+    public void removeAttributeAt(int var1);
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public int getIndex(String string) {
-    }
+    public int getIndex(String var1);
 
-    default public int getIndex(String string, String string2) {
-    }
+    public int getIndex(String var1, String var2);
 
-    default public void setName(int n, QName qName) {
-    }
+    public void setName(int var1, QName var2);
 
-    default public void getName(int n, QName qName) {
-    }
+    public void getName(int var1, QName var2);
 
-    default public String getPrefix(int n) {
-    }
+    public String getPrefix(int var1);
 
-    default public String getURI(int n) {
-    }
+    public String getURI(int var1);
 
-    default public String getLocalName(int n) {
-    }
+    public String getLocalName(int var1);
 
-    default public String getQName(int n) {
-    }
+    public String getQName(int var1);
 
-    default public void setType(int n, String string) {
-    }
+    public void setType(int var1, String var2);
 
-    default public String getType(int n) {
-    }
+    public String getType(int var1);
 
-    default public String getType(String string) {
-    }
+    public String getType(String var1);
 
-    default public String getType(String string, String string2) {
-    }
+    public String getType(String var1, String var2);
 
-    default public void setValue(int n, String string) {
-    }
+    public void setValue(int var1, String var2);
 
-    default public String getValue(int n) {
-    }
+    public String getValue(int var1);
 
-    default public String getValue(String string) {
-    }
+    public String getValue(String var1);
 
-    default public String getValue(String string, String string2) {
-    }
+    public String getValue(String var1, String var2);
 
-    default public void setNonNormalizedValue(int n, String string) {
-    }
+    public void setNonNormalizedValue(int var1, String var2);
 
-    default public String getNonNormalizedValue(int n) {
-    }
+    public String getNonNormalizedValue(int var1);
 
-    default public void setSpecified(int n, boolean bl) {
-    }
+    public void setSpecified(int var1, boolean var2);
 
-    default public boolean isSpecified(int n) {
-    }
+    public boolean isSpecified(int var1);
 
-    default public Augmentations getAugmentations(int n) {
-    }
+    public Augmentations getAugmentations(int var1);
 
-    default public Augmentations getAugmentations(String string, String string2) {
-    }
+    public Augmentations getAugmentations(String var1, String var2);
 
-    default public Augmentations getAugmentations(String string) {
-    }
+    public Augmentations getAugmentations(String var1);
 
-    default public void setAugmentations(int n, Augmentations augmentations) {
-    }
+    public void setAugmentations(int var1, Augmentations var2);
 }
 

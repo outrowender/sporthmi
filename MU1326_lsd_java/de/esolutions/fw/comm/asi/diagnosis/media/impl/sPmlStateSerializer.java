@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.media.impl;
 import de.esolutions.fw.comm.asi.diagnosis.media.sPmlState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sPmlStateSerializer {
-    public static void putOptionalsPmlState(ISerializer iSerializer, sPmlState sPmlState2) {
+    public static void putOptionalsPmlState(ISerializer iSerializer, sPmlState sPmlState2) throws SerializerException {
         boolean bl = sPmlState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sPmlStateSerializer {
         }
     }
 
-    public static void putOptionalsPmlStateVarArray(ISerializer iSerializer, sPmlState[] sPmlStateArray) {
+    public static void putOptionalsPmlStateVarArray(ISerializer iSerializer, sPmlState[] sPmlStateArray) throws SerializerException {
         boolean bl = sPmlStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sPmlStateSerializer {
         }
     }
 
-    public static sPmlState getOptionalsPmlState(IDeserializer iDeserializer) {
+    public static sPmlState getOptionalsPmlState(IDeserializer iDeserializer) throws SerializerException {
         sPmlState sPmlState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sPmlStateSerializer {
         return sPmlState2;
     }
 
-    public static sPmlState[] getOptionalsPmlStateVarArray(IDeserializer iDeserializer) {
+    public static sPmlState[] getOptionalsPmlStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sPmlState[] sPmlStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

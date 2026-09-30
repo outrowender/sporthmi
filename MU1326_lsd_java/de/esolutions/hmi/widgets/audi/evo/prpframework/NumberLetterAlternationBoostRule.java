@@ -17,7 +17,6 @@ extends AbstractPRPRule {
         this.boostParamId = n;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         char c2 = '\u0000';
         if (this.boostParamId == 3 || this.boostParamId == 14) {
@@ -60,7 +59,6 @@ extends AbstractPRPRule {
         return '\u0000';
     }
 
-    @Override
     public String getRuleName() {
         return "Number-Letter-Alternation-Boost-Rule";
     }

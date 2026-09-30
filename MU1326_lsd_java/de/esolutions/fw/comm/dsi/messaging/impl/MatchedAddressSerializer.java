@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.messaging.MatchedAddress;
 
 public class MatchedAddressSerializer {
-    public static void putOptionalMatchedAddress(ISerializer iSerializer, MatchedAddress matchedAddress) {
+    public static void putOptionalMatchedAddress(ISerializer iSerializer, MatchedAddress matchedAddress) throws SerializerException {
         boolean bl = matchedAddress == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class MatchedAddressSerializer {
         }
     }
 
-    public static void putOptionalMatchedAddressVarArray(ISerializer iSerializer, MatchedAddress[] matchedAddressArray) {
+    public static void putOptionalMatchedAddressVarArray(ISerializer iSerializer, MatchedAddress[] matchedAddressArray) throws SerializerException {
         boolean bl = matchedAddressArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class MatchedAddressSerializer {
         }
     }
 
-    public static MatchedAddress getOptionalMatchedAddress(IDeserializer iDeserializer) {
+    public static MatchedAddress getOptionalMatchedAddress(IDeserializer iDeserializer) throws SerializerException {
         MatchedAddress matchedAddress = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class MatchedAddressSerializer {
         return matchedAddress;
     }
 
-    public static MatchedAddress[] getOptionalMatchedAddressVarArray(IDeserializer iDeserializer) {
+    public static MatchedAddress[] getOptionalMatchedAddressVarArray(IDeserializer iDeserializer) throws SerializerException {
         MatchedAddress[] matchedAddressArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

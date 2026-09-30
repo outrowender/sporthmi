@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.androidauto2.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto2.BluetoothServiceAnnouncement;
 
 public class BluetoothServiceAnnouncementSerializer {
-    public static void putOptionalBluetoothServiceAnnouncement(ISerializer iSerializer, BluetoothServiceAnnouncement bluetoothServiceAnnouncement) {
+    public static void putOptionalBluetoothServiceAnnouncement(ISerializer iSerializer, BluetoothServiceAnnouncement bluetoothServiceAnnouncement) throws SerializerException {
         boolean bl = bluetoothServiceAnnouncement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BluetoothServiceAnnouncementSerializer {
         }
     }
 
-    public static void putOptionalBluetoothServiceAnnouncementVarArray(ISerializer iSerializer, BluetoothServiceAnnouncement[] bluetoothServiceAnnouncementArray) {
+    public static void putOptionalBluetoothServiceAnnouncementVarArray(ISerializer iSerializer, BluetoothServiceAnnouncement[] bluetoothServiceAnnouncementArray) throws SerializerException {
         boolean bl = bluetoothServiceAnnouncementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BluetoothServiceAnnouncementSerializer {
         }
     }
 
-    public static BluetoothServiceAnnouncement getOptionalBluetoothServiceAnnouncement(IDeserializer iDeserializer) {
+    public static BluetoothServiceAnnouncement getOptionalBluetoothServiceAnnouncement(IDeserializer iDeserializer) throws SerializerException {
         BluetoothServiceAnnouncement bluetoothServiceAnnouncement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BluetoothServiceAnnouncementSerializer {
         return bluetoothServiceAnnouncement;
     }
 
-    public static BluetoothServiceAnnouncement[] getOptionalBluetoothServiceAnnouncementVarArray(IDeserializer iDeserializer) {
+    public static BluetoothServiceAnnouncement[] getOptionalBluetoothServiceAnnouncementVarArray(IDeserializer iDeserializer) throws SerializerException {
         BluetoothServiceAnnouncement[] bluetoothServiceAnnouncementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

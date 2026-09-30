@@ -3,27 +3,23 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.PortalADBEntry;
 
 public interface DSIDestinationImportReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "741c9acc-0404-5fb8-99c7-9cf87244aac9";
+    public static final String IPL_COMM_INTERFACE_KEY = "4036fefc-0c4b-5c0e-afac-0d429dbc8f82";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void downloadAddressListResult(PortalADBEntry[] portalADBEntryArray, int n, int n2) {
-    }
+    public void downloadAddressListResult(PortalADBEntry[] var1, int var2, int var3) throws MethodException;
 
-    default public void stopActionResult(int n) {
-    }
+    public void stopActionResult(int var1) throws MethodException;
 
-    default public void updateEntries(int n, int n2) {
-    }
+    public void updateEntries(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

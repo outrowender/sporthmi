@@ -8,16 +8,16 @@ import de.esolutions.fw.dsi.tracing.Channels;
 import de.esolutions.fw.util.tracing.TraceChannel;
 
 public class ProviderState {
-    public static final int DISCONNECTED;
-    public static final int CONNECTING;
-    public static final int CONNECTED;
-    public static final int DISCONNECTING;
-    public static final int CONNECTION_LOST;
-    public static final int CONNECTION_FAILED;
+    public static final int DISCONNECTED = 0;
+    public static final int CONNECTING = 1;
+    public static final int CONNECTED = 2;
+    public static final int DISCONNECTING = 3;
+    public static final int CONNECTION_LOST = 4;
+    public static final int CONNECTION_FAILED = 5;
     protected TraceChannel tracer = Channels.DSI_PROVIDER;
     private int currentState = 0;
     private IProviderStateListener listener;
-    public static final String[] stateNames;
+    public static final String[] stateNames = new String[]{"DISCONNECTED", "CONNECTING", "CONNECTED", "DISCONNECTING", "CONNECTION_LOST", "CONNECTION_FAILED"};
 
     public int getState() {
         return this.currentState;
@@ -154,10 +154,6 @@ public class ProviderState {
                 break;
             }
         }
-    }
-
-    static {
-        stateNames = new String[]{"DISCONNECTED", "CONNECTING", "CONNECTED", "DISCONNECTING", "CONNECTION_LOST", "CONNECTION_FAILED"};
     }
 }
 

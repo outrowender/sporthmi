@@ -10,16 +10,15 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CCSplit_Result
 implements ResultMethod {
     public int ccsplit_Result;
-    private static final int CC_SPLIT_RESULT_BITSIZE;
-    public static final int CC_SPLIT_RESULT_SUCCESSFUL;
-    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL;
-    public static final int CC_SPLIT_RESULT_ABORT_SUCCESSFUL;
-    public static final int CC_SPLIT_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL_ADDITIONAL_CALL_ALREADY_PRESENT;
-    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_NETWORK;
-    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_MOBILE;
+    private static final int CC_SPLIT_RESULT_BITSIZE = 8;
+    public static final int CC_SPLIT_RESULT_SUCCESSFUL = 0;
+    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int CC_SPLIT_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int CC_SPLIT_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL_ADDITIONAL_CALL_ALREADY_PRESENT = 6;
+    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_NETWORK = 7;
+    public static final int CC_SPLIT_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_MOBILE = 8;
 
-    @Override
     public int getResultCode() {
         return this.ccsplit_Result;
     }
@@ -38,12 +37,10 @@ implements ResultMethod {
         this.ccsplit_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CCSplit_Result cCSplit_Result = (CCSplit_Result)bAPEntity;
         return this.ccsplit_Result == cCSplit_Result.ccsplit_Result;
@@ -52,7 +49,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CCSplit_Result:");
@@ -93,18 +89,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.ccsplit_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.ccsplit_Result = bitStream.popFrontByte();
     }
@@ -113,7 +106,6 @@ implements ResultMethod {
         return 41;
     }
 
-    @Override
     public int getFunctionId() {
         return CCSplit_Result.functionId();
     }

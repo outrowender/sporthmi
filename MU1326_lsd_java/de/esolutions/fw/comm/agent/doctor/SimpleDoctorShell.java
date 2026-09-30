@@ -29,7 +29,6 @@ implements Runnable {
         this.out = printStream;
     }
 
-    @Override
     public void run() {
         this.printWelcome(this.out);
         try {

@@ -7,43 +7,30 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIAdbSetupListener
 extends DSIListener {
-    default public void updateAdbState(int n, int n2) {
-    }
+    public void updateAdbState(int var1, int var2);
 
-    default public void updateSortOrder(int n, int n2) {
-    }
+    public void updateSortOrder(int var1, int var2);
 
-    default public void updatePictureVisibility(boolean bl, int n) {
-    }
+    public void updatePictureVisibility(boolean var1, int var2);
 
-    default public void setLanguageResult(int n) {
-    }
+    public void setLanguageResult(int var1);
 
-    default public void setSortOrderResult(int n) {
-    }
+    public void setSortOrderResult(int var1);
 
-    default public void setPublicProfileVisibilityResult(int n) {
-    }
+    public void setPublicProfileVisibilityResult(int var1);
 
-    default public void resetToFactorySettingsResult(int n) {
-    }
+    public void resetToFactorySettingsResult(int var1);
 
-    default public void resetTopDestinationResult(int n) {
-    }
+    public void resetTopDestinationResult(int var1);
 
-    default public void createBackupFileResult(int n, String string) {
-    }
+    public void createBackupFileResult(int var1, String var2);
 
-    default public void importBackupFileResult(int n, String string) {
-    }
+    public void importBackupFileResult(int var1, String var2);
 
-    default public void setPictureVisibilityResult(int n) {
-    }
+    public void setPictureVisibilityResult(int var1);
 
-    default public void setContextSpecificVisibilityResult(int n) {
-    }
+    public void setContextSpecificVisibilityResult(int var1);
 
-    default public void updateContextSpecificVisibility(boolean bl, int n) {
-    }
+    public void updateContextSpecificVisibility(boolean var1, int var2);
 }
 

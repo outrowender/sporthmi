@@ -26,24 +26,23 @@ import java.util.Hashtable;
 
 class PlainDatagramSocketImpl
 extends DatagramSocketImpl {
-    private static final int SO_BROADCAST;
-    static final int IP_MULTICAST_ADD;
-    static final int IP_MULTICAST_DROP;
-    static final int IP_MULTICAST_TTL;
+    private static final int SO_BROADCAST = 32;
+    static final int IP_MULTICAST_ADD = 19;
+    static final int IP_MULTICAST_DROP = 20;
+    static final int IP_MULTICAST_TTL = 17;
     private boolean bindToDevice;
     private byte[] ipaddress = new byte[4];
     private int ttl = 1;
     private volatile boolean isNativeConnected = false;
-    static final int REUSEADDR_AND_REUSEPORT;
+    static final int REUSEADDR_AND_REUSEPORT = 10001;
     private InetAddress connectedAddress = null;
     private int connectedPort = -1;
     private int trafficClass = 0;
-    private static boolean fixBind;
+    private static boolean fixBind = false;
     private static Hashtable checkBind;
     boolean reuseAddr = false;
 
     static {
-        fixBind = false;
         PlainDatagramSocketImpl.oneTimeInitialization(true);
         String string = (String)AccessController.doPrivileged(new PriviAction("uniqueBindFix"));
         boolean bl = fixBind = string != null && string.toLowerCase().equals("true");
@@ -55,11 +54,9 @@ extends DatagramSocketImpl {
     PlainDatagramSocketImpl() {
     }
 
-    private static native void oneTimeInitialization(boolean bl) {
-    }
+    private static native void oneTimeInitialization(boolean var0);
 
-    @Override
-    protected void bind(int n, InetAddress inetAddress) {
+    protected void bind(int n, InetAddress inetAddress) throws SocketException {
         boolean bl;
         String string = (String)AccessController.doPrivileged(new PriviAction("bindToDevice"));
         boolean bl2 = bl = string != null && string.toLowerCase().equals("true");
@@ -70,7 +67,7 @@ extends DatagramSocketImpl {
             this.bindToDevice = PlainDatagramSocketImpl.socketBindImpl2(this.fd, n, bl, inetAddress);
         }
         catch (BindException bindException) {
-            throw new BindException(new StringBuffer().append(inetAddress).append(":").append(n).append(" - ").append(bindException.getMessage()).toString());
+            throw new BindException(inetAddress + ":" + n + " - " + bindException.getMessage());
         }
         this.localPort = n != 0 ? n : Socket.getSocketLocalPortImpl(this.fd, InetAddress.preferIPv6Addresses());
         if (fixBind) {
@@ -86,7 +83,6 @@ extends DatagramSocketImpl {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void close() {
         FileDescriptor fileDescriptor = this.fd;
         synchronized (fileDescriptor) {
@@ -100,8 +96,7 @@ extends DatagramSocketImpl {
         }
     }
 
-    @Override
-    protected void create() {
+    protected void create() throws SocketException {
         PlainDatagramSocketImpl.createDatagramSocketImpl(this.fd, Socket.preferIPv4Stack());
     }
 
@@ -109,13 +104,11 @@ extends DatagramSocketImpl {
         this.close();
     }
 
-    @Override
     InetAddress getLocalAddress() {
         return Socket.getSocketLocalAddressImpl(this.fd, InetAddress.preferIPv6Addresses());
     }
 
-    @Override
-    public Object getOption(int n) {
+    public Object getOption(int n) throws SocketException {
         if (n == 4102) {
             return new Integer(this.receiveTimeout);
         }
@@ -129,8 +122,7 @@ extends DatagramSocketImpl {
         return object;
     }
 
-    @Override
-    protected int getTimeToLive() {
+    protected int getTimeToLive() throws IOException {
         int n = (Byte)this.getOption(17) & 0xFF;
         if ((Socket.getSocketFlags() & 2) != 0) {
             return this.ttl;
@@ -138,7 +130,7 @@ extends DatagramSocketImpl {
         return n;
     }
 
-    protected byte getTTL() {
+    protected byte getTTL() throws IOException {
         byte by = (Byte)this.getOption(17);
         if ((Socket.getSocketFlags() & 2) != 0) {
             return (byte)this.ttl;
@@ -146,61 +138,47 @@ extends DatagramSocketImpl {
         return by;
     }
 
-    @Override
-    protected void join(InetAddress inetAddress) {
+    protected void join(InetAddress inetAddress) throws IOException {
         this.setOption(19, new GenericIPMreq(inetAddress));
     }
 
-    @Override
-    protected void joinGroup(SocketAddress socketAddress, NetworkInterface networkInterface) {
+    protected void joinGroup(SocketAddress socketAddress, NetworkInterface networkInterface) throws IOException {
         if (socketAddress instanceof InetSocketAddress) {
             InetAddress inetAddress = ((InetSocketAddress)socketAddress).getAddress();
             this.setOption(19, new GenericIPMreq(inetAddress, networkInterface));
         }
     }
 
-    @Override
-    protected void leave(InetAddress inetAddress) {
+    protected void leave(InetAddress inetAddress) throws IOException {
         this.setOption(20, new GenericIPMreq(inetAddress));
     }
 
-    @Override
-    protected void leaveGroup(SocketAddress socketAddress, NetworkInterface networkInterface) {
+    protected void leaveGroup(SocketAddress socketAddress, NetworkInterface networkInterface) throws IOException {
         if (socketAddress instanceof InetSocketAddress) {
             InetAddress inetAddress = ((InetSocketAddress)socketAddress).getAddress();
             this.setOption(20, new GenericIPMreq(inetAddress, networkInterface));
         }
     }
 
-    protected static native void connectDatagramImpl2(FileDescriptor fileDescriptor, int n, int n2, InetAddress inetAddress) {
-    }
+    protected static native void connectDatagramImpl2(FileDescriptor var0, int var1, int var2, InetAddress var3);
 
-    protected static native void disconnectDatagramImpl(FileDescriptor fileDescriptor) {
-    }
+    protected static native void disconnectDatagramImpl(FileDescriptor var0);
 
-    protected static native void createDatagramSocketImpl(FileDescriptor fileDescriptor, boolean bl) {
-    }
+    protected static native void createDatagramSocketImpl(FileDescriptor var0, boolean var1);
 
-    protected static native boolean socketBindImpl2(FileDescriptor fileDescriptor, int n, boolean bl, InetAddress inetAddress) {
-    }
+    protected static native boolean socketBindImpl2(FileDescriptor var0, int var1, boolean var2, InetAddress var3);
 
-    protected static native int peekDatagramImpl(FileDescriptor fileDescriptor, InetAddress inetAddress, int n) {
-    }
+    protected static native int peekDatagramImpl(FileDescriptor var0, InetAddress var1, int var2);
 
-    protected static native int receiveDatagramImpl2(FileDescriptor fileDescriptor, DatagramPacket datagramPacket, byte[] byArray, int n, int n2, int n3, boolean bl) {
-    }
+    protected static native int receiveDatagramImpl2(FileDescriptor var0, DatagramPacket var1, byte[] var2, int var3, int var4, int var5, boolean var6);
 
-    protected static native int recvConnectedDatagramImpl(FileDescriptor fileDescriptor, DatagramPacket datagramPacket, byte[] byArray, int n, int n2, int n3, boolean bl) {
-    }
+    protected static native int recvConnectedDatagramImpl(FileDescriptor var0, DatagramPacket var1, byte[] var2, int var3, int var4, int var5, boolean var6);
 
-    protected static native int sendDatagramImpl2(FileDescriptor fileDescriptor, byte[] byArray, int n, int n2, int n3, boolean bl, int n4, InetAddress inetAddress) {
-    }
+    protected static native int sendDatagramImpl2(FileDescriptor var0, byte[] var1, int var2, int var3, int var4, boolean var5, int var6, InetAddress var7);
 
-    protected static native int sendConnectedDatagramImpl(FileDescriptor fileDescriptor, byte[] byArray, int n, int n2, boolean bl) {
-    }
+    protected static native int sendConnectedDatagramImpl(FileDescriptor var0, byte[] var1, int var2, int var3, boolean var4);
 
-    @Override
-    protected int peek(InetAddress inetAddress) {
+    protected int peek(InetAddress inetAddress) throws IOException {
         if (this.isNativeConnected) {
             byte[] byArray = new byte[10];
             DatagramPacket datagramPacket = new DatagramPacket(byArray, byArray.length);
@@ -211,8 +189,7 @@ extends DatagramSocketImpl {
         return PlainDatagramSocketImpl.peekDatagramImpl(this.fd, inetAddress, this.receiveTimeout);
     }
 
-    @Override
-    protected void receive(DatagramPacket datagramPacket) {
+    protected void receive(DatagramPacket datagramPacket) throws IOException {
         boolean bl;
         try {
             if (this.isNativeConnected) {
@@ -247,8 +224,7 @@ extends DatagramSocketImpl {
         }
     }
 
-    @Override
-    protected void send(DatagramPacket datagramPacket) {
+    protected void send(DatagramPacket datagramPacket) throws IOException {
         if (this.isNativeConnected) {
             PlainDatagramSocketImpl.sendConnectedDatagramImpl(this.fd, datagramPacket.getData(), datagramPacket.getOffset(), datagramPacket.getLength(), this.bindToDevice);
         } else {
@@ -256,8 +232,7 @@ extends DatagramSocketImpl {
         }
     }
 
-    @Override
-    public void setOption(int n, Object object) {
+    public void setOption(int n, Object object) throws SocketException {
         if (n == 512) {
             this.reuseAddr = (Boolean)object;
         } else if (n == 4) {
@@ -288,12 +263,12 @@ extends DatagramSocketImpl {
                         inetAddress2 = InetAddress.getLocalHost();
                     }
                     catch (UnknownHostException unknownHostException) {
-                        throw new SocketException(new StringBuffer("getLocalHost(): ").append(unknownHostException.toString()).toString());
+                        throw new SocketException("getLocalHost(): " + unknownHostException.toString());
                     }
                     if (inetAddress.equals(inetAddress2)) {
                         this.ipaddress = ((InetAddress)object).getAddress();
                     } else {
-                        throw new SocketException(new StringBuffer().append(object).append(" != getLocalHost(): ").append(inetAddress2).toString());
+                        throw new SocketException(object + " != getLocalHost(): " + inetAddress2);
                     }
                 }
             }
@@ -303,23 +278,21 @@ extends DatagramSocketImpl {
         }
     }
 
-    @Override
-    protected void setTimeToLive(int n) {
+    protected void setTimeToLive(int n) throws IOException {
         this.setOption(17, new Byte((byte)(n & 0xFF)));
         if ((Socket.getSocketFlags() & 2) != 0) {
             this.ttl = n;
         }
     }
 
-    protected void setTTL(byte by) {
+    protected void setTTL(byte by) throws IOException {
         this.setOption(17, new Byte(by));
         if ((Socket.getSocketFlags() & 2) != 0) {
             this.ttl = by;
         }
     }
 
-    @Override
-    protected void connect(InetAddress inetAddress, int n) {
+    protected void connect(InetAddress inetAddress, int n) throws SocketException {
         PlainDatagramSocketImpl.connectDatagramImpl2(this.fd, n, this.trafficClass, inetAddress);
         try {
             this.connectedAddress = InetAddress.getByAddress(inetAddress.getAddress());
@@ -331,7 +304,6 @@ extends DatagramSocketImpl {
         this.isNativeConnected = true;
     }
 
-    @Override
     protected void disconnect() {
         try {
             PlainDatagramSocketImpl.disconnectDatagramImpl(this.fd);
@@ -342,8 +314,7 @@ extends DatagramSocketImpl {
         this.isNativeConnected = false;
     }
 
-    @Override
-    protected int peekData(DatagramPacket datagramPacket) {
+    protected int peekData(DatagramPacket datagramPacket) throws IOException {
         try {
             if (this.isNativeConnected) {
                 PlainDatagramSocketImpl.recvConnectedDatagramImpl(this.fd, datagramPacket, datagramPacket.getData(), datagramPacket.getOffset(), datagramPacket.getLength(), this.receiveTimeout, true);

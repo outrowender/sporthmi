@@ -30,8 +30,7 @@ DSIIconExtractorC {
         return this.proxy;
     }
 
-    @Override
-    public void resourceIdForTMCEventIcon(int n, int n2, int n3) {
+    public void resourceIdForTMCEventIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -44,8 +43,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForPOIIcon(int n, int n2, int n3) {
+    public void resourceIdForPOIIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -58,8 +56,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void renderingInformationForRoadIcon(int n, int n2, int n3) {
+    public void renderingInformationForRoadIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -72,8 +69,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForTargetIcon(int n, int n2) {
+    public void resourceIdForTargetIcon(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -85,8 +81,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForRoadClassIcon(int n, int n2, int n3) {
+    public void resourceIdForRoadClassIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -99,8 +94,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForTrafficRegulationIcon(int n, int n2, int n3) {
+    public void resourceIdForTrafficRegulationIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -113,8 +107,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void renderingInformationForExitIcon(int n, int n2, int n3) {
+    public void renderingInformationForExitIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -127,8 +120,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForAdditionalIcon(int n, int n2, int n3) {
+    public void resourceIdForAdditionalIcon(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -141,8 +133,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForCountryIcon(int n, int n2) {
+    public void resourceIdForCountryIcon(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -154,8 +145,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForTrafficRegulationIconWithSubindex(int n, int n2, int n3, int n4) {
+    public void resourceIdForTrafficRegulationIconWithSubindex(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -169,8 +159,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void renderingInformationForExitIconWithVariant(int n, int n2, int n3, int n4) {
+    public void renderingInformationForExitIconWithVariant(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -184,8 +173,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setBrandIconStyle(int[] nArray, int n) {
+    public void setBrandIconStyle(int[] nArray, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -197,8 +185,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForAdditionalTurnListIcon(int n, int n2, int n3, int n4) {
+    public void resourceIdForAdditionalTurnListIcon(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -212,8 +199,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)52, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForTrafficSourceIcon(int n, int n2) {
+    public void resourceIdForTrafficSourceIcon(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -225,8 +211,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)60, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForAreaWarningIcon(int n, int n2) {
+    public void resourceIdForAreaWarningIcon(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -238,8 +223,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)54, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForComposedPOIIcon(int n, int n2, int n3, int[] nArray) {
+    public void resourceIdForComposedPOIIcon(int n, int n2, int n3, int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -253,8 +237,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)56, genericSerializable);
     }
 
-    @Override
-    public void resourceIdForPOIIconFromRawData(int n, int n2, int n3) {
+    public void resourceIdForPOIIconFromRawData(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -267,8 +250,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -279,8 +261,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -291,13 +272,11 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)47, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)45, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -308,8 +287,7 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -320,13 +298,11 @@ DSIIconExtractorC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

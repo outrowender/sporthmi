@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockDate;
 
 public class ClockDateSerializer {
-    public static void putOptionalClockDate(ISerializer iSerializer, ClockDate clockDate) {
+    public static void putOptionalClockDate(ISerializer iSerializer, ClockDate clockDate) throws SerializerException {
         boolean bl = clockDate == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ClockDateSerializer {
         }
     }
 
-    public static void putOptionalClockDateVarArray(ISerializer iSerializer, ClockDate[] clockDateArray) {
+    public static void putOptionalClockDateVarArray(ISerializer iSerializer, ClockDate[] clockDateArray) throws SerializerException {
         boolean bl = clockDateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ClockDateSerializer {
         }
     }
 
-    public static ClockDate getOptionalClockDate(IDeserializer iDeserializer) {
+    public static ClockDate getOptionalClockDate(IDeserializer iDeserializer) throws SerializerException {
         ClockDate clockDate = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ClockDateSerializer {
         return clockDate;
     }
 
-    public static ClockDate[] getOptionalClockDateVarArray(IDeserializer iDeserializer) {
+    public static ClockDate[] getOptionalClockDateVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockDate[] clockDateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

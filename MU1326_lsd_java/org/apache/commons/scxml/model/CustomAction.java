@@ -8,11 +8,11 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.scxml.SCXMLHelper;
 
 public class CustomAction {
-    private static final String ERR_NO_NAMESPACE;
-    private static final String NAMESPACE_SCXML;
-    private static final String ERR_RESERVED_NAMESPACE;
-    private static final String ERR_NO_LOCAL_NAME;
-    private static final String ERR_NOT_AN_ACTION;
+    private static final String ERR_NO_NAMESPACE = "Cannot define a custom SCXML action with a null or empty namespace";
+    private static final String NAMESPACE_SCXML = "http://www.w3.org/2005/07/scxml";
+    private static final String ERR_RESERVED_NAMESPACE = "Cannot define a custom SCXML action within the SCXML namespace 'http://www.w3.org/2005/07/scxml'";
+    private static final String ERR_NO_LOCAL_NAME = "Cannot define a custom SCXML action with a null or empty local name";
+    private static final String ERR_NOT_AN_ACTION = "Custom SCXML action does not extend Action superclass";
     private String namespaceURI;
     private String localName;
     private Class actionClass;
@@ -22,20 +22,20 @@ public class CustomAction {
 
     public CustomAction(String string, String string2, Class clazz) {
         if (SCXMLHelper.isStringEmpty(string)) {
-            this.log.error("Cannot define a custom SCXML action with a null or empty namespace");
-            throw new IllegalArgumentException("Cannot define a custom SCXML action with a null or empty namespace");
+            this.log.error(ERR_NO_NAMESPACE);
+            throw new IllegalArgumentException(ERR_NO_NAMESPACE);
         }
-        if (string.trim().equalsIgnoreCase("http://www.w3.org/2005/07/scxml")) {
-            this.log.error("Cannot define a custom SCXML action within the SCXML namespace 'http://www.w3.org/2005/07/scxml'");
-            throw new IllegalArgumentException("Cannot define a custom SCXML action within the SCXML namespace 'http://www.w3.org/2005/07/scxml'");
+        if (string.trim().equalsIgnoreCase(NAMESPACE_SCXML)) {
+            this.log.error(ERR_RESERVED_NAMESPACE);
+            throw new IllegalArgumentException(ERR_RESERVED_NAMESPACE);
         }
         if (SCXMLHelper.isStringEmpty(string2)) {
-            this.log.error("Cannot define a custom SCXML action with a null or empty local name");
-            throw new IllegalArgumentException("Cannot define a custom SCXML action with a null or empty local name");
+            this.log.error(ERR_NO_LOCAL_NAME);
+            throw new IllegalArgumentException(ERR_NO_LOCAL_NAME);
         }
         if (clazz == null || !(class$org$apache$commons$scxml$model$Action == null ? (class$org$apache$commons$scxml$model$Action = CustomAction.class$("org.apache.commons.scxml.model.Action")) : class$org$apache$commons$scxml$model$Action).isAssignableFrom(clazz)) {
-            this.log.error("Custom SCXML action does not extend Action superclass");
-            throw new IllegalArgumentException("Custom SCXML action does not extend Action superclass");
+            this.log.error(ERR_NOT_AN_ACTION);
+            throw new IllegalArgumentException(ERR_NOT_AN_ACTION);
         }
         this.namespaceURI = string;
         this.localName = string2;

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerType;
 
 public class SpoilerTypeSerializer {
-    public static void putOptionalSpoilerType(ISerializer iSerializer, SpoilerType spoilerType) {
+    public static void putOptionalSpoilerType(ISerializer iSerializer, SpoilerType spoilerType) throws SerializerException {
         boolean bl = spoilerType == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SpoilerTypeSerializer {
         }
     }
 
-    public static void putOptionalSpoilerTypeVarArray(ISerializer iSerializer, SpoilerType[] spoilerTypeArray) {
+    public static void putOptionalSpoilerTypeVarArray(ISerializer iSerializer, SpoilerType[] spoilerTypeArray) throws SerializerException {
         boolean bl = spoilerTypeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SpoilerTypeSerializer {
         }
     }
 
-    public static SpoilerType getOptionalSpoilerType(IDeserializer iDeserializer) {
+    public static SpoilerType getOptionalSpoilerType(IDeserializer iDeserializer) throws SerializerException {
         SpoilerType spoilerType = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SpoilerTypeSerializer {
         return spoilerType;
     }
 
-    public static SpoilerType[] getOptionalSpoilerTypeVarArray(IDeserializer iDeserializer) {
+    public static SpoilerType[] getOptionalSpoilerTypeVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpoilerType[] spoilerTypeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

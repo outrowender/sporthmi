@@ -45,12 +45,10 @@ implements IPartialPopupStub {
         this.setFallbackScreenAllowed(bl3);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public HMIView[] getViews() {
         if (this.modelID != 0 && this.modelID != -1) {
             return new HMIView[]{this};
@@ -58,36 +56,28 @@ implements IPartialPopupStub {
         return null;
     }
 
-    @Override
     public void activateBackgroundGrayOut() {
     }
 
-    @Override
     public void deactivateBackgroundGrayOut() {
     }
 
-    @Override
     public HMIView[][] getReplacementWidgets() {
         return null;
     }
 
-    @Override
     public void hideNotScreenChangeSurvivingPopups() {
     }
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
     }
 
-    @Override
     public void triggerProximityEvent(ProximityEvent proximityEvent) {
     }
 
-    @Override
     public void shiftHorizontal(int n) {
     }
 
-    @Override
     public IPartialPopupControllerEvo getSkeleton() {
         AbstractPartialPopupController abstractPartialPopupController;
         if (this.skeleton == null && (abstractPartialPopupController = (AbstractPartialPopupController)AbstractWidget.hmiService.getPartialPopup(this.terminal.getTerminalID(), this.popupID)) != null) {
@@ -101,19 +91,17 @@ implements IPartialPopupStub {
         return this.skeleton;
     }
 
-    @Override
     public int show(int n) {
         IPartialPopupControllerEvo iPartialPopupControllerEvo = this.getSkeleton();
         if (iPartialPopupControllerEvo != null) {
             iPartialPopupControllerEvo.connected(true, false);
-            IWidgetLogChannel.logChannelPopups.log(-2137614336, "PartialPopupStub#show call show( %2 ) for %1", (long)this.popupID, (long)n);
+            IWidgetLogChannel.logChannelPopups.log(10000000, "PartialPopupStub#show call show( %2 ) for %1", (long)this.popupID, (long)n);
             return iPartialPopupControllerEvo.show(n);
         }
         IWidgetLogChannel.logChannelPopups.log(10000, "PartialPopupStub#show couldn't retrieve skeleton for  id %1", (long)this.popupID);
         return 2;
     }
 
-    @Override
     protected void registerPopup() {
         this.popupManager.registerPopup(this);
     }

@@ -9,16 +9,12 @@ import org.apache.xerces.xs.XSObjectList;
 
 public interface XSNotationDeclaration
 extends XSObject {
-    default public String getSystemId() {
-    }
+    public String getSystemId();
 
-    default public String getPublicId() {
-    }
+    public String getPublicId();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

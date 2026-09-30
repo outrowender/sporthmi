@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.DABRadioTextPlusInfo;
 
 public class DABRadioTextPlusInfoSerializer {
-    public static void putOptionalDABRadioTextPlusInfo(ISerializer iSerializer, DABRadioTextPlusInfo dABRadioTextPlusInfo) {
+    public static void putOptionalDABRadioTextPlusInfo(ISerializer iSerializer, DABRadioTextPlusInfo dABRadioTextPlusInfo) throws SerializerException {
         boolean bl = dABRadioTextPlusInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class DABRadioTextPlusInfoSerializer {
         }
     }
 
-    public static void putOptionalDABRadioTextPlusInfoVarArray(ISerializer iSerializer, DABRadioTextPlusInfo[] dABRadioTextPlusInfoArray) {
+    public static void putOptionalDABRadioTextPlusInfoVarArray(ISerializer iSerializer, DABRadioTextPlusInfo[] dABRadioTextPlusInfoArray) throws SerializerException {
         boolean bl = dABRadioTextPlusInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class DABRadioTextPlusInfoSerializer {
         }
     }
 
-    public static DABRadioTextPlusInfo getOptionalDABRadioTextPlusInfo(IDeserializer iDeserializer) {
+    public static DABRadioTextPlusInfo getOptionalDABRadioTextPlusInfo(IDeserializer iDeserializer) throws SerializerException {
         DABRadioTextPlusInfo dABRadioTextPlusInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class DABRadioTextPlusInfoSerializer {
         return dABRadioTextPlusInfo;
     }
 
-    public static DABRadioTextPlusInfo[] getOptionalDABRadioTextPlusInfoVarArray(IDeserializer iDeserializer) {
+    public static DABRadioTextPlusInfo[] getOptionalDABRadioTextPlusInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DABRadioTextPlusInfo[] dABRadioTextPlusInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

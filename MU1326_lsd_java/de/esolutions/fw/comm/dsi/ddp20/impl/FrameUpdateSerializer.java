@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.FrameUpdate;
 
 public class FrameUpdateSerializer {
-    public static void putOptionalFrameUpdate(ISerializer iSerializer, FrameUpdate frameUpdate) {
+    public static void putOptionalFrameUpdate(ISerializer iSerializer, FrameUpdate frameUpdate) throws SerializerException {
         boolean bl = frameUpdate == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class FrameUpdateSerializer {
         }
     }
 
-    public static void putOptionalFrameUpdateVarArray(ISerializer iSerializer, FrameUpdate[] frameUpdateArray) {
+    public static void putOptionalFrameUpdateVarArray(ISerializer iSerializer, FrameUpdate[] frameUpdateArray) throws SerializerException {
         boolean bl = frameUpdateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class FrameUpdateSerializer {
         }
     }
 
-    public static FrameUpdate getOptionalFrameUpdate(IDeserializer iDeserializer) {
+    public static FrameUpdate getOptionalFrameUpdate(IDeserializer iDeserializer) throws SerializerException {
         FrameUpdate frameUpdate = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class FrameUpdateSerializer {
         return frameUpdate;
     }
 
-    public static FrameUpdate[] getOptionalFrameUpdateVarArray(IDeserializer iDeserializer) {
+    public static FrameUpdate[] getOptionalFrameUpdateVarArray(IDeserializer iDeserializer) throws SerializerException {
         FrameUpdate[] frameUpdateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

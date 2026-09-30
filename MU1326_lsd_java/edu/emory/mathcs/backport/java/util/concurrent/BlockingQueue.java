@@ -9,41 +9,26 @@ import java.util.Collection;
 
 public interface BlockingQueue
 extends Queue {
-    @Override
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    @Override
-    default public boolean offer(Object object) {
-    }
+    public boolean offer(Object var1);
 
-    default public void put(Object object) {
-    }
+    public void put(Object var1) throws InterruptedException;
 
-    default public boolean offer(Object object, long l, TimeUnit timeUnit) {
-    }
+    public boolean offer(Object var1, long var2, TimeUnit var4) throws InterruptedException;
 
-    default public Object take() {
-    }
+    public Object take() throws InterruptedException;
 
-    default public Object poll(long l, TimeUnit timeUnit) {
-    }
+    public Object poll(long var1, TimeUnit var3) throws InterruptedException;
 
-    default public int remainingCapacity() {
-    }
+    public int remainingCapacity();
 
-    @Override
-    default public boolean remove(Object object) {
-    }
+    public boolean remove(Object var1);
 
-    @Override
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    default public int drainTo(Collection collection) {
-    }
+    public int drainTo(Collection var1);
 
-    default public int drainTo(Collection collection, int n) {
-    }
+    public int drainTo(Collection var1, int var2);
 }
 

@@ -6,35 +6,33 @@ package de.esolutions.hmi.widgets.audi.evo.online;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListModel;
-import de.esolutions.hmi.widgets.audi.evo.online.GridListModel$RowSubrowIterator;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListRow;
 import de.esolutions.hmi.widgets.audi.evo.online.InfiniteListModelAccess;
-import de.esolutions.hmi.widgets.audi.evo.online.InfiniteListStatistics$RowData;
 import de.esolutions.hmi.widgets.audi.evo.online.RowInfo;
 
 public class InfiniteListStatistics {
     protected static final LogChannel log = AbstractWidget.framework.getLogChannel("App.Online.RemoteHMI.Grid");
-    public static final int ROW_NON_DELETED_FIRST;
-    public static final int ROW_NON_DELETED_LAST;
-    public static final int ROW_BEGIN_PROXY_LAST;
-    public static final int ROW_END_PROXY_FIRST;
-    public static final int ROW_PREVIOUS_REQUEST_END_PROXY_FIRST;
-    public static final int ROW_PREVIOUS_REQUEST_OVERLAP_LAST;
-    public static final int ROW_NEXT_REQUEST_OVERLAP_FIRST;
-    public static final int ROW_NEXT_REQUEST_BEGIN_PROXY_LAST;
-    public static final int ROW_COUNT;
-    private InfiniteListStatistics$RowData[] dataArray = new InfiniteListStatistics$RowData[8];
+    public static final int ROW_NON_DELETED_FIRST = 0;
+    public static final int ROW_NON_DELETED_LAST = 1;
+    public static final int ROW_BEGIN_PROXY_LAST = 2;
+    public static final int ROW_END_PROXY_FIRST = 3;
+    public static final int ROW_PREVIOUS_REQUEST_END_PROXY_FIRST = 4;
+    public static final int ROW_PREVIOUS_REQUEST_OVERLAP_LAST = 5;
+    public static final int ROW_NEXT_REQUEST_OVERLAP_FIRST = 6;
+    public static final int ROW_NEXT_REQUEST_BEGIN_PROXY_LAST = 7;
+    public static final int ROW_COUNT = 8;
+    private RowData[] dataArray = new RowData[8];
     private boolean isDirty;
 
     public InfiniteListStatistics() {
-        this.dataArray[0] = new InfiniteListStatistics$RowData("first row in list which is not marked as deleted", -129);
-        this.dataArray[1] = new InfiniteListStatistics$RowData("last row in list which is not marked as deleted", -129);
-        this.dataArray[2] = new InfiniteListStatistics$RowData("last row of beginning proxy area", -129);
-        this.dataArray[3] = new InfiniteListStatistics$RowData("first row of end proxy area", -129);
-        this.dataArray[4] = new InfiniteListStatistics$RowData("first row of end proxy area when running a previous request", 5);
-        this.dataArray[5] = new InfiniteListStatistics$RowData("last row of overlap area when running a previous request", 5);
-        this.dataArray[7] = new InfiniteListStatistics$RowData("last row of beginning proxy area when running a next request", 3);
-        this.dataArray[6] = new InfiniteListStatistics$RowData("first row of overlap area when running a next request", 3);
+        this.dataArray[0] = new RowData("first row in list which is not marked as deleted", Integer.MAX_VALUE);
+        this.dataArray[1] = new RowData("last row in list which is not marked as deleted", Integer.MAX_VALUE);
+        this.dataArray[2] = new RowData("last row of beginning proxy area", Integer.MAX_VALUE);
+        this.dataArray[3] = new RowData("first row of end proxy area", Integer.MAX_VALUE);
+        this.dataArray[4] = new RowData("first row of end proxy area when running a previous request", 5);
+        this.dataArray[5] = new RowData("last row of overlap area when running a previous request", 5);
+        this.dataArray[7] = new RowData("last row of beginning proxy area when running a next request", 3);
+        this.dataArray[6] = new RowData("first row of overlap area when running a next request", 3);
     }
 
     public boolean isDirty() {
@@ -47,7 +45,7 @@ public class InfiniteListStatistics {
 
     private void warnIfDirty() {
         if (this.isDirty) {
-            log.log(-1601830656, "InfiniteListStatistics#warnIfDirty: Underlying model was changed. Statistic is unreliable and should only be queried after indices are updated");
+            log.log(100000, "InfiniteListStatistics#warnIfDirty: Underlying model was changed. Statistic is unreliable and should only be queried after indices are updated");
         }
     }
 
@@ -57,10 +55,10 @@ public class InfiniteListStatistics {
 
     public RowInfo getRowInfo(int n) {
         this.warnIfDirty();
-        InfiniteListStatistics$RowData infiniteListStatistics$RowData = this.dataArray[n];
-        RowInfo rowInfo = infiniteListStatistics$RowData.info;
+        RowData rowData = this.dataArray[n];
+        RowInfo rowInfo = rowData.info;
         if (rowInfo == null) {
-            log.log(-1601830656, "InfiniteListStatistics#getRowInfo: requested row info does not exist. Name='%1', uniqueId=%2.", (Object)infiniteListStatistics$RowData.name, infiniteListStatistics$RowData.uniqueId);
+            log.log(100000, "InfiniteListStatistics#getRowInfo: requested row info does not exist. Name='%1', uniqueId=%2.", (Object)rowData.name, rowData.uniqueId);
         }
         return rowInfo;
     }
@@ -70,8 +68,8 @@ public class InfiniteListStatistics {
         RowInfo rowInfo = this.getRowInfo(n);
         GridListRow gridListRow2 = gridListRow = rowInfo == null ? null : rowInfo.getRow();
         if (gridListRow == null) {
-            InfiniteListStatistics$RowData infiniteListStatistics$RowData = this.dataArray[n];
-            log.log(-1601830656, "InfiniteListStatistics#getRow: requested row does not exist. Name='%1', uniqueId=%2.", (Object)infiniteListStatistics$RowData.name, infiniteListStatistics$RowData.uniqueId);
+            RowData rowData = this.dataArray[n];
+            log.log(100000, "InfiniteListStatistics#getRow: requested row does not exist. Name='%1', uniqueId=%2.", (Object)rowData.name, rowData.uniqueId);
         }
         return gridListRow;
     }
@@ -82,8 +80,8 @@ public class InfiniteListStatistics {
         RowInfo rowInfo = this.getRowInfo(n);
         int n3 = n2 = rowInfo == null ? -1 : rowInfo.getIndex();
         if (n2 == -1) {
-            InfiniteListStatistics$RowData infiniteListStatistics$RowData = this.dataArray[n];
-            log.log(-1601830656, "InfiniteListStatistics#getModelIndex: requested model index does not exist. Name='%1', uniqueId=%2.", (Object)infiniteListStatistics$RowData.name, infiniteListStatistics$RowData.uniqueId);
+            RowData rowData = this.dataArray[n];
+            log.log(100000, "InfiniteListStatistics#getModelIndex: requested model index does not exist. Name='%1', uniqueId=%2.", (Object)rowData.name, rowData.uniqueId);
         }
         return n2;
     }
@@ -98,19 +96,19 @@ public class InfiniteListStatistics {
 
     public void updateInfo(long l, RowInfo rowInfo) {
         for (int i2 = 0; i2 < 8; ++i2) {
-            InfiniteListStatistics$RowData infiniteListStatistics$RowData = this.dataArray[i2];
-            if (l != infiniteListStatistics$RowData.uniqueId) continue;
-            infiniteListStatistics$RowData.info = rowInfo;
+            RowData rowData = this.dataArray[i2];
+            if (l != rowData.uniqueId) continue;
+            rowData.info = rowInfo;
         }
     }
 
     public void update(GridListModel gridListModel, int n) {
         this.clearRowInfo();
-        GridListModel$RowSubrowIterator gridListModel$RowSubrowIterator = gridListModel.rowSubrowIterator();
-        while (gridListModel$RowSubrowIterator.hasNext()) {
-            GridListRow gridListRow = (GridListRow)gridListModel$RowSubrowIterator.next();
+        GridListModel.RowSubrowIterator rowSubrowIterator = gridListModel.rowSubrowIterator();
+        while (rowSubrowIterator.hasNext()) {
+            GridListRow gridListRow = (GridListRow)rowSubrowIterator.next();
             if (gridListRow.isDeletableIfOffscreen()) continue;
-            this.updateInfo(gridListRow.getUniqueID(), gridListModel$RowSubrowIterator.previousRowInfo());
+            this.updateInfo(gridListRow.getUniqueID(), rowSubrowIterator.previousRowInfo());
         }
         this.checkForUnsetValues(n);
         this.isDirty = false;
@@ -125,10 +123,10 @@ public class InfiniteListStatistics {
     private void checkForUnsetValues(int n) {
         for (int i2 = 0; i2 < 8; ++i2) {
             boolean bl;
-            InfiniteListStatistics$RowData infiniteListStatistics$RowData = this.dataArray[i2];
-            boolean bl2 = bl = (infiniteListStatistics$RowData.checkFor & n) == n;
-            if (!bl || infiniteListStatistics$RowData.info != null) continue;
-            InfiniteListModelAccess.log.log(-1601830656, "InfiniteListStatistics#checkForUnsetValues: value was not updated. Name='%1', uniqueId=%2, requestType=%3(bit1=next, bit2=previous).", (Object)infiniteListStatistics$RowData.name, infiniteListStatistics$RowData.uniqueId, (long)n);
+            RowData rowData = this.dataArray[i2];
+            boolean bl2 = bl = (rowData.checkFor & n) == n;
+            if (!bl || rowData.info != null) continue;
+            InfiniteListModelAccess.log.log(100000, "InfiniteListStatistics#checkForUnsetValues: value was not updated. Name='%1', uniqueId=%2, requestType=%3(bit1=next, bit2=previous).", (Object)rowData.name, rowData.uniqueId, (long)n);
         }
     }
 
@@ -150,10 +148,10 @@ public class InfiniteListStatistics {
     public void updateIdByNewList(GridListRow[] gridListRowArray, int n, int n2) {
         int n3 = gridListRowArray.length;
         if (n3 < n2) {
-            log.log(-1601830656, "InfiniteListStatistics#updateIdByNewList: illegal arrayLength, it must be greater or equal than overlapSize. arrayLength=%1, overlapSize=%2.", (long)n3, (long)n2);
+            log.log(100000, "InfiniteListStatistics#updateIdByNewList: illegal arrayLength, it must be greater or equal than overlapSize. arrayLength=%1, overlapSize=%2.", (long)n3, (long)n2);
         }
         if (n2 <= 2 * n) {
-            log.log(-1601830656, "InfiniteListStatistics#updateIdByNewList: illegal overlapSize, it must be bigger than 2 * proxyRange. overlapSize=%1, proxyRange=%2.", (long)n2, (long)n);
+            log.log(100000, "InfiniteListStatistics#updateIdByNewList: illegal overlapSize, it must be bigger than 2 * proxyRange. overlapSize=%1, proxyRange=%2.", (long)n2, (long)n);
         }
         this.setUniqueId(0, gridListRowArray[0].getUniqueID());
         this.setUniqueId(1, gridListRowArray[n3 - 1].getUniqueID());
@@ -163,6 +161,20 @@ public class InfiniteListStatistics {
         this.setUniqueId(6, gridListRowArray[n3 - n2].getUniqueID());
         this.setUniqueId(7, gridListRowArray[n3 - n2 + n - 1].getUniqueID());
         this.setUniqueId(4, gridListRowArray[n2 - n].getUniqueID());
+    }
+
+    private static class RowData {
+        public String name;
+        public long uniqueId;
+        public RowInfo info;
+        public int checkFor;
+
+        public RowData(String string, int n) {
+            this.name = string;
+            this.checkFor = n;
+            this.uniqueId = -1L;
+            this.info = null;
+        }
     }
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.online.impl.OSRLicenseSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRLicense;
 import org.dsi.ifc.online.OSRServiceListEntry;
 
 public class OSRServiceListEntrySerializer {
-    public static void putOptionalOSRServiceListEntry(ISerializer iSerializer, OSRServiceListEntry oSRServiceListEntry) {
+    public static void putOptionalOSRServiceListEntry(ISerializer iSerializer, OSRServiceListEntry oSRServiceListEntry) throws SerializerException {
         boolean bl = oSRServiceListEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class OSRServiceListEntrySerializer {
         }
     }
 
-    public static void putOptionalOSRServiceListEntryVarArray(ISerializer iSerializer, OSRServiceListEntry[] oSRServiceListEntryArray) {
+    public static void putOptionalOSRServiceListEntryVarArray(ISerializer iSerializer, OSRServiceListEntry[] oSRServiceListEntryArray) throws SerializerException {
         boolean bl = oSRServiceListEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class OSRServiceListEntrySerializer {
         }
     }
 
-    public static OSRServiceListEntry getOptionalOSRServiceListEntry(IDeserializer iDeserializer) {
+    public static OSRServiceListEntry getOptionalOSRServiceListEntry(IDeserializer iDeserializer) throws SerializerException {
         OSRServiceListEntry oSRServiceListEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -93,7 +94,7 @@ public class OSRServiceListEntrySerializer {
         return oSRServiceListEntry;
     }
 
-    public static OSRServiceListEntry[] getOptionalOSRServiceListEntryVarArray(IDeserializer iDeserializer) {
+    public static OSRServiceListEntry[] getOptionalOSRServiceListEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRServiceListEntry[] oSRServiceListEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

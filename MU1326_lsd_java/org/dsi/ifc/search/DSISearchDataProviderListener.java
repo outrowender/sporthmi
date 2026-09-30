@@ -7,22 +7,16 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSISearchDataProviderListener
 extends DSIListener {
-    default public void registerProviderSourceResult(int n, int n2) {
-    }
+    public void registerProviderSourceResult(int var1, int var2);
 
-    default public void activateProviderSource(int n) {
-    }
+    public void activateProviderSource(int var1);
 
-    default public void invalidateAllDataResult(int n, int n2) {
-    }
+    public void invalidateAllDataResult(int var1, int var2);
 
-    default public void provideData(int n, int n2, int n3) {
-    }
+    public void provideData(int var1, int var2, int var3);
 
-    default public void storeDataSetsResult(int n, int n2) {
-    }
+    public void storeDataSetsResult(int var1, int var2);
 
-    default public void deleteDataSetResult(int n, int n2, long l) {
-    }
+    public void deleteDataSetResult(int var1, int var2, long var3);
 }
 

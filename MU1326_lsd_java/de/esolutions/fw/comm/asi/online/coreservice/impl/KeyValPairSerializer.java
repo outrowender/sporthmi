@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.online.coreservice.impl;
 import de.esolutions.fw.comm.asi.online.coreservice.KeyValPair;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class KeyValPairSerializer {
-    public static void putOptionalKeyValPair(ISerializer iSerializer, KeyValPair keyValPair) {
+    public static void putOptionalKeyValPair(ISerializer iSerializer, KeyValPair keyValPair) throws SerializerException {
         boolean bl = keyValPair == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class KeyValPairSerializer {
         }
     }
 
-    public static void putOptionalKeyValPairVarArray(ISerializer iSerializer, KeyValPair[] keyValPairArray) {
+    public static void putOptionalKeyValPairVarArray(ISerializer iSerializer, KeyValPair[] keyValPairArray) throws SerializerException {
         boolean bl = keyValPairArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class KeyValPairSerializer {
         }
     }
 
-    public static KeyValPair getOptionalKeyValPair(IDeserializer iDeserializer) {
+    public static KeyValPair getOptionalKeyValPair(IDeserializer iDeserializer) throws SerializerException {
         KeyValPair keyValPair = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class KeyValPairSerializer {
         return keyValPair;
     }
 
-    public static KeyValPair[] getOptionalKeyValPairVarArray(IDeserializer iDeserializer) {
+    public static KeyValPair[] getOptionalKeyValPairVarArray(IDeserializer iDeserializer) throws SerializerException {
         KeyValPair[] keyValPairArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCorrectedDirection;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNavCorrectedDirectionSerializer {
-    public static void putOptionalsNavCorrectedDirection(ISerializer iSerializer, sNavCorrectedDirection sNavCorrectedDirection2) {
+    public static void putOptionalsNavCorrectedDirection(ISerializer iSerializer, sNavCorrectedDirection sNavCorrectedDirection2) throws SerializerException {
         boolean bl = sNavCorrectedDirection2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sNavCorrectedDirectionSerializer {
         }
     }
 
-    public static void putOptionalsNavCorrectedDirectionVarArray(ISerializer iSerializer, sNavCorrectedDirection[] sNavCorrectedDirectionArray) {
+    public static void putOptionalsNavCorrectedDirectionVarArray(ISerializer iSerializer, sNavCorrectedDirection[] sNavCorrectedDirectionArray) throws SerializerException {
         boolean bl = sNavCorrectedDirectionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sNavCorrectedDirectionSerializer {
         }
     }
 
-    public static sNavCorrectedDirection getOptionalsNavCorrectedDirection(IDeserializer iDeserializer) {
+    public static sNavCorrectedDirection getOptionalsNavCorrectedDirection(IDeserializer iDeserializer) throws SerializerException {
         sNavCorrectedDirection sNavCorrectedDirection2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sNavCorrectedDirectionSerializer {
         return sNavCorrectedDirection2;
     }
 
-    public static sNavCorrectedDirection[] getOptionalsNavCorrectedDirectionVarArray(IDeserializer iDeserializer) {
+    public static sNavCorrectedDirection[] getOptionalsNavCorrectedDirectionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNavCorrectedDirection[] sNavCorrectedDirectionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,19 +10,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PbSpeller_Result
 implements ResultMethod {
     public int pbSpeller_Result;
-    private static final int PB_SPELLER_RESULT_BITSIZE;
-    public static final int PB_SPELLER_RESULT_SUCCESSFUL;
-    public static final int PB_SPELLER_RESULT_NOT_SUCCESSFUL;
-    public static final int PB_SPELLER_RESULT_ABORT_SUCCESSFUL;
-    public static final int PB_SPELLER_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int PB_SPELLER_RESULT_NOT_SUCCESSFUL_FIRST_CHARACTER_REACHED;
-    public static final int PB_SPELLER_RESULT_NOT_SUCCESSFUL_LAST_CHARACTER_REACHED;
+    private static final int PB_SPELLER_RESULT_BITSIZE = 8;
+    public static final int PB_SPELLER_RESULT_SUCCESSFUL = 0;
+    public static final int PB_SPELLER_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int PB_SPELLER_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int PB_SPELLER_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int PB_SPELLER_RESULT_NOT_SUCCESSFUL_FIRST_CHARACTER_REACHED = 4;
+    public static final int PB_SPELLER_RESULT_NOT_SUCCESSFUL_LAST_CHARACTER_REACHED = 5;
     public int matchingEntries;
-    private static final int MATCHING_ENTRIES_BITSIZE;
+    private static final int MATCHING_ENTRIES_BITSIZE = 16;
     public int pos;
-    private static final int POS_BITSIZE;
+    private static final int POS_BITSIZE = 16;
 
-    @Override
     public int getResultCode() {
         return this.pbSpeller_Result;
     }
@@ -43,12 +42,10 @@ implements ResultMethod {
         this.pos = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PbSpeller_Result pbSpeller_Result = (PbSpeller_Result)bAPEntity;
         return this.pbSpeller_Result == pbSpeller_Result.pbSpeller_Result && this.matchingEntries == pbSpeller_Result.matchingEntries && this.pos == pbSpeller_Result.pos;
@@ -57,7 +54,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PbSpeller_Result:");
@@ -98,7 +94,6 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -106,14 +101,12 @@ implements ResultMethod {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.pbSpeller_Result);
         bitStream.pushShort((short)this.matchingEntries);
         bitStream.pushShort((short)this.pos);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.pbSpeller_Result = bitStream.popFrontByte();
         this.matchingEntries = bitStream.popFrontShort();
@@ -124,7 +117,6 @@ implements ResultMethod {
         return 53;
     }
 
-    @Override
     public int getFunctionId() {
         return PbSpeller_Result.functionId();
     }

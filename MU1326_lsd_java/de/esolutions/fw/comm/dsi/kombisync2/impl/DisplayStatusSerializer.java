@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.kombisync2.impl.DisplayStatusFlagsSerializer;
 import de.esolutions.fw.comm.dsi.kombisync2.impl.MenuContextSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.DisplayStatus;
 import org.dsi.ifc.kombisync2.DisplayStatusFlags;
 import org.dsi.ifc.kombisync2.MenuContext;
 
 public class DisplayStatusSerializer {
-    public static void putOptionalDisplayStatus(ISerializer iSerializer, DisplayStatus displayStatus) {
+    public static void putOptionalDisplayStatus(ISerializer iSerializer, DisplayStatus displayStatus) throws SerializerException {
         boolean bl = displayStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class DisplayStatusSerializer {
         }
     }
 
-    public static void putOptionalDisplayStatusVarArray(ISerializer iSerializer, DisplayStatus[] displayStatusArray) {
+    public static void putOptionalDisplayStatusVarArray(ISerializer iSerializer, DisplayStatus[] displayStatusArray) throws SerializerException {
         boolean bl = displayStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class DisplayStatusSerializer {
         }
     }
 
-    public static DisplayStatus getOptionalDisplayStatus(IDeserializer iDeserializer) {
+    public static DisplayStatus getOptionalDisplayStatus(IDeserializer iDeserializer) throws SerializerException {
         DisplayStatus displayStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class DisplayStatusSerializer {
         return displayStatus;
     }
 
-    public static DisplayStatus[] getOptionalDisplayStatusVarArray(IDeserializer iDeserializer) {
+    public static DisplayStatus[] getOptionalDisplayStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayStatus[] displayStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

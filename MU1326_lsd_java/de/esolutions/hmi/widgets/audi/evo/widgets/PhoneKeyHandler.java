@@ -25,7 +25,6 @@ implements IPhoneKeyHandler {
         this.drawerFocusManager = iDrawerFocusManagerEvo;
     }
 
-    @Override
     public void handleMFLPhoneKeyPressed() {
         ChoiceModelGUI choiceModelGUI = (ChoiceModelGUI)((Object)AbstractWidget.hmiService.getModel(3848));
         if (choiceModelGUI == null) {
@@ -33,15 +32,15 @@ implements IPhoneKeyHandler {
             return;
         }
         if (choiceModelGUI.getValue() != 0) {
-            IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "PhoneKeyHandler#handleMFLPhoneKeyPressed callStateChoice != 0 - triggerPhoneAppModel");
+            IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "PhoneKeyHandler#handleMFLPhoneKeyPressed callStateChoice != 0 - triggerPhoneAppModel");
             this.triggerPhoneAppModel();
         } else {
             AbstractWidget abstractWidget = this.getStartCallEntry();
             if (abstractWidget != null) {
-                IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "PhoneKeyHandler#handleMFLPhoneKeyPressed trigger startCallEntry");
+                IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "PhoneKeyHandler#handleMFLPhoneKeyPressed trigger startCallEntry");
                 abstractWidget.keyPressed(new KeyEvent(null, 0, 17, 0));
             } else {
-                IWidgetLogChannel.logEntertainmentDrawer.log(-2137614336, "PhoneKeyHandler#handleMFLPhoneKeyPressed callStateChoice != 0 - triggerPhoneAppModel");
+                IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "PhoneKeyHandler#handleMFLPhoneKeyPressed callStateChoice != 0 - triggerPhoneAppModel");
                 this.triggerPhoneAppModel();
             }
         }
@@ -94,7 +93,6 @@ implements IPhoneKeyHandler {
         return null;
     }
 
-    @Override
     public void handleMFLPhoneKeyReleased() {
     }
 }

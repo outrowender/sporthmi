@@ -67,8 +67,6 @@ implements Runnable {
         }
     }
 
-    @Override
-    public abstract void run() {
-    }
+    public abstract void run();
 }
 

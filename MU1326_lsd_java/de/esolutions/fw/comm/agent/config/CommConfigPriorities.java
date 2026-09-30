@@ -36,7 +36,6 @@ implements IConfigValueTracer {
         return this.defaultSvcWorkerPrio;
     }
 
-    @Override
     public void traceValues() {
         CommAgentTracing.CONFIG.log((short)2, "priorities.agent           = %1", new Integer(this.agentThreadPrio));
         CommAgentTracing.CONFIG.log((short)2, "priorities.notifier        = %1", new Integer(this.notifierThreadPrio));

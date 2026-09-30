@@ -28,7 +28,6 @@ implements IUpdatableReceiver {
         super(iconController);
     }
 
-    @Override
     protected void destroyNode() {
         if (this.displayData != null) {
             TextureDescriptionManager.getInstance().cancelRequest(this.displayData, this);
@@ -38,7 +37,6 @@ implements IUpdatableReceiver {
         super.destroyNode();
     }
 
-    @Override
     protected void loadDimensions(TextureDescription textureDescription, Object object) {
         int n;
         int n2;
@@ -55,7 +53,6 @@ implements IUpdatableReceiver {
         this.setUnscaledSize(textureDescription, n2, n);
     }
 
-    @Override
     protected boolean processDisplayData(RedrawContextHigh redrawContextHigh, TextureDescription textureDescription) {
         if (textureDescription instanceof ITexDescrAsyncStates) {
             int n;
@@ -65,10 +62,10 @@ implements IUpdatableReceiver {
                 this.displayData = textureDescription;
                 IWrappedTexture iWrappedTexture = this.displayData.getTexture(this);
                 if (iWrappedTexture != null) {
-                    logImageAsync.log(-2137614336, "IconRendererHighAsync#processDisplayData given texture already loaded: %1", (Object)this.displayData);
+                    logImageAsync.log(10000000, "IconRendererHighAsync#processDisplayData given texture already loaded: %1", (Object)this.displayData);
                     iWrappedTexture.releaseTexture(false, this);
                 } else {
-                    logImageAsync.log(-2137614336, "IconRendererHighAsync#processDisplayData Texture has been requested: %1", (Object)this.displayData);
+                    logImageAsync.log(10000000, "IconRendererHighAsync#processDisplayData Texture has been requested: %1", (Object)this.displayData);
                 }
                 bl = true;
             }
@@ -107,7 +104,6 @@ implements IUpdatableReceiver {
         return bl ? this.getTextureDescriptionAsync(n2, this.useEalAtlas()) : this.getTextureDescription(n2, this.useEalAtlas());
     }
 
-    @Override
     protected TextureDescription calculateDisplayData(Object object) {
         return this.calculateDisplayData(object, true);
     }
@@ -141,16 +137,14 @@ implements IUpdatableReceiver {
         if (object instanceof Integer) {
             return this.handleIntegerContent((Integer)object, eALManager, bl);
         }
-        AbstractWidget.logImageAsync.log(-1601830656, "Unknown content: %1", object);
+        AbstractWidget.logImageAsync.log(100000, "Unknown content: %1", object);
         return null;
     }
 
-    @Override
     protected boolean isDisplayDataInitialized() {
         return this.displayData != null && this.isTextureLoaded;
     }
 
-    @Override
     protected boolean updateNodeContent(RedrawContextHigh redrawContextHigh) {
         if (!this.controller.isImageCacheActivated() && this.displayData instanceof ITexDescrAsyncStates && ((ITexDescrAsyncStates)this.displayData).getLoadingState() == -1) {
             ((ITexDescrAsyncStates)this.displayData).resetLoadingState();
@@ -158,7 +152,6 @@ implements IUpdatableReceiver {
         return super.updateNodeContent(redrawContextHigh);
     }
 
-    @Override
     public void resourceLoadedCallback(int n, Object object, ATIPEvent aTIPEvent) {
         if (n == 1) {
             this.controller.setCompositesDirty(true);

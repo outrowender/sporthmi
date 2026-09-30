@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKWheelStates;
 
 public class RDKWheelStatesSerializer {
-    public static void putOptionalRDKWheelStates(ISerializer iSerializer, RDKWheelStates rDKWheelStates) {
+    public static void putOptionalRDKWheelStates(ISerializer iSerializer, RDKWheelStates rDKWheelStates) throws SerializerException {
         boolean bl = rDKWheelStates == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class RDKWheelStatesSerializer {
         }
     }
 
-    public static void putOptionalRDKWheelStatesVarArray(ISerializer iSerializer, RDKWheelStates[] rDKWheelStatesArray) {
+    public static void putOptionalRDKWheelStatesVarArray(ISerializer iSerializer, RDKWheelStates[] rDKWheelStatesArray) throws SerializerException {
         boolean bl = rDKWheelStatesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class RDKWheelStatesSerializer {
         }
     }
 
-    public static RDKWheelStates getOptionalRDKWheelStates(IDeserializer iDeserializer) {
+    public static RDKWheelStates getOptionalRDKWheelStates(IDeserializer iDeserializer) throws SerializerException {
         RDKWheelStates rDKWheelStates = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class RDKWheelStatesSerializer {
         return rDKWheelStates;
     }
 
-    public static RDKWheelStates[] getOptionalRDKWheelStatesVarArray(IDeserializer iDeserializer) {
+    public static RDKWheelStates[] getOptionalRDKWheelStatesVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKWheelStates[] rDKWheelStatesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

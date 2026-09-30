@@ -3,44 +3,33 @@
  */
 package de.esolutions.fw.comm.dsi.powermanagement;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIPowerManagementC {
-    default public void setHMIReady() {
-    }
+    public void setHMIReady() throws MethodException;
 
-    default public void rebootSystem() {
-    }
+    public void rebootSystem() throws MethodException;
 
-    default public void displayReady() {
-    }
+    public void displayReady() throws MethodException;
 
-    default public void rebootSystemCritical() {
-    }
+    public void rebootSystemCritical() throws MethodException;
 
-    default public void setChildLockRSE(int n) {
-    }
+    public void setChildLockRSE(int var1) throws MethodException;
 
-    default public void setLastOn(int n) {
-    }
+    public void setLastOn(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

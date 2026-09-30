@@ -14,7 +14,7 @@ implements StatusProperty {
     public boolean fctBapConfigSupported;
     public boolean fctFunctionListSupported;
     public boolean fctHeartbeatSupported;
-    private static final int RESERVED_BIT_5__13_BITSIZE;
+    private static final int RESERVED_BIT_5__13_BITSIZE = 9;
     public boolean fctFsg_SetupSupported;
     public boolean fctFsg_OperationStateSupported;
     public boolean fctMobileServiceSupportSupported;
@@ -28,8 +28,8 @@ implements StatusProperty {
     public boolean fctConnectionStateSupported;
     public boolean fctAutomaticCallForwardingSupported;
     public boolean fctPhonebookDownloadProgressSupported;
-    private static final int RESERVED_BIT_27__63_BITSIZE;
-    private static final int FUNCTION_LIST_STATUS_BITSIZE;
+    private static final int RESERVED_BIT_27__63_BITSIZE = 37;
+    private static final int FUNCTION_LIST_STATUS_BITSIZE = 64;
 
     public FunctionList_Status() {
         this.internalReset();
@@ -62,12 +62,10 @@ implements StatusProperty {
         this.fctPhonebookDownloadProgressSupported = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_Status functionList_Status = (FunctionList_Status)bAPEntity;
         return this.reserved_bit_0 == functionList_Status.reserved_bit_0 && this.fctGetAllSupported == functionList_Status.fctGetAllSupported && this.fctBapConfigSupported == functionList_Status.fctBapConfigSupported && this.fctFunctionListSupported == functionList_Status.fctFunctionListSupported && this.fctHeartbeatSupported == functionList_Status.fctHeartbeatSupported && this.fctFsg_SetupSupported == functionList_Status.fctFsg_SetupSupported && this.fctFsg_OperationStateSupported == functionList_Status.fctFsg_OperationStateSupported && this.fctMobileServiceSupportSupported == functionList_Status.fctMobileServiceSupportSupported && this.fctRegisterState2Supported == functionList_Status.fctRegisterState2Supported && this.fctLockState2Supported == functionList_Status.fctLockState2Supported && this.fctNetworkProvider2Supported == functionList_Status.fctNetworkProvider2Supported && this.fctSignalQuality2Supported == functionList_Status.fctSignalQuality2Supported && this.fctDataConnectionIndication2Supported == functionList_Status.fctDataConnectionIndication2Supported && this.fctEmailStateSupported == functionList_Status.fctEmailStateSupported && this.fctPhoneModuleStateSupported == functionList_Status.fctPhoneModuleStateSupported && this.fctConnectionStateSupported == functionList_Status.fctConnectionStateSupported && this.fctAutomaticCallForwardingSupported == functionList_Status.fctAutomaticCallForwardingSupported && this.fctPhonebookDownloadProgressSupported == functionList_Status.fctPhonebookDownloadProgressSupported;
@@ -76,7 +74,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_Status:");
@@ -191,13 +188,11 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 64;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllSupported);
@@ -221,7 +216,6 @@ implements StatusProperty {
         bitStream.resetBits(37);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllSupported = bitStream.popFrontBoolean();
@@ -249,7 +243,6 @@ implements StatusProperty {
         return 3;
     }
 
-    @Override
     public int getFunctionId() {
         return FunctionList_Status.functionId();
     }

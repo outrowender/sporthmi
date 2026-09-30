@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.rdvtypes.impl;
 import de.esolutions.fw.comm.asi.navigation.rdvtypes.RdvRouteOptions;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RdvRouteOptionsSerializer {
-    public static void putOptionalRdvRouteOptions(ISerializer iSerializer, RdvRouteOptions rdvRouteOptions) {
+    public static void putOptionalRdvRouteOptions(ISerializer iSerializer, RdvRouteOptions rdvRouteOptions) throws SerializerException {
         boolean bl = rdvRouteOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -75,7 +76,7 @@ public class RdvRouteOptionsSerializer {
         }
     }
 
-    public static void putOptionalRdvRouteOptionsVarArray(ISerializer iSerializer, RdvRouteOptions[] rdvRouteOptionsArray) {
+    public static void putOptionalRdvRouteOptionsVarArray(ISerializer iSerializer, RdvRouteOptions[] rdvRouteOptionsArray) throws SerializerException {
         boolean bl = rdvRouteOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -86,7 +87,7 @@ public class RdvRouteOptionsSerializer {
         }
     }
 
-    public static RdvRouteOptions getOptionalRdvRouteOptions(IDeserializer iDeserializer) {
+    public static RdvRouteOptions getOptionalRdvRouteOptions(IDeserializer iDeserializer) throws SerializerException {
         RdvRouteOptions rdvRouteOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -155,7 +156,7 @@ public class RdvRouteOptionsSerializer {
         return rdvRouteOptions;
     }
 
-    public static RdvRouteOptions[] getOptionalRdvRouteOptionsVarArray(IDeserializer iDeserializer) {
+    public static RdvRouteOptions[] getOptionalRdvRouteOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         RdvRouteOptions[] rdvRouteOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

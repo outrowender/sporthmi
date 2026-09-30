@@ -8,7 +8,6 @@ import org.apache.commons.jexl.JexlContext;
 public interface JexlExprResolver {
     public static final Object NO_VALUE = new Object();
 
-    default public Object evaluate(JexlContext jexlContext, String string) {
-    }
+    public Object evaluate(JexlContext var1, String var2);
 }
 

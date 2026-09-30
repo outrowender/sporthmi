@@ -3,25 +3,22 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIMediaOnlineReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "ccda6cca-562b-5544-9368-aeb30d715a20";
+    public static final String IPL_COMM_INTERFACE_KEY = "5c2d5900-eb57-5213-9f61-f1c5d8d4b591";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.52";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.52";
 
-    default public void updateBufferState(int n, int n2) {
-    }
+    public void updateBufferState(int var1, int var2) throws MethodException;
 
-    default public void updateBufferFillInfo(int n, int n2, int n3) {
-    }
+    public void updateBufferFillInfo(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAudioSettings(int n, int n2, int n3) {
-    }
+    public void updateAudioSettings(int var1, int var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -25,28 +25,23 @@ implements DSIAudioManagement {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$audio$DSIAudioManagement == null ? (class$org$dsi$ifc$audio$DSIAudioManagement = DSIAudioManagementProvider.class$("org.dsi.ifc.audio.DSIAudioManagement")) : class$org$dsi$ifc$audio$DSIAudioManagement).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAudioManagementProxy(this.instance, (DSIAudioManagementReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void fadeToConnection(int n, int n2) {
         try {
             this.proxy.fadeToConnection(n, n2);
@@ -56,7 +51,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void releaseConnection(int n, int n2) {
         try {
             this.proxy.releaseConnection(n, n2);
@@ -66,7 +60,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void getActiveConnection(int n) {
         try {
             this.proxy.getActiveConnection(n);
@@ -76,7 +69,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void getActiveEntertainmentConnection(int n) {
         try {
             this.proxy.getActiveEntertainmentConnection(n);
@@ -86,7 +78,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void requestConnection(int n, int n2, int n3) {
         try {
             this.proxy.requestConnection(n, n2, n3);
@@ -96,7 +87,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void setVolumelock(int n, int n2, boolean bl) {
         try {
             this.proxy.setVolumelock(n, n2, bl);
@@ -106,7 +96,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void getVolumelock(int n, int n2) {
         try {
             this.proxy.getVolumelock(n, n2);
@@ -116,7 +105,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -126,7 +114,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -136,7 +123,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -146,7 +132,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -156,7 +141,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -166,7 +150,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -176,7 +159,6 @@ implements DSIAudioManagement {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.bcf;
 
@@ -36,8 +33,7 @@ implements IConfigReader {
     private byte[] rawStrings;
     private int[] elements;
 
-    @Override
-    public ConfigValue readFromInputStream(InputStream inputStream, ConfigDictionary configDictionary) {
+    public ConfigValue readFromInputStream(InputStream inputStream, ConfigDictionary configDictionary) throws ReadConfigException {
         try {
             this.readHeader(inputStream);
             configDictionary.addValue("bits32", new ConfigBoolean(this.bits32));
@@ -55,11 +51,11 @@ implements IConfigReader {
             return configValue;
         }
         catch (IOException iOException) {
-            throw new ReadConfigException(new StringBuffer().append("IO: ").append(iOException.getMessage()).toString());
+            throw new ReadConfigException("IO: " + iOException.getMessage());
         }
     }
 
-    private ConfigValue createConfigValue(int n) {
+    private ConfigValue createConfigValue(int n) throws ReadConfigException {
         ConfigValue configValue;
         int n2 = this.elements[n];
         int n3 = this.elements[n + 1];
@@ -107,7 +103,7 @@ implements IConfigReader {
             }
             case 5: {
                 String string = this.getString(n3);
-                double d2 = Double.parseDouble((String)string);
+                double d2 = Double.parseDouble(string);
                 configValue = new ConfigDouble(d2);
                 break;
             }
@@ -122,7 +118,7 @@ implements IConfigReader {
                 break;
             }
             default: {
-                throw new ReadConfigException(new StringBuffer().append("Invalid BCF Element Type: ").append(n2).toString());
+                throw new ReadConfigException("Invalid BCF Element Type: " + n2);
             }
         }
         return configValue;
@@ -166,7 +162,7 @@ implements IConfigReader {
         return nArray;
     }
 
-    private void readHeader(InputStream inputStream) {
+    private void readHeader(InputStream inputStream) throws IOException, ReadConfigException {
         byte[] byArray = new byte[16];
         inputStream.read(byArray);
         if (byArray[0] != -27 || byArray[1] != 11 || byArray[2] != -49) {

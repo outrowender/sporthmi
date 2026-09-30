@@ -12,7 +12,6 @@ import org.w3c.dom.DOMImplementationList;
 
 public class DOMXSImplementationSourceImpl
 extends DOMImplementationSourceImpl {
-    @Override
     public DOMImplementation getDOMImplementation(String string) {
         DOMImplementation dOMImplementation = super.getDOMImplementation(string);
         if (dOMImplementation != null) {
@@ -25,7 +24,6 @@ extends DOMImplementationSourceImpl {
         return null;
     }
 
-    @Override
     public DOMImplementationList getDOMImplementationList(String string) {
         Vector vector = new Vector();
         DOMImplementationList dOMImplementationList = super.getDOMImplementationList(string);

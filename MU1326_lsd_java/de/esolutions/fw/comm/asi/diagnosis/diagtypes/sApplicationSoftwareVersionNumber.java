@@ -32,7 +32,7 @@ public class sApplicationSoftwareVersionNumber {
     }
 
     public String toString() {
-        return new StringBuffer("sApplicationSoftwareVersionNumber{").append("msg_id=").append(this.msg_id).append(", number=").append(this.number).append("}").toString();
+        return "sApplicationSoftwareVersionNumber{" + "msg_id=" + this.msg_id + ", number=" + this.number + "}";
     }
 }
 

@@ -10,17 +10,18 @@ import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCData;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCHeader;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCRefLapHeader;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.TransferState;
-import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl.ASIHMISyncCarSportChronoAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncCarSportChronoAbstractBaseService
 implements ASIHMISyncCarSportChronoS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.car.sportchrono.ASIHMISyncCarSportChrono");
-    private static final int attributesCount;
+    private static final int attributesCount = 13;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -124,39 +125,33 @@ implements ASIHMISyncCarSportChronoS {
     }
 
     public ASIHMISyncCarSportChronoAbstractBaseService() {
-        ASIHMISyncCarSportChronoAbstractBaseService$AttributesBitMapProvider aSIHMISyncCarSportChronoAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncCarSportChronoAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncCarSportChrono", aSIHMISyncCarSportChronoAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncCarSportChrono", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncCarSportChronoReply);
         this.sendAttributeUpdate(l, aSIHMISyncCarSportChronoReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         this.baseService.setNotification(aSIHMISyncCarSportChronoReply);
         this.sendAttributeUpdate(aSIHMISyncCarSportChronoReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncCarSportChronoReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncCarSportChronoReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncCarSportChronoReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         this.baseService.clearNotification(aSIHMISyncCarSportChronoReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncCarSportChronoReply);
     }
@@ -190,31 +185,31 @@ implements ASIHMISyncCarSportChronoS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
         try {
-            if (l == 0) {
+            if (l == 15L) {
                 aSIHMISyncCarSportChronoReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncCarSportChronoReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncCarSportChronoReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncCarSportChronoReply.updateSCVisibilityState(this.SCVisibilityState, this.SCVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncCarSportChronoReply.updateActiveRecord(this.ActiveRecord, this.ActiveRecord_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncCarSportChronoReply.updateActiveRecordData(this.ActiveRecordData, this.ActiveRecordData_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncCarSportChronoReply.updateRecordMode(this.RecordMode, this.RecordMode_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncCarSportChronoReply.updateTrackList(this.TrackList, this.TrackList_valid);
-            } else if (l == 0) {
+            } else if (l == 23L) {
                 aSIHMISyncCarSportChronoReply.updateTransferState(this.TransferState, this.TransferState_valid);
-            } else if (l == 0) {
+            } else if (l == 25L) {
                 aSIHMISyncCarSportChronoReply.updateRecordingTime(this.RecordingTime, this.RecordingTime_valid);
-            } else if (l == 0) {
+            } else if (l == 24L) {
                 aSIHMISyncCarSportChronoReply.updateRecordingRange(this.RecordingRange, this.RecordingRange_valid);
-            } else if (l == 0) {
+            } else if (l == 33L) {
                 aSIHMISyncCarSportChronoReply.updateSelectedReferenceLapUid(this.SelectedReferenceLapUid, this.SelectedReferenceLapUid_valid);
-            } else if (l == 0) {
+            } else if (l == 32L) {
                 aSIHMISyncCarSportChronoReply.updateReferenceLapList(this.ReferenceLapList, this.ReferenceLapList_valid);
             } else {
                 System.out.println("unexpected");
@@ -225,11 +220,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncCarSportChronoAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -243,11 +238,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -266,11 +261,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -289,11 +284,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateSCVisibilityState(int n) {
+    public void updateSCVisibilityState(int n) throws MethodException {
         this.updateSCVisibilityState(n, true);
     }
 
-    public void updateSCVisibilityState(int n, boolean bl) {
+    public void updateSCVisibilityState(int n, boolean bl) throws MethodException {
         this.SCVisibilityState = n;
         this.SCVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(21);
@@ -307,11 +302,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateActiveRecord(SCHeader sCHeader) {
+    public void updateActiveRecord(SCHeader sCHeader) throws MethodException {
         this.updateActiveRecord(sCHeader, true);
     }
 
-    public void updateActiveRecord(SCHeader sCHeader, boolean bl) {
+    public void updateActiveRecord(SCHeader sCHeader, boolean bl) throws MethodException {
         this.ActiveRecord = ASIHMISyncCarSportChronoAbstractBaseService.copySCHeader(sCHeader);
         this.ActiveRecord_valid = bl;
         List list = this.baseService.getNotifications(16);
@@ -325,11 +320,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateActiveRecordData(SCData sCData) {
+    public void updateActiveRecordData(SCData sCData) throws MethodException {
         this.updateActiveRecordData(sCData, true);
     }
 
-    public void updateActiveRecordData(SCData sCData, boolean bl) {
+    public void updateActiveRecordData(SCData sCData, boolean bl) throws MethodException {
         this.ActiveRecordData = ASIHMISyncCarSportChronoAbstractBaseService.copySCData(sCData);
         this.ActiveRecordData_valid = bl;
         List list = this.baseService.getNotifications(17);
@@ -343,11 +338,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateRecordMode(int n) {
+    public void updateRecordMode(int n) throws MethodException {
         this.updateRecordMode(n, true);
     }
 
-    public void updateRecordMode(int n, boolean bl) {
+    public void updateRecordMode(int n, boolean bl) throws MethodException {
         this.RecordMode = n;
         this.RecordMode_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -361,11 +356,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateTrackList(SCHeader[] sCHeaderArray) {
+    public void updateTrackList(SCHeader[] sCHeaderArray) throws MethodException {
         this.updateTrackList(sCHeaderArray, true);
     }
 
-    public void updateTrackList(SCHeader[] sCHeaderArray, boolean bl) {
+    public void updateTrackList(SCHeader[] sCHeaderArray, boolean bl) throws MethodException {
         if (sCHeaderArray != null) {
             this.TrackList = new SCHeader[sCHeaderArray.length];
             for (int i2 = 0; i2 < sCHeaderArray.length; ++i2) {
@@ -386,11 +381,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateTransferState(TransferState transferState) {
+    public void updateTransferState(TransferState transferState) throws MethodException {
         this.updateTransferState(transferState, true);
     }
 
-    public void updateTransferState(TransferState transferState, boolean bl) {
+    public void updateTransferState(TransferState transferState, boolean bl) throws MethodException {
         this.TransferState = ASIHMISyncCarSportChronoAbstractBaseService.copyTransferState(transferState);
         this.TransferState_valid = bl;
         List list = this.baseService.getNotifications(23);
@@ -404,11 +399,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateRecordingTime(long l) {
+    public void updateRecordingTime(long l) throws MethodException {
         this.updateRecordingTime(l, true);
     }
 
-    public void updateRecordingTime(long l, boolean bl) {
+    public void updateRecordingTime(long l, boolean bl) throws MethodException {
         this.RecordingTime = l;
         this.RecordingTime_valid = bl;
         List list = this.baseService.getNotifications(25);
@@ -422,11 +417,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateRecordingRange(RecordingRange recordingRange) {
+    public void updateRecordingRange(RecordingRange recordingRange) throws MethodException {
         this.updateRecordingRange(recordingRange, true);
     }
 
-    public void updateRecordingRange(RecordingRange recordingRange, boolean bl) {
+    public void updateRecordingRange(RecordingRange recordingRange, boolean bl) throws MethodException {
         this.RecordingRange = ASIHMISyncCarSportChronoAbstractBaseService.copyRecordingRange(recordingRange);
         this.RecordingRange_valid = bl;
         List list = this.baseService.getNotifications(24);
@@ -440,11 +435,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateSelectedReferenceLapUid(int n) {
+    public void updateSelectedReferenceLapUid(int n) throws MethodException {
         this.updateSelectedReferenceLapUid(n, true);
     }
 
-    public void updateSelectedReferenceLapUid(int n, boolean bl) {
+    public void updateSelectedReferenceLapUid(int n, boolean bl) throws MethodException {
         this.SelectedReferenceLapUid = n;
         this.SelectedReferenceLapUid_valid = bl;
         List list = this.baseService.getNotifications(33);
@@ -458,11 +453,11 @@ implements ASIHMISyncCarSportChronoS {
         }
     }
 
-    public void updateReferenceLapList(SCRefLapHeader[] sCRefLapHeaderArray) {
+    public void updateReferenceLapList(SCRefLapHeader[] sCRefLapHeaderArray) throws MethodException {
         this.updateReferenceLapList(sCRefLapHeaderArray, true);
     }
 
-    public void updateReferenceLapList(SCRefLapHeader[] sCRefLapHeaderArray, boolean bl) {
+    public void updateReferenceLapList(SCRefLapHeader[] sCRefLapHeaderArray, boolean bl) throws MethodException {
         if (sCRefLapHeaderArray != null) {
             this.ReferenceLapList = new SCRefLapHeader[sCRefLapHeaderArray.length];
             for (int i2 = 0; i2 < sCRefLapHeaderArray.length; ++i2) {
@@ -480,6 +475,36 @@ implements ASIHMISyncCarSportChronoS {
                 aSIHMISyncCarSportChronoReply.updateReferenceLapList(sCRefLapHeaderArray, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(15L), new Integer(0));
+            this.map.put(new Long(20L), new Integer(1));
+            this.map.put(new Long(19L), new Integer(2));
+            this.map.put(new Long(21L), new Integer(3));
+            this.map.put(new Long(16L), new Integer(4));
+            this.map.put(new Long(17L), new Integer(5));
+            this.map.put(new Long(18L), new Integer(6));
+            this.map.put(new Long(22L), new Integer(7));
+            this.map.put(new Long(23L), new Integer(8));
+            this.map.put(new Long(25L), new Integer(9));
+            this.map.put(new Long(24L), new Integer(10));
+            this.map.put(new Long(33L), new Integer(11));
+            this.map.put(new Long(32L), new Integer(12));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 13;
         }
     }
 }

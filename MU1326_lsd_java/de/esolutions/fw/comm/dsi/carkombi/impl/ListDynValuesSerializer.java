@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.ListDynValues;
 
 public class ListDynValuesSerializer {
-    public static void putOptionalListDynValues(ISerializer iSerializer, ListDynValues listDynValues) {
+    public static void putOptionalListDynValues(ISerializer iSerializer, ListDynValues listDynValues) throws SerializerException {
         boolean bl = listDynValues == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ListDynValuesSerializer {
         }
     }
 
-    public static void putOptionalListDynValuesVarArray(ISerializer iSerializer, ListDynValues[] listDynValuesArray) {
+    public static void putOptionalListDynValuesVarArray(ISerializer iSerializer, ListDynValues[] listDynValuesArray) throws SerializerException {
         boolean bl = listDynValuesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ListDynValuesSerializer {
         }
     }
 
-    public static ListDynValues getOptionalListDynValues(IDeserializer iDeserializer) {
+    public static ListDynValues getOptionalListDynValues(IDeserializer iDeserializer) throws SerializerException {
         ListDynValues listDynValues = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ListDynValuesSerializer {
         return listDynValues;
     }
 
-    public static ListDynValues[] getOptionalListDynValuesVarArray(IDeserializer iDeserializer) {
+    public static ListDynValues[] getOptionalListDynValuesVarArray(IDeserializer iDeserializer) throws SerializerException {
         ListDynValues[] listDynValuesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

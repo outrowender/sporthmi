@@ -20,7 +20,6 @@ LayoutContainer {
     private float gapHeight = 2.0f;
     private boolean entertainmentDrawerAvailable;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.entertainmentDrawerAvailable = !AbstractWidget.isScreenResolution400();
@@ -28,17 +27,14 @@ LayoutContainer {
         this.terminal.getWidgetRegistry().setStatusbarGapEventHandler(this);
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         this.updateContent();
     }
 
-    @Override
     public int getCurrentGapWidth() {
         return this.currentGapWidth;
     }
 
-    @Override
     public int getMinGapWidth() {
         if (this.terminal != null && this.terminal.getWidgetRegistry() != null && this.terminal.getWidgetRegistry().getEntertainmentDrawerGapEventHandler() != null) {
             return ((EntertainmentDrawerOpenCloseController)this.terminal.getWidgetRegistry().getEntertainmentDrawerGapEventHandler()).getMinWidth();
@@ -46,7 +42,6 @@ LayoutContainer {
         return 0;
     }
 
-    @Override
     public boolean setGapWidth(int n, boolean bl) {
         if (!this.entertainmentDrawerAvailable) {
             return true;
@@ -60,19 +55,16 @@ LayoutContainer {
         this.maxGapWidth = this.width - 2 * n;
     }
 
-    @Override
     public int getMaxGapWidth() {
         int n = Math.max(this.neededLeftGroupSpace, this.neededRightGroupSpace);
         this.maxGapWidth = this.width - 2 * n;
         return this.maxGapWidth;
     }
 
-    @Override
     public float getGapHeight() {
         return this.gapHeight;
     }
 
-    @Override
     public void setGapHeight(float f2) {
         if (this.entertainmentDrawerAvailable) {
             this.gapHeight = f2;
@@ -87,7 +79,6 @@ LayoutContainer {
     public void setScaleFactor(float f2) {
     }
 
-    @Override
     protected LayoutContainerController getRightGroupContainer() {
         LayoutContainerController layoutContainerController = new LayoutContainerController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(layoutContainerController);
@@ -97,7 +88,6 @@ LayoutContainer {
         return layoutContainerController;
     }
 
-    @Override
     protected LayoutContainerController getLeftGroupContainer() {
         LayoutContainerController layoutContainerController = new LayoutContainerController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(layoutContainerController);
@@ -107,7 +97,6 @@ LayoutContainer {
         return layoutContainerController;
     }
 
-    @Override
     protected boolean isViewSizeChanging() {
         return false;
     }

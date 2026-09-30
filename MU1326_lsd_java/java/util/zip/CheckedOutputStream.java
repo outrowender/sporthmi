@@ -4,6 +4,7 @@
 package java.util.zip;
 
 import java.io.FilterOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.Checksum;
 
@@ -20,14 +21,12 @@ extends FilterOutputStream {
         return this.check;
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         this.out.write(n);
         this.check.update(n);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         this.out.write(byArray, n, n2);
         this.check.update(byArray, n, n2);
     }

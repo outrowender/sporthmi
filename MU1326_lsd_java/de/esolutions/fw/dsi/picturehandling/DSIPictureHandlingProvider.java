@@ -26,28 +26,23 @@ implements DSIPictureHandling {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$picturehandling$DSIPictureHandling == null ? (class$org$dsi$ifc$picturehandling$DSIPictureHandling = DSIPictureHandlingProvider.class$("org.dsi.ifc.picturehandling.DSIPictureHandling")) : class$org$dsi$ifc$picturehandling$DSIPictureHandling).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPictureHandlingProxy(this.instance, (DSIPictureHandlingReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setPictureConfig(int n, int n2, int n3) {
         try {
             this.proxy.setPictureConfig(n, n2, n3);
@@ -57,7 +52,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void requestPictures(int n, ResourceLocator[] resourceLocatorArray, int n2) {
         try {
             this.proxy.requestPictures(n, resourceLocatorArray, n2);
@@ -67,7 +61,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void cancelPicture(int n) {
         try {
             this.proxy.cancelPicture(n);
@@ -77,7 +70,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void freePicture(ResourceLocator resourceLocator) {
         try {
             this.proxy.freePicture(resourceLocator);
@@ -87,7 +79,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -97,7 +88,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -107,7 +97,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -117,7 +106,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -127,7 +115,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -137,7 +124,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -147,7 +133,6 @@ implements DSIPictureHandling {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

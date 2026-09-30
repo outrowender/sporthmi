@@ -8,95 +8,58 @@ import java.util.Iterator;
 
 public interface Deque
 extends Queue {
-    default public void addFirst(Object object) {
-    }
+    public void addFirst(Object var1);
 
-    default public void addLast(Object object) {
-    }
+    public void addLast(Object var1);
 
-    default public boolean offerFirst(Object object) {
-    }
+    public boolean offerFirst(Object var1);
 
-    default public boolean offerLast(Object object) {
-    }
+    public boolean offerLast(Object var1);
 
-    default public Object removeFirst() {
-    }
+    public Object removeFirst();
 
-    default public Object removeLast() {
-    }
+    public Object removeLast();
 
-    default public Object pollFirst() {
-    }
+    public Object pollFirst();
 
-    default public Object pollLast() {
-    }
+    public Object pollLast();
 
-    default public Object getFirst() {
-    }
+    public Object getFirst();
 
-    default public Object getLast() {
-    }
+    public Object getLast();
 
-    default public Object peekFirst() {
-    }
+    public Object peekFirst();
 
-    default public Object peekLast() {
-    }
+    public Object peekLast();
 
-    default public boolean removeFirstOccurrence(Object object) {
-    }
+    public boolean removeFirstOccurrence(Object var1);
 
-    default public boolean removeLastOccurrence(Object object) {
-    }
+    public boolean removeLastOccurrence(Object var1);
 
-    @Override
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    @Override
-    default public boolean offer(Object object) {
-    }
+    public boolean offer(Object var1);
 
-    @Override
-    default public Object remove() {
-    }
+    public Object remove();
 
-    @Override
-    default public Object poll() {
-    }
+    public Object poll();
 
-    @Override
-    default public Object element() {
-    }
+    public Object element();
 
-    @Override
-    default public Object peek() {
-    }
+    public Object peek();
 
-    default public void push(Object object) {
-    }
+    public void push(Object var1);
 
-    default public Object pop() {
-    }
+    public Object pop();
 
-    @Override
-    default public boolean remove(Object object) {
-    }
+    public boolean remove(Object var1);
 
-    @Override
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    @Override
-    default public int size() {
-    }
+    public int size();
 
-    @Override
-    default public Iterator iterator() {
-    }
+    public Iterator iterator();
 
-    default public Iterator descendingIterator() {
-    }
+    public Iterator descendingIterator();
 }
 

@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class PrivacySetup_Setup
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean privacyModeIsActive;
 
     public PrivacySetup_Setup() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.privacyModeIsActive = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PrivacySetup_Setup privacySetup_Setup = (PrivacySetup_Setup)bAPEntity;
         return this.privacyModeIsActive == privacySetup_Setup.privacyModeIsActive;
@@ -39,26 +37,22 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PrivacySetup_Setup");
-        stringBuffer.append(new StringBuffer().append("\n - privacyModeIsActive:").append(this.privacyModeIsActive).toString());
+        stringBuffer.append("\n - privacyModeIsActive:" + this.privacyModeIsActive);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.privacyModeIsActive);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.privacyModeIsActive = bitStream.popFrontBoolean();

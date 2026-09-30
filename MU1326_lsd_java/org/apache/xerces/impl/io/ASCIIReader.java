@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.impl.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Locale;
@@ -11,7 +12,7 @@ import org.apache.xerces.util.MessageFormatter;
 
 public class ASCIIReader
 extends Reader {
-    public static final int DEFAULT_BUFFER_SIZE;
+    public static final int DEFAULT_BUFFER_SIZE = 2048;
     protected final InputStream fInputStream;
     protected final byte[] fBuffer;
     private final MessageFormatter fFormatter;
@@ -32,8 +33,7 @@ extends Reader {
         this.fLocale = locale;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.fInputStream.read();
         if (n >= 128) {
             throw new MalformedByteSequenceException(this.fFormatter, this.fLocale, "http://www.w3.org/TR/1998/REC-xml-19980210", "InvalidASCII", new Object[]{Integer.toString(n)});
@@ -41,8 +41,7 @@ extends Reader {
         return n;
     }
 
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         if (n2 > this.fBuffer.length) {
             n2 = this.fBuffer.length;
         }
@@ -57,33 +56,27 @@ extends Reader {
         return n3;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         return this.fInputStream.skip(l);
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         return false;
     }
 
-    @Override
     public boolean markSupported() {
         return this.fInputStream.markSupported();
     }
 
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         this.fInputStream.mark(n);
     }
 
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         this.fInputStream.reset();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.fInputStream.close();
     }
 }

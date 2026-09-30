@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.connectivity.networking.impl;
 import de.esolutions.fw.comm.asi.connectivity.networking.WlanDevice;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class WlanDeviceSerializer {
-    public static void putOptionalWlanDevice(ISerializer iSerializer, WlanDevice wlanDevice) {
+    public static void putOptionalWlanDevice(ISerializer iSerializer, WlanDevice wlanDevice) throws SerializerException {
         boolean bl = wlanDevice == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class WlanDeviceSerializer {
         }
     }
 
-    public static void putOptionalWlanDeviceVarArray(ISerializer iSerializer, WlanDevice[] wlanDeviceArray) {
+    public static void putOptionalWlanDeviceVarArray(ISerializer iSerializer, WlanDevice[] wlanDeviceArray) throws SerializerException {
         boolean bl = wlanDeviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class WlanDeviceSerializer {
         }
     }
 
-    public static WlanDevice getOptionalWlanDevice(IDeserializer iDeserializer) {
+    public static WlanDevice getOptionalWlanDevice(IDeserializer iDeserializer) throws SerializerException {
         WlanDevice wlanDevice = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class WlanDeviceSerializer {
         return wlanDevice;
     }
 
-    public static WlanDevice[] getOptionalWlanDeviceVarArray(IDeserializer iDeserializer) {
+    public static WlanDevice[] getOptionalWlanDeviceVarArray(IDeserializer iDeserializer) throws SerializerException {
         WlanDevice[] wlanDeviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

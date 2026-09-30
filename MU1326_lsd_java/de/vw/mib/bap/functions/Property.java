@@ -9,13 +9,10 @@ import de.vw.mib.bap.functions.PropertyListener;
 
 public interface Property
 extends BAPFunction {
-    default public void getProperty(BAPEntity bAPEntity, PropertyListener propertyListener) {
-    }
+    public void getProperty(BAPEntity var1, PropertyListener var2);
 
-    default public void setGetProperty(BAPEntity bAPEntity, PropertyListener propertyListener) {
-    }
+    public void setGetProperty(BAPEntity var1, PropertyListener var2);
 
-    default public void ackProperty(BAPEntity bAPEntity, PropertyListener propertyListener) {
-    }
+    public void ackProperty(BAPEntity var1, PropertyListener var2);
 }
 

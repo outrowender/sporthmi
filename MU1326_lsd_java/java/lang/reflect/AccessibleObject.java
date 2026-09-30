@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.lang.reflect;
 
@@ -22,7 +19,7 @@ public class AccessibleObject {
         return this.getAccessibleImpl();
     }
 
-    public static void setAccessible(AccessibleObject[] accessibleObjectArray, boolean bl) {
+    public static void setAccessible(AccessibleObject[] accessibleObjectArray, boolean bl) throws SecurityException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkPermission(suppressAccessChecksPermission);
@@ -34,7 +31,7 @@ public class AccessibleObject {
         }
     }
 
-    public void setAccessible(boolean bl) {
+    public void setAccessible(boolean bl) throws SecurityException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkPermission(suppressAccessChecksPermission);
@@ -42,7 +39,7 @@ public class AccessibleObject {
         this.setAccessibleImpl(bl);
     }
 
-    static Object[] marshallArguments(Class[] classArray, Object[] objectArray) {
+    static Object[] marshallArguments(Class[] classArray, Object[] objectArray) throws IllegalArgumentException {
         if (classArray.length != objectArray.length) {
             throw new IllegalArgumentException(Msg.getString("K01b3"));
         }
@@ -63,7 +60,7 @@ public class AccessibleObject {
         return objectArray2;
     }
 
-    private static Object marshallArgument(Object object, Class clazz) {
+    private static Object marshallArgument(Object object, Class clazz) throws IllegalArgumentException {
         if (clazz.isPrimitive()) {
             if (object instanceof Boolean) {
                 if (clazz == Boolean.TYPE) {
@@ -81,7 +78,7 @@ public class AccessibleObject {
                     return new Long(c2);
                 }
                 if (clazz == Double.TYPE) {
-                    return new Double((double)c2);
+                    return new Double(c2);
                 }
                 if (clazz == Float.TYPE) {
                     return new Float(c2);
@@ -164,7 +161,7 @@ public class AccessibleObject {
         return null;
     }
 
-    void invokeV(Object object, Object[] objectArray) {
+    void invokeV(Object object, Object[] objectArray) throws InvocationTargetException {
         try {
             this.invokeImpl(object, objectArray, (Void)null);
         }
@@ -173,7 +170,7 @@ public class AccessibleObject {
         }
     }
 
-    Object invokeL(Object object, Object[] objectArray) {
+    Object invokeL(Object object, Object[] objectArray) throws InvocationTargetException {
         try {
             return this.invokeImpl(object, objectArray, (Object)null);
         }
@@ -182,7 +179,7 @@ public class AccessibleObject {
         }
     }
 
-    int invokeI(Object object, Object[] objectArray) {
+    int invokeI(Object object, Object[] objectArray) throws InvocationTargetException {
         try {
             return this.invokeImpl(object, objectArray, (Integer)null);
         }
@@ -191,7 +188,7 @@ public class AccessibleObject {
         }
     }
 
-    long invokeJ(Object object, Object[] objectArray) {
+    long invokeJ(Object object, Object[] objectArray) throws InvocationTargetException {
         try {
             return this.invokeImpl(object, objectArray, (Long)null);
         }
@@ -200,7 +197,7 @@ public class AccessibleObject {
         }
     }
 
-    float invokeF(Object object, Object[] objectArray) {
+    float invokeF(Object object, Object[] objectArray) throws InvocationTargetException {
         try {
             return this.invokeImpl(object, objectArray, (Float)null);
         }
@@ -209,7 +206,7 @@ public class AccessibleObject {
         }
     }
 
-    double invokeD(Object object, Object[] objectArray) {
+    double invokeD(Object object, Object[] objectArray) throws InvocationTargetException {
         try {
             return this.invokeImpl(object, objectArray, (Double)null);
         }
@@ -218,49 +215,34 @@ public class AccessibleObject {
         }
     }
 
-    private native boolean getAccessibleImpl() {
-    }
+    private native boolean getAccessibleImpl();
 
-    private native void setAccessibleImpl(boolean bl) {
-    }
+    private native void setAccessibleImpl(boolean var1);
 
-    native Class[] getParameterTypesImpl() {
-    }
+    native Class[] getParameterTypesImpl();
 
-    native int getModifiers() {
-    }
+    native int getModifiers();
 
-    native Class[] getExceptionTypesImpl() {
-    }
+    native Class[] getExceptionTypesImpl();
 
-    native String getSignature() {
-    }
+    native String getSignature();
 
-    native boolean checkAccessibility(Class clazz, Object object) {
-    }
+    native boolean checkAccessibility(Class var1, Object var2);
 
-    private native Object invokeImpl(Object object, Object[] objectArray, Object object2) {
-    }
+    private native Object invokeImpl(Object var1, Object[] var2, Object var3);
 
-    private native double invokeImpl(Object object, Object[] objectArray, Double d2) {
-    }
+    private native double invokeImpl(Object var1, Object[] var2, Double var3);
 
-    private native float invokeImpl(Object object, Object[] objectArray, Float f2) {
-    }
+    private native float invokeImpl(Object var1, Object[] var2, Float var3);
 
-    private native int invokeImpl(Object object, Object[] objectArray, Integer n) {
-    }
+    private native int invokeImpl(Object var1, Object[] var2, Integer var3);
 
-    private native long invokeImpl(Object object, Object[] objectArray, Long l) {
-    }
+    private native long invokeImpl(Object var1, Object[] var2, Long var3);
 
-    private native void invokeImpl(Object object, Object[] objectArray, Void void_) {
-    }
+    private native void invokeImpl(Object var1, Object[] var2, Void var3);
 
-    static native void initializeClass(Class clazz) {
-    }
+    static native void initializeClass(Class var0);
 
-    static final native Class getStackClass(int n) {
-    }
+    static final native Class getStackClass(int var0);
 }
 

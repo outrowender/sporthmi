@@ -14,18 +14,17 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ServiceList_SetGetArray
 implements BAPSetGetArray {
     public int asg_Id;
-    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
-    private static final int ASG_ID_BITSIZE;
+    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS = 9;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE = 0;
+    private static final int ASG_ID_BITSIZE = 4;
     public int taid;
-    public static final int TAID_MIN;
-    private static final int TAID_BITSIZE;
+    public static final int TAID_MIN = 0;
+    private static final int TAID_BITSIZE = 4;
     public ArrayHeader arrayHeader = new ArrayHeader();
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 255;
     public BAPArrayData data = new BAPArrayData(255, this.arrayHeader);
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new ServiceList_Data(this.getArrayHeader());
     }
@@ -45,14 +44,12 @@ implements BAPSetGetArray {
         this.taid = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceList_SetGetArray serviceList_SetGetArray = (ServiceList_SetGetArray)bAPEntity;
         return this.asg_Id == serviceList_SetGetArray.asg_Id && this.taid == serviceList_SetGetArray.taid && this.arrayHeader.equalTo(serviceList_SetGetArray.arrayHeader) && this.data.equalTo(serviceList_SetGetArray.data);
@@ -61,23 +58,20 @@ implements BAPSetGetArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceList_SetGetArray");
-        stringBuffer.append(new StringBuffer().append("\n - asg_Id:").append(this.asg_Id).toString());
-        stringBuffer.append(new StringBuffer().append("\n - taid:").append(this.taid).toString());
-        stringBuffer.append(new StringBuffer().append("\n - arrayHeader:").append(this.arrayHeader.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - data:").append(this.data.toString()).toString());
+        stringBuffer.append("\n - asg_Id:" + this.asg_Id);
+        stringBuffer.append("\n - taid:" + this.taid);
+        stringBuffer.append("\n - arrayHeader:" + this.arrayHeader.toString());
+        stringBuffer.append("\n - data:" + this.data.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
@@ -85,7 +79,6 @@ implements BAPSetGetArray {
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -103,47 +96,38 @@ implements BAPSetGetArray {
         return 22;
     }
 
-    @Override
     public int getFunctionId() {
         return ServiceList_SetGetArray.functionId();
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.swdlselection;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.swdlselection.DSISwdlSelectionReply;
 import de.esolutions.fw.comm.dsi.swdlselection.impl.DSISwdlSelectionReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSISwdlSelectionReply {
         super(n, (class$org$dsi$ifc$swdlselection$DSISwdlSelectionListener == null ? (class$org$dsi$ifc$swdlselection$DSISwdlSelectionListener = DSISwdlSelectionDispatcher.class$("org.dsi.ifc.swdlselection.DSISwdlSelectionListener")) : class$org$dsi$ifc$swdlselection$DSISwdlSelectionListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateLameClients(LameClient[] lameClientArray, int n) {
+    public void updateLameClients(LameClient[] lameClientArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -57,8 +56,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void updateEngineering(boolean bl, int n) {
+    public void updateEngineering(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -86,8 +84,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void updateUserSwdl(boolean bl, int n) {
+    public void updateUserSwdl(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -115,8 +112,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void updateRingNotOK(boolean bl, int n) {
+    public void updateRingNotOK(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -144,8 +140,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void updateEndDownload(boolean bl, int n) {
+    public void updateEndDownload(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -173,8 +168,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void updateAvailableMedia(byte by, int n) {
+    public void updateAvailableMedia(byte by, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -202,8 +196,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void updateUnitType(int n, int n2) {
+    public void updateUnitType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -231,8 +224,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void getMedia(int[] nArray) {
+    public void getMedia(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -248,8 +240,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void storeNfsIpAddress(String string) {
+    public void storeNfsIpAddress(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -265,8 +256,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void storeNfsPath(String string) {
+    public void storeNfsPath(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -282,8 +272,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void storeFsPath(String string) {
+    public void storeFsPath(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -299,8 +288,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void setMedium(int n, String string, String[] stringArray) {
+    public void setMedium(int n, String string, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -316,8 +304,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void setRelease(int n, String string) {
+    public void setRelease(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -333,8 +320,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void getUserDefinedAllowed(boolean bl) {
+    public void getUserDefinedAllowed(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -350,8 +336,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void setTargetLanguage(short s) {
+    public void setTargetLanguage(short s) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -367,8 +352,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void getIncompatibleDevices(String[] stringArray, String[] stringArray2) {
+    public void getIncompatibleDevices(String[] stringArray, String[] stringArray2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -384,8 +368,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void startVersionUpload(boolean bl) {
+    public void startVersionUpload(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -401,8 +384,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void checkConsistency(int n, boolean bl, String string, int n2) {
+    public void checkConsistency(int n, boolean bl, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -418,8 +400,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void abortSetMedium() {
+    public void abortSetMedium() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -435,8 +416,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void abortSetRelease() {
+    public void abortSetRelease() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -452,8 +432,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void getFinalizeTargets(int[] nArray) {
+    public void getFinalizeTargets(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -469,8 +448,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void setFinalizeTarget(int n, long l, long l2, long l3) {
+    public void setFinalizeTarget(int n, long l, long l2, long l3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -486,8 +464,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void enterComponentUpdateConfirmation() {
+    public void enterComponentUpdateConfirmation() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -503,8 +480,7 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -520,14 +496,13 @@ implements DSISwdlSelectionReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISwdlSelectionListener dSISwdlSelectionListener = (DSISwdlSelectionListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlSelectionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlSelectionDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISwdlSelectionListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISwdlSelectionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISwdlSelectionDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISwdlSelectionListener, new Object[]{string, string2});
                     continue;
                 }

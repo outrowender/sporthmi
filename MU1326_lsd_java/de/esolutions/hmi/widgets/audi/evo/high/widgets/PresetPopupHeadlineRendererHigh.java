@@ -14,15 +14,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.PresetPopupHeadlineController;
 public class PresetPopupHeadlineRendererHigh
 extends AbstractKanziTemplateRenderer
 implements IPresetPopupHeadlineRenderer {
-    private static final String EAL_NODE_NAME;
+    private static final String EAL_NODE_NAME = "presetPopupRenderer";
     private final PresetPopupHeadlineController controller;
-    private static final String[] iconPropNames;
+    private static final String[] iconPropNames = new String[]{"sk_icon1", "sk_icon2", "sk_icon3", "sk_icon4", "sk_icon5", "sk_icon6", "sk_icon7", "sk_icon8"};
 
     public PresetPopupHeadlineRendererHigh(PresetPopupHeadlineController presetPopupHeadlineController) {
         this.controller = presetPopupHeadlineController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n;
         int n2 = this.controller.getX();
@@ -36,31 +35,26 @@ implements IPresetPopupHeadlineRenderer {
         n = EALManager.createColorCode(this.controller.getFocusedPresetCursorColor());
         this.propertyCache.setColorProperty(this.node, "Color", n);
         if (AbstractWidget.isScreenResolution400()) {
-            this.node.setScale(63, 63, 1.0f);
+            this.node.setScale(0.5f, 0.5f, 1.0f);
         }
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return this.controller.getTemplateNodePath();
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "presetPopupRenderer";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 13;
     }
 
-    @Override
     public void resetTemplateInstanceNode() {
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {
@@ -68,10 +62,6 @@ implements IPresetPopupHeadlineRenderer {
             this.getEALManager().destroy(this.node);
             this.node = null;
         }
-    }
-
-    static {
-        iconPropNames = new String[]{"sk_icon1", "sk_icon2", "sk_icon3", "sk_icon4", "sk_icon5", "sk_icon6", "sk_icon7", "sk_icon8"};
     }
 }
 

@@ -28,14 +28,14 @@ extends AbstractRendererHigh {
     private int colorWhite;
     private int[] stateColors;
     private HashMap tyreNodeMap = new HashMap();
-    private static final String TYRE_PRESSURE_FL;
-    private static final String TYRE_PRESSURE_RL;
-    private static final String TYRE_PRESSURE_FR;
-    private static final String TYRE_PRESSURE_RR;
-    private static final String TYRE_TEMP_FL;
-    private static final String TYRE_TEMP_RL;
-    private static final String TYRE_TEMP_FR;
-    private static final String TYRE_TEMP_RR;
+    private static final String TYRE_PRESSURE_FL = "TYRE_PRESSURE_FL";
+    private static final String TYRE_PRESSURE_RL = "TYRE_PRESSURE_RL";
+    private static final String TYRE_PRESSURE_FR = "TYRE_PRESSURE_FR";
+    private static final String TYRE_PRESSURE_RR = "TYRE_PRESSURE_RR";
+    private static final String TYRE_TEMP_FL = "TYRE_TEMP_FL";
+    private static final String TYRE_TEMP_RL = "TYRE_TEMP_RL";
+    private static final String TYRE_TEMP_FR = "TYRE_TEMP_FR";
+    private static final String TYRE_TEMP_RR = "TYRE_TEMP_RR";
     private boolean resourcesLoaded;
 
     public TyrePressureRendererHigh(TyrePressureController tyrePressureController) {
@@ -43,9 +43,9 @@ extends AbstractRendererHigh {
     }
 
     private void createNodes(RedrawContextHigh redrawContextHigh) {
-        this.colorRed = EALManager.createColorCode(65279);
-        this.colorYellow = EALManager.createColorCode(637462015);
-        this.colorGreen = EALManager.createColorCode(1105348607);
+        this.colorRed = EALManager.createColorCode(-131072);
+        this.colorYellow = EALManager.createColorCode(-1704411);
+        this.colorGreen = EALManager.createColorCode(-12066239);
         this.colorWhite = EALManager.createColorCode(-1);
         this.stateColors = new int[]{this.colorGreen, this.colorYellow, this.colorRed, this.colorWhite};
         if (this.rootNode == null) {
@@ -106,11 +106,11 @@ extends AbstractRendererHigh {
             this.images[(n + 1) * 2 - 1].getImageNode().setModulateColor(this.stateColors[nArray3[n]]);
             this.images[(n + 1) * 2].getImageNode().setModulateColor(this.stateColors[nArray3[n]]);
             if (n == 1 || n == 3) {
-                string = n == 1 ? "TYRE_PRESSURE_FL" : "TYRE_PRESSURE_RL";
-                this.texts[n].setPosition(this.images[(n + 1) * 2].getX(), this.images[(n + 1) * 2].getY() - 4161, 0.0f);
+                string = n == 1 ? TYRE_PRESSURE_FL : TYRE_PRESSURE_RL;
+                this.texts[n].setPosition(this.images[(n + 1) * 2].getX(), this.images[(n + 1) * 2].getY() - 9.0f, 0.0f);
             } else {
-                string = n == 2 ? "TYRE_PRESSURE_FR" : "TYRE_PRESSURE_RR";
-                this.texts[n].setPosition(this.images[(n + 1) * 2].getX() + (this.images[2].getWidth() - this.texts[n].getWidth()), this.images[(n + 1) * 2].getY() - 4161, 0.0f);
+                string = n == 2 ? TYRE_PRESSURE_FR : TYRE_PRESSURE_RR;
+                this.texts[n].setPosition(this.images[(n + 1) * 2].getX() + (this.images[2].getWidth() - this.texts[n].getWidth()), this.images[(n + 1) * 2].getY() - 9.0f, 0.0f);
             }
             if (!this.controller.shouldTextsBeBackmirrored()) continue;
             this.mirror(this.texts[n], string);
@@ -141,10 +141,10 @@ extends AbstractRendererHigh {
             }
             this.texts[n].getTextNode().setColor(this.colorWhite);
             if (n == 5 || n == 7) {
-                string = n == 5 ? "TYRE_TEMP_FL" : "TYRE_TEMP_RL";
+                string = n == 5 ? TYRE_TEMP_FL : TYRE_TEMP_RL;
                 this.texts[n].setPosition(this.images[(n - 3) * 2].getX(), this.images[(n - 3) * 2].getY() + this.texts[n].getHeight() + 1.0f, 0.0f);
             } else {
-                string = n == 6 ? "TYRE_TEMP_FR" : "TYRE_TEMP_RR";
+                string = n == 6 ? TYRE_TEMP_FR : TYRE_TEMP_RR;
                 this.texts[n].setPosition(this.images[(n - 3) * 2].getX() + (this.images[2].getWidth() - this.texts[n].getWidth()), this.images[(n - 3) * 2].getY() + this.texts[n].getHeight() + 1.0f, 0.0f);
             }
             this.mirror(this.texts[n], string);
@@ -154,13 +154,13 @@ extends AbstractRendererHigh {
     public String calculatePressureText(int n, int n2) {
         switch (n) {
             case 1: {
-                float f2 = (float)n2 * -842216387;
+                float f2 = (float)n2 * 0.1f;
                 Pressure pressure = new Pressure(f2, n);
                 pressure.setUseInstanceUnit(true);
                 return pressure.format();
             }
             case 2: {
-                float f3 = (float)Math.round((float)n2 / 2.0f / 63) * 63;
+                float f3 = (float)Math.round((float)n2 / 2.0f / 0.5f) * 0.5f;
                 Pressure pressure = new Pressure(f3, n);
                 pressure.setUseInstanceUnit(true);
                 return pressure.format();
@@ -175,7 +175,6 @@ extends AbstractRendererHigh {
         return null;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.isVisible() || !this.controller.isOnScreen()) {
             if (this.rootNode != null) {
@@ -194,12 +193,10 @@ extends AbstractRendererHigh {
         }
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         int n;
         super.disconnect();

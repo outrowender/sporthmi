@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SoundAvailableStylesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SoundAvailableStyles;
 import org.dsi.ifc.cardrivingcharacteristics.SoundConfiguration;
 
 public class SoundConfigurationSerializer {
-    public static void putOptionalSoundConfiguration(ISerializer iSerializer, SoundConfiguration soundConfiguration) {
+    public static void putOptionalSoundConfiguration(ISerializer iSerializer, SoundConfiguration soundConfiguration) throws SerializerException {
         boolean bl = soundConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SoundConfigurationSerializer {
         }
     }
 
-    public static void putOptionalSoundConfigurationVarArray(ISerializer iSerializer, SoundConfiguration[] soundConfigurationArray) {
+    public static void putOptionalSoundConfigurationVarArray(ISerializer iSerializer, SoundConfiguration[] soundConfigurationArray) throws SerializerException {
         boolean bl = soundConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SoundConfigurationSerializer {
         }
     }
 
-    public static SoundConfiguration getOptionalSoundConfiguration(IDeserializer iDeserializer) {
+    public static SoundConfiguration getOptionalSoundConfiguration(IDeserializer iDeserializer) throws SerializerException {
         SoundConfiguration soundConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -41,7 +42,7 @@ public class SoundConfigurationSerializer {
         return soundConfiguration;
     }
 
-    public static SoundConfiguration[] getOptionalSoundConfigurationVarArray(IDeserializer iDeserializer) {
+    public static SoundConfiguration[] getOptionalSoundConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SoundConfiguration[] soundConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

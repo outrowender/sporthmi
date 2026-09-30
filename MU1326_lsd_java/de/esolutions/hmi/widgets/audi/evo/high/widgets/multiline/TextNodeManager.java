@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class TextNodeManager {
-    static final int CLIPPING_MODE;
+    static final int CLIPPING_MODE = 17;
     int textNodesIndex = 0;
     boolean initialised = false;
     ArrayList unusedTextNodes = null;
@@ -102,7 +102,7 @@ public class TextNodeManager {
         if (!this.initialised) {
             return;
         }
-        String string2 = new StringBuffer().append(string).append("").toString();
+        String string2 = string + "";
         if (IWidgetLogChannel.logMessagingMultilineRenderer.isDebug()) {
             object = new Buffer();
             ((Buffer)object).append("TextNodeManager#addTextNode ");
@@ -111,11 +111,11 @@ public class TextNodeManager {
             ((Buffer)object).append("; textColor=").append(l);
             ((Buffer)object).append("; x=").append(n);
             ((Buffer)object).append("; y=").append(f2);
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, ((Buffer)object).toString());
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, ((Buffer)object).toString());
         }
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#addTextNode node already at map: %1", (object = TextNodeManager.getTextNodeFromMap(this.usedTextNodes, string2)) != null);
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#addTextNode node already at map: %1", (object = TextNodeManager.getTextNodeFromMap(this.usedTextNodes, string2)) != null);
         if (object == null) {
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#addTextNode unusedTextNode found: %1", (object = this.getUnusedTextNode((IWrappedNode3DText)object)) != null);
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#addTextNode unusedTextNode found: %1", (object = this.getUnusedTextNode((IWrappedNode3DText)object)) != null);
             if (object != null) {
                 object.setText(string2, this.font);
             }
@@ -123,16 +123,16 @@ public class TextNodeManager {
         if (object == null && (object = this.createNewTextNode(string2)) != null) {
             object.setClippingInheritance(17);
             this.allAllocatedTextNodes.add(object);
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#addTextNode new node created text='%1', nodeName='%2'", (Object)string2, (Object)object.getNodeName());
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#addTextNode new node created text='%1', nodeName='%2'", (Object)string2, (Object)object.getNodeName());
         }
         if (object != null) {
             object.getInterfaceText().setColor(l);
             object.setPosition(n, MLUtils.specialRound(f2), 0.0f);
             object.setVisible(true);
             this.putTextNodeIntoMap(hashMap, string2, (IWrappedNode3DText)object);
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#addTextNode %1", object);
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#addTextNode %1", object);
         }
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#addTextNode %1", (Object)this);
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#addTextNode %1", (Object)this);
     }
 
     private IWrappedNode3DText createNewTextNode(String string) {
@@ -157,7 +157,7 @@ public class TextNodeManager {
         if (!this.initialised) {
             return;
         }
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#purgeUsedNodes START %1", (Object)this);
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#purgeUsedNodes START %1", (Object)this);
         if (this.usedTextNodes != null) {
             Collection collection = this.usedTextNodes.values();
             Iterator iterator = collection.iterator();
@@ -183,21 +183,21 @@ public class TextNodeManager {
             }
         }
         this.usedTextNodes = hashMap;
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#purgeUsedNodes END %1", (Object)this);
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#purgeUsedNodes END %1", (Object)this);
     }
 
     private static IWrappedNode3DText getTextNodeFromMap(HashMap hashMap, String string) {
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#getTextNodeFromMap::START countTxtNodes(map)=%2, map.size()=%3, key=%1", (Object)string, (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#getTextNodeFromMap::START countTxtNodes(map)=%2, map.size()=%3, key=%1", (Object)string, (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
         IWrappedNode3DText iWrappedNode3DText = null;
         Object object = hashMap.get(string);
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#getTextNodeFromMap value=%1", object);
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#getTextNodeFromMap value=%1", object);
         if (object instanceof IWrappedNode3DText) {
             iWrappedNode3DText = (IWrappedNode3DText)object;
             hashMap.remove(string);
         } else if (object instanceof ArrayList) {
             ArrayList arrayList = (ArrayList)object;
             int n = arrayList.size();
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#getTextNodeFromMap:: ArrayList arraySize=%1", (long)n);
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#getTextNodeFromMap:: ArrayList arraySize=%1", (long)n);
             if (n > 0) {
                 iWrappedNode3DText = (IWrappedNode3DText)arrayList.remove(n - 1);
             } else {
@@ -206,27 +206,27 @@ public class TextNodeManager {
         } else {
             IWidgetLogChannel.logMessagingMultilineRenderer.log(10000, "TextNodeManager#getTextNodeFromMap unknown type value=%1", object);
         }
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#getTextNodeFromMap::END countTxtNodes(map)=%1, map.size()=%2", (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#getTextNodeFromMap::END countTxtNodes(map)=%1, map.size()=%2", (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
         return iWrappedNode3DText;
     }
 
     private void putTextNodeIntoMap(HashMap hashMap, String string, IWrappedNode3DText iWrappedNode3DText) {
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#putTextNodeIntoMap::START countTxtNodes(map)=%2, map.size()=%3, key=%1", (Object)string, (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#putTextNodeIntoMap::START countTxtNodes(map)=%2, map.size()=%3, key=%1", (Object)string, (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
         Object object = hashMap.get(string);
         if (object == null) {
             hashMap.put(string, iWrappedNode3DText);
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#putTextNodeIntoMap new value added");
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#putTextNodeIntoMap new value added");
         } else if (object instanceof IWrappedNode3DText) {
             ArrayList arrayList = new ArrayList();
             arrayList.add(object);
             arrayList.add(iWrappedNode3DText);
             hashMap.put(string, arrayList);
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#putTextNodeIntoMap array created: %1", (Object)arrayList);
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#putTextNodeIntoMap array created: %1", (Object)arrayList);
         } else if (object instanceof ArrayList) {
             ((ArrayList)object).add(iWrappedNode3DText);
-            IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#putTextNodeIntoMap array extended: %1", object);
+            IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#putTextNodeIntoMap array extended: %1", object);
         }
-        IWidgetLogChannel.logMessagingMultilineRenderer.log(-2137614336, "TextNodeManager#putTextNodeIntoMap::END countTxtNodes(map)=%1, map.size()=%2", (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
+        IWidgetLogChannel.logMessagingMultilineRenderer.log(10000000, "TextNodeManager#putTextNodeIntoMap::END countTxtNodes(map)=%1, map.size()=%2", (long)TextNodeManager.countTextNodes(hashMap), (long)hashMap.size());
     }
 
     public static int countTextNodes(HashMap hashMap) {

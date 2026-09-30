@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.iconhandling;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.iconhandling.DSIIconExtractorReply;
 import de.esolutions.fw.comm.dsi.iconhandling.impl.DSIIconExtractorReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIIconExtractorReply {
         super(n, (class$org$dsi$ifc$iconhandling$DSIIconExtractorListener == null ? (class$org$dsi$ifc$iconhandling$DSIIconExtractorListener = DSIIconExtractorDispatcher.class$("org.dsi.ifc.iconhandling.DSIIconExtractorListener")) : class$org$dsi$ifc$iconhandling$DSIIconExtractorListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void iconResult(int n) {
+    public void iconResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForTMCEventIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForTMCEventIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForPOIIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForPOIIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -79,8 +76,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void renderingInformationForRoadIcon(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) {
+    public void renderingInformationForRoadIcon(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -96,8 +92,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForTargetIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForTargetIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -113,8 +108,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForRoadClassIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForRoadClassIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -130,8 +124,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForTrafficRegulationIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForTrafficRegulationIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -147,8 +140,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForAdditionalIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForAdditionalIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -164,8 +156,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void renderingInformationForExitIcon(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) {
+    public void renderingInformationForExitIcon(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -181,8 +172,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForCountryIcon(ResourceLocator resourceLocator) {
+    public void resourceIdForCountryIcon(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -198,8 +188,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForTrafficRegulationIconWithSubIndex(ResourceLocator resourceLocator) {
+    public void resourceIdForTrafficRegulationIconWithSubIndex(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -215,8 +204,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void renderingInformationForExitIconWithVariant(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) {
+    public void renderingInformationForExitIconWithVariant(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -232,8 +220,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void setBrandIconStyleResult(int n) {
+    public void setBrandIconStyleResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -249,8 +236,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForTrafficSourceIconResult(ResourceLocator resourceLocator) {
+    public void resourceIdForTrafficSourceIconResult(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -266,8 +252,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForAreaWarningIconResult(ResourceLocator resourceLocator) {
+    public void resourceIdForAreaWarningIconResult(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -283,8 +268,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForAdditionalTurnListIconResult(ResourceLocator resourceLocator) {
+    public void resourceIdForAdditionalTurnListIconResult(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -300,8 +284,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForComposedPOIIconResult(ResourceLocator resourceLocator) {
+    public void resourceIdForComposedPOIIconResult(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -317,8 +300,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void resourceIdForPOIIconFromRawDataResult(ResourceLocator resourceLocator) {
+    public void resourceIdForPOIIconFromRawDataResult(ResourceLocator resourceLocator) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -334,8 +316,7 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -351,14 +332,13 @@ implements DSIIconExtractorReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIIconExtractorListener dSIIconExtractorListener = (DSIIconExtractorListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIIconExtractorDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIIconExtractorDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIIconExtractorListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIIconExtractorDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIIconExtractorDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIIconExtractorListener, new Object[]{string, string2});
                     continue;
                 }

@@ -12,8 +12,6 @@ import org.apache.xerces.dom.DeferredAttrNSImpl;
 import org.apache.xerces.dom.DeferredCDATASectionImpl;
 import org.apache.xerces.dom.DeferredCommentImpl;
 import org.apache.xerces.dom.DeferredDOMImplementationImpl;
-import org.apache.xerces.dom.DeferredDocumentImpl$IntVector;
-import org.apache.xerces.dom.DeferredDocumentImpl$RefCount;
 import org.apache.xerces.dom.DeferredDocumentTypeImpl;
 import org.apache.xerces.dom.DeferredElementDefinitionImpl;
 import org.apache.xerces.dom.DeferredElementImpl;
@@ -36,14 +34,14 @@ import org.w3c.dom.Node;
 public class DeferredDocumentImpl
 extends DocumentImpl
 implements DeferredNode {
-    static final long serialVersionUID;
-    private static final boolean DEBUG_PRINT_REF_COUNTS;
-    private static final boolean DEBUG_PRINT_TABLES;
-    private static final boolean DEBUG_IDS;
-    protected static final int CHUNK_SHIFT;
-    protected static final int CHUNK_SIZE;
-    protected static final int CHUNK_MASK;
-    protected static final int INITIAL_CHUNK_COUNT;
+    static final long serialVersionUID = 5186323580749626857L;
+    private static final boolean DEBUG_PRINT_REF_COUNTS = false;
+    private static final boolean DEBUG_PRINT_TABLES = false;
+    private static final boolean DEBUG_IDS = false;
+    protected static final int CHUNK_SHIFT = 11;
+    protected static final int CHUNK_SIZE = 2048;
+    protected static final int CHUNK_MASK = 2047;
+    protected static final int INITIAL_CHUNK_COUNT = 32;
     protected transient int fNodeCount = 0;
     protected transient int[][] fNodeType;
     protected transient Object[][] fNodeName;
@@ -59,7 +57,7 @@ implements DeferredNode {
     protected boolean fNamespacesEnabled = false;
     private final transient StringBuffer fBufferStr = new StringBuffer();
     private final transient Vector fStrChunks = new Vector();
-    private static final int[] INIT_ARRAY;
+    private static final int[] INIT_ARRAY = new int[2049];
 
     public DeferredDocumentImpl() {
         this(false);
@@ -76,7 +74,6 @@ implements DeferredNode {
         this.fNamespacesEnabled = bl;
     }
 
-    @Override
     public DOMImplementation getImplementation() {
         return DeferredDOMImplementationImpl.getDOMImplementation();
     }
@@ -606,7 +603,7 @@ implements DeferredNode {
                 break;
             }
             default: {
-                throw new IllegalArgumentException(new StringBuffer().append("type: ").append(n4).toString());
+                throw new IllegalArgumentException("type: " + n4);
             }
         }
         if (nodeImpl != null) {
@@ -698,9 +695,9 @@ implements DeferredNode {
         Object object2 = object = this.fNodeValue[n2] != null ? this.fNodeValue[n2][n3] : null;
         if (object != null) {
             this.fNodeValue[n2][n3] = null;
-            DeferredDocumentImpl$RefCount deferredDocumentImpl$RefCount = (DeferredDocumentImpl$RefCount)this.fNodeValue[n2][2048];
-            --deferredDocumentImpl$RefCount.fCount;
-            if (deferredDocumentImpl$RefCount.fCount == 0) {
+            RefCount refCount = (RefCount)this.fNodeValue[n2][2048];
+            --refCount.fCount;
+            if (refCount.fCount == 0) {
                 this.fNodeValue[n2] = null;
             }
         }
@@ -794,30 +791,28 @@ implements DeferredNode {
     public void print() {
     }
 
-    @Override
     public int getNodeIndex() {
         return 0;
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         if (this.fIdElement != null) {
-            DeferredDocumentImpl$IntVector deferredDocumentImpl$IntVector = new DeferredDocumentImpl$IntVector();
+            IntVector intVector = new IntVector();
             for (int i2 = 0; i2 < this.fIdCount; ++i2) {
                 int n;
                 int n2;
                 int n3 = this.fIdElement[i2];
                 String string = this.fIdName[i2];
                 if (string == null) continue;
-                deferredDocumentImpl$IntVector.removeAllElements();
+                intVector.removeAllElements();
                 int n4 = n3;
                 do {
-                    deferredDocumentImpl$IntVector.addElement(n4);
+                    intVector.addElement(n4);
                 } while ((n4 = this.getChunkIndex(this.fNodeParent, n2 = n4 >> 11, n = n4 & 0x7FF)) != -1);
                 Node node = this;
-                block2: for (n = deferredDocumentImpl$IntVector.size() - 2; n >= 0; --n) {
-                    n4 = deferredDocumentImpl$IntVector.elementAt(n);
+                block2: for (n = intVector.size() - 2; n >= 0; --n) {
+                    n4 = intVector.elementAt(n);
                     for (Node node2 = node.getLastChild(); node2 != null; node2 = node2.getPreviousSibling()) {
                         int n5;
                         if (!(node2 instanceof DeferredNode) || (n5 = ((DeferredNode)node2).getNodeIndex()) != n4) continue;
@@ -836,7 +831,6 @@ implements DeferredNode {
         }
     }
 
-    @Override
     protected void synchronizeChildren() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -1025,7 +1019,7 @@ implements DeferredNode {
 
     private final void createChunk(Object[][] objectArray, int n) {
         objectArray[n] = new Object[2049];
-        objectArray[n][2048] = new DeferredDocumentImpl$RefCount(this);
+        objectArray[n][2048] = new RefCount();
     }
 
     private final int setChunkIndex(int[][] nArray, int n, int n2, int n3) {
@@ -1047,8 +1041,8 @@ implements DeferredNode {
         }
         String string = (String)objectArray[n][n2];
         if (string == null) {
-            DeferredDocumentImpl$RefCount deferredDocumentImpl$RefCount = (DeferredDocumentImpl$RefCount)objectArray[n][2048];
-            ++deferredDocumentImpl$RefCount.fCount;
+            RefCount refCount = (RefCount)objectArray[n][2048];
+            ++refCount.fCount;
         }
         objectArray[n][n2] = object;
         return string;
@@ -1092,9 +1086,9 @@ implements DeferredNode {
         String string2 = string = objectArray[n] != null ? (String)objectArray[n][n2] : null;
         if (string != null) {
             objectArray[n][n2] = null;
-            DeferredDocumentImpl$RefCount deferredDocumentImpl$RefCount = (DeferredDocumentImpl$RefCount)objectArray[n][2048];
-            --deferredDocumentImpl$RefCount.fCount;
-            if (deferredDocumentImpl$RefCount.fCount == 0) {
+            RefCount refCount = (RefCount)objectArray[n][2048];
+            --refCount.fCount;
+            if (refCount.fCount == 0) {
                 objectArray[n] = null;
             }
         }
@@ -1112,9 +1106,50 @@ implements DeferredNode {
     }
 
     static {
-        INIT_ARRAY = new int[2049];
         for (int i2 = 0; i2 < 2048; ++i2) {
             DeferredDocumentImpl.INIT_ARRAY[i2] = -1;
+        }
+    }
+
+    class RefCount {
+        int fCount;
+
+        RefCount() {
+        }
+    }
+
+    static class IntVector {
+        private int[] data;
+        private int size;
+
+        IntVector() {
+        }
+
+        public int size() {
+            return this.size;
+        }
+
+        public int elementAt(int n) {
+            return this.data[n];
+        }
+
+        public void addElement(int n) {
+            this.ensureCapacity(this.size + 1);
+            this.data[this.size++] = n;
+        }
+
+        public void removeAllElements() {
+            this.size = 0;
+        }
+
+        private void ensureCapacity(int n) {
+            if (this.data == null) {
+                this.data = new int[n + 15];
+            } else if (n > this.data.length) {
+                int[] nArray = new int[n + 15];
+                System.arraycopy((Object)this.data, 0, (Object)nArray, 0, this.data.length);
+                this.data = nArray;
+            }
         }
     }
 }

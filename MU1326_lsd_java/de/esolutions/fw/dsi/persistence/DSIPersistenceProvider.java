@@ -25,28 +25,23 @@ implements DSIPersistence {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$persistence$DSIPersistence == null ? (class$org$dsi$ifc$persistence$DSIPersistence = DSIPersistenceProvider.class$("org.dsi.ifc.persistence.DSIPersistence")) : class$org$dsi$ifc$persistence$DSIPersistence).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPersistenceProxy(this.instance, (DSIPersistenceReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void writeInt(int n, long l, int n2) {
         try {
             this.proxy.writeInt(n, l, n2);
@@ -56,7 +51,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readInt(int n, long l) {
         try {
             this.proxy.readInt(n, l);
@@ -66,7 +60,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readIntTimeout(int n, long l, int n2) {
         try {
             this.proxy.readIntTimeout(n, l, n2);
@@ -76,7 +69,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void writeBuffer(int n, long l, byte[] byArray) {
         try {
             this.proxy.writeBuffer(n, l, byArray);
@@ -86,7 +78,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readBuffer(int n, long l) {
         try {
             this.proxy.readBuffer(n, l);
@@ -96,7 +87,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readBufferTimeout(int n, long l, int n2) {
         try {
             this.proxy.readBufferTimeout(n, l, n2);
@@ -106,7 +96,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void writeString(int n, long l, String string) {
         try {
             this.proxy.writeString(n, l, string);
@@ -116,7 +105,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readString(int n, long l) {
         try {
             this.proxy.readString(n, l);
@@ -126,7 +114,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readStringTimeout(int n, long l, int n2) {
         try {
             this.proxy.readStringTimeout(n, l, n2);
@@ -136,7 +123,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void writeArray(int n, long l, int[] nArray) {
         try {
             this.proxy.writeArray(n, l, nArray);
@@ -146,7 +132,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readArray(int n, long l) {
         try {
             this.proxy.readArray(n, l);
@@ -156,7 +141,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readArrayTimeout(int n, long l, int n2) {
         try {
             this.proxy.readArrayTimeout(n, l, n2);
@@ -166,7 +150,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void writeStringArray(int n, long l, String[] stringArray) {
         try {
             this.proxy.writeStringArray(n, l, stringArray);
@@ -176,7 +159,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readStringArray(int n, long l) {
         try {
             this.proxy.readStringArray(n, l);
@@ -186,7 +168,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void readStringArrayTimeout(int n, long l, int n2) {
         try {
             this.proxy.readStringArrayTimeout(n, l, n2);
@@ -196,7 +177,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void enterEngineeringSession(int n) {
         try {
             this.proxy.enterEngineeringSession(n);
@@ -206,7 +186,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void exitEngineeringSession(int n) {
         try {
             this.proxy.exitEngineeringSession(n);
@@ -216,7 +195,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void getVisibleSystemLanguages() {
         try {
             this.proxy.getVisibleSystemLanguages();
@@ -226,7 +204,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void flushSQLDatabase() {
         try {
             this.proxy.flushSQLDatabase();
@@ -236,7 +213,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void setSQLDatabaseMedium(int n) {
         try {
             this.proxy.setSQLDatabaseMedium(n);
@@ -246,7 +222,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void beginTransaction(int n) {
         try {
             this.proxy.beginTransaction(n);
@@ -256,7 +231,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void endTransaction(int n, boolean bl) {
         try {
             this.proxy.endTransaction(n, bl);
@@ -266,7 +240,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void subscribe(int n, int[] nArray, long[] lArray, int n2) {
         try {
             this.proxy.subscribe(n, nArray, lArray, n2);
@@ -276,7 +249,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void unsubscribe(int n, int[] nArray, long[] lArray) {
         try {
             this.proxy.unsubscribe(n, nArray, lArray);
@@ -286,7 +258,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void unsubscribeAll(int n) {
         try {
             this.proxy.unsubscribeAll(n);
@@ -296,7 +267,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -306,7 +276,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -316,7 +285,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -326,7 +294,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -336,7 +303,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -346,7 +312,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -356,7 +321,6 @@ implements DSIPersistence {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

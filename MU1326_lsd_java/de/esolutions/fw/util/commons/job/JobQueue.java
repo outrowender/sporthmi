@@ -3,10 +3,9 @@
  */
 package de.esolutions.fw.util.commons.job;
 
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.IJobFilter;
 import de.esolutions.fw.util.commons.job.Job;
-import de.esolutions.fw.util.commons.job.JobQueue$1;
-import de.esolutions.fw.util.commons.job.JobQueue$NullJob;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -14,10 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class JobQueue {
-    static final int INITIAL_SIZE;
+    static final int INITIAL_SIZE = 10;
     private final List jobs = new ArrayList(10);
     private final ITimeSource timeSource;
-    private final JobQueue$NullJob nullJob;
+    private final NullJob nullJob;
     private IJobFilter filterchain;
     private int suspendCount;
     private volatile boolean dead = false;
@@ -25,14 +24,20 @@ public class JobQueue {
 
     protected JobQueue(ITimeSource iTimeSource, IJobFilter iJobFilter) {
         this.timeSource = iTimeSource;
-        this.nullJob = new JobQueue$NullJob();
+        this.nullJob = new NullJob();
         this.suspendCount = 0;
         this.initFilterChain(iJobFilter);
     }
 
     public JobQueue(ITimeSource iTimeSource) {
         this(iTimeSource, null);
-        this.initFilterChain(new JobQueue$1(this));
+        this.initFilterChain(new BaseJobFilter(){
+
+            public void enqueue(Job job, int n) {
+                job.setPosted(JobQueue.this.getTimeSource().getCurrentTime());
+                JobQueue.this.getJobs().add(job);
+            }
+        });
     }
 
     protected final Job getNullJob() {
@@ -117,13 +122,13 @@ public class JobQueue {
             throw new IllegalStateException("Queue was already shut down!");
         }
         this.filterchain.enqueue(job, this.length());
-        super.notifyAll();
+        this.notifyAll();
     }
 
     protected final void waitForNextJob() {
         while ((this.isSuspended() || this.isEmpty()) && !this.isDead() && !this.wakeup) {
             try {
-                super.wait();
+                this.wait();
             }
             catch (InterruptedException interruptedException) {
                 Thread.interrupted();
@@ -137,13 +142,13 @@ public class JobQueue {
             this.clearWakeup();
             return this.getNullJob();
         }
-        super.notifyAll();
+        this.notifyAll();
         return this.removeFirstJob();
     }
 
     public synchronized void wakeup() {
         this.wakeup = true;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     protected void clearWakeup() {
@@ -153,7 +158,7 @@ public class JobQueue {
     public final synchronized void waitForEmpty() {
         while (!this.isEmpty() && !this.isDead()) {
             try {
-                super.wait();
+                this.wait();
             }
             catch (InterruptedException interruptedException) {
                 Thread.interrupted();
@@ -163,7 +168,7 @@ public class JobQueue {
 
     public synchronized void clear() {
         this.jobs.clear();
-        super.notifyAll();
+        this.notifyAll();
     }
 
     public synchronized void shutdown(boolean bl) {
@@ -173,7 +178,7 @@ public class JobQueue {
             this.waitForEmpty();
         }
         this.dead = true;
-        super.notifyAll();
+        this.notifyAll();
     }
 
     public synchronized Job peek() {
@@ -187,7 +192,7 @@ public class JobQueue {
     public synchronized void resume() {
         if (this.suspendCount > 0) {
             --this.suspendCount;
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
@@ -205,6 +210,14 @@ public class JobQueue {
                 Job job = (Job)iterator.next();
                 job.dump(printStream, "  ");
             }
+        }
+    }
+
+    private static final class NullJob
+    extends Job {
+        NullJob() {
+            super(new Object());
+            super.cancel();
         }
     }
 }

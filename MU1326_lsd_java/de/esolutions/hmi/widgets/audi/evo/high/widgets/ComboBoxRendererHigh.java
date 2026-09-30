@@ -24,7 +24,6 @@ implements ComboBoxRenderer {
         super(comboBoxController);
     }
 
-    @Override
     public void open() {
         if (this.node == null || !this.node.isValid()) {
             return;
@@ -38,7 +37,6 @@ implements ComboBoxRenderer {
         }
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         if (this.isRenderedInOpenParentNode()) {
@@ -47,7 +45,6 @@ implements ComboBoxRenderer {
         this.menuNode.setClippingRectangle(((ComboBoxController)this.controller).getComboBoxBackground().getX(), ((ComboBoxController)this.controller).getComboBoxBackground().getY(), ((ComboBoxController)this.controller).getComboBoxBackground().getWidth(), ((ComboBoxController)this.controller).getComboBoxBackground().getHeight());
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         if (abstractWidget instanceof MenuController) {
@@ -59,7 +56,6 @@ implements ComboBoxRenderer {
         }
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         super.renderNode(redrawContextHigh);
         this.backgroundNode = this.getEALManager().createNode3D(this.node, EALManager.createNodeName("ComboBoxBackgroundNode", this), this.controller.getWidth(), this.controller.getHeight());
@@ -71,7 +67,6 @@ implements ComboBoxRenderer {
         this.menuNode.setClipping(true);
     }
 
-    @Override
     protected IWrappedNode3D getParentNode(RedrawContextHigh redrawContextHigh) {
         IWrappedNode3D iWrappedNode3D = redrawContextHigh.parentNode;
         if (((ComboBoxController)this.controller).isOpen()) {
@@ -91,7 +86,6 @@ implements ComboBoxRenderer {
         return iWrappedNode3D2.getParent();
     }
 
-    @Override
     public void close() {
         if (this.node == null || !this.node.isValid()) {
             return;
@@ -129,7 +123,6 @@ implements ComboBoxRenderer {
         return this.parentWhenClosed != null;
     }
 
-    @Override
     public void disconnect() {
         this.getEALManager().destroy(this.menuNode);
         this.getEALManager().destroy(this.backgroundNode);

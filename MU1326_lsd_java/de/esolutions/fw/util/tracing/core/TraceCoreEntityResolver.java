@@ -16,7 +16,6 @@ implements ITraceEntityResolver {
         this.model = traceModel;
     }
 
-    @Override
     public String resolveName(TraceEntityURI traceEntityURI) {
         TraceEntity traceEntity = this.model.getEntity(traceEntityURI);
         if (traceEntity != null) {
@@ -25,7 +24,6 @@ implements ITraceEntityResolver {
         return null;
     }
 
-    @Override
     public String resolveParentName(TraceEntityURI traceEntityURI, short s) {
         TraceEntity traceEntity;
         TraceEntity traceEntity2 = this.model.getEntity(traceEntityURI);
@@ -35,7 +33,6 @@ implements ITraceEntityResolver {
         return null;
     }
 
-    @Override
     public String resolvePath(TraceEntityURI traceEntityURI, boolean bl) {
         TraceEntity traceEntity = this.model.getEntity(traceEntityURI);
         if (traceEntity != null) {

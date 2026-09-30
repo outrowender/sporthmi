@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface ContainerFactory {
-    default public Map createObjectContainer() {
-    }
+    public Map createObjectContainer();
 
-    default public List creatArrayContainer() {
-    }
+    public List creatArrayContainer();
 }
 

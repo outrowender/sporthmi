@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.map.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.LayerProperty;
 
 public class LayerPropertySerializer {
-    public static void putOptionalLayerProperty(ISerializer iSerializer, LayerProperty layerProperty) {
+    public static void putOptionalLayerProperty(ISerializer iSerializer, LayerProperty layerProperty) throws SerializerException {
         boolean bl = layerProperty == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class LayerPropertySerializer {
         }
     }
 
-    public static void putOptionalLayerPropertyVarArray(ISerializer iSerializer, LayerProperty[] layerPropertyArray) {
+    public static void putOptionalLayerPropertyVarArray(ISerializer iSerializer, LayerProperty[] layerPropertyArray) throws SerializerException {
         boolean bl = layerPropertyArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class LayerPropertySerializer {
         }
     }
 
-    public static LayerProperty getOptionalLayerProperty(IDeserializer iDeserializer) {
+    public static LayerProperty getOptionalLayerProperty(IDeserializer iDeserializer) throws SerializerException {
         LayerProperty layerProperty = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class LayerPropertySerializer {
         return layerProperty;
     }
 
-    public static LayerProperty[] getOptionalLayerPropertyVarArray(IDeserializer iDeserializer) {
+    public static LayerProperty[] getOptionalLayerPropertyVarArray(IDeserializer iDeserializer) throws SerializerException {
         LayerProperty[] layerPropertyArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

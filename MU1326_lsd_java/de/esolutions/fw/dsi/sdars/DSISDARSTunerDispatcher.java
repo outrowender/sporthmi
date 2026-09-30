@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.sdars;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.sdars.DSISDARSTunerReply;
 import de.esolutions.fw.comm.dsi.sdars.impl.DSISDARSTunerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -33,13 +34,11 @@ implements DSISDARSTunerReply {
         super(n, (class$org$dsi$ifc$sdars$DSISDARSTunerListener == null ? (class$org$dsi$ifc$sdars$DSISDARSTunerListener = DSISDARSTunerDispatcher.class$("org.dsi.ifc.sdars.DSISDARSTunerListener")) : class$org$dsi$ifc$sdars$DSISDARSTunerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateElectronicSerialCode(String string, int n) {
+    public void updateElectronicSerialCode(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -67,8 +66,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateServiceStatus3(ServiceStatus3 serviceStatus3, int n) {
+    public void updateServiceStatus3(ServiceStatus3 serviceStatus3, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -96,8 +94,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateSignalQuality(SignalQuality signalQuality, int n) {
+    public void updateSignalQuality(SignalQuality signalQuality, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -125,8 +122,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedStation(StationInfo stationInfo, int n) {
+    public void updateSelectedStation(StationInfo stationInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -154,8 +150,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateStationList(StationInfo[] stationInfoArray, int n) {
+    public void updateStationList(StationInfo[] stationInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -183,8 +178,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateCategoryList(CategoryInfo[] categoryInfoArray, int n) {
+    public void updateCategoryList(CategoryInfo[] categoryInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -212,8 +206,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationRadioText(RadioText radioText) {
+    public void informationRadioText(RadioText radioText) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -229,8 +222,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationRadioText2(RadioText[] radioTextArray) {
+    public void informationRadioText2(RadioText[] radioTextArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -246,8 +238,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateStaticTaggingInfo(String string, String string2, int n) {
+    public void updateStaticTaggingInfo(String string, String string2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -275,8 +266,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateDetectedDevice(int n, int n2) {
+    public void updateDetectedDevice(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -304,8 +294,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void selectStationStatus(int n) {
+    public void selectStationStatus(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -321,8 +310,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void responseTime(DateTime dateTime) {
+    public void responseTime(DateTime dateTime) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -338,8 +326,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void responseEPG24Hour(EPGShortInfo ePGShortInfo) {
+    public void responseEPG24Hour(EPGShortInfo ePGShortInfo) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -355,8 +342,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void responseEPGDescription(EPGDescription ePGDescription) {
+    public void responseEPGDescription(EPGDescription ePGDescription) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -372,8 +358,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateAvailability(int n, int n2) {
+    public void updateAvailability(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -401,8 +386,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateStationDescription(StationDescription[] stationDescriptionArray, int n) {
+    public void updateStationDescription(StationDescription[] stationDescriptionArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -430,8 +414,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus, int n) {
+    public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -459,8 +442,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) {
+    public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -476,8 +458,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationChannelArt(ImageInformation[] imageInformationArray) {
+    public void informationChannelArt(ImageInformation[] imageInformationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -493,8 +474,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationBackgroundArt(ImageInformation[] imageInformationArray) {
+    public void informationBackgroundArt(ImageInformation[] imageInformationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -510,8 +490,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationAlbumArt(ImageInformation[] imageInformationArray) {
+    public void informationAlbumArt(ImageInformation[] imageInformationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -527,8 +506,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationGenreArt(ImageInformation[] imageInformationArray) {
+    public void informationGenreArt(ImageInformation[] imageInformationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -544,8 +522,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void informationStudioArt(ImageInformation[] imageInformationArray) {
+    public void informationStudioArt(ImageInformation[] imageInformationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -561,8 +538,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -590,8 +566,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -607,8 +582,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -624,8 +598,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -641,8 +614,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -658,8 +630,7 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -675,14 +646,13 @@ implements DSISDARSTunerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISDARSTunerListener dSISDARSTunerListener = (DSISDARSTunerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISDARSTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISDARSTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISDARSTunerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISDARSTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISDARSTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISDARSTunerListener, new Object[]{string, string2});
                     continue;
                 }

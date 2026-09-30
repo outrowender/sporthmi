@@ -7,9 +7,9 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface COMPONENT_TYPE
 extends IEnum {
-    public static final int COMPONENT_NAVIGATION;
-    public static final int COMPONENT_SPEECH;
-    public static final int COMPONENT_TRUFFLES;
-    public static final int COMPONENT_EGGNOG;
+    public static final int COMPONENT_NAVIGATION = 1;
+    public static final int COMPONENT_SPEECH = 2;
+    public static final int COMPONENT_TRUFFLES = 4;
+    public static final int COMPONENT_EGGNOG = 8;
 }
 

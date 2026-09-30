@@ -52,7 +52,7 @@ public class sSubsystemStates {
     }
 
     public String toString() {
-        return new StringBuffer("sSubsystemStates{").append("msg_id=").append(this.msg_id).append(", stateNavDB=").append(this.stateNavDB).append(", stateVICS=").append(this.stateVICS).append(", stateDSRC=").append(this.stateDSRC).append("}").toString();
+        return "sSubsystemStates{" + "msg_id=" + this.msg_id + ", stateNavDB=" + this.stateNavDB + ", stateVICS=" + this.stateVICS + ", stateDSRC=" + this.stateDSRC + "}";
     }
 }
 

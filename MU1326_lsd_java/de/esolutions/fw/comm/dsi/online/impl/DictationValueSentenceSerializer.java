@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.online.impl.DictationValueSentenceElementSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.DictationValueSentence;
 import org.dsi.ifc.online.DictationValueSentenceElement;
 
 public class DictationValueSentenceSerializer {
-    public static void putOptionalDictationValueSentence(ISerializer iSerializer, DictationValueSentence dictationValueSentence) {
+    public static void putOptionalDictationValueSentence(ISerializer iSerializer, DictationValueSentence dictationValueSentence) throws SerializerException {
         boolean bl = dictationValueSentence == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class DictationValueSentenceSerializer {
         }
     }
 
-    public static void putOptionalDictationValueSentenceVarArray(ISerializer iSerializer, DictationValueSentence[] dictationValueSentenceArray) {
+    public static void putOptionalDictationValueSentenceVarArray(ISerializer iSerializer, DictationValueSentence[] dictationValueSentenceArray) throws SerializerException {
         boolean bl = dictationValueSentenceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class DictationValueSentenceSerializer {
         }
     }
 
-    public static DictationValueSentence getOptionalDictationValueSentence(IDeserializer iDeserializer) {
+    public static DictationValueSentence getOptionalDictationValueSentence(IDeserializer iDeserializer) throws SerializerException {
         DictationValueSentence dictationValueSentence = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class DictationValueSentenceSerializer {
         return dictationValueSentence;
     }
 
-    public static DictationValueSentence[] getOptionalDictationValueSentenceVarArray(IDeserializer iDeserializer) {
+    public static DictationValueSentence[] getOptionalDictationValueSentenceVarArray(IDeserializer iDeserializer) throws SerializerException {
         DictationValueSentence[] dictationValueSentenceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

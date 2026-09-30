@@ -10,18 +10,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ManeuverState_Status
 implements StatusProperty {
     public int state;
-    private static final int STATE_BITSIZE;
-    public static final int STATE_INIT_UNKNOWN;
-    public static final int STATE_FOLLOW;
-    public static final int STATE_PREPARE;
-    public static final int STATE_DISTANCE;
-    public static final int STATE_CALL_FOR_ACTION;
+    private static final int STATE_BITSIZE = 8;
+    public static final int STATE_INIT_UNKNOWN = 0;
+    public static final int STATE_FOLLOW = 1;
+    public static final int STATE_PREPARE = 2;
+    public static final int STATE_DISTANCE = 3;
+    public static final int STATE_CALL_FOR_ACTION = 4;
     public int dummy1;
-    private static final int DUMMY1_BITSIZE;
+    private static final int DUMMY1_BITSIZE = 8;
     public int dummy2;
-    private static final int DUMMY2_BITSIZE;
+    private static final int DUMMY2_BITSIZE = 8;
     public int dummy3;
-    private static final int DUMMY3_BITSIZE;
+    private static final int DUMMY3_BITSIZE = 8;
 
     public ManeuverState_Status() {
         this.internalReset();
@@ -40,12 +40,10 @@ implements StatusProperty {
         this.dummy3 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ManeuverState_Status maneuverState_Status = (ManeuverState_Status)bAPEntity;
         return this.state == maneuverState_Status.state && this.dummy1 == maneuverState_Status.dummy1 && this.dummy2 == maneuverState_Status.dummy2 && this.dummy3 == maneuverState_Status.dummy3;
@@ -54,7 +52,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ManeuverState_Status:");
@@ -93,7 +90,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -102,7 +98,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.state);
         bitStream.pushByte((byte)this.dummy1);
@@ -110,7 +105,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.dummy3);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.state = bitStream.popFrontByte();
         this.dummy1 = bitStream.popFrontByte();
@@ -122,7 +116,6 @@ implements StatusProperty {
         return 55;
     }
 
-    @Override
     public int getFunctionId() {
         return ManeuverState_Status.functionId();
     }

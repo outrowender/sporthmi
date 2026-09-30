@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.PasskeyStateStruct;
 
 public class PasskeyStateStructSerializer {
-    public static void putOptionalPasskeyStateStruct(ISerializer iSerializer, PasskeyStateStruct passkeyStateStruct) {
+    public static void putOptionalPasskeyStateStruct(ISerializer iSerializer, PasskeyStateStruct passkeyStateStruct) throws SerializerException {
         boolean bl = passkeyStateStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PasskeyStateStructSerializer {
         }
     }
 
-    public static void putOptionalPasskeyStateStructVarArray(ISerializer iSerializer, PasskeyStateStruct[] passkeyStateStructArray) {
+    public static void putOptionalPasskeyStateStructVarArray(ISerializer iSerializer, PasskeyStateStruct[] passkeyStateStructArray) throws SerializerException {
         boolean bl = passkeyStateStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PasskeyStateStructSerializer {
         }
     }
 
-    public static PasskeyStateStruct getOptionalPasskeyStateStruct(IDeserializer iDeserializer) {
+    public static PasskeyStateStruct getOptionalPasskeyStateStruct(IDeserializer iDeserializer) throws SerializerException {
         PasskeyStateStruct passkeyStateStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PasskeyStateStructSerializer {
         return passkeyStateStruct;
     }
 
-    public static PasskeyStateStruct[] getOptionalPasskeyStateStructVarArray(IDeserializer iDeserializer) {
+    public static PasskeyStateStruct[] getOptionalPasskeyStateStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         PasskeyStateStruct[] passkeyStateStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

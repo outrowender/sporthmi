@@ -7,13 +7,10 @@ import java.util.Dictionary;
 import org.osgi.framework.ServiceReference;
 
 public interface ServiceRegistration {
-    default public ServiceReference getReference() {
-    }
+    public ServiceReference getReference();
 
-    default public void setProperties(Dictionary dictionary) {
-    }
+    public void setProperties(Dictionary var1);
 
-    default public void unregister() {
-    }
+    public void unregister();
 }
 

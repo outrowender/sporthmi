@@ -25,28 +25,23 @@ implements DSIMediaBase {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIMediaBase == null ? (class$org$dsi$ifc$media$DSIMediaBase = DSIMediaBaseProvider.class$("org.dsi.ifc.media.DSIMediaBase")) : class$org$dsi$ifc$media$DSIMediaBase).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMediaBaseProxy(this.instance, (DSIMediaBaseReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setPreferredLanguage(String string) {
         try {
             this.proxy.setPreferredLanguage(string);
@@ -56,7 +51,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void setParentalML(int n) {
         try {
             this.proxy.setParentalML(n);
@@ -66,7 +60,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void ejectMedium(long l, long l2) {
         try {
             this.proxy.ejectMedium(l, l2);
@@ -76,7 +69,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void requestResetFactorySettings(int n) {
         try {
             this.proxy.requestResetFactorySettings(n);
@@ -86,7 +78,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void launchApp(long l, long l2, String string) {
         try {
             this.proxy.launchApp(l, l2, string);
@@ -96,7 +87,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -106,7 +96,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -116,7 +105,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -126,7 +114,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -136,7 +123,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -146,7 +132,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -156,7 +141,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -166,7 +150,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -176,7 +159,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -186,7 +168,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -196,7 +177,6 @@ implements DSIMediaBase {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

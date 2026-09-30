@@ -18,7 +18,6 @@ extends Reference {
         this.initReference(object);
     }
 
-    @Override
     public Object get() {
         this.age = 0;
         return super.get();

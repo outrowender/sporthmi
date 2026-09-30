@@ -47,12 +47,10 @@ implements IStatusbarChild {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.icon == null) {
             this.createIcon();
@@ -80,7 +78,6 @@ implements IStatusbarChild {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.rangeMax = this.getModelMax();
         int n = this.getModelValue();
@@ -88,11 +85,11 @@ implements IStatusbarChild {
         if (n > this.rangeMax) {
             n = this.rangeMax;
         }
-        int n3 = (int)((float)this.progressBarWidth * (float)n / (float)this.rangeMax + 63);
+        int n3 = (int)((float)this.progressBarWidth * (float)n / (float)this.rangeMax + 0.5f);
         n3 = Math.max(n3, 1);
         if (this.progressPixel != null) {
             boolean bl;
-            ((IconRenderer)this.progressPixel.getRenderer()).setScaleFactor(n3, 49216);
+            ((IconRenderer)this.progressPixel.getRenderer()).setScaleFactor(n3, 6.0f);
             this.progressPixel.setBounds(this.progressBarXOffset, 12, this.progressBarWidth, this.icon.getPreferredHeight());
             this.progressPixel.setCompositesDirty(true);
             this.setCompositesDirty(true);
@@ -121,7 +118,7 @@ implements IStatusbarChild {
         this.progressPixel = new IconController();
         this.progressPixel.setProcessStateChange(2);
         IconRenderer iconRenderer = ((ExtHMITerminalEvo)((Object)this.getTerminalImpl())).getRendererFactory().createIconRenderer(this.progressPixel);
-        iconRenderer.setScaleFactor(-842216387, 41024);
+        iconRenderer.setScaleFactor(0.1f, 5.0f);
         iconRenderer.setAlignment(1, 5);
         this.progressPixel.setRenderer(iconRenderer);
         this.progressPixel.setBitmaps(new int[]{HMIImageConstantsSystem.white_pixel});
@@ -130,7 +127,6 @@ implements IStatusbarChild {
         this.progressPixel.setBounds(this.progressBarXOffset, 10, this.progressBarWidth, 5);
     }
 
-    @Override
     public int getModelValue() {
         if (this.model != null) {
             if (this.model instanceof ChoiceModelGUI) {
@@ -143,7 +139,6 @@ implements IStatusbarChild {
         return -1;
     }
 
-    @Override
     public int getModelStatus() {
         if (this.model != null && this.model instanceof HMIModelGUI) {
             return ((HMIModelGUI)this.model).getStatus();
@@ -151,7 +146,6 @@ implements IStatusbarChild {
         return 3;
     }
 
-    @Override
     public int getModelMin() {
         if (this.model != null) {
             if (this.model instanceof RangeModelGUI) {
@@ -164,7 +158,6 @@ implements IStatusbarChild {
         return -1;
     }
 
-    @Override
     public int getModelMax() {
         if (this.model != null) {
             if (this.model instanceof RangeModelGUI) {
@@ -177,22 +170,18 @@ implements IStatusbarChild {
         return -1;
     }
 
-    @Override
     public int getHeight() {
         return this.icon == null ? 0 : this.icon.getHeight();
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.icon == null ? 0 : this.icon.getPreferredHeight();
     }
 
-    @Override
     public int getWidth() {
         return this.icon == null ? 0 : this.icon.getWidth();
     }
 
-    @Override
     public int getPreferredWidth() {
         return this.icon == null ? 0 : this.icon.getPreferredWidth();
     }
@@ -207,7 +196,6 @@ implements IStatusbarChild {
         }
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (this.icon != null) {
             this.icon.setEnabled(bl);

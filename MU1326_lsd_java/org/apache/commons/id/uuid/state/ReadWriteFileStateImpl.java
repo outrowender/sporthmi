@@ -17,12 +17,11 @@ import org.apache.commons.id.uuid.state.StateHelper;
 public class ReadWriteFileStateImpl
 extends ReadOnlyResourceStateImpl
 implements State {
-    @Override
-    public void store(Set set) {
+    public void store(Set set) throws IOException {
         this.writeXML(this.genXML(set));
     }
 
-    private String genXML(Set set) {
+    private String genXML(Set set) throws IOException {
         Iterator iterator = set.iterator();
         StringBuffer stringBuffer = new StringBuffer(1024);
         stringBuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE uuidstate [\n   <!ELEMENT uuidstate (node*)>\n   <!ELEMENT node EMPTY>\n   <!ATTLIST node id ID #REQUIRED>\n   <!ATTLIST node clocksequence CDATA #IMPLIED>\n   <!ATTLIST node lasttimestamp CDATA #IMPLIED>\n]>\n<uuidstate synchInterval=\"");
@@ -42,7 +41,7 @@ implements State {
         return stringBuffer.toString();
     }
 
-    private String genXML(Set set, long l) {
+    private String genXML(Set set, long l) throws IOException {
         Iterator iterator = set.iterator();
         StringBuffer stringBuffer = new StringBuffer(1024);
         stringBuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE uuidstate [\n   <!ELEMENT uuidstate (node*)>\n   <!ELEMENT node EMPTY>\n   <!ATTLIST node id ID #REQUIRED>\n   <!ATTLIST node clocksequence CDATA #IMPLIED>\n   <!ATTLIST node lasttimestamp CDATA #IMPLIED>\n]>\n<uuidstate synchInterval=\"");

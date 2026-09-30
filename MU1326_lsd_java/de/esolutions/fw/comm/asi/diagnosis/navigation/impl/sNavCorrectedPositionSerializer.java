@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCorrectedPosition;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNavCorrectedPositionSerializer {
-    public static void putOptionalsNavCorrectedPosition(ISerializer iSerializer, sNavCorrectedPosition sNavCorrectedPosition2) {
+    public static void putOptionalsNavCorrectedPosition(ISerializer iSerializer, sNavCorrectedPosition sNavCorrectedPosition2) throws SerializerException {
         boolean bl = sNavCorrectedPosition2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sNavCorrectedPositionSerializer {
         }
     }
 
-    public static void putOptionalsNavCorrectedPositionVarArray(ISerializer iSerializer, sNavCorrectedPosition[] sNavCorrectedPositionArray) {
+    public static void putOptionalsNavCorrectedPositionVarArray(ISerializer iSerializer, sNavCorrectedPosition[] sNavCorrectedPositionArray) throws SerializerException {
         boolean bl = sNavCorrectedPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sNavCorrectedPositionSerializer {
         }
     }
 
-    public static sNavCorrectedPosition getOptionalsNavCorrectedPosition(IDeserializer iDeserializer) {
+    public static sNavCorrectedPosition getOptionalsNavCorrectedPosition(IDeserializer iDeserializer) throws SerializerException {
         sNavCorrectedPosition sNavCorrectedPosition2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sNavCorrectedPositionSerializer {
         return sNavCorrectedPosition2;
     }
 
-    public static sNavCorrectedPosition[] getOptionalsNavCorrectedPositionVarArray(IDeserializer iDeserializer) {
+    public static sNavCorrectedPosition[] getOptionalsNavCorrectedPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNavCorrectedPosition[] sNavCorrectedPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

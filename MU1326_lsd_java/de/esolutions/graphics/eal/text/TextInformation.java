@@ -5,7 +5,6 @@ package de.esolutions.graphics.eal.text;
 
 import de.esolutions.graphics.eal.api.IManager;
 import de.esolutions.graphics.eal.api.ITextLayoutResult;
-import de.esolutions.graphics.eal.text.TextInformation$GlyphInformation;
 
 public class TextInformation {
     private ITextLayoutResult result = null;
@@ -20,12 +19,12 @@ public class TextInformation {
         }
     }
 
-    public TextInformation$GlyphInformation layoutGetWidth(int n) {
+    public GlyphInformation layoutGetWidth(int n) {
         if (null != this.glyphInformation) {
-            TextInformation$GlyphInformation textInformation$GlyphInformation = new TextInformation$GlyphInformation();
-            textInformation$GlyphInformation.start = this.glyphInformation[n * 2 + 0];
-            textInformation$GlyphInformation.end = this.glyphInformation[n * 2 + 1];
-            return textInformation$GlyphInformation;
+            GlyphInformation glyphInformation = new GlyphInformation();
+            glyphInformation.start = this.glyphInformation[n * 2 + 0];
+            glyphInformation.end = this.glyphInformation[n * 2 + 1];
+            return glyphInformation;
         }
         return null;
     }
@@ -34,13 +33,18 @@ public class TextInformation {
         if (null != this.glyphInformation) {
             System.out.println("glyphlist {");
             for (int i2 = 0; i2 < this.glyphInformation.length; i2 += 2) {
-                System.out.println(new StringBuffer().append("\t").append(i2 / 2).append(" : {start=").append(this.glyphInformation[i2]).append(", end=").append(this.glyphInformation[i2 + 1]).append(", width=").append(this.glyphInformation[1] - this.glyphInformation[0]).append("}").toString());
+                System.out.println("\t" + i2 / 2 + " : {start=" + this.glyphInformation[i2] + ", end=" + this.glyphInformation[i2 + 1] + ", width=" + (this.glyphInformation[1] - this.glyphInformation[0]) + "}");
             }
             System.out.println("}");
         }
     }
 
     public void dispose() {
+    }
+
+    public static class GlyphInformation {
+        public int start = 0;
+        public int end = 0;
     }
 }
 

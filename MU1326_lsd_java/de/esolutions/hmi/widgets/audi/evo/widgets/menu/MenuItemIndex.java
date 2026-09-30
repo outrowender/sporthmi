@@ -5,7 +5,7 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.menu;
 
 public class MenuItemIndex
 implements Comparable {
-    public static final int SINGLE_ITEM_PART;
+    public static final int SINGLE_ITEM_PART = 0;
     public final int widget;
     public final int widgetPart;
 
@@ -55,7 +55,6 @@ implements Comparable {
         return (17 + this.widget) * 31 + this.widgetPart;
     }
 
-    @Override
     public int compareTo(Object object) {
         MenuItemIndex menuItemIndex = (MenuItemIndex)object;
         int n = this.widget - menuItemIndex.widget;
@@ -70,7 +69,7 @@ implements Comparable {
     }
 
     public String toString() {
-        return new StringBuffer().append(this.widget).append("(").append(this.widgetPart).append(")").toString();
+        return this.widget + "(" + this.widgetPart + ")";
     }
 
     public MenuItemIndex adjustForRemove(MenuItemIndex menuItemIndex, int n) {

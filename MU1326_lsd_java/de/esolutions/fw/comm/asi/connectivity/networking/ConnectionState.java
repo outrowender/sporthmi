@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface ConnectionState
 extends IEnum {
-    public static final int CONNECTION_STATE_DISCONNECTED;
-    public static final int CONNECTION_STATE_IN_RANGE;
-    public static final int CONNECTION_STATE_CONNECTED;
+    public static final int CONNECTION_STATE_DISCONNECTED = 0;
+    public static final int CONNECTION_STATE_IN_RANGE = 1;
+    public static final int CONNECTION_STATE_CONNECTED = 2;
 }
 

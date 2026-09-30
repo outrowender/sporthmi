@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carstopwatch;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carstopwatch.DSICarStopWatchReply;
 import de.esolutions.fw.comm.dsi.carstopwatch.impl.DSICarStopWatchReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSICarStopWatchReply {
         super(n, (class$org$dsi$ifc$carstopwatch$DSICarStopWatchListener == null ? (class$org$dsi$ifc$carstopwatch$DSICarStopWatchListener = DSICarStopWatchDispatcher.class$("org.dsi.ifc.carstopwatch.DSICarStopWatchListener")) : class$org$dsi$ifc$carstopwatch$DSICarStopWatchListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateStopWatchViewOptions(StopWatchViewOptions stopWatchViewOptions, int n) {
+    public void updateStopWatchViewOptions(StopWatchViewOptions stopWatchViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void updateStopWatchState(int n, int n2) {
+    public void updateStopWatchState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void updateStopWatchCurrentLapNumber(int n, int n2) {
+    public void updateStopWatchCurrentLapNumber(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void updateStopWatchTotalTime(StopWatchTime stopWatchTime, int n) {
+    public void updateStopWatchTotalTime(StopWatchTime stopWatchTime, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void updateStopWatchLastSplitTime(int n, StopWatchTime stopWatchTime, int n2) {
+    public void updateStopWatchLastSplitTime(int n, StopWatchTime stopWatchTime, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -174,8 +169,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void updateStopWatchCurrentLapTime(StopWatchTime stopWatchTime, int n) {
+    public void updateStopWatchCurrentLapTime(StopWatchTime stopWatchTime, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -203,8 +197,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void updateStopWatchLastLapTime(StopWatchTime stopWatchTime, int n) {
+    public void updateStopWatchLastLapTime(StopWatchTime stopWatchTime, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -232,8 +225,7 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -249,14 +241,13 @@ implements DSICarStopWatchReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarStopWatchListener dSICarStopWatchListener = (DSICarStopWatchListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarStopWatchDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarStopWatchDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarStopWatchListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarStopWatchDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarStopWatchDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarStopWatchListener, new Object[]{string, string2});
                     continue;
                 }

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingConfigurationSeriali
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingConfiguration;
 import org.dsi.ifc.carcomfort.DoorLockingViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class DoorLockingViewOptionsSerializer {
-    public static void putOptionalDoorLockingViewOptions(ISerializer iSerializer, DoorLockingViewOptions doorLockingViewOptions) {
+    public static void putOptionalDoorLockingViewOptions(ISerializer iSerializer, DoorLockingViewOptions doorLockingViewOptions) throws SerializerException {
         boolean bl = doorLockingViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -85,7 +86,7 @@ public class DoorLockingViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingViewOptionsVarArray(ISerializer iSerializer, DoorLockingViewOptions[] doorLockingViewOptionsArray) {
+    public static void putOptionalDoorLockingViewOptionsVarArray(ISerializer iSerializer, DoorLockingViewOptions[] doorLockingViewOptionsArray) throws SerializerException {
         boolean bl = doorLockingViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -96,7 +97,7 @@ public class DoorLockingViewOptionsSerializer {
         }
     }
 
-    public static DoorLockingViewOptions getOptionalDoorLockingViewOptions(IDeserializer iDeserializer) {
+    public static DoorLockingViewOptions getOptionalDoorLockingViewOptions(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingViewOptions doorLockingViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -171,7 +172,7 @@ public class DoorLockingViewOptionsSerializer {
         return doorLockingViewOptions;
     }
 
-    public static DoorLockingViewOptions[] getOptionalDoorLockingViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingViewOptions[] getOptionalDoorLockingViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingViewOptions[] doorLockingViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

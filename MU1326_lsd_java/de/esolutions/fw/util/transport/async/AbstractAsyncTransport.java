@@ -9,6 +9,8 @@ import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.async.ClientContext;
 import de.esolutions.fw.util.transport.async.TransportWorker;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public abstract class AbstractAsyncTransport
 implements ITransport {
@@ -31,28 +33,23 @@ implements ITransport {
         this.context = new ClientContext();
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
         this.debug = iTransportDebug;
         this.transport.setDebug(this.debug);
     }
 
-    @Override
     public int maxMsgSize() {
         return this.transport.maxMsgSize();
     }
 
-    @Override
     public boolean isReliable() {
         return this.transport.isReliable();
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return this.transport.detectsPeerReset();
     }
 
-    @Override
     public boolean keepsRecordBoundaries() {
         return this.transport.keepsRecordBoundaries();
     }
@@ -60,8 +57,7 @@ implements ITransport {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void open() {
+    public void open() throws IOException {
         Object object = this.openLock;
         synchronized (object) {
             if (!this.isOpen) {
@@ -75,8 +71,7 @@ implements ITransport {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close(boolean bl) {
+    public void close(boolean bl) throws IOException {
         Object object = this.openLock;
         synchronized (object) {
             if (this.isOpen) {
@@ -90,7 +85,6 @@ implements ITransport {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isOpen() {
         Object object = this.openLock;
         synchronized (object) {
@@ -98,24 +92,14 @@ implements ITransport {
         }
     }
 
-    @Override
-    public abstract IReadable recv() {
-    }
+    public abstract IReadable recv() throws IOException, TransportException, InterruptedException;
 
-    @Override
-    public abstract void send(IWriter iWriter) {
-    }
+    public abstract void send(IWriter var1) throws IOException, TransportException, InterruptedException;
 
-    @Override
-    public abstract void sendSync(IWriter iWriter) {
-    }
+    public abstract void sendSync(IWriter var1) throws IOException, TransportException, InterruptedException;
 
-    @Override
-    public abstract void flush() {
-    }
+    public abstract void flush() throws IOException, TransportException, InterruptedException;
 
-    @Override
-    public abstract String getDescription() {
-    }
+    public abstract String getDescription();
 }
 

@@ -11,31 +11,29 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ReceptionList_GetArray
 implements BAPGetArray {
     public int asg_Id;
-    private static final int ASG_ID_BITSIZE;
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTAENOUS_FSG_MESSAGE;
-    public static final int ASG_ID_INSTRUMENT_CLUSTER;
-    public static final int ASG_ID_HEAD_UP_DISPLAY;
-    public static final int ASG_ID_OPERATING_UNIT_REAR_DF4_2;
+    private static final int ASG_ID_BITSIZE = 4;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTAENOUS_FSG_MESSAGE = 0;
+    public static final int ASG_ID_INSTRUMENT_CLUSTER = 1;
+    public static final int ASG_ID_HEAD_UP_DISPLAY = 2;
+    public static final int ASG_ID_OPERATING_UNIT_REAR_DF4_2 = 3;
     public int taid;
-    private static final int TAID_BITSIZE;
+    private static final int TAID_BITSIZE = 4;
     public int elementType;
-    private static final int ELEMENT_TYPE_BITSIZE;
-    public static final int ELEMENT_TYPE_ENSEMBLES;
-    public static final int ELEMENT_TYPE_PRIMARY_SERVICES_ONLY;
-    public static final int ELEMENT_TYPE_SECONDARY_AND_PRIMARY_SERVICES;
-    public static final int ELEMENT_TYPE_FLAT_LIST;
-    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_AND_SECONDARY_SERVICES;
-    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_SERVICES_ONLY;
+    private static final int ELEMENT_TYPE_BITSIZE = 8;
+    public static final int ELEMENT_TYPE_ENSEMBLES = 0;
+    public static final int ELEMENT_TYPE_PRIMARY_SERVICES_ONLY = 1;
+    public static final int ELEMENT_TYPE_SECONDARY_AND_PRIMARY_SERVICES = 2;
+    public static final int ELEMENT_TYPE_FLAT_LIST = 3;
+    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_AND_SECONDARY_SERVICES = 4;
+    public static final int ELEMENT_TYPE_FLAT_LIST_PRIMARY_SERVICES_ONLY = 5;
     public int parent_Id;
-    private static final int PARENT_ID_BITSIZE;
+    private static final int PARENT_ID_BITSIZE = 16;
     private ArrayHeader arrayHeader = new ArrayHeader();
 
-    @Override
     public int getAsgId() {
         return this.asg_Id & 7;
     }
 
-    @Override
     public void setAsgId(int n) {
         this.asg_Id = this.asg_Id & 8 | n & 7;
     }
@@ -48,22 +46,18 @@ implements BAPGetArray {
         this.asg_Id = bl ? this.asg_Id | 8 : this.asg_Id & 7;
     }
 
-    @Override
     public int getTransactionId() {
         return this.taid;
     }
 
-    @Override
     public void setTransactionId(int n) {
         this.taid = n;
     }
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -85,13 +79,11 @@ implements BAPGetArray {
         this.parent_Id = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ReceptionList_GetArray receptionList_GetArray = (ReceptionList_GetArray)bAPEntity;
         return this.asg_Id == receptionList_GetArray.asg_Id && this.taid == receptionList_GetArray.taid && this.elementType == receptionList_GetArray.elementType && this.parent_Id == receptionList_GetArray.parent_Id && this.arrayHeader.equalTo(receptionList_GetArray.arrayHeader);
@@ -100,7 +92,6 @@ implements BAPGetArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ReceptionList_GetArray:");
@@ -165,7 +156,6 @@ implements BAPGetArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 4;
@@ -175,7 +165,6 @@ implements BAPGetArray {
         return n += this.arrayHeader.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.asg_Id);
         bitStream.pushBits(4, this.taid);
@@ -184,7 +173,6 @@ implements BAPGetArray {
         this.arrayHeader.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontBits(4);
         this.taid = bitStream.popFrontBits(4);
@@ -197,7 +185,6 @@ implements BAPGetArray {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return ReceptionList_GetArray.functionId();
     }

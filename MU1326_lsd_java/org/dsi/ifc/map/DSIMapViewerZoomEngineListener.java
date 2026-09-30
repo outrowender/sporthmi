@@ -7,16 +7,12 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIMapViewerZoomEngineListener
 extends DSIListener {
-    default public void updateAutoZoomEnabled(boolean bl, int n) {
-    }
+    public void updateAutoZoomEnabled(boolean var1, int var2);
 
-    default public void updateManoeuvreZoomEnabled(boolean bl, int n) {
-    }
+    public void updateManoeuvreZoomEnabled(boolean var1, int var2);
 
-    default public void updateRecommendedZoom(float f2, int n) {
-    }
+    public void updateRecommendedZoom(float var1, int var2);
 
-    default public void updateZoomEngineState(int n, int n2) {
-    }
+    public void updateZoomEngineState(int var1, int var2);
 }
 

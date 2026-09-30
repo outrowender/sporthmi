@@ -15,7 +15,6 @@ extends Command {
         this.agentId = s;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doForceDisconnect(this.agentId);
     }

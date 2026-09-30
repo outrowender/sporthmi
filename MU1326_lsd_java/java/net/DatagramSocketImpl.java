@@ -4,10 +4,12 @@
 package java.net;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.net.SocketOptions;
 
 public abstract class DatagramSocketImpl
@@ -20,32 +22,25 @@ implements SocketOptions {
         this.initializeSocket();
     }
 
-    protected abstract void bind(int n, InetAddress inetAddress) {
-    }
+    protected abstract void bind(int var1, InetAddress var2) throws SocketException;
 
-    protected abstract void close() {
-    }
+    protected abstract void close();
 
-    protected abstract void create() {
-    }
+    protected abstract void create() throws SocketException;
 
     protected FileDescriptor getFileDescriptor() {
         return this.fd;
     }
 
-    abstract InetAddress getLocalAddress() {
-    }
+    abstract InetAddress getLocalAddress();
 
     protected int getLocalPort() {
         return this.localPort;
     }
 
-    @Override
-    public abstract Object getOption(int n) {
-    }
+    public abstract Object getOption(int var1) throws SocketException;
 
-    protected abstract int getTimeToLive() {
-    }
+    protected abstract int getTimeToLive() throws IOException;
 
     void initializeSocket() {
         this.fd = new FileDescriptor();
@@ -53,41 +48,30 @@ implements SocketOptions {
         this.receiveTimeout = 0;
     }
 
-    protected abstract void join(InetAddress inetAddress) {
-    }
+    protected abstract void join(InetAddress var1) throws IOException;
 
-    protected abstract void joinGroup(SocketAddress socketAddress, NetworkInterface networkInterface) {
-    }
+    protected abstract void joinGroup(SocketAddress var1, NetworkInterface var2) throws IOException;
 
-    protected abstract void leave(InetAddress inetAddress) {
-    }
+    protected abstract void leave(InetAddress var1) throws IOException;
 
-    protected abstract void leaveGroup(SocketAddress socketAddress, NetworkInterface networkInterface) {
-    }
+    protected abstract void leaveGroup(SocketAddress var1, NetworkInterface var2) throws IOException;
 
-    protected abstract int peek(InetAddress inetAddress) {
-    }
+    protected abstract int peek(InetAddress var1) throws IOException;
 
-    protected abstract void receive(DatagramPacket datagramPacket) {
-    }
+    protected abstract void receive(DatagramPacket var1) throws IOException;
 
-    protected abstract void send(DatagramPacket datagramPacket) {
-    }
+    protected abstract void send(DatagramPacket var1) throws IOException;
 
-    @Override
-    public abstract void setOption(int n, Object object) {
-    }
+    public abstract void setOption(int var1, Object var2) throws SocketException;
 
-    protected abstract void setTimeToLive(int n) {
-    }
+    protected abstract void setTimeToLive(int var1) throws IOException;
 
-    protected void connect(InetAddress inetAddress, int n) {
+    protected void connect(InetAddress inetAddress, int n) throws SocketException {
     }
 
     protected void disconnect() {
     }
 
-    protected abstract int peekData(DatagramPacket datagramPacket) {
-    }
+    protected abstract int peekData(DatagramPacket var1) throws IOException;
 }
 

@@ -17,7 +17,6 @@ extends TraceMessage {
         this.args = objectArray;
     }
 
-    @Override
     public void expandNow() {
         if (this.args != null) {
             this.setMessageString(StringUtils.expandArgString(this.message, this.args));

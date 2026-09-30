@@ -26,28 +26,23 @@ implements DSIUPNPPlayer {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$upnp$DSIUPNPPlayer == null ? (class$org$dsi$ifc$upnp$DSIUPNPPlayer = DSIUPNPPlayerProvider.class$("org.dsi.ifc.upnp.DSIUPNPPlayer")) : class$org$dsi$ifc$upnp$DSIUPNPPlayer).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIUPNPPlayerProxy(this.instance, (DSIUPNPPlayerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setPlaybackMode(String string, int n) {
         try {
             this.proxy.setPlaybackMode(string, n);
@@ -57,7 +52,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void setEntry(String[] stringArray, String string, ListEntry[] listEntryArray, int n) {
         try {
             this.proxy.setEntry(stringArray, string, listEntryArray, n);
@@ -67,7 +61,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void resume(String string) {
         try {
             this.proxy.resume(string);
@@ -77,7 +70,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void pause(String string) {
         try {
             this.proxy.pause(string);
@@ -87,7 +79,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void skip(String string, int n, int n2) {
         try {
             this.proxy.skip(string, n, n2);
@@ -97,7 +88,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void seek(String string, int n, int n2) {
         try {
             this.proxy.seek(string, n, n2);
@@ -107,7 +97,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void increaseVolume(String string) {
         try {
             this.proxy.increaseVolume(string);
@@ -117,7 +106,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void decreaseVolume(String string) {
         try {
             this.proxy.decreaseVolume(string);
@@ -127,7 +115,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void setVolume(String string, int n) {
         try {
             this.proxy.setVolume(string, n);
@@ -137,7 +124,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -157,7 +142,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -167,7 +151,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -177,7 +160,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -187,7 +169,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -197,7 +178,6 @@ implements DSIUPNPPlayer {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

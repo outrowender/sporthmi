@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carstopwatch.DSICarStopWatch;
 import de.esolutions.fw.comm.dsi.carstopwatch.DSICarStopWatchC;
 import de.esolutions.fw.comm.dsi.carstopwatch.DSICarStopWatchReply;
-import de.esolutions.fw.comm.dsi.carstopwatch.impl.DSICarStopWatchProxy$1;
-import de.esolutions.fw.comm.dsi.carstopwatch.impl.DSICarStopWatchProxy$2;
 import de.esolutions.fw.comm.dsi.carstopwatch.impl.DSICarStopWatchReplyService;
+import de.esolutions.fw.comm.dsi.carstopwatch.impl.StopWatchTimeSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carstopwatch.StopWatchTime;
@@ -33,14 +34,17 @@ DSICarStopWatchC {
         return this.proxy;
     }
 
-    @Override
-    public void setStopWatchFastestLapTime(StopWatchTime stopWatchTime) {
-        DSICarStopWatchProxy$1 dSICarStopWatchProxy$1 = new DSICarStopWatchProxy$1(this, stopWatchTime);
-        this.proxy.remoteCallMethod((short)8, dSICarStopWatchProxy$1);
+    public void setStopWatchFastestLapTime(final StopWatchTime stopWatchTime) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                StopWatchTimeSerializer.putOptionalStopWatchTime(iSerializer, stopWatchTime);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void setStopWatchLapRating(int n) {
+    public void setStopWatchLapRating(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -51,8 +55,7 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setStopWatchLapProgress(float f2) {
+    public void setStopWatchLapProgress(float f2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putFloat(f2);
@@ -63,13 +66,11 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setStopWatchLapGPSTrigger() {
+    public void setStopWatchLapGPSTrigger() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void setStopWatchControl(int n) {
+    public void setStopWatchControl(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -80,14 +81,17 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setStopWatchSlowestLapTime(StopWatchTime stopWatchTime) {
-        DSICarStopWatchProxy$2 dSICarStopWatchProxy$2 = new DSICarStopWatchProxy$2(this, stopWatchTime);
-        this.proxy.remoteCallMethod((short)21, dSICarStopWatchProxy$2);
+    public void setStopWatchSlowestLapTime(final StopWatchTime stopWatchTime) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                StopWatchTimeSerializer.putOptionalStopWatchTime(iSerializer, stopWatchTime);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -98,8 +102,7 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -110,13 +113,11 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -127,8 +128,7 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -139,13 +139,11 @@ DSICarStopWatchC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -4,7 +4,7 @@
 package de.esolutions.fw.comm.dsi.waveplayer;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSIWAVEPLAYER_PLAYTONE;
-    public static final int ATTRIBUTE_ID_DSIWAVEPLAYER_AUDIOREQUEST;
+    public static final int ATTRIBUTE_ID_DSIWAVEPLAYER_PLAYTONE = 1;
+    public static final int ATTRIBUTE_ID_DSIWAVEPLAYER_AUDIOREQUEST = 2;
 }
 

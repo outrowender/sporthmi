@@ -44,7 +44,7 @@ public class DiagnosisReportGenerator {
             }
             int n = iAgentErrorLog.getNumDroppedProxyErrors();
             if (n > 0) {
-                infoStream.print(new StringBuffer().append("Proxy errors dropped: ").append(n).toString());
+                infoStream.print("Proxy errors dropped: " + n);
             }
             if ((iInfoBaseArray2 = iAgentErrorLog.getProxyErrors()) != null) {
                 InfoUtils.printInfos(iInfoBaseArray2, infoStream);
@@ -53,7 +53,7 @@ public class DiagnosisReportGenerator {
             }
             n = iAgentErrorLog.getNumDroppedStubErrors();
             if (n > 0) {
-                infoStream.print(new StringBuffer().append("Stub errors dropped: ").append(n).toString());
+                infoStream.print("Stub errors dropped: " + n);
             }
             if ((iInfoBaseArray = iAgentErrorLog.getClientErrors()) != null) {
                 InfoUtils.printInfos(iInfoBaseArray, infoStream);
@@ -62,7 +62,7 @@ public class DiagnosisReportGenerator {
             }
             n = iAgentErrorLog.getNumDroppedClientErrors();
             if (n > 0) {
-                infoStream.print(new StringBuffer().append("Client errors dropped: ").append(n).toString());
+                infoStream.print("Client errors dropped: " + n);
             }
             infoStream.end();
         }
@@ -73,7 +73,7 @@ public class DiagnosisReportGenerator {
         if (iAgentSnapshot != null) {
             String[] stringArray;
             TraceTimeStamp traceTimeStamp = new TraceTimeStamp(iAgentSnapshot.getTimeStamp());
-            infoStream.begin(new StringBuffer().append("Snapshot @").append(traceTimeStamp.toUTCTimeString(true)).toString());
+            infoStream.begin("Snapshot @" + traceTimeStamp.toUTCTimeString(true));
             IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllProxies();
             if (iInfoBaseArray != null) {
                 InfoUtils.printInfos(iInfoBaseArray, infoStream);

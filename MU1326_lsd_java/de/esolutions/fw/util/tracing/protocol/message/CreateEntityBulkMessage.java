@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.entity.IExternalTraceEntity;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 import de.esolutions.fw.util.tracing.model.ExternalTraceEntity;
@@ -25,8 +26,7 @@ extends AbstractMessage {
         super(MessageType.BULK_CREATE_ENTITY);
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         int n = 0;
         if (this.entities != null) {
             n = this.entities.length;
@@ -49,8 +49,7 @@ extends AbstractMessage {
         }
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         int n = iDeserializer.getInt32();
         this.entities = new IExternalTraceEntity[n];
         for (int i2 = 0; i2 < n; ++i2) {
@@ -73,7 +72,6 @@ extends AbstractMessage {
         return this.entities;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         int n = 0;
         if (this.entities != null) {

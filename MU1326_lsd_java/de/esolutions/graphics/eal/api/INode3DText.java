@@ -26,12 +26,10 @@ extends INode3D {
         return iNode3DText == null ? 0L : iNode3DText.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -43,7 +41,6 @@ extends INode3D {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -113,7 +110,6 @@ extends INode3D {
         return l == 0L ? null : new IINodeText(l, true);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode3DText_dispose(this.swigCPtr, this);
     }

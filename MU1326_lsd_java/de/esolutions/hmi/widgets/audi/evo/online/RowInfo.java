@@ -36,7 +36,7 @@ class RowInfo {
     }
 
     public String toString() {
-        return new StringBuffer().append("RowInfo [index=").append(this.index).append(", subindex=").append(this.subindex).append(", row=").append(this.row).append(", parent=").append(this.parent).append("]").toString();
+        return "RowInfo [index=" + this.index + ", subindex=" + this.subindex + ", row=" + this.row + ", parent=" + this.parent + "]";
     }
 
     public boolean isBefore(RowInfo rowInfo) {

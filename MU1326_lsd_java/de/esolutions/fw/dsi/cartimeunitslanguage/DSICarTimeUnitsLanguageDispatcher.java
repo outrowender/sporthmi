@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.cartimeunitslanguage;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.cartimeunitslanguage.DSICarTimeUnitsLanguageReply;
 import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.DSICarTimeUnitsLanguageReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -30,13 +31,11 @@ implements DSICarTimeUnitsLanguageReply {
         super(n, (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguageListener == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguageListener = DSICarTimeUnitsLanguageDispatcher.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguageListener")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguageListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateUnitmasterViewOptions(UnitmasterViewOptions unitmasterViewOptions, int n) {
+    public void updateUnitmasterViewOptions(UnitmasterViewOptions unitmasterViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -64,8 +63,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateMenuLanguage(int n, int n2) {
+    public void updateMenuLanguage(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -93,8 +91,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateTemperatureUnit(int n, int n2) {
+    public void updateTemperatureUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -122,8 +119,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateDistanceUnit(int n, int n2) {
+    public void updateDistanceUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -151,8 +147,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateSpeedUnit(int n, int n2) {
+    public void updateSpeedUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -180,8 +175,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updatePressureUnit(int n, int n2) {
+    public void updatePressureUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -209,8 +203,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateVolumeUnit(int n, int n2) {
+    public void updateVolumeUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -238,8 +231,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateConsumptionPetrolUnit(int n, int n2) {
+    public void updateConsumptionPetrolUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -267,8 +259,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateConsumptionGasUnit(int n, int n2) {
+    public void updateConsumptionGasUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -296,8 +287,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateConsumptionElectricUnit(int n, int n2) {
+    public void updateConsumptionElectricUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -325,8 +315,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockFormat(int n, int n2) {
+    public void updateClockFormat(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -354,8 +343,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateDateFormat(int n, int n2) {
+    public void updateDateFormat(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -383,8 +371,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockViewOptions(ClockViewOptions clockViewOptions, int n) {
+    public void updateClockViewOptions(ClockViewOptions clockViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -412,8 +399,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockDate(ClockDate clockDate, int n) {
+    public void updateClockDate(ClockDate clockDate, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -441,8 +427,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockTime(ClockTime clockTime, int n) {
+    public void updateClockTime(ClockTime clockTime, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -470,8 +455,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockSource(int n, int n2) {
+    public void updateClockSource(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -499,8 +483,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockDayLightSaving(boolean bl, int n) {
+    public void updateClockDayLightSaving(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -528,8 +511,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockDayLightSavingData(ClockDayLightSavingData clockDayLightSavingData, int n) {
+    public void updateClockDayLightSavingData(ClockDayLightSavingData clockDayLightSavingData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -557,8 +539,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockTimeZoneOffset(float f2, int n) {
+    public void updateClockTimeZoneOffset(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -586,8 +567,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockTimeSourcesAvailable(ClockSources clockSources, int n) {
+    public void updateClockTimeSourcesAvailable(ClockSources clockSources, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -615,8 +595,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateClockGPSSyncData(ClockGPSSyncData clockGPSSyncData, int n) {
+    public void updateClockGPSSyncData(ClockGPSSyncData clockGPSSyncData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -644,8 +623,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void acknowledgeUmSetFactoryDefault(boolean bl) {
+    public void acknowledgeUmSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -661,8 +639,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateUTCOffset(UTCOffset uTCOffset, int n) {
+    public void updateUTCOffset(UTCOffset uTCOffset, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -690,8 +667,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateSkin(int n, int n2) {
+    public void updateSkin(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -719,8 +695,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void updateWeightUnit(int n, int n2) {
+    public void updateWeightUnit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -748,8 +723,7 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -765,14 +739,13 @@ implements DSICarTimeUnitsLanguageReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarTimeUnitsLanguageListener dSICarTimeUnitsLanguageListener = (DSICarTimeUnitsLanguageListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarTimeUnitsLanguageDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarTimeUnitsLanguageDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarTimeUnitsLanguageListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarTimeUnitsLanguageDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarTimeUnitsLanguageDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarTimeUnitsLanguageListener, new Object[]{string, string2});
                     continue;
                 }

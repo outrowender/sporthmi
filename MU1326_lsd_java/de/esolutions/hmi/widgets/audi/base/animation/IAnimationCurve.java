@@ -4,54 +4,39 @@
 package de.esolutions.hmi.widgets.audi.base.animation;
 
 public interface IAnimationCurve {
-    public static final int ANIMATION_DIRECTION_FORWARD;
-    public static final int ANIMATION_DIRECTION_BACKWARD;
-    public static final float MIN_DIFFERENCE;
-    public static final int APPROX_MIN_TIME_FOR_STEP;
+    public static final int ANIMATION_DIRECTION_FORWARD = 1;
+    public static final int ANIMATION_DIRECTION_BACKWARD = 2;
+    public static final float MIN_DIFFERENCE = 1.0E-7f;
+    public static final int APPROX_MIN_TIME_FOR_STEP = 20;
 
-    default public int getAnimationDirection() {
-    }
+    public int getAnimationDirection();
 
-    default public float getStart() {
-    }
+    public float getStart();
 
-    default public float getTarget() {
-    }
+    public float getTarget();
 
-    default public void setValue(float f2) {
-    }
+    public void setValue(float var1);
 
-    default public void setFinished(boolean bl) {
-    }
+    public void setFinished(boolean var1);
 
-    default public int getTimerIntervall() {
-    }
+    public int getTimerIntervall();
 
-    default public void setTimerIntervall(int n) {
-    }
+    public void setTimerIntervall(int var1);
 
-    default public long getPlannedDuration() {
-    }
+    public long getPlannedDuration();
 
-    default public void setTarget(float f2) {
-    }
+    public void setTarget(float var1);
 
-    default public boolean isFinished() {
-    }
+    public boolean isFinished();
 
-    default public void setAnimationDirection(int n) {
-    }
+    public void setAnimationDirection(int var1);
 
-    default public float getProgress() {
-    }
+    public float getProgress();
 
-    default public float getValue() {
-    }
+    public float getValue();
 
-    default public void initialize(float f2, float f3, int n) {
-    }
+    public void initialize(float var1, float var2, int var3);
 
-    default public void computeNextStep(long l, long l2) {
-    }
+    public void computeNextStep(long var1, long var3);
 }
 

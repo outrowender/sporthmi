@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.Country;
 
 public class CountrySerializer {
-    public static void putOptionalCountry(ISerializer iSerializer, Country country) {
+    public static void putOptionalCountry(ISerializer iSerializer, Country country) throws SerializerException {
         boolean bl = country == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CountrySerializer {
         }
     }
 
-    public static void putOptionalCountryVarArray(ISerializer iSerializer, Country[] countryArray) {
+    public static void putOptionalCountryVarArray(ISerializer iSerializer, Country[] countryArray) throws SerializerException {
         boolean bl = countryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CountrySerializer {
         }
     }
 
-    public static Country getOptionalCountry(IDeserializer iDeserializer) {
+    public static Country getOptionalCountry(IDeserializer iDeserializer) throws SerializerException {
         Country country = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CountrySerializer {
         return country;
     }
 
-    public static Country[] getOptionalCountryVarArray(IDeserializer iDeserializer) {
+    public static Country[] getOptionalCountryVarArray(IDeserializer iDeserializer) throws SerializerException {
         Country[] countryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

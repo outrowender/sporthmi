@@ -10,34 +10,34 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PhoneModuleState_Status
 implements StatusProperty {
     public int moduleState;
-    private static final int MODULE_STATE_BITSIZE;
-    public static final int MODULE_STATE_PHONE_MODULE_NOT_INSTALLED;
-    public static final int MODULE_STATE_PHONE_MODULE_OFF;
-    public static final int MODULE_STATE_PHONE_MODULE_ON;
-    public static final int MODULE_STATE_PHONE_MODULE_SWITCHING_OFF;
-    public static final int MODULE_STATE_PHONE_MODULE_SWITCHING_ON;
-    public static final int MODULE_STATE_PHONE_MODULE_NOT_FUNCTIONAL;
-    public static final int MODULE_STATE_PHONE_MODULE_OFF_HIGH_TEMPERATURE;
+    private static final int MODULE_STATE_BITSIZE = 8;
+    public static final int MODULE_STATE_PHONE_MODULE_NOT_INSTALLED = 0;
+    public static final int MODULE_STATE_PHONE_MODULE_OFF = 1;
+    public static final int MODULE_STATE_PHONE_MODULE_ON = 2;
+    public static final int MODULE_STATE_PHONE_MODULE_SWITCHING_OFF = 3;
+    public static final int MODULE_STATE_PHONE_MODULE_SWITCHING_ON = 4;
+    public static final int MODULE_STATE_PHONE_MODULE_NOT_FUNCTIONAL = 5;
+    public static final int MODULE_STATE_PHONE_MODULE_OFF_HIGH_TEMPERATURE = 6;
     public int moduleSupportedServices;
-    private static final int MODULE_SUPPORTED_SERVICES_BITSIZE;
-    public static final int MODULE_SUPPORTED_SERVICES_INVALID_UNKNOWN;
-    public static final int MODULE_SUPPORTED_SERVICES_TELEPHONE_AND_DATA_SERVICE_SUPPORTED;
-    public static final int MODULE_SUPPORTED_SERVICES_TELEPHONE_ONLY_SUPPORTED;
-    public static final int MODULE_SUPPORTED_SERVICES_DATA_SERVICE_ONLY_SUPPORTED;
+    private static final int MODULE_SUPPORTED_SERVICES_BITSIZE = 8;
+    public static final int MODULE_SUPPORTED_SERVICES_INVALID_UNKNOWN = 0;
+    public static final int MODULE_SUPPORTED_SERVICES_TELEPHONE_AND_DATA_SERVICE_SUPPORTED = 1;
+    public static final int MODULE_SUPPORTED_SERVICES_TELEPHONE_ONLY_SUPPORTED = 2;
+    public static final int MODULE_SUPPORTED_SERVICES_DATA_SERVICE_ONLY_SUPPORTED = 3;
     public int moduleActiveServices;
-    private static final int MODULE_ACTIVE_SERVICES_BITSIZE;
-    public static final int MODULE_ACTIVE_SERVICES_I_HW_IS_NOT_BEING_USED;
-    public static final int MODULE_ACTIVE_SERVICES_HW_IS_BEING_USED_FOR_TELEPHONY_AND_DATA_SERVICE;
-    public static final int MODULE_ACTIVE_SERVICES_HW_IS_BEING_USED_FOR_TELEPHONY;
-    public static final int MODULE_ACTIVE_SERVICES_HW_IS_BEING_USED_FOR_DATA_SERVICE;
+    private static final int MODULE_ACTIVE_SERVICES_BITSIZE = 8;
+    public static final int MODULE_ACTIVE_SERVICES_I_HW_IS_NOT_BEING_USED = 0;
+    public static final int MODULE_ACTIVE_SERVICES_HW_IS_BEING_USED_FOR_TELEPHONY_AND_DATA_SERVICE = 1;
+    public static final int MODULE_ACTIVE_SERVICES_HW_IS_BEING_USED_FOR_TELEPHONY = 2;
+    public static final int MODULE_ACTIVE_SERVICES_HW_IS_BEING_USED_FOR_DATA_SERVICE = 3;
     public int simstate;
-    private static final int SIM_STATE_BITSIZE;
-    public static final int SIM_STATE_INVALID_UNKNOWN;
-    public static final int SIM_STATE_NO_SIM_INSERTED;
-    public static final int SIM_STATE_SIM_INSERTED;
-    public static final int EXTENSION_1_MIN;
+    private static final int SIM_STATE_BITSIZE = 8;
+    public static final int SIM_STATE_INVALID_UNKNOWN = 0;
+    public static final int SIM_STATE_NO_SIM_INSERTED = 1;
+    public static final int SIM_STATE_SIM_INSERTED = 2;
+    public static final int EXTENSION_1_MIN = 0;
     public int extension_1;
-    private static final int EXTENSION_1_BITSIZE;
+    private static final int EXTENSION_1_BITSIZE = 8;
 
     public PhoneModuleState_Status() {
         this.internalReset();
@@ -57,12 +57,10 @@ implements StatusProperty {
         this.extension_1 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PhoneModuleState_Status phoneModuleState_Status = (PhoneModuleState_Status)bAPEntity;
         return this.moduleState == phoneModuleState_Status.moduleState && this.moduleSupportedServices == phoneModuleState_Status.moduleSupportedServices && this.moduleActiveServices == phoneModuleState_Status.moduleActiveServices && this.simstate == phoneModuleState_Status.simstate && this.extension_1 == phoneModuleState_Status.extension_1;
@@ -71,7 +69,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PhoneModuleState_Status:");
@@ -176,7 +173,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -186,7 +182,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.moduleState);
         bitStream.pushByte((byte)this.moduleSupportedServices);
@@ -195,7 +190,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension_1);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.moduleState = bitStream.popFrontByte();
         this.moduleSupportedServices = bitStream.popFrontByte();
@@ -208,7 +202,6 @@ implements StatusProperty {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return PhoneModuleState_Status.functionId();
     }

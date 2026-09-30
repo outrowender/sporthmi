@@ -15,7 +15,6 @@ implements IRunnableWrapper {
         this.handler = iFatalErrorHandler;
     }
 
-    @Override
     public Runnable wrap(Runnable runnable) {
         return new ErrorHandlingRunnable(this.handler, runnable);
     }

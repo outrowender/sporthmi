@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.hmisync.car.bc;
 
 import de.esolutions.fw.comm.asi.hmisync.car.bc.ASIHMISyncCarBordComputerReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarBordComputerS {
-    default public void setNotification(ASIHMISyncCarBordComputerReply aSIHMISyncCarBordComputerReply) {
-    }
+    public void setNotification(ASIHMISyncCarBordComputerReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncCarBordComputerReply aSIHMISyncCarBordComputerReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncCarBordComputerReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncCarBordComputerReply aSIHMISyncCarBordComputerReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncCarBordComputerReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncCarBordComputerReply aSIHMISyncCarBordComputerReply) {
-    }
+    public void clearNotification(ASIHMISyncCarBordComputerReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncCarBordComputerReply aSIHMISyncCarBordComputerReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncCarBordComputerReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncCarBordComputerReply aSIHMISyncCarBordComputerReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncCarBordComputerReply var2) throws MethodException;
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIADistanceData;
 
 public class SIADistanceDataSerializer {
-    public static void putOptionalSIADistanceData(ISerializer iSerializer, SIADistanceData sIADistanceData) {
+    public static void putOptionalSIADistanceData(ISerializer iSerializer, SIADistanceData sIADistanceData) throws SerializerException {
         boolean bl = sIADistanceData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SIADistanceDataSerializer {
         }
     }
 
-    public static void putOptionalSIADistanceDataVarArray(ISerializer iSerializer, SIADistanceData[] sIADistanceDataArray) {
+    public static void putOptionalSIADistanceDataVarArray(ISerializer iSerializer, SIADistanceData[] sIADistanceDataArray) throws SerializerException {
         boolean bl = sIADistanceDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SIADistanceDataSerializer {
         }
     }
 
-    public static SIADistanceData getOptionalSIADistanceData(IDeserializer iDeserializer) {
+    public static SIADistanceData getOptionalSIADistanceData(IDeserializer iDeserializer) throws SerializerException {
         SIADistanceData sIADistanceData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SIADistanceDataSerializer {
         return sIADistanceData;
     }
 
-    public static SIADistanceData[] getOptionalSIADistanceDataVarArray(IDeserializer iDeserializer) {
+    public static SIADistanceData[] getOptionalSIADistanceDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIADistanceData[] sIADistanceDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

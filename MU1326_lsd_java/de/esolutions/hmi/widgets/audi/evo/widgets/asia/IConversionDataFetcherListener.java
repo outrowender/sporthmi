@@ -6,10 +6,8 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 import java.util.List;
 
 public interface IConversionDataFetcherListener {
-    default public void onConversionAvailableChange(String string, List list) {
-    }
+    public void onConversionAvailableChange(String var1, List var2);
 
-    default public void onNextValidCharactersChange(String string, String string2, String string3) {
-    }
+    public void onNextValidCharactersChange(String var1, String var2, String var3);
 }
 

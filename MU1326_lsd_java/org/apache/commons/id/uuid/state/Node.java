@@ -5,6 +5,7 @@ package org.apache.commons.id.uuid.state;
 
 import java.util.Arrays;
 import org.apache.commons.id.uuid.clock.Clock;
+import org.apache.commons.id.uuid.clock.OverClockedException;
 import org.apache.commons.id.uuid.state.StateHelper;
 
 public class Node {
@@ -41,7 +42,7 @@ public class Node {
         }
     }
 
-    public long getUUIDTime() {
+    public long getUUIDTime() throws OverClockedException {
         long l = this.clock.getUUIDTime();
         if (l <= this.lastTimestamp) {
             this.incrementClockSequence();

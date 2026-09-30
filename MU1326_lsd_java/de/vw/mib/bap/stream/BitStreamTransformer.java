@@ -10,9 +10,9 @@ import de.vw.mib.bap.stream.IntegerStream;
 import java.util.Arrays;
 
 public class BitStreamTransformer {
-    public static final int INT_BITS_SIZE;
-    public static final int SHORT_BITS_SIZE;
-    public static final int BYTE_BITS_SIZE;
+    public static final int INT_BITS_SIZE = 32;
+    public static final int SHORT_BITS_SIZE = 16;
+    public static final int BYTE_BITS_SIZE = 8;
     private final ByteArrayStream arrayStream = new ByteArrayStream();
     private final IntegerStream integerStream = new IntegerStream();
 

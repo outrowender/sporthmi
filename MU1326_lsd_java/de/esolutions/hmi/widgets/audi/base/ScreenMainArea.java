@@ -9,28 +9,20 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 
 public interface ScreenMainArea
 extends ScreenArea {
-    default public void setMainAreaState(int n, int n2, boolean bl) {
-    }
+    public void setMainAreaState(int var1, int var2, boolean var3);
 
-    default public boolean isFocusableInSmallStage() {
-    }
+    public boolean isFocusableInSmallStage();
 
-    default public void setFocusableInSmallStage(boolean bl) {
-    }
+    public void setFocusableInSmallStage(boolean var1);
 
-    default public void setNotFocusableIcon(AbstractWidgetController abstractWidgetController) {
-    }
+    public void setNotFocusableIcon(AbstractWidgetController var1);
 
-    default public AbstractWidgetController getNotFocusableIcon() {
-    }
+    public AbstractWidgetController getNotFocusableIcon();
 
-    default public void initializeScreenChangeAnimation(Rectangular rectangular) {
-    }
+    public void initializeScreenChangeAnimation(Rectangular var1);
 
-    default public void setPPDesaturation(float f2) {
-    }
+    public void setPPDesaturation(float var1);
 
-    default public boolean hasVisibleFocusCursor() {
-    }
+    public boolean hasVisibleFocusCursor();
 }
 

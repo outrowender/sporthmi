@@ -10,13 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MPCallHoldAcceptWC_Result
 implements ResultMethod {
     public int mpchawc_Result;
-    private static final int MPCHAWC_RESULT_BITSIZE;
-    public static final int MPCHAWC_RESULT_SUCCESSFUL;
-    public static final int MPCHAWC_RESULT_NOT_SUCCESSFUL;
-    public static final int MPCHAWC_RESULT_ABORT_SUCCESSFUL;
-    public static final int MPCHAWC_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int MPCHAWC_RESULT_BITSIZE = 8;
+    public static final int MPCHAWC_RESULT_SUCCESSFUL = 0;
+    public static final int MPCHAWC_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int MPCHAWC_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int MPCHAWC_RESULT_ABORT_NOT_SUCCESSFUL = 3;
 
-    @Override
     public int getResultCode() {
         return this.mpchawc_Result;
     }
@@ -35,12 +34,10 @@ implements ResultMethod {
         this.mpchawc_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MPCallHoldAcceptWC_Result mPCallHoldAcceptWC_Result = (MPCallHoldAcceptWC_Result)bAPEntity;
         return this.mpchawc_Result == mPCallHoldAcceptWC_Result.mpchawc_Result;
@@ -49,7 +46,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MPCallHoldAcceptWC_Result:");
@@ -78,18 +74,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.mpchawc_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.mpchawc_Result = bitStream.popFrontByte();
     }
@@ -98,7 +91,6 @@ implements ResultMethod {
         return 37;
     }
 
-    @Override
     public int getFunctionId() {
         return MPCallHoldAcceptWC_Result.functionId();
     }

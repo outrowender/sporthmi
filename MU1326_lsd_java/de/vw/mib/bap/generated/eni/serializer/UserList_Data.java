@@ -13,25 +13,23 @@ import de.vw.mib.bap.stream.BitStream;
 public final class UserList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_USER_NAME_USER_TYPE;
-    public static final int RECORD_ADDRESS_USER_NAME_USER_LOGIN_STATE_USER_TYPE;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int POS_MIN;
+    public static final int RECORD_ADDRESS_USER_NAME_USER_TYPE = 0;
+    public static final int RECORD_ADDRESS_USER_NAME_USER_LOGIN_STATE_USER_TYPE = 1;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int POS_MIN = 0;
     public int pos;
     public UserList_UserLoginState userLoginState;
-    public static final int USER_TYPE_MAIN_USER;
-    public static final int USER_TYPE_SUB_USER;
-    public static final int USER_TYPE_FLEET_USER_DF3_6;
+    public static final int USER_TYPE_MAIN_USER = 0;
+    public static final int USER_TYPE_SUB_USER = 1;
+    public static final int USER_TYPE_FLEET_USER_DF3_6 = 2;
     public int userType;
-    private static final int MAX_USERNAME_LENGTH;
+    private static final int MAX_USERNAME_LENGTH = 242;
     public final BAPString userName;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -54,7 +52,6 @@ implements BAPArrayElement {
         this.userType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -62,7 +59,6 @@ implements BAPArrayElement {
         this.userName.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         UserList_Data userList_Data = (UserList_Data)bAPEntity;
         return this.arrayHeader.equalTo(userList_Data.arrayHeader) && this.pos == userList_Data.pos && this.userLoginState.equalTo(userList_Data.userLoginState) && this.userType == userList_Data.userType && this.userName.equalTo(userList_Data.userName);
@@ -71,23 +67,20 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("UserList_Data");
-        stringBuffer.append(new StringBuffer().append("\n - pos:").append(this.pos).toString());
-        stringBuffer.append(new StringBuffer().append("\n - userLoginState:").append(this.userLoginState.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - userType:").append(this.userType).toString());
-        stringBuffer.append(new StringBuffer().append("\n - userName:").append(this.userName.toString()).toString());
+        stringBuffer.append("\n - pos:" + this.pos);
+        stringBuffer.append("\n - userLoginState:" + this.userLoginState.toString());
+        stringBuffer.append("\n - userType:" + this.userType);
+        stringBuffer.append("\n - userName:" + this.userName.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -110,7 +103,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -133,12 +125,10 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }

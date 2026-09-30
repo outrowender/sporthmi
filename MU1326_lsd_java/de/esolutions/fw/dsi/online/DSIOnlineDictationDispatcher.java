@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.online;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineDictationReply;
 import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineDictationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIOnlineDictationReply {
         super(n, (class$org$dsi$ifc$online$DSIOnlineDictationListener == null ? (class$org$dsi$ifc$online$DSIOnlineDictationListener = DSIOnlineDictationDispatcher.class$("org.dsi.ifc.online.DSIOnlineDictationListener")) : class$org$dsi$ifc$online$DSIOnlineDictationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void dictationResult(int n) {
+    public void dictationResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIOnlineDictationReply {
         }
     }
 
-    @Override
-    public void finishDictationResponse(int n) {
+    public void finishDictationResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIOnlineDictationReply {
         }
     }
 
-    @Override
-    public void dictationValueList(DictationValueSentence dictationValueSentence) {
+    public void dictationValueList(DictationValueSentence dictationValueSentence) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIOnlineDictationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -95,14 +91,13 @@ implements DSIOnlineDictationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIOnlineDictationListener dSIOnlineDictationListener = (DSIOnlineDictationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineDictationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineDictationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIOnlineDictationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineDictationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineDictationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIOnlineDictationListener, new Object[]{string, string2});
                     continue;
                 }

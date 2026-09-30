@@ -10,11 +10,13 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.androidauto.DSIAndroidAuto;
 import de.esolutions.fw.comm.dsi.androidauto.DSIAndroidAutoC;
 import de.esolutions.fw.comm.dsi.androidauto.DSIAndroidAutoReply;
-import de.esolutions.fw.comm.dsi.androidauto.impl.DSIAndroidAutoProxy$1;
-import de.esolutions.fw.comm.dsi.androidauto.impl.DSIAndroidAutoProxy$2;
-import de.esolutions.fw.comm.dsi.androidauto.impl.DSIAndroidAutoProxy$3;
-import de.esolutions.fw.comm.dsi.androidauto.impl.DSIAndroidAutoProxy$4;
+import de.esolutions.fw.comm.dsi.androidauto.impl.AppStateSerializer;
 import de.esolutions.fw.comm.dsi.androidauto.impl.DSIAndroidAutoReplyService;
+import de.esolutions.fw.comm.dsi.androidauto.impl.ResourceSerializer;
+import de.esolutions.fw.comm.dsi.androidauto.impl.ServiceConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.androidauto.impl.TouchEventSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto.AppState;
@@ -38,14 +40,17 @@ DSIAndroidAutoC {
         return this.proxy;
     }
 
-    @Override
-    public void startService(ServiceConfiguration serviceConfiguration) {
-        DSIAndroidAutoProxy$1 dSIAndroidAutoProxy$1 = new DSIAndroidAutoProxy$1(this, serviceConfiguration);
-        this.proxy.remoteCallMethod((short)37, dSIAndroidAutoProxy$1);
+    public void startService(final ServiceConfiguration serviceConfiguration) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ServiceConfigurationSerializer.putOptionalServiceConfiguration(iSerializer, serviceConfiguration);
+            }
+        };
+        this.proxy.remoteCallMethod((short)37, iSerializable);
     }
 
-    @Override
-    public void postButtonEvent(int n, int n2) {
+    public void postButtonEvent(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -57,14 +62,20 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2, int n3) {
-        DSIAndroidAutoProxy$2 dSIAndroidAutoProxy$2 = new DSIAndroidAutoProxy$2(this, n, touchEventArray, n2, n3);
-        this.proxy.remoteCallMethod((short)35, dSIAndroidAutoProxy$2);
+    public void postTouchEvent(final int n, final TouchEvent[] touchEventArray, final int n2, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                TouchEventSerializer.putOptionalTouchEventVarArray(iSerializer, touchEventArray);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)35, iSerializable);
     }
 
-    @Override
-    public void postRotaryEvent(int n) {
+    public void postRotaryEvent(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -75,20 +86,29 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setMode(Resource[] resourceArray, AppState[] appStateArray) {
-        DSIAndroidAutoProxy$3 dSIAndroidAutoProxy$3 = new DSIAndroidAutoProxy$3(this, resourceArray, appStateArray);
-        this.proxy.remoteCallMethod((short)32, dSIAndroidAutoProxy$3);
+    public void setMode(final Resource[] resourceArray, final AppState[] appStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceSerializer.putOptionalResourceVarArray(iSerializer, resourceArray);
+                AppStateSerializer.putOptionalAppStateVarArray(iSerializer, appStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)32, iSerializable);
     }
 
-    @Override
-    public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray) {
-        DSIAndroidAutoProxy$4 dSIAndroidAutoProxy$4 = new DSIAndroidAutoProxy$4(this, resourceArray, appStateArray);
-        this.proxy.remoteCallMethod((short)31, dSIAndroidAutoProxy$4);
+    public void responseModeChange(final Resource[] resourceArray, final AppState[] appStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceSerializer.putOptionalResourceVarArray(iSerializer, resourceArray);
+                AppStateSerializer.putOptionalAppStateVarArray(iSerializer, appStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)31, iSerializable);
     }
 
-    @Override
-    public void requestNightMode(boolean bl) {
+    public void requestNightMode(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -99,8 +119,7 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -111,8 +130,7 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -123,13 +141,11 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -140,8 +156,7 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -152,13 +167,11 @@ DSIAndroidAutoC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

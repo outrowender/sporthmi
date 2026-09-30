@@ -3,11 +3,11 @@
  */
 package de.esolutions.fw.comm.asi.connectivity.networking;
 
-public interface NetworkingBluetoothBridgeC {
-    default public void updateConnectionState(long l, int n, int n2) {
-    }
+import de.esolutions.fw.comm.core.method.MethodException;
 
-    default public void updateBluetoothAddress(long l) {
-    }
+public interface NetworkingBluetoothBridgeC {
+    public void updateConnectionState(long var1, int var3, int var4) throws MethodException;
+
+    public void updateBluetoothAddress(long var1) throws MethodException;
 }
 

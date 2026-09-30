@@ -26,17 +26,14 @@ implements DOMError {
         this.fLocator = this.createDOMLocator(xMLParseException);
     }
 
-    @Override
     public short getSeverity() {
         return this.fSeverity;
     }
 
-    @Override
     public String getMessage() {
         return this.fMessage;
     }
 
-    @Override
     public DOMLocator getLocation() {
         return this.fLocator;
     }
@@ -45,7 +42,6 @@ implements DOMError {
         return new DOMLocatorImpl(xMLParseException.getLineNumber(), xMLParseException.getColumnNumber(), xMLParseException.getCharacterOffset(), xMLParseException.getExpandedSystemId());
     }
 
-    @Override
     public Object getRelatedException() {
         return this.fException;
     }
@@ -55,12 +51,10 @@ implements DOMError {
         this.fException = null;
     }
 
-    @Override
     public String getType() {
         return this.fType;
     }
 
-    @Override
     public Object getRelatedData() {
         return this.fRelatedData;
     }

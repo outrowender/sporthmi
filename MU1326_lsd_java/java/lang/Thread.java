@@ -10,13 +10,13 @@ import java.security.AccessController;
 
 public class Thread
 implements Runnable {
-    public static final int MAX_PRIORITY;
-    public static final int MIN_PRIORITY;
-    public static final int NORM_PRIORITY;
-    private static int createCount;
-    private static final int NANOS_MAX;
-    private static final int INITIAL_LOCAL_STORAGE_CAPACITY;
-    static final long NO_REF;
+    public static final int MAX_PRIORITY = 10;
+    public static final int MIN_PRIORITY = 1;
+    public static final int NORM_PRIORITY = 5;
+    private static int createCount = -1;
+    private static final int NANOS_MAX = 999999;
+    private static final int INITIAL_LOCAL_STORAGE_CAPACITY = 5;
+    static final long NO_REF = 0L;
     long threadRef;
     long stackSize = 0L;
     private volatile boolean started;
@@ -29,7 +29,7 @@ implements Runnable {
     private ClassLoader contextClassLoader = null;
     private IdentityHashtable localStorage;
     private AccessControlContext accessControlContext;
-    Object lock = new Thread$ThreadLock(null);
+    Object lock = new ThreadLock();
     private Object slot1;
     private Object slot2;
     private Object slot3;
@@ -37,10 +37,6 @@ implements Runnable {
     private Object slot4;
     private static ThreadGroup systemThreadGroup;
     private static ThreadGroup mainGroup;
-
-    static {
-        createCount = -1;
-    }
 
     public Thread() {
         this(null, null, Thread.newName());
@@ -139,8 +135,7 @@ implements Runnable {
         }
     }
 
-    public static native Thread currentThread() {
-    }
+    public static native Thread currentThread();
 
     public void destroy() {
         throw new NoSuchMethodError();
@@ -203,8 +198,15 @@ implements Runnable {
             n = 5;
         }
         this.initializeLocalStorage(n);
-        Thread$1 thread$1 = new Thread$1(this);
-        thread.localStorage.iterate(thread$1);
+        IdentityHashtable.Iterator iterator = new IdentityHashtable.Iterator(){
+
+            public void iterate(Object object, Object object2) {
+                if (object instanceof InheritableThreadLocal) {
+                    Thread.this.localStorage.put(object, ((InheritableThreadLocal)object).childValue(object2));
+                }
+            }
+        };
+        thread.localStorage.iterate(iterator);
     }
 
     /*
@@ -218,11 +220,9 @@ implements Runnable {
         }
     }
 
-    public static native boolean interrupted() {
-    }
+    public static native boolean interrupted();
 
-    private native void interruptImpl() {
-    }
+    private native void interruptImpl();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -258,23 +258,22 @@ implements Runnable {
         }
     }
 
-    private native boolean isInterruptedImpl() {
-    }
+    private native boolean isInterruptedImpl();
 
-    public final synchronized void join() {
+    public final synchronized void join() throws InterruptedException {
         if (this.started) {
             while (!this.isDead()) {
-                super.wait(0L);
+                this.wait(0L);
             }
         }
     }
 
-    public final void join(long l) {
+    public final void join(long l) throws InterruptedException {
         this.join(l, 0);
     }
 
-    public final synchronized void join(long l, int n) {
-        if (l < 0L || n < 0 || n > 1061293824) {
+    public final synchronized void join(long l, int n) throws InterruptedException {
+        if (l < 0L || n < 0 || n > 999999) {
             throw new IllegalArgumentException();
         }
         if (!this.started || this.isDead()) {
@@ -284,7 +283,7 @@ implements Runnable {
         long l3 = l;
         boolean bl = false;
         if (l == 0L & n > 0) {
-            if (n < 547424000) {
+            if (n < 500000) {
                 bl = true;
             } else {
                 l3 = 1L;
@@ -292,7 +291,7 @@ implements Runnable {
         }
         while (!bl && !this.isDead()) {
             long l4 = System.currentTimeMillis();
-            super.wait(l3);
+            this.wait(l3);
             long l5 = System.currentTimeMillis() - l4;
             l3 -= l5;
             boolean bl2 = bl = (l2 += l5) >= l;
@@ -307,7 +306,6 @@ implements Runnable {
         return new StringBuffer("Thread-").append(createCount++).toString();
     }
 
-    @Override
     public void run() {
         if (this.runnable != null) {
             this.runnable.run();
@@ -337,8 +335,7 @@ implements Runnable {
         }
     }
 
-    private native void setNameImpl(long l) {
-    }
+    private native void setNameImpl(long var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -380,8 +377,7 @@ implements Runnable {
         }
     }
 
-    private native void setPriorityNoVMAccessImpl(long l, int n) {
-    }
+    private native void setPriorityNoVMAccessImpl(long var1, int var3);
 
     void setThreadLocal(ThreadLocal threadLocal, Object object) {
         if (this.localStorage == null) {
@@ -390,12 +386,11 @@ implements Runnable {
         this.localStorage.put(threadLocal, object);
     }
 
-    public static void sleep(long l) {
+    public static void sleep(long l) throws InterruptedException {
         Thread.sleep(l, 0);
     }
 
-    public static native void sleep(long l, int n) {
-    }
+    public static native void sleep(long var0, int var2);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -420,18 +415,15 @@ implements Runnable {
         }
     }
 
-    private native void startImpl() {
-    }
+    private native void startImpl();
 
     public String toString() {
         return new StringBuffer("Thread[").append(this.getName()).append(",").append(this.getPriority()).append(",").append(this.getThreadGroup() == null ? "" : this.getThreadGroup().getName()).append("]").toString();
     }
 
-    public static native void yield() {
-    }
+    public static native void yield();
 
-    public static native boolean holdsLock(Object object) {
-    }
+    public static native boolean holdsLock(Object var0);
 
     private void uncaughtException(Throwable throwable) {
         ThreadGroup threadGroup = this.getThreadGroup();
@@ -440,8 +432,9 @@ implements Runnable {
         }
     }
 
-    static /* synthetic */ IdentityHashtable access$0(Thread thread) {
-        return thread.localStorage;
+    private static class ThreadLock {
+        private ThreadLock() {
+        }
     }
 }
 

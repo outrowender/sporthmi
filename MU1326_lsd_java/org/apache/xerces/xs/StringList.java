@@ -4,13 +4,10 @@
 package org.apache.xerces.xs;
 
 public interface StringList {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public boolean contains(String string) {
-    }
+    public boolean contains(String var1);
 
-    default public String item(int n) {
-    }
+    public String item(int var1);
 }
 

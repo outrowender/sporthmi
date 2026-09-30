@@ -40,7 +40,7 @@ implements IAnimationController {
         if (!this.registeredPaintTargets.contains(screen)) {
             this.registeredPaintTargets.add(screen);
         } else {
-            this.logAnimation.log(-2137614336, "AnimationController#registerPaintTarget paintTarget was already registered %1 ", (Object)screen);
+            this.logAnimation.log(10000000, "AnimationController#registerPaintTarget paintTarget was already registered %1 ", (Object)screen);
         }
     }
 
@@ -73,7 +73,6 @@ implements IAnimationController {
         }
     }
 
-    @Override
     public boolean isAnimationRunning(int n) {
         return this.actualAnimations[n].size() > 0;
     }
@@ -93,12 +92,12 @@ implements IAnimationController {
         if (this.isScreenChangeAnimationRunning()) {
             return true;
         }
-        this.logAnimation.log(-2137614336, "AbstractAnimationController#isAnimationRunningThatBlocksRepaint no of animation that block repaint: %1", (long)this.noOfAnimThatBlockRepaint);
+        this.logAnimation.log(10000000, "AbstractAnimationController#isAnimationRunningThatBlocksRepaint no of animation that block repaint: %1", (long)this.noOfAnimThatBlockRepaint);
         return this.noOfAnimThatBlockRepaint > 0;
     }
 
     public void activateAnimation(int n, AbstractAnimation abstractAnimation) {
-        this.logAnimation.log(-2137614336, "AbstractAnimationController#activateAnimation animationType = %1", (long)n);
+        this.logAnimation.log(10000000, "AbstractAnimationController#activateAnimation animationType = %1", (long)n);
         if (abstractAnimation == null) {
             this.logAnimation.log(10000, "AnimationController#activateAnimation animation is NULL");
             return;
@@ -126,12 +125,12 @@ implements IAnimationController {
             this.priorityQueue.add(abstractAnimation);
         }
         if (this.logAnimation.isDebug()) {
-            this.logAnimation.log(-2137614336, "AnimationController#activateAnimation shortest delay is %1 ", (long)((AbstractAnimation)this.priorityQueue.get(0)).getTimerIntervall());
+            this.logAnimation.log(10000000, "AnimationController#activateAnimation shortest delay is %1 ", (long)((AbstractAnimation)this.priorityQueue.get(0)).getTimerIntervall());
         }
     }
 
     public void deactivateAnimation(int n, AbstractAnimation abstractAnimation, Exception exception) {
-        this.logAnimation.log(-2137614336, "AbstractAnimationController#deactivateAnimation animationType = %1", (long)n);
+        this.logAnimation.log(10000000, "AbstractAnimationController#deactivateAnimation animationType = %1", (long)n);
         if (this.actualAnimations[n].contains(abstractAnimation)) {
             this.actualAnimations[n].remove(abstractAnimation);
             if (abstractAnimation.blocksRepaint()) {
@@ -157,24 +156,24 @@ implements IAnimationController {
         }
         if (!this.priorityQueue.isEmpty()) {
             if (this.priorityQueue.get(0) == abstractAnimation) {
-                this.logAnimation.log(-2137614336, "AnimationController#drawForAnimation draw needed %1 ", (Object)abstractAnimation);
+                this.logAnimation.log(10000000, "AnimationController#drawForAnimation draw needed %1 ", (Object)abstractAnimation);
                 return true;
             }
             Iterator iterator = this.priorityQueue.iterator();
             while (iterator.hasNext()) {
                 AbstractAnimation abstractAnimation2 = (AbstractAnimation)iterator.next();
                 if (Util.equals(abstractAnimation2, abstractAnimation)) {
-                    this.logAnimation.log(-2137614336, "AnimationController#drawForAnimation draw needed %1 because all higher prio animations are blocked", (Object)abstractAnimation);
+                    this.logAnimation.log(10000000, "AnimationController#drawForAnimation draw needed %1 because all higher prio animations are blocked", (Object)abstractAnimation);
                     return true;
                 }
                 if (abstractAnimation2.isBlocked()) continue;
-                this.logAnimation.log(-2137614336, "AnimationController#drawForAnimation draw not needed %1 because higher prio animation is not blocked ", (Object)abstractAnimation);
+                this.logAnimation.log(10000000, "AnimationController#drawForAnimation draw not needed %1 because higher prio animation is not blocked ", (Object)abstractAnimation);
                 return false;
             }
-            this.logAnimation.log(-2137614336, "AnimationController#drawForAnimation draw needed %1 because all higher prio animations are blocked", (Object)abstractAnimation);
+            this.logAnimation.log(10000000, "AnimationController#drawForAnimation draw needed %1 because all higher prio animations are blocked", (Object)abstractAnimation);
             return true;
         }
-        this.logAnimation.log(-2137614336, "AnimationController#drawForAnimation draw needed %1 ", (Object)abstractAnimation);
+        this.logAnimation.log(10000000, "AnimationController#drawForAnimation draw needed %1 ", (Object)abstractAnimation);
         return true;
     }
 
@@ -187,14 +186,13 @@ implements IAnimationController {
                 return true;
             }
             boolean bl = ((AbstractAnimation)this.priorityQueue.get(0)).getAnimatedScreen() == abstractAnimation.getAnimatedScreen();
-            this.logAnimation.log(-2137614336, "AnimationController#paintForAnimation paint needed %1 ", !bl);
+            this.logAnimation.log(10000000, "AnimationController#paintForAnimation paint needed %1 ", !bl);
             return !bl;
         }
-        this.logAnimation.log(-2137614336, "AnimationController#paintForAnimation paint needed %1 ", (Object)abstractAnimation);
+        this.logAnimation.log(10000000, "AnimationController#paintForAnimation paint needed %1 ", (Object)abstractAnimation);
         return true;
     }
 
-    @Override
     public void setAnimationBlocked(int n, boolean bl) {
         if (n >= 0 && n < this.blockInformation.length) {
             this.blockInformation[n] = bl;
@@ -209,17 +207,14 @@ implements IAnimationController {
         }
     }
 
-    @Override
     public boolean isAnimationBlocked(int n) {
         return this.blockInformation[n];
     }
 
-    @Override
     public List getActiveAnimations(int n) {
         return this.actualAnimations[n];
     }
 
-    @Override
     public void setMMICombiAnimationSyncer(IMMICombiAnimationSyncer iMMICombiAnimationSyncer) {
         this.animationSyncer = iMMICombiAnimationSyncer;
     }

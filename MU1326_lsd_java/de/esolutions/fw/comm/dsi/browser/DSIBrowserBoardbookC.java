@@ -3,38 +3,29 @@
  */
 package de.esolutions.fw.comm.dsi.browser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIBrowserBoardbookC {
-    default public void startBoardbook(int n, String string) {
-    }
+    public void startBoardbook(int var1, String var2) throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void openPage(int n) {
-    }
+    public void openPage(int var1) throws MethodException;
 
-    default public void search(String string, int n) {
-    }
+    public void search(String var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

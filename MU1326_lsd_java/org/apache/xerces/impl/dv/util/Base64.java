@@ -4,16 +4,16 @@
 package org.apache.xerces.impl.dv.util;
 
 public final class Base64 {
-    private static final int BASELENGTH;
-    private static final int LOOKUPLENGTH;
-    private static final int TWENTYFOURBITGROUP;
-    private static final int EIGHTBIT;
-    private static final int SIXTEENBIT;
-    private static final int SIXBIT;
-    private static final int FOURBYTE;
-    private static final int SIGN;
-    private static final char PAD;
-    private static final boolean fDebug;
+    private static final int BASELENGTH = 128;
+    private static final int LOOKUPLENGTH = 64;
+    private static final int TWENTYFOURBITGROUP = 24;
+    private static final int EIGHTBIT = 8;
+    private static final int SIXTEENBIT = 16;
+    private static final int SIXBIT = 6;
+    private static final int FOURBYTE = 4;
+    private static final int SIGN = -128;
+    private static final char PAD = '=';
+    private static final boolean fDebug = false;
     private static final byte[] base64Alphabet;
     private static final char[] lookUpBase64Alphabet;
 

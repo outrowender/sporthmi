@@ -7,7 +7,7 @@ import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SerializerBufferOverflowException
 extends SerializerException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public SerializerBufferOverflowException() {
     }

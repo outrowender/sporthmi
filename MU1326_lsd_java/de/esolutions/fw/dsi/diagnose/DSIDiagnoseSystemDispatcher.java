@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.diagnose;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.diagnose.DSIDiagnoseSystemReply;
 import de.esolutions.fw.comm.dsi.diagnose.impl.DSIDiagnoseSystemReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIDiagnoseSystemReply {
         super(n, (class$org$dsi$ifc$diagnose$DSIDiagnoseSystemListener == null ? (class$org$dsi$ifc$diagnose$DSIDiagnoseSystemListener = DSIDiagnoseSystemDispatcher.class$("org.dsi.ifc.diagnose.DSIDiagnoseSystemListener")) : class$org$dsi$ifc$diagnose$DSIDiagnoseSystemListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateDiagnosticValueChanged(int n, long l, int n2) {
+    public void updateDiagnosticValueChanged(int n, long l, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -56,8 +55,7 @@ implements DSIDiagnoseSystemReply {
         }
     }
 
-    @Override
-    public void requestRoutine(int n, int n2, int n3, int[] nArray) {
+    public void requestRoutine(int n, int n2, int n3, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -73,8 +71,7 @@ implements DSIDiagnoseSystemReply {
         }
     }
 
-    @Override
-    public void requestActuatorTest(int n, int n2, int n3, int n4, int[] nArray) {
+    public void requestActuatorTest(int n, int n2, int n3, int n4, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -90,8 +87,7 @@ implements DSIDiagnoseSystemReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -107,14 +103,13 @@ implements DSIDiagnoseSystemReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIDiagnoseSystemListener dSIDiagnoseSystemListener = (DSIDiagnoseSystemListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDiagnoseSystemDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDiagnoseSystemDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIDiagnoseSystemListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIDiagnoseSystemDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIDiagnoseSystemDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIDiagnoseSystemListener, new Object[]{string, string2});
                     continue;
                 }

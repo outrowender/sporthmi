@@ -10,23 +10,23 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CurrentVolume_Status
 implements StatusProperty {
     public int entertainmentVolume;
-    private static final int ENTERTAINMENT_VOLUME_BITSIZE;
+    private static final int ENTERTAINMENT_VOLUME_BITSIZE = 8;
     public int navigationVolume;
-    private static final int NAVIGATION_VOLUME_BITSIZE;
+    private static final int NAVIGATION_VOLUME_BITSIZE = 8;
     public int taVolume;
-    private static final int TA_VOLUME_BITSIZE;
+    private static final int TA_VOLUME_BITSIZE = 8;
     public int phoneVolume;
-    private static final int PHONE_VOLUME_BITSIZE;
+    private static final int PHONE_VOLUME_BITSIZE = 8;
     public int sdsVolume;
-    private static final int SDS_VOLUME_BITSIZE;
+    private static final int SDS_VOLUME_BITSIZE = 8;
     public int changingVolumeType;
-    private static final int CHANGING_VOLUME_TYPE_BITSIZE;
-    public static final int CHANGING_VOLUME_TYPE_NO_VOLUME_IS_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_ENTERTAINMENT_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_NAVIGATION_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_TA_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_PHONE_VOLUME_IS_BEING_CHANGED;
-    public static final int CHANGING_VOLUME_TYPE_SDS_VOLUME_IS_BEING_CHANGED;
+    private static final int CHANGING_VOLUME_TYPE_BITSIZE = 8;
+    public static final int CHANGING_VOLUME_TYPE_NO_VOLUME_IS_CHANGED = 0;
+    public static final int CHANGING_VOLUME_TYPE_ENTERTAINMENT_VOLUME_IS_BEING_CHANGED = 1;
+    public static final int CHANGING_VOLUME_TYPE_NAVIGATION_VOLUME_IS_BEING_CHANGED = 2;
+    public static final int CHANGING_VOLUME_TYPE_TA_VOLUME_IS_BEING_CHANGED = 4;
+    public static final int CHANGING_VOLUME_TYPE_PHONE_VOLUME_IS_BEING_CHANGED = 8;
+    public static final int CHANGING_VOLUME_TYPE_SDS_VOLUME_IS_BEING_CHANGED = 16;
 
     public CurrentVolume_Status() {
         this.internalReset();
@@ -47,12 +47,10 @@ implements StatusProperty {
         this.changingVolumeType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentVolume_Status currentVolume_Status = (CurrentVolume_Status)bAPEntity;
         return this.entertainmentVolume == currentVolume_Status.entertainmentVolume && this.navigationVolume == currentVolume_Status.navigationVolume && this.taVolume == currentVolume_Status.taVolume && this.phoneVolume == currentVolume_Status.phoneVolume && this.sdsVolume == currentVolume_Status.sdsVolume && this.changingVolumeType == currentVolume_Status.changingVolumeType;
@@ -61,7 +59,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentVolume_Status:");
@@ -108,7 +105,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -119,7 +115,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.entertainmentVolume);
         bitStream.pushByte((byte)this.navigationVolume);
@@ -129,7 +124,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.changingVolumeType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.entertainmentVolume = bitStream.popFrontByte();
         this.navigationVolume = bitStream.popFrontByte();
@@ -143,7 +137,6 @@ implements StatusProperty {
         return 18;
     }
 
-    @Override
     public int getFunctionId() {
         return CurrentVolume_Status.functionId();
     }

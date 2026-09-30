@@ -21,19 +21,16 @@ extends Command {
         this.reply = iServiceQueryReply;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doQueryService(this.instanceID, this.reply);
     }
 
-    @Override
     public void drop(ICommandExecutor iCommandExecutor, boolean bl) {
         iCommandExecutor.dropQueryService(this.instanceID, this.reply, bl);
     }
 
-    @Override
     public String getArgsString() {
-        return new StringBuffer().append("instance=").append(this.instanceID).toString();
+        return "instance=" + this.instanceID;
     }
 }
 

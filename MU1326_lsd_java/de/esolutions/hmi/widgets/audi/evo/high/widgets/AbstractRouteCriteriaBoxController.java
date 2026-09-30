@@ -27,24 +27,24 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.MapOverlayPlateController;
 public abstract class AbstractRouteCriteriaBoxController
 extends LayoutContainerController
 implements RouteBriefingOptionConstants {
-    protected static final int BITMAP_INDEX_REROUTING_AUTO;
-    protected static final int BITMAP_INDEX_REROUTING_MANUAL;
-    protected static final int BITMAP_INDEX_REROUTING_OFF;
-    protected static final int BITMAP_INDEX_AEA;
-    protected static final int BITMAP_INDEX_FERRY;
-    protected static final int BITMAP_INDEX_MOTORAIL;
-    protected static final int BITMAP_INDEX_TOLL;
-    protected static final int BITMAP_INDEX_VIGNETTE;
-    protected static final int BITMAP_INDEX_SEASONALLY_RESTRICTED;
-    protected static final int BITMAP_INDEX_MOTORWAY;
-    protected static final int BITMAP_INDEX_TIME_RESTRICTED;
-    protected static final int BITMAP_INDEX_HOV_LANE;
-    protected static final int BITMAP_INDEX_HOV_LANE_AVOID;
-    protected static final int BITMAP_INDEX_MOTORWAY_ENTRANCE;
-    protected static final int BITMAP_INDEX_MOTORWAY_EXIT;
-    protected static final int BITMAP_INDEX_TOLL_SEGMENT;
-    protected static final int BITMAP_INDEX_TOLL_AMOUNT;
-    protected static final int BITMAP_INDEX_SEPARATING_LINE;
+    protected static final int BITMAP_INDEX_REROUTING_AUTO = 0;
+    protected static final int BITMAP_INDEX_REROUTING_MANUAL = 1;
+    protected static final int BITMAP_INDEX_REROUTING_OFF = 2;
+    protected static final int BITMAP_INDEX_AEA = 3;
+    protected static final int BITMAP_INDEX_FERRY = 4;
+    protected static final int BITMAP_INDEX_MOTORAIL = 5;
+    protected static final int BITMAP_INDEX_TOLL = 6;
+    protected static final int BITMAP_INDEX_VIGNETTE = 7;
+    protected static final int BITMAP_INDEX_SEASONALLY_RESTRICTED = 8;
+    protected static final int BITMAP_INDEX_MOTORWAY = 9;
+    protected static final int BITMAP_INDEX_TIME_RESTRICTED = 10;
+    protected static final int BITMAP_INDEX_HOV_LANE = 11;
+    protected static final int BITMAP_INDEX_HOV_LANE_AVOID = 12;
+    protected static final int BITMAP_INDEX_MOTORWAY_ENTRANCE = 13;
+    protected static final int BITMAP_INDEX_MOTORWAY_EXIT = 14;
+    protected static final int BITMAP_INDEX_TOLL_SEGMENT = 15;
+    protected static final int BITMAP_INDEX_TOLL_AMOUNT = 16;
+    protected static final int BITMAP_INDEX_SEPARATING_LINE = 17;
     protected MapOverlayPlateController plate;
     protected IconController[] icons;
     private boolean isSetUp = false;
@@ -52,7 +52,6 @@ implements RouteBriefingOptionConstants {
     protected int[] itemState;
     protected int[] modelStubs;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof MapOverlayPlateController) {
             this.plate = (MapOverlayPlateController)abstractWidget;
@@ -76,7 +75,6 @@ implements RouteBriefingOptionConstants {
         return false;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.isInitialized = true;
@@ -123,7 +121,6 @@ implements RouteBriefingOptionConstants {
         return layoutContainerController;
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.isInitialized = false;
@@ -164,20 +161,19 @@ implements RouteBriefingOptionConstants {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!this.isRegion(AbstractRouteCriteriaBoxController.getRegionCode())) {
-            mapOverlayLogCh.log(-2137614336, "AbstractRouteCriteriaBoxController#processModelUpdateEvent Widget is not intended for the current region: %1", (long)AbstractRouteCriteriaBoxController.getRegionCode());
+            mapOverlayLogCh.log(10000000, "AbstractRouteCriteriaBoxController#processModelUpdateEvent Widget is not intended for the current region: %1", (long)AbstractRouteCriteriaBoxController.getRegionCode());
             return;
         }
         if (!this.isConnected()) {
-            mapOverlayLogCh.log(-2137614336, "AbstractRouteCriteriaBoxController#processModelUpdateEvent Widget is not connected.");
+            mapOverlayLogCh.log(10000000, "AbstractRouteCriteriaBoxController#processModelUpdateEvent Widget is not connected.");
             return;
         }
         int n = modelUpdateEvent.getModelType();
         int n2 = modelUpdateEvent.getModelId();
         HMIModel hMIModel = hmiService.getModel(n2);
-        mapOverlayLogCh.log(-2137614336, "AbstractRouteCriteriaBoxController#processModelUpdateEvent Received update from %1.", (long)n2);
+        mapOverlayLogCh.log(10000000, "AbstractRouteCriteriaBoxController#processModelUpdateEvent Received update from %1.", (long)n2);
         switch (n) {
             case 25: {
                 this.updateContent(this.readDataFromBaseListModel(hMIModel), n2);
@@ -213,7 +209,7 @@ implements RouteBriefingOptionConstants {
             ListModelGUI listModelGUI = (ListModelGUI)object;
             int n = listModelGUI.getMaxColumns();
             int n2 = listModelGUI.getLength();
-            mapOverlayLogCh.log(-2137614336, "AbstractRouteCriteriaBoxController#readDataFromModel nCols = %1, nRows = %2", (long)n, (long)n2);
+            mapOverlayLogCh.log(10000000, "AbstractRouteCriteriaBoxController#readDataFromModel nCols = %1, nRows = %2", (long)n, (long)n2);
             ListCell[][] listCellArray = new ListCell[n2][n];
             for (int i2 = 0; i2 < n2; ++i2) {
                 boolean bl = listModelGUI.getRow(i2, listCellArray[i2]);
@@ -226,10 +222,9 @@ implements RouteBriefingOptionConstants {
         return null;
     }
 
-    @Override
     protected void initializeWidget() {
         if (!this.isRegion(AbstractRouteCriteriaBoxController.getRegionCode())) {
-            mapOverlayLogCh.log(-2137614336, "AbstractRouteCriteriaBoxController#initializeWidget Widget is not intended for the current region: %1", (long)AbstractRouteCriteriaBoxController.getRegionCode());
+            mapOverlayLogCh.log(10000000, "AbstractRouteCriteriaBoxController#initializeWidget Widget is not intended for the current region: %1", (long)AbstractRouteCriteriaBoxController.getRegionCode());
             this.plate.setOnScreen(false);
             this.setOnScreen(false);
             return;
@@ -253,22 +248,16 @@ implements RouteBriefingOptionConstants {
         return this.isInitialized;
     }
 
-    protected abstract void printBoxInfo(LogChannel logChannel) {
-    }
+    protected abstract void printBoxInfo(LogChannel var1);
 
-    protected abstract boolean isRegion(int n) {
-    }
+    protected abstract boolean isRegion(int var1);
 
-    protected abstract void setUpIndividualProperties() {
-    }
+    protected abstract void setUpIndividualProperties();
 
-    protected abstract void setUpWidgets() {
-    }
+    protected abstract void setUpWidgets();
 
-    protected abstract void setUpLayout() {
-    }
+    protected abstract void setUpLayout();
 
-    protected abstract void updateContent(Object object, int n) {
-    }
+    protected abstract void updateContent(Object var1, int var2);
 }
 

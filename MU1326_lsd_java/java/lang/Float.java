@@ -9,18 +9,14 @@ import com.ibm.oti.util.NumberConverter;
 public final class Float
 extends Number
 implements Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2671257302660747028L;
     final float value;
-    public static final float MAX_VALUE;
-    public static final float MIN_VALUE;
-    public static final float NaN;
-    public static final float POSITIVE_INFINITY;
-    public static final float NEGATIVE_INFINITY;
-    public static final Class TYPE;
-
-    static {
-        TYPE = super.getClass().getComponentType();
-    }
+    public static final float MAX_VALUE = 3.4028235E38f;
+    public static final float MIN_VALUE = 1.4E-45f;
+    public static final float NaN = 0.0f / 0.0f;
+    public static final float POSITIVE_INFINITY = 1.0f / 0.0f;
+    public static final float NEGATIVE_INFINITY = -1.0f / 0.0f;
+    public static final Class TYPE = new float[0].getClass().getComponentType();
 
     public Float(float f2) {
         this.value = f2;
@@ -30,12 +26,12 @@ implements Comparable {
         this.value = (float)d2;
     }
 
-    public Float(String string) {
+    public Float(String string) throws NumberFormatException {
         this(Float.parseFloat(string));
     }
 
     public int compareTo(Float f2) {
-        int n = Float.floatToIntBits(49279);
+        int n = Float.floatToIntBits(Float.NaN);
         int n2 = Float.floatToIntBits(this.value);
         if (n2 == n) {
             if (Float.floatToIntBits(f2.value) == n) {
@@ -56,17 +52,14 @@ implements Comparable {
         return this.value > f2.value ? 1 : -1;
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.compareTo((Float)object);
     }
 
-    @Override
     public byte byteValue() {
         return (byte)this.value;
     }
 
-    @Override
     public double doubleValue() {
         return this.value;
     }
@@ -75,13 +68,10 @@ implements Comparable {
         return object == this || object instanceof Float && Float.floatToIntBits(this.value) == Float.floatToIntBits(((Float)object).value);
     }
 
-    public static native int floatToIntBits(float f2) {
-    }
+    public static native int floatToIntBits(float var0);
 
-    public static native int floatToRawIntBits(float f2) {
-    }
+    public static native int floatToRawIntBits(float var0);
 
-    @Override
     public float floatValue() {
         return this.value;
     }
@@ -90,10 +80,8 @@ implements Comparable {
         return Float.floatToIntBits(this.value);
     }
 
-    public static native float intBitsToFloat(int n) {
-    }
+    public static native float intBitsToFloat(int var0);
 
-    @Override
     public int intValue() {
         return (int)this.value;
     }
@@ -103,7 +91,7 @@ implements Comparable {
     }
 
     public static boolean isInfinite(float f2) {
-        return f2 == 32895 || f2 == 33023;
+        return f2 == Float.POSITIVE_INFINITY || f2 == Float.NEGATIVE_INFINITY;
     }
 
     public boolean isNaN() {
@@ -114,16 +102,14 @@ implements Comparable {
         return f2 != f2;
     }
 
-    @Override
     public long longValue() {
         return (long)this.value;
     }
 
-    public static float parseFloat(String string) {
+    public static float parseFloat(String string) throws NumberFormatException {
         return FloatingPointParser.parseFloat(string);
     }
 
-    @Override
     public short shortValue() {
         return (short)this.value;
     }
@@ -136,12 +122,12 @@ implements Comparable {
         return NumberConverter.convert(f2);
     }
 
-    public static Float valueOf(String string) {
+    public static Float valueOf(String string) throws NumberFormatException {
         return new Float(Float.parseFloat(string));
     }
 
     public static int compare(float f2, float f3) {
-        int n = Float.floatToIntBits(49279);
+        int n = Float.floatToIntBits(Float.NaN);
         int n2 = Float.floatToIntBits(f2);
         if (n2 == n) {
             if (Float.floatToIntBits(f3) == n) {

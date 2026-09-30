@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.NavLastDest;
 
 public class NavLastDestSerializer {
-    public static void putOptionalNavLastDest(ISerializer iSerializer, NavLastDest navLastDest) {
+    public static void putOptionalNavLastDest(ISerializer iSerializer, NavLastDest navLastDest) throws SerializerException {
         boolean bl = navLastDest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class NavLastDestSerializer {
         }
     }
 
-    public static void putOptionalNavLastDestVarArray(ISerializer iSerializer, NavLastDest[] navLastDestArray) {
+    public static void putOptionalNavLastDestVarArray(ISerializer iSerializer, NavLastDest[] navLastDestArray) throws SerializerException {
         boolean bl = navLastDestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class NavLastDestSerializer {
         }
     }
 
-    public static NavLastDest getOptionalNavLastDest(IDeserializer iDeserializer) {
+    public static NavLastDest getOptionalNavLastDest(IDeserializer iDeserializer) throws SerializerException {
         NavLastDest navLastDest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class NavLastDestSerializer {
         return navLastDest;
     }
 
-    public static NavLastDest[] getOptionalNavLastDestVarArray(IDeserializer iDeserializer) {
+    public static NavLastDest[] getOptionalNavLastDestVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavLastDest[] navLastDestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

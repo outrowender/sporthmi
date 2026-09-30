@@ -8,9 +8,9 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class FSG_Control_Controlcode
 implements BAPEntity {
-    private static final int RESERVED_BIT_5__7_BITSIZE;
+    private static final int RESERVED_BIT_5__7_BITSIZE = 3;
     public boolean on;
-    private static final int RESERVED_BIT_1__3_BITSIZE;
+    private static final int RESERVED_BIT_1__3_BITSIZE = 3;
     public boolean setDefault;
 
     public FSG_Control_Controlcode() {
@@ -28,12 +28,10 @@ implements BAPEntity {
         this.setDefault = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Control_Controlcode fSG_Control_Controlcode = (FSG_Control_Controlcode)bAPEntity;
         return this.on == fSG_Control_Controlcode.on && this.setDefault == fSG_Control_Controlcode.setDefault;
@@ -42,7 +40,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Control_Controlcode");
@@ -51,12 +48,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(3);
         bitStream.pushBoolean(this.on);
@@ -64,7 +59,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.setDefault);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(3);
         this.on = bitStream.popFrontBoolean();

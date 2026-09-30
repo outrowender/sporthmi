@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.organizer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbUserProfileReply;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbUserProfileReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIAdbUserProfileReply {
         super(n, (class$org$dsi$ifc$organizer$DSIAdbUserProfileListener == null ? (class$org$dsi$ifc$organizer$DSIAdbUserProfileListener = DSIAdbUserProfileDispatcher.class$("org.dsi.ifc.organizer.DSIAdbUserProfileListener")) : class$org$dsi$ifc$organizer$DSIAdbUserProfileListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n, int n2) {
+    public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -59,8 +58,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateDeviceConnected(boolean bl, int n) {
+    public void updateDeviceConnected(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -88,8 +86,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) {
+    public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -117,8 +114,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) {
+    public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -146,8 +142,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateDownloadCountOpp(DownloadInfo downloadInfo, int n) {
+    public void updateDownloadCountOpp(DownloadInfo downloadInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -175,8 +170,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateDownloadState(int n, int n2, int n3) {
+    public void updateDownloadState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -204,8 +198,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void newDeviceConnected(String string) {
+    public void newDeviceConnected(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -221,8 +214,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void downloadToProfileResult(int n) {
+    public void downloadToProfileResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -238,8 +230,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void restartDownloadResult(int n) {
+    public void restartDownloadResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -255,8 +246,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void profileDeleted(int n) {
+    public void profileDeleted(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -272,8 +262,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void setProfileNameResult(int n) {
+    public void setProfileNameResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -289,8 +278,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void deleteProfilesResult(int n) {
+    public void deleteProfilesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -306,8 +294,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void commonEntryCountResult(int n, int n2) {
+    public void commonEntryCountResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -323,8 +310,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void entryMeterResult(int n, EntryMeter[] entryMeterArray) {
+    public void entryMeterResult(int n, EntryMeter[] entryMeterArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -340,8 +326,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void setPairingCodeResult(int n) {
+    public void setPairingCodeResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -357,8 +342,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void setHomeIdResult(int n) {
+    public void setHomeIdResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -374,8 +358,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateDownloadState2ndPhone(int n, int n2, int n3) {
+    public void updateDownloadState2ndPhone(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -403,8 +386,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void setSOSButtonResult(int n) {
+    public void setSOSButtonResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -420,8 +402,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void updateSOSButton(boolean bl, int n) {
+    public void updateSOSButton(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -449,8 +430,7 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -466,14 +446,13 @@ implements DSIAdbUserProfileReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAdbUserProfileListener dSIAdbUserProfileListener = (DSIAdbUserProfileListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbUserProfileDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbUserProfileDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAdbUserProfileListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbUserProfileDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbUserProfileDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAdbUserProfileListener, new Object[]{string, string2});
                     continue;
                 }

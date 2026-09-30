@@ -25,28 +25,23 @@ implements DSIAlbumBrowser {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$albumbrowser$DSIAlbumBrowser == null ? (class$org$dsi$ifc$albumbrowser$DSIAlbumBrowser = DSIAlbumBrowserProvider.class$("org.dsi.ifc.albumbrowser.DSIAlbumBrowser")) : class$org$dsi$ifc$albumbrowser$DSIAlbumBrowser).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAlbumBrowserProxy(this.instance, (DSIAlbumBrowserReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void initializeBrowser(long l, long l2, int n) {
         try {
             this.proxy.initializeBrowser(l, l2, n);
@@ -56,7 +51,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void deinitializeBrowser() {
         try {
             this.proxy.deinitializeBrowser();
@@ -66,7 +60,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void startSingle() {
         try {
             this.proxy.startSingle();
@@ -76,7 +69,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void startPreview() {
         try {
             this.proxy.startPreview();
@@ -86,7 +78,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void startActive() {
         try {
             this.proxy.startActive();
@@ -96,7 +87,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void stop() {
         try {
             this.proxy.stop();
@@ -106,7 +96,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void setScrollMode(int n) {
         try {
             this.proxy.setScrollMode(n);
@@ -116,7 +105,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void scrollTicks(long l) {
         try {
             this.proxy.scrollTicks(l);
@@ -126,7 +114,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void selectAlbum(long l) {
         try {
             this.proxy.selectAlbum(l);
@@ -136,7 +123,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void moveFocus(long l, int n) {
         try {
             this.proxy.moveFocus(l, n);
@@ -146,7 +132,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void albumIdxForFID(long l) {
         try {
             this.proxy.albumIdxForFID(l);
@@ -156,7 +141,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -166,7 +150,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -176,7 +159,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -186,7 +168,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -196,7 +177,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -206,7 +186,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -216,7 +195,6 @@ implements DSIAlbumBrowser {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

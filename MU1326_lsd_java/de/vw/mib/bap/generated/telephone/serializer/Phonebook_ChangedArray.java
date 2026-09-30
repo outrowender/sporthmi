@@ -15,29 +15,24 @@ public final class Phonebook_ChangedArray
 implements BAPChangedArray {
     private ArrayHeader arrayHeader = new ArrayHeader();
     private BAPArrayData data = new BAPArrayData(1500);
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 1500;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new Phonebook_Data(this.getArrayHeader());
     }
@@ -55,14 +50,12 @@ implements BAPChangedArray {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Phonebook_ChangedArray phonebook_ChangedArray = (Phonebook_ChangedArray)bAPEntity;
         return this.arrayHeader.equalTo(phonebook_ChangedArray.arrayHeader) && this.data.equalTo(phonebook_ChangedArray.data);
@@ -71,7 +64,6 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Phonebook_ChangedArray:");
@@ -82,20 +74,17 @@ implements BAPChangedArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.arrayHeader.bitSize();
         return n += this.data.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.arrayHeader.serialize(bitStream);
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.arrayHeader.deserialize(bitStream);
         this.data.reset();
@@ -112,7 +101,6 @@ implements BAPChangedArray {
         return 52;
     }
 
-    @Override
     public int getFunctionId() {
         return Phonebook_ChangedArray.functionId();
     }

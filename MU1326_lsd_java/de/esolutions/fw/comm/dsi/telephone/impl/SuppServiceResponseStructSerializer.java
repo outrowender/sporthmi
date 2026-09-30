@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 import de.esolutions.fw.comm.dsi.telephone.impl.CFResponseDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.CFResponseData;
 import org.dsi.ifc.telephone.SuppServiceResponseStruct;
 
 public class SuppServiceResponseStructSerializer {
-    public static void putOptionalSuppServiceResponseStruct(ISerializer iSerializer, SuppServiceResponseStruct suppServiceResponseStruct) {
+    public static void putOptionalSuppServiceResponseStruct(ISerializer iSerializer, SuppServiceResponseStruct suppServiceResponseStruct) throws SerializerException {
         boolean bl = suppServiceResponseStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class SuppServiceResponseStructSerializer {
         }
     }
 
-    public static void putOptionalSuppServiceResponseStructVarArray(ISerializer iSerializer, SuppServiceResponseStruct[] suppServiceResponseStructArray) {
+    public static void putOptionalSuppServiceResponseStructVarArray(ISerializer iSerializer, SuppServiceResponseStruct[] suppServiceResponseStructArray) throws SerializerException {
         boolean bl = suppServiceResponseStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class SuppServiceResponseStructSerializer {
         }
     }
 
-    public static SuppServiceResponseStruct getOptionalSuppServiceResponseStruct(IDeserializer iDeserializer) {
+    public static SuppServiceResponseStruct getOptionalSuppServiceResponseStruct(IDeserializer iDeserializer) throws SerializerException {
         SuppServiceResponseStruct suppServiceResponseStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class SuppServiceResponseStructSerializer {
         return suppServiceResponseStruct;
     }
 
-    public static SuppServiceResponseStruct[] getOptionalSuppServiceResponseStructVarArray(IDeserializer iDeserializer) {
+    public static SuppServiceResponseStruct[] getOptionalSuppServiceResponseStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuppServiceResponseStruct[] suppServiceResponseStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

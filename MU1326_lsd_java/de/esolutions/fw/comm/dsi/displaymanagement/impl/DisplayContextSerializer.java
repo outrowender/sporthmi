@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.displaymanagement.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.displaymanagement.DisplayContext;
 
 public class DisplayContextSerializer {
-    public static void putOptionalDisplayContext(ISerializer iSerializer, DisplayContext displayContext) {
+    public static void putOptionalDisplayContext(ISerializer iSerializer, DisplayContext displayContext) throws SerializerException {
         boolean bl = displayContext == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DisplayContextSerializer {
         }
     }
 
-    public static void putOptionalDisplayContextVarArray(ISerializer iSerializer, DisplayContext[] displayContextArray) {
+    public static void putOptionalDisplayContextVarArray(ISerializer iSerializer, DisplayContext[] displayContextArray) throws SerializerException {
         boolean bl = displayContextArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DisplayContextSerializer {
         }
     }
 
-    public static DisplayContext getOptionalDisplayContext(IDeserializer iDeserializer) {
+    public static DisplayContext getOptionalDisplayContext(IDeserializer iDeserializer) throws SerializerException {
         DisplayContext displayContext = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DisplayContextSerializer {
         return displayContext;
     }
 
-    public static DisplayContext[] getOptionalDisplayContextVarArray(IDeserializer iDeserializer) {
+    public static DisplayContext[] getOptionalDisplayContextVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayContext[] displayContextArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

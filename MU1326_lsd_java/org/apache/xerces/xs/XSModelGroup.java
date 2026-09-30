@@ -9,20 +9,16 @@ import org.apache.xerces.xs.XSTerm;
 
 public interface XSModelGroup
 extends XSTerm {
-    public static final short COMPOSITOR_SEQUENCE;
-    public static final short COMPOSITOR_CHOICE;
-    public static final short COMPOSITOR_ALL;
+    public static final short COMPOSITOR_SEQUENCE = 1;
+    public static final short COMPOSITOR_CHOICE = 2;
+    public static final short COMPOSITOR_ALL = 3;
 
-    default public short getCompositor() {
-    }
+    public short getCompositor();
 
-    default public XSObjectList getParticles() {
-    }
+    public XSObjectList getParticles();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

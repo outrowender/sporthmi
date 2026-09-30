@@ -3,38 +3,29 @@
  */
 package de.esolutions.fw.comm.dsi.smartphoneintegration;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISmartphoneIntegrationC {
-    default public void connectDevice(int n, int n2) {
-    }
+    public void connectDevice(int var1, int var2) throws MethodException;
 
-    default public void disconnectDevice(int n) {
-    }
+    public void disconnectDevice(int var1) throws MethodException;
 
-    default public void requestFactorySettings(int n) {
-    }
+    public void requestFactorySettings(int var1) throws MethodException;
 
-    default public void requestAppConnectContextActive(boolean bl) {
-    }
+    public void requestAppConnectContextActive(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

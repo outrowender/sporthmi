@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.CallInformationExt;
 
 public class CallInformationExtSerializer {
-    public static void putOptionalCallInformationExt(ISerializer iSerializer, CallInformationExt callInformationExt) {
+    public static void putOptionalCallInformationExt(ISerializer iSerializer, CallInformationExt callInformationExt) throws SerializerException {
         boolean bl = callInformationExt == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CallInformationExtSerializer {
         }
     }
 
-    public static void putOptionalCallInformationExtVarArray(ISerializer iSerializer, CallInformationExt[] callInformationExtArray) {
+    public static void putOptionalCallInformationExtVarArray(ISerializer iSerializer, CallInformationExt[] callInformationExtArray) throws SerializerException {
         boolean bl = callInformationExtArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CallInformationExtSerializer {
         }
     }
 
-    public static CallInformationExt getOptionalCallInformationExt(IDeserializer iDeserializer) {
+    public static CallInformationExt getOptionalCallInformationExt(IDeserializer iDeserializer) throws SerializerException {
         CallInformationExt callInformationExt = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CallInformationExtSerializer {
         return callInformationExt;
     }
 
-    public static CallInformationExt[] getOptionalCallInformationExtVarArray(IDeserializer iDeserializer) {
+    public static CallInformationExt[] getOptionalCallInformationExtVarArray(IDeserializer iDeserializer) throws SerializerException {
         CallInformationExt[] callInformationExtArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

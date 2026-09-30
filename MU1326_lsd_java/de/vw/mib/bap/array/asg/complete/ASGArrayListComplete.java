@@ -7,10 +7,6 @@ import de.vw.mib.bap.array.asg.ASGArrayList;
 import de.vw.mib.bap.array.asg.ASGArrayListChangeNotifier;
 import de.vw.mib.bap.array.asg.ASGArrayListDelegate;
 import de.vw.mib.bap.array.asg.ASGArrayListFactory;
-import de.vw.mib.bap.array.asg.complete.ASGArrayListComplete$1;
-import de.vw.mib.bap.array.asg.complete.ASGArrayListComplete$2;
-import de.vw.mib.bap.array.asg.complete.ASGArrayListComplete$3;
-import de.vw.mib.bap.array.asg.complete.ASGArrayListComplete$TimerUserInfo;
 import de.vw.mib.bap.array.asg.complete.ASGArrayListData;
 import de.vw.mib.bap.array.asg.complete.ASGArrayPendingRequests;
 import de.vw.mib.bap.array.requests.BAPChangedArray;
@@ -27,11 +23,11 @@ import de.vw.mib.bap.datatypes.BAPArrayElement;
 class ASGArrayListComplete
 implements ASGArrayList,
 TimerNotifier {
-    private static final int TRANSACTION_ID_MIN;
-    private static final int TRANSACTION_ID_MAX;
-    private static final int MAX_ELEMENTS_8_BIT_INDEX_SIZE;
-    private static final int MINIMUM_ELEMENTS_FOR_BLOCK_CHANGE;
-    private static final int POS_OFFSET;
+    private static final int TRANSACTION_ID_MIN = 1;
+    private static final int TRANSACTION_ID_MAX = 15;
+    private static final int MAX_ELEMENTS_8_BIT_INDEX_SIZE = 255;
+    private static final int MINIMUM_ELEMENTS_FOR_BLOCK_CHANGE = 2;
+    private static final int POS_OFFSET = 1;
     private final int _asgId;
     private final int _listId;
     private int _bapArrayListSize;
@@ -54,10 +50,9 @@ TimerNotifier {
         this._transactionId = 1;
         this._highLevelRetryType = 0;
         this._highLevelRetryNumberOfRetries = 2;
-        this._highLevelRetryTime = 0;
+        this._highLevelRetryTime = 1000L;
     }
 
-    @Override
     public void changedArray(BAPChangedArray bAPChangedArray) {
         boolean bl;
         if (bAPChangedArray.getArrayHeader().isElementChangedRequest() || bAPChangedArray.getArrayHeader().isElementsChangedBlockRequest()) {
@@ -92,7 +87,6 @@ TimerNotifier {
         }
     }
 
-    @Override
     public void statusArray(BAPStatusArray bAPStatusArray) {
         if (this._checkPendigRequestAnswerParametersForHighLevelRetry(bAPStatusArray)) {
             int n = bAPStatusArray.getTransactionId();
@@ -158,13 +152,11 @@ TimerNotifier {
         }
     }
 
-    @Override
     public void error(int n) {
         this._logError(new StringBuffer().append("Received error = ").append(n).toString());
         this._errorOccurredCheckHighLevelRetry(n);
     }
 
-    @Override
     public void insertArrayElements(BAPArrayDataList bAPArrayDataList, int n, int n2) {
         BAPSetGetArray bAPSetGetArray = this._createSetGetArrayRequest(-1, bAPArrayDataList.size(), 2);
         bAPSetGetArray.getArrayHeader().setRecordAddress(n);
@@ -177,7 +169,6 @@ TimerNotifier {
         this._sendRequest(bAPSetGetArray, 4, null);
     }
 
-    @Override
     public void deleteArrayElements(BAPArrayDataList bAPArrayDataList, int n) {
         BAPSetGetArray bAPSetGetArray = this._createSetGetArrayRequest(bAPArrayDataList.getFirst().getPos(), bAPArrayDataList.size(), 3);
         bAPSetGetArray.getArrayHeader().setRecordAddress(n);
@@ -203,14 +194,12 @@ TimerNotifier {
         this._sendRequest(bAPSetGetArray, 3, null);
     }
 
-    @Override
     public void modifyArrayElement(BAPArrayElement bAPArrayElement, int n) {
         BAPArrayData bAPArrayData = new BAPArrayData(2);
         bAPArrayData.add(bAPArrayElement);
         this.modifyArrayElements(bAPArrayData, n);
     }
 
-    @Override
     public void reloadData() {
         this._logTrace("Start reloading data");
         this.stopFetchingData();
@@ -222,22 +211,27 @@ TimerNotifier {
         this.getChangeNotifier().reloaded(this);
     }
 
-    @Override
     public void refreshElements(BAPArrayElement bAPArrayElement, int n, int n2) {
         BAPGetArray bAPGetArray = this._createGetArrayRequest(bAPArrayElement.getPos(), this._maxRequestableElements(n2, n), n2, false);
         ASGArrayListData aSGArrayListData = new ASGArrayListData(this.getArrayListData().getElements(this.getArrayListData().indexOf(bAPArrayElement), n));
         this._sendRequest(bAPGetArray, 7, aSGArrayListData);
     }
 
-    @Override
     public void stopFetchingData() {
         this._logTrace("Stopped fetching data");
-        this.getPendingRequests().enumerate(new ASGArrayListComplete$1(this));
+        this.getPendingRequests().enumerate(new ASGArrayPendingRequests.PendigRequestEnumerator(){
+
+            public boolean enumerate(BAPGetArray bAPGetArray, int n, Timer timer) {
+                if (timer != null) {
+                    timer.stop();
+                }
+                return false;
+            }
+        });
         this.getPendingRequests().clearAll();
         this.setLoading(false);
     }
 
-    @Override
     public void clearList() {
         this.stopFetchingData();
         this.getArrayListData().clearAll();
@@ -245,12 +239,10 @@ TimerNotifier {
         this.getChangeNotifier().reloaded(this);
     }
 
-    @Override
     public boolean isLoading() {
         return this._loading;
     }
 
-    @Override
     public boolean isLoadingError() {
         return this._loadingError;
     }
@@ -259,31 +251,31 @@ TimerNotifier {
         this._loadingError = bl;
     }
 
-    @Override
     public boolean isModifyRequestPending() {
-        return this.getPendingRequests().enumerate(new ASGArrayListComplete$2(this));
+        return this.getPendingRequests().enumerate(new ASGArrayPendingRequests.PendigRequestEnumerator(){
+
+            public boolean enumerate(BAPGetArray bAPGetArray, int n, Timer timer) {
+                return n == 3;
+            }
+        });
     }
 
     private void setLoading(boolean bl) {
         this._loading = bl;
     }
 
-    @Override
     public int getListId() {
         return this._listId;
     }
 
-    @Override
     public int getAsgId() {
         return this._asgId;
     }
 
-    @Override
     public int size() {
         return this.getArrayListData().size();
     }
 
-    @Override
     public int getBapArrayListSize() {
         return this._bapArrayListSize;
     }
@@ -292,7 +284,6 @@ TimerNotifier {
         this._bapArrayListSize = n;
     }
 
-    @Override
     public int getHighLevelRetryType() {
         return this._highLevelRetryType;
     }
@@ -317,22 +308,18 @@ TimerNotifier {
         return this._highLevelRetryTime;
     }
 
-    @Override
     public BAPArrayElement get(int n) {
         return this.getArrayListData().get(n);
     }
 
-    @Override
     public BAPArrayDataList getElements(int n, int n2) {
         return this.getArrayListData().getElements(n, n2);
     }
 
-    @Override
     public BAPArrayDataList getAllElements() {
         return this.getArrayListData().toArrayDataList();
     }
 
-    @Override
     public ASGArrayListDelegate getDelegate() {
         return this._delegate;
     }
@@ -341,7 +328,6 @@ TimerNotifier {
         this._delegate = aSGArrayListDelegate;
     }
 
-    @Override
     public ASGArrayListChangeNotifier getChangeNotifier() {
         return this._changeNotifier;
     }
@@ -350,7 +336,6 @@ TimerNotifier {
         this._changeNotifier = aSGArrayListChangeNotifier;
     }
 
-    @Override
     public ASGArrayListFactory getFactory() {
         return this._factory;
     }
@@ -425,14 +410,22 @@ TimerNotifier {
 
     private void _sendRequest(BAPSetGetArray bAPSetGetArray, int n, ASGArrayListData aSGArrayListData) {
         bAPSetGetArray.setTransactionId(this.getNextTransactionId());
-        ArrayHeader arrayHeader = bAPSetGetArray.getArrayHeader();
-        this.getPendingRequests().enumerate(new ASGArrayListComplete$3(this, arrayHeader));
+        final ArrayHeader arrayHeader = bAPSetGetArray.getArrayHeader();
+        this.getPendingRequests().enumerate(new ASGArrayPendingRequests.PendigRequestEnumerator(){
+
+            public boolean enumerate(BAPGetArray bAPGetArray, int n, Timer timer) {
+                if (timer != null && bAPGetArray.getArrayHeader().equalTo(arrayHeader) && ASGArrayListComplete._isSetGetRequest(bAPGetArray)) {
+                    timer.stop();
+                }
+                return false;
+            }
+        });
         this._stopHighLevelRetryTimer(bAPSetGetArray.getTransactionId());
         this._transmitRequest(bAPSetGetArray, n, aSGArrayListData);
     }
 
     protected static boolean _isSetGetRequest(BAPGetArray bAPGetArray) {
-        Class[] classArray = super.getClass().getInterfaces();
+        Class[] classArray = bAPGetArray.getClass().getInterfaces();
         return classArray.length > 0 && classArray[0] == (class$de$vw$mib$bap$array$requests$BAPSetGetArray == null ? (class$de$vw$mib$bap$array$requests$BAPSetGetArray = ASGArrayListComplete.class$("de.vw.mib.bap.array.requests.BAPSetGetArray")) : class$de$vw$mib$bap$array$requests$BAPSetGetArray);
     }
 
@@ -444,17 +437,17 @@ TimerNotifier {
     }
 
     private void _startHighLevelRetryTimer(BAPGetArray bAPGetArray) {
-        ASGArrayListComplete$TimerUserInfo aSGArrayListComplete$TimerUserInfo;
+        TimerUserInfo timerUserInfo;
         Timer timer = this.getPendingRequests().getPendingRequestTimer(bAPGetArray.getTransactionId());
         if (timer == null) {
             timer = this.getFactory().createTimer(this, this, this.getHighLevelRetryTime());
             this.getPendingRequests().setPendigRequestTimer(bAPGetArray.getTransactionId(), timer);
-            aSGArrayListComplete$TimerUserInfo = new ASGArrayListComplete$TimerUserInfo(bAPGetArray.getTransactionId());
+            timerUserInfo = new TimerUserInfo(bAPGetArray.getTransactionId());
         } else {
-            aSGArrayListComplete$TimerUserInfo = (ASGArrayListComplete$TimerUserInfo)timer.getUserInfo();
+            timerUserInfo = (TimerUserInfo)timer.getUserInfo();
         }
         this._logTrace("Retrigger high level retry timer");
-        ASGArrayListComplete.retriggerHiglLevelRetryTimer(timer, aSGArrayListComplete$TimerUserInfo);
+        ASGArrayListComplete.retriggerHiglLevelRetryTimer(timer, timerUserInfo);
     }
 
     private void _startHighLevelRetryTimerForSendRequest(BAPGetArray bAPGetArray) {
@@ -509,21 +502,20 @@ TimerNotifier {
         }
     }
 
-    @Override
     public void timerFired(Timer timer) {
         boolean bl;
         this._logWarning("High level retry time out");
-        ASGArrayListComplete$TimerUserInfo aSGArrayListComplete$TimerUserInfo = (ASGArrayListComplete$TimerUserInfo)timer.getUserInfo();
-        if (aSGArrayListComplete$TimerUserInfo.getCounter() > this.getHighLevelRetryNumberOfRetries()) {
+        TimerUserInfo timerUserInfo = (TimerUserInfo)timer.getUserInfo();
+        if (timerUserInfo.getCounter() > this.getHighLevelRetryNumberOfRetries()) {
             this._logWarning("Give up HIGH level retry");
-            this.getPendingRequests().deletePendingRequest(aSGArrayListComplete$TimerUserInfo.getTransactionId());
+            this.getPendingRequests().deletePendingRequest(timerUserInfo.getTransactionId());
             bl = true;
             this.setLoadingError(true);
         } else {
             this._logWarning("Repeat request");
-            BAPGetArray bAPGetArray = this.getPendingRequests().getPendingRequest(aSGArrayListComplete$TimerUserInfo.getTransactionId());
-            int n = this.getPendingRequests().getPendingRequestType(aSGArrayListComplete$TimerUserInfo.getTransactionId());
-            ASGArrayListData aSGArrayListData = this.getPendingRequests().getPendingRequestElements(aSGArrayListComplete$TimerUserInfo.getTransactionId());
+            BAPGetArray bAPGetArray = this.getPendingRequests().getPendingRequest(timerUserInfo.getTransactionId());
+            int n = this.getPendingRequests().getPendingRequestType(timerUserInfo.getTransactionId());
+            ASGArrayListData aSGArrayListData = this.getPendingRequests().getPendingRequestElements(timerUserInfo.getTransactionId());
             if (ASGArrayListComplete._isSetGetRequest(bAPGetArray)) {
                 this._transmitRequest((BAPSetGetArray)bAPGetArray, n, aSGArrayListData);
             } else {
@@ -531,16 +523,16 @@ TimerNotifier {
             }
             bl = false;
         }
-        this.getDelegate().requestTimeout(this, aSGArrayListComplete$TimerUserInfo.getCounter(), bl);
+        this.getDelegate().requestTimeout(this, timerUserInfo.getCounter(), bl);
         if (bl) {
             this.clearList();
         }
     }
 
-    private static void retriggerHiglLevelRetryTimer(Timer timer, ASGArrayListComplete$TimerUserInfo aSGArrayListComplete$TimerUserInfo) {
+    private static void retriggerHiglLevelRetryTimer(Timer timer, TimerUserInfo timerUserInfo) {
         if (!timer.isRunning()) {
-            aSGArrayListComplete$TimerUserInfo.incrementCounter();
-            timer.retrigger(aSGArrayListComplete$TimerUserInfo);
+            timerUserInfo.incrementCounter();
+            timer.retrigger(timerUserInfo);
         }
     }
 
@@ -829,6 +821,27 @@ TimerNotifier {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private static final class TimerUserInfo {
+        private final int _transactionId;
+        private int _counter;
+
+        TimerUserInfo(int n) {
+            this._transactionId = n;
+        }
+
+        public int getTransactionId() {
+            return this._transactionId;
+        }
+
+        public void incrementCounter() {
+            ++this._counter;
+        }
+
+        public int getCounter() {
+            return this._counter;
         }
     }
 }

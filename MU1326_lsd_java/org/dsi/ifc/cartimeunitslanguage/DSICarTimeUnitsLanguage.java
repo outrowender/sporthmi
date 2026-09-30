@@ -10,191 +10,170 @@ import org.dsi.ifc.cartimeunitslanguage.ClockSummerTimeData;
 
 public interface DSICarTimeUnitsLanguage
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_CLOCKVIEWOPTIONS;
-    public static final int ATTR_CLOCKDATE;
-    public static final int ATTR_CLOCKTIME;
-    public static final int ATTR_CLOCKSOURCE;
-    public static final int ATTR_CLOCKDAYLIGHTSAVING;
-    public static final int ATTR_CLOCKDAYLIGHTSAVINGDATA;
-    public static final int ATTR_CLOCKTIMEZONEOFFSET;
-    public static final int ATTR_CLOCKTIMESOURCESAVAILABLE;
-    public static final int ATTR_CLOCKGPSSYNCDATA;
-    public static final int ATTR_UNITMASTERVIEWOPTIONS;
-    public static final int ATTR_MENULANGUAGE;
-    public static final int ATTR_TEMPERATUREUNIT;
-    public static final int ATTR_DISTANCEUNIT;
-    public static final int ATTR_SPEEDUNIT;
-    public static final int ATTR_PRESSUREUNIT;
-    public static final int ATTR_VOLUMEUNIT;
-    public static final int ATTR_CONSUMPTIONPETROLUNIT;
-    public static final int ATTR_CONSUMPTIONGASUNIT;
-    public static final int ATTR_CLOCKFORMAT;
-    public static final int ATTR_DATEFORMAT;
-    public static final int ATTR_UTCOFFSET;
-    public static final int ATTR_CONSUMPTIONELECTRICUNIT;
-    public static final int ATTR_SKIN;
-    public static final int ATTR_WEIGHTUNIT;
-    public static final int VOLUMEGASUNIT_LBS;
-    public static final int VOLUMEGASUNIT_M3;
-    public static final int VOLUMEGASUNIT_YARD3;
-    public static final int VOLUMEGASUNIT_KG;
-    public static final int DATEFORMAT_DAY_MONTH_YEAR;
-    public static final int DATEFORMAT_MONTH_DAY_YEAR;
-    public static final int DATEFORMAT_YEAR_MONTH_DAY;
-    public static final int CLOCKFORMAT_24H;
-    public static final int CLOCKFORMAT_12AMPM;
-    public static final int CONSUMPTIONUNITELECTRICKWHPMSUPPORT_NOTSUPPORTED;
-    public static final int CONSUMPTIONUNITELECTRICKWHPMSUPPORT_SUPPORTED;
-    public static final int CONSUMPTIONUNITMPGUSESUPPORT_NOTSUPPORTED;
-    public static final int CONSUMPTIONUNITMPGUSESUPPORT_SUPPORTED;
-    public static final int MENULANGUAGE_GERMAN;
-    public static final int MENULANGUAGE_ENGLISH_UK;
-    public static final int MENULANGUAGE_ENGLISH_US;
-    public static final int MENULANGUAGE_FRENCH;
-    public static final int MENULANGUAGE_ITALIAN;
-    public static final int MENULANGUAGE_SPANISH;
-    public static final int MENULANGUAGE_PORTUGUESE;
-    public static final int MENULANGUAGE_POLISH;
-    public static final int MENULANGUAGE_CZECH;
-    public static final int MENULANGUAGE_HUNGARIAN;
-    public static final int MENULANGUAGE_DANISH;
-    public static final int MENULANGUAGE_SWEDISH;
-    public static final int MENULANGUAGE_FINNISH;
-    public static final int MENULANGUAGE_DUTCH;
-    public static final int MENULANGUAGE_CHINESE_TRADITIONAL;
-    public static final int MENULANGUAGE_JAPANESE;
-    public static final int MENULANGUAGE_RUSSIAN;
-    public static final int MENULANGUAGE_GREEK;
-    public static final int MENULANGUAGE_KOREAN;
-    public static final int MENULANGUAGE_FRENCH_CANADIAN;
-    public static final int MENULANGUAGE_SPANISH_US;
-    public static final int MENULANGUAGE_PORTUGUESE_US;
-    public static final int MENULANGUAGE_TURKISH;
-    public static final int MENULANGUAGE_CHINESE_MANDARIN;
-    public static final int MENULANGUAGE_CHINESE_CANTONESE;
-    public static final int MENULANGUAGE_ARABIC;
-    public static final int MENULANGUAGE_PORTUGUESE_BRAZIL;
-    public static final int MENULANGUAGE_MALAYSIAN;
-    public static final int MENULANGUAGE_THAI;
-    public static final int MENULANGUAGE_NORWEGIAN;
-    public static final int MENULANGUAGE_CROATIAN;
-    public static final int MENULANGUAGE_SERBIAN;
-    public static final int MENULANGUAGE_SLOVAK;
-    public static final int MENULANGUAGE_ROMANIAN;
-    public static final int MENULANGUAGE_HINDI;
-    public static final int MENULANGUAGE_INDONESIAN;
-    public static final int MENULANGUAGE_AZERBAIJANIAN;
-    public static final int MENULANGUAGE_BOSNIAN;
-    public static final int MENULANGUAGE_SLOWENIAN;
-    public static final int MENULANGUAGE_BULGARIAN;
-    public static final int MENULANGUAGE_LATVIAN;
-    public static final int MENULANGUAGE_ESTONIAN;
-    public static final int MENULANGUAGE_LITHUANIAN;
-    public static final int MENULANGUAGE_UKRAINIAN;
-    public static final int CLOCKSOURCE_NOTVALID;
-    public static final int CLOCKSOURCE_QUARTZ;
-    public static final int CLOCKSOURCE_DCF77;
-    public static final int CLOCKSOURCE_GPS;
-    public static final int CLOCKDAYLIGHTSAVINGMODE_NONE;
-    public static final int CLOCKDAYLIGHTSAVINGMODE_PLUSONEHOUR;
-    public static final int CLOCKDAYLIGHTSAVINGMODE_MESZ;
-    public static final int CLOCKDAYLIGHTSAVINGMODE_USA;
-    public static final int CLOCKDAYLIGHTSAVINGMODE_NAVIGATION_DB;
-    public static final int TIME_INVALID;
-    public static final int TIME_SUMMERTIME;
-    public static final int TIME_WINTERTIME;
-    public static final int UTCOFFSETSTATE_INVALID;
-    public static final int UTCOFFSETSTATE_VALID_NOT_SYNCED_TO_UTC;
-    public static final int UTCOFFSETSTATE_VALID_SYNCED_TO_UTC;
-    public static final int SKIN_SKIN1;
-    public static final int SKIN_SKIN2;
-    public static final int SKIN_SKIN3;
-    public static final int SKIN_UNKNOWN;
-    public static final int RT_SETCLOCKDATE;
-    public static final int RT_SETCLOCKTIME;
-    public static final int RT_SETCLOCKSOURCE;
-    public static final int RT_SETCLOCKDAYLIGHTSAVING;
-    public static final int RT_SETCLOCKTIMEZONEOFFSET;
-    public static final int RT_SETCLOCKGPSSYNCDATA;
-    public static final int RT_SETMENULANGUAGE;
-    public static final int RT_SETPRESSUREUNIT;
-    public static final int RT_SETVOLUMEUNIT;
-    public static final int RT_SETTEMPERATUREUNIT;
-    public static final int RT_SETDISTANCEUNIT;
-    public static final int RT_SETSPEEDUNIT;
-    public static final int RT_SETCONSUMPTIONPETROLUNIT;
-    public static final int RT_SETCONSUMPTIONGASUNIT;
-    public static final int RT_SETCLOCKFORMAT;
-    public static final int RT_SETDATEFORMAT;
-    public static final int RT_SETUMSETFACTORYDEFAULT;
-    public static final int RT_SETCONSUMPTIONELECTRICUNIT;
-    public static final int RT_SETSKIN;
-    public static final int RT_SETCLOCKSUMMERTIMEDATA;
-    public static final int RT_SETWEIGHTUNIT;
-    public static final int RP_ACKNOWLEDGEUMSETFACTORYDEFAULT;
+    public static final String VERSION = "2.11.26";
+    public static final int ATTR_CLOCKVIEWOPTIONS = 1;
+    public static final int ATTR_CLOCKDATE = 2;
+    public static final int ATTR_CLOCKTIME = 3;
+    public static final int ATTR_CLOCKSOURCE = 4;
+    public static final int ATTR_CLOCKDAYLIGHTSAVING = 5;
+    public static final int ATTR_CLOCKDAYLIGHTSAVINGDATA = 6;
+    public static final int ATTR_CLOCKTIMEZONEOFFSET = 7;
+    public static final int ATTR_CLOCKTIMESOURCESAVAILABLE = 8;
+    public static final int ATTR_CLOCKGPSSYNCDATA = 9;
+    public static final int ATTR_UNITMASTERVIEWOPTIONS = 10;
+    public static final int ATTR_MENULANGUAGE = 11;
+    public static final int ATTR_TEMPERATUREUNIT = 12;
+    public static final int ATTR_DISTANCEUNIT = 13;
+    public static final int ATTR_SPEEDUNIT = 14;
+    public static final int ATTR_PRESSUREUNIT = 15;
+    public static final int ATTR_VOLUMEUNIT = 16;
+    public static final int ATTR_CONSUMPTIONPETROLUNIT = 17;
+    public static final int ATTR_CONSUMPTIONGASUNIT = 18;
+    public static final int ATTR_CLOCKFORMAT = 19;
+    public static final int ATTR_DATEFORMAT = 20;
+    public static final int ATTR_UTCOFFSET = 21;
+    public static final int ATTR_CONSUMPTIONELECTRICUNIT = 22;
+    public static final int ATTR_SKIN = 23;
+    public static final int ATTR_WEIGHTUNIT = 24;
+    public static final int VOLUMEGASUNIT_LBS = 0;
+    public static final int VOLUMEGASUNIT_M3 = 1;
+    public static final int VOLUMEGASUNIT_YARD3 = 2;
+    public static final int VOLUMEGASUNIT_KG = 3;
+    public static final int DATEFORMAT_DAY_MONTH_YEAR = 0;
+    public static final int DATEFORMAT_MONTH_DAY_YEAR = 1;
+    public static final int DATEFORMAT_YEAR_MONTH_DAY = 2;
+    public static final int CLOCKFORMAT_24H = 0;
+    public static final int CLOCKFORMAT_12AMPM = 1;
+    public static final int CONSUMPTIONUNITELECTRICKWHPMSUPPORT_NOTSUPPORTED = 0;
+    public static final int CONSUMPTIONUNITELECTRICKWHPMSUPPORT_SUPPORTED = 1;
+    public static final int CONSUMPTIONUNITMPGUSESUPPORT_NOTSUPPORTED = 0;
+    public static final int CONSUMPTIONUNITMPGUSESUPPORT_SUPPORTED = 1;
+    public static final int MENULANGUAGE_GERMAN = 0;
+    public static final int MENULANGUAGE_ENGLISH_UK = 1;
+    public static final int MENULANGUAGE_ENGLISH_US = 2;
+    public static final int MENULANGUAGE_FRENCH = 3;
+    public static final int MENULANGUAGE_ITALIAN = 4;
+    public static final int MENULANGUAGE_SPANISH = 5;
+    public static final int MENULANGUAGE_PORTUGUESE = 6;
+    public static final int MENULANGUAGE_POLISH = 7;
+    public static final int MENULANGUAGE_CZECH = 8;
+    public static final int MENULANGUAGE_HUNGARIAN = 9;
+    public static final int MENULANGUAGE_DANISH = 10;
+    public static final int MENULANGUAGE_SWEDISH = 11;
+    public static final int MENULANGUAGE_FINNISH = 12;
+    public static final int MENULANGUAGE_DUTCH = 13;
+    public static final int MENULANGUAGE_CHINESE_TRADITIONAL = 14;
+    public static final int MENULANGUAGE_JAPANESE = 15;
+    public static final int MENULANGUAGE_RUSSIAN = 16;
+    public static final int MENULANGUAGE_GREEK = 17;
+    public static final int MENULANGUAGE_KOREAN = 18;
+    public static final int MENULANGUAGE_FRENCH_CANADIAN = 19;
+    public static final int MENULANGUAGE_SPANISH_US = 20;
+    public static final int MENULANGUAGE_PORTUGUESE_US = 21;
+    public static final int MENULANGUAGE_TURKISH = 22;
+    public static final int MENULANGUAGE_CHINESE_MANDARIN = 23;
+    public static final int MENULANGUAGE_CHINESE_CANTONESE = 24;
+    public static final int MENULANGUAGE_ARABIC = 25;
+    public static final int MENULANGUAGE_PORTUGUESE_BRAZIL = 26;
+    public static final int MENULANGUAGE_MALAYSIAN = 27;
+    public static final int MENULANGUAGE_THAI = 28;
+    public static final int MENULANGUAGE_NORWEGIAN = 29;
+    public static final int MENULANGUAGE_CROATIAN = 30;
+    public static final int MENULANGUAGE_SERBIAN = 31;
+    public static final int MENULANGUAGE_SLOVAK = 32;
+    public static final int MENULANGUAGE_ROMANIAN = 33;
+    public static final int MENULANGUAGE_HINDI = 34;
+    public static final int MENULANGUAGE_INDONESIAN = 35;
+    public static final int MENULANGUAGE_AZERBAIJANIAN = 36;
+    public static final int MENULANGUAGE_BOSNIAN = 37;
+    public static final int MENULANGUAGE_SLOWENIAN = 38;
+    public static final int MENULANGUAGE_BULGARIAN = 39;
+    public static final int MENULANGUAGE_LATVIAN = 40;
+    public static final int MENULANGUAGE_ESTONIAN = 41;
+    public static final int MENULANGUAGE_LITHUANIAN = 42;
+    public static final int MENULANGUAGE_UKRAINIAN = 43;
+    public static final int CLOCKSOURCE_NOTVALID = 0;
+    public static final int CLOCKSOURCE_QUARTZ = 1;
+    public static final int CLOCKSOURCE_DCF77 = 2;
+    public static final int CLOCKSOURCE_GPS = 3;
+    public static final int CLOCKDAYLIGHTSAVINGMODE_NONE = 0;
+    public static final int CLOCKDAYLIGHTSAVINGMODE_PLUSONEHOUR = 1;
+    public static final int CLOCKDAYLIGHTSAVINGMODE_MESZ = 2;
+    public static final int CLOCKDAYLIGHTSAVINGMODE_USA = 3;
+    public static final int CLOCKDAYLIGHTSAVINGMODE_NAVIGATION_DB = 4;
+    public static final int TIME_INVALID = 0;
+    public static final int TIME_SUMMERTIME = 1;
+    public static final int TIME_WINTERTIME = 2;
+    public static final int UTCOFFSETSTATE_INVALID = 0;
+    public static final int UTCOFFSETSTATE_VALID_NOT_SYNCED_TO_UTC = 1;
+    public static final int UTCOFFSETSTATE_VALID_SYNCED_TO_UTC = 2;
+    public static final int SKIN_SKIN1 = 0;
+    public static final int SKIN_SKIN2 = 1;
+    public static final int SKIN_SKIN3 = 2;
+    public static final int SKIN_UNKNOWN = 255;
+    public static final int RT_SETCLOCKDATE = 1000;
+    public static final int RT_SETCLOCKTIME = 1001;
+    public static final int RT_SETCLOCKSOURCE = 1002;
+    public static final int RT_SETCLOCKDAYLIGHTSAVING = 1003;
+    public static final int RT_SETCLOCKTIMEZONEOFFSET = 1005;
+    public static final int RT_SETCLOCKGPSSYNCDATA = 1006;
+    public static final int RT_SETMENULANGUAGE = 1007;
+    public static final int RT_SETPRESSUREUNIT = 1008;
+    public static final int RT_SETVOLUMEUNIT = 1009;
+    public static final int RT_SETTEMPERATUREUNIT = 1010;
+    public static final int RT_SETDISTANCEUNIT = 1011;
+    public static final int RT_SETSPEEDUNIT = 1012;
+    public static final int RT_SETCONSUMPTIONPETROLUNIT = 1013;
+    public static final int RT_SETCONSUMPTIONGASUNIT = 1014;
+    public static final int RT_SETCLOCKFORMAT = 1015;
+    public static final int RT_SETDATEFORMAT = 1016;
+    public static final int RT_SETUMSETFACTORYDEFAULT = 1017;
+    public static final int RT_SETCONSUMPTIONELECTRICUNIT = 1018;
+    public static final int RT_SETSKIN = 1019;
+    public static final int RT_SETCLOCKSUMMERTIMEDATA = 1020;
+    public static final int RT_SETWEIGHTUNIT = 1021;
+    public static final int RP_ACKNOWLEDGEUMSETFACTORYDEFAULT = 2000;
 
-    default public void setMenuLanguage(int n) {
-    }
+    public void setMenuLanguage(int var1);
 
-    default public void setPressureUnit(int n) {
-    }
+    public void setPressureUnit(int var1);
 
-    default public void setVolumeUnit(int n) {
-    }
+    public void setVolumeUnit(int var1);
 
-    default public void setTemperatureUnit(int n) {
-    }
+    public void setTemperatureUnit(int var1);
 
-    default public void setDistanceUnit(int n) {
-    }
+    public void setDistanceUnit(int var1);
 
-    default public void setSpeedUnit(int n) {
-    }
+    public void setSpeedUnit(int var1);
 
-    default public void setConsumptionPetrolUnit(int n) {
-    }
+    public void setConsumptionPetrolUnit(int var1);
 
-    default public void setConsumptionGasUnit(int n) {
-    }
+    public void setConsumptionGasUnit(int var1);
 
-    default public void setConsumptionElectricUnit(int n) {
-    }
+    public void setConsumptionElectricUnit(int var1);
 
-    default public void setClockFormat(int n) {
-    }
+    public void setClockFormat(int var1);
 
-    default public void setDateFormat(int n) {
-    }
+    public void setDateFormat(int var1);
 
-    default public void setClockDate(ClockDate clockDate) {
-    }
+    public void setClockDate(ClockDate var1);
 
-    default public void setClockTime(byte by, byte by2, byte by3) {
-    }
+    public void setClockTime(byte var1, byte var2, byte var3);
 
-    default public void setClockSource(int n) {
-    }
+    public void setClockSource(int var1);
 
-    default public void setClockDayLightSaving(boolean bl) {
-    }
+    public void setClockDayLightSaving(boolean var1);
 
-    default public void setClockTimeZoneOffset(float f2) {
-    }
+    public void setClockTimeZoneOffset(float var1);
 
-    default public void setClockGPSSyncData(ClockGPSSyncData clockGPSSyncData) {
-    }
+    public void setClockGPSSyncData(ClockGPSSyncData var1);
 
-    default public void setClockSummerTimeData(ClockSummerTimeData clockSummerTimeData) {
-    }
+    public void setClockSummerTimeData(ClockSummerTimeData var1);
 
-    default public void setUmSetFactoryDefault() {
-    }
+    public void setUmSetFactoryDefault();
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1);
 
-    default public void setWeightUnit(int n) {
-    }
+    public void setWeightUnit(int var1);
 }
 

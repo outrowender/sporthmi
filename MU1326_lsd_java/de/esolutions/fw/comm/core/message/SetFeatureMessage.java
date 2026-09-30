@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SetFeatureMessage
 extends AbstractMessage {
@@ -17,17 +18,15 @@ extends AbstractMessage {
         this.value = by;
     }
 
-    public SetFeatureMessage(IDeserializer iDeserializer, boolean bl) {
+    public SetFeatureMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.SET_FEATURE, iDeserializer, bl);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt8(this.value);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.value = iDeserializer.getInt8();
     }
 

@@ -12,61 +12,42 @@ import org.dsi.ifc.swap.SFscStatus;
 
 public interface DSISWaPListener
 extends DSIListener {
-    default public void updateSoftwareEnabling(int[] nArray, int n) {
-    }
+    public void updateSoftwareEnabling(int[] var1, int var2);
 
-    default public void updateIllegalFSCs(int[] nArray, int n) {
-    }
+    public void updateIllegalFSCs(int[] var1, int var2);
 
-    default public void updateAreFSCsSigned(boolean bl, int n) {
-    }
+    public void updateAreFSCsSigned(boolean var1, int var2);
 
-    default public void updateLimitedLifetime(boolean bl, int n) {
-    }
+    public void updateLimitedLifetime(boolean var1, int var2);
 
-    default public void updateConfigCheck(ConfigInfo configInfo, int n) {
-    }
+    public void updateConfigCheck(ConfigInfo var1, int var2);
 
-    default public void updateConfigPrepare(String string, int n) {
-    }
+    public void updateConfigPrepare(String var1, int var2);
 
-    default public void updateConfigFinalize(ConfigInfo configInfo, int n) {
-    }
+    public void updateConfigFinalize(ConfigInfo var1, int var2);
 
-    default public void updateFscList(SFscStatus[] sFscStatusArray, int n) {
-    }
+    public void updateFscList(SFscStatus[] var1, int var2);
 
-    default public void encryptFile(String string, int n) {
-    }
+    public void encryptFile(String var1, int var2);
 
-    default public void checkSignature(boolean bl, String string) {
-    }
+    public void checkSignature(boolean var1, String var2);
 
-    default public void getPublicKey(short[] sArray, boolean bl) {
-    }
+    public void getPublicKey(short[] var1, boolean var2);
 
-    default public void checkSingleFsc(int n, int n2) {
-    }
+    public void checkSingleFsc(int var1, int var2);
 
-    default public void decryptFile(String string, int n) {
-    }
+    public void decryptFile(String var1, int var2);
 
-    default public void getFscDetail(SFscDetails sFscDetails) {
-    }
+    public void getFscDetail(SFscDetails var1);
 
-    default public void importFSCs(int n, SFscImportStatus sFscImportStatus) {
-    }
+    public void importFSCs(int var1, SFscImportStatus var2);
 
-    default public void importFSCsList(int n, SFscImportStatus[] sFscImportStatusArray) {
-    }
+    public void importFSCsList(int var1, SFscImportStatus[] var2);
 
-    default public void exportCCD(int n) {
-    }
+    public void exportCCD(int var1);
 
-    default public void getHistory(SFscHistory sFscHistory) {
-    }
+    public void getHistory(SFscHistory var1);
 
-    default public void getHistoryList(SFscHistory[] sFscHistoryArray) {
-    }
+    public void getHistoryList(SFscHistory[] var1);
 }
 

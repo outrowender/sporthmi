@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.asiatrafficinfomenu.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.asiatrafficinfomenu.TrafficInformationDetails;
 
 public class TrafficInformationDetailsSerializer {
-    public static void putOptionalTrafficInformationDetails(ISerializer iSerializer, TrafficInformationDetails trafficInformationDetails) {
+    public static void putOptionalTrafficInformationDetails(ISerializer iSerializer, TrafficInformationDetails trafficInformationDetails) throws SerializerException {
         boolean bl = trafficInformationDetails == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TrafficInformationDetailsSerializer {
         }
     }
 
-    public static void putOptionalTrafficInformationDetailsVarArray(ISerializer iSerializer, TrafficInformationDetails[] trafficInformationDetailsArray) {
+    public static void putOptionalTrafficInformationDetailsVarArray(ISerializer iSerializer, TrafficInformationDetails[] trafficInformationDetailsArray) throws SerializerException {
         boolean bl = trafficInformationDetailsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TrafficInformationDetailsSerializer {
         }
     }
 
-    public static TrafficInformationDetails getOptionalTrafficInformationDetails(IDeserializer iDeserializer) {
+    public static TrafficInformationDetails getOptionalTrafficInformationDetails(IDeserializer iDeserializer) throws SerializerException {
         TrafficInformationDetails trafficInformationDetails = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TrafficInformationDetailsSerializer {
         return trafficInformationDetails;
     }
 
-    public static TrafficInformationDetails[] getOptionalTrafficInformationDetailsVarArray(IDeserializer iDeserializer) {
+    public static TrafficInformationDetails[] getOptionalTrafficInformationDetailsVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficInformationDetails[] trafficInformationDetailsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

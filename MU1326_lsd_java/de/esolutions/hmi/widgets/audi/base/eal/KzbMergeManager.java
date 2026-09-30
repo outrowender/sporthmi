@@ -15,7 +15,7 @@ implements IWidgetLogChannel {
     }
 
     public boolean mergeKzbAsynchron(int n, int n2, String string) {
-        logChannel3DEngine.log(-2137614336, "KzbMergeManager#mergeKzbAsynchron: start asynchron merging of %1 kzb", (Object)string);
+        logChannel3DEngine.log(10000000, "KzbMergeManager#mergeKzbAsynchron: start asynchron merging of %1 kzb", (Object)string);
         int n3 = -1;
         if (this.ealManager != null) {
             return this.ealManager.mergeProjectAsync(n, n2, n3);

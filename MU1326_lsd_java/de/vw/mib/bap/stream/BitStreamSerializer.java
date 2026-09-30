@@ -6,13 +6,10 @@ package de.vw.mib.bap.stream;
 import de.vw.mib.bap.stream.BitStream;
 
 public interface BitStreamSerializer {
-    default public void serialize(BitStream bitStream) {
-    }
+    public void serialize(BitStream var1);
 
-    default public void deserialize(BitStream bitStream) {
-    }
+    public void deserialize(BitStream var1);
 
-    default public int bitSize() {
-    }
+    public int bitSize();
 }
 

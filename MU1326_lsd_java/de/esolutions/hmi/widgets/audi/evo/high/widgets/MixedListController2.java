@@ -5,8 +5,6 @@ package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.intercommunication.MixedListConstants;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneGuidance;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollGateInfo;
 import de.audi.atip.hmi.model.IconCell;
 import de.audi.atip.hmi.model.IntegerListCell;
 import de.audi.atip.hmi.model.ListCell;
@@ -17,6 +15,7 @@ import de.audi.atip.hmi.model.TextListCell;
 import de.audi.atip.hmi.modelaccess.ListModelGUI;
 import de.audi.atip.hmi.view.AnimationListener;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
@@ -28,7 +27,6 @@ import de.esolutions.hmi.widgets.audi.base.eal.MixedListKZBMerger;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 import de.esolutions.hmi.widgets.audi.evo.high.AnimationControllerMIB2High;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListController2$1;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListItemController2;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListLayout;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListLayoutPackage;
@@ -50,110 +48,110 @@ IMixedListCallback {
     public boolean animationDisabled = false;
     public static boolean onScreen;
     private int[] textIDs;
-    private static final int ID_CALC_ROUTE;
-    private static final int ID_BORDER_PASSING_DOUBLE;
-    private static final int ID_PICTURE_NAV_DOUBLE;
-    private static final int ID_UNCHANGED;
-    private static final int ID_NO_ANIMATION;
-    public static final int BITMAP_INDEX_TURN_ARROW;
-    public static final int BITMAP_INDEX_ROADSIGNICON;
-    public static final int BITMAP_INDEX_COUNTRY_FLAG;
-    public static final int BITMAP_INDEX_POI_ICON;
-    public static final int BITMAP_INDEX_SPEEDWARNING_ZONE;
-    public static final int BITMAP_INDEX_SPEEDWARNING;
-    public static final int BITMAP_INDEX_RECOMMENDEDSPEED;
-    public static final int BITMAP_INDEX_CAR2X;
-    public static final int BITMAP_INDEX_ASIA_IC_MOTORWAY;
-    public static final int BITMAP_INDEX_ASIA_ETC;
-    public static final int BITMAP_INDEX_JAPAN_ETC;
-    public static final int BITMAP_INDEX_KOREA_ETC;
-    public static final int BITMAP_INDEX_TRAFFIC;
-    public static final int BITMAP_INDEX_EXIT_SIGN;
-    public static final int BITMAP_INDEX_TRAFFIC_NAR;
-    public static final int BITMAP_INDEX_ROADSIGNICON_NAR;
-    public static final int BITMAP_INDEX_EMPTY;
-    public static final int BITMAP_INDEX_EMPTY_TARGET;
-    private static final int SRC_2;
-    private static final int SRC_1;
-    private static final int SRC_0;
-    public static final int ITEM_INNER_HEIGHT_HIGH;
-    public static final int ITEM_INNER_HEIGHT_KOMBI;
+    private static final int ID_CALC_ROUTE = -2;
+    private static final int ID_BORDER_PASSING_DOUBLE = -3;
+    private static final int ID_PICTURE_NAV_DOUBLE = -4;
+    private static final int ID_UNCHANGED = -5;
+    private static final int ID_NO_ANIMATION = -6;
+    public static final int BITMAP_INDEX_TURN_ARROW = 0;
+    public static final int BITMAP_INDEX_ROADSIGNICON = 1;
+    public static final int BITMAP_INDEX_COUNTRY_FLAG = 2;
+    public static final int BITMAP_INDEX_POI_ICON = 3;
+    public static final int BITMAP_INDEX_SPEEDWARNING_ZONE = 4;
+    public static final int BITMAP_INDEX_SPEEDWARNING = 5;
+    public static final int BITMAP_INDEX_RECOMMENDEDSPEED = 6;
+    public static final int BITMAP_INDEX_CAR2X = 7;
+    public static final int BITMAP_INDEX_ASIA_IC_MOTORWAY = 8;
+    public static final int BITMAP_INDEX_ASIA_ETC = 9;
+    public static final int BITMAP_INDEX_JAPAN_ETC = 10;
+    public static final int BITMAP_INDEX_KOREA_ETC = 11;
+    public static final int BITMAP_INDEX_TRAFFIC = 12;
+    public static final int BITMAP_INDEX_EXIT_SIGN = 13;
+    public static final int BITMAP_INDEX_TRAFFIC_NAR = 14;
+    public static final int BITMAP_INDEX_ROADSIGNICON_NAR = 15;
+    public static final int BITMAP_INDEX_EMPTY = 16;
+    public static final int BITMAP_INDEX_EMPTY_TARGET = 12;
+    private static final int SRC_2 = 0;
+    private static final int SRC_1 = 1;
+    private static final int SRC_0 = 2;
+    public static final int ITEM_INNER_HEIGHT_HIGH = 104;
+    public static final int ITEM_INNER_HEIGHT_KOMBI = 99;
     public int itemInnerHeight;
-    public static final int ITEM_INNER_WIDTH;
-    public static final int ITEM_INNER_WIDTH_KOMBI;
-    public static final int ITEM_INNER_WIDTH_NAR;
-    public static final int ITEM_INNER_HEIGHT_DOUBLE_SIZED_BOX;
-    public static final int ITEM_INNER_HEIGHT_DOUBLE_SIZED_BOX_KOMBI;
-    public static final int BOX_STREET_HEIGHT;
-    public static final int BOX_HEIGHT;
-    public static final int Y_ORIGIN;
-    public static final int Y_POSITION_BOX0;
-    public static final int Y_POSITION_BOX1;
-    public static final int Y_POSITION_BOX1_KOMBI;
-    public static final int Y_POSITION_BOX2;
-    public static final int Y_POSITION_BOX3;
-    public static final int Y_POSITION_BOX4;
-    private static final int Y_POSITION_OFF_SCREEN;
-    public static final int ANIMATION_DURATION;
-    public static final int ANIMATION_DURATION_DEBUG;
-    public static final int ANIMATION_TYPE;
-    public static final int ANIMATION_TYPE_DEBUG;
-    public static final int ANIMATION_TYPE_FADING;
-    private static final int ANIMATION_ID_EEE_1EE;
-    private static final int ANIMATION_ID_EEE_12E;
-    private static final int ANIMATION_ID_EEE_123;
-    private static final int ANIMATION_ID_1EE_12E;
-    private static final int ANIMATION_ID_1EE_2EE;
-    private static final int ANIMATION_ID_1EE_123;
-    private static final int ANIMATION_ID_1EE_22E;
-    private static final int ANIMATION_ID_12E_123;
-    private static final int ANIMATION_ID_12E_2EE;
-    private static final int ANIMATION_ID_123_234;
-    private static final int ANIMATION_ID_123_345;
-    private static final int ANIMATION_ID_123_345_B;
-    private static final int ANIMATION_ID_123_142;
-    private static final int ANIMATION_ID_123_124;
-    private static final int ANIMATION_ID_123_145;
-    private static final int ANIMATION_ID_123_145_B;
-    private static final int ANIMATION_ID_123_412;
-    private static final int ANIMATION_ID_123_23E;
-    private static final int ANIMATION_ID_123_3EE;
-    private static final int ANIMATION_ID_123_3EE_B;
-    private static final int ANIMATION_ID_123_443;
-    private static final int ANIMATION_ID_123_244;
-    private static final int ANIMATION_ID_123_442;
-    private static final int ANIMATION_ID_123_344;
-    private static final int ANIMATION_ID_123_144;
-    private static final int ANIMATION_ID_123_344_B;
-    private static final int ANIMATION_ID_122_223;
-    private static final int ANIMATION_ID_112_2EE;
-    private static final int ANIMATION_ID_112_233;
-    private static final int ANIMATION_ID_112_23E;
-    private static final int ANIMATION_ID_112_234;
-    private static final int ANIMATION_ID_11E_2EE;
-    private static final int ANIMATION_ID_11E_22E;
-    private static final int ANIMATION_ID_123_134;
-    private static final int ANIMATION_ID_122_22E;
-    private static final int ANIMATION_ID_1EE_EEE;
-    private static final int ANIMATION_ID_11E_EEE;
-    private static final int ANIMATION_ID_FADE_OUT;
-    private static final int ANIMATION_ID_FADE_IN;
-    private static final int ANIMATION_ID_UPDATE_ANIMATION;
-    private static final int DOWN;
-    private static final int UP;
-    private static final int SINGLE_HEIGHT;
-    private static final int DOUBLE_HEIGHT;
+    public static final int ITEM_INNER_WIDTH = 241;
+    public static final int ITEM_INNER_WIDTH_KOMBI = 241;
+    public static final int ITEM_INNER_WIDTH_NAR = 268;
+    public static final int ITEM_INNER_HEIGHT_DOUBLE_SIZED_BOX = 208;
+    public static final int ITEM_INNER_HEIGHT_DOUBLE_SIZED_BOX_KOMBI = 157;
+    public static final int BOX_STREET_HEIGHT = 32;
+    public static final int BOX_HEIGHT = 347;
+    public static final int Y_ORIGIN = 0;
+    public static final int Y_POSITION_BOX0 = 104;
+    public static final int Y_POSITION_BOX1 = 208;
+    public static final int Y_POSITION_BOX1_KOMBI = 160;
+    public static final int Y_POSITION_BOX2 = 312;
+    public static final int Y_POSITION_BOX3 = 416;
+    public static final int Y_POSITION_BOX4 = 520;
+    private static final int Y_POSITION_OFF_SCREEN = 1000;
+    public static final int ANIMATION_DURATION = 1000;
+    public static final int ANIMATION_DURATION_DEBUG = 10000;
+    public static final int ANIMATION_TYPE = 90;
+    public static final int ANIMATION_TYPE_DEBUG = 91;
+    public static final int ANIMATION_TYPE_FADING = 31;
+    private static final int ANIMATION_ID_EEE_1EE = 1;
+    private static final int ANIMATION_ID_EEE_12E = 2;
+    private static final int ANIMATION_ID_EEE_123 = 3;
+    private static final int ANIMATION_ID_1EE_12E = 7;
+    private static final int ANIMATION_ID_1EE_2EE = 9;
+    private static final int ANIMATION_ID_1EE_123 = 14;
+    private static final int ANIMATION_ID_1EE_22E = 17;
+    private static final int ANIMATION_ID_12E_123 = 20;
+    private static final int ANIMATION_ID_12E_2EE = 24;
+    private static final int ANIMATION_ID_123_234 = 50;
+    private static final int ANIMATION_ID_123_345 = 53;
+    private static final int ANIMATION_ID_123_345_B = 1000;
+    private static final int ANIMATION_ID_123_142 = 51;
+    private static final int ANIMATION_ID_123_124 = 58;
+    private static final int ANIMATION_ID_123_145 = 52;
+    private static final int ANIMATION_ID_123_145_B = 1003;
+    private static final int ANIMATION_ID_123_412 = 62;
+    private static final int ANIMATION_ID_123_23E = 64;
+    private static final int ANIMATION_ID_123_3EE = 73;
+    private static final int ANIMATION_ID_123_3EE_B = 1004;
+    private static final int ANIMATION_ID_123_443 = 77;
+    private static final int ANIMATION_ID_123_244 = 78;
+    private static final int ANIMATION_ID_123_442 = 79;
+    private static final int ANIMATION_ID_123_344 = 80;
+    private static final int ANIMATION_ID_123_144 = 81;
+    private static final int ANIMATION_ID_123_344_B = 1005;
+    private static final int ANIMATION_ID_122_223 = 122;
+    private static final int ANIMATION_ID_112_2EE = 103;
+    private static final int ANIMATION_ID_112_233 = 170;
+    private static final int ANIMATION_ID_112_23E = 113;
+    private static final int ANIMATION_ID_112_234 = 114;
+    private static final int ANIMATION_ID_11E_2EE = 95;
+    private static final int ANIMATION_ID_11E_22E = 90;
+    private static final int ANIMATION_ID_123_134 = 160;
+    private static final int ANIMATION_ID_122_22E = 120;
+    private static final int ANIMATION_ID_1EE_EEE = 140;
+    private static final int ANIMATION_ID_11E_EEE = 143;
+    private static final int ANIMATION_ID_FADE_OUT = 1001;
+    private static final int ANIMATION_ID_FADE_IN = 1002;
+    private static final int ANIMATION_ID_UPDATE_ANIMATION = 2000;
+    private static final int DOWN = -1;
+    private static final int UP = 1;
+    private static final int SINGLE_HEIGHT = 104;
+    private static final int DOUBLE_HEIGHT = 208;
     private int animationDirection = -1;
     private int animationHeight = 104;
     private int[] startPositions = new int[4];
     private boolean[] isBoxAnimated = new boolean[4];
-    private static final int STATE_ID_EMPTY;
-    private static final int STATE_ID_BOX3;
-    private static final int STATE_ID_BOX2;
-    private static final int STATE_ID_BOX1;
-    private static final int STATE_ID_BOX23;
-    private static final int STATE_ID_BOX23_BOX1;
-    private static final int STATE_ID_BOX3_BOX12;
+    private static final int STATE_ID_EMPTY = 0;
+    private static final int STATE_ID_BOX3 = 1;
+    private static final int STATE_ID_BOX2 = 2;
+    private static final int STATE_ID_BOX1 = 3;
+    private static final int STATE_ID_BOX23 = 4;
+    private static final int STATE_ID_BOX23_BOX1 = 5;
+    private static final int STATE_ID_BOX3_BOX12 = 6;
     private MixedListRenderer renderer;
     private AbstractAnimation animation;
     private MixedListItemController2[] items;
@@ -179,9 +177,9 @@ IMixedListCallback {
     private float w140_height_1 = 0.0f;
     private float w140_height_2 = 0.0f;
     private float w140_height_3 = 0.0f;
-    private float w140_pos_0 = 53314;
-    private float w140_pos_1 = 20547;
-    private float w140_pos_2 = 40003;
+    private float w140_pos_0 = 104.0f;
+    private float w140_pos_1 = 208.0f;
+    private float w140_pos_2 = 312.0f;
     private float w140_pos_3 = 0.0f;
     private float w140_contentOpacity_0 = 1.0f;
     private float w140_contentOpacity_1 = 1.0f;
@@ -205,7 +203,7 @@ IMixedListCallback {
             if (this.model != null) {
                 this.listModel = (ListModelGUI)this.model;
             } else {
-                mixedListLogChannel.log(-1601830656, "MixedListController#accessModel Could not access the model. No model available.");
+                mixedListLogChannel.log(100000, "MixedListController#accessModel Could not access the model. No model available.");
                 return false;
             }
         }
@@ -224,10 +222,9 @@ IMixedListCallback {
         return bl;
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof MixedListVisibilityController) {
-            mixedListLogChannel.log(-2137614336, "MixedListController2#add widget is instance of MixedListVisibilityController");
+            mixedListLogChannel.log(10000000, "MixedListController2#add widget is instance of MixedListVisibilityController");
         } else if (abstractWidget instanceof MixedListItemController2) {
             int n;
             int n2 = 4;
@@ -244,7 +241,7 @@ IMixedListCallback {
                 break;
             }
             if (n == n2) {
-                mixedListLogChannel.log(-2137614336, "MixedListController2#add There are already %1 items.", (long)n2);
+                mixedListLogChannel.log(10000000, "MixedListController2#add There are already %1 items.", (long)n2);
                 return;
             }
         } else if (abstractWidget instanceof MixedListLayout) {
@@ -259,42 +256,39 @@ IMixedListCallback {
         if (!this.layouts.containsKey(n2)) {
             this.layouts.put(n2, mixedListLayout);
         } else {
-            mixedListLogChannel.log(-1601830656, "MixedListController#addLayout Layout with key %1 already added to the widget.", (long)n);
+            mixedListLogChannel.log(100000, "MixedListController#addLayout Layout with key %1 already added to the widget.", (long)n);
         }
     }
 
-    @Override
     protected void afterConnected() {
-        mixedListAfterPaint.log(-2137614336, "MixedListController2#afterConnected");
+        mixedListAfterPaint.log(10000000, "MixedListController2#afterConnected");
         super.afterConnected();
     }
 
-    @Override
     protected void afterPaint(RedrawContext redrawContext) {
         if (mixedListAfterPaint.isDebug()) {
             for (int i2 = 0; i2 < this.items.length; ++i2) {
                 if (this.items[i2] == null) continue;
-                mixedListAfterPaint.log(-2137614336, "MixedListController#afterPaint Item %1", (long)i2);
-                MixedListRenderer.printWidget(this.items[i2], "", mixedListAfterPaint, -2137614336);
-                mixedListAfterPaint.log(-2137614336, "Content = %1", (long)this.items[i2].getCurrentContentNode());
-                mixedListAfterPaint.log(-2137614336, "Source = %1", (long)this.items[i2].getCurrentModelRow());
-                mixedListAfterPaint.log(-2137614336, "Position = %1", (long)this.items[i2].getCurrentPosition());
+                mixedListAfterPaint.log(10000000, "MixedListController#afterPaint Item %1", (long)i2);
+                MixedListRenderer.printWidget(this.items[i2], "", mixedListAfterPaint, 10000000);
+                mixedListAfterPaint.log(10000000, "Content = %1", (long)this.items[i2].getCurrentContentNode());
+                mixedListAfterPaint.log(10000000, "Source = %1", (long)this.items[i2].getCurrentModelRow());
+                mixedListAfterPaint.log(10000000, "Position = %1", (long)this.items[i2].getCurrentPosition());
             }
-            this.renderer.printProperties(mixedListAfterPaint, -2137614336);
-            mixedListAfterPaint.log(-2137614336, "");
-            this.renderer.printWrappedNodes(mixedListAfterPaint, -2137614336);
-            mixedListAfterPaint.log(-2137614336, "");
-            this.renderer.printNodes(mixedListAfterPaint, -2137614336);
-            mixedListAfterPaint.log(-2137614336, "");
+            this.renderer.printProperties(mixedListAfterPaint, 10000000);
+            mixedListAfterPaint.log(10000000, "");
+            this.renderer.printWrappedNodes(mixedListAfterPaint, 10000000);
+            mixedListAfterPaint.log(10000000, "");
+            this.renderer.printNodes(mixedListAfterPaint, 10000000);
+            mixedListAfterPaint.log(10000000, "");
         }
         super.afterPaint(redrawContext);
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         float f3;
-        mixedListLogChannel.log(-2137614336, "MixedListController#animate value = %1", (double)f2);
-        this.lastAnimationValue = f3 = f2 / 31300;
+        mixedListLogChannel.log(10000000, "MixedListController#animate value = %1", (double)f2);
+        this.lastAnimationValue = f3 = f2 / 1000.0f;
         this.onStart(this.currentAnimationID);
         this.animation(this.currentAnimationID, f3);
         this.setCompositesDirty(true);
@@ -465,7 +459,7 @@ IMixedListCallback {
     private void animationFadeOver0(float f2) {
         this.items[0].setOpacity(Math.max(1.0f - 2.0f * f2, 0.0f));
         this.items[0].setCompositesDirty(true);
-        this.items[1].setOpacity(Math.max(2.0f * (f2 - 63), 0.0f));
+        this.items[1].setOpacity(Math.max(2.0f * (f2 - 0.5f), 0.0f));
         this.items[1].setCompositesDirty(true);
     }
 
@@ -473,9 +467,9 @@ IMixedListCallback {
         if ((double)f2 <= 0.5) {
             this.setOpacity(Math.max(1.0f - 2.0f * f2, 0.0f));
         } else {
-            this.setW140_pos_0(31300);
-            this.setW140_pos_1(8259);
-            this.setOpacity(Math.max(2.0f * (f2 - 63), 0.0f));
+            this.setW140_pos_0(1000.0f);
+            this.setW140_pos_1(160.0f);
+            this.setOpacity(Math.max(2.0f * (f2 - 0.5f), 0.0f));
         }
         this.items[0].setCompositesDirty(true);
         this.items[1].setCompositesDirty(true);
@@ -485,17 +479,16 @@ IMixedListCallback {
         if ((double)f2 <= 0.5) {
             this.setOpacity(Math.max(1.0f - 2.0f * f2, 0.0f));
         } else {
-            this.setW140_pos_0(31300);
-            this.setW140_pos_1(53314);
-            this.setOpacity(Math.max(2.0f * (f2 - 63), 0.0f));
+            this.setW140_pos_0(1000.0f);
+            this.setW140_pos_1(104.0f);
+            this.setOpacity(Math.max(2.0f * (f2 - 0.5f), 0.0f));
         }
         this.items[0].setCompositesDirty(true);
         this.items[1].setCompositesDirty(true);
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
-        mixedListLogChannel.log(-2137614336, "MixedListController#animationFinished for Transition %1 in State %2", (Object)MixedListController2.getAnimationName(this.currentAnimationID), (Object)MixedListController2.getStateName(this.currentStateID));
+        mixedListLogChannel.log(10000000, "MixedListController#animationFinished for Transition %1 in State %2", (Object)MixedListController2.getAnimationName(this.currentAnimationID), (Object)MixedListController2.getStateName(this.currentStateID));
         switch (this.currentAnimationID) {
             case 53: {
                 this.pushAnimation(1000);
@@ -547,7 +540,7 @@ IMixedListCallback {
 
     private static boolean checkForMultipleEventsWithIdenticalIDs(long[] lArray) {
         if (!(lArray[0] != lArray[1] && lArray[1] != lArray[2] || lArray[1] == -1L || MixedListController2.isIDForDoubleManeuver(lArray[1]) || lArray[1] == -2L)) {
-            mixedListLogChannel.log(-1601830656, "MixedListController#checkForMultipleIDs Multiple events with the same ID %1 not allowed.", lArray[1]);
+            mixedListLogChannel.log(100000, "MixedListController#checkForMultipleIDs Multiple events with the same ID %1 not allowed.", lArray[1]);
             return false;
         }
         return true;
@@ -617,7 +610,7 @@ IMixedListCallback {
                         buffer.append(MixedListController2.getFormatName(n3));
                         buffer.append(" ");
                         buffer.append(MixedListController2.getEventName(listCellArray[n2]));
-                        mixedListLogChannel.log(-2137614336, "MixedListController2#calculateIDs format = %1, id = %2, DTD = %3", (Object)buffer.toString(), (long)n4, l2);
+                        mixedListLogChannel.log(10000000, "MixedListController2#calculateIDs format = %1, id = %2, DTD = %3", (Object)buffer.toString(), (long)n4, l2);
                     }
                     if ((l = (long)n4) == 0L) {
                         l2 = 0L;
@@ -627,9 +620,9 @@ IMixedListCallback {
                             mixedListLogChannel.log(10000, "MixedListController2#calculateIDs Distance to dest cell is null");
                         }
                         long l3 = l2;
-                        l = l3 * 0 + (long)n3;
+                        l = l3 * 100L + (long)n3;
                     }
-                    mixedListLogChannel.log(-2137614336, "MixedListController2#calculateIDs unique id = %1", l);
+                    mixedListLogChannel.log(10000000, "MixedListController2#calculateIDs unique id = %1", l);
                     break;
                 }
             }
@@ -639,13 +632,12 @@ IMixedListCallback {
         return lArray;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
-        mixedListLogChannel.log(-2137614336, "MixedListController#animationStarted for Transition %1", (Object)MixedListController2.getAnimationName(this.currentAnimationID));
+        mixedListLogChannel.log(10000000, "MixedListController#animationStarted for Transition %1", (Object)MixedListController2.getAnimationName(this.currentAnimationID));
     }
 
     private int calculateTransitions(long[] lArray, long[] lArray2) {
-        mixedListLogChannel.log(-2137614336, "MixedListController#calculateTransitions current state = %1", (long)this.currentStateID);
+        mixedListLogChannel.log(10000000, "MixedListController#calculateTransitions current state = %1", (long)this.currentStateID);
         int n = -5;
         if (!MixedListController2.isMMIKombi()) {
             if (lArray2[0] == lArray[0] && lArray2[1] == lArray[1] && lArray2[2] == lArray[2]) {
@@ -704,7 +696,7 @@ IMixedListCallback {
                     break;
                 }
                 default: {
-                    mixedListLogChannel.log(-1601830656, "MixedListController#calculateTransitions Current state ID is not valid: %1", (long)this.currentStateID);
+                    mixedListLogChannel.log(100000, "MixedListController#calculateTransitions Current state ID is not valid: %1", (long)this.currentStateID);
                     n = -1;
                 }
             }
@@ -1176,7 +1168,7 @@ IMixedListCallback {
                 this.justSetOnScreen = true;
                 this.setOnScreen(true);
                 this.setOpacity(1.0f);
-                mixedListLogChannel.log(-2137614336, "MixedListController2#checkModelAccess Set on screen to true.");
+                mixedListLogChannel.log(10000000, "MixedListController2#checkModelAccess Set on screen to true.");
             }
             return true;
         }
@@ -1185,9 +1177,8 @@ IMixedListCallback {
         return false;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#connected isVisible = %1, isOnScreen = %2", this.isVisible(), this.isOnScreen());
+        mixedListLogChannel.log(10000000, "MixedListController2#connected isVisible = %1, isOnScreen = %2", this.isVisible(), this.isOnScreen());
         singleton = this;
         MixedListLayoutPackage.isKombi = MixedListController2.isMMIKombi();
         MixedListLayoutPackage.isNAR = this.isNAR();
@@ -1278,7 +1269,7 @@ IMixedListCallback {
 
     private static final ListCell[][] copy(ListCell[][] listCellArray) {
         if (listCellArray != null) {
-            mixedListLogChannel.log(-2137614336, "MixedListController2#copy");
+            mixedListLogChannel.log(10000000, "MixedListController2#copy");
             ListCell[][] listCellArray2 = new ListCell[listCellArray.length][];
             for (int i2 = 0; i2 < listCellArray.length; ++i2) {
                 listCellArray2[i2] = new ListCell[listCellArray[i2].length];
@@ -1318,16 +1309,16 @@ IMixedListCallback {
         }
         if (listCell instanceof ObjectListCell) {
             Object object = ((ObjectListCell)listCell).getValue();
-            if (object instanceof MixedListConstants$LaneGuidance || object instanceof MixedListConstants$TollGateInfo) {
+            if (object instanceof MixedListConstants.LaneGuidance || object instanceof MixedListConstants.TollGateInfo) {
                 return listCell;
             }
-            mixedListLogChannel.log(-1601830656, "MixedListController#copyListCell Copying for ObjectListCell @(%2, %3) cell %1 not possible.", object, (long)n, (long)n2);
+            mixedListLogChannel.log(100000, "MixedListController#copyListCell Copying for ObjectListCell @(%2, %3) cell %1 not possible.", object, (long)n, (long)n2);
             return null;
         }
         if (listCell == null) {
             return null;
         }
-        mixedListLogChannel.log(-1601830656, "MixedListController#copyListCell Copying for list cell %1, %2 not possible.", (Object)listCell, (Object)MixedListController2.classOf(listCell));
+        mixedListLogChannel.log(100000, "MixedListController#copyListCell Copying for list cell %1, %2 not possible.", (Object)listCell, (Object)MixedListController2.classOf(listCell));
         return null;
     }
 
@@ -1343,9 +1334,8 @@ IMixedListCallback {
         return this.animation;
     }
 
-    @Override
     public void predisconnecting() {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#predisconnecting");
+        mixedListLogChannel.log(10000000, "MixedListController2#predisconnecting");
         super.predisconnecting();
         this.skipAnimation();
         this.renderer.removeContent(new int[]{1, 2, 3, 4});
@@ -1353,9 +1343,8 @@ IMixedListCallback {
         ((MixedListRenderer)this.getRenderer()).shutDown();
     }
 
-    @Override
     public void disconnecting() {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#disconnecting");
+        mixedListLogChannel.log(10000000, "MixedListController2#disconnecting");
         super.disconnecting();
     }
 
@@ -1398,7 +1387,7 @@ IMixedListCallback {
     }
 
     public LayoutContainerController getLayout(int n) {
-        mixedListLogChannel.log(14808325, "MixedListController#getLayout for format = %1", (long)n);
+        mixedListLogChannel.log(100000000, "MixedListController#getLayout for format = %1", (long)n);
         return (LayoutContainerController)this.layouts.get(new Integer(n));
     }
 
@@ -1415,7 +1404,6 @@ IMixedListCallback {
         }
     }
 
-    @Override
     public boolean isActive() {
         return super.isActive() && (this.isActiveInG24 && MixedListController2.isMMIKombi() || !this.isActiveInG24 && !MixedListController2.isMMIKombi());
     }
@@ -1436,15 +1424,14 @@ IMixedListCallback {
         return framework.isNar();
     }
 
-    @Override
     public void managePaint(RedrawContext redrawContext) {
-        mixedListAfterPaint.log(-2137614336, "MixedListController2#managePaint invalid = %1", this.isInvalid());
+        mixedListAfterPaint.log(10000000, "MixedListController2#managePaint invalid = %1", this.isInvalid());
         super.managePaint(redrawContext);
     }
 
     private void onStart(int n) {
         if (!this.animationStarted) {
-            mixedListLogChannel.log(-1601830656, "MixedListController2#onStart tID = %1", (long)n);
+            mixedListLogChannel.log(100000, "MixedListController2#onStart tID = %1", (long)n);
             this.animationStarted = true;
             switch (n) {
                 case 1: {
@@ -1616,7 +1603,7 @@ IMixedListCallback {
     private void setUpAnimation_EEE_1EE_Kombi() {
         this.item = this.getFreeItem();
         this.setupItem(this.item, this.newData, 2, 1, 0, true, false);
-        this.setW140_pos_0(53314);
+        this.setW140_pos_0(104.0f);
         this.setW140_height_0(this.itemInnerHeight);
         this.setW140_contentOpacity_0(0.0f);
         this.setOpacity(0.0f);
@@ -1630,8 +1617,8 @@ IMixedListCallback {
 
     private void setUpAnimation_1EE_22E_Kombi() {
         this.item = this.getFreeItem();
-        this.setW140_pos_1(31300);
-        this.setW140_height_1(7491);
+        this.setW140_pos_1(1000.0f);
+        this.setW140_height_1(157.0f);
         this.item.setDoubleSized(true);
         this.setupItem(this.item, this.newData, 1, 2, 1, false, false);
     }
@@ -1645,8 +1632,8 @@ IMixedListCallback {
 
     private void setUpAnimation_11E_2EE_Kombi() {
         this.item = this.getFreeItem();
-        this.setW140_pos_1(31300);
-        this.setW140_height_1(50754);
+        this.setW140_pos_1(1000.0f);
+        this.setW140_height_1(99.0f);
         this.item.setDoubleSized(false);
         this.setupItem(this.item, this.newData, 2, 2, 1, false, false);
     }
@@ -1701,7 +1688,7 @@ IMixedListCallback {
     private void setUpAnimation_112_233() {
         this.item = this.getItemAtPosition(2);
         this.setupItem(this.item, this.newData, 0, 3, 2, true, false);
-        this.setW140_height_2(20547);
+        this.setW140_height_2(208.0f);
         this.animationDirection = -1;
         this.animationHeight = 208;
         this.setStartPositions(208, 312, 520, -1);
@@ -1822,7 +1809,7 @@ IMixedListCallback {
         this.setupItem(this.item, this.newData, 1, 2, 2, true, false);
         this.item = this.getFreeItem();
         this.setupItem(this.item, this.newData, 0, 3, 3, true, false);
-        this.setW140_height_3(20547);
+        this.setW140_height_3(208.0f);
         this.setW140_height_0(this.itemInnerHeight);
         this.setW140_height_1(this.itemInnerHeight);
         this.setW140_height_2(this.itemInnerHeight);
@@ -1954,7 +1941,7 @@ IMixedListCallback {
         this.item.setDoubleSized(true);
         this.setW140_height_0(this.itemInnerHeight);
         this.setW140_height_1(this.itemInnerHeight);
-        this.setW140_height_2(20547);
+        this.setW140_height_2(208.0f);
         this.setW140_height_3(this.itemInnerHeight);
         this.animationDirection = -1;
         this.animationHeight = 104;
@@ -1963,7 +1950,7 @@ IMixedListCallback {
     }
 
     private void setUpAnimation_123_344_B() {
-        this.setW140_pos_0(31300);
+        this.setW140_pos_0(1000.0f);
         this.animationDirection = -1;
         this.animationHeight = 104;
         this.setStartPositions(104, 208, 416, -1);
@@ -1977,7 +1964,7 @@ IMixedListCallback {
         this.setupItem(this.item, this.oldData, 0, 1, 1, true, true);
         this.item = this.getFreeItem();
         this.setupItem(this.item, this.newData, 0, 2, 2, true, false);
-        this.setW140_height_0(20547);
+        this.setW140_height_0(208.0f);
         this.setW140_height_1(this.itemInnerHeight);
         this.setW140_height_3(this.itemInnerHeight);
         this.animationDirection = -1;
@@ -1994,10 +1981,10 @@ IMixedListCallback {
         this.item = this.getItemAtPosition(2);
         this.setupItem(this.item, this.oldData, 0, 2, 2, true, true);
         this.setW140_height_3(this.itemInnerHeight);
-        this.setW140_pos_3(53314);
-        this.setW140_pos_0(20547);
-        this.setW140_pos_1(40003);
-        this.setW140_pos_2(31300);
+        this.setW140_pos_3(104.0f);
+        this.setW140_pos_0(208.0f);
+        this.setW140_pos_1(312.0f);
+        this.setW140_pos_2(1000.0f);
     }
 
     private void setUpAnimation_123_142() {
@@ -2023,30 +2010,29 @@ IMixedListCallback {
         if (this.currentAnimationID == -1) {
             if (!this.bufferedAnimations.isEmpty()) {
                 Integer n = (Integer)this.bufferedAnimations.remove(0);
-                mixedListLogChannel.log(-2137614336, "MixedListController#popTransition %1", (Object)MixedListController2.getAnimationName(n));
+                mixedListLogChannel.log(10000000, "MixedListController#popTransition %1", (Object)MixedListController2.getAnimationName(n));
                 this.processTransition(n);
             } else if (!this.bufferedEvents.isEmpty()) {
-                mixedListLogChannel.log(-2137614336, "MixedListController#popTransition pop event. %1 remaining.", (long)this.bufferedEvents.size());
+                mixedListLogChannel.log(10000000, "MixedListController#popTransition pop event. %1 remaining.", (long)this.bufferedEvents.size());
                 this.processModelUpdateEvent((ModelUpdateEvent)this.bufferedEvents.remove(0));
             }
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent != null) {
-            mixedListLogChannel.log(-2137614336, "MixedListController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
+            mixedListLogChannel.log(10000000, "MixedListController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
         }
         if (!this.isActive()) {
             return;
         }
         if (!this.isConnected() || !this.shouldRender()) {
-            mixedListLogChannel.log(-2137614336, "MixedListController#processModelUpdateEvent Return - Not visible %1 or not connected %2.", !this.shouldRender(), !this.isConnected());
+            mixedListLogChannel.log(10000000, "MixedListController#processModelUpdateEvent Return - Not visible %1 or not connected %2.", !this.shouldRender(), !this.isConnected());
             this.setDefaultState(true);
             return;
         }
         if (this.currentAnimationID != -1 || this.animationStarted || this.bufferedAnimations.size() > 0) {
-            mixedListLogChannel.log(-2137614336, "MixedListController#processModelUpdateEvent Return - Animation is running %1, %2, %3.", (long)this.currentAnimationID, this.animationStarted ? 0L : 1L, (long)this.bufferedAnimations.size());
+            mixedListLogChannel.log(10000000, "MixedListController#processModelUpdateEvent Return - Animation is running %1, %2, %3.", (long)this.currentAnimationID, this.animationStarted ? 0L : 1L, (long)this.bufferedAnimations.size());
             return;
         }
         int n = modelUpdateEvent.getUpdateType();
@@ -2075,7 +2061,15 @@ IMixedListCallback {
 
     public void processModelUpdateEvent(long[] lArray, int[] nArray) {
         if (this.isDebugMode() && (!this.bufferedAnimations.isEmpty() || this.currentAnimationID != -1)) {
-            new Timer("DebugTimer", 0, true, new MixedListController2$1(this)).start();
+            new Timer("DebugTimer", 200L, true, new TimerListener(){
+
+                public void fireTimer(Timer timer) {
+                    MixedListController2.this.processModelUpdateEvent(MixedListController2.this.newDataIDs, MixedListController2.this.newFormatIDs);
+                }
+
+                public void cancelTimer(Timer timer) {
+                }
+            }).start();
             return;
         }
         this.oldDataIDs = this.newDataIDs;
@@ -2088,9 +2082,9 @@ IMixedListCallback {
                 n = -6;
             }
             if (mixedListLogChannel.isDebug()) {
-                mixedListLogChannel.log(-2137614336, "MixedListController#processModelUpdateEvent old IDs | new IDs");
+                mixedListLogChannel.log(10000000, "MixedListController#processModelUpdateEvent old IDs | new IDs");
                 for (int i2 = 0; i2 < 3; ++i2) {
-                    mixedListLogChannel.log(-2137614336, new StringBuffer().append(this.oldDataIDs[i2]).append(" ").append(this.newDataIDs[i2]).append(" ").append(MixedListController2.getFormatName(this.newFormatIDs[i2])).toString());
+                    mixedListLogChannel.log(10000000, new StringBuffer().append(this.oldDataIDs[i2]).append(" ").append(this.newDataIDs[i2]).append(" ").append(MixedListController2.getFormatName(this.newFormatIDs[i2])).toString());
                 }
             }
             this.pushAnimation(n);
@@ -2101,7 +2095,7 @@ IMixedListCallback {
     }
 
     private void pushAnimation(int n) {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#pushTransition %1", (Object)MixedListController2.getAnimationName(n));
+        mixedListLogChannel.log(10000000, "MixedListController2#pushTransition %1", (Object)MixedListController2.getAnimationName(n));
         this.bufferedAnimations.add(new Integer(n));
     }
 
@@ -2187,11 +2181,11 @@ IMixedListCallback {
     }
 
     private void processTransition(int n) {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#processTransition %1, %2", (Object)MixedListController2.getAnimationName(n), (long)n);
-        mixedListAfterPaint.log(-2137614336, "MixedListController2#processTransition %1, %2", (Object)MixedListController2.getAnimationName(n), (long)n);
+        mixedListLogChannel.log(10000000, "MixedListController2#processTransition %1, %2", (Object)MixedListController2.getAnimationName(n), (long)n);
+        mixedListAfterPaint.log(10000000, "MixedListController2#processTransition %1, %2", (Object)MixedListController2.getAnimationName(n), (long)n);
         this.currentAnimationID = n;
         if (!this.isConnected() || !this.isVisible()) {
-            mixedListLogChannel.log(-2137614336, "MixedListController#processTransition bypass animation due to connection = %1, visibility = %2", this.isConnected(), this.shouldRender());
+            mixedListLogChannel.log(10000000, "MixedListController#processTransition bypass animation due to connection = %1, visibility = %2", this.isConnected(), this.shouldRender());
             return;
         }
         boolean bl = false;
@@ -2280,7 +2274,7 @@ IMixedListCallback {
                 this.pushAnimation(2000);
                 this.popAnimation();
             }
-            mixedListLogChannel.log(-2137614336, "MixedListController2#processTransition No animation implemented for transition %1", (long)n);
+            mixedListLogChannel.log(10000000, "MixedListController2#processTransition No animation implemented for transition %1", (long)n);
         }
     }
 
@@ -2289,7 +2283,7 @@ IMixedListCallback {
     }
 
     private void setupItem(MixedListItemController2 mixedListItemController2, ListCell[][] listCellArray, int n, int n2, int n3, boolean bl, boolean bl2) {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#setupItem src = %1, content = %2, pos = %3", (long)n, (long)n2, (long)n3);
+        mixedListLogChannel.log(10000000, "MixedListController2#setupItem src = %1, content = %2, pos = %3", (long)n, (long)n2, (long)n3);
         if (n != -1) {
             if (listCellArray != null) {
                 if (listCellArray[n] != null) {
@@ -2302,10 +2296,10 @@ IMixedListCallback {
                     mixedListItemController2.setupWidgetAndLayout(listCellArray[n], n, bl2);
                     mixedListItemController2.destroyRendererNode();
                 } else {
-                    mixedListLogChannel.log(-1601830656, "MixedListItemController2#setupItem Data item is null.");
+                    mixedListLogChannel.log(100000, "MixedListItemController2#setupItem Data item is null.");
                 }
             } else {
-                mixedListLogChannel.log(-1601830656, "MixedListItemController2#setupItem Data array is null.");
+                mixedListLogChannel.log(100000, "MixedListItemController2#setupItem Data array is null.");
             }
         }
     }
@@ -2314,15 +2308,15 @@ IMixedListCallback {
         int n = this.random.nextInt(3);
         this.item = this.getItemAtPosition(0);
         this.setupItem(this.item, this.oldData, n, 4, 0, true, true);
-        this.setW140_pos_3(53314);
+        this.setW140_pos_3(104.0f);
         this.setW140_height_3(this.itemInnerHeight);
         if (!MixedListController2.isMMIKombi()) {
             this.item = this.getItemAtPosition(1);
             this.setupItem(this.item, this.oldData, (n + 1) % 3, 1, 1, true, true);
             this.item = this.getItemAtPosition(2);
             this.setupItem(this.item, this.oldData, (n + 2) % 3, 2, 2, true, true);
-            this.setW140_pos_0(20547);
-            this.setW140_pos_1(40003);
+            this.setW140_pos_0(208.0f);
+            this.setW140_pos_1(312.0f);
             this.setW140_height_0(this.itemInnerHeight);
             this.setW140_height_1(this.itemInnerHeight);
         }
@@ -2346,7 +2340,7 @@ IMixedListCallback {
     }
 
     private void refreshLabelTexts() {
-        mixedListLogChannel.log(-2137614336, "MixedListController#refreshLabelTexts");
+        mixedListLogChannel.log(10000000, "MixedListController#refreshLabelTexts");
         for (int i2 = 0; i2 < this.items.length; ++i2) {
             int n;
             MixedListItemController2 mixedListItemController2 = this.items[i2];
@@ -2358,24 +2352,21 @@ IMixedListCallback {
 
     private void skipAnimation() {
         if (this.currentAnimationID != -1 && this.animation != null && this.animation.isAnimating()) {
-            mixedListLogChannel.log(-2137614336, "MixedListController2#seekAnimation Last animation value was %1.", (double)this.lastAnimationValue);
+            mixedListLogChannel.log(10000000, "MixedListController2#seekAnimation Last animation value was %1.", (double)this.lastAnimationValue);
             this.animation(this.currentAnimationID, 1.0f);
             this.animation.stopAnimation();
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
-        mixedListAfterPaint.log(-2137614336, "MixedListController2#render");
+        mixedListAfterPaint.log(10000000, "MixedListController2#render");
         super.render(redrawContext);
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         super.setBounds(n, n2, n3, n4);
     }
 
-    @Override
     public void setCompositesDirty(boolean bl) {
         super.setCompositesDirty(bl);
         this.renderer.invalidate();
@@ -2387,8 +2378,8 @@ IMixedListCallback {
     private void setDefaultState(boolean var1_1) {
         block13: {
             block14: {
-                MixedListController2.mixedListLogChannel.log(-2137614336, "");
-                MixedListController2.mixedListLogChannel.log(-2137614336, "MixedListController#setDefaultState");
+                MixedListController2.mixedListLogChannel.log(10000000, "");
+                MixedListController2.mixedListLogChannel.log(10000000, "MixedListController#setDefaultState");
                 if (!this.checkModelAccess()) break block13;
                 var2_2 = null;
                 if (!this.isDebugMode()) break block14;
@@ -2401,7 +2392,7 @@ IMixedListCallback {
             this.newDataIDs = var2_2 = MixedListController2.calculateIDs(this.newData, var3_3);
             this.newFormatIDs = var3_3;
             if (var1_1 && !this.justSetOnScreen && this.oldDataIDs != null && this.oldDataIDs[0] == this.newDataIDs[0] && this.oldDataIDs[1] == this.newDataIDs[1] && this.oldDataIDs[2] == this.newDataIDs[2]) {
-                MixedListController2.mixedListLogChannel.log(-2137614336, "MixedListController#setDefaultState No state change.");
+                MixedListController2.mixedListLogChannel.log(10000000, "MixedListController#setDefaultState No state change.");
             } else lbl-1000:
             // 3 sources
 
@@ -2410,25 +2401,25 @@ IMixedListCallback {
                     this.items[var3_4].setCurrentContentNode(-1);
                     this.items[var3_4].setCurrentPosition(-1);
                 }
-                this.setW140_pos_0(31300);
-                this.setW140_pos_1(31300);
-                this.setW140_pos_2(31300);
-                this.setW140_pos_3(31300);
+                this.setW140_pos_0(1000.0f);
+                this.setW140_pos_1(1000.0f);
+                this.setW140_pos_2(1000.0f);
+                this.setW140_pos_3(1000.0f);
                 this.currentStateID = 0;
                 var4_5 = this.calculateTransitions(new long[]{-1L, -1L, -1L}, var2_2);
                 this.bufferedAnimations.clear();
-                MixedListController2.mixedListLogChannel.log(-2137614336, "MixedListController#setDefaultState t_id = %1", (long)var4_5);
+                MixedListController2.mixedListLogChannel.log(10000000, "MixedListController#setDefaultState t_id = %1", (long)var4_5);
                 switch (var4_5) {
                     case 1: {
                         this.item = this.items[0];
                         this.setupItem(this.item, this.newData, 2, 1, 0, true, false);
-                        this.setW140_pos_0(53314);
+                        this.setW140_pos_0(104.0f);
                         this.setW140_height_0(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
                         this.item.setOpacity(1.0f);
-                        this.setW140_pos_1(31300);
-                        this.setW140_pos_2(31300);
-                        this.setW140_pos_3(31300);
+                        this.setW140_pos_1(1000.0f);
+                        this.setW140_pos_2(1000.0f);
+                        this.setW140_pos_3(1000.0f);
                         this.items[1].setCurrentPosition(-1);
                         if (!MixedListController2.isMMIKombi()) {
                             this.items[2].setCurrentPosition(-1);
@@ -2440,16 +2431,16 @@ IMixedListCallback {
                     case 2: {
                         this.item = this.items[0];
                         this.setupItem(this.item, this.newData, 2, 1, 0, true, false);
-                        this.setW140_pos_0(53314);
+                        this.setW140_pos_0(104.0f);
                         this.setW140_height_0(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
                         this.item = this.items[1];
                         this.setupItem(this.item, this.newData, 1, 2, 1, true, false);
-                        this.setW140_pos_1(20547);
+                        this.setW140_pos_1(208.0f);
                         this.setW140_height_1(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
-                        this.setW140_pos_2(31300);
-                        this.setW140_pos_3(31300);
+                        this.setW140_pos_2(1000.0f);
+                        this.setW140_pos_3(1000.0f);
                         this.items[2].setCurrentPosition(-1);
                         this.items[3].setCurrentPosition(-1);
                         this.currentStateID = 2;
@@ -2458,20 +2449,20 @@ IMixedListCallback {
                     case 3: {
                         this.item = this.items[0];
                         this.setupItem(this.item, this.newData, 2, 1, 0, true, false);
-                        this.setW140_pos_0(53314);
+                        this.setW140_pos_0(104.0f);
                         this.setW140_height_0(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
                         this.item = this.items[1];
                         this.setupItem(this.item, this.newData, 1, 2, 1, true, false);
-                        this.setW140_pos_1(20547);
+                        this.setW140_pos_1(208.0f);
                         this.setW140_height_1(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
                         this.item = this.items[2];
                         this.setupItem(this.item, this.newData, 0, 3, 2, true, false);
-                        this.setW140_pos_2(40003);
+                        this.setW140_pos_2(312.0f);
                         this.setW140_height_2(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
-                        this.setW140_pos_3(31300);
+                        this.setW140_pos_3(1000.0f);
                         this.items[3].setCurrentPosition(-1);
                         this.currentStateID = 3;
                         break;
@@ -2479,13 +2470,13 @@ IMixedListCallback {
                     case 4: {
                         this.item = this.items[0];
                         this.setupItem(this.item, this.newData, 1, 1, 0, true, false);
-                        this.setW140_pos_0(MixedListController2.isMMIKombi() != false ? 8259 : 20547);
-                        this.setW140_height_0(MixedListController2.isMMIKombi() != false ? 7491 : 20547);
+                        this.setW140_pos_0(MixedListController2.isMMIKombi() != false ? 160.0f : 208.0f);
+                        this.setW140_height_0(MixedListController2.isMMIKombi() != false ? 157.0f : 208.0f);
                         this.item.setDoubleSized(true);
                         this.item.setOpacity(1.0f);
-                        this.setW140_pos_1(31300);
-                        this.setW140_pos_2(31300);
-                        this.setW140_pos_3(31300);
+                        this.setW140_pos_1(1000.0f);
+                        this.setW140_pos_2(1000.0f);
+                        this.setW140_pos_3(1000.0f);
                         this.items[1].setCurrentPosition(-1);
                         if (!MixedListController2.isMMIKombi()) {
                             this.items[2].setCurrentPosition(-1);
@@ -2497,16 +2488,16 @@ IMixedListCallback {
                     case 5: {
                         this.item = this.items[0];
                         this.setupItem(this.item, this.newData, 1, 1, 0, true, false);
-                        this.setW140_pos_0(20547);
-                        this.setW140_height_0(20547);
+                        this.setW140_pos_0(208.0f);
+                        this.setW140_height_0(208.0f);
                         this.item.setDoubleSized(true);
                         this.item = this.items[1];
                         this.setupItem(this.item, this.newData, 0, 2, 1, true, false);
-                        this.setW140_pos_1(40003);
+                        this.setW140_pos_1(312.0f);
                         this.setW140_height_1(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
-                        this.setW140_pos_2(31300);
-                        this.setW140_pos_3(31300);
+                        this.setW140_pos_2(1000.0f);
+                        this.setW140_pos_3(1000.0f);
                         this.items[2].setCurrentPosition(-1);
                         this.items[3].setCurrentPosition(-1);
                         this.currentStateID = 5;
@@ -2515,27 +2506,27 @@ IMixedListCallback {
                     case 6: {
                         this.item = this.items[0];
                         this.setupItem(this.item, this.newData, 2, 1, 0, true, false);
-                        this.setW140_pos_0(53314);
+                        this.setW140_pos_0(104.0f);
                         this.setW140_height_0(this.itemInnerHeight);
                         this.item.setDoubleSized(false);
                         this.item = this.items[1];
                         this.setupItem(this.item, this.newData, 0, 2, 1, true, false);
-                        this.setW140_pos_1(40003);
-                        this.setW140_height_1(20547);
+                        this.setW140_pos_1(312.0f);
+                        this.setW140_height_1(208.0f);
                         this.item.setDoubleSized(true);
-                        this.setW140_pos_2(31300);
-                        this.setW140_pos_3(31300);
+                        this.setW140_pos_2(1000.0f);
+                        this.setW140_pos_3(1000.0f);
                         this.items[2].setCurrentPosition(-1);
                         this.items[3].setCurrentPosition(-1);
                         this.currentStateID = 6;
                         break;
                     }
                     default: {
-                        MixedListController2.mixedListLogChannel.log(-2137614336, "MixedListController2#setDefaultState Invalid transition ID: %1", (long)var4_5);
+                        MixedListController2.mixedListLogChannel.log(10000000, "MixedListController2#setDefaultState Invalid transition ID: %1", (long)var4_5);
                     }
                 }
-                MixedListController2.mixedListLogChannel.log(-2137614336, "MixedListController2#setDefaultState %1", (Object)MixedListController2.getStateName(this.currentStateID));
-                MixedListController2.mixedListLogChannel.log(-2137614336, "");
+                MixedListController2.mixedListLogChannel.log(10000000, "MixedListController2#setDefaultState %1", (Object)MixedListController2.getStateName(this.currentStateID));
+                MixedListController2.mixedListLogChannel.log(10000000, "");
                 this.setCompositesDirty(true);
             }
         }
@@ -2546,10 +2537,9 @@ IMixedListCallback {
     /*
      * Enabled aggressive block sorting
      */
-    @Override
     public void setVisible(boolean bl) {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#setVisible %1", bl);
-        mapControllerLogCh.log(-2137614336, "MixedListController2#setVisible %1", bl);
+        mixedListLogChannel.log(10000000, "MixedListController2#setVisible %1", bl);
+        mapControllerLogCh.log(10000000, "MixedListController2#setVisible %1", bl);
         if (!this.isActive()) {
             if (!this.isVisible()) return;
             this.setVisibleInternal(false);
@@ -2567,12 +2557,12 @@ IMixedListCallback {
                 boolean bl5 = bl2 = !this.isVisible() && bl;
                 if (this.animation != null && this.animation.isAnimating()) {
                     if (!(this.currentAnimationID == 1002 && bl || this.currentAnimationID == 1001 && !bl)) {
-                        mixedListLogChannel.log(-2137614336, "MixedListController2#setVisible Stop animation.");
+                        mixedListLogChannel.log(10000000, "MixedListController2#setVisible Stop animation.");
                         if (bl4 || bl2) {
                             this.skipAnimation();
                         }
                     } else {
-                        mixedListLogChannel.log(-2137614336, "MixedListController2#setVisible No state change. Return (1).");
+                        mixedListLogChannel.log(10000000, "MixedListController2#setVisible No state change. Return (1).");
                         return;
                     }
                 }
@@ -2583,7 +2573,7 @@ IMixedListCallback {
                         return;
                     }
                     this.setVisibleInternal(bl);
-                    mixedListLogChannel.log(-2137614336, "MixedListController2#setVisible Screen-Change animation is running.");
+                    mixedListLogChannel.log(10000000, "MixedListController2#setVisible Screen-Change animation is running.");
                     return;
                 }
                 if (bl2) {
@@ -2593,7 +2583,7 @@ IMixedListCallback {
                     this.popAnimation();
                     return;
                 }
-                mixedListLogChannel.log(-2137614336, "MixedListController2#setVisible No state change. Return (2).");
+                mixedListLogChannel.log(10000000, "MixedListController2#setVisible No state change. Return (2).");
                 return;
             }
             if (this.isVisible() == bl) return;
@@ -2601,11 +2591,11 @@ IMixedListCallback {
             return;
         }
         this.visibleStateBeforeKZBMerged = bl ? 1 : 0;
-        mixedListLogChannel.log(-2137614336, "MixedListController2#setVisible not successful: Renderer is not ready.");
+        mixedListLogChannel.log(10000000, "MixedListController2#setVisible not successful: Renderer is not ready.");
     }
 
     private void setVisibleInternal(boolean bl) {
-        mixedListLogChannel.log(-2137614336, "MixedListController2#setVisibleInternal %1", bl);
+        mixedListLogChannel.log(10000000, "MixedListController2#setVisibleInternal %1", bl);
         super.setVisible(bl);
         if (!this.isConnected()) {
             return;
@@ -2615,16 +2605,15 @@ IMixedListCallback {
     private void startAnimation(int n) {
         if (!(this.animation != null && this.animation.isAnimating() || this.animationDisabled)) {
             this.getAnimation(n);
-            this.animation.startDynamicAnimation(0.0f, 31300, n, false, this);
+            this.animation.startDynamicAnimation(0.0f, 1000.0f, n, false, this);
         }
     }
 
     public MixedListLayout getPixelExactLayout(int n) {
-        mixedListLogChannel.log(-2137614336, "MixedListController#getPixelExactLayout for format = %1", (long)n);
+        mixedListLogChannel.log(10000000, "MixedListController#getPixelExactLayout for format = %1", (long)n);
         return (MixedListLayout)this.pixelExactLayouts.get(new Integer(n));
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -2736,10 +2725,10 @@ IMixedListCallback {
         float[] fArray = new float[]{this.w140_pos_0, this.w140_pos_1, this.w140_pos_2, this.w140_pos_3};
         float f2 = 0.0f;
         for (int i2 = 0; i2 < fArray.length; ++i2) {
-            if (!(fArray[i2] < 31300) || !(fArray[i2] > f2)) continue;
+            if (!(fArray[i2] < 1000.0f) || !(fArray[i2] > f2)) continue;
             f2 = fArray[i2];
         }
-        float f3 = Math.min(f2, (float)40003);
+        float f3 = Math.min(f2, 312.0f);
         return f3;
     }
 
@@ -2747,7 +2736,6 @@ IMixedListCallback {
         this.w140_footerVisibility = bl;
     }
 
-    @Override
     public List getDiagnosisChildren() {
         return null;
     }
@@ -2766,9 +2754,8 @@ IMixedListCallback {
         this.startPositions[3] = n4;
     }
 
-    @Override
     public void kZBMergedCallback(boolean bl) {
-        mixedListLogChannel.log(-2137614336, "MixedListController#kZBMergedCallback success = %1, visibleStateBeforeConnected = %2", bl, (long)this.visibleStateBeforeKZBMerged);
+        mixedListLogChannel.log(10000000, "MixedListController#kZBMergedCallback success = %1, visibleStateBeforeConnected = %2", bl, (long)this.visibleStateBeforeKZBMerged);
         if (this.visibleStateBeforeKZBMerged != -1) {
             if (this.visibleStateBeforeKZBMerged == 0 && this.isVisible() || this.visibleStateBeforeKZBMerged == 1 && !this.isVisible()) {
                 this.setVisible(this.visibleStateBeforeKZBMerged == 1);
@@ -2797,10 +2784,6 @@ IMixedListCallback {
 
     public void setDebugMode(boolean bl) {
         this.isInDebugMode = bl;
-    }
-
-    static /* synthetic */ long[] access$000(MixedListController2 mixedListController2) {
-        return mixedListController2.newDataIDs;
     }
 
     static {

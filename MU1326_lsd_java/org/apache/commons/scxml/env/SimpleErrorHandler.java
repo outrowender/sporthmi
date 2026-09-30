@@ -12,29 +12,26 @@ import org.xml.sax.SAXParseException;
 public class SimpleErrorHandler
 implements ErrorHandler,
 Serializable {
-    private static final long serialVersionUID;
-    private static final String MSG_PREFIX;
-    private static final String MSG_POSTFIX;
-    private Log log = LogFactory.getLog(super.getClass());
+    private static final long serialVersionUID = 1L;
+    private static final String MSG_PREFIX = "SCXML SAX Parsing: ";
+    private static final String MSG_POSTFIX = " Correct the SCXML document.";
+    private Log log = LogFactory.getLog(this.getClass());
 
-    @Override
     public void error(SAXParseException sAXParseException) {
         if (this.log.isErrorEnabled()) {
-            this.log.error(new StringBuffer().append("SCXML SAX Parsing: ").append(sAXParseException.getMessage()).append(" Correct the SCXML document.").toString(), sAXParseException);
+            this.log.error(MSG_PREFIX + sAXParseException.getMessage() + MSG_POSTFIX, sAXParseException);
         }
     }
 
-    @Override
     public void fatalError(SAXParseException sAXParseException) {
         if (this.log.isFatalEnabled()) {
-            this.log.fatal(new StringBuffer().append("SCXML SAX Parsing: ").append(sAXParseException.getMessage()).append(" Correct the SCXML document.").toString(), sAXParseException);
+            this.log.fatal(MSG_PREFIX + sAXParseException.getMessage() + MSG_POSTFIX, sAXParseException);
         }
     }
 
-    @Override
     public void warning(SAXParseException sAXParseException) {
         if (this.log.isWarnEnabled()) {
-            this.log.warn(new StringBuffer().append("SCXML SAX Parsing: ").append(sAXParseException.getMessage()).append(" Correct the SCXML document.").toString(), sAXParseException);
+            this.log.warn(MSG_PREFIX + sAXParseException.getMessage() + MSG_POSTFIX, sAXParseException);
         }
     }
 }

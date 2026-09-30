@@ -3,8 +3,9 @@
  */
 package de.esolutions.fw.comm.asi.fec;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ComponentProtectionC {
-    default public void authString(String string, int n, int n2) {
-    }
+    public void authString(String var1, int var2, int var3) throws MethodException;
 }
 

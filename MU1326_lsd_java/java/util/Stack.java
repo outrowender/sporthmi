@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class Stack
 extends Vector {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1224463164541339165L;
 
     public boolean empty() {
         return this.elementCount == 0;

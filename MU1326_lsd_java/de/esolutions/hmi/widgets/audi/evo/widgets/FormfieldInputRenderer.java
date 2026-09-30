@@ -7,16 +7,12 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface FormfieldInputRenderer
 extends IRenderer {
-    default public int getPreferredWidth() {
-    }
+    public int getPreferredWidth();
 
-    default public int getPreferredHeight() {
-    }
+    public int getPreferredHeight();
 
-    default public void setUseControllerHeight(boolean bl) {
-    }
+    public void setUseControllerHeight(boolean var1);
 
-    default public void setEnableYTranslation(boolean bl) {
-    }
+    public void setEnableYTranslation(boolean var1);
 }
 

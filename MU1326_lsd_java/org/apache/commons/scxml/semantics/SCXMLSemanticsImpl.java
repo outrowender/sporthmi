@@ -15,7 +15,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,20 +49,18 @@ import org.apache.commons.scxml.semantics.TransitionTargetComparator;
 public class SCXMLSemanticsImpl
 implements SCXMLSemantics,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Log appLog = LogFactory.getLog(class$org$apache$commons$scxml$SCXMLSemantics == null ? (class$org$apache$commons$scxml$SCXMLSemantics = SCXMLSemanticsImpl.class$("org.apache.commons.scxml.SCXMLSemantics")) : class$org$apache$commons$scxml$SCXMLSemantics);
     private TransitionTargetComparator targetComparator = new TransitionTargetComparator();
-    private static final String NAMESPACES_KEY;
-    private static final String ERR_ILLEGAL_ALLOC;
+    private static final String NAMESPACES_KEY = "_ALL_NAMESPACES";
+    private static final String ERR_ILLEGAL_ALLOC = ".error.illegalalloc";
     static /* synthetic */ Class class$org$apache$commons$scxml$SCXMLSemantics;
 
-    @Override
     public SCXML normalizeStateMachine(SCXML sCXML, ErrorReporter errorReporter) {
         return sCXML;
     }
 
-    @Override
-    public void determineInitialStates(SCXML sCXML, Set set, List list, ErrorReporter errorReporter, SCInstance sCInstance) {
+    public void determineInitialStates(SCXML sCXML, Set set, List list, ErrorReporter errorReporter, SCInstance sCInstance) throws ModelException {
         TransitionTarget transitionTarget = sCXML.getInitialTarget();
         if (transitionTarget == null) {
             errorReporter.onError("NO_INITIAL", "SCXML initialstate is missing!", sCXML);
@@ -80,8 +77,7 @@ Serializable {
         }
     }
 
-    @Override
-    public void executeActions(Step step, SCXML sCXML, EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance) {
+    public void executeActions(Step step, SCXML sCXML, EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance) throws ModelException {
         TransitionTarget transitionTarget;
         Serializable serializable;
         Object object;
@@ -203,7 +199,6 @@ Serializable {
         }
     }
 
-    @Override
     public void enumerateReachableTransitions(SCXML sCXML, Step step, ErrorReporter errorReporter) {
         HashSet hashSet = new HashSet();
         HashSet hashSet2 = new HashSet(step.getBeforeStatus().getStates());
@@ -227,8 +222,7 @@ Serializable {
         linkedList.clear();
     }
 
-    @Override
-    public void filterTransitionsSet(Step step, EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance) {
+    public void filterTransitionsSet(Step step, EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance) throws ModelException {
         Object object;
         Object object2;
         Object object3;
@@ -266,9 +260,9 @@ Serializable {
             } else {
                 try {
                     Context context = sCInstance.getContext(((Executable)serializable).getParent());
-                    context.setLocal("_ALL_NAMESPACES", ((Transition)serializable).getNamespaces());
+                    context.setLocal(NAMESPACES_KEY, ((Transition)serializable).getNamespaces());
                     object = sCInstance.getEvaluator().evalCond(context, ((Transition)serializable).getCond());
-                    context.setLocal("_ALL_NAMESPACES", null);
+                    context.setLocal(NAMESPACES_KEY, null);
                 }
                 catch (SCXMLExpressionException sCXMLExpressionException) {
                     object = Boolean.FALSE;
@@ -355,14 +349,14 @@ Serializable {
         return hashSet;
     }
 
-    public void determineTargetStates(Set set, ErrorReporter errorReporter, SCInstance sCInstance) {
+    public void determineTargetStates(Set set, ErrorReporter errorReporter, SCInstance sCInstance) throws ModelException {
         long l = System.currentTimeMillis();
         LinkedList linkedList = new LinkedList(set);
         set.clear();
         while (!linkedList.isEmpty()) {
             Object object;
             TransitionTarget transitionTarget;
-            if (System.currentTimeMillis() - l > 0) {
+            if (System.currentTimeMillis() - l > 5000L) {
                 throw new ModelException("InfiniteLoop");
             }
             TransitionTarget transitionTarget2 = (TransitionTarget)linkedList.removeFirst();
@@ -397,11 +391,10 @@ Serializable {
                 linkedList.addAll(sCInstance.getLastConfiguration((History)transitionTarget));
                 continue;
             }
-            throw new ModelException(new StringBuffer().append("Unknown TransitionTarget subclass:").append(super.getClass().getName()).toString());
+            throw new ModelException(new StringBuffer().append("Unknown TransitionTarget subclass:").append(transitionTarget2.getClass().getName()).toString());
         }
     }
 
-    @Override
     public void updateHistoryStates(Step step, ErrorReporter errorReporter, SCInstance sCInstance) {
         Set set = step.getBeforeStatus().getStates();
         Iterator iterator = step.getExitList().iterator();
@@ -439,8 +432,7 @@ Serializable {
         }
     }
 
-    @Override
-    public void followTransitions(Step step, ErrorReporter errorReporter, SCInstance sCInstance) {
+    public void followTransitions(Step step, ErrorReporter errorReporter, SCInstance sCInstance) throws ModelException {
         Object object;
         Object[] objectArray;
         Object[] objectArray2;
@@ -512,16 +504,15 @@ Serializable {
         }
     }
 
-    @Override
-    public void processInvokes(TriggerEvent[] triggerEventArray, ErrorReporter errorReporter, SCInstance sCInstance) {
+    public void processInvokes(TriggerEvent[] triggerEventArray, ErrorReporter errorReporter, SCInstance sCInstance) throws ModelException {
         HashSet hashSet = new HashSet();
         hashSet.addAll(Arrays.asList(triggerEventArray));
         Iterator iterator = sCInstance.getInvokers().entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            String string = ((TransitionTarget)map$Entry.getKey()).getId();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String string = ((TransitionTarget)entry.getKey()).getId();
             if (this.finalizeMatch(string, hashSet)) continue;
-            Invoker invoker = (Invoker)map$Entry.getValue();
+            Invoker invoker = (Invoker)entry.getValue();
             try {
                 invoker.parentEvents(triggerEventArray);
             }
@@ -532,7 +523,6 @@ Serializable {
         }
     }
 
-    @Override
     public void initiateInvokes(Step step, ErrorReporter errorReporter, SCInstance sCInstance) {
         Evaluator evaluator = sCInstance.getEvaluator();
         Collection collection = step.getAfterStatus().getEvents();
@@ -551,9 +541,9 @@ Serializable {
                 string = invoke.getSrcexpr();
                 object = null;
                 try {
-                    context.setLocal("_ALL_NAMESPACES", invoke.getNamespaces());
+                    context.setLocal(NAMESPACES_KEY, invoke.getNamespaces());
                     object = evaluator.eval(context, string);
-                    context.setLocal("_ALL_NAMESPACES", null);
+                    context.setLocal(NAMESPACES_KEY, null);
                     string2 = String.valueOf(object);
                 }
                 catch (SCXMLExpressionException sCXMLExpressionException) {
@@ -584,7 +574,7 @@ Serializable {
                 serializable = (Param)iterator2.next();
                 String string4 = ((Param)serializable).getExpr();
                 Object object2 = null;
-                context.setLocal("_ALL_NAMESPACES", ((Param)serializable).getNamespaces());
+                context.setLocal(NAMESPACES_KEY, ((Param)serializable).getNamespaces());
                 if (string4 != null && string4.trim().length() > 0) {
                     try {
                         object2 = evaluator.eval(context, string4);
@@ -596,7 +586,7 @@ Serializable {
                     try {
                         object2 = evaluator.evalLocation(context, ((Param)serializable).getName());
                         if (object2 == null) {
-                            TriggerEvent triggerEvent = new TriggerEvent(new StringBuffer().append(state.getId()).append(".error.illegalalloc").toString(), 5);
+                            TriggerEvent triggerEvent = new TriggerEvent(new StringBuffer().append(state.getId()).append(ERR_ILLEGAL_ALLOC).toString(), 5);
                             collection.add(triggerEvent);
                         }
                     }
@@ -604,7 +594,7 @@ Serializable {
                         errorReporter.onError("EXPRESSION_ERROR", sCXMLExpressionException.getMessage(), invoke);
                     }
                 }
-                context.setLocal("_ALL_NAMESPACES", null);
+                context.setLocal(NAMESPACES_KEY, null);
                 serializable2.put(((Param)serializable).getName(), object2);
             }
             try {

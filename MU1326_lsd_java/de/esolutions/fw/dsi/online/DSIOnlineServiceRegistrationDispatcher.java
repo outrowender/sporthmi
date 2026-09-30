@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.online;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineServiceRegistrationReply;
 import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -32,13 +33,11 @@ implements DSIOnlineServiceRegistrationReply {
         super(n, (class$org$dsi$ifc$online$DSIOnlineServiceRegistrationListener == null ? (class$org$dsi$ifc$online$DSIOnlineServiceRegistrationListener = DSIOnlineServiceRegistrationDispatcher.class$("org.dsi.ifc.online.DSIOnlineServiceRegistrationListener")) : class$org$dsi$ifc$online$DSIOnlineServiceRegistrationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getOnlineApplicationListResponse(OSRApplication[] oSRApplicationArray) {
+    public void getOnlineApplicationListResponse(OSRApplication[] oSRApplicationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -54,8 +53,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
+    public void getOnlineApplicationResponse(OSRApplication oSRApplication) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -71,8 +69,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void activateLicenseResponse(OSRLicense oSRLicense, int n) {
+    public void activateLicenseResponse(OSRLicense oSRLicense, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -88,8 +85,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setCredentialResponse(String string, int n) {
+    public void setCredentialResponse(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -105,8 +101,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void downloadResponse(String string, String string2, String string3, int n) {
+    public void downloadResponse(String string, String string2, String string3, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -122,8 +117,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void downloadRawResponse(String string, String string2, String string3, ResourceLocator resourceLocator, int n) {
+    public void downloadRawResponse(String string, String string2, String string3, ResourceLocator resourceLocator, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -139,8 +133,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void validateOwnerResponse(int n) {
+    public void validateOwnerResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -156,8 +149,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void checkOwnersVerificationResponse(int n) {
+    public void checkOwnersVerificationResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -173,8 +165,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void createUserWithPairingCodeResponse(String string, OSRUser oSRUser, int n) {
+    public void createUserWithPairingCodeResponse(String string, OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -190,8 +181,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void createUserWithUserPasswordResponse(String string, OSRUser oSRUser, int n) {
+    public void createUserWithUserPasswordResponse(String string, OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -207,8 +197,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void checkPasswordResponse(OSRUser oSRUser, int n) {
+    public void checkPasswordResponse(OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -224,8 +213,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void checkPairingCodeResponse(OSRUser oSRUser, int n) {
+    public void checkPairingCodeResponse(OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -241,8 +229,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setPrivacyFlagsResponse(OSRUser oSRUser) {
+    public void setPrivacyFlagsResponse(OSRUser oSRUser) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -258,8 +245,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setAutoLoginResponse(OSRUser oSRUser, OSRDevice[] oSRDeviceArray, int[] nArray) {
+    public void setAutoLoginResponse(OSRUser oSRUser, OSRDevice[] oSRDeviceArray, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -275,8 +261,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void loginResponse(OSRUser oSRUser, int n) {
+    public void loginResponse(OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -292,8 +277,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void logoutResponse(OSRUser oSRUser, int n) {
+    public void logoutResponse(OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -309,8 +293,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void logoutAuthSchemeResult(String string, OSRUser[] oSRUserArray, int[] nArray) {
+    public void logoutAuthSchemeResult(String string, OSRUser[] oSRUserArray, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -326,8 +309,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getUsersResponse(OSRUser[] oSRUserArray) {
+    public void getUsersResponse(OSRUser[] oSRUserArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -343,8 +325,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void removeUserResponse(OSRUser oSRUser, int n) {
+    public void removeUserResponse(OSRUser oSRUser, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -360,8 +341,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void performPortalRegistrationResponse(String string, int n) {
+    public void performPortalRegistrationResponse(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -377,8 +357,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void precheckOnlineServiceServiceIDResponse(String string, OSRServiceState oSRServiceState) {
+    public void precheckOnlineServiceServiceIDResponse(String string, OSRServiceState oSRServiceState) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -394,8 +373,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void precheckOnlineServiceSymbolicNameResponse(String string, OSRServiceState oSRServiceState) {
+    public void precheckOnlineServiceSymbolicNameResponse(String string, OSRServiceState oSRServiceState) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -411,8 +389,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void precheckOnlineServiceResponse(String string, OSRServiceState[] oSRServiceStateArray) {
+    public void precheckOnlineServiceResponse(String string, OSRServiceState[] oSRServiceStateArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -428,8 +405,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getLicenseResponse(int n, OSRLicense oSRLicense) {
+    public void getLicenseResponse(int n, OSRLicense oSRLicense) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -445,8 +421,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getLicensesResponse(int n, boolean bl, boolean bl2, OSRLicense[] oSRLicenseArray) {
+    public void getLicensesResponse(int n, boolean bl, boolean bl2, OSRLicense[] oSRLicenseArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -462,8 +437,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getProfileFolderResponse(int n, String string, OSRUser oSRUser, String string2) {
+    public void getProfileFolderResponse(int n, String string, OSRUser oSRUser, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -479,8 +453,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getCredentialsFromHeaderResponse(int n, int n2, int n3, String string, String string2, String string3) {
+    public void getCredentialsFromHeaderResponse(int n, int n2, int n3, String string, String string2, String string3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -496,8 +469,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getCredentialsFromAuthSchemeResponse(int n, int n2, String string, String string2, String string3) {
+    public void getCredentialsFromAuthSchemeResponse(int n, int n2, String string, String string2, String string3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -513,8 +485,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getServiceURLResponse(int n, String string, String string2) {
+    public void getServiceURLResponse(int n, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -530,8 +501,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void resetToFactorySettingsResponse(String string, int n) {
+    public void resetToFactorySettingsResponse(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -547,8 +517,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray, int n) {
+    public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -576,8 +545,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateServices(OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray, int n) {
+    public void updateServices(OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -605,8 +573,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateCoreProfileInfo(OSRUser oSRUser, int n, int n2) {
+    public void updateCoreProfileInfo(OSRUser oSRUser, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -634,8 +601,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateExternalProfileInfo(String string, OSRUser oSRUser, int n, int n2) {
+    public void updateExternalProfileInfo(String string, OSRUser oSRUser, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -663,8 +629,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateDeviceEnumerator(OSRDevice oSRDevice, int n, int n2) {
+    public void updateDeviceEnumerator(OSRDevice oSRDevice, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -692,8 +657,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateServiceState(int n, int n2) {
+    public void updateServiceState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -721,8 +685,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateServiceList(OSRServiceListEntry[] oSRServiceListEntryArray, int n) {
+    public void updateServiceList(OSRServiceListEntry[] oSRServiceListEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -750,8 +713,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateServiceRegistration(String string, OSRServiceRegistration oSRServiceRegistration, int n, int n2) {
+    public void updateServiceRegistration(String string, OSRServiceRegistration oSRServiceRegistration, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -779,8 +741,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setServiceStateResponse(OSRServiceState oSRServiceState) {
+    public void setServiceStateResponse(OSRServiceState oSRServiceState) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -796,8 +757,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setDemandStateServiceIDResponse(String string, int n) {
+    public void setDemandStateServiceIDResponse(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -813,8 +773,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setServiceStateSymbolicNameResponse(OSRServiceState oSRServiceState) {
+    public void setServiceStateSymbolicNameResponse(OSRServiceState oSRServiceState) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -830,8 +789,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setActivePrivacyCategoryMaskResponse(int n) {
+    public void setActivePrivacyCategoryMaskResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -847,8 +805,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void submitServiceStateChangesToBackendResponse(int n) {
+    public void submitServiceStateChangesToBackendResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -864,8 +821,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -893,8 +849,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -910,8 +865,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -927,8 +881,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -944,8 +897,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -961,8 +913,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setGPSUseModeResponse(int n) {
+    public void setGPSUseModeResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -978,8 +929,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setInventoryFinishedResponse(int n) {
+    public void setInventoryFinishedResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -995,8 +945,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void updateSPINRequired(String string, String string2, int n) {
+    public void updateSPINRequired(String string, String string2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -1024,8 +973,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void setSPINResponse(String string, String string2, int n, int n2) {
+    public void setSPINResponse(String string, String string2, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1041,8 +989,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void getSPINHashResult(String string, String string2, int n, String string3, String string4, int n2) {
+    public void getSPINHashResult(String string, String string2, int n, String string3, String string4, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1058,8 +1005,7 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1075,14 +1021,13 @@ implements DSIOnlineServiceRegistrationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIOnlineServiceRegistrationListener dSIOnlineServiceRegistrationListener = (DSIOnlineServiceRegistrationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineServiceRegistrationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineServiceRegistrationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIOnlineServiceRegistrationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineServiceRegistrationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineServiceRegistrationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIOnlineServiceRegistrationListener, new Object[]{string, string2});
                     continue;
                 }

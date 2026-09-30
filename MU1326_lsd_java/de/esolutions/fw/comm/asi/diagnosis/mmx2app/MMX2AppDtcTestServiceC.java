@@ -4,15 +4,13 @@
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sTestStatus;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2AppDtcTestServiceC {
-    default public void registerForDiagnosis(int n, long[] lArray) {
-    }
+    public void registerForDiagnosis(int var1, long[] var2) throws MethodException;
 
-    default public void deregisterForDiagnosis() {
-    }
+    public void deregisterForDiagnosis() throws MethodException;
 
-    default public void testStatus(sTestStatus sTestStatus2) {
-    }
+    public void testStatus(sTestStatus var1) throws MethodException;
 }
 

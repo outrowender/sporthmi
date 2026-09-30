@@ -77,27 +77,22 @@ implements ValidationContext {
         this.fIdRefTable.clear();
     }
 
-    @Override
     public boolean needExtraChecking() {
         return this.fExtraChecking;
     }
 
-    @Override
     public boolean needFacetChecking() {
         return this.fFacetChecking;
     }
 
-    @Override
     public boolean needToNormalize() {
         return this.fNormalize;
     }
 
-    @Override
     public boolean useNamespaces() {
         return this.fNamespaces;
     }
 
-    @Override
     public boolean isEntityDeclared(String string) {
         if (this.fEntityState != null) {
             return this.fEntityState.isEntityDeclared(this.getSymbol(string));
@@ -105,7 +100,6 @@ implements ValidationContext {
         return false;
     }
 
-    @Override
     public boolean isEntityUnparsed(String string) {
         if (this.fEntityState != null) {
             return this.fEntityState.isEntityUnparsed(this.getSymbol(string));
@@ -113,22 +107,18 @@ implements ValidationContext {
         return false;
     }
 
-    @Override
     public boolean isIdDeclared(String string) {
         return this.fIdTable.containsKey(string);
     }
 
-    @Override
     public void addId(String string) {
         this.fIdTable.put(string, fNullValue);
     }
 
-    @Override
     public void addIdRef(String string) {
         this.fIdRefTable.put(string, fNullValue);
     }
 
-    @Override
     public String getSymbol(String string) {
         if (this.fSymbolTable != null) {
             return this.fSymbolTable.addSymbol(string);
@@ -136,7 +126,6 @@ implements ValidationContext {
         return string.intern();
     }
 
-    @Override
     public String getURI(String string) {
         if (this.fNamespaceContext != null) {
             return this.fNamespaceContext.getURI(string);

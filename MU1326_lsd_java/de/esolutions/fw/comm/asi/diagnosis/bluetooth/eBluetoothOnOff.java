@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eBluetoothOnOff
 extends IEnum {
-    public static final int BT_OFF;
-    public static final int BT_ON;
-    public static final int BT_NOT_AVAILABLE;
+    public static final int BT_OFF = 0;
+    public static final int BT_ON = 1;
+    public static final int BT_NOT_AVAILABLE = 255;
 }
 

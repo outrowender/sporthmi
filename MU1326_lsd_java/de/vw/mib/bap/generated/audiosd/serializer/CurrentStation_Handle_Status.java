@@ -10,17 +10,17 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CurrentStation_Handle_Status
 implements StatusProperty {
     public int fsgHandle;
-    private static final int FSG_HANDLE_BITSIZE;
+    private static final int FSG_HANDLE_BITSIZE = 16;
     public int fsgHandle_absolutePosition;
-    private static final int FSG_HANDLE_ABSOLUTE_POSITION_BITSIZE;
+    private static final int FSG_HANDLE_ABSOLUTE_POSITION_BITSIZE = 16;
     public int presetList_Ref;
-    private static final int PRESET_LIST_REF_BITSIZE;
+    private static final int PRESET_LIST_REF_BITSIZE = 8;
     public int presetList_absolutePosition;
-    private static final int PRESET_LIST_ABSOLUTE_POSITION_BITSIZE;
+    private static final int PRESET_LIST_ABSOLUTE_POSITION_BITSIZE = 8;
     public int dab_EnsembleHandle;
-    private static final int DAB_ENSEMBLE_HANDLE_BITSIZE;
+    private static final int DAB_ENSEMBLE_HANDLE_BITSIZE = 16;
     public int dab_Ensemble_absolutePosition;
-    private static final int DAB_ENSEMBLE_ABSOLUTE_POSITION_BITSIZE;
+    private static final int DAB_ENSEMBLE_ABSOLUTE_POSITION_BITSIZE = 16;
 
     public CurrentStation_Handle_Status() {
         this.internalReset();
@@ -41,12 +41,10 @@ implements StatusProperty {
         this.dab_Ensemble_absolutePosition = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentStation_Handle_Status currentStation_Handle_Status = (CurrentStation_Handle_Status)bAPEntity;
         return this.fsgHandle == currentStation_Handle_Status.fsgHandle && this.fsgHandle_absolutePosition == currentStation_Handle_Status.fsgHandle_absolutePosition && this.presetList_Ref == currentStation_Handle_Status.presetList_Ref && this.presetList_absolutePosition == currentStation_Handle_Status.presetList_absolutePosition && this.dab_EnsembleHandle == currentStation_Handle_Status.dab_EnsembleHandle && this.dab_Ensemble_absolutePosition == currentStation_Handle_Status.dab_Ensemble_absolutePosition;
@@ -55,7 +53,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentStation_Handle_Status:");
@@ -74,7 +71,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
@@ -85,7 +81,6 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.fsgHandle);
         bitStream.pushShort((short)this.fsgHandle_absolutePosition);
@@ -95,7 +90,6 @@ implements StatusProperty {
         bitStream.pushShort((short)this.dab_Ensemble_absolutePosition);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.fsgHandle = bitStream.popFrontShort();
         this.fsgHandle_absolutePosition = bitStream.popFrontShort();
@@ -109,7 +103,6 @@ implements StatusProperty {
         return 22;
     }
 
-    @Override
     public int getFunctionId() {
         return CurrentStation_Handle_Status.functionId();
     }

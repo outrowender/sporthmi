@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.asiatrafficinfomenu;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.asiatrafficinfomenu.Interrupt;
 import org.dsi.ifc.asiatrafficinfomenu.ResourceInformation;
 import org.dsi.ifc.asiatrafficinfomenu.TrafficInformation;
@@ -11,48 +12,35 @@ import org.dsi.ifc.asiatrafficinfomenu.TunerData;
 import org.dsi.ifc.global.DateTime;
 
 public interface DSIAsiaTrafficInfoMenuReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "2866c45a-497d-5824-a58a-0208be5c1860";
+    public static final String IPL_COMM_INTERFACE_KEY = "a672f7a9-52b8-5ec5-bf7e-506497f89558";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.1";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.1";
 
-    default public void updateActiveInterrupts(Interrupt[] interruptArray, int n) {
-    }
+    public void updateActiveInterrupts(Interrupt[] var1, int var2) throws MethodException;
 
-    default public void updateTrafficType(TrafficInformation[] trafficInformationArray, int n) {
-    }
+    public void updateTrafficType(TrafficInformation[] var1, int var2) throws MethodException;
 
-    default public void updatePrefecture(String string, int n) {
-    }
+    public void updatePrefecture(String var1, int var2) throws MethodException;
 
-    default public void updateProbeDataSetting(boolean bl, int n) {
-    }
+    public void updateProbeDataSetting(boolean var1, int var2) throws MethodException;
 
-    default public void updateFrequency(int n, int n2) {
-    }
+    public void updateFrequency(int var1, int var2) throws MethodException;
 
-    default public void updateReceptionStatus(int n, int n2) {
-    }
+    public void updateReceptionStatus(int var1, int var2) throws MethodException;
 
-    default public void updateReceptionDate(DateTime dateTime, int n) {
-    }
+    public void updateReceptionDate(DateTime var1, int var2) throws MethodException;
 
-    default public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) {
-    }
+    public void requestResourceInformationResponse(int var1, ResourceInformation var2) throws MethodException;
 
-    default public void requestTrafficInformationDetailsResponse(int n, TrafficInformationDetails[] trafficInformationDetailsArray) {
-    }
+    public void requestTrafficInformationDetailsResponse(int var1, TrafficInformationDetails[] var2) throws MethodException;
 
-    default public void updateReceivableStations(TunerData[] tunerDataArray, int n) {
-    }
+    public void updateReceivableStations(TunerData[] var1, int var2) throws MethodException;
 
-    default public void setLanguageResponse(boolean bl) {
-    }
+    public void setLanguageResponse(boolean var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -30,7 +30,6 @@ implements IFocusedPropertyProvider {
         this.focusedPropertyObject.setWidgetID(n);
     }
 
-    @Override
     public void initializeWidget() {
         super.initializeWidget();
         this.updateValue();
@@ -40,7 +39,6 @@ implements IFocusedPropertyProvider {
         }
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         if (this.standalone) {
@@ -52,7 +50,6 @@ implements IFocusedPropertyProvider {
         this.standalone = bl;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         if (this.standalone && this.terminal != null) {
@@ -80,17 +77,14 @@ implements IFocusedPropertyProvider {
         return this.focusedPropertyObject.getProperties();
     }
 
-    @Override
     public IFocusedPropertyObject getCurrentFocusedPropertyObject() {
         return this.focusedPropertyObject;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 14) {

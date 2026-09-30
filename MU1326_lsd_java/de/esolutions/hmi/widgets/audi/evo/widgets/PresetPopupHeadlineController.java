@@ -9,7 +9,7 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IPresetPopupHeadlineRenderer;
 
 public class PresetPopupHeadlineController
 extends AbstractWidgetController {
-    private static final int NO_ICON;
+    private static final int NO_ICON = 99;
     private IPresetPopupHeadlineRenderer presetPopupHeadlineRenderer;
     private float focusedPreset = 0.0f;
     private int cursorColor = -1;
@@ -21,7 +21,6 @@ extends AbstractWidgetController {
         this.presetPopupHeadlineRenderer = iPresetPopupHeadlineRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.presetPopupHeadlineRenderer;
     }

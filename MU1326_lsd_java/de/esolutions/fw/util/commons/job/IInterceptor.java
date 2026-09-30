@@ -7,16 +7,12 @@ import de.esolutions.fw.util.commons.job.Job;
 import java.io.PrintStream;
 
 public interface IInterceptor {
-    default public IInterceptor getNext() {
-    }
+    public IInterceptor getNext();
 
-    default public void setNext(IInterceptor iInterceptor) {
-    }
+    public void setNext(IInterceptor var1);
 
-    default public void execute(Job job) {
-    }
+    public void execute(Job var1);
 
-    default public void dump(PrintStream printStream) {
-    }
+    public void dump(PrintStream var1);
 }
 

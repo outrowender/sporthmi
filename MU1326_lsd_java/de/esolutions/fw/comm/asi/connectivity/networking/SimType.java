@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface SimType
 extends IEnum {
-    public static final int SIM_TYPE_UNKNOWN;
-    public static final int SIM_TYPE_CUSTOMER;
-    public static final int SIM_TYPE_EMBEDDED;
+    public static final int SIM_TYPE_UNKNOWN = 0;
+    public static final int SIM_TYPE_CUSTOMER = 1;
+    public static final int SIM_TYPE_EMBEDDED = 2;
 }
 

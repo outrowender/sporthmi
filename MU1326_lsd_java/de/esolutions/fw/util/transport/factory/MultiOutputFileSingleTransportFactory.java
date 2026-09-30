@@ -28,7 +28,6 @@ implements ISingleTransportFactory {
         this.splitSize = n3;
     }
 
-    @Override
     public ITransport createTransport() {
         try {
             MultiFileOutputStream multiFileOutputStream = new MultiFileOutputStream(this.baseName, this.suffix, this.numDigits, this.firstIndex, this.splitSize);
@@ -42,9 +41,8 @@ implements ISingleTransportFactory {
         }
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[MultiOutputFile:").append(this.baseName).append(",").append(this.suffix).append(",").append(this.numDigits).append(",").append(this.firstIndex).append(",").append(this.splitSize).append("]").toString();
+        return "[MultiOutputFile:" + this.baseName + "," + this.suffix + "," + this.numDigits + "," + this.firstIndex + "," + this.splitSize + "]";
     }
 }
 

@@ -6,11 +6,11 @@ package de.esolutions.hmi.widgets.audi.base;
 import de.audi.atip.util.Util;
 
 public class HMIImage {
-    public static final int PIXEL_FORMAT_A8;
-    public static final int PIXEL_FORMAT_RGB888;
-    public static final int PIXEL_FORMAT_PALETTE;
-    public static final int PIXEL_FORMAT_LA88;
-    public static final int PIXEL_FORMAT_RGBA8888;
+    public static final int PIXEL_FORMAT_A8 = 0;
+    public static final int PIXEL_FORMAT_RGB888 = 2;
+    public static final int PIXEL_FORMAT_PALETTE = 3;
+    public static final int PIXEL_FORMAT_LA88 = 4;
+    public static final int PIXEL_FORMAT_RGBA8888 = 6;
     private int format;
     private String path;
     private final int flags;

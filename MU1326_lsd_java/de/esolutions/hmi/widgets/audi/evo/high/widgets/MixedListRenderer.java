@@ -55,12 +55,12 @@ MixedListConstants {
             mixedListLogChannel.log(10000, "MixedListRenderer#applyProperties Main node is null.");
             return;
         }
-        mixedListAfterPaint.log(-2137614336, "MixedListRenderer#applyProperties");
+        mixedListAfterPaint.log(10000000, "MixedListRenderer#applyProperties");
         IWrappedNode3D iWrappedNode3D2 = iWrappedNode3D.getParent();
         IWrappedNode3D iWrappedNode3D3 = redrawContextHigh.parentNode;
         if (!Util.equals(iWrappedNode3D2, iWrappedNode3D3)) {
             if (iWrappedNode3D2 != null) {
-                mixedListLogChannel.log(-2137614336, "MixedListRenderer#applyProperties oldParent = %1, newParent = %2", (Object)iWrappedNode3D2, (Object)iWrappedNode3D3);
+                mixedListLogChannel.log(10000000, "MixedListRenderer#applyProperties oldParent = %1, newParent = %2", (Object)iWrappedNode3D2, (Object)iWrappedNode3D3);
                 iWrappedNode3D2.remove(iWrappedNode3D);
             } else {
                 INode3D iNode3D2 = iWrappedNode3D.getNode();
@@ -104,17 +104,17 @@ MixedListConstants {
     }
 
     private static void printNode(INode3D iNode3D, String string, LogChannel logChannel, int n) {
-        logChannel.log(n, new StringBuffer().append(string).append(iNode3D.getName()).toString());
-        logChannel.log(n, new StringBuffer().append(string).append(" - opacity = ").append(iNode3D.getOpacity()).toString());
+        logChannel.log(n, string + iNode3D.getName());
+        logChannel.log(n, string + " - opacity = " + iNode3D.getOpacity());
         Vec3f vec3f = iNode3D.getTranslation();
-        logChannel.log(n, new StringBuffer().append(string).append(" - translation = [").append(vec3f.X()).append(",").append(vec3f.Y()).append(",").append(vec3f.Z()).append("]").toString());
-        logChannel.log(n, new StringBuffer().append(string).append(" - visible = ").append(iNode3D.isVisible()).toString());
+        logChannel.log(n, string + " - translation = [" + vec3f.X() + "," + vec3f.Y() + "," + vec3f.Z() + "]");
+        logChannel.log(n, string + " - visible = " + iNode3D.isVisible());
         long l = iNode3D.getChildCount();
         int n2 = 0;
         while ((long)n2 < l) {
             INode3D iNode3D2 = iNode3D.getChildAtIndex(n2);
             if (iNode3D2 != null) {
-                MixedListRenderer.printNode(iNode3D2, new StringBuffer().append("  ").append(string).toString(), logChannel, n);
+                MixedListRenderer.printNode(iNode3D2, "  " + string, logChannel, n);
                 iNode3D2.dispose();
             } else {
                 logChannel.log(n, "MixedListRenderer#printNode Node is null");
@@ -124,46 +124,45 @@ MixedListConstants {
     }
 
     public static void printWrappedNode(IWrappedNode3D iWrappedNode3D, String string, LogChannel logChannel, int n) {
-        logChannel.log(n, new StringBuffer().append(string).append(iWrappedNode3D.getNodeName()).toString());
+        logChannel.log(n, string + iWrappedNode3D.getNodeName());
         if (iWrappedNode3D instanceof WrappedNode3DText) {
-            logChannel.log(n, new StringBuffer().append(string).append("+ Text = ").append(((WrappedNode3DText)iWrappedNode3D).getText()).toString());
+            logChannel.log(n, string + "+ Text = " + ((WrappedNode3DText)iWrappedNode3D).getText());
         } else if (iWrappedNode3D instanceof WrappedNode3DImage) {
-            logChannel.log(n, new StringBuffer().append(string).append("+ Filename = ").append(((WrappedNode3DImage)iWrappedNode3D).getFilename()).toString());
+            logChannel.log(n, string + "+ Filename = " + ((WrappedNode3DImage)iWrappedNode3D).getFilename());
         }
         List list = iWrappedNode3D.getWrappedChildren();
         if (list != null) {
             int n2 = list.size();
             for (int i2 = 0; i2 < n2; ++i2) {
                 IWrappedNode3D iWrappedNode3D2 = (IWrappedNode3D)list.get(i2);
-                MixedListRenderer.printWrappedNode(iWrappedNode3D2, new StringBuffer().append("  ").append(string).toString(), logChannel, n);
+                MixedListRenderer.printWrappedNode(iWrappedNode3D2, "  " + string, logChannel, n);
                 iWrappedNode3D2.dispose();
             }
         }
     }
 
     public static void printWidget(AbstractWidget abstractWidget, String string, LogChannel logChannel, int n) {
-        logChannel.log(n, new StringBuffer().append(string).append(abstractWidget.getClassName()).append(" ").append(abstractWidget.toString()).toString());
+        logChannel.log(n, string + abstractWidget.getClassName() + " " + abstractWidget.toString());
         List list = abstractWidget.getChildren();
         if (list != null) {
             int n2 = list.size();
             for (int i2 = 0; i2 < n2; ++i2) {
-                MixedListRenderer.printWidget((AbstractWidget)list.get(i2), new StringBuffer().append("  ").append(string).toString(), logChannel, n);
+                MixedListRenderer.printWidget((AbstractWidget)list.get(i2), "  " + string, logChannel, n);
             }
         }
     }
 
     public void printWidgets(LogChannel logChannel, int n) {
         logChannel.log(n, "MixedListRenderer#printWidgets");
-        MixedListRenderer.printWidget(this.controller, "", mixedListCallbackLogCh, -2137614336);
+        MixedListRenderer.printWidget(this.controller, "", mixedListCallbackLogCh, 10000000);
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         INode3D iNode3D;
         this.initializeNodes();
         super.connect(initializationContext);
         if (AbstractWidget.framework.isSimulator() && (iNode3D = this.getEALManager().getShortcutNode3D("dynRouteBox")) != null) {
-            IWidgetLogChannel.mixedListLogChannel.log(-2137614336, "MixedListRenderer#connect Set dynRouteBox invisible.");
+            IWidgetLogChannel.mixedListLogChannel.log(10000000, "MixedListRenderer#connect Set dynRouteBox invisible.");
             iNode3D.setVisible(false);
             iNode3D.dispose();
         }
@@ -182,13 +181,12 @@ MixedListConstants {
         this.destroyNodes();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
     private INode3D getNode3D(String string) {
-        mixedListLogChannel.log(-2137614336, "MixedListRenderer#getNode3D kzbMerged = %1, eal = %2", MixedListKZBMerger.kzbMerged, (Object)this.getEALManager());
+        mixedListLogChannel.log(10000000, "MixedListRenderer#getNode3D kzbMerged = %1, eal = %2", MixedListKZBMerger.kzbMerged, (Object)this.getEALManager());
         EALManager eALManager = this.getEALManager();
         if (eALManager == null) {
             return null;
@@ -266,7 +264,7 @@ MixedListConstants {
                     Layout layout = this.getTerminal().getLayout();
                     this.screenWidth = layout.getDistance(1);
                     this.screenHeight = layout.getDistance(2);
-                    mixedListLogChannel.log(-2137614336, "MixedListController2#mergeKZB Merging successful.");
+                    mixedListLogChannel.log(10000000, "MixedListController2#mergeKZB Merging successful.");
                     MixedListKZBMerger.kzbMerged = true;
                 } else {
                     mixedListLogChannel.log(10000, "MixedListController2#mergeKZB Merging KZB failed: EALManager is null.");
@@ -280,7 +278,6 @@ MixedListConstants {
         }
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         if (!this.controller.isActive()) {
             abstractWidget.setVisible(false);
@@ -335,7 +332,7 @@ MixedListConstants {
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
                 IProperty iProperty = this.getProperty(iNode3D, stringArray[i2]);
                 if (iProperty != null) {
-                    logChannel.log(n, new StringBuffer().append(stringArray[i2]).append(" = %1").toString(), (double)iProperty.getFloat());
+                    logChannel.log(n, stringArray[i2] + " = %1", (double)iProperty.getFloat());
                     iProperty.dispose();
                     continue;
                 }
@@ -376,16 +373,15 @@ MixedListConstants {
                 IWrappedNode3D iWrappedNode3D = this.wrappedNodes[nArray[i2]];
                 if (iWrappedNode3D == null) continue;
                 if (mixedListLogChannel.isDebug() && iWrappedNode3D.getWrappedChildren() != null) {
-                    mixedListLogChannel.log(-2137614336, "MixedListRenderer#removeContent The content node %2 has %1 wrapped node children.", (long)iWrappedNode3D.getWrappedChildren().size(), (long)nArray[i2]);
+                    mixedListLogChannel.log(10000000, "MixedListRenderer#removeContent The content node %2 has %1 wrapped node children.", (long)iWrappedNode3D.getWrappedChildren().size(), (long)nArray[i2]);
                 }
                 iWrappedNode3D.removeAllChildren();
             }
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
-        mixedListAfterPaint.log(-2137614336, "MixedListRenderer#render nodes = %1", (Object)this.nodes);
+        mixedListAfterPaint.log(10000000, "MixedListRenderer#render nodes = %1", (Object)this.nodes);
         if (!this.controller.isActive()) {
             return;
         }
@@ -433,13 +429,12 @@ MixedListConstants {
         if (this.nodes == null || this.nodes[0] == null) {
             return;
         }
-        mixedListLogChannel.log(-2137614336, "MixedListRenderer#setW140Visible %1", bl);
+        mixedListLogChannel.log(10000000, "MixedListRenderer#setW140Visible %1", bl);
         if (this.nodes[0].isVisible() != bl) {
             this.nodes[0].setVisible(bl);
         }
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 

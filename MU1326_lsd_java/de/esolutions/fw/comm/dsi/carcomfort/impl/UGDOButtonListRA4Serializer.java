@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOButtonListRA4;
 
 public class UGDOButtonListRA4Serializer {
-    public static void putOptionalUGDOButtonListRA4(ISerializer iSerializer, UGDOButtonListRA4 uGDOButtonListRA4) {
+    public static void putOptionalUGDOButtonListRA4(ISerializer iSerializer, UGDOButtonListRA4 uGDOButtonListRA4) throws SerializerException {
         boolean bl = uGDOButtonListRA4 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class UGDOButtonListRA4Serializer {
         }
     }
 
-    public static void putOptionalUGDOButtonListRA4VarArray(ISerializer iSerializer, UGDOButtonListRA4[] uGDOButtonListRA4Array) {
+    public static void putOptionalUGDOButtonListRA4VarArray(ISerializer iSerializer, UGDOButtonListRA4[] uGDOButtonListRA4Array) throws SerializerException {
         boolean bl = uGDOButtonListRA4Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class UGDOButtonListRA4Serializer {
         }
     }
 
-    public static UGDOButtonListRA4 getOptionalUGDOButtonListRA4(IDeserializer iDeserializer) {
+    public static UGDOButtonListRA4 getOptionalUGDOButtonListRA4(IDeserializer iDeserializer) throws SerializerException {
         UGDOButtonListRA4 uGDOButtonListRA4 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class UGDOButtonListRA4Serializer {
         return uGDOButtonListRA4;
     }
 
-    public static UGDOButtonListRA4[] getOptionalUGDOButtonListRA4VarArray(IDeserializer iDeserializer) {
+    public static UGDOButtonListRA4[] getOptionalUGDOButtonListRA4VarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOButtonListRA4[] uGDOButtonListRA4Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

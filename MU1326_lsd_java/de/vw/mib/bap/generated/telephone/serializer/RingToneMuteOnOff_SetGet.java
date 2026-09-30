@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.ringToneMuteOnOff.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RingToneMuteOnOff_SetGet ringToneMuteOnOff_SetGet = (RingToneMuteOnOff_SetGet)bAPEntity;
         return this.ringToneMuteOnOff.equalTo(ringToneMuteOnOff_SetGet.ringToneMuteOnOff);
@@ -40,7 +38,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RingToneMuteOnOff_SetGet:");
@@ -49,18 +46,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.ringToneMuteOnOff.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.ringToneMuteOnOff.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.ringToneMuteOnOff.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements SetGetProperty {
         return 56;
     }
 
-    @Override
     public int getFunctionId() {
         return RingToneMuteOnOff_SetGet.functionId();
     }

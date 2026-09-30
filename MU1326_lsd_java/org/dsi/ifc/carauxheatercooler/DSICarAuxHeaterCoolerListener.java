@@ -13,70 +13,48 @@ import org.dsi.ifc.global.CarBCTemperature;
 
 public interface DSICarAuxHeaterCoolerListener
 extends DSIListener {
-    default public void updateAuxHeaterCoolerViewOptions(AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions, int n) {
-    }
+    public void updateAuxHeaterCoolerViewOptions(AuxHeaterCoolerViewOptions var1, int var2);
 
-    default public void updateAuxHeaterCoolerCurrentHeaterState(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) {
-    }
+    public void updateAuxHeaterCoolerCurrentHeaterState(AuxHeaterCoolerErrorReason var1, int var2);
 
-    default public void updateAuxHeaterCoolerErrorReason(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) {
-    }
+    public void updateAuxHeaterCoolerErrorReason(AuxHeaterCoolerErrorReason var1, int var2);
 
-    default public void updateAuxHeaterCoolerState(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerState(int var1, int var2);
 
-    default public void updateAuxHeaterCoolerOnOff(boolean bl, int n) {
-    }
+    public void updateAuxHeaterCoolerOnOff(boolean var1, int var2);
 
-    default public void updateAuxHeaterCoolerRemainingTime(short s, int n) {
-    }
+    public void updateAuxHeaterCoolerRemainingTime(short var1, int var2);
 
-    default public void updateAuxHeaterCoolerRunningTime(short s, int n) {
-    }
+    public void updateAuxHeaterCoolerRunningTime(short var1, int var2);
 
-    default public void updateAuxHeaterCoolerMode(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerMode(int var1, int var2);
 
-    default public void updateAuxHeaterCoolerDefaultStartMode(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerDefaultStartMode(int var1, int var2);
 
-    default public void updateAuxHeaterCoolerEngineHeater(boolean bl, int n) {
-    }
+    public void updateAuxHeaterCoolerEngineHeater(boolean var1, int var2);
 
-    default public void updateAuxHeaterCoolerActiveTimer(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerActiveTimer(int var1, int var2);
 
-    default public void updateAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
-    }
+    public void updateAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer var1, int var2);
 
-    default public void updateAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
-    }
+    public void updateAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer var1, int var2);
 
-    default public void updateAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
-    }
+    public void updateAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer var1, int var2);
 
-    default public void acknowledgeAuxHeaterSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeAuxHeaterSetFactoryDefault(boolean var1);
 
-    default public void updateAuxHeaterCoolerPopup(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerPopup(int var1, int var2);
 
-    default public void updateAuxHeaterCoolerMode2(AuxHeaterCoolerMode auxHeaterCoolerMode, int n) {
-    }
+    public void updateAuxHeaterCoolerMode2(AuxHeaterCoolerMode var1, int var2);
 
-    default public void updateAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning, AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning2, int n) {
-    }
+    public void updateAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning var1, AuxHeaterCoolerExtendedConditioning var2, int var3);
 
-    default public void updateAuxHeaterCoolerWindowHeating(boolean bl, boolean bl2, int n) {
-    }
+    public void updateAuxHeaterCoolerWindowHeating(boolean var1, boolean var2, int var3);
 
-    default public void updateAuxHeaterCoolerUnlockClimating(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerUnlockClimating(int var1, int var2);
 
-    default public void updateAuxHeaterCoolerTargetTemperature(CarBCTemperature carBCTemperature, int n) {
-    }
+    public void updateAuxHeaterCoolerTargetTemperature(CarBCTemperature var1, int var2);
 
-    default public void updateAuxHeaterCoolerAirQuality(boolean bl, boolean bl2, int n) {
-    }
+    public void updateAuxHeaterCoolerAirQuality(boolean var1, boolean var2, int var3);
 }
 

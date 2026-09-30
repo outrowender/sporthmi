@@ -15,14 +15,12 @@ extends AbstractWidgetController {
     private boolean verticalLineVisible = false;
     private int screenHeight;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.terminal.getWidgetRegistry().setParkingDisclaimerHandler(this.getDisclaimer());
         this.screenHeight = this.terminal.getLayout().getDistance(2);
     }
 
-    @Override
     public void disconnecting() {
         this.terminal.getWidgetRegistry().setParkingDisclaimerHandler(null);
         super.disconnecting();
@@ -32,7 +30,6 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

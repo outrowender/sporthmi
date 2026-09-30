@@ -22,7 +22,7 @@ public class PartitionHandle {
     }
 
     public String toString() {
-        return new StringBuffer("PartitionHandle{").append("index=").append(this.index).append("}").toString();
+        return "PartitionHandle{" + "index=" + this.index + "}";
     }
 }
 

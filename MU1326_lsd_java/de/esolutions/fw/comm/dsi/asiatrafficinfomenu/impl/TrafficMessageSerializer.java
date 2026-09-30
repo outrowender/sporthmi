@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.asiatrafficinfomenu.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.asiatrafficinfomenu.TrafficMessage;
 import org.dsi.ifc.global.DateTime;
 
 public class TrafficMessageSerializer {
-    public static void putOptionalTrafficMessage(ISerializer iSerializer, TrafficMessage trafficMessage) {
+    public static void putOptionalTrafficMessage(ISerializer iSerializer, TrafficMessage trafficMessage) throws SerializerException {
         boolean bl = trafficMessage == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class TrafficMessageSerializer {
         }
     }
 
-    public static void putOptionalTrafficMessageVarArray(ISerializer iSerializer, TrafficMessage[] trafficMessageArray) {
+    public static void putOptionalTrafficMessageVarArray(ISerializer iSerializer, TrafficMessage[] trafficMessageArray) throws SerializerException {
         boolean bl = trafficMessageArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class TrafficMessageSerializer {
         }
     }
 
-    public static TrafficMessage getOptionalTrafficMessage(IDeserializer iDeserializer) {
+    public static TrafficMessage getOptionalTrafficMessage(IDeserializer iDeserializer) throws SerializerException {
         TrafficMessage trafficMessage = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class TrafficMessageSerializer {
         return trafficMessage;
     }
 
-    public static TrafficMessage[] getOptionalTrafficMessageVarArray(IDeserializer iDeserializer) {
+    public static TrafficMessage[] getOptionalTrafficMessageVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficMessage[] trafficMessageArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

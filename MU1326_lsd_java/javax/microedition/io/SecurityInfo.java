@@ -6,16 +6,12 @@ package javax.microedition.io;
 import javax.microedition.pki.Certificate;
 
 public interface SecurityInfo {
-    default public String getCipherSuite() {
-    }
+    public String getCipherSuite();
 
-    default public String getProtocolName() {
-    }
+    public String getProtocolName();
 
-    default public String getProtocolVersion() {
-    }
+    public String getProtocolVersion();
 
-    default public Certificate getServerCertificate() {
-    }
+    public Certificate getServerCertificate();
 }
 

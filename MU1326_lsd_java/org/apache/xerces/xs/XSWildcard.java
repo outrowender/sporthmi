@@ -10,26 +10,21 @@ import org.apache.xerces.xs.XSTerm;
 
 public interface XSWildcard
 extends XSTerm {
-    public static final short NSCONSTRAINT_ANY;
-    public static final short NSCONSTRAINT_NOT;
-    public static final short NSCONSTRAINT_LIST;
-    public static final short PC_STRICT;
-    public static final short PC_SKIP;
-    public static final short PC_LAX;
+    public static final short NSCONSTRAINT_ANY = 1;
+    public static final short NSCONSTRAINT_NOT = 2;
+    public static final short NSCONSTRAINT_LIST = 3;
+    public static final short PC_STRICT = 1;
+    public static final short PC_SKIP = 2;
+    public static final short PC_LAX = 3;
 
-    default public short getConstraintType() {
-    }
+    public short getConstraintType();
 
-    default public StringList getNsConstraintList() {
-    }
+    public StringList getNsConstraintList();
 
-    default public short getProcessContents() {
-    }
+    public short getProcessContents();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

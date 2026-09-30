@@ -3,11 +3,12 @@
  */
 package org.apache.xerces.xni.parser;
 
+import java.io.IOException;
 import org.apache.xerces.xni.XMLResourceIdentifier;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLInputSource;
 
 public interface XMLEntityResolver {
-    default public XMLInputSource resolveEntity(XMLResourceIdentifier xMLResourceIdentifier) {
-    }
+    public XMLInputSource resolveEntity(XMLResourceIdentifier var1) throws XNIException, IOException;
 }
 

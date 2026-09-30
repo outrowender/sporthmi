@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.networking.DSIDataConfiguration;
 import de.esolutions.fw.comm.dsi.networking.DSIDataConfigurationC;
 import de.esolutions.fw.comm.dsi.networking.DSIDataConfigurationReply;
-import de.esolutions.fw.comm.dsi.networking.impl.DSIDataConfigurationProxy$1;
+import de.esolutions.fw.comm.dsi.networking.impl.CDataProfileSerializer;
 import de.esolutions.fw.comm.dsi.networking.impl.DSIDataConfigurationReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.CDataProfile;
@@ -32,14 +34,17 @@ DSIDataConfigurationC {
         return this.proxy;
     }
 
-    @Override
-    public void setDataProfile(CDataProfile cDataProfile) {
-        DSIDataConfigurationProxy$1 dSIDataConfigurationProxy$1 = new DSIDataConfigurationProxy$1(this, cDataProfile);
-        this.proxy.remoteCallMethod((short)36, dSIDataConfigurationProxy$1);
+    public void setDataProfile(final CDataProfile cDataProfile) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CDataProfileSerializer.putOptionalCDataProfile(iSerializer, cDataProfile);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void automaticProfile(int n) {
+    public void automaticProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -50,8 +55,7 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void setRoamingState(int n) {
+    public void setRoamingState(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -62,8 +66,7 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setConnectionMode(int n) {
+    public void setConnectionMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -74,8 +77,7 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setRequestSetting(int n, int n2) {
+    public void setRequestSetting(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -87,8 +89,7 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void acceptDataRequest(int n, boolean bl) {
+    public void acceptDataRequest(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -100,18 +101,15 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)0, genericSerializable);
     }
 
-    @Override
-    public void resetPacketCounter() {
+    public void resetPacketCounter() throws MethodException {
         this.proxy.remoteCallMethod((short)10, null);
     }
 
-    @Override
-    public void restoreFactorySettings() {
+    public void restoreFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)12, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -122,8 +120,7 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -134,13 +131,11 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)18, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -151,8 +146,7 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -163,13 +157,11 @@ DSIDataConfigurationC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

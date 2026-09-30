@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavRouteListDataIcon;
 
 public class NavRouteListDataIconSerializer {
-    public static void putOptionalNavRouteListDataIcon(ISerializer iSerializer, NavRouteListDataIcon navRouteListDataIcon) {
+    public static void putOptionalNavRouteListDataIcon(ISerializer iSerializer, NavRouteListDataIcon navRouteListDataIcon) throws SerializerException {
         boolean bl = navRouteListDataIcon == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class NavRouteListDataIconSerializer {
         }
     }
 
-    public static void putOptionalNavRouteListDataIconVarArray(ISerializer iSerializer, NavRouteListDataIcon[] navRouteListDataIconArray) {
+    public static void putOptionalNavRouteListDataIconVarArray(ISerializer iSerializer, NavRouteListDataIcon[] navRouteListDataIconArray) throws SerializerException {
         boolean bl = navRouteListDataIconArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class NavRouteListDataIconSerializer {
         }
     }
 
-    public static NavRouteListDataIcon getOptionalNavRouteListDataIcon(IDeserializer iDeserializer) {
+    public static NavRouteListDataIcon getOptionalNavRouteListDataIcon(IDeserializer iDeserializer) throws SerializerException {
         NavRouteListDataIcon navRouteListDataIcon = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class NavRouteListDataIconSerializer {
         return navRouteListDataIcon;
     }
 
-    public static NavRouteListDataIcon[] getOptionalNavRouteListDataIconVarArray(IDeserializer iDeserializer) {
+    public static NavRouteListDataIcon[] getOptionalNavRouteListDataIconVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavRouteListDataIcon[] navRouteListDataIconArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

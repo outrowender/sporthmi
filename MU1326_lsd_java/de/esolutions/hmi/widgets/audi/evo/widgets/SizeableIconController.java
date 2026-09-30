@@ -13,7 +13,6 @@ extends IconController {
     private int actualHeight;
     private int actualWidth;
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         if (this.actualWidth != -1 && this.actualHeight != -1) {
             MenuItemController menuItemController;

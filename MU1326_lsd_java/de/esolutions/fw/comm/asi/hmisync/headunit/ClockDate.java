@@ -42,7 +42,7 @@ public class ClockDate {
     }
 
     public String toString() {
-        return new StringBuffer("ClockDate{").append("year=").append(this.year).append(", month=").append(this.month).append(", day=").append(this.day).append("}").toString();
+        return "ClockDate{" + "year=" + this.year + ", month=" + this.month + ", day=" + this.day + "}";
     }
 }
 

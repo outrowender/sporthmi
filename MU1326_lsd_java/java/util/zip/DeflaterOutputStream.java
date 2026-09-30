@@ -11,7 +11,7 @@ import java.util.zip.Deflater;
 
 public class DeflaterOutputStream
 extends FilterOutputStream {
-    static final int BUF_SIZE;
+    static final int BUF_SIZE = 512;
     protected byte[] buf;
     protected Deflater def;
     boolean done = false;
@@ -36,7 +36,7 @@ extends FilterOutputStream {
         this.buf = new byte[n];
     }
 
-    protected void deflate() {
+    protected void deflate() throws IOException {
         int n = 0;
         do {
             n = this.def.deflate(this.buf);
@@ -44,8 +44,7 @@ extends FilterOutputStream {
         } while (!this.def.needsInput());
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (!this.def.finished()) {
             this.finish();
         }
@@ -53,7 +52,7 @@ extends FilterOutputStream {
         this.out.close();
     }
 
-    public void finish() {
+    public void finish() throws IOException {
         if (this.done) {
             return;
         }
@@ -69,14 +68,12 @@ extends FilterOutputStream {
         this.done = true;
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         byte[] byArray = new byte[]{(byte)n};
         this.write(byArray, 0, 1);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (this.done) {
             throw new IOException(Msg.getString("K0007"));
         }

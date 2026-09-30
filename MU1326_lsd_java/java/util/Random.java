@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 public class Random
 implements Serializable {
-    private static final long serialVersionUID;
-    static final long multiplier;
+    private static final long serialVersionUID = 3905348978240129619L;
+    static final long multiplier = 25214903917L;
     boolean haveNextNextGaussian = false;
     long seed;
     double nextNextGaussian = 0.0;
@@ -22,7 +22,7 @@ implements Serializable {
     }
 
     protected synchronized int next(int n) {
-        this.seed = this.seed * 25214903917L + 0 & 0xFFFFFFFFFFFFL;
+        this.seed = this.seed * 25214903917L + 11L & 0xFFFFFFFFFFFFL;
         return (int)(this.seed >>> 48 - n);
     }
 
@@ -51,7 +51,7 @@ implements Serializable {
     }
 
     public float nextFloat() {
-        return (float)this.next(24) / 32843;
+        return (float)this.next(24) / 1.6777216E7f;
     }
 
     public synchronized double nextGaussian() {
@@ -60,15 +60,14 @@ implements Serializable {
         double d4;
         if (this.haveNextNextGaussian) {
             this.haveNextNextGaussian = false;
-            double d5 = this.nextNextGaussian;
-            return;
+            return this.nextNextGaussian;
         }
         while ((d4 = (d3 = 2.0 * this.nextDouble() - 1.0) * d3 + (d2 = 2.0 * this.nextDouble() - 1.0) * d2) >= 1.0) {
         }
-        double d6 = Math.sqrt(-2.0 * Math.log(d4) / d4);
-        this.nextNextGaussian = d2 * d6;
+        double d5 = Math.sqrt(-2.0 * Math.log(d4) / d4);
+        this.nextNextGaussian = d2 * d5;
         this.haveNextNextGaussian = true;
-        double d7 = d3 * d6;
+        return d3 * d5;
     }
 
     public int nextInt() {

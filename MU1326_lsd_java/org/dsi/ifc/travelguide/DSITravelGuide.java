@@ -8,35 +8,33 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSITravelGuide
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RESULTCODE_OK;
-    public static final int RESULTCODE_ERROR;
-    public static final int RESULTCODE_NOT_OPERABLE;
-    public static final int RESULTCODE_UNSUPPORTED;
-    public static final int FAILUREREASON_NONE;
-    public static final int FAILUREREASON_UNSPECIFIED;
-    public static final int FAILUREREASON_MEMORY_FULL;
-    public static final int FAILUREREASON_DUPLICATE;
-    public static final int WINDOWSTEP_CURRENT_PAGE;
-    public static final int WINDOWSTEP_NEXT_PAGE;
-    public static final int WINDOWSTEP_PREVIOUS_PAGE;
-    public static final int WINDOWSTEP_FIRST_PAGE;
-    public static final int WINDOWSTEP_GOTO_POSITION;
-    public static final int LISTITEMSTATUS_AVAILABLE;
-    public static final int LISTITEMSTATUS_DOWNLOADING;
-    public static final int LISTITEMSTATUS_IMPORTING;
-    public static final int LISTITEMSTATUS_UPDATING;
-    public static final int ATTR_TRAVELGUIDEMEMORYLIST;
-    public static final int ATTR_TRAVELGUIDEMEMORYLISTELEMENT;
-    public static final int RT_IMPORTTRAVELGUIDE;
-    public static final int RT_DELETETRAVELGUIDE;
-    public static final int RP_IMPORTTRAVELGUIDERESULT;
-    public static final int RP_DELETETRAVELGUIDERESULT;
+    public static final String VERSION = "2.11.0";
+    public static final int RESULTCODE_OK = 0;
+    public static final int RESULTCODE_ERROR = 1;
+    public static final int RESULTCODE_NOT_OPERABLE = 2;
+    public static final int RESULTCODE_UNSUPPORTED = 3;
+    public static final int FAILUREREASON_NONE = 0;
+    public static final int FAILUREREASON_UNSPECIFIED = 1;
+    public static final int FAILUREREASON_MEMORY_FULL = 2;
+    public static final int FAILUREREASON_DUPLICATE = 3;
+    public static final int WINDOWSTEP_CURRENT_PAGE = 0;
+    public static final int WINDOWSTEP_NEXT_PAGE = 1;
+    public static final int WINDOWSTEP_PREVIOUS_PAGE = 2;
+    public static final int WINDOWSTEP_FIRST_PAGE = 4;
+    public static final int WINDOWSTEP_GOTO_POSITION = 6;
+    public static final int LISTITEMSTATUS_AVAILABLE = 0;
+    public static final int LISTITEMSTATUS_DOWNLOADING = 1;
+    public static final int LISTITEMSTATUS_IMPORTING = 2;
+    public static final int LISTITEMSTATUS_UPDATING = 3;
+    public static final int ATTR_TRAVELGUIDEMEMORYLIST = 1;
+    public static final int ATTR_TRAVELGUIDEMEMORYLISTELEMENT = 2;
+    public static final int RT_IMPORTTRAVELGUIDE = 1003;
+    public static final int RT_DELETETRAVELGUIDE = 1004;
+    public static final int RP_IMPORTTRAVELGUIDERESULT = 2003;
+    public static final int RP_DELETETRAVELGUIDERESULT = 2004;
 
-    default public void importTravelGuide(ResourceLocator resourceLocator) {
-    }
+    public void importTravelGuide(ResourceLocator var1);
 
-    default public void deleteTravelGuide(long l) {
-    }
+    public void deleteTravelGuide(long var1);
 }
 

@@ -7,118 +7,113 @@ import de.vw.mib.bap.datatypes.ArrayHeader;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 import de.vw.mib.bap.datatypes.BAPEntity;
 import de.vw.mib.bap.datatypes.BAPString;
-import de.vw.mib.bap.generated.audiosd.serializer.MediaBrowser_Data$FileState;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class MediaBrowser_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_FILE_TYPE_FILE_STATE_FILE_NAME;
-    public static final int RECORD_ADDRESS_FILE_TYPE_FILE_STATE;
-    public static final int RECORD_ADDRESS_FILE_NAME;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_FILE_TYPE_FILE_STATE_FILE_NAME = 0;
+    public static final int RECORD_ADDRESS_FILE_TYPE_FILE_STATE = 1;
+    public static final int RECORD_ADDRESS_FILE_NAME = 2;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public int fileType;
-    private static final int FILE_TYPE_BITSIZE;
-    public static final int FILE_TYPE_ANY_TYPE_UNKNOWN;
-    public static final int FILE_TYPE_DIRECTORY_FOLDER;
-    public static final int FILE_TYPE_ITEM_TRACK;
-    public static final int FILE_TYPE_PLAYLIST;
-    public static final int FILE_TYPE_PLAYLIST_FOLDER;
-    public static final int FILE_TYPE_UNKNOWN_CATEGORY;
-    public static final int FILE_TYPE_AUDIO_FILE;
-    public static final int FILE_TYPE_VIDEO_FILE;
-    public static final int FILE_TYPE_CD_AUDIO_TRACK;
-    public static final int FILE_TYPE_CD_AUDIO_TRACK_CD_TEXT;
-    public static final int FILE_TYPE_VOICEMEMO_FILE;
-    public static final int FILE_TYPE_IMAGE_FILE;
-    public static final int FILE_TYPE_AUDIO_FOLDER;
-    public static final int FILE_TYPE_VIDEO_FOLDER;
-    public static final int FILE_TYPE_IMAGE_FOLDER;
-    public static final int FILE_TYPE_VOICEMEMO_FOLDER;
-    public static final int FILE_TYPE_CATEGORY_GENRE;
-    public static final int FILE_TYPE_CATEGORY_GENRES;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_GENRE;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_GENRES;
-    public static final int FILE_TYPE_CATEGORY_ARTIST;
-    public static final int FILE_TYPE_CATEGORY_ARTISTS;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ARTIST;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ARTISTS;
-    public static final int FILE_TYPE_CATEGORY_COMPOSER;
-    public static final int FILE_TYPE_CATEGORY_COMPOSERS;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_COMPOSER;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_COMPOSERS;
-    public static final int FILE_TYPE_CATEGORY_YEAR;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_YEAR;
-    public static final int FILE_TYPE_CATEGORY_COMMENT;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_COMMENT;
-    public static final int FILE_TYPE_CATEGORY_ALBUM;
-    public static final int FILE_TYPE_CATEGORY_ALBUMS;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ALBUM;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ALBUMS;
-    public static final int FILE_TYPE_CATEGORY_SONG;
-    public static final int FILE_TYPE_CATEGORY_SONGS;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_SONG;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_SONGS;
-    public static final int FILE_TYPE_CATEGORY_AUDIOBOOK;
-    public static final int FILE_TYPE_CATEGORY_AUDIOBOOKS;
-    public static final int FILE_TYPE_CATEGORY_ALL;
-    public static final int FILE_TYPE_CATEGORY_PODCAST;
-    public static final int FILE_TYPE_CATEGORY_PODCASTS;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO;
-    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLISTS;
-    public static final int FILE_TYPE_CATEGORY_MOVIES_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_FAVORITES_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1;
-    public static final int FILE_TYPE_DVD_MAIN_MENUE;
-    public static final int FILE_TYPE_DVD_CHAPTER;
-    public static final int FILE_TYPE_DVD_TITLE;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_MOOD_DF4_1;
-    public static final int FILE_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1;
-    public static final int FILE_TYPE_NOT_SUPPORTED;
-    public final MediaBrowser_Data$FileState fileState;
+    private static final int FILE_TYPE_BITSIZE = 8;
+    public static final int FILE_TYPE_ANY_TYPE_UNKNOWN = 0;
+    public static final int FILE_TYPE_DIRECTORY_FOLDER = 1;
+    public static final int FILE_TYPE_ITEM_TRACK = 2;
+    public static final int FILE_TYPE_PLAYLIST = 3;
+    public static final int FILE_TYPE_PLAYLIST_FOLDER = 4;
+    public static final int FILE_TYPE_UNKNOWN_CATEGORY = 5;
+    public static final int FILE_TYPE_AUDIO_FILE = 6;
+    public static final int FILE_TYPE_VIDEO_FILE = 7;
+    public static final int FILE_TYPE_CD_AUDIO_TRACK = 8;
+    public static final int FILE_TYPE_CD_AUDIO_TRACK_CD_TEXT = 9;
+    public static final int FILE_TYPE_VOICEMEMO_FILE = 10;
+    public static final int FILE_TYPE_IMAGE_FILE = 11;
+    public static final int FILE_TYPE_AUDIO_FOLDER = 12;
+    public static final int FILE_TYPE_VIDEO_FOLDER = 13;
+    public static final int FILE_TYPE_IMAGE_FOLDER = 14;
+    public static final int FILE_TYPE_VOICEMEMO_FOLDER = 15;
+    public static final int FILE_TYPE_CATEGORY_GENRE = 16;
+    public static final int FILE_TYPE_CATEGORY_GENRES = 17;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_GENRE = 18;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_GENRES = 19;
+    public static final int FILE_TYPE_CATEGORY_ARTIST = 20;
+    public static final int FILE_TYPE_CATEGORY_ARTISTS = 21;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ARTIST = 22;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ARTISTS = 23;
+    public static final int FILE_TYPE_CATEGORY_COMPOSER = 24;
+    public static final int FILE_TYPE_CATEGORY_COMPOSERS = 25;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_COMPOSER = 26;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_COMPOSERS = 27;
+    public static final int FILE_TYPE_CATEGORY_YEAR = 28;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_YEAR = 29;
+    public static final int FILE_TYPE_CATEGORY_COMMENT = 30;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_COMMENT = 31;
+    public static final int FILE_TYPE_CATEGORY_ALBUM = 32;
+    public static final int FILE_TYPE_CATEGORY_ALBUMS = 33;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ALBUM = 34;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_ALBUMS = 35;
+    public static final int FILE_TYPE_CATEGORY_SONG = 36;
+    public static final int FILE_TYPE_CATEGORY_SONGS = 37;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_SONG = 38;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_SONGS = 39;
+    public static final int FILE_TYPE_CATEGORY_AUDIOBOOK = 40;
+    public static final int FILE_TYPE_CATEGORY_AUDIOBOOKS = 41;
+    public static final int FILE_TYPE_CATEGORY_ALL = 42;
+    public static final int FILE_TYPE_CATEGORY_PODCAST = 43;
+    public static final int FILE_TYPE_CATEGORY_PODCASTS = 44;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED = 45;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR = 46;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS = 47;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS = 48;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS = 49;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS = 50;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED = 51;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED = 52;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO = 53;
+    public static final int FILE_TYPE_CATEGORY_DYNAMIC_PLAYLISTS = 54;
+    public static final int FILE_TYPE_CATEGORY_MOVIES_DF4_1 = 55;
+    public static final int FILE_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1 = 56;
+    public static final int FILE_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1 = 57;
+    public static final int FILE_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1 = 58;
+    public static final int FILE_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1 = 59;
+    public static final int FILE_TYPE_CATEGORY_FAVORITES_DF4_1 = 60;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1 = 61;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1 = 62;
+    public static final int FILE_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1 = 63;
+    public static final int FILE_TYPE_DVD_MAIN_MENUE = 64;
+    public static final int FILE_TYPE_DVD_CHAPTER = 65;
+    public static final int FILE_TYPE_DVD_TITLE = 66;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1 = 81;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1 = 82;
+    public static final int FILE_TYPE_CATEGORY_MOOD_DF4_1 = 83;
+    public static final int FILE_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1 = 84;
+    public static final int FILE_TYPE_NOT_SUPPORTED = 255;
+    public final FileState fileState;
     public final BAPString fileName;
-    private static final int MAX_FILE_NAME_LENGTH;
+    private static final int MAX_FILE_NAME_LENGTH = 97;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
 
     public MediaBrowser_Data(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
-        this.fileState = new MediaBrowser_Data$FileState();
+        this.fileState = new FileState();
         this.fileName = new BAPString(97);
         this.internalReset();
         this.customInitialization();
@@ -134,7 +129,6 @@ implements BAPArrayElement {
         this.fileType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -142,7 +136,6 @@ implements BAPArrayElement {
         this.fileName.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaBrowser_Data mediaBrowser_Data = (MediaBrowser_Data)bAPEntity;
         return this.arrayHeader.equalTo(mediaBrowser_Data.arrayHeader) && this.pos == mediaBrowser_Data.pos && this.fileType == mediaBrowser_Data.fileType && this.fileState.equalTo(mediaBrowser_Data.fileState) && this.fileName.equalTo(mediaBrowser_Data.fileName);
@@ -152,7 +145,6 @@ implements BAPArrayElement {
         this.fileName.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaBrowser_Data:");
@@ -461,7 +453,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -491,7 +482,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -519,7 +509,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -544,6 +533,136 @@ implements BAPArrayElement {
                 this.arrayHeader.deserializePosOfArrayElement(bitStream, this);
                 break;
             }
+        }
+    }
+
+    public static final class FileState
+    implements BAPEntity {
+        public boolean reserved_bit_7;
+        public boolean importNotPlayable;
+        public boolean importPending;
+        public boolean importRunning;
+        public boolean deadLink;
+        public boolean corruptedFileFolder;
+        public boolean drmProteced;
+        public boolean emptyFolder;
+        private static final int RESERVED_BIT_8__15_BITSIZE = 8;
+        private static final int FILE_STATE_BITSIZE = 16;
+
+        public FileState() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public FileState(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.reserved_bit_7 = false;
+            this.importNotPlayable = false;
+            this.importPending = false;
+            this.importRunning = false;
+            this.deadLink = false;
+            this.corruptedFileFolder = false;
+            this.drmProteced = false;
+            this.emptyFolder = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            FileState fileState = (FileState)bAPEntity;
+            return this.reserved_bit_7 == fileState.reserved_bit_7 && this.importNotPlayable == fileState.importNotPlayable && this.importPending == fileState.importPending && this.importRunning == fileState.importRunning && this.deadLink == fileState.deadLink && this.corruptedFileFolder == fileState.corruptedFileFolder && this.drmProteced == fileState.drmProteced && this.emptyFolder == fileState.emptyFolder;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("FileState:");
+            stringBuffer.append("\n - Bit 7: ");
+            if (this.reserved_bit_7) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 6: ");
+            if (this.importNotPlayable) {
+                stringBuffer.append("true  (import not playable");
+            } else {
+                stringBuffer.append("false  (import playable / not an import");
+            }
+            stringBuffer.append("\n - Bit 5: ");
+            if (this.importPending) {
+                stringBuffer.append("true  (import pending");
+            } else {
+                stringBuffer.append("false  (import not pending");
+            }
+            stringBuffer.append("\n - Bit 4: ");
+            if (this.importRunning) {
+                stringBuffer.append("true  (import running");
+            } else {
+                stringBuffer.append("false  (import finished / unknown import state");
+            }
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.deadLink) {
+                stringBuffer.append("true  (dead link");
+            } else {
+                stringBuffer.append("false  (not a dead link");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.corruptedFileFolder) {
+                stringBuffer.append("true  (corrupted file/folder");
+            } else {
+                stringBuffer.append("false  (file/folder is not corrupted");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.drmProteced) {
+                stringBuffer.append("true  (DRM proteced");
+            } else {
+                stringBuffer.append("false  (not DRM proteced");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.emptyFolder) {
+                stringBuffer.append("true  (empty folder");
+            } else {
+                stringBuffer.append("false  (not an empty folder");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 16;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.reserved_bit_7);
+            bitStream.pushBoolean(this.importNotPlayable);
+            bitStream.pushBoolean(this.importPending);
+            bitStream.pushBoolean(this.importRunning);
+            bitStream.pushBoolean(this.deadLink);
+            bitStream.pushBoolean(this.corruptedFileFolder);
+            bitStream.pushBoolean(this.drmProteced);
+            bitStream.pushBoolean(this.emptyFolder);
+            bitStream.resetBits(8);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.reserved_bit_7 = bitStream.popFrontBoolean();
+            this.importNotPlayable = bitStream.popFrontBoolean();
+            this.importPending = bitStream.popFrontBoolean();
+            this.importRunning = bitStream.popFrontBoolean();
+            this.deadLink = bitStream.popFrontBoolean();
+            this.corruptedFileFolder = bitStream.popFrontBoolean();
+            this.drmProteced = bitStream.popFrontBoolean();
+            this.emptyFolder = bitStream.popFrontBoolean();
+            bitStream.discardBits(8);
         }
     }
 }

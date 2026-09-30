@@ -7,15 +7,14 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIMobileEquipmentTopology
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_REQUESTCHANGETOPOLOGY;
-    public static final int ATTR_TOPOLOGY;
-    public static final int ATTR_USAGE;
-    public static final int RP_RESPONSECHANGETOPOLOGY;
-    public static final int USAGE_NAD;
-    public static final int USAGE_HFP;
+    public static final String VERSION = "2.11.9";
+    public static final int RT_REQUESTCHANGETOPOLOGY = 1000;
+    public static final int ATTR_TOPOLOGY = 1;
+    public static final int ATTR_USAGE = 2;
+    public static final int RP_RESPONSECHANGETOPOLOGY = 2000;
+    public static final int USAGE_NAD = 0;
+    public static final int USAGE_HFP = 1;
 
-    default public void requestChangeTopology(int[] nArray) {
-    }
+    public void requestChangeTopology(int[] var1);
 }
 

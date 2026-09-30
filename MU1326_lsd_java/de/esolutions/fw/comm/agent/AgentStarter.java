@@ -44,7 +44,7 @@ implements IAgentLifecycleListener {
             Agent.start();
         }
         catch (Exception exception) {
-            this.errorString = new StringBuffer().append("Agent start failed: ").append(exception).toString();
+            this.errorString = "Agent start failed: " + exception;
             return false;
         }
         ITimeSource iTimeSource = TimeSourceProvider.getMonotonicTimeSource();
@@ -55,14 +55,14 @@ implements IAgentLifecycleListener {
                 long l2 = iTimeSource.getCurrentTime();
                 if (l2 >= l) {
                     if (!this.agentIsAlive) {
-                        this.errorString = new StringBuffer().append("agent did not went alive: ").append(agent.getReturnCodeErrorString()).toString();
+                        this.errorString = "agent did not went alive: " + agent.getReturnCodeErrorString();
                         return false;
                     }
                     this.errorString = "agent is alive but broker connection is not available";
                     return false;
                 }
                 try {
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {
                     // empty catch block
@@ -89,7 +89,7 @@ implements IAgentLifecycleListener {
             return true;
         }
         catch (Exception exception) {
-            this.errorString = new StringBuffer().append("agent stop: ").append(exception.getMessage()).toString();
+            this.errorString = "agent stop: " + exception.getMessage();
             return false;
         }
     }
@@ -98,7 +98,6 @@ implements IAgentLifecycleListener {
         return this.errorString;
     }
 
-    @Override
     public synchronized void lifecycleChanged(Lifecycle lifecycle, Object object) {
         if (lifecycle.isAlive()) {
             this.agentIsAlive = true;
@@ -107,28 +106,24 @@ implements IAgentLifecycleListener {
         } else if (lifecycle.isDead()) {
             this.agentIsDead = true;
         }
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public synchronized void brokerLinkStateChanged(boolean bl) {
         this.brokerConnected = bl;
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public synchronized void brokerConnectRetry(boolean bl) {
         if (bl) {
             this.cantReachBroker = true;
         }
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public void agentIdUpdate(short s) {
     }
 
-    @Override
     public Short getAgentIdProposal() {
         return null;
     }

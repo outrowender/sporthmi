@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.writer;
 
@@ -25,8 +22,7 @@ IConfigExporter {
     private boolean needNewLine;
     private boolean needIndent;
 
-    @Override
-    public void writeToOutputStream(OutputStream outputStream, ConfigValue configValue, ConfigDictionary configDictionary) {
+    public void writeToOutputStream(OutputStream outputStream, ConfigValue configValue, ConfigDictionary configDictionary) throws WriteConfigException {
         try {
             this.ps = new PrintStream(outputStream, true, "UTF-8");
         }
@@ -71,75 +67,62 @@ IConfigExporter {
         }
     }
 
-    @Override
-    public void beginDictionary(ConfigDictionary configDictionary, int n) {
+    public void beginDictionary(ConfigDictionary configDictionary, int n) throws WriteConfigException {
         this.writeToken("{", true);
         ++this.indent;
     }
 
-    @Override
-    public void endDictionary() {
+    public void endDictionary() throws WriteConfigException {
         --this.indent;
         this.writeToken("}", true);
     }
 
-    @Override
-    public void beginArray(ConfigArray configArray, int n) {
+    public void beginArray(ConfigArray configArray, int n) throws WriteConfigException {
         this.writeToken("[", true);
         ++this.indent;
     }
 
-    @Override
-    public void endArray() {
+    public void endArray() throws WriteConfigException {
         --this.indent;
         this.writeToken("]", true);
     }
 
-    @Override
-    public void beginDictEntry(int n, String string) {
-        this.writeToken(new StringBuffer().append(StringUtils.quoteString(string)).append(" : ").toString(), false);
+    public void beginDictEntry(int n, String string) throws WriteConfigException {
+        this.writeToken(StringUtils.quoteString(string) + " : ", false);
     }
 
-    @Override
-    public void endDictEntry(boolean bl) {
+    public void endDictEntry(boolean bl) throws WriteConfigException {
         if (!bl) {
             this.appendToken(",");
         }
     }
 
-    @Override
-    public void beginArrayEntry(int n) {
+    public void beginArrayEntry(int n) throws WriteConfigException {
     }
 
-    @Override
-    public void endArrayEntry(boolean bl) {
+    public void endArrayEntry(boolean bl) throws WriteConfigException {
         if (!bl) {
             this.appendToken(",");
         }
     }
 
-    @Override
-    public void writeString(String string) {
+    public void writeString(String string) throws WriteConfigException {
         this.writeToken(StringUtils.quoteString(string), false);
     }
 
-    @Override
-    public void writeInteger(int n) {
+    public void writeInteger(int n) throws WriteConfigException {
         this.writeToken(Integer.toString(n), false);
     }
 
-    @Override
-    public void writeDouble(double d2) {
-        this.writeToken(Double.toString((double)d2), false);
+    public void writeDouble(double d2) throws WriteConfigException {
+        this.writeToken(Double.toString(d2), false);
     }
 
-    @Override
-    public void writeNull() {
+    public void writeNull() throws WriteConfigException {
         this.writeToken("null", false);
     }
 
-    @Override
-    public void writeBoolean(boolean bl) {
+    public void writeBoolean(boolean bl) throws WriteConfigException {
         this.writeToken(bl ? "true" : "false", false);
     }
 }

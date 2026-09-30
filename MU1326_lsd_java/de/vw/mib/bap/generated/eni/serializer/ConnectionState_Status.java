@@ -11,19 +11,19 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ConnectionState_Status
 implements StatusProperty {
     public int connectionIndication;
-    public static final int CONNECTION_INDICATION_INFORMATION_ABOUT_DATA_CONNECTING_IS_NOT_AVAILABLE;
-    public static final int CONNECTION_INDICATION_NO_DATA_CONNECTION_ACTIVE;
-    public static final int CONNECTION_INDICATION_DATA_CONNECTION_ACTIVE;
-    public static final int CONNECTION_INDICATION_INITIALIZING;
+    public static final int CONNECTION_INDICATION_INFORMATION_ABOUT_DATA_CONNECTING_IS_NOT_AVAILABLE = 3;
+    public static final int CONNECTION_INDICATION_NO_DATA_CONNECTION_ACTIVE = 2;
+    public static final int CONNECTION_INDICATION_DATA_CONNECTION_ACTIVE = 1;
+    public static final int CONNECTION_INDICATION_INITIALIZING = 0;
     public ConnectionState_SynchronisationState synchronisationState = new ConnectionState_SynchronisationState();
     public int extension1;
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
     public int extension3;
-    public static final int EXTENSION3_MIN;
+    public static final int EXTENSION3_MIN = 0;
     public int extension4;
-    public static final int EXTENSION4_MIN;
+    public static final int EXTENSION4_MIN = 0;
 
     public ConnectionState_Status() {
         this.internalReset();
@@ -43,13 +43,11 @@ implements StatusProperty {
         this.extension4 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.synchronisationState.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ConnectionState_Status connectionState_Status = (ConnectionState_Status)bAPEntity;
         return this.connectionIndication == connectionState_Status.connectionIndication && this.synchronisationState.equalTo(connectionState_Status.synchronisationState) && this.extension1 == connectionState_Status.extension1 && this.extension2 == connectionState_Status.extension2 && this.extension3 == connectionState_Status.extension3 && this.extension4 == connectionState_Status.extension4;
@@ -58,25 +56,22 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ConnectionState_Status");
-        stringBuffer.append(new StringBuffer().append("\n - connectionIndication:").append(this.connectionIndication).toString());
-        stringBuffer.append(new StringBuffer().append("\n - synchronisationState:").append(this.synchronisationState.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension1:").append(this.extension1).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension2:").append(this.extension2).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension3:").append(this.extension3).toString());
-        stringBuffer.append(new StringBuffer().append("\n - extension4:").append(this.extension4).toString());
+        stringBuffer.append("\n - connectionIndication:" + this.connectionIndication);
+        stringBuffer.append("\n - synchronisationState:" + this.synchronisationState.toString());
+        stringBuffer.append("\n - extension1:" + this.extension1);
+        stringBuffer.append("\n - extension2:" + this.extension2);
+        stringBuffer.append("\n - extension3:" + this.extension3);
+        stringBuffer.append("\n - extension4:" + this.extension4);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.connectionIndication);
         this.synchronisationState.serialize(bitStream);
@@ -86,7 +81,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.connectionIndication = bitStream.popFrontByte();
         this.synchronisationState.deserialize(bitStream);
@@ -100,7 +94,6 @@ implements StatusProperty {
         return 29;
     }
 
-    @Override
     public int getFunctionId() {
         return ConnectionState_Status.functionId();
     }

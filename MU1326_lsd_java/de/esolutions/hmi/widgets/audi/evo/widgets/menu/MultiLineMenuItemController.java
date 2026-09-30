@@ -51,14 +51,12 @@ implements IMenuItemMultiLine {
         this.autoLayoutSetup = false;
     }
 
-    @Override
     protected void initializeWidget() {
         this.oldFirstLineNumber = 0;
         this.initializeLabel();
         super.initializeWidget();
     }
 
-    @Override
     protected void afterConnected() {
         this.initializeLayout();
         super.afterConnected();
@@ -150,7 +148,6 @@ implements IMenuItemMultiLine {
         return this.label;
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof FocusedPropertyConfig) {
@@ -158,7 +155,6 @@ implements IMenuItemMultiLine {
         }
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         super.remove(abstractWidget);
         if (abstractWidget == this.property) {
@@ -173,11 +169,9 @@ implements IMenuItemMultiLine {
         return null;
     }
 
-    @Override
     public void showExtended(boolean bl) {
     }
 
-    @Override
     public int getPreferredHeight(boolean bl, int n) {
         if (this.getHasDynamicLayout() && this.preferredHeight == -1) {
             return this.layoutManager.calculateSize(this, n)[1];
@@ -185,7 +179,6 @@ implements IMenuItemMultiLine {
         return this.getPreferredHeight();
     }
 
-    @Override
     public IFocusedPropertyObject getProperty() {
         if (this.property != null) {
             IFocusedPropertyObject iFocusedPropertyObject = this.property.getCurrentFocusedPropertyObject();
@@ -202,42 +195,34 @@ implements IMenuItemMultiLine {
         return null;
     }
 
-    @Override
     public int getSizeForTabulator(int n) {
         return -1;
     }
 
-    @Override
     public boolean isSelected() {
         return false;
     }
 
-    @Override
     public int getMargin(boolean bl) {
         return bl ? this.marginTop : this.marginBottom;
     }
 
-    @Override
     public int getGlassplateInsets(boolean bl) {
         return bl ? this.glassplateInsetsTop : this.glassplateInsetsBottom;
     }
 
-    @Override
     public int getFilledInsets(boolean bl) {
         return bl ? this.filledInsetsTop : this.filledInsetsBottom;
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
 
-    @Override
     public int getSdsItemSelectedAction() {
         return 0;
     }
 
-    @Override
     public int getSubItemCount() {
         LabelRenderer labelRenderer = this.getLabelRenderer();
         if (labelRenderer != null) {
@@ -261,7 +246,6 @@ implements IMenuItemMultiLine {
         return 0;
     }
 
-    @Override
     public int getPreferredLineHeight(int n) {
         return this.getLineHeight();
     }
@@ -282,7 +266,6 @@ implements IMenuItemMultiLine {
         return 20;
     }
 
-    @Override
     public void setVisibleAreaBounds(int n, int n2, int n3) {
         this.setY(n);
         this.setHeight(n3);
@@ -294,7 +277,6 @@ implements IMenuItemMultiLine {
         }
     }
 
-    @Override
     public boolean isFocusable() {
         return false;
     }
@@ -347,12 +329,10 @@ implements IMenuItemMultiLine {
         this.filledInsetsBottom = n;
     }
 
-    @Override
     public boolean hasInfolineText() {
         return false;
     }
 
-    @Override
     public String getInfolineText() {
         return null;
     }
@@ -395,7 +375,6 @@ implements IMenuItemMultiLine {
         return this.menuContentWidth;
     }
 
-    @Override
     public void setMenuSize(int n, int n2, int n3) {
         this.menuContentWidth = n;
         this.setOptionsIconSpace(n3);
@@ -409,12 +388,10 @@ implements IMenuItemMultiLine {
         this.internalID = n;
     }
 
-    @Override
     public boolean isScrollLineByLine() {
         return true;
     }
 
-    @Override
     public int getOptionIconYOffset() {
         return 0;
     }
@@ -448,12 +425,10 @@ implements IMenuItemMultiLine {
     public void setHasInfolineDisclaimer(boolean bl) {
     }
 
-    @Override
     public int getSdsItemSelectedAction(int n) {
         return 0;
     }
 
-    @Override
     public void setOptionsIconSpace(int n) {
         this.setOptionsIconSpace(n, this.layoutManager);
     }
@@ -469,7 +444,7 @@ implements IMenuItemMultiLine {
                     this.invalidateChildrenBounds();
                 }
             } else {
-                menuItemLogCh.log(-1601830656, "MultiLineMenuItemController#setOptionsIconSpace: columnConstraints have no optionsIconSpace. Space: %2, Constraints: %1", (Object)iAxisConstraints, (long)n);
+                menuItemLogCh.log(100000, "MultiLineMenuItemController#setOptionsIconSpace: columnConstraints have no optionsIconSpace. Space: %2, Constraints: %1", (Object)iAxisConstraints, (long)n);
             }
         }
     }
@@ -478,7 +453,6 @@ implements IMenuItemMultiLine {
         this.setMarginTop(n);
     }
 
-    @Override
     public int getNoCursorArea(boolean bl) {
         return 0;
     }

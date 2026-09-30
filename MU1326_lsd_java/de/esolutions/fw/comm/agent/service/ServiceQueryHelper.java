@@ -29,7 +29,7 @@ implements IServiceQueryReply {
         synchronized (serviceQueryHelper) {
             while (this.errorCode == 0 && this.result == null) {
                 try {
-                    super.wait();
+                    this.wait();
                 }
                 catch (InterruptedException interruptedException) {}
             }
@@ -47,16 +47,14 @@ implements IServiceQueryReply {
         return this.result;
     }
 
-    @Override
     public synchronized void serviceQueryResult(ServiceInstanceID serviceInstanceID, DirectoryEntry[] directoryEntryArray) {
         this.result = directoryEntryArray;
-        super.notify();
+        this.notify();
     }
 
-    @Override
     public synchronized void serviceQueryFailed(ServiceInstanceID serviceInstanceID, int n) {
         this.errorCode = n;
-        super.notify();
+        this.notify();
     }
 }
 

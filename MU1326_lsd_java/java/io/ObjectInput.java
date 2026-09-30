@@ -4,28 +4,22 @@
 package java.io;
 
 import java.io.DataInput;
+import java.io.IOException;
 
 public interface ObjectInput
 extends DataInput {
-    default public int available() {
-    }
+    public int available() throws IOException;
 
-    default public void close() {
-    }
+    public void close() throws IOException;
 
-    default public int read() {
-    }
+    public int read() throws IOException;
 
-    default public int read(byte[] byArray) {
-    }
+    public int read(byte[] var1) throws IOException;
 
-    default public int read(byte[] byArray, int n, int n2) {
-    }
+    public int read(byte[] var1, int var2, int var3) throws IOException;
 
-    default public Object readObject() {
-    }
+    public Object readObject() throws ClassNotFoundException, IOException;
 
-    default public long skip(long l) {
-    }
+    public long skip(long var1) throws IOException;
 }
 

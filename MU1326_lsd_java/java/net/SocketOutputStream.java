@@ -4,6 +4,7 @@
 package java.net;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.SocketImpl;
 
@@ -15,19 +16,16 @@ extends OutputStream {
         this.socket = socketImpl;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.socket.close();
         super.close();
     }
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         this.socket.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (byArray != null) {
             if (n < 0 || n > byArray.length || n2 < 0 || n2 > byArray.length - n) {
                 throw new ArrayIndexOutOfBoundsException(Msg.getString("K002f"));
@@ -38,8 +36,7 @@ extends OutputStream {
         this.socket.write(byArray, n, n2);
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         byte[] byArray = new byte[]{(byte)(n & 0xFF)};
         this.socket.write(byArray, 0, 1);
     }

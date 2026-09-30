@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.StationDescription;
 
 public class StationDescriptionSerializer {
-    public static void putOptionalStationDescription(ISerializer iSerializer, StationDescription stationDescription) {
+    public static void putOptionalStationDescription(ISerializer iSerializer, StationDescription stationDescription) throws SerializerException {
         boolean bl = stationDescription == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class StationDescriptionSerializer {
         }
     }
 
-    public static void putOptionalStationDescriptionVarArray(ISerializer iSerializer, StationDescription[] stationDescriptionArray) {
+    public static void putOptionalStationDescriptionVarArray(ISerializer iSerializer, StationDescription[] stationDescriptionArray) throws SerializerException {
         boolean bl = stationDescriptionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class StationDescriptionSerializer {
         }
     }
 
-    public static StationDescription getOptionalStationDescription(IDeserializer iDeserializer) {
+    public static StationDescription getOptionalStationDescription(IDeserializer iDeserializer) throws SerializerException {
         StationDescription stationDescription = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class StationDescriptionSerializer {
         return stationDescription;
     }
 
-    public static StationDescription[] getOptionalStationDescriptionVarArray(IDeserializer iDeserializer) {
+    public static StationDescription[] getOptionalStationDescriptionVarArray(IDeserializer iDeserializer) throws SerializerException {
         StationDescription[] stationDescriptionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

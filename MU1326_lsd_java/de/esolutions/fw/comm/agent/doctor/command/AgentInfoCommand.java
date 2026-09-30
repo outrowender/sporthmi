@@ -15,17 +15,14 @@ import java.io.PrintStream;
 
 public class AgentInfoCommand
 extends AbstractAgentSnapshotCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"agent_info", "ai"};
     }
 
-    @Override
     public String getDescription() {
         return "summarize state information of the COMM Agent";
     }
 
-    @Override
     public void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentSnapshot iAgentSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllProxies();
@@ -35,23 +32,23 @@ extends AbstractAgentSnapshotCommand {
         ServiceLocatorInfo[] serviceLocatorInfoArray = iAgentSnapshot.getAllServiceLocators();
         WorkerInfo workerInfo = iAgentSnapshot.getWorker();
         if (iInfoBaseArray != null) {
-            printStream.println(new StringBuffer().append("Proxies: ").append(iInfoBaseArray.length).toString());
+            printStream.println("Proxies: " + iInfoBaseArray.length);
             InfoUtils.printInfoIDs(iInfoBaseArray, printStream);
         }
         if (iInfoBaseArray2 != null) {
-            printStream.println(new StringBuffer().append("Stubs:   ").append(iInfoBaseArray2.length).toString());
+            printStream.println("Stubs:   " + iInfoBaseArray2.length);
             InfoUtils.printInfoIDs(iInfoBaseArray2, printStream);
         }
         if (iInfoBaseArray3 != null) {
-            printStream.println(new StringBuffer().append("Clients: ").append(iInfoBaseArray3.length).toString());
+            printStream.println("Clients: " + iInfoBaseArray3.length);
             InfoUtils.printInfoIDs(iInfoBaseArray3, printStream);
         }
         if (iInfoBaseArray4 != null) {
-            printStream.println(new StringBuffer().append("ServiceHandlers: ").append(iInfoBaseArray4.length).toString());
+            printStream.println("ServiceHandlers: " + iInfoBaseArray4.length);
             InfoUtils.printInfoIDs(iInfoBaseArray4, printStream);
         }
         if (serviceLocatorInfoArray != null) {
-            printStream.println(new StringBuffer().append("ServiceLocators: ").append(serviceLocatorInfoArray.length).toString());
+            printStream.println("ServiceLocators: " + serviceLocatorInfoArray.length);
         }
         if (workerInfo != null) {
             InfoStream infoStream = new InfoStream(printStream);

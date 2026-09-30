@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.apache.commons.scxml;
 
@@ -85,7 +82,7 @@ implements Serializable {
         block4: {
             object2 = Builtin.dataAsString(map, object, string);
             try {
-                double d2 = Double.parseDouble((String)((String)object2));
+                double d2 = Double.parseDouble((String)object2);
                 object2 = new Double(d2);
             }
             catch (NumberFormatException numberFormatException) {

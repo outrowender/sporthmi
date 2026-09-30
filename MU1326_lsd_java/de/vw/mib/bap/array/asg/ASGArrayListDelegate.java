@@ -9,25 +9,18 @@ import de.vw.mib.bap.array.requests.BAPGetArray;
 import de.vw.mib.bap.array.requests.BAPSetGetArray;
 
 public interface ASGArrayListDelegate {
-    default public void requestGetArray(ASGArrayList aSGArrayList, BAPGetArray bAPGetArray) {
-    }
+    public void requestGetArray(ASGArrayList var1, BAPGetArray var2);
 
-    default public void requestSetGetArray(ASGArrayList aSGArrayList, BAPSetGetArray bAPSetGetArray) {
-    }
+    public void requestSetGetArray(ASGArrayList var1, BAPSetGetArray var2);
 
-    default public void requestTimeout(ASGArrayList aSGArrayList, int n, boolean bl) {
-    }
+    public void requestTimeout(ASGArrayList var1, int var2, boolean var3);
 
-    default public int getMaxRequestableElements(ASGArrayList aSGArrayList, int n) {
-    }
+    public int getMaxRequestableElements(ASGArrayList var1, int var2);
 
-    default public int getDefaultRecordAddress(ASGArrayList aSGArrayList) {
-    }
+    public int getDefaultRecordAddress(ASGArrayList var1);
 
-    default public boolean continueLoading(ASGArrayList aSGArrayList) {
-    }
+    public boolean continueLoading(ASGArrayList var1);
 
-    default public Logger getLogger(ASGArrayList aSGArrayList) {
-    }
+    public Logger getLogger(ASGArrayList var1);
 }
 

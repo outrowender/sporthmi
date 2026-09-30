@@ -26,7 +26,6 @@ implements IMenuCallback {
         this.idleTime = 0;
     }
 
-    @Override
     protected void timerFired() {
         MenuController menuController = this.getMenu();
         if (menuController != null) {
@@ -34,7 +33,6 @@ implements IMenuCallback {
         }
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
         this.keepCursorsMerged(menuItemIndex, l, menuUpdateDelta);
     }
@@ -57,7 +55,7 @@ implements IMenuCallback {
             }
         }
         if (this.isMerged(menuItemIndex2, menuItemIndex, menuController) && this.shouldExecuteAction()) {
-            menuLogCh.log(-2137614336, "MenuMergeTimerController#menuSelectionChanged: move focus (%1) with selection to stay merged", (Object)menuItemIndex2);
+            menuLogCh.log(10000000, "MenuMergeTimerController#menuSelectionChanged: move focus (%1) with selection to stay merged", (Object)menuItemIndex2);
             menuController.mergeCursors(this.getFocusAdviceForKeepMerged(menuController, l));
         }
     }
@@ -84,27 +82,21 @@ implements IMenuCallback {
         return FocusAdvice.KEEP_POSITION;
     }
 
-    @Override
     public void menuLayouted() {
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 }

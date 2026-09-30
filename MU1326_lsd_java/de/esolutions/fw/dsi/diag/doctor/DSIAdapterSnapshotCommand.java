@@ -17,24 +17,21 @@ extends AbstractDSIAdapterDiagnosisCommand {
         super(dSIAdmin);
     }
 
-    @Override
     public String[] getNames() {
         return new String[]{"dsi_snapshot", "dsis"};
     }
 
-    @Override
     public String getDescription() {
         return "take an dsiadapter snapshot for info commands";
     }
 
-    @Override
     protected void handleWithDSIAdapterDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAdapterDiagnosis iAdapterDiagnosis = this.getDiagnosis();
         IAdapterSnapshot iAdapterSnapshot = iAdapterDiagnosis.createSnapshot();
         if (iAdapterSnapshot != null) {
             doctorShell.getState().setKey(this.ADAPTER_SNAPSHOT_STATE_NAME, iAdapterSnapshot);
             TraceTimeStamp traceTimeStamp = new TraceTimeStamp(iAdapterSnapshot.getTimeStamp());
-            printStream.println(new StringBuffer().append("Snapshot taken: ").append(traceTimeStamp.toUTCTimeString(true)).toString());
+            printStream.println("Snapshot taken: " + traceTimeStamp.toUTCTimeString(true));
         } else {
             printStream.println("Error taking snapshot!");
         }

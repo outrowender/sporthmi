@@ -8,123 +8,109 @@ import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 
 public interface DSIPoiOnlineSearch
 extends DSIBase {
-    public static final String VERSION;
-    public static final int TYPEOFREQUEST_FREETYPE;
-    public static final int TYPEOFREQUEST_DYNAMICPOI;
-    public static final int DYNAMICPOICATEGORY_GAS_STATIONS;
-    public static final int DYNAMICPOICATEGORY_PARKINGLOTS;
-    public static final int DYNAMICPOICATEGORY_NATURALGAS_STATIONS;
-    public static final int DYNAMICPOICATEGORY_ECHARGING_STATIONS;
-    public static final int DYNAMICPOICATEGORY_ECHARGING_STATIONS_NORMAL;
-    public static final int DYNAMICPOICATEGORY_ECHARGING_STATIONS_FAST;
-    public static final int SORTKEY_DEFAULT;
-    public static final int SORTKEY_DISTANCE;
-    public static final int SORTKEY_CATEGORY_DATA;
-    public static final int SOURCEID_AUDI;
-    public static final int SOURCEID_GOOGLE;
-    public static final int SOURCEID_YAHOO;
-    public static final int SOURCEID_LYCOS;
-    public static final int SOURCEID_MSN;
-    public static final int SOURCEID_AOL;
-    public static final int SOURCEID_TONLINE;
-    public static final int SOURCEID_TINFO;
-    public static final int SOURCEID_VW;
-    public static final int STATUS_OK_INIT;
-    public static final int STATUS_OK_SEARCH_COMPLETE;
-    public static final int STATUS_OK_SEARCH_CANCELED;
-    public static final int STATUS_ERROR_CAR_HARDWARE;
-    public static final int STATUS_ERROR_CAR_DSI;
-    public static final int STATUS_ERROR_CAR_CONNECTIVITY_SETUP;
-    public static final int STATUS_ERROR_CAR_CONNECTIVITY_ERROR;
-    public static final int STATUS_ERROR_POISTS_SSL_HANDSHAKE_FAILED;
-    public static final int STATUS_ERROR_POISTS_TIMEOUT;
-    public static final int STATUS_ERROR_POISTS_CONNECTION_CLOSED;
-    public static final int STATUS_ERROR_POISTS_CONNECTION_REJECTED;
-    public static final int STATUS_ERROR_POISTS_PARSE;
-    public static final int STATUS_ERROR_POISTS_HOST_UNRESOLVABLE;
-    public static final int STATUS_ERROR_POISTS_UNKNOWN_ERROR;
-    public static final int STATUS_ERROR_POISTS_INVALID_INPUT;
-    public static final int STATUS_ERROR_POISTS_URL_INVALID;
-    public static final int STATUS_ERROR_POIDB_TIMEOUT;
-    public static final int STATUS_ERROR_POIDB_CONNECTION_CLOSED;
-    public static final int STATUS_ERROR_POIDB_CONNECTION_REJECTED;
-    public static final int STATUS_ERROR_POIDB_PARSE;
-    public static final int STATUS_ERROR_POIDB_HOST_UNRESOLVABLE;
-    public static final int STATUS_ERROR_POIDB_UNKNOWN_ERROR;
-    public static final int STATUS_ERROR_VOICE_LANGUAGE_NOT_SUPPORTED;
-    public static final int STATUS_ERROR_VOICE_NOT_RECOGNIZED;
-    public static final int STATUS_ERROR_VOICE_RECOGNIZED_NO_RESULTS;
-    public static final int STATUS_ERROR_LANGUAGE_NOT_SUPPORTED;
-    public static final int STATUS_ERROR_VOICE_RECOGNITION_FAILED;
-    public static final int STATUS_ERROR_PROFANITY_DETECTED;
-    public static final int RESULTSOURCE_POI;
-    public static final int RESULTSOURCE_SDS;
-    public static final int USEDPOI_UNKNOWN;
-    public static final int USEDPOI_NAVIGATETO;
-    public static final int USEDPOI_PHONECALL;
-    public static final int USEDPOI_ADDEDTOADDRESSBOOK;
-    public static final int TYPEOFPOI_UNKNOWN;
-    public static final int TYPEOFPOI_REGULAR;
-    public static final int TYPEOFPOI_AD;
-    public static final int RT_POISTARTSELECTION;
-    public static final int RT_POISTOPSELECTION;
-    public static final int RT_POIREQUESTVALUELIST;
-    public static final int RT_POIREQUESTSPELLINGSUGGESTION;
-    public static final int RT_USEDPOI;
-    public static final int RT_SETLANGUAGE;
-    public static final int RT_SETFALLBACKLANGUAGE;
-    public static final int RT_POIVOICESEARCHACTIVE;
-    public static final int RT_POISTARTVOICESELECTION;
-    public static final int RT_POIRAWVOICEDATAAVAILABLE;
-    public static final int RT_POISTARTSELECTIONZOOM;
-    public static final int RT_DYNAMICPOISTARTSELECTION;
-    public static final int RT_DYNAMICPOISTARTSELECTIONZOOM;
-    public static final int RT_PRECHECKDYNAMICPOICATEGORY;
-    public static final int RP_POIRESULT;
-    public static final int RP_POISPELLINGSUGGESTION;
-    public static final int RP_POIVALUELIST;
-    public static final int RP_PRECHECKDYNAMICPOICATEGORYRESPONSE;
+    public static final String VERSION = "2.11.42";
+    public static final int TYPEOFREQUEST_FREETYPE = 1;
+    public static final int TYPEOFREQUEST_DYNAMICPOI = 2;
+    public static final int DYNAMICPOICATEGORY_GAS_STATIONS = 1;
+    public static final int DYNAMICPOICATEGORY_PARKINGLOTS = 2;
+    public static final int DYNAMICPOICATEGORY_NATURALGAS_STATIONS = 3;
+    public static final int DYNAMICPOICATEGORY_ECHARGING_STATIONS = 4;
+    public static final int DYNAMICPOICATEGORY_ECHARGING_STATIONS_NORMAL = 5;
+    public static final int DYNAMICPOICATEGORY_ECHARGING_STATIONS_FAST = 6;
+    public static final int SORTKEY_DEFAULT = 0;
+    public static final int SORTKEY_DISTANCE = 1;
+    public static final int SORTKEY_CATEGORY_DATA = 2;
+    public static final int SOURCEID_AUDI = 1;
+    public static final int SOURCEID_GOOGLE = 2;
+    public static final int SOURCEID_YAHOO = 3;
+    public static final int SOURCEID_LYCOS = 4;
+    public static final int SOURCEID_MSN = 5;
+    public static final int SOURCEID_AOL = 6;
+    public static final int SOURCEID_TONLINE = 7;
+    public static final int SOURCEID_TINFO = 8;
+    public static final int SOURCEID_VW = 9;
+    public static final int STATUS_OK_INIT = 10;
+    public static final int STATUS_OK_SEARCH_COMPLETE = 11;
+    public static final int STATUS_OK_SEARCH_CANCELED = 12;
+    public static final int STATUS_ERROR_CAR_HARDWARE = 21;
+    public static final int STATUS_ERROR_CAR_DSI = 22;
+    public static final int STATUS_ERROR_CAR_CONNECTIVITY_SETUP = 23;
+    public static final int STATUS_ERROR_CAR_CONNECTIVITY_ERROR = 24;
+    public static final int STATUS_ERROR_POISTS_SSL_HANDSHAKE_FAILED = 31;
+    public static final int STATUS_ERROR_POISTS_TIMEOUT = 41;
+    public static final int STATUS_ERROR_POISTS_CONNECTION_CLOSED = 42;
+    public static final int STATUS_ERROR_POISTS_CONNECTION_REJECTED = 43;
+    public static final int STATUS_ERROR_POISTS_PARSE = 44;
+    public static final int STATUS_ERROR_POISTS_HOST_UNRESOLVABLE = 45;
+    public static final int STATUS_ERROR_POISTS_UNKNOWN_ERROR = 46;
+    public static final int STATUS_ERROR_POISTS_INVALID_INPUT = 47;
+    public static final int STATUS_ERROR_POISTS_URL_INVALID = 48;
+    public static final int STATUS_ERROR_POIDB_TIMEOUT = 51;
+    public static final int STATUS_ERROR_POIDB_CONNECTION_CLOSED = 52;
+    public static final int STATUS_ERROR_POIDB_CONNECTION_REJECTED = 53;
+    public static final int STATUS_ERROR_POIDB_PARSE = 54;
+    public static final int STATUS_ERROR_POIDB_HOST_UNRESOLVABLE = 55;
+    public static final int STATUS_ERROR_POIDB_UNKNOWN_ERROR = 56;
+    public static final int STATUS_ERROR_VOICE_LANGUAGE_NOT_SUPPORTED = 57;
+    public static final int STATUS_ERROR_VOICE_NOT_RECOGNIZED = 58;
+    public static final int STATUS_ERROR_VOICE_RECOGNIZED_NO_RESULTS = 59;
+    public static final int STATUS_ERROR_LANGUAGE_NOT_SUPPORTED = 61;
+    public static final int STATUS_ERROR_VOICE_RECOGNITION_FAILED = 62;
+    public static final int STATUS_ERROR_PROFANITY_DETECTED = 63;
+    public static final int RESULTSOURCE_POI = 0;
+    public static final int RESULTSOURCE_SDS = 1;
+    public static final int USEDPOI_UNKNOWN = 0;
+    public static final int USEDPOI_NAVIGATETO = 10;
+    public static final int USEDPOI_PHONECALL = 11;
+    public static final int USEDPOI_ADDEDTOADDRESSBOOK = 12;
+    public static final int TYPEOFPOI_UNKNOWN = 0;
+    public static final int TYPEOFPOI_REGULAR = 1;
+    public static final int TYPEOFPOI_AD = 2;
+    public static final int RT_POISTARTSELECTION = 1000;
+    public static final int RT_POISTOPSELECTION = 1001;
+    public static final int RT_POIREQUESTVALUELIST = 1002;
+    public static final int RT_POIREQUESTSPELLINGSUGGESTION = 1003;
+    public static final int RT_USEDPOI = 1004;
+    public static final int RT_SETLANGUAGE = 1005;
+    public static final int RT_SETFALLBACKLANGUAGE = 1006;
+    public static final int RT_POIVOICESEARCHACTIVE = 1007;
+    public static final int RT_POISTARTVOICESELECTION = 1008;
+    public static final int RT_POIRAWVOICEDATAAVAILABLE = 1011;
+    public static final int RT_POISTARTSELECTIONZOOM = 1012;
+    public static final int RT_DYNAMICPOISTARTSELECTION = 1013;
+    public static final int RT_DYNAMICPOISTARTSELECTIONZOOM = 1014;
+    public static final int RT_PRECHECKDYNAMICPOICATEGORY = 1015;
+    public static final int RP_POIRESULT = 2000;
+    public static final int RP_POISPELLINGSUGGESTION = 2001;
+    public static final int RP_POIVALUELIST = 2002;
+    public static final int RP_PRECHECKDYNAMICPOICATEGORYRESPONSE = 2003;
 
-    default public void poiStartSelectionZoom(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void poiStartSelectionZoom(String var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void dynamicPoiStartSelectionZoom(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
-    }
+    public void dynamicPoiStartSelectionZoom(int var1, int var2, int var3, int var4, int var5, int var6, int var7);
 
-    default public void poiStartSelection(String string, int n, int n2, int n3, int n4) {
-    }
+    public void poiStartSelection(String var1, int var2, int var3, int var4, int var5);
 
-    default public void dynamicPoiStartSelection(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void dynamicPoiStartSelection(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void poiStopSelection() {
-    }
+    public void poiStopSelection();
 
-    default public void poiRequestValueList(int n, int n2) {
-    }
+    public void poiRequestValueList(int var1, int var2);
 
-    default public void poiStartVoiceSelection(int n, int n2, int n3, int n4, boolean bl, int n5) {
-    }
+    public void poiStartVoiceSelection(int var1, int var2, int var3, int var4, boolean var5, int var6);
 
-    default public void poiRawVoiceDataAvailable(String string, int n) {
-    }
+    public void poiRawVoiceDataAvailable(String var1, int var2);
 
-    default public void poiRequestSpellingSuggestion() {
-    }
+    public void poiRequestSpellingSuggestion();
 
-    default public void usedPoi(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, int n) {
-    }
+    public void usedPoi(PoiOnlineSearchValuelistElement var1, int var2);
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 
-    default public void setFallbackLanguage(String string) {
-    }
+    public void setFallbackLanguage(String var1);
 
-    default public void poiVoiceSearchActive() {
-    }
+    public void poiVoiceSearchActive();
 
-    default public void precheckDynamicPOICategory(int n) {
-    }
+    public void precheckDynamicPOICategory(int var1);
 }
 

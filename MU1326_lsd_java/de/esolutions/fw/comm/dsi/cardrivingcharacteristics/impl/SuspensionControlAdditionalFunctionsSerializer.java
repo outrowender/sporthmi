@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlAdditionalFunctions;
 
 public class SuspensionControlAdditionalFunctionsSerializer {
-    public static void putOptionalSuspensionControlAdditionalFunctions(ISerializer iSerializer, SuspensionControlAdditionalFunctions suspensionControlAdditionalFunctions) {
+    public static void putOptionalSuspensionControlAdditionalFunctions(ISerializer iSerializer, SuspensionControlAdditionalFunctions suspensionControlAdditionalFunctions) throws SerializerException {
         boolean bl = suspensionControlAdditionalFunctions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SuspensionControlAdditionalFunctionsSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlAdditionalFunctionsVarArray(ISerializer iSerializer, SuspensionControlAdditionalFunctions[] suspensionControlAdditionalFunctionsArray) {
+    public static void putOptionalSuspensionControlAdditionalFunctionsVarArray(ISerializer iSerializer, SuspensionControlAdditionalFunctions[] suspensionControlAdditionalFunctionsArray) throws SerializerException {
         boolean bl = suspensionControlAdditionalFunctionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SuspensionControlAdditionalFunctionsSerializer {
         }
     }
 
-    public static SuspensionControlAdditionalFunctions getOptionalSuspensionControlAdditionalFunctions(IDeserializer iDeserializer) {
+    public static SuspensionControlAdditionalFunctions getOptionalSuspensionControlAdditionalFunctions(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlAdditionalFunctions suspensionControlAdditionalFunctions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SuspensionControlAdditionalFunctionsSerializer {
         return suspensionControlAdditionalFunctions;
     }
 
-    public static SuspensionControlAdditionalFunctions[] getOptionalSuspensionControlAdditionalFunctionsVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlAdditionalFunctions[] getOptionalSuspensionControlAdditionalFunctionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlAdditionalFunctions[] suspensionControlAdditionalFunctionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

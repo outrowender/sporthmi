@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIMapViewerManeuverViewListener
 extends DSIListener {
-    default public void updateManoeuvreViewActive(int n, int n2) {
-    }
+    public void updateManoeuvreViewActive(int var1, int var2);
 
-    default public void updateManoeuvreViewsAvailable(short[] sArray, int n) {
-    }
+    public void updateManoeuvreViewsAvailable(short[] var1, int var2);
 
-    default public void updateBapExitViewId(int n, int n2) {
-    }
+    public void updateBapExitViewId(int var1, int var2);
 }
 

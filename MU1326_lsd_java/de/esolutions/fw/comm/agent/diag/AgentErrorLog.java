@@ -26,12 +26,10 @@ implements IAgentErrorLog {
         this.proxyErrors.add(proxyInfo);
     }
 
-    @Override
     public IInfoBase[] getProxyErrors() {
         return this.proxyErrors.getAllEntries();
     }
 
-    @Override
     public int getNumDroppedProxyErrors() {
         return this.proxyErrors.getNumDropped();
     }
@@ -40,12 +38,10 @@ implements IAgentErrorLog {
         this.clientErrors.add(clientInfo);
     }
 
-    @Override
     public IInfoBase[] getClientErrors() {
         return this.clientErrors.getAllEntries();
     }
 
-    @Override
     public int getNumDroppedClientErrors() {
         return this.clientErrors.getNumDropped();
     }
@@ -54,12 +50,10 @@ implements IAgentErrorLog {
         this.stubErrors.add(stubInfo);
     }
 
-    @Override
     public IInfoBase[] getStubErrors() {
         return this.stubErrors.getAllEntries();
     }
 
-    @Override
     public int getNumDroppedStubErrors() {
         return this.stubErrors.getNumDropped();
     }

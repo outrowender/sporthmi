@@ -7,13 +7,10 @@ import org.apache.commons.id.IdentifierGenerator;
 
 public interface LongIdentifierGenerator
 extends IdentifierGenerator {
-    default public Long nextLongIdentifier() {
-    }
+    public Long nextLongIdentifier();
 
-    default public long maxValue() {
-    }
+    public long maxValue();
 
-    default public long minValue() {
-    }
+    public long minValue();
 }
 

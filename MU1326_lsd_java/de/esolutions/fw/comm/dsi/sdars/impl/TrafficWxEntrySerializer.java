@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.TrafficWxEntry;
 
 public class TrafficWxEntrySerializer {
-    public static void putOptionalTrafficWxEntry(ISerializer iSerializer, TrafficWxEntry trafficWxEntry) {
+    public static void putOptionalTrafficWxEntry(ISerializer iSerializer, TrafficWxEntry trafficWxEntry) throws SerializerException {
         boolean bl = trafficWxEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class TrafficWxEntrySerializer {
         }
     }
 
-    public static void putOptionalTrafficWxEntryVarArray(ISerializer iSerializer, TrafficWxEntry[] trafficWxEntryArray) {
+    public static void putOptionalTrafficWxEntryVarArray(ISerializer iSerializer, TrafficWxEntry[] trafficWxEntryArray) throws SerializerException {
         boolean bl = trafficWxEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class TrafficWxEntrySerializer {
         }
     }
 
-    public static TrafficWxEntry getOptionalTrafficWxEntry(IDeserializer iDeserializer) {
+    public static TrafficWxEntry getOptionalTrafficWxEntry(IDeserializer iDeserializer) throws SerializerException {
         TrafficWxEntry trafficWxEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class TrafficWxEntrySerializer {
         return trafficWxEntry;
     }
 
-    public static TrafficWxEntry[] getOptionalTrafficWxEntryVarArray(IDeserializer iDeserializer) {
+    public static TrafficWxEntry[] getOptionalTrafficWxEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficWxEntry[] trafficWxEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -25,13 +25,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.configurationOptions.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         InstrumentClusterFunctions_Status instrumentClusterFunctions_Status = (InstrumentClusterFunctions_Status)bAPEntity;
         return this.configurationOptions.equalTo(instrumentClusterFunctions_Status.configurationOptions);
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("InstrumentClusterFunctions_Status:");
@@ -49,18 +46,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.configurationOptions.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.configurationOptions.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.configurationOptions.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements StatusProperty {
         return 16;
     }
 
-    @Override
     public int getFunctionId() {
         return InstrumentClusterFunctions_Status.functionId();
     }

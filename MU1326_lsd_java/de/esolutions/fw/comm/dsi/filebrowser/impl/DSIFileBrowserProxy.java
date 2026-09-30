@@ -10,13 +10,13 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.filebrowser.DSIFileBrowser;
 import de.esolutions.fw.comm.dsi.filebrowser.DSIFileBrowserC;
 import de.esolutions.fw.comm.dsi.filebrowser.DSIFileBrowserReply;
-import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserProxy$1;
-import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserProxy$2;
-import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserProxy$3;
-import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserProxy$4;
-import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserProxy$5;
-import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserProxy$6;
+import de.esolutions.fw.comm.dsi.filebrowser.impl.BrowsedFileSerializer;
+import de.esolutions.fw.comm.dsi.filebrowser.impl.BrowsedFileSetSerializer;
 import de.esolutions.fw.comm.dsi.filebrowser.impl.DSIFileBrowserReplyService;
+import de.esolutions.fw.comm.dsi.filebrowser.impl.PathSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.filebrowser.BrowsedFile;
@@ -40,14 +40,17 @@ DSIFileBrowserC {
         return this.proxy;
     }
 
-    @Override
-    public void start(Path path) {
-        DSIFileBrowserProxy$1 dSIFileBrowserProxy$1 = new DSIFileBrowserProxy$1(this, path);
-        this.proxy.remoteCallMethod((short)19, dSIFileBrowserProxy$1);
+    public void start(final Path path) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PathSerializer.putOptionalPath(iSerializer, path);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void setFileExtensionFilter(int n, String[] stringArray) {
+    public void setFileExtensionFilter(int n, String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -59,8 +62,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setFileTypeFilter(int n, int n2) {
+    public void setFileTypeFilter(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -72,8 +74,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void stop(int n) {
+    public void stop(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -84,8 +85,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void getViewWindow(int n, int n2, int n3) {
+    public void getViewWindow(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -98,8 +98,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void getViewWindowWithPreviews(int n, int n2, int n3) {
+    public void getViewWindowWithPreviews(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -112,14 +111,20 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)52, genericSerializable);
     }
 
-    @Override
-    public void getViewWindowFromFile(int n, int n2, BrowsedFile browsedFile, int n3) {
-        DSIFileBrowserProxy$2 dSIFileBrowserProxy$2 = new DSIFileBrowserProxy$2(this, n, n2, browsedFile, n3);
-        this.proxy.remoteCallMethod((short)26, dSIFileBrowserProxy$2);
+    public void getViewWindowFromFile(final int n, final int n2, final BrowsedFile browsedFile, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                BrowsedFileSerializer.putOptionalBrowsedFile(iSerializer, browsedFile);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void getResourceLocatorWindow(int n, int n2, int n3) {
+    public void getResourceLocatorWindow(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -132,8 +137,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void getSelectedFiles(int n) {
+    public void getSelectedFiles(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -144,14 +148,18 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void getResourceLocators(int n, BrowsedFileSet browsedFileSet) {
-        DSIFileBrowserProxy$3 dSIFileBrowserProxy$3 = new DSIFileBrowserProxy$3(this, n, browsedFileSet);
-        this.proxy.remoteCallMethod((short)7, dSIFileBrowserProxy$3);
+    public void getResourceLocators(final int n, final BrowsedFileSet browsedFileSet) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                BrowsedFileSetSerializer.putOptionalBrowsedFileSet(iSerializer, browsedFileSet);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void getFileCount(int n) {
+    public void getFileCount(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -162,8 +170,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void getFileCountWithFileTypeFilter(int n, int n2) {
+    public void getFileCountWithFileTypeFilter(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -175,14 +182,19 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setSelectionSingle(int n, BrowsedFile browsedFile, boolean bl) {
-        DSIFileBrowserProxy$4 dSIFileBrowserProxy$4 = new DSIFileBrowserProxy$4(this, n, browsedFile, bl);
-        this.proxy.remoteCallMethod((short)18, dSIFileBrowserProxy$4);
+    public void setSelectionSingle(final int n, final BrowsedFile browsedFile, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                BrowsedFileSerializer.putOptionalBrowsedFile(iSerializer, browsedFile);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void setSelection(int n, int n2) {
+    public void setSelection(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -194,14 +206,18 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void changeFolder(int n, Path path) {
-        DSIFileBrowserProxy$5 dSIFileBrowserProxy$5 = new DSIFileBrowserProxy$5(this, n, path);
-        this.proxy.remoteCallMethod((short)1, dSIFileBrowserProxy$5);
+    public void changeFolder(final int n, final Path path) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                PathSerializer.putOptionalPath(iSerializer, path);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -212,8 +228,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void startSpeller(int n, int n2) {
+    public void startSpeller(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -225,8 +240,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void addSpellerChars(int n, String string) {
+    public void addSpellerChars(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -238,8 +252,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)0, genericSerializable);
     }
 
-    @Override
-    public void removeSpellerChar(int n) {
+    public void removeSpellerChar(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -250,8 +263,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void stopSpeller(int n) {
+    public void stopSpeller(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -262,8 +274,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setFileTypeActive(boolean bl) {
+    public void setFileTypeActive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -274,8 +285,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void validateSpellerChars(int n, String string) {
+    public void validateSpellerChars(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -287,24 +297,27 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void deleteAllPreviewFiles() {
+    public void deleteAllPreviewFiles() throws MethodException {
         this.proxy.remoteCallMethod((short)51, null);
     }
 
-    @Override
-    public void createPreviewImage(ResourceLocator resourceLocator, int n, int n2) {
-        DSIFileBrowserProxy$6 dSIFileBrowserProxy$6 = new DSIFileBrowserProxy$6(this, resourceLocator, n, n2);
-        this.proxy.remoteCallMethod((short)49, dSIFileBrowserProxy$6);
+    public void createPreviewImage(final ResourceLocator resourceLocator, final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)49, iSerializable);
     }
 
-    @Override
-    public void cancelPreviewCreation() {
+    public void cancelPreviewCreation() throws MethodException {
         this.proxy.remoteCallMethod((short)47, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -315,8 +328,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -327,13 +339,11 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -344,8 +354,7 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -356,13 +365,11 @@ DSIFileBrowserC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

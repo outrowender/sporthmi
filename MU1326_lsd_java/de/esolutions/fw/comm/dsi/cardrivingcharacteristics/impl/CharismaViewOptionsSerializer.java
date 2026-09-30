@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.CharismaConfigur
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class CharismaViewOptionsSerializer {
-    public static void putOptionalCharismaViewOptions(ISerializer iSerializer, CharismaViewOptions charismaViewOptions) {
+    public static void putOptionalCharismaViewOptions(ISerializer iSerializer, CharismaViewOptions charismaViewOptions) throws SerializerException {
         boolean bl = charismaViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -71,7 +72,7 @@ public class CharismaViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalCharismaViewOptionsVarArray(ISerializer iSerializer, CharismaViewOptions[] charismaViewOptionsArray) {
+    public static void putOptionalCharismaViewOptionsVarArray(ISerializer iSerializer, CharismaViewOptions[] charismaViewOptionsArray) throws SerializerException {
         boolean bl = charismaViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -82,7 +83,7 @@ public class CharismaViewOptionsSerializer {
         }
     }
 
-    public static CharismaViewOptions getOptionalCharismaViewOptions(IDeserializer iDeserializer) {
+    public static CharismaViewOptions getOptionalCharismaViewOptions(IDeserializer iDeserializer) throws SerializerException {
         CharismaViewOptions charismaViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -143,7 +144,7 @@ public class CharismaViewOptionsSerializer {
         return charismaViewOptions;
     }
 
-    public static CharismaViewOptions[] getOptionalCharismaViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static CharismaViewOptions[] getOptionalCharismaViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaViewOptions[] charismaViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -7,56 +7,46 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAdbList
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_STARTSPELLER;
-    public static final int RT_STOPSPELLER;
-    public static final int RT_ADDSPELLERCHARS;
-    public static final int RT_REMOVESPELLERCHAR;
-    public static final int RT_GETVIEWWINDOW;
-    public static final int RT_VALIDATESPELLERCHARS;
-    public static final int RT_SETLISTSTYLE;
-    public static final int RT_GETSPELLERVIEWWINDOW;
-    public static final int RT_GETVALIDHANZICHARSWINDOW;
-    public static final int RT_ADDSPELLERSTROKE;
-    public static final int ATTR_VIEWSIZE;
-    public static final int ATTR_ALPHABETICALINDEX;
-    public static final int RP_STOPSPELLERRESULT;
-    public static final int RP_SPELLERRESULT;
-    public static final int RP_GETVIEWWINDOWRESULT;
-    public static final int RP_VALIDATESPELLERCHARSRESULT;
-    public static final int RP_SETLISTSTYLERESULT;
-    public static final int RP_GETSPELLERVIEWWINDOWRESULT;
-    public static final int RP_GETVALIDHANZICHARSWINDOWRESULT;
-    public static final int IN_INVALIDDATA;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_STARTSPELLER = 1000;
+    public static final int RT_STOPSPELLER = 1001;
+    public static final int RT_ADDSPELLERCHARS = 1002;
+    public static final int RT_REMOVESPELLERCHAR = 1003;
+    public static final int RT_GETVIEWWINDOW = 1004;
+    public static final int RT_VALIDATESPELLERCHARS = 1005;
+    public static final int RT_SETLISTSTYLE = 1006;
+    public static final int RT_GETSPELLERVIEWWINDOW = 1007;
+    public static final int RT_GETVALIDHANZICHARSWINDOW = 1008;
+    public static final int RT_ADDSPELLERSTROKE = 1009;
+    public static final int ATTR_VIEWSIZE = 1;
+    public static final int ATTR_ALPHABETICALINDEX = 2;
+    public static final int RP_STOPSPELLERRESULT = 2001;
+    public static final int RP_SPELLERRESULT = 2002;
+    public static final int RP_GETVIEWWINDOWRESULT = 2003;
+    public static final int RP_VALIDATESPELLERCHARSRESULT = 2004;
+    public static final int RP_SETLISTSTYLERESULT = 2005;
+    public static final int RP_GETSPELLERVIEWWINDOWRESULT = 2006;
+    public static final int RP_GETVALIDHANZICHARSWINDOWRESULT = 2008;
+    public static final int IN_INVALIDDATA = 3000;
 
-    default public void startSpeller(int n, int n2, int n3) {
-    }
+    public void startSpeller(int var1, int var2, int var3);
 
-    default public void stopSpeller(int n) {
-    }
+    public void stopSpeller(int var1);
 
-    default public void addSpellerChars(int n, String string) {
-    }
+    public void addSpellerChars(int var1, String var2);
 
-    default public void addSpellerStroke(int n, String string) {
-    }
+    public void addSpellerStroke(int var1, String var2);
 
-    default public void removeSpellerChar(int n) {
-    }
+    public void removeSpellerChar(int var1);
 
-    default public void validateSpellerChars(int n, String string) {
-    }
+    public void validateSpellerChars(int var1, String var2);
 
-    default public void getViewWindow(long l, int n, int n2, int n3) {
-    }
+    public void getViewWindow(long var1, int var3, int var4, int var5);
 
-    default public void getSpellerViewWindow(int n, long l, int n2, int n3, int n4) {
-    }
+    public void getSpellerViewWindow(int var1, long var2, int var4, int var5, int var6);
 
-    default public void getValidHanziCharsWindow(int n, int n2, int n3) {
-    }
+    public void getValidHanziCharsWindow(int var1, int var2, int var3);
 
-    default public void setListStyle(int n, int n2, int n3) {
-    }
+    public void setListStyle(int var1, int var2, int var3);
 }
 

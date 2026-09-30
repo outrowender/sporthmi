@@ -7,22 +7,16 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIBAPListener
 extends DSIListener {
-    default public void bapStateStatus(int n, int n2) {
-    }
+    public void bapStateStatus(int var1, int var2);
 
-    default public void indication(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void indication(int var1, int var2, int var3, int var4, int var5);
 
-    default public void indicationVoid(int n, int n2, int n3) {
-    }
+    public void indicationVoid(int var1, int var2, int var3);
 
-    default public void indicationByteSequence(int n, int n2, int n3, byte[] byArray) {
-    }
+    public void indicationByteSequence(int var1, int var2, int var3, byte[] var4);
 
-    default public void indicationError(int n, int n2, int n3) {
-    }
+    public void indicationError(int var1, int var2, int var3);
 
-    default public void acknowledge(int n, int n2, int n3) {
-    }
+    public void acknowledge(int var1, int var2, int var3);
 }
 

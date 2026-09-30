@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.Capabilities;
 
 public class CapabilitiesSerializer {
-    public static void putOptionalCapabilities(ISerializer iSerializer, Capabilities capabilities) {
+    public static void putOptionalCapabilities(ISerializer iSerializer, Capabilities capabilities) throws SerializerException {
         boolean bl = capabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -63,7 +64,7 @@ public class CapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalCapabilitiesVarArray(ISerializer iSerializer, Capabilities[] capabilitiesArray) {
+    public static void putOptionalCapabilitiesVarArray(ISerializer iSerializer, Capabilities[] capabilitiesArray) throws SerializerException {
         boolean bl = capabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -74,7 +75,7 @@ public class CapabilitiesSerializer {
         }
     }
 
-    public static Capabilities getOptionalCapabilities(IDeserializer iDeserializer) {
+    public static Capabilities getOptionalCapabilities(IDeserializer iDeserializer) throws SerializerException {
         Capabilities capabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -131,7 +132,7 @@ public class CapabilitiesSerializer {
         return capabilities;
     }
 
-    public static Capabilities[] getOptionalCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static Capabilities[] getOptionalCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         Capabilities[] capabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

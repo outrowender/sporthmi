@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tollcollect.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tollcollect.TCPaymentInfoDetails;
 
 public class TCPaymentInfoDetailsSerializer {
-    public static void putOptionalTCPaymentInfoDetails(ISerializer iSerializer, TCPaymentInfoDetails tCPaymentInfoDetails) {
+    public static void putOptionalTCPaymentInfoDetails(ISerializer iSerializer, TCPaymentInfoDetails tCPaymentInfoDetails) throws SerializerException {
         boolean bl = tCPaymentInfoDetails == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class TCPaymentInfoDetailsSerializer {
         }
     }
 
-    public static void putOptionalTCPaymentInfoDetailsVarArray(ISerializer iSerializer, TCPaymentInfoDetails[] tCPaymentInfoDetailsArray) {
+    public static void putOptionalTCPaymentInfoDetailsVarArray(ISerializer iSerializer, TCPaymentInfoDetails[] tCPaymentInfoDetailsArray) throws SerializerException {
         boolean bl = tCPaymentInfoDetailsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class TCPaymentInfoDetailsSerializer {
         }
     }
 
-    public static TCPaymentInfoDetails getOptionalTCPaymentInfoDetails(IDeserializer iDeserializer) {
+    public static TCPaymentInfoDetails getOptionalTCPaymentInfoDetails(IDeserializer iDeserializer) throws SerializerException {
         TCPaymentInfoDetails tCPaymentInfoDetails = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class TCPaymentInfoDetailsSerializer {
         return tCPaymentInfoDetails;
     }
 
-    public static TCPaymentInfoDetails[] getOptionalTCPaymentInfoDetailsVarArray(IDeserializer iDeserializer) {
+    public static TCPaymentInfoDetails[] getOptionalTCPaymentInfoDetailsVarArray(IDeserializer iDeserializer) throws SerializerException {
         TCPaymentInfoDetails[] tCPaymentInfoDetailsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

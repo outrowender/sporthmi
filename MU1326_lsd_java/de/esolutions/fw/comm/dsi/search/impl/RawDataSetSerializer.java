@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.RawDataSet;
 
 public class RawDataSetSerializer {
-    public static void putOptionalRawDataSet(ISerializer iSerializer, RawDataSet rawDataSet) {
+    public static void putOptionalRawDataSet(ISerializer iSerializer, RawDataSet rawDataSet) throws SerializerException {
         boolean bl = rawDataSet == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class RawDataSetSerializer {
         }
     }
 
-    public static void putOptionalRawDataSetVarArray(ISerializer iSerializer, RawDataSet[] rawDataSetArray) {
+    public static void putOptionalRawDataSetVarArray(ISerializer iSerializer, RawDataSet[] rawDataSetArray) throws SerializerException {
         boolean bl = rawDataSetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class RawDataSetSerializer {
         }
     }
 
-    public static RawDataSet getOptionalRawDataSet(IDeserializer iDeserializer) {
+    public static RawDataSet getOptionalRawDataSet(IDeserializer iDeserializer) throws SerializerException {
         RawDataSet rawDataSet = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class RawDataSetSerializer {
         return rawDataSet;
     }
 
-    public static RawDataSet[] getOptionalRawDataSetVarArray(IDeserializer iDeserializer) {
+    public static RawDataSet[] getOptionalRawDataSetVarArray(IDeserializer iDeserializer) throws SerializerException {
         RawDataSet[] rawDataSetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

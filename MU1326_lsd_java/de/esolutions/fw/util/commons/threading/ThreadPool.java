@@ -3,9 +3,6 @@
  */
 package de.esolutions.fw.util.commons.threading;
 
-import de.esolutions.fw.util.commons.threading.ThreadPool$DefaultRunnable;
-import de.esolutions.fw.util.commons.threading.ThreadPool$JobListElement;
-import de.esolutions.fw.util.commons.threading.ThreadPool$PriorizedRunnable;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.fw.util.commons.timeout.SystemTimeSource;
 import java.io.PrintStream;
@@ -13,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThreadPool {
-    private static final String DEFAULT_NAME;
-    private static final int MAX_THREADS_DEFAULT;
-    private static final int MIN_THREADS_DEFAULT;
-    private static final int JOBQUEUE_SIZE_DEFAULT;
-    private static final long LATENCY_DEFAULT;
-    private static final long MAX_WAIT_TIME_WARNING;
-    private static final boolean DEBUG;
-    private static ThreadPool defaultPool;
+    private static final String DEFAULT_NAME = "Default";
+    private static final int MAX_THREADS_DEFAULT = 12;
+    private static final int MIN_THREADS_DEFAULT = 0;
+    private static final int JOBQUEUE_SIZE_DEFAULT = 10;
+    private static final long LATENCY_DEFAULT = 60000L;
+    private static final long MAX_WAIT_TIME_WARNING = 10000L;
+    private static final boolean DEBUG = Boolean.getBoolean("ipl.commons.threadpool.debug");
+    private static ThreadPool defaultPool = null;
     final ITimeSource timeSource;
     private final String name;
     private final int defPriority;
@@ -28,7 +25,7 @@ public class ThreadPool {
     private int min;
     private long latency;
     private int jobQueueSize = 1024;
-    private long maxWaitTime = 0;
+    private long maxWaitTime = 10000L;
     private final List jobs;
     private int nthreads;
     private int nidle;
@@ -45,7 +42,7 @@ public class ThreadPool {
 
     public static final synchronized ThreadPool getDefault() {
         if (defaultPool == null) {
-            defaultPool = new ThreadPool("Default", new SystemTimeSource());
+            defaultPool = new ThreadPool(DEFAULT_NAME, new SystemTimeSource());
         }
         return defaultPool;
     }
@@ -64,7 +61,7 @@ public class ThreadPool {
     }
 
     public ThreadPool(String string, ITimeSource iTimeSource, int n, int n2, int n3, int n4, long l) {
-        this(string, iTimeSource, n, n2, n3, n4, l, 0);
+        this(string, iTimeSource, n, n2, n3, n4, l, 10000L);
     }
 
     public ThreadPool(String string, ITimeSource iTimeSource, int n, int n2, int n3, int n4, long l, long l2) {
@@ -82,7 +79,7 @@ public class ThreadPool {
     }
 
     public ThreadPool(String string, ITimeSource iTimeSource) {
-        this(string, iTimeSource, 5, 12, 0, 10, 0, 0);
+        this(string, iTimeSource, 5, 12, 0, 10, 60000L, 10000L);
     }
 
     public String toString() {
@@ -114,7 +111,7 @@ public class ThreadPool {
     }
 
     public final synchronized void adjust(int n, int n2, long l, long l2) {
-        if (n2 < 0 || n < 1 || n < n2 || l < 0 || l2 < 0) {
+        if (n2 < 0 || n < 1 || n < n2 || l < 100L || l2 < 100L) {
             throw new IllegalArgumentException(new StringBuffer().append("Min: ").append(n2).append(" Max: ").append(n).append(" Latency: ").append(l).append(" MaxWaitTime: ").append(l2).toString());
         }
         this.max = n;
@@ -125,10 +122,10 @@ public class ThreadPool {
 
     final synchronized boolean check_waiting() {
         if (!this.jobs.isEmpty()) {
-            ThreadPool$JobListElement threadPool$JobListElement = (ThreadPool$JobListElement)this.jobs.get(0);
-            long l = this.timeSource.getCurrentTime() - threadPool$JobListElement.insertTime;
+            JobListElement jobListElement = (JobListElement)this.jobs.get(0);
+            long l = this.timeSource.getCurrentTime() - jobListElement.insertTime;
             if (l > this.getMaxWaitTime()) {
-                this.printDelayWarning(threadPool$JobListElement.job, l, " queued since ");
+                this.printDelayWarning(jobListElement.job, l, " queued since ");
             }
         }
         return true;
@@ -142,8 +139,8 @@ public class ThreadPool {
         if (this.nidle <= this.jobs.size() && this.nthreads < this.max) {
             this.startThread(runnable, this.defPriority);
         } else {
-            this.jobs.add(new ThreadPool$JobListElement(runnable, this.timeSource.getCurrentTime()));
-            super.notifyAll();
+            this.jobs.add(new JobListElement(runnable, this.timeSource.getCurrentTime()));
+            this.notifyAll();
             int n = this.jobs.size();
             if (n > this.jobQueueSize) {
                 ThreadPool.warn(new StringBuffer().append("Job list overflow: ").append(n).toString());
@@ -155,7 +152,7 @@ public class ThreadPool {
     }
 
     public synchronized void execute(Runnable runnable, int n) {
-        this.execute(new ThreadPool$PriorizedRunnable(runnable, n, null));
+        this.execute(new PriorizedRunnable(runnable, n));
     }
 
     private synchronized void nrThreads(int n) {
@@ -178,17 +175,17 @@ public class ThreadPool {
 
     private synchronized Runnable getNextJob() {
         if (!this.jobs.isEmpty()) {
-            ThreadPool$JobListElement threadPool$JobListElement = (ThreadPool$JobListElement)this.jobs.remove(0);
-            long l = this.timeSource.getCurrentTime() - threadPool$JobListElement.insertTime;
+            JobListElement jobListElement = (JobListElement)this.jobs.remove(0);
+            long l = this.timeSource.getCurrentTime() - jobListElement.insertTime;
             if (l > this.statisticsMaxWaitTime) {
                 this.statisticsMaxWaitTime = l;
             }
             if (l > this.getMaxWaitTime()) {
-                this.printDelayWarning(threadPool$JobListElement.job, l, " started after waiting ");
+                this.printDelayWarning(jobListElement.job, l, " started after waiting ");
             }
             this.statisticsTotalWaitTime += l;
             ++this.statisticsTotalWaitCount;
-            return threadPool$JobListElement.job;
+            return jobListElement.job;
         }
         return null;
     }
@@ -197,8 +194,8 @@ public class ThreadPool {
         if (DEBUG) {
             ThreadPool.debug(new StringBuffer().append("Start thread: pool=").append(this).toString());
         }
-        ThreadPool$DefaultRunnable threadPool$DefaultRunnable = new ThreadPool$DefaultRunnable(this, runnable, n, this.nCreated++);
-        new Thread(null, threadPool$DefaultRunnable, threadPool$DefaultRunnable.getBaseThreadName()).start();
+        DefaultRunnable defaultRunnable = new DefaultRunnable(this, runnable, n, this.nCreated++);
+        new Thread(null, defaultRunnable, defaultRunnable.getBaseThreadName()).start();
         this.nrThreads(1);
     }
 
@@ -212,8 +209,8 @@ public class ThreadPool {
         ThreadPool threadPool = this;
         synchronized (threadPool) {
             if (!this.jobs.isEmpty()) {
-                ThreadPool$JobListElement threadPool$JobListElement = (ThreadPool$JobListElement)this.jobs.get(0);
-                l3 = this.timeSource.getCurrentTime() - threadPool$JobListElement.insertTime;
+                JobListElement jobListElement = (JobListElement)this.jobs.get(0);
+                l3 = this.timeSource.getCurrentTime() - jobListElement.insertTime;
             }
         }
         printStream.println(new StringBuffer().append("[ ThreadPool: ").append(this.name).append(" ]").toString());
@@ -236,10 +233,6 @@ public class ThreadPool {
         System.out.println(new StringBuffer().append("WARNING!!! Element ").append(object).append(string).append(l).append(" ms!").toString());
         this.dump(System.out);
         System.out.println("====================================================================");
-    }
-
-    static /* synthetic */ String access$100(ThreadPool threadPool) {
-        return threadPool.name;
     }
 
     static /* synthetic */ boolean access$200() {
@@ -283,9 +276,95 @@ public class ThreadPool {
         threadPool.nrThreads(n);
     }
 
-    static {
-        DEBUG = Boolean.getBoolean("ipl.commons.threadpool.debug");
-        defaultPool = null;
+    private static class JobListElement {
+        Runnable job;
+        long insertTime;
+
+        JobListElement(Runnable runnable, long l) {
+            this.job = runnable;
+            this.insertTime = l;
+        }
+    }
+
+    private static class DefaultRunnable
+    implements Runnable {
+        private final ThreadPool pool;
+        private Runnable job;
+        private int priority;
+        private final int nr;
+
+        DefaultRunnable(ThreadPool threadPool, Runnable runnable, int n, int n2) {
+            this.pool = threadPool;
+            this.job = runnable;
+            this.priority = n;
+            this.nr = n2;
+        }
+
+        String getBaseThreadName() {
+            return "fw[" + this.pool.name + ':' + this.nr + ']';
+        }
+
+        private void changeThreadName(Thread thread, boolean bl) {
+            String string = "(idle)";
+            if (bl) {
+                thread.setName(this.getBaseThreadName() + string);
+            } else {
+                thread.setName(this.getBaseThreadName());
+            }
+        }
+
+        /*
+         * Exception decompiling
+         */
+        public void run() {
+            /*
+             * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
+             * 
+             * org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [7[TRYBLOCK]], but top level block is 28[WHILELOOP]
+             *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.processEndingBlocks(Op04StructuredStatement.java:435)
+             *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.buildNestedBlocks(Op04StructuredStatement.java:484)
+             *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op03SimpleStatement.createInitialStructuredBlock(Op03SimpleStatement.java:736)
+             *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisInner(CodeAnalyser.java:850)
+             *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisOrWrapFail(CodeAnalyser.java:278)
+             *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysis(CodeAnalyser.java:201)
+             *     at org.benf.cfr.reader.entities.attributes.AttributeCode.analyse(AttributeCode.java:94)
+             *     at org.benf.cfr.reader.entities.Method.analyse(Method.java:531)
+             *     at org.benf.cfr.reader.entities.ClassFile.analyseMid(ClassFile.java:1055)
+             *     at org.benf.cfr.reader.entities.ClassFile.analyseInnerClassesPass1(ClassFile.java:923)
+             *     at org.benf.cfr.reader.entities.ClassFile.analyseMid(ClassFile.java:1035)
+             *     at org.benf.cfr.reader.entities.ClassFile.analyseTop(ClassFile.java:942)
+             *     at org.benf.cfr.reader.Driver.doJarVersionTypes(Driver.java:257)
+             *     at org.benf.cfr.reader.Driver.doJar(Driver.java:139)
+             *     at org.benf.cfr.reader.CfrDriverImpl.analyse(CfrDriverImpl.java:76)
+             *     at org.benf.cfr.reader.Main.main(Main.java:54)
+             */
+            throw new IllegalStateException("Decompilation failed");
+        }
+    }
+
+    private static class PriorizedRunnable
+    implements Runnable {
+        private final Runnable job;
+        private final int priority;
+
+        private PriorizedRunnable(Runnable runnable, int n) {
+            this.job = runnable;
+            this.priority = n;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            int n = Thread.currentThread().getPriority();
+            Thread.currentThread().setPriority(this.priority);
+            try {
+                this.job.run();
+            }
+            finally {
+                Thread.currentThread().setPriority(n);
+            }
+        }
     }
 }
 

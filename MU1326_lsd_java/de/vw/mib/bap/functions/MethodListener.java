@@ -9,7 +9,6 @@ import de.vw.mib.bap.functions.Method;
 
 public interface MethodListener
 extends BAPFunctionListener {
-    default public void result(BAPEntity bAPEntity, Method method) {
-    }
+    public void result(BAPEntity var1, Method var2);
 }
 

@@ -20,7 +20,6 @@ extends AbstractPRPRule {
         this.filteredCharacter = c2;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (list == null || list.isEmpty()) {
             return;
@@ -38,7 +37,7 @@ extends AbstractPRPRule {
 
     private static int searchResultWithHighestConfidence(List list) {
         int n = -1;
-        int n2 = 128;
+        int n2 = Integer.MIN_VALUE;
         int n3 = list.size();
         for (int i2 = 0; i2 < n3; ++i2) {
             int n4 = ((RecognizerResult)list.get(i2)).getConfidence();
@@ -70,7 +69,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return this.ruleName;
     }

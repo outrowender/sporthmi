@@ -8,9 +8,9 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ASG_Capabilities_PresentationCapabilities
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__3_BITSIZE;
+    private static final int RESERVED_BIT_1__3_BITSIZE = 3;
     public boolean __5DSymbolPresentation;
-    private static final int ASG_CAPABILITIES_PRESENTATION_CAPABILITIES_BITSIZE;
+    private static final int ASG_CAPABILITIES_PRESENTATION_CAPABILITIES_BITSIZE = 4;
 
     public ASG_Capabilities_PresentationCapabilities() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements BAPEntity {
         this.__5DSymbolPresentation = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ASG_Capabilities_PresentationCapabilities aSG_Capabilities_PresentationCapabilities = (ASG_Capabilities_PresentationCapabilities)bAPEntity;
         return this.__5DSymbolPresentation == aSG_Capabilities_PresentationCapabilities.__5DSymbolPresentation;
@@ -40,7 +38,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ASG_Capabilities_PresentationCapabilities:");
@@ -53,19 +50,16 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 4;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(3);
         bitStream.pushBoolean(this.__5DSymbolPresentation);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(3);
         this.__5DSymbolPresentation = bitStream.popFrontBoolean();

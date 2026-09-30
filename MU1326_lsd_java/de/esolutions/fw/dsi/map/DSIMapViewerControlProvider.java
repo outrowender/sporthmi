@@ -34,28 +34,23 @@ implements DSIMapViewerControl {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$map$DSIMapViewerControl == null ? (class$org$dsi$ifc$map$DSIMapViewerControl = DSIMapViewerControlProvider.class$("org.dsi.ifc.map.DSIMapViewerControl")) : class$org$dsi$ifc$map$DSIMapViewerControl).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMapViewerControlProxy(this.instance, (DSIMapViewerControlReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void configureFlags(int n, MapFlag[] mapFlagArray) {
         try {
             this.proxy.configureFlags(n, mapFlagArray);
@@ -65,7 +60,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void dragMap(short s, short s2) {
         try {
             this.proxy.dragMap(s, s2);
@@ -75,7 +69,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void ensureTMCVisibility(long l) {
         try {
             this.proxy.ensureTMCVisibility(l);
@@ -85,7 +78,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void getInfoForPosition() {
         try {
             this.proxy.getInfoForPosition();
@@ -95,7 +87,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void getInfoForScreenPosition(Point point) {
         try {
             this.proxy.getInfoForScreenPosition(point);
@@ -105,7 +96,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void getNumberOfPOIs() {
         try {
             this.proxy.getNumberOfPOIs();
@@ -115,7 +105,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void goToTMCMessage(long l) {
         try {
             this.proxy.goToTMCMessage(l);
@@ -125,7 +114,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void packPOIContainer() {
         try {
             this.proxy.packPOIContainer();
@@ -135,7 +123,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void rbSelectAlternativeRoute(int n) {
         try {
             this.proxy.rbSelectAlternativeRoute(n);
@@ -145,7 +132,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void rbSelectNextSegment() {
         try {
             this.proxy.rbSelectNextSegment();
@@ -155,7 +141,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void rbSelectPreviousSegment() {
         try {
             this.proxy.rbSelectPreviousSegment();
@@ -165,7 +150,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void rbSetPosition(int n) {
         try {
             this.proxy.rbSetPosition(n);
@@ -175,7 +159,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void scrollToDirection(short s, int n, short s2) {
         try {
             this.proxy.scrollToDirection(s, n, s2);
@@ -185,7 +168,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void selectNextPOI() {
         try {
             this.proxy.selectNextPOI();
@@ -195,7 +177,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void selectPrevPOI() {
         try {
             this.proxy.selectPrevPOI();
@@ -205,7 +186,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void set3DLandmarksVisible(boolean bl) {
         try {
             this.proxy.set3DLandmarksVisible(bl);
@@ -215,7 +195,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setCarPosition(Point point) {
         try {
             this.proxy.setCarPosition(point);
@@ -225,7 +204,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setDayView() {
         try {
             this.proxy.setDayView();
@@ -235,7 +213,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setEnableRouteCalcMode(boolean bl) {
         try {
             this.proxy.setEnableRouteCalcMode(bl);
@@ -245,7 +222,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setEnableSoftJump(boolean bl) {
         try {
             this.proxy.setEnableSoftJump(bl);
@@ -255,7 +231,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setEnableSoftRotation(boolean bl) {
         try {
             this.proxy.setEnableSoftRotation(bl);
@@ -265,7 +240,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setEnableSoftTilt(boolean bl) {
         try {
             this.proxy.setEnableSoftTilt(bl);
@@ -275,7 +249,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setEnableSoftZoom(boolean bl) {
         try {
             this.proxy.setEnableSoftZoom(bl);
@@ -285,7 +258,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setHotPoint(Point point) {
         try {
             this.proxy.setHotPoint(point);
@@ -295,7 +267,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setLocation(int n, short s) {
         try {
             this.proxy.setLocation(n, s);
@@ -305,7 +276,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setLocationByLocation(NavLocation navLocation) {
         try {
             this.proxy.setLocationByLocation(navLocation);
@@ -315,7 +285,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setLocationByLocationAndView(NavLocation navLocation, short s, int n) {
         try {
             this.proxy.setLocationByLocationAndView(navLocation, s, n);
@@ -325,7 +294,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapPosition(NavLocationWgs84 navLocationWgs84) {
         try {
             this.proxy.setMapPosition(navLocationWgs84);
@@ -335,7 +303,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapViewPort(NavLocationWgs84 navLocationWgs84, short s, int n) {
         try {
             this.proxy.setMapViewPort(navLocationWgs84, s, n);
@@ -345,7 +312,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapViewPortByLD(NavLocation navLocation, NavLocation navLocation2, int n) {
         try {
             this.proxy.setMapViewPortByLD(navLocation, navLocation2, n);
@@ -355,7 +321,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMode(int n) {
         try {
             this.proxy.setMode(n);
@@ -365,7 +330,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setNightView() {
         try {
             this.proxy.setNightView();
@@ -375,7 +339,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setOrientation(int n, Point point) {
         try {
             this.proxy.setOrientation(n, point);
@@ -385,7 +348,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setRotation(short s) {
         try {
             this.proxy.setRotation(s);
@@ -395,7 +357,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setViewType(int n) {
         try {
             this.proxy.setViewType(n);
@@ -405,7 +366,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setZoomArea(Rect rect) {
         try {
             this.proxy.setZoomArea(rect);
@@ -415,7 +375,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setZoomLevel(float f2, int n) {
         try {
             this.proxy.setZoomLevel(f2, n);
@@ -425,7 +384,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setCountryOverviewCountry(String string) {
         try {
             this.proxy.setCountryOverviewCountry(string);
@@ -435,7 +393,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void showTMCMessages(boolean bl) {
         try {
             this.proxy.showTMCMessages(bl);
@@ -445,7 +402,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void startScrollToDirection(int n) {
         try {
             this.proxy.startScrollToDirection(n);
@@ -455,7 +411,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void stopScrollToDirection() {
         try {
             this.proxy.stopScrollToDirection();
@@ -465,7 +420,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void unpackPOIContainer(long l) {
         try {
             this.proxy.unpackPOIContainer(l);
@@ -475,7 +429,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void viewFreeze(boolean bl) {
         try {
             this.proxy.viewFreeze(bl);
@@ -485,7 +438,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void viewSetScreenViewport(Rect rect) {
         try {
             this.proxy.viewSetScreenViewport(rect);
@@ -495,7 +447,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void viewSetScreenViewportMaximum(Rect rect) {
         try {
             this.proxy.viewSetScreenViewportMaximum(rect);
@@ -505,7 +456,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void viewSetVisible(boolean bl) {
         try {
             this.proxy.viewSetVisible(bl);
@@ -515,7 +465,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMetricSystem(int n) {
         try {
             this.proxy.setMetricSystem(n);
@@ -525,7 +474,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setViewFocusOnBlock(long[] lArray) {
         try {
             this.proxy.setViewFocusOnBlock(lArray);
@@ -535,7 +483,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setViewFocusOnPoi(PoiListElement[] poiListElementArray) {
         try {
             this.proxy.setViewFocusOnPoi(poiListElementArray);
@@ -545,7 +492,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void startToDrawNewRectangleInMap() {
         try {
             this.proxy.startToDrawNewRectangleInMap();
@@ -555,7 +501,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void editRectangleInMap(long l) {
         try {
             this.proxy.editRectangleInMap(l);
@@ -565,7 +510,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setSouthWestCornerOfRectangleInMap(Point point) {
         try {
             this.proxy.setSouthWestCornerOfRectangleInMap(point);
@@ -575,7 +519,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setNorthEastCornerOfRectangleInMap(Point point) {
         try {
             this.proxy.setNorthEastCornerOfRectangleInMap(point);
@@ -585,7 +528,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void finishDrawRectangleInMap() {
         try {
             this.proxy.finishDrawRectangleInMap();
@@ -595,7 +537,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setCityModelMode(int n) {
         try {
             this.proxy.setCityModelMode(n);
@@ -605,7 +546,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void displayRemainingRangeOfVehicle(boolean bl) {
         try {
             this.proxy.displayRemainingRangeOfVehicle(bl);
@@ -615,7 +555,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void touchApproach(boolean bl) {
         try {
             this.proxy.touchApproach(bl);
@@ -625,7 +564,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setBrandIconStyle(int[] nArray, int n) {
         try {
             this.proxy.setBrandIconStyle(nArray, n);
@@ -635,7 +573,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void startScrollByVector(int n, int n2) {
         try {
             this.proxy.startScrollByVector(n, n2);
@@ -645,7 +582,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setGuidanceSymbol(int n) {
         try {
             this.proxy.setGuidanceSymbol(n);
@@ -655,7 +591,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setHOVLaneVisibility(boolean bl) {
         try {
             this.proxy.setHOVLaneVisibility(bl);
@@ -665,7 +600,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void rbGetIDOfSelectedSegment() {
         try {
             this.proxy.rbGetIDOfSelectedSegment();
@@ -675,7 +609,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void rbGetRRDToSelectedSegment(long l) {
         try {
             this.proxy.rbGetRRDToSelectedSegment(l);
@@ -685,7 +618,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setTollRoadHighLighting(boolean bl) {
         try {
             this.proxy.setTollRoadHighLighting(bl);
@@ -695,7 +627,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMountainPeakMarker(boolean bl) {
         try {
             this.proxy.setMountainPeakMarker(bl);
@@ -705,7 +636,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setViewFocusOnCombinedRouteListElements(long[] lArray) {
         try {
             this.proxy.setViewFocusOnCombinedRouteListElements(lArray);
@@ -715,7 +645,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setFrameRateMode(int n) {
         try {
             this.proxy.setFrameRateMode(n);
@@ -725,7 +654,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setScrollByCrossHairs(boolean bl) {
         try {
             this.proxy.setScrollByCrossHairs(bl);
@@ -735,7 +663,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setScrollByCrossHairsBoundingBox(Rect rect) {
         try {
             this.proxy.setScrollByCrossHairsBoundingBox(rect);
@@ -745,7 +672,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setRouteColoringPolicy(int n) {
         try {
             this.proxy.setRouteColoringPolicy(n);
@@ -755,7 +681,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setWeatherVisualization(boolean bl) {
         try {
             this.proxy.setWeatherVisualization(bl);
@@ -765,7 +690,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setPictureNavigationIconVisibility(boolean bl, int n) {
         try {
             this.proxy.setPictureNavigationIconVisibility(bl, n);
@@ -775,7 +699,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMobilityHorizonVisibility(boolean bl) {
         try {
             this.proxy.setMobilityHorizonVisibility(bl);
@@ -785,7 +708,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setTrafficMapStyle(boolean bl) {
         try {
             this.proxy.setTrafficMapStyle(bl);
@@ -795,7 +717,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void showSpeedAndFlowFreeFlow(boolean bl) {
         try {
             this.proxy.showSpeedAndFlowFreeFlow(bl);
@@ -805,7 +726,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void showSpeedAndFlowCongestions(boolean bl) {
         try {
             this.proxy.showSpeedAndFlowCongestions(bl);
@@ -815,7 +735,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void showRichContent(boolean bl) {
         try {
             this.proxy.showRichContent(bl);
@@ -825,7 +744,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setGeneralPoiVisibility(boolean bl) {
         try {
             this.proxy.setGeneralPoiVisibility(bl);
@@ -835,7 +753,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setCrossHairsColor(int n) {
         try {
             this.proxy.setCrossHairsColor(n);
@@ -845,7 +762,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setViewPortBorder(int n) {
         try {
             this.proxy.setViewPortBorder(n);
@@ -855,7 +771,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setTerrainElevation(boolean bl) {
         try {
             this.proxy.setTerrainElevation(bl);
@@ -865,7 +780,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void ensurePoiVisibility(NavLocation[] navLocationArray) {
         try {
             this.proxy.ensurePoiVisibility(navLocationArray);
@@ -875,7 +789,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void suspendMapViewer() {
         try {
             this.proxy.suspendMapViewer();
@@ -885,7 +798,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void wakeupMapViewer() {
         try {
             this.proxy.wakeupMapViewer();
@@ -895,7 +807,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMobilityHorizonZoomMode(int n) {
         try {
             this.proxy.setMobilityHorizonZoomMode(n);
@@ -905,7 +816,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84) {
         try {
             this.proxy.isDetailedMapMaterialAvailable(navLocationWgs84);
@@ -915,7 +825,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setHorizonMarkerVisibility(boolean bl) {
         try {
             this.proxy.setHorizonMarkerVisibility(bl);
@@ -925,7 +834,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void ensureTrafficEventIconsVisibility(long[] lArray) {
         try {
             this.proxy.ensureTrafficEventIconsVisibility(lArray);
@@ -935,7 +843,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapViewPortByWGS84Rectangle(NavRectangle navRectangle, int n) {
         try {
             this.proxy.setMapViewPortByWGS84Rectangle(navRectangle, n);
@@ -945,7 +852,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void startRouteDragging(NavLocationWgs84 navLocationWgs84) {
         try {
             this.proxy.startRouteDragging(navLocationWgs84);
@@ -955,7 +861,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void dragRoute(short s, short s2) {
         try {
             this.proxy.dragRoute(s, s2);
@@ -965,7 +870,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setDragRouteMarker(int n) {
         try {
             this.proxy.setDragRouteMarker(n);
@@ -975,7 +879,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void highlightRouteBasedOnLength(long l, long l2, int n) {
         try {
             this.proxy.highlightRouteBasedOnLength(l, l2, n);
@@ -985,7 +888,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
         try {
             this.proxy.ehSetCategoryVisibility(n, nArray, blArray);
@@ -995,7 +897,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void ehSetCategoryVisibilityToDefault(int n) {
         try {
             this.proxy.ehSetCategoryVisibilityToDefault(n);
@@ -1005,7 +906,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapOverlays(int n, MapOverlay[] mapOverlayArray, int n2, int n3) {
         try {
             this.proxy.setMapOverlays(n, mapOverlayArray, n2, n3);
@@ -1015,7 +915,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapLayerVisible(int[] nArray) {
         try {
             this.proxy.setMapLayerVisible(nArray);
@@ -1025,7 +924,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setTemperatureScale(int n) {
         try {
             this.proxy.setTemperatureScale(n);
@@ -1035,7 +933,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setSoftAnimationSpeed(int n) {
         try {
             this.proxy.setSoftAnimationSpeed(n);
@@ -1045,7 +942,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setSpeedAndFlowRoadClass(int n) {
         try {
             this.proxy.setSpeedAndFlowRoadClass(n);
@@ -1055,7 +951,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setRouteVisibility(boolean bl) {
         try {
             this.proxy.setRouteVisibility(bl);
@@ -1065,7 +960,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setVisibleRoutes(NavSegmentID[] navSegmentIDArray) {
         try {
             this.proxy.setVisibleRoutes(navSegmentIDArray);
@@ -1075,7 +969,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void showTrafficEventListView(long[] lArray, boolean bl, boolean bl2) {
         try {
             this.proxy.showTrafficEventListView(lArray, bl, bl2);
@@ -1085,7 +978,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setMapStyle(int n) {
         try {
             this.proxy.setMapStyle(n);
@@ -1095,7 +987,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setCopyrightPosition(NavRectangle navRectangle, int n, int n2) {
         try {
             this.proxy.setCopyrightPosition(navRectangle, n, n2);
@@ -1105,7 +996,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -1115,7 +1005,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -1125,7 +1014,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -1135,7 +1023,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -1145,7 +1032,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -1155,7 +1041,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -1165,7 +1050,6 @@ implements DSIMapViewerControl {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

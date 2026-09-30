@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.commons.job;
 
 import de.esolutions.fw.util.commons.job.BaseInterceptor;
-import de.esolutions.fw.util.commons.job.HistoryInterceptor$HistoryEntry;
 import de.esolutions.fw.util.commons.job.IInterceptor;
 import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.fw.util.commons.job.JobBase;
@@ -37,7 +36,7 @@ implements IInterceptor {
     }
 
     private void updateHistory(int n, Job job) {
-        this.trail[n] = new HistoryInterceptor$HistoryEntry(job);
+        this.trail[n] = new HistoryEntry(job);
     }
 
     private boolean isLongRunner(Job job) {
@@ -45,7 +44,7 @@ implements IInterceptor {
     }
 
     private void keepLongRunner(Job job) {
-        this.longRunners[this.startLongRunners] = new HistoryInterceptor$HistoryEntry(job);
+        this.longRunners[this.startLongRunners] = new HistoryEntry(job);
         ++this.startLongRunners;
         if (this.startLongRunners >= this.logSize) {
             this.startLongRunners = 0;
@@ -67,7 +66,6 @@ implements IInterceptor {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute(Job job) {
         int n = this.keepJob(job);
         try {
@@ -81,7 +79,6 @@ implements IInterceptor {
         }
     }
 
-    @Override
     public void dump(PrintStream printStream) {
         if (printStream != null) {
             printStream.println("processed Jobs:");
@@ -90,6 +87,20 @@ implements IInterceptor {
             printStream.println("long running Jobs:");
             this.dump(printStream, "  ", this.longRunners, this.startLongRunners);
             super.dump(printStream);
+        }
+    }
+
+    private static class HistoryEntry
+    extends JobBase {
+        private final String payload;
+
+        HistoryEntry(Job job) {
+            super(job);
+            this.payload = job.toString();
+        }
+
+        public String toString() {
+            return this.payload;
         }
     }
 }

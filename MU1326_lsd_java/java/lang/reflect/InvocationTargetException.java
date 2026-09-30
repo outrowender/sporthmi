@@ -5,7 +5,7 @@ package java.lang.reflect;
 
 public class InvocationTargetException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4085088731926701167L;
     private Throwable target;
 
     protected InvocationTargetException() {
@@ -26,7 +26,6 @@ extends Exception {
         return this.target;
     }
 
-    @Override
     public Throwable getCause() {
         return this.target;
     }

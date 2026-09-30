@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarArrayListTransmittableElements;
 
 public class CarArrayListTransmittableElementsSerializer {
-    public static void putOptionalCarArrayListTransmittableElements(ISerializer iSerializer, CarArrayListTransmittableElements carArrayListTransmittableElements) {
+    public static void putOptionalCarArrayListTransmittableElements(ISerializer iSerializer, CarArrayListTransmittableElements carArrayListTransmittableElements) throws SerializerException {
         boolean bl = carArrayListTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarArrayListTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalCarArrayListTransmittableElementsVarArray(ISerializer iSerializer, CarArrayListTransmittableElements[] carArrayListTransmittableElementsArray) {
+    public static void putOptionalCarArrayListTransmittableElementsVarArray(ISerializer iSerializer, CarArrayListTransmittableElements[] carArrayListTransmittableElementsArray) throws SerializerException {
         boolean bl = carArrayListTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -58,7 +59,7 @@ public class CarArrayListTransmittableElementsSerializer {
         }
     }
 
-    public static CarArrayListTransmittableElements getOptionalCarArrayListTransmittableElements(IDeserializer iDeserializer) {
+    public static CarArrayListTransmittableElements getOptionalCarArrayListTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         CarArrayListTransmittableElements carArrayListTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class CarArrayListTransmittableElementsSerializer {
         return carArrayListTransmittableElements;
     }
 
-    public static CarArrayListTransmittableElements[] getOptionalCarArrayListTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static CarArrayListTransmittableElements[] getOptionalCarArrayListTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarArrayListTransmittableElements[] carArrayListTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

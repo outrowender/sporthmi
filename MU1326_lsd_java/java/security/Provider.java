@@ -3,19 +3,19 @@
  */
 package java.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Properties;
 import java.util.Set;
 
 public abstract class Provider
 extends Properties {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -4298000515446427739L;
     private String name;
     private String info;
     private double version;
@@ -26,16 +26,14 @@ extends Properties {
         this.info = string2;
     }
 
-    @Override
     public synchronized void clear() {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
-            securityManager.checkSecurityAccess(new StringBuffer("clearProviderProperties.").append(this.name).toString());
+            securityManager.checkSecurityAccess("clearProviderProperties." + this.name);
         }
         super.clear();
     }
 
-    @Override
     public Set entrySet() {
         return Collections.unmodifiableSet(super.entrySet());
     }
@@ -52,58 +50,50 @@ extends Properties {
         return this.version;
     }
 
-    @Override
     public Set keySet() {
         return Collections.unmodifiableSet(super.keySet());
     }
 
-    @Override
-    public synchronized void load(InputStream inputStream) {
+    public synchronized void load(InputStream inputStream) throws IOException {
         super.load(inputStream);
     }
 
-    @Override
     public synchronized Object put(Object object, Object object2) {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
-            securityManager.checkSecurityAccess(new StringBuffer("putProviderProperty.").append(this.name).toString());
+            securityManager.checkSecurityAccess("putProviderProperty." + this.name);
         }
         return super.put(object, object2);
     }
 
-    @Override
     public synchronized void putAll(Map map) {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
-            securityManager.checkSecurityAccess(new StringBuffer("putProviderProperty.").append(this.name).toString());
+            securityManager.checkSecurityAccess("putProviderProperty." + this.name);
         }
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            super.put(map$Entry.getKey(), map$Entry.getValue());
+            Map.Entry entry = (Map.Entry)iterator.next();
+            super.put(entry.getKey(), entry.getValue());
         }
     }
 
-    @Override
     public synchronized Object remove(Object object) {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
-            securityManager.checkSecurityAccess(new StringBuffer("removeProviderProperty.").append(this.name).toString());
+            securityManager.checkSecurityAccess("removeProviderProperty." + this.name);
         }
         return super.remove(object);
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer(String.valueOf(this.name)).append(" version ").append(this.version).toString();
+        return String.valueOf(this.name) + " version " + this.version;
     }
 
-    @Override
     public Collection values() {
         return Collections.unmodifiableCollection(super.values());
     }
 
-    @Override
     public String getProperty(String string, String string2) {
         String string3 = this.getProperty(string);
         if (string3 == null) {
@@ -112,7 +102,6 @@ extends Properties {
         return string2;
     }
 
-    @Override
     public String getProperty(String string) {
         int n = string.indexOf(46);
         if (n == -1) {
@@ -139,14 +128,14 @@ extends Properties {
     }
 
     String lookupProperty(String string, String string2) {
-        String string3 = new StringBuffer(String.valueOf(string)).append(string2).toString();
+        String string3 = String.valueOf(string) + string2;
         String string4 = this.lookupProperty(string3);
         if (string4 != null) {
             return string4;
         }
-        string4 = this.lookupProperty(new StringBuffer("Alg.Alias.").append(string3).toString());
+        string4 = this.lookupProperty("Alg.Alias." + string3);
         if (string4 != null) {
-            return this.lookupProperty(new StringBuffer(String.valueOf(string)).append(string4).toString());
+            return this.lookupProperty(String.valueOf(string) + string4);
         }
         return null;
     }

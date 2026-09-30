@@ -8,7 +8,6 @@ import org.dsi.ifc.travellink.GenericPropertyContainer;
 
 public interface DSITravelLinkCommonListener
 extends DSIListener {
-    default public void updateFromApp(int n, GenericPropertyContainer[] genericPropertyContainerArray, int n2, int n3, int n4) {
-    }
+    public void updateFromApp(int var1, GenericPropertyContainer[] var2, int var3, int var4, int var5);
 }
 

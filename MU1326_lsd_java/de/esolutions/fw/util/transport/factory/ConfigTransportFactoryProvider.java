@@ -22,10 +22,10 @@ public class ConfigTransportFactoryProvider
 implements ITransportFactoryProvider {
     private TransportConfig config;
 
-    public ConfigTransportFactoryProvider(TransportConfig transportConfig) {
+    public ConfigTransportFactoryProvider(TransportConfig transportConfig) throws TransportFactoryException {
         this.config = transportConfig;
         if (!transportConfig.isValid()) {
-            throw new TransportFactoryException(new StringBuffer().append("Can't create factory provider from invalid config:\n").append(transportConfig.getFailString()).toString());
+            throw new TransportFactoryException("Can't create factory provider from invalid config:\n" + transportConfig.getFailString());
         }
     }
 
@@ -33,29 +33,28 @@ implements ITransportFactoryProvider {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public ISingleTransportFactory createSingleTransportFactory(String string, String string2) {
+    public ISingleTransportFactory createSingleTransportFactory(String string, String string2) throws TransportFactoryException {
         ConfigOverlayPathQuery configOverlayPathQuery = this.config.getQueryForService(string, string2);
         if (configOverlayPathQuery == null) {
-            throw new TransportFactoryException(new StringBuffer().append("No transport defined for proc ").append(string).append(":").append(string2).toString());
+            throw new TransportFactoryException("No transport defined for proc " + string + ":" + string2);
         }
         String string3 = configOverlayPathQuery.getStringValue("mode");
         if (string3 != null) {
             if (string3.equals("tcpip")) {
                 TCPTransportParam tCPTransportParam = TCPTransportParam.create(configOverlayPathQuery);
-                if (tCPTransportParam == null) throw new TransportFactoryException(new StringBuffer().append("Can't create 'tcpip' transport for proc ").append(string).append(":").append(string2).toString());
+                if (tCPTransportParam == null) throw new TransportFactoryException("Can't create 'tcpip' transport for proc " + string + ":" + string2);
                 TCPSingleTransportFactory tCPSingleTransportFactory = new TCPSingleTransportFactory(tCPTransportParam.getAddress(), tCPTransportParam.getPort());
                 tCPSingleTransportFactory.setOptions(tCPTransportParam.getOptions());
                 return tCPSingleTransportFactory;
             }
             if (string3.equals("resman")) {
                 ResManTransportParam resManTransportParam = ResManTransportParam.create(configOverlayPathQuery);
-                if (resManTransportParam == null) throw new TransportFactoryException(new StringBuffer().append("Can't create 'resman' transport for proc ").append(string).append(":").append(string2).toString());
+                if (resManTransportParam == null) throw new TransportFactoryException("Can't create 'resman' transport for proc " + string + ":" + string2);
                 return new FileSingleTransportFactory(resManTransportParam.getPath());
             }
-            if (!string3.equals("ts")) throw new TransportFactoryException(new StringBuffer().append("Invalid transport mode ").append(string3).append(" on node ").append(string).append(":").append(string2).toString());
+            if (!string3.equals("ts")) throw new TransportFactoryException("Invalid transport mode " + string3 + " on node " + string + ":" + string2);
             TSTransportParam tSTransportParam = TSTransportParam.create(configOverlayPathQuery);
-            if (tSTransportParam == null) throw new TransportFactoryException(new StringBuffer().append("No supported transport defined for ").append(string).append(":").append(string2).toString());
+            if (tSTransportParam == null) throw new TransportFactoryException("No supported transport defined for " + string + ":" + string2);
             return new TSSingleTransportFactory(tSTransportParam.getMountpoint(), tSTransportParam.getFile());
         }
         TCPTransportParam tCPTransportParam = TCPTransportParam.create(configOverlayPathQuery);
@@ -65,15 +64,14 @@ implements ITransportFactoryProvider {
             return tCPSingleTransportFactory;
         }
         ResManTransportParam resManTransportParam = ResManTransportParam.create(configOverlayPathQuery);
-        if (resManTransportParam == null) throw new TransportFactoryException(new StringBuffer().append("No supported transport defined for ").append(string).append(":").append(string2).toString());
+        if (resManTransportParam == null) throw new TransportFactoryException("No supported transport defined for " + string + ":" + string2);
         return new FileSingleTransportFactory(resManTransportParam.getPath());
     }
 
-    @Override
-    public ISpawnTransportFactory createSpawnTransportFactory(String string, String string2) {
+    public ISpawnTransportFactory createSpawnTransportFactory(String string, String string2) throws TransportFactoryException {
         ConfigOverlayPathQuery configOverlayPathQuery = this.config.getQueryForMyService(string, string2);
         if (configOverlayPathQuery == null) {
-            throw new TransportFactoryException(new StringBuffer().append("No transport defined for node ").append(string).append(":").append(string2).toString());
+            throw new TransportFactoryException("No transport defined for node " + string + ":" + string2);
         }
         String string3 = configOverlayPathQuery.getStringValue("mode");
         if (string3 != null) {
@@ -84,16 +82,16 @@ implements ITransportFactoryProvider {
                     tCPSpawnTransportFactory.setOptions(tCPTransportParam.getOptions());
                     return tCPSpawnTransportFactory;
                 }
-                throw new TransportFactoryException(new StringBuffer().append("No transport defined for mode 'tcpip' on node ").append(string).append(":").append(string2).toString());
+                throw new TransportFactoryException("No transport defined for mode 'tcpip' on node " + string + ":" + string2);
             }
             if (string3.equals("ts")) {
                 TSTransportParam tSTransportParam = TSTransportParam.create(configOverlayPathQuery);
                 if (tSTransportParam != null) {
                     return new TSSpawnTransportFactory(tSTransportParam.getMountpoint(), tSTransportParam.getFile());
                 }
-                throw new TransportFactoryException(new StringBuffer().append("No transport defined for mode 'ts' on node ").append(string).append(":").append(string2).toString());
+                throw new TransportFactoryException("No transport defined for mode 'ts' on node " + string + ":" + string2);
             }
-            throw new TransportFactoryException(new StringBuffer().append("Invalid transport mode ").append(string3).append(" on node ").append(string).append(":").append(string2).toString());
+            throw new TransportFactoryException("Invalid transport mode " + string3 + " on node " + string + ":" + string2);
         }
         TCPTransportParam tCPTransportParam = TCPTransportParam.create(configOverlayPathQuery);
         if (tCPTransportParam != null) {
@@ -101,7 +99,7 @@ implements ITransportFactoryProvider {
             tCPSpawnTransportFactory.setOptions(tCPTransportParam.getOptions());
             return tCPSpawnTransportFactory;
         }
-        throw new TransportFactoryException(new StringBuffer().append("No supported own transport defined for ").append(string).append(":").append(string2).toString());
+        throw new TransportFactoryException("No supported own transport defined for " + string + ":" + string2);
     }
 }
 

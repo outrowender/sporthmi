@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.has.DSIHAS;
 import de.esolutions.fw.comm.dsi.has.DSIHASC;
 import de.esolutions.fw.comm.dsi.has.DSIHASReply;
-import de.esolutions.fw.comm.dsi.has.impl.DSIHASProxy$1;
-import de.esolutions.fw.comm.dsi.has.impl.DSIHASProxy$2;
 import de.esolutions.fw.comm.dsi.has.impl.DSIHASReplyService;
+import de.esolutions.fw.comm.dsi.has.impl.HASDataContainerSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.has.HASDataContainer;
@@ -33,25 +34,36 @@ DSIHASC {
         return this.proxy;
     }
 
-    @Override
-    public void hmiReady() {
+    public void hmiReady() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void actionResult(int n, int n2, HASDataContainer[] hASDataContainerArray, int n3) {
-        DSIHASProxy$1 dSIHASProxy$1 = new DSIHASProxy$1(this, n, n2, hASDataContainerArray, n3);
-        this.proxy.remoteCallMethod((short)22, dSIHASProxy$1);
+    public void actionResult(final int n, final int n2, final HASDataContainer[] hASDataContainerArray, final int n3) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                HASDataContainerSerializer.putOptionalHASDataContainerVarArray(iSerializer, hASDataContainerArray);
+                iSerializer.putInt32(n3);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 
-    @Override
-    public void propertyUpdate(int n, HASDataContainer[] hASDataContainerArray, int n2) {
-        DSIHASProxy$2 dSIHASProxy$2 = new DSIHASProxy$2(this, n, hASDataContainerArray, n2);
-        this.proxy.remoteCallMethod((short)23, dSIHASProxy$2);
+    public void propertyUpdate(final int n, final HASDataContainer[] hASDataContainerArray, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                HASDataContainerSerializer.putOptionalHASDataContainerVarArray(iSerializer, hASDataContainerArray);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)23, iSerializable);
     }
 
-    @Override
-    public void subscribeResult(int n, int n2) {
+    public void subscribeResult(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -63,8 +75,7 @@ DSIHASC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -75,8 +86,7 @@ DSIHASC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -87,13 +97,11 @@ DSIHASC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -104,8 +112,7 @@ DSIHASC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -116,13 +123,11 @@ DSIHASC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

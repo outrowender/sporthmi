@@ -9,7 +9,7 @@ import org.apache.commons.id.AbstractLongIdentifierGenerator;
 public class LongGenerator
 extends AbstractLongIdentifierGenerator
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 20060122L;
     private boolean wrapping;
     private long count = 0L;
 
@@ -29,7 +29,6 @@ implements Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Long nextLongIdentifier() {
         long l = 0L;
         if (this.wrapping) {

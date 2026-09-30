@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
+import java.util.HashMap;
 import java.util.Random;
 
 public class FileTransferUtils {
@@ -46,7 +47,7 @@ public class FileTransferUtils {
         }
         catch (Exception exception) {
             exception.printStackTrace();
-            System.out.println(new StringBuffer().append("WARNING: Exception on FileTransferUtils.calculateHash: ").append(exception.getMessage()).toString());
+            System.out.println("WARNING: Exception on FileTransferUtils.calculateHash: " + exception.getMessage());
         }
         return byArray;
     }
@@ -95,7 +96,7 @@ public class FileTransferUtils {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public static void writeToDisk(IFile iFile, String string) {
+    public static void writeToDisk(IFile iFile, String string) throws IOException {
         boolean bl;
         iFile.open(false);
         byte[] byArray = iFile.read((int)iFile.getSize());
@@ -130,7 +131,7 @@ public class FileTransferUtils {
         }
         boolean bl2 = bl = (file = new File(string)).exists() && file.length() > 0L;
         while (bl) {
-            string2 = new StringBuffer().append(string3).append(Integer.toString(++n)).append(string4).toString();
+            string2 = string3 + Integer.toString(++n) + string4;
             file = new File(string2);
             bl = file.exists() && file.length() > 0L;
         }
@@ -139,16 +140,55 @@ public class FileTransferUtils {
 
     public static String findTempUniqueFileName(String string) {
         if (!string.endsWith(File.separator)) {
-            string = new StringBuffer().append(string).append(File.separator).toString();
+            string = string + File.separator;
         }
         Random random = new Random();
-        String string2 = new StringBuffer().append(string).append("fw_temp_").append(random.nextInt(2140575744)).toString();
+        String string2 = string + "fw_temp_" + random.nextInt(9999999);
         File file = new File(string2);
         while (file.exists()) {
-            string2 = new StringBuffer().append(string).append("fw_temp_").append(random.nextInt(2140575744)).toString();
+            string2 = string + "fw_temp_" + random.nextInt(9999999);
             file = new File(string2);
         }
         return string2;
+    }
+
+    public static class IdGenerator {
+        private static long lastId = 0L;
+
+        public static synchronized long getUniqueId() {
+            return ++lastId;
+        }
+    }
+
+    public static class RequestIdPool {
+        private final HashMap requestMap = new HashMap();
+        private static final int usedId = 0;
+
+        public int getId(byte by) {
+            int n = 0;
+            while (this.isIdInUse(++n)) {
+            }
+            this.requestMap.put(new Integer(n), new Byte(by));
+            return n;
+        }
+
+        public byte getOperation(int n) {
+            byte by = -1;
+            if (this.isIdInUse(n)) {
+                by = (Byte)this.requestMap.get(new Integer(n));
+            }
+            return by;
+        }
+
+        public boolean isIdInUse(int n) {
+            return this.requestMap.containsKey(new Integer(n));
+        }
+
+        public void releaseId(int n) {
+            if (this.requestMap.containsKey(new Integer(n))) {
+                this.requestMap.remove(new Integer(n));
+            }
+        }
     }
 }
 

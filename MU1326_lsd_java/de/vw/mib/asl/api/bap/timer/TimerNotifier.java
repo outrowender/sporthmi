@@ -4,7 +4,6 @@
 package de.vw.mib.asl.api.bap.timer;
 
 public interface TimerNotifier {
-    default public void timerFired(int n) {
-    }
+    public void timerFired(int var1);
 }
 

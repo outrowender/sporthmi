@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.MascotConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.MascotConfiguration;
 import org.dsi.ifc.carcomfort.MascotViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class MascotViewOptionsSerializer {
-    public static void putOptionalMascotViewOptions(ISerializer iSerializer, MascotViewOptions mascotViewOptions) {
+    public static void putOptionalMascotViewOptions(ISerializer iSerializer, MascotViewOptions mascotViewOptions) throws SerializerException {
         boolean bl = mascotViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class MascotViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalMascotViewOptionsVarArray(ISerializer iSerializer, MascotViewOptions[] mascotViewOptionsArray) {
+    public static void putOptionalMascotViewOptionsVarArray(ISerializer iSerializer, MascotViewOptions[] mascotViewOptionsArray) throws SerializerException {
         boolean bl = mascotViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class MascotViewOptionsSerializer {
         }
     }
 
-    public static MascotViewOptions getOptionalMascotViewOptions(IDeserializer iDeserializer) {
+    public static MascotViewOptions getOptionalMascotViewOptions(IDeserializer iDeserializer) throws SerializerException {
         MascotViewOptions mascotViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class MascotViewOptionsSerializer {
         return mascotViewOptions;
     }
 
-    public static MascotViewOptions[] getOptionalMascotViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static MascotViewOptions[] getOptionalMascotViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         MascotViewOptions[] mascotViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

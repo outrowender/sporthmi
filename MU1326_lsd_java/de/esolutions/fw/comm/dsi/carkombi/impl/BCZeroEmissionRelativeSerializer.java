@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCZeroEmissionRelative;
 
 public class BCZeroEmissionRelativeSerializer {
-    public static void putOptionalBCZeroEmissionRelative(ISerializer iSerializer, BCZeroEmissionRelative bCZeroEmissionRelative) {
+    public static void putOptionalBCZeroEmissionRelative(ISerializer iSerializer, BCZeroEmissionRelative bCZeroEmissionRelative) throws SerializerException {
         boolean bl = bCZeroEmissionRelative == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCZeroEmissionRelativeSerializer {
         }
     }
 
-    public static void putOptionalBCZeroEmissionRelativeVarArray(ISerializer iSerializer, BCZeroEmissionRelative[] bCZeroEmissionRelativeArray) {
+    public static void putOptionalBCZeroEmissionRelativeVarArray(ISerializer iSerializer, BCZeroEmissionRelative[] bCZeroEmissionRelativeArray) throws SerializerException {
         boolean bl = bCZeroEmissionRelativeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCZeroEmissionRelativeSerializer {
         }
     }
 
-    public static BCZeroEmissionRelative getOptionalBCZeroEmissionRelative(IDeserializer iDeserializer) {
+    public static BCZeroEmissionRelative getOptionalBCZeroEmissionRelative(IDeserializer iDeserializer) throws SerializerException {
         BCZeroEmissionRelative bCZeroEmissionRelative = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCZeroEmissionRelativeSerializer {
         return bCZeroEmissionRelative;
     }
 
-    public static BCZeroEmissionRelative[] getOptionalBCZeroEmissionRelativeVarArray(IDeserializer iDeserializer) {
+    public static BCZeroEmissionRelative[] getOptionalBCZeroEmissionRelativeVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCZeroEmissionRelative[] bCZeroEmissionRelativeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

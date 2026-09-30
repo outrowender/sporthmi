@@ -257,7 +257,6 @@ implements BAPServiceListener {
         return resultMethod;
     }
 
-    @Override
     public boolean indication(int n, int n2, byte[] byArray) {
         boolean bl;
         block0 : switch (n) {
@@ -393,7 +392,6 @@ implements BAPServiceListener {
         return bl;
     }
 
-    @Override
     public boolean indication(int n, int n2) {
         boolean bl;
         switch (n) {
@@ -548,7 +546,6 @@ implements BAPServiceListener {
         return bl;
     }
 
-    @Override
     public boolean indication(int n, int n2, int n3, int n4) {
         boolean bl;
         block0 : switch (n) {
@@ -658,7 +655,6 @@ implements BAPServiceListener {
         return bl;
     }
 
-    @Override
     public boolean indicationError(int n, int n2) {
         boolean bl;
         if (n != 4) {
@@ -675,7 +671,6 @@ implements BAPServiceListener {
         return bl;
     }
 
-    @Override
     public boolean acknowledge(int n, int n2) {
         return true;
     }

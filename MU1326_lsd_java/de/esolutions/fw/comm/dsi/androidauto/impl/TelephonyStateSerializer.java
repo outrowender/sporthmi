@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.androidauto.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto.TelephonyState;
 
 public class TelephonyStateSerializer {
-    public static void putOptionalTelephonyState(ISerializer iSerializer, TelephonyState telephonyState) {
+    public static void putOptionalTelephonyState(ISerializer iSerializer, TelephonyState telephonyState) throws SerializerException {
         boolean bl = telephonyState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class TelephonyStateSerializer {
         }
     }
 
-    public static void putOptionalTelephonyStateVarArray(ISerializer iSerializer, TelephonyState[] telephonyStateArray) {
+    public static void putOptionalTelephonyStateVarArray(ISerializer iSerializer, TelephonyState[] telephonyStateArray) throws SerializerException {
         boolean bl = telephonyStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class TelephonyStateSerializer {
         }
     }
 
-    public static TelephonyState getOptionalTelephonyState(IDeserializer iDeserializer) {
+    public static TelephonyState getOptionalTelephonyState(IDeserializer iDeserializer) throws SerializerException {
         TelephonyState telephonyState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class TelephonyStateSerializer {
         return telephonyState;
     }
 
-    public static TelephonyState[] getOptionalTelephonyStateVarArray(IDeserializer iDeserializer) {
+    public static TelephonyState[] getOptionalTelephonyStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         TelephonyState[] telephonyStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -9,34 +9,24 @@ import org.dsi.ifc.media.ListEntry;
 
 public interface DSIMediaRecorderListener
 extends DSIListener {
-    default public void updateActiveMedia(long l, long l2, int n) {
-    }
+    public void updateActiveMedia(long var1, long var3, int var5);
 
-    default public void responseSetSelection(int n, boolean bl) {
-    }
+    public void responseSetSelection(int var1, boolean var2);
 
-    default public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6, int n) {
-    }
+    public void updateImportSummary(long var1, long var3, long var5, long var7, long var9, long var11, int var13);
 
-    default public void updateImportProgress(long l, ListEntry listEntry, int n) {
-    }
+    public void updateImportProgress(long var1, ListEntry var3, int var4);
 
-    default public void updateImportStatus(int n, int n2) {
-    }
+    public void updateImportStatus(int var1, int var2);
 
-    default public void updateDeletionProgress(long l, int n) {
-    }
+    public void updateDeletionProgress(long var1, int var3);
 
-    default public void updateDeletionStatus(int n, int n2) {
-    }
+    public void updateDeletionStatus(int var1, int var2);
 
-    default public void updateDatabaseSpace(DatabaseSpace databaseSpace, int n) {
-    }
+    public void updateDatabaseSpace(DatabaseSpace var1, int var2);
 
-    default public void updateTargetMedia(long l, long l2, int n) {
-    }
+    public void updateTargetMedia(long var1, long var3, int var5);
 
-    default public void responseSetEncodingQuality(int n) {
-    }
+    public void responseSetEncodingQuality(int var1);
 }
 

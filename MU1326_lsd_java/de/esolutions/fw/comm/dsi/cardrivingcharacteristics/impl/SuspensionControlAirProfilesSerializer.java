@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlAirProfiles;
 
 public class SuspensionControlAirProfilesSerializer {
-    public static void putOptionalSuspensionControlAirProfiles(ISerializer iSerializer, SuspensionControlAirProfiles suspensionControlAirProfiles) {
+    public static void putOptionalSuspensionControlAirProfiles(ISerializer iSerializer, SuspensionControlAirProfiles suspensionControlAirProfiles) throws SerializerException {
         boolean bl = suspensionControlAirProfiles == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SuspensionControlAirProfilesSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlAirProfilesVarArray(ISerializer iSerializer, SuspensionControlAirProfiles[] suspensionControlAirProfilesArray) {
+    public static void putOptionalSuspensionControlAirProfilesVarArray(ISerializer iSerializer, SuspensionControlAirProfiles[] suspensionControlAirProfilesArray) throws SerializerException {
         boolean bl = suspensionControlAirProfilesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SuspensionControlAirProfilesSerializer {
         }
     }
 
-    public static SuspensionControlAirProfiles getOptionalSuspensionControlAirProfiles(IDeserializer iDeserializer) {
+    public static SuspensionControlAirProfiles getOptionalSuspensionControlAirProfiles(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlAirProfiles suspensionControlAirProfiles = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class SuspensionControlAirProfilesSerializer {
         return suspensionControlAirProfiles;
     }
 
-    public static SuspensionControlAirProfiles[] getOptionalSuspensionControlAirProfilesVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlAirProfiles[] getOptionalSuspensionControlAirProfilesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlAirProfiles[] suspensionControlAirProfilesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

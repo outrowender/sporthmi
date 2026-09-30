@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sBluetoothMAC;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sBluetoothMACSerializer {
-    public static void putOptionalsBluetoothMAC(ISerializer iSerializer, sBluetoothMAC sBluetoothMAC2) {
+    public static void putOptionalsBluetoothMAC(ISerializer iSerializer, sBluetoothMAC sBluetoothMAC2) throws SerializerException {
         boolean bl = sBluetoothMAC2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sBluetoothMACSerializer {
         }
     }
 
-    public static void putOptionalsBluetoothMACVarArray(ISerializer iSerializer, sBluetoothMAC[] sBluetoothMACArray) {
+    public static void putOptionalsBluetoothMACVarArray(ISerializer iSerializer, sBluetoothMAC[] sBluetoothMACArray) throws SerializerException {
         boolean bl = sBluetoothMACArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sBluetoothMACSerializer {
         }
     }
 
-    public static sBluetoothMAC getOptionalsBluetoothMAC(IDeserializer iDeserializer) {
+    public static sBluetoothMAC getOptionalsBluetoothMAC(IDeserializer iDeserializer) throws SerializerException {
         sBluetoothMAC sBluetoothMAC2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sBluetoothMACSerializer {
         return sBluetoothMAC2;
     }
 
-    public static sBluetoothMAC[] getOptionalsBluetoothMACVarArray(IDeserializer iDeserializer) {
+    public static sBluetoothMAC[] getOptionalsBluetoothMACVarArray(IDeserializer iDeserializer) throws SerializerException {
         sBluetoothMAC[] sBluetoothMACArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

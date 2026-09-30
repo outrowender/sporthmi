@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.NavSegmentIDSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public class LikelyDestinationSerializer {
-    public static void putOptionalLikelyDestination(ISerializer iSerializer, LikelyDestination likelyDestination) {
+    public static void putOptionalLikelyDestination(ISerializer iSerializer, LikelyDestination likelyDestination) throws SerializerException {
         boolean bl = likelyDestination == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class LikelyDestinationSerializer {
         }
     }
 
-    public static void putOptionalLikelyDestinationVarArray(ISerializer iSerializer, LikelyDestination[] likelyDestinationArray) {
+    public static void putOptionalLikelyDestinationVarArray(ISerializer iSerializer, LikelyDestination[] likelyDestinationArray) throws SerializerException {
         boolean bl = likelyDestinationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class LikelyDestinationSerializer {
         }
     }
 
-    public static LikelyDestination getOptionalLikelyDestination(IDeserializer iDeserializer) {
+    public static LikelyDestination getOptionalLikelyDestination(IDeserializer iDeserializer) throws SerializerException {
         LikelyDestination likelyDestination = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class LikelyDestinationSerializer {
         return likelyDestination;
     }
 
-    public static LikelyDestination[] getOptionalLikelyDestinationVarArray(IDeserializer iDeserializer) {
+    public static LikelyDestination[] getOptionalLikelyDestinationVarArray(IDeserializer iDeserializer) throws SerializerException {
         LikelyDestination[] likelyDestinationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

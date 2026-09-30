@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sGPSOffroad;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sGPSOffroadSerializer {
-    public static void putOptionalsGPSOffroad(ISerializer iSerializer, sGPSOffroad sGPSOffroad2) {
+    public static void putOptionalsGPSOffroad(ISerializer iSerializer, sGPSOffroad sGPSOffroad2) throws SerializerException {
         boolean bl = sGPSOffroad2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class sGPSOffroadSerializer {
         }
     }
 
-    public static void putOptionalsGPSOffroadVarArray(ISerializer iSerializer, sGPSOffroad[] sGPSOffroadArray) {
+    public static void putOptionalsGPSOffroadVarArray(ISerializer iSerializer, sGPSOffroad[] sGPSOffroadArray) throws SerializerException {
         boolean bl = sGPSOffroadArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class sGPSOffroadSerializer {
         }
     }
 
-    public static sGPSOffroad getOptionalsGPSOffroad(IDeserializer iDeserializer) {
+    public static sGPSOffroad getOptionalsGPSOffroad(IDeserializer iDeserializer) throws SerializerException {
         sGPSOffroad sGPSOffroad2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class sGPSOffroadSerializer {
         return sGPSOffroad2;
     }
 
-    public static sGPSOffroad[] getOptionalsGPSOffroadVarArray(IDeserializer iDeserializer) {
+    public static sGPSOffroad[] getOptionalsGPSOffroadVarArray(IDeserializer iDeserializer) throws SerializerException {
         sGPSOffroad[] sGPSOffroadArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

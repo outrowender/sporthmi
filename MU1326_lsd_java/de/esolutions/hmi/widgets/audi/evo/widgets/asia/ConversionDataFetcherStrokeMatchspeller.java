@@ -26,14 +26,12 @@ IStrokeConversionsAvailableListener {
         this.strokeMatchspellerProtocol.setStrokeConversionsAvailableListener(this);
     }
 
-    @Override
     public final void touchInputDataChanged(int n, boolean bl, String string, String string2) {
         if (n == 3 && bl) {
             this.requestConversions(string2, TouchControllerListenerFactory.calculateLastInputChar(string, string2), 0, 36);
         }
     }
 
-    @Override
     public void requestConversions(String string, char c2, int n, int n2, boolean bl) {
         if (bl) {
             this.strokeMatchspellerProtocol.strokesChanged(string, c2);
@@ -45,7 +43,6 @@ IStrokeConversionsAvailableListener {
         this.requestConversions(string, c2, n, n2, true);
     }
 
-    @Override
     public void notifyMatchspellerStrokeConversionsAvailable() {
         List list = this.fetchStrokeConversionsFromMatchspellerModel();
         String string = this.strokeMatchspellerProtocol.getStrokes();

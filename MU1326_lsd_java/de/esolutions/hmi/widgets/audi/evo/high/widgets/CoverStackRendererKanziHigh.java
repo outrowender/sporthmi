@@ -20,10 +20,10 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CoverStackRenderer;
 public class CoverStackRendererKanziHigh
 extends AbstractKanziTemplateRenderer
 implements CoverStackRenderer {
-    private static final int CACHE_SIZE;
-    private static final String TEMPLATE_NODE_PATH;
+    private static final int CACHE_SIZE = 50;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/coverStack";
     private CoverStackController controller;
-    private static final boolean USE_IMAGE_SIZECHECK;
+    private static final boolean USE_IMAGE_SIZECHECK = true;
     private IWrappedTexture[] coverItems = new IWrappedTexture[6];
     private String[] coverPropertyNames = new String[]{"cs_coverPos0", "cs_coverPos1", "cs_coverPos2", "cs_coverPos3", "cs_coverPos4"};
     private ITextureCache coverTextureCache;
@@ -38,7 +38,6 @@ implements CoverStackRenderer {
         }
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         if (this.coverTextureCache == null) {
             this.coverTextureCache = this.getEALManager().createLRUCache(50, 100);
@@ -47,22 +46,18 @@ implements CoverStackRenderer {
         super.connect(initializationContext);
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/coverStack";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
         return "coverStack";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -103,10 +98,10 @@ implements CoverStackRenderer {
         TextureDescription textureDescription = this.getCoverTextureDescription(n);
         IWrappedTexture iWrappedTexture = null;
         if (textureDescription == null) {
-            logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#applyProperties:Texture description is null");
+            logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#applyProperties:Texture description is null");
             iWrappedTexture = null;
         } else if (!this.controller.isUpdateState()) {
-            logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#applyProperties:Texture is not updated because of modelStauts waiting");
+            logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#applyProperties:Texture is not updated because of modelStauts waiting");
             iWrappedTexture = null;
             this.usePreviousTexture = true;
         } else {
@@ -182,19 +177,19 @@ implements CoverStackRenderer {
         if (this.controller.isCrossFadingActive()) {
             this.setProperty("cs_coverCrossfade", this.controller.getCrossFadingProgress());
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setCrossFadingTexture crossFadingProgess: %1", (Object)String.valueOf(this.controller.getCrossFadingProgress()));
+                logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setCrossFadingTexture crossFadingProgess: %1", (Object)String.valueOf(this.controller.getCrossFadingProgress()));
             }
         } else if (!(this.controller.getCrossFadingProgress() < 1.0f) || !(this.controller.getCrossFadingProgress() > 0.0f)) {
             this.setProperty("cs_coverCrossfade", this.controller.getCrossFadeState());
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setCrossFadingTexture reset crossFadingProgess: %1 crossFadingState %2", (Object)String.valueOf(this.controller.getCrossFadingProgress()), (Object)String.valueOf(this.controller.getCrossFadeState()));
+                logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setCrossFadingTexture reset crossFadingProgess: %1 crossFadingState %2", (Object)String.valueOf(this.controller.getCrossFadingProgress()), (Object)String.valueOf(this.controller.getCrossFadeState()));
             }
         }
         String string = bl ? this.concat("cs_texture", n, "b") : this.concat("cs_texture", n);
         this.setProperty(string, iWrappedTexture.getTexture());
         if (logChannelCoverStack.isDebug()) {
-            logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setCrossFadingTexture set Texture index: %1, crossfade: %3, state: %2", (long)n, (long)this.controller.getCrossFadeState(), bl);
-            logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setCrossFadingTexture texture: %1 ", (Object)iWrappedTexture.getTexture());
+            logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setCrossFadingTexture set Texture index: %1, crossfade: %3, state: %2", (long)n, (long)this.controller.getCrossFadeState(), bl);
+            logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setCrossFadingTexture texture: %1 ", (Object)iWrappedTexture.getTexture());
         }
     }
 
@@ -203,24 +198,24 @@ implements CoverStackRenderer {
             this.setProperty(this.concat("cs_coverAspect", n, "_X"), f2);
             this.setProperty(this.concat("cs_coverAspect", n, "_Y"), f3);
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setTextureRatioProperty set ratio index: %1, state: %2 , %3, %4", (Object)String.valueOf(n), (Object)String.valueOf(this.controller.getCrossFadeState()));
+                logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setTextureRatioProperty set ratio index: %1, state: %2 , %3, %4", (Object)String.valueOf(n), (Object)String.valueOf(this.controller.getCrossFadeState()));
             }
         } else if (n == 0) {
             this.setProperty(this.concat("cs_coverAspect", n, "b_X"), f2);
             this.setProperty(this.concat("cs_coverAspect", n, "b_Y"), f3);
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setTextureRatioProperty set ratio index: %1, state: %2 , %3, %4", (Object)String.valueOf(n), (Object)String.valueOf(this.controller.getCrossFadeState()));
+                logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setTextureRatioProperty set ratio index: %1, state: %2 , %3, %4", (Object)String.valueOf(n), (Object)String.valueOf(this.controller.getCrossFadeState()));
             }
         }
         if (!this.controller.isCrossFadingActive()) {
             if (this.controller.getCrossFadeState() == 1) {
                 this.setProperty(this.concat("cs_coverAspect", n, "_X"), f2);
                 this.setProperty(this.concat("cs_coverAspect", n, "_Y"), f3);
-                logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setCrossFadingTexture reset textureA Ratio state: %1", (long)this.controller.getCrossFadeState());
+                logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setCrossFadingTexture reset textureA Ratio state: %1", (long)this.controller.getCrossFadeState());
             } else if (n == 0) {
                 this.setProperty(this.concat("cs_coverAspect", n, "b_X"), f2);
                 this.setProperty(this.concat("cs_coverAspect", n, "b_Y"), f3);
-                logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#setCrossFadingTexture reset textureB Ratio state: %1", (long)this.controller.getCrossFadeState());
+                logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#setCrossFadingTexture reset textureB Ratio state: %1", (long)this.controller.getCrossFadeState());
             }
         }
     }
@@ -252,7 +247,6 @@ implements CoverStackRenderer {
         return textureDescription3;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.releaseCoverItems();
@@ -284,7 +278,7 @@ implements CoverStackRenderer {
         if (object == null) {
             return null;
         }
-        logChannelCoverStack.log(-1601830656, "CoverStackRendererKanziHigh#getCoverBitmap: unknown bitmap model: %1 ", object);
+        logChannelCoverStack.log(100000, "CoverStackRendererKanziHigh#getCoverBitmap: unknown bitmap model: %1 ", object);
         return null;
     }
 
@@ -357,7 +351,7 @@ implements CoverStackRenderer {
             return this.getTextureDescription(n, false);
         }
         if (logChannelCoverStack.isDebug()) {
-            logChannelCoverStack.log(-2137614336, "CoverStackRendererKanziHigh#getDefaultTextureDescription unable to set the defaultTextureDescription with index %1", (long)n);
+            logChannelCoverStack.log(10000000, "CoverStackRendererKanziHigh#getDefaultTextureDescription unable to set the defaultTextureDescription with index %1", (long)n);
         }
         return null;
     }
@@ -374,7 +368,6 @@ implements CoverStackRenderer {
         return this.stringBuilder.toString();
     }
 
-    @Override
     protected int getKzbConstant() {
         return 4;
     }

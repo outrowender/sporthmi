@@ -9,15 +9,12 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public abstract class AbstractSCXMLListener
 implements SCXMLListener {
-    @Override
     public void onEntry(TransitionTarget transitionTarget) {
     }
 
-    @Override
     public void onExit(TransitionTarget transitionTarget) {
     }
 
-    @Override
     public void onTransition(TransitionTarget transitionTarget, TransitionTarget transitionTarget2, Transition transition) {
     }
 }

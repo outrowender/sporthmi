@@ -29,7 +29,7 @@ extends AbstractRendererHigh {
         if (this.rootNode == null) {
             this.rootNode = this.getEALManager().createNode3D(redrawContextHigh.parentNode, EALManager.createNodeName("oilLevelRootNode", this), this.controller.getWidth(), this.controller.getHeight());
             if (this.controller.isHorizontal()) {
-                this.rootNode.setRotationZ(46274);
+                this.rootNode.setRotationZ(-90.0f);
             }
         }
         if (this.frame == null) {
@@ -90,7 +90,6 @@ extends AbstractRendererHigh {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -110,12 +109,10 @@ extends AbstractRendererHigh {
         }
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         if (this.images != null) {

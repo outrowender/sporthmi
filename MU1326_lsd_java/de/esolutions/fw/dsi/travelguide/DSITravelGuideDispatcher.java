@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.travelguide;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.travelguide.DSITravelGuideReply;
 import de.esolutions.fw.comm.dsi.travelguide.impl.DSITravelGuideReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSITravelGuideReply {
         super(n, (class$org$dsi$ifc$travelguide$DSITravelGuideListener == null ? (class$org$dsi$ifc$travelguide$DSITravelGuideListener = DSITravelGuideDispatcher.class$("org.dsi.ifc.travelguide.DSITravelGuideListener")) : class$org$dsi$ifc$travelguide$DSITravelGuideListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void importTravelGuideResult(int n, int n2) {
+    public void importTravelGuideResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSITravelGuideReply {
         }
     }
 
-    @Override
-    public void updateTravelGuideMemoryListElement(TravelGuideMemoryListElement travelGuideMemoryListElement, int n, int n2) {
+    public void updateTravelGuideMemoryListElement(TravelGuideMemoryListElement travelGuideMemoryListElement, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -74,8 +72,7 @@ implements DSITravelGuideReply {
         }
     }
 
-    @Override
-    public void deleteTravelGuideResult(int n) {
+    public void deleteTravelGuideResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -91,8 +88,7 @@ implements DSITravelGuideReply {
         }
     }
 
-    @Override
-    public void updateTravelGuideMemoryList(TravelGuideMemoryListElement[] travelGuideMemoryListElementArray, int n) {
+    public void updateTravelGuideMemoryList(TravelGuideMemoryListElement[] travelGuideMemoryListElementArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -120,8 +116,7 @@ implements DSITravelGuideReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -137,14 +132,13 @@ implements DSITravelGuideReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITravelGuideListener dSITravelGuideListener = (DSITravelGuideListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITravelGuideDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITravelGuideDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITravelGuideListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITravelGuideDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITravelGuideDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITravelGuideListener, new Object[]{string, string2});
                     continue;
                 }

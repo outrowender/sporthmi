@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.HUDConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.HUDConfiguration;
 import org.dsi.ifc.carkombi.HUDViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class HUDViewOptionsSerializer {
-    public static void putOptionalHUDViewOptions(ISerializer iSerializer, HUDViewOptions hUDViewOptions) {
+    public static void putOptionalHUDViewOptions(ISerializer iSerializer, HUDViewOptions hUDViewOptions) throws SerializerException {
         boolean bl = hUDViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class HUDViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalHUDViewOptionsVarArray(ISerializer iSerializer, HUDViewOptions[] hUDViewOptionsArray) {
+    public static void putOptionalHUDViewOptionsVarArray(ISerializer iSerializer, HUDViewOptions[] hUDViewOptionsArray) throws SerializerException {
         boolean bl = hUDViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class HUDViewOptionsSerializer {
         }
     }
 
-    public static HUDViewOptions getOptionalHUDViewOptions(IDeserializer iDeserializer) {
+    public static HUDViewOptions getOptionalHUDViewOptions(IDeserializer iDeserializer) throws SerializerException {
         HUDViewOptions hUDViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -123,7 +124,7 @@ public class HUDViewOptionsSerializer {
         return hUDViewOptions;
     }
 
-    public static HUDViewOptions[] getOptionalHUDViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static HUDViewOptions[] getOptionalHUDViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         HUDViewOptions[] hUDViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

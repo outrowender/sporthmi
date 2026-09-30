@@ -3,27 +3,23 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.CarBCSpeed;
 
 public interface DSIOnlineTrafficLightInfoReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "76677848-df67-51c7-98b1-d171f27e1ac0";
+    public static final String IPL_COMM_INTERFACE_KEY = "64db6ab0-bf8b-5a8f-bb09-913331a079bb";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void updateTrafficLightInfo(int n, int n2, int[] nArray, int n3, int n4, int n5) {
-    }
+    public void updateTrafficLightInfo(int var1, int var2, int[] var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void updateTrafficLightSpeed(CarBCSpeed carBCSpeed, int n) {
-    }
+    public void updateTrafficLightSpeed(CarBCSpeed var1, int var2) throws MethodException;
 
-    default public void updateTrafficLightTime(int n, int n2, int n3) {
-    }
+    public void updateTrafficLightTime(int var1, int var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

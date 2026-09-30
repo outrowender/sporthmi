@@ -5,7 +5,7 @@ package org.apache.xerces.impl.dv;
 
 public class DatatypeException
 extends Exception {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 1940805832730465578L;
     protected String key;
     protected Object[] args;
 
@@ -23,9 +23,8 @@ extends Exception {
         return this.args;
     }
 
-    @Override
     public String getMessage() {
-        String string = new StringBuffer().append("Data type exception: key is ").append(this.key).append(".").toString();
+        String string = "Data type exception: key is " + this.key + ".";
         return string;
     }
 }

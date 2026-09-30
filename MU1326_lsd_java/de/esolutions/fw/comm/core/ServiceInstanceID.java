@@ -61,9 +61,9 @@ public class ServiceInstanceID {
 
     public String toString() {
         if (this.description != null) {
-            return new StringBuffer().append("['").append(this.description).append("'=").append(this.uuid).append(":0x").append(Integer.toHexString(this.handle)).append(":").append(this.interfaceKey).append("]").toString();
+            return "['" + this.description + "'=" + this.uuid + ":0x" + Integer.toHexString(this.handle) + ":" + this.interfaceKey + "]";
         }
-        return new StringBuffer().append("[").append(this.uuid).append(":0x").append(Integer.toHexString(this.handle)).append(":").append(this.interfaceKey).append("]").toString();
+        return "[" + this.uuid + ":0x" + Integer.toHexString(this.handle) + ":" + this.interfaceKey + "]";
     }
 
     public boolean equals(Object object) {

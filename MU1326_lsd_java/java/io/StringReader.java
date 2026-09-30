@@ -23,7 +23,6 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void close() {
         Object object = this.lock;
         synchronized (object) {
@@ -40,8 +39,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         if (n >= 0) {
             Object object = this.lock;
             synchronized (object) {
@@ -55,13 +53,11 @@ extends Reader {
         }
     }
 
-    @Override
     public boolean markSupported() {
         return true;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             block5: {
@@ -79,8 +75,7 @@ extends Reader {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         if (n < 0 || n > cArray.length || n2 < 0 || n2 > cArray.length - n) throw new ArrayIndexOutOfBoundsException();
         Object object = this.lock;
         synchronized (object) {
@@ -97,8 +92,7 @@ extends Reader {
         }
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             block4: {
@@ -112,8 +106,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (!this.isOpen()) {
@@ -127,8 +120,7 @@ extends Reader {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             block5: {

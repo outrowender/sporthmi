@@ -13,21 +13,21 @@ public class TraceCoreSignal {
     public static int TIMEOUT = 8;
     private int signalMask;
 
-    public synchronized int waitForSignal() {
+    public synchronized int waitForSignal() throws InterruptedException {
         while (this.signalMask == 0) {
-            super.wait();
+            this.wait();
         }
         int n = this.signalMask;
         this.signalMask = 0;
         return n;
     }
 
-    public synchronized int waitForSignalWithTimeout(long l) {
+    public synchronized int waitForSignalWithTimeout(long l) throws InterruptedException {
         ITimeSource iTimeSource = TimeSourceProvider.getMonotonicTimeSource();
         long l2 = iTimeSource.getCurrentTime();
         long l3 = l;
         while (this.signalMask == 0) {
-            super.wait(l3);
+            this.wait(l3);
             if (l <= 0L) continue;
             long l4 = iTimeSource.getCurrentTime();
             long l5 = l4 - l2;
@@ -44,7 +44,7 @@ public class TraceCoreSignal {
 
     public synchronized void triggerSignal(int n) {
         this.signalMask |= n;
-        super.notify();
+        this.notify();
     }
 }
 

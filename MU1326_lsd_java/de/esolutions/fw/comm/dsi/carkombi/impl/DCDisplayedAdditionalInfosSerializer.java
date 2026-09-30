@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCDisplayedAdditionalInfos;
 
 public class DCDisplayedAdditionalInfosSerializer {
-    public static void putOptionalDCDisplayedAdditionalInfos(ISerializer iSerializer, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos) {
+    public static void putOptionalDCDisplayedAdditionalInfos(ISerializer iSerializer, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos) throws SerializerException {
         boolean bl = dCDisplayedAdditionalInfos == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DCDisplayedAdditionalInfosSerializer {
         }
     }
 
-    public static void putOptionalDCDisplayedAdditionalInfosVarArray(ISerializer iSerializer, DCDisplayedAdditionalInfos[] dCDisplayedAdditionalInfosArray) {
+    public static void putOptionalDCDisplayedAdditionalInfosVarArray(ISerializer iSerializer, DCDisplayedAdditionalInfos[] dCDisplayedAdditionalInfosArray) throws SerializerException {
         boolean bl = dCDisplayedAdditionalInfosArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DCDisplayedAdditionalInfosSerializer {
         }
     }
 
-    public static DCDisplayedAdditionalInfos getOptionalDCDisplayedAdditionalInfos(IDeserializer iDeserializer) {
+    public static DCDisplayedAdditionalInfos getOptionalDCDisplayedAdditionalInfos(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DCDisplayedAdditionalInfosSerializer {
         return dCDisplayedAdditionalInfos;
     }
 
-    public static DCDisplayedAdditionalInfos[] getOptionalDCDisplayedAdditionalInfosVarArray(IDeserializer iDeserializer) {
+    public static DCDisplayedAdditionalInfos[] getOptionalDCDisplayedAdditionalInfosVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayedAdditionalInfos[] dCDisplayedAdditionalInfosArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -11,12 +11,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class NbSpeller_StartResult
 implements StartResultMethod {
     public int mode;
-    private static final int MODE_BITSIZE;
-    public static final int MODE_MATCH_SPELLER;
-    public static final int MODE_NEXT_CHARACTER;
-    public static final int MODE_PREVIOUS_CHARACTER;
+    private static final int MODE_BITSIZE = 8;
+    public static final int MODE_MATCH_SPELLER = 0;
+    public static final int MODE_NEXT_CHARACTER = 1;
+    public static final int MODE_PREVIOUS_CHARACTER = 2;
     public final BAPString searchString = new BAPString(51);
-    private static final int MAX_SEARCH_STRING_LENGTH;
+    private static final int MAX_SEARCH_STRING_LENGTH = 51;
 
     public NbSpeller_StartResult() {
         this.internalReset();
@@ -32,13 +32,11 @@ implements StartResultMethod {
         this.mode = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.searchString.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         NbSpeller_StartResult nbSpeller_StartResult = (NbSpeller_StartResult)bAPEntity;
         return this.mode == nbSpeller_StartResult.mode && this.searchString.equalTo(nbSpeller_StartResult.searchString);
@@ -47,7 +45,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("NbSpeller_StartResult:");
@@ -74,20 +71,17 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += this.searchString.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.mode);
         this.searchString.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.mode = bitStream.popFrontByte();
         this.searchString.deserialize(bitStream);
@@ -97,7 +91,6 @@ implements StartResultMethod {
         return 42;
     }
 
-    @Override
     public int getFunctionId() {
         return NbSpeller_StartResult.functionId();
     }

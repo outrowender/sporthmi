@@ -6,75 +6,53 @@ package de.esolutions.fw.comm.asi.hmisync.media;
 import de.esolutions.fw.comm.asi.hmisync.media.ASIHMISyncMediaReply;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaBrowserSelectionData;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncMediaS {
-    default public void activate(MediaSourceSlot mediaSourceSlot, MediaBrowserSelectionData mediaBrowserSelectionData, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void activate(MediaSourceSlot var1, MediaBrowserSelectionData var2, ASIHMISyncMediaReply var3) throws MethodException;
 
-    default public void resume(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void resume(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void pause(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void pause(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void skip(byte by, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void skip(byte var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void seek(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void seek(boolean var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void stopSeek(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void stopSeek(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void mix(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void mix(boolean var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void repeatTitle(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void repeatTitle(boolean var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void toggleRepeatState(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void toggleRepeatState(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void toggleShuffleState(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void toggleShuffleState(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void setEntry(long l, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void setEntry(long var1, ASIHMISyncMediaReply var3) throws MethodException;
 
-    default public void setTimePosition(int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void setTimePosition(int var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void touchEvent(int n, int n2, int n3, int n4, int n5, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void touchEvent(int var1, int var2, int var3, int var4, int var5, ASIHMISyncMediaReply var6) throws MethodException;
 
-    default public void executeDvdVideoCommand(int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void executeDvdVideoCommand(int var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void requestPlayList(int n, long l, int n2, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void requestPlayList(int var1, long var2, int var4, ASIHMISyncMediaReply var5) throws MethodException;
 
-    default public void setPlaySelection(MediaBrowserSelectionData mediaBrowserSelectionData, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void setPlaySelection(MediaBrowserSelectionData var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void playMoreFrom(long l, int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void playMoreFrom(long var1, int var3, ASIHMISyncMediaReply var4) throws MethodException;
 
-    default public void setNotification(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void setNotification(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncMediaReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncMediaReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void clearNotification(ASIHMISyncMediaReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncMediaReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncMediaReply var2) throws MethodException;
 }
 

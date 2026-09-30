@@ -145,7 +145,7 @@ public class sMapPosition {
     }
 
     public String toString() {
-        return new StringBuffer("sMapPosition{").append("position=").append(this.position).append(", horzStdDev=").append(this.horzStdDev).append(", headingStdDev=").append(this.headingStdDev).append(", altitude=").append(this.altitude).append(", velocity=").append(this.velocity).append(", velocityStdDev=").append(this.velocityStdDev).append(", odometer=").append(this.odometer).append(", isOnMap=").append(this.isOnMap).append(", isOnRoad=").append(this.isOnRoad).append(", isInTunnel=").append(this.isInTunnel).append(", streetName=").append(this.streetName).append(", numSatInView=").append(this.numSatInView).append(", numSatInUse=").append(this.numSatInUse).append("}").toString();
+        return "sMapPosition{" + "position=" + this.position + ", horzStdDev=" + this.horzStdDev + ", headingStdDev=" + this.headingStdDev + ", altitude=" + this.altitude + ", velocity=" + this.velocity + ", velocityStdDev=" + this.velocityStdDev + ", odometer=" + this.odometer + ", isOnMap=" + this.isOnMap + ", isOnRoad=" + this.isOnRoad + ", isInTunnel=" + this.isInTunnel + ", streetName=" + this.streetName + ", numSatInView=" + this.numSatInView + ", numSatInUse=" + this.numSatInUse + "}";
     }
 }
 

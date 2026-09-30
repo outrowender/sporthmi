@@ -10,61 +10,44 @@ import org.apache.xerces.xni.XMLAttributes;
 import org.apache.xerces.xni.XMLLocator;
 import org.apache.xerces.xni.XMLResourceIdentifier;
 import org.apache.xerces.xni.XMLString;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDocumentSource;
 
 public interface XMLDocumentHandler {
-    default public void startDocument(XMLLocator xMLLocator, String string, NamespaceContext namespaceContext, Augmentations augmentations) {
-    }
+    public void startDocument(XMLLocator var1, String var2, NamespaceContext var3, Augmentations var4) throws XNIException;
 
-    default public void xmlDecl(String string, String string2, String string3, Augmentations augmentations) {
-    }
+    public void xmlDecl(String var1, String var2, String var3, Augmentations var4) throws XNIException;
 
-    default public void doctypeDecl(String string, String string2, String string3, Augmentations augmentations) {
-    }
+    public void doctypeDecl(String var1, String var2, String var3, Augmentations var4) throws XNIException;
 
-    default public void comment(XMLString xMLString, Augmentations augmentations) {
-    }
+    public void comment(XMLString var1, Augmentations var2) throws XNIException;
 
-    default public void processingInstruction(String string, XMLString xMLString, Augmentations augmentations) {
-    }
+    public void processingInstruction(String var1, XMLString var2, Augmentations var3) throws XNIException;
 
-    default public void startElement(QName qName, XMLAttributes xMLAttributes, Augmentations augmentations) {
-    }
+    public void startElement(QName var1, XMLAttributes var2, Augmentations var3) throws XNIException;
 
-    default public void emptyElement(QName qName, XMLAttributes xMLAttributes, Augmentations augmentations) {
-    }
+    public void emptyElement(QName var1, XMLAttributes var2, Augmentations var3) throws XNIException;
 
-    default public void startGeneralEntity(String string, XMLResourceIdentifier xMLResourceIdentifier, String string2, Augmentations augmentations) {
-    }
+    public void startGeneralEntity(String var1, XMLResourceIdentifier var2, String var3, Augmentations var4) throws XNIException;
 
-    default public void textDecl(String string, String string2, Augmentations augmentations) {
-    }
+    public void textDecl(String var1, String var2, Augmentations var3) throws XNIException;
 
-    default public void endGeneralEntity(String string, Augmentations augmentations) {
-    }
+    public void endGeneralEntity(String var1, Augmentations var2) throws XNIException;
 
-    default public void characters(XMLString xMLString, Augmentations augmentations) {
-    }
+    public void characters(XMLString var1, Augmentations var2) throws XNIException;
 
-    default public void ignorableWhitespace(XMLString xMLString, Augmentations augmentations) {
-    }
+    public void ignorableWhitespace(XMLString var1, Augmentations var2) throws XNIException;
 
-    default public void endElement(QName qName, Augmentations augmentations) {
-    }
+    public void endElement(QName var1, Augmentations var2) throws XNIException;
 
-    default public void startCDATA(Augmentations augmentations) {
-    }
+    public void startCDATA(Augmentations var1) throws XNIException;
 
-    default public void endCDATA(Augmentations augmentations) {
-    }
+    public void endCDATA(Augmentations var1) throws XNIException;
 
-    default public void endDocument(Augmentations augmentations) {
-    }
+    public void endDocument(Augmentations var1) throws XNIException;
 
-    default public void setDocumentSource(XMLDocumentSource xMLDocumentSource) {
-    }
+    public void setDocumentSource(XMLDocumentSource var1);
 
-    default public XMLDocumentSource getDocumentSource() {
-    }
+    public XMLDocumentSource getDocumentSource();
 }
 

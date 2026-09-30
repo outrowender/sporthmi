@@ -25,28 +25,23 @@ implements DSIAMFMTuner {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$radio$DSIAMFMTuner == null ? (class$org$dsi$ifc$radio$DSIAMFMTuner = DSIAMFMTunerProvider.class$("org.dsi.ifc.radio.DSIAMFMTuner")) : class$org$dsi$ifc$radio$DSIAMFMTuner).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAMFMTunerProxy(this.instance, (DSIAMFMTunerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void tuneFrequencySteps(int n) {
         try {
             this.proxy.tuneFrequencySteps(n);
@@ -56,7 +51,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void selectStation(int n, int n2, int n3) {
         try {
             this.proxy.selectStation(n, n2, n3);
@@ -66,7 +60,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void prepareTuning(int n, int n2, int n3) {
         try {
             this.proxy.prepareTuning(n, n2, n3);
@@ -76,7 +69,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void seekStation(int n) {
         try {
             this.proxy.seekStation(n);
@@ -86,7 +78,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void switchAF(boolean bl) {
         try {
             this.proxy.switchAF(bl);
@@ -96,7 +87,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void switchME(boolean bl) {
         try {
             this.proxy.switchME(bl);
@@ -106,7 +96,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void switchREG(int n) {
         try {
             this.proxy.switchREG(n);
@@ -116,7 +105,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void switchLinkingDeviceUsage(int n) {
         try {
             this.proxy.switchLinkingDeviceUsage(n);
@@ -126,7 +114,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void reset(int n) {
         try {
             this.proxy.reset(n);
@@ -136,7 +123,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void selectFrequency(int n) {
         try {
             this.proxy.selectFrequency(n);
@@ -146,7 +132,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setAMBandRange(int n) {
         try {
             this.proxy.setAMBandRange(n);
@@ -156,7 +141,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void isOnPreset(int n, int n2, int n3, String string) {
         try {
             this.proxy.isOnPreset(n, n2, n3, string);
@@ -166,7 +150,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void forceFMUpdate(int n) {
         try {
             this.proxy.forceFMUpdate(n);
@@ -176,7 +159,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void switchPiIgnore(boolean bl) {
         try {
             this.proxy.switchPiIgnore(bl);
@@ -186,7 +168,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void freePreset(int n) {
         try {
             this.proxy.freePreset(n);
@@ -196,7 +177,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void forceAMUpdate(int n) {
         try {
             this.proxy.forceAMUpdate(n);
@@ -206,7 +186,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void switchRDSIgnore(boolean bl) {
         try {
             this.proxy.switchRDSIgnore(bl);
@@ -216,7 +195,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void enableRadiotextPlus(int[] nArray) {
         try {
             this.proxy.enableRadiotextPlus(nArray);
@@ -226,7 +204,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setModeHD(int n) {
         try {
             this.proxy.setModeHD(n);
@@ -236,7 +213,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setERTPrefered(boolean bl) {
         try {
             this.proxy.setERTPrefered(bl);
@@ -246,7 +222,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setERTDisplayable(boolean bl) {
         try {
             this.proxy.setERTDisplayable(bl);
@@ -256,7 +231,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -266,7 +240,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -276,7 +249,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -286,7 +258,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -296,7 +267,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -306,7 +276,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -316,7 +285,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -326,7 +294,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -336,7 +303,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -346,7 +312,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -356,7 +321,6 @@ implements DSIAMFMTuner {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -12,10 +12,12 @@ import de.esolutions.fw.comm.core.message.SetFeatureMessage;
 import de.esolutions.fw.comm.core.tracing.CommCoreTracing;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.connection.Connection;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.transport.IReadable;
 import de.esolutions.fw.util.transport.ITransport;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
 import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class MessageReceiver {
     private ITransportDebug debug;
@@ -42,7 +44,7 @@ public class MessageReceiver {
         this.deserializer = iDeserializer;
     }
 
-    public AbstractMessage recvMessage() {
+    public AbstractMessage recvMessage() throws SerializerException, TransportException, IOException, InterruptedException {
         int n;
         IReadable iReadable = null;
         MessageType messageType = null;
@@ -77,7 +79,7 @@ public class MessageReceiver {
             throw new TransportException("Can't create Comm Message");
         }
         if (messageType.toString().equals("UNKNOWN")) {
-            CommCoreTracing.MESSAGE.log((short)3, "unknown message type %detected: type=%1 [%2], size=%3", messageType, (Object)new StringBuffer().append("0x").append(Integer.toHexString(messageType.toByte())).toString(), (Object)new Integer(iReadable.size()));
+            CommCoreTracing.MESSAGE.log((short)3, "unknown message type %detected: type=%1 [%2], size=%3", messageType, (Object)("0x" + Integer.toHexString(messageType.toByte())), (Object)new Integer(iReadable.size()));
         }
         int n2 = this.deserializer.detachBuffer();
         if (this.messageListener != null) {
@@ -96,40 +98,40 @@ public class MessageReceiver {
         return abstractMessage;
     }
 
-    public AnnounceFeatureMessage recvAnnounceFeatureMessage() {
+    public AnnounceFeatureMessage recvAnnounceFeatureMessage() throws SerializerException, TransportException, IOException, InterruptedException {
         AbstractMessage abstractMessage = this.recvMessage();
         if (abstractMessage.getMessageType() == MessageType.DROP) {
             return null;
         }
         if (abstractMessage.getMessageType() != MessageType.ANNOUNCE_FEATURE) {
-            throw new TransportException(new StringBuffer().append("Expected ANNOUNCE_FEATURE message, but got ").append(abstractMessage.getMessageType()).toString());
+            throw new TransportException("Expected ANNOUNCE_FEATURE message, but got " + abstractMessage.getMessageType());
         }
         return (AnnounceFeatureMessage)abstractMessage;
     }
 
-    public BrokerAckMessage recvBrokerAckMessage() {
+    public BrokerAckMessage recvBrokerAckMessage() throws SerializerException, TransportException, IOException, InterruptedException {
         AbstractMessage abstractMessage = this.recvMessage();
         if (abstractMessage.getMessageType() != MessageType.BROKER_ACK) {
-            throw new TransportException(new StringBuffer().append("Expected BROKER_ACK message, but got ").append(abstractMessage.getMessageType()).toString());
+            throw new TransportException("Expected BROKER_ACK message, but got " + abstractMessage.getMessageType());
         }
         return (BrokerAckMessage)abstractMessage;
     }
 
-    public AbstractMessage recvInitOrHelloMessage() {
+    public AbstractMessage recvInitOrHelloMessage() throws SerializerException, TransportException, IOException, InterruptedException {
         AbstractMessage abstractMessage = this.recvMessage();
         if (abstractMessage.getMessageType() == MessageType.DROP) {
             return null;
         }
         if (abstractMessage.getMessageType() != MessageType.INIT && abstractMessage.getMessageType() != MessageType.HELLO) {
-            throw new TransportException(new StringBuffer().append("Expected INIT or HELLO message, but got ").append(abstractMessage.getMessageType()).toString());
+            throw new TransportException("Expected INIT or HELLO message, but got " + abstractMessage.getMessageType());
         }
         return abstractMessage;
     }
 
-    public SetFeatureMessage recvSetFeatureMessage() {
+    public SetFeatureMessage recvSetFeatureMessage() throws SerializerException, TransportException, IOException, InterruptedException {
         AbstractMessage abstractMessage = this.recvMessage();
         if (abstractMessage.getMessageType() != MessageType.SET_FEATURE) {
-            throw new TransportException(new StringBuffer().append("Expected SET_FEATURE message, but got ").append(abstractMessage.getMessageType()).toString());
+            throw new TransportException("Expected SET_FEATURE message, but got " + abstractMessage.getMessageType());
         }
         return (SetFeatureMessage)abstractMessage;
     }

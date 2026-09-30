@@ -35,17 +35,14 @@ implements PreferredSize {
     public void animate(int n, float f2) {
     }
 
-    public abstract IRenderer getRenderer() {
-    }
+    public abstract IRenderer getRenderer();
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.afterConnected();
         this.connectionState = 2;
     }
 
-    @Override
     protected void initConnect(InitializationContext initializationContext) {
         super.initConnect(initializationContext);
         this.connectionState = 1;
@@ -59,7 +56,6 @@ implements PreferredSize {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void disconnecting() {
         this.connectionState = 3;
         super.disconnecting();
@@ -90,7 +86,6 @@ implements PreferredSize {
         return this.connectionState;
     }
 
-    @Override
     protected void propagatePaint(RedrawContext redrawContext) {
         if (this.children != null) {
             AbstractWidget abstractWidget = null;
@@ -107,12 +102,10 @@ implements PreferredSize {
         }
     }
 
-    @Override
     protected boolean shouldPropagatePaint() {
         return super.shouldPropagatePaint() || this.getRenderer() == null;
     }
 
-    @Override
     protected void propagateConnected(InitializationContext initializationContext) {
         if (this.getRenderer() != null) {
             initializationContext = this.getRenderer().createInitContextForChildren(initializationContext);
@@ -120,7 +113,6 @@ implements PreferredSize {
         super.propagateConnected(initializationContext);
     }
 
-    @Override
     public void managePaint(RedrawContext redrawContext) {
         IRenderer iRenderer = this.getRenderer();
         if (iRenderer != null) {
@@ -132,27 +124,23 @@ implements PreferredSize {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.getRenderer() != null) {
             this.getRenderer().render(redrawContext);
         }
     }
 
-    @Override
     public void renderIfDirty(RedrawContext redrawContext) {
         if (this.getRenderer() != null && this.getRenderer().areCompositesDirty()) {
             this.render(redrawContext);
         }
     }
 
-    @Override
     protected void afterPaint(RedrawContext redrawContext) {
         super.afterPaint(redrawContext);
         this.setCompositesDirty(false);
     }
 
-    @Override
     public void setCompositesDirty(boolean bl) {
         if (this.getRenderer() != null) {
             this.getRenderer().setCompositesDirty(bl);
@@ -167,7 +155,6 @@ implements PreferredSize {
         this.setInvalid(true);
     }
 
-    @Override
     public final List getChildren() {
         if (this.children == null) {
             return Collections.EMPTY_LIST;
@@ -186,7 +173,6 @@ implements PreferredSize {
         return this.children.size();
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (this.children == null) {
             this.children = new ArrayList(12);
@@ -219,7 +205,6 @@ implements PreferredSize {
         }
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         if (abstractWidget != null) {
             if (!this.getChildren().contains(abstractWidget)) {
@@ -234,7 +219,7 @@ implements PreferredSize {
             this.children.remove(abstractWidget);
             abstractWidget.removeParent();
         } else {
-            logChannel.log(-1601830656, "AbstractWidget#remove childWidget is null, this: %1", (Object)this);
+            logChannel.log(100000, "AbstractWidget#remove childWidget is null, this: %1", (Object)this);
         }
     }
 
@@ -243,15 +228,13 @@ implements PreferredSize {
         abstractWidget.connected(initializationContext);
     }
 
-    @Override
     public void setParent(AbstractWidget abstractWidget) {
         if (this.parent != null && abstractWidget != null) {
-            throw new IllegalStateException(new StringBuffer().append("Widgets has already a parent. Old parent: ").append(this.parent).append("\nNew parent: ").append(abstractWidget).toString());
+            throw new IllegalStateException("Widgets has already a parent. Old parent: " + this.parent + "\nNew parent: " + abstractWidget);
         }
         super.setParent(abstractWidget);
     }
 
-    @Override
     public void setModel(HMIModelGUI hMIModelGUI) {
         this.model = hMIModelGUI;
     }
@@ -270,7 +253,6 @@ implements PreferredSize {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.isVisible() != bl) {
             super.setVisible(bl);
@@ -279,7 +261,6 @@ implements PreferredSize {
         }
     }
 
-    @Override
     public void setOnScreen(boolean bl) {
         if (this.isOnScreen() != bl) {
             super.setOnScreen(bl);
@@ -287,7 +268,6 @@ implements PreferredSize {
         }
     }
 
-    @Override
     public void setVisibleOnCurrentStage(boolean bl) {
         if (this.isVisibleOnCurrentStage() != bl) {
             super.setVisibleOnCurrentStage(bl);
@@ -295,7 +275,6 @@ implements PreferredSize {
         }
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         if (!this.hasBounds(n, n2, n3, n4)) {
             this.setCompositesDirty(true);
@@ -307,7 +286,6 @@ implements PreferredSize {
         return this.x == n && this.y == n2 && this.width == n3 && this.height == n4;
     }
 
-    @Override
     public void setX(int n) {
         if (this.x != n) {
             this.setCompositesDirty(true);
@@ -315,7 +293,6 @@ implements PreferredSize {
         super.setX(n);
     }
 
-    @Override
     public void setY(int n) {
         if (this.y != n) {
             this.setCompositesDirty(true);
@@ -323,7 +300,6 @@ implements PreferredSize {
         super.setY(n);
     }
 
-    @Override
     public void setWidth(int n) {
         if (this.width != n) {
             this.setCompositesDirty(true);
@@ -331,7 +307,6 @@ implements PreferredSize {
         super.setWidth(n);
     }
 
-    @Override
     public void setHeight(int n) {
         if (this.height != n) {
             this.setCompositesDirty(true);
@@ -339,7 +314,6 @@ implements PreferredSize {
         super.setHeight(n);
     }
 
-    @Override
     public int getPreferredWidth() {
         return this.preferredWidth;
     }
@@ -349,7 +323,6 @@ implements PreferredSize {
         this.invalidateParentLayout();
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.preferredHeight;
     }
@@ -369,12 +342,12 @@ implements PreferredSize {
             return -1;
         }
         if (n < 0 || n >= this.bitmapIndices.length) {
-            logChannel.log(-1601830656, "AbstractWidgetController#getBitmap bitmap index: %1 out of bounds: %2", (long)n, (long)this.bitmapIndices.length);
+            logChannel.log(100000, "AbstractWidgetController#getBitmap bitmap index: %1 out of bounds: %2", (long)n, (long)this.bitmapIndices.length);
             return -1;
         }
         int n2 = this.bitmapIndices[n];
         if (n2 < 0 && logChannel.isInfo()) {
-            logChannel.log(1078071040, "AbstractWidgetController#getBitmap bitmap index: %1 is undefined: %2 in screen %3 (%4)", (Object)Util.createInteger(n), (Object)Util.createInteger(n2), (Object)Util.createInteger(this.getScreenId()), (Object)this.terminal.getScreenName(this.getScreenId()));
+            logChannel.log(1000000, "AbstractWidgetController#getBitmap bitmap index: %1 is undefined: %2 in screen %3 (%4)", (Object)Util.createInteger(n), (Object)Util.createInteger(n2), (Object)Util.createInteger(this.getScreenId()), (Object)this.terminal.getScreenName(this.getScreenId()));
         }
         return n2;
     }

@@ -3,49 +3,38 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface MMX2TelephoneDiagServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "434ab88c-5027-40eb-92ee-df5658912e1a";
+    public static final String IPL_COMM_INTERFACE_KEY = "dd966f77-1703-5382-80a9-c2b428743ae7";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.4.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.8.0";
 
-    default public void requestSimState(long l) {
-    }
+    public void requestSimState(long var1) throws MethodException;
 
-    default public void requestNadIMEI(long l) {
-    }
+    public void requestNadIMEI(long var1) throws MethodException;
 
-    default public void requestTelephoneAntennaState(long l, int n) {
-    }
+    public void requestTelephoneAntennaState(long var1, int var3) throws MethodException;
 
-    default public void requestConnectedBtHandset(long l, int n) {
-    }
+    public void requestConnectedBtHandset(long var1, int var3) throws MethodException;
 
-    default public void requestNumberHandsetsHUCs(long l) {
-    }
+    public void requestNumberHandsetsHUCs(long var1) throws MethodException;
 
-    default public void requestTelephoneNetworkState(long l) {
-    }
+    public void requestTelephoneNetworkState(long var1) throws MethodException;
 
-    default public void requestTelephoneTemperature(long l) {
-    }
+    public void requestTelephoneTemperature(long var1) throws MethodException;
 
-    default public void requestDeleteMemory(long l, int n) {
-    }
+    public void requestDeleteMemory(long var1, int var3) throws MethodException;
 
-    default public void requestNetworkName(long l) {
-    }
+    public void requestNetworkName(long var1) throws MethodException;
 
-    default public void requestNetworkType(long l) {
-    }
+    public void requestNetworkType(long var1) throws MethodException;
 
-    default public void requestDialNumber(long l, String string) {
-    }
+    public void requestDialNumber(long var1, String var3) throws MethodException;
 
-    default public void requestCallStatus(long l) {
-    }
+    public void requestCallStatus(long var1) throws MethodException;
 
-    default public void requestInternalSimIdentification(long l) {
-    }
+    public void requestInternalSimIdentification(long var1) throws MethodException;
 }
 

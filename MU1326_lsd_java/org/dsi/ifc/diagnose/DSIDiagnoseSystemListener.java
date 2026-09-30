@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIDiagnoseSystemListener
 extends DSIListener {
-    default public void updateDiagnosticValueChanged(int n, long l, int n2) {
-    }
+    public void updateDiagnosticValueChanged(int var1, long var2, int var4);
 
-    default public void requestRoutine(int n, int n2, int n3, int[] nArray) {
-    }
+    public void requestRoutine(int var1, int var2, int var3, int[] var4);
 
-    default public void requestActuatorTest(int n, int n2, int n3, int n4, int[] nArray) {
-    }
+    public void requestActuatorTest(int var1, int var2, int var3, int var4, int[] var5);
 }
 

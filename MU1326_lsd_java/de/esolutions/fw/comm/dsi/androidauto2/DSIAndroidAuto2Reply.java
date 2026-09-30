@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.androidauto2;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.androidauto2.CallState;
 import org.dsi.ifc.androidauto2.PlaybackInfo;
 import org.dsi.ifc.androidauto2.TelephonyState;
@@ -10,66 +11,47 @@ import org.dsi.ifc.androidauto2.TrackData;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIAndroidAuto2Reply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "1109a8e3-3caa-5724-b33f-de936bc4e076";
+    public static final String IPL_COMM_INTERFACE_KEY = "3c1002ff-1bb7-599d-83c3-6670b394036e";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void videoFocusRequestNotification(int n, int n2) {
-    }
+    public void videoFocusRequestNotification(int var1, int var2) throws MethodException;
 
-    default public void videoAvailable(boolean bl, int n) {
-    }
+    public void videoAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void audioFocusRequestNotification(int n, int n2) {
-    }
+    public void audioFocusRequestNotification(int var1, int var2) throws MethodException;
 
-    default public void audioAvailable(int n, boolean bl, int n2) {
-    }
+    public void audioAvailable(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void voiceSessionNotification(int n, int n2) {
-    }
+    public void voiceSessionNotification(int var1, int var2) throws MethodException;
 
-    default public void microphoneRequestNotification(int n, int n2) {
-    }
+    public void microphoneRequestNotification(int var1, int var2) throws MethodException;
 
-    default public void navFocusRequestNotification(int n, int n2) {
-    }
+    public void navFocusRequestNotification(int var1, int var2) throws MethodException;
 
-    default public void updateCallState(CallState[] callStateArray, int n) {
-    }
+    public void updateCallState(CallState[] var1, int var2) throws MethodException;
 
-    default public void updateTelephonyState(TelephonyState telephonyState, int n) {
-    }
+    public void updateTelephonyState(TelephonyState var1, int var2) throws MethodException;
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2) throws MethodException;
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2) throws MethodException;
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2) throws MethodException;
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void updateNavigationNextTurnEvent(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateNavigationNextTurnEvent(String var1, int var2, int var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void updateNavigationNextTurnDistance(int n, int n2, int n3) {
-    }
+    public void updateNavigationNextTurnDistance(int var1, int var2, int var3) throws MethodException;
 
-    default public void setExternalDestination(double d2, double d3, String string, String string2, int n) {
-    }
+    public void setExternalDestination(double var1, double var3, String var5, String var6, int var7) throws MethodException;
 
-    default public void bluetoothPairingRequest(String string, int n) {
-    }
+    public void bluetoothPairingRequest(String var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

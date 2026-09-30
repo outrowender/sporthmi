@@ -10,11 +10,15 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carplay.DSICarplay;
 import de.esolutions.fw.comm.dsi.carplay.DSICarplayC;
 import de.esolutions.fw.comm.dsi.carplay.DSICarplayReply;
-import de.esolutions.fw.comm.dsi.carplay.impl.DSICarplayProxy$1;
-import de.esolutions.fw.comm.dsi.carplay.impl.DSICarplayProxy$2;
-import de.esolutions.fw.comm.dsi.carplay.impl.DSICarplayProxy$3;
-import de.esolutions.fw.comm.dsi.carplay.impl.DSICarplayProxy$4;
+import de.esolutions.fw.comm.dsi.carplay.impl.AppStateRequestSerializer;
+import de.esolutions.fw.comm.dsi.carplay.impl.AppStateSerializer;
 import de.esolutions.fw.comm.dsi.carplay.impl.DSICarplayReplyService;
+import de.esolutions.fw.comm.dsi.carplay.impl.ResourceRequestSerializer;
+import de.esolutions.fw.comm.dsi.carplay.impl.ResourceSerializer;
+import de.esolutions.fw.comm.dsi.carplay.impl.ServiceConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.carplay.impl.TouchEventSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carplay.AppState;
@@ -40,14 +44,17 @@ DSICarplayC {
         return this.proxy;
     }
 
-    @Override
-    public void startService(ServiceConfiguration serviceConfiguration) {
-        DSICarplayProxy$1 dSICarplayProxy$1 = new DSICarplayProxy$1(this, serviceConfiguration);
-        this.proxy.remoteCallMethod((short)46, dSICarplayProxy$1);
+    public void startService(final ServiceConfiguration serviceConfiguration) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ServiceConfigurationSerializer.putOptionalServiceConfiguration(iSerializer, serviceConfiguration);
+            }
+        };
+        this.proxy.remoteCallMethod((short)46, iSerializable);
     }
 
-    @Override
-    public void postButtonEvent(int n, int n2) {
+    public void postButtonEvent(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -59,14 +66,19 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
-        DSICarplayProxy$2 dSICarplayProxy$2 = new DSICarplayProxy$2(this, n, n2, touchEventArray);
-        this.proxy.remoteCallMethod((short)7, dSICarplayProxy$2);
+    public void postTouchEvent(final int n, final int n2, final TouchEvent[] touchEventArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                TouchEventSerializer.putOptionalTouchEventVarArray(iSerializer, touchEventArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void postRotaryEvent(int n) {
+    public void postRotaryEvent(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -77,8 +89,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void postCharacterEvent(int n, String[] stringArray) {
+    public void postCharacterEvent(int n, String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -90,25 +101,34 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
-        DSICarplayProxy$3 dSICarplayProxy$3 = new DSICarplayProxy$3(this, resourceRequestArray, appStateRequestArray, string);
-        this.proxy.remoteCallMethod((short)9, dSICarplayProxy$3);
+    public void requestModeChange(final ResourceRequest[] resourceRequestArray, final AppStateRequest[] appStateRequestArray, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceRequestSerializer.putOptionalResourceRequestVarArray(iSerializer, resourceRequestArray);
+                AppStateRequestSerializer.putOptionalAppStateRequestVarArray(iSerializer, appStateRequestArray);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
-        DSICarplayProxy$4 dSICarplayProxy$4 = new DSICarplayProxy$4(this, resourceArray, appStateArray);
-        this.proxy.remoteCallMethod((short)38, dSICarplayProxy$4);
+    public void responseUpdateMode(final Resource[] resourceArray, final AppState[] appStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceSerializer.putOptionalResourceVarArray(iSerializer, resourceArray);
+                AppStateSerializer.putOptionalAppStateVarArray(iSerializer, appStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)38, iSerializable);
     }
 
-    @Override
-    public void responseBTDeactivation() {
+    public void responseBTDeactivation() throws MethodException {
         this.proxy.remoteCallMethod((short)12, null);
     }
 
-    @Override
-    public void requestUI(int n) {
+    public void requestUI(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -119,8 +139,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void requestNightMode(boolean bl) {
+    public void requestNightMode(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -131,8 +150,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void requestSIRIAction(int n) {
+    public void requestSIRIAction(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -143,8 +161,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void responseUpdateMainAudioType(int n) {
+    public void responseUpdateMainAudioType(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -155,8 +172,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void requestUI2(String string) {
+    public void requestUI2(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -167,8 +183,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)47, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -179,8 +194,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -191,13 +205,11 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -208,8 +220,7 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -220,13 +231,11 @@ DSICarplayC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

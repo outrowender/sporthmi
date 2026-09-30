@@ -9,6 +9,8 @@ import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.aggregate.AggregatedWriters;
 import de.esolutions.fw.util.transport.buffer.TransportBuffer;
 import de.esolutions.fw.util.transport.exception.InvalidTransportFormatException;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class AggregateEncoder {
     protected ITransport transport;
@@ -33,7 +35,7 @@ public class AggregateEncoder {
         return this.aggregate.maxSize();
     }
 
-    protected void sendPacket() {
+    protected void sendPacket() throws IOException, TransportException, InterruptedException {
         if (this.aggregate.numEntries() == 0) {
             return;
         }
@@ -41,7 +43,7 @@ public class AggregateEncoder {
         this.aggregate = new AggregatedWriters(this.packetSize);
     }
 
-    public void putMessage(IWriter iWriter) {
+    public void putMessage(IWriter iWriter) throws IOException, TransportException, InterruptedException {
         int n = iWriter.size();
         if (n > this.aggregate.maxSize()) {
             throw new InvalidTransportFormatException("Message too large");
@@ -55,7 +57,7 @@ public class AggregateEncoder {
         }
     }
 
-    public void putMessageCopy(IWriter iWriter) {
+    public void putMessageCopy(IWriter iWriter) throws IOException, TransportException, InterruptedException {
         TransportBuffer transportBuffer = new TransportBuffer(iWriter.size());
         iWriter.write(transportBuffer);
         this.putMessage(new CopyWriter(transportBuffer));
@@ -65,7 +67,7 @@ public class AggregateEncoder {
         return this.aggregate.numEntries();
     }
 
-    public void flushPacket() {
+    public void flushPacket() throws IOException, TransportException, InterruptedException {
         if (this.aggregate.numEntries() > 0) {
             this.sendPacket();
         }

@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eAntennaStateVICS
 extends IEnum {
-    public static final int VICS_ANTENNA_STATE_NOT_OK;
-    public static final int VICS_ANTENNA_STATE_OK;
-    public static final int VICS_ANTENNA_STATE_NOT_AVAILABLE;
+    public static final int VICS_ANTENNA_STATE_NOT_OK = 0;
+    public static final int VICS_ANTENNA_STATE_OK = 1;
+    public static final int VICS_ANTENNA_STATE_NOT_AVAILABLE = 255;
 }
 

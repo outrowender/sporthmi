@@ -8,16 +8,12 @@ import de.esolutions.fw.util.transport.factory.ISpawnTransportFactory;
 import java.io.IOException;
 
 public interface ISpawnedTransportListener {
-    default public void spawnedTransport(ITransport iTransport) {
-    }
+    public void spawnedTransport(ITransport var1);
 
-    default public boolean spawningRetry(ISpawnTransportFactory iSpawnTransportFactory, IOException iOException, int n) {
-    }
+    public boolean spawningRetry(ISpawnTransportFactory var1, IOException var2, int var3);
 
-    default public void spawningEnabled(ISpawnTransportFactory iSpawnTransportFactory) {
-    }
+    public void spawningEnabled(ISpawnTransportFactory var1);
 
-    default public void spawningDisabled(ISpawnTransportFactory iSpawnTransportFactory) {
-    }
+    public void spawningDisabled(ISpawnTransportFactory var1);
 }
 

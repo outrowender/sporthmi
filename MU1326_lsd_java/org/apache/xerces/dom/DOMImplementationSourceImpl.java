@@ -14,7 +14,6 @@ import org.w3c.dom.DOMImplementationSource;
 
 public class DOMImplementationSourceImpl
 implements DOMImplementationSource {
-    @Override
     public DOMImplementation getDOMImplementation(String string) {
         DOMImplementation dOMImplementation = CoreDOMImplementationImpl.getDOMImplementation();
         if (this.testImpl(dOMImplementation, string)) {
@@ -27,7 +26,6 @@ implements DOMImplementationSource {
         return null;
     }
 
-    @Override
     public DOMImplementationList getDOMImplementationList(String string) {
         DOMImplementation dOMImplementation = CoreDOMImplementationImpl.getDOMImplementation();
         Vector vector = new Vector();

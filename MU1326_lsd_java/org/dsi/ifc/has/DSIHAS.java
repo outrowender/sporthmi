@@ -8,27 +8,23 @@ import org.dsi.ifc.has.HASDataContainer;
 
 public interface DSIHAS
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_HMIREADY;
-    public static final int RT_ACTIONRESULT;
-    public static final int RT_PROPERTYUPDATE;
-    public static final int RT_SUBSCRIBERESULT;
-    public static final int IN_ACTIONREQUEST;
-    public static final int IN_SUBSCRIBEREQUEST;
-    public static final int IN_UNSUBSCRIBEREQUEST;
-    public static final int IN_UNSUBSCRIBEALLREQUEST;
-    public static final int IN_GETPROPERTYREQUEST;
+    public static final String VERSION = "2.11.6";
+    public static final int RT_HMIREADY = 1000;
+    public static final int RT_ACTIONRESULT = 1001;
+    public static final int RT_PROPERTYUPDATE = 1002;
+    public static final int RT_SUBSCRIBERESULT = 1003;
+    public static final int IN_ACTIONREQUEST = 3000;
+    public static final int IN_SUBSCRIBEREQUEST = 3001;
+    public static final int IN_UNSUBSCRIBEREQUEST = 3002;
+    public static final int IN_UNSUBSCRIBEALLREQUEST = 3003;
+    public static final int IN_GETPROPERTYREQUEST = 3004;
 
-    default public void hmiReady() {
-    }
+    public void hmiReady();
 
-    default public void actionResult(int n, int n2, HASDataContainer[] hASDataContainerArray, int n3) {
-    }
+    public void actionResult(int var1, int var2, HASDataContainer[] var3, int var4);
 
-    default public void propertyUpdate(int n, HASDataContainer[] hASDataContainerArray, int n2) {
-    }
+    public void propertyUpdate(int var1, HASDataContainer[] var2, int var3);
 
-    default public void subscribeResult(int n, int n2) {
-    }
+    public void subscribeResult(int var1, int var2);
 }
 

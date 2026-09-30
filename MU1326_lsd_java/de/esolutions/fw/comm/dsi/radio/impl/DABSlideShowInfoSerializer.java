@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.DABSlideShowInfo;
 
 public class DABSlideShowInfoSerializer {
-    public static void putOptionalDABSlideShowInfo(ISerializer iSerializer, DABSlideShowInfo dABSlideShowInfo) {
+    public static void putOptionalDABSlideShowInfo(ISerializer iSerializer, DABSlideShowInfo dABSlideShowInfo) throws SerializerException {
         boolean bl = dABSlideShowInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class DABSlideShowInfoSerializer {
         }
     }
 
-    public static void putOptionalDABSlideShowInfoVarArray(ISerializer iSerializer, DABSlideShowInfo[] dABSlideShowInfoArray) {
+    public static void putOptionalDABSlideShowInfoVarArray(ISerializer iSerializer, DABSlideShowInfo[] dABSlideShowInfoArray) throws SerializerException {
         boolean bl = dABSlideShowInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class DABSlideShowInfoSerializer {
         }
     }
 
-    public static DABSlideShowInfo getOptionalDABSlideShowInfo(IDeserializer iDeserializer) {
+    public static DABSlideShowInfo getOptionalDABSlideShowInfo(IDeserializer iDeserializer) throws SerializerException {
         DABSlideShowInfo dABSlideShowInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class DABSlideShowInfoSerializer {
         return dABSlideShowInfo;
     }
 
-    public static DABSlideShowInfo[] getOptionalDABSlideShowInfoVarArray(IDeserializer iDeserializer) {
+    public static DABSlideShowInfo[] getOptionalDABSlideShowInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DABSlideShowInfo[] dABSlideShowInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

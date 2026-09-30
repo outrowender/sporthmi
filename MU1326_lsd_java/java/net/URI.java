@@ -9,20 +9,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.net.URI$Helper;
+import java.net.MalformedURLException;
 import java.net.URIEncoderDecoder;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.StringTokenizer;
 
 public final class URI
 implements Comparable,
 Serializable {
-    private static final long serialVersionUID;
-    static final String unreserved;
-    static final String punct;
-    static final String reserved;
-    static final String someLegal;
-    static final String allLegal;
+    private static final long serialVersionUID = -6052424284110960213L;
+    static final String unreserved = "_-!.~'()*";
+    static final String punct = ",;:$&+=";
+    static final String reserved = ",;:$&+=?/[]@";
+    static final String someLegal = "_-!.~'()*,;:$&+=";
+    static final String allLegal = "_-!.~'()*,;:$&+=?/[]@";
     private String string = null;
     private transient String scheme = null;
     private transient String schemespecificpart = null;
@@ -41,27 +42,27 @@ Serializable {
     private URI() {
     }
 
-    public URI(String string) {
-        URI$Helper.access$0(new URI$Helper(this), string, false);
+    public URI(String string) throws URISyntaxException {
+        new Helper().parseURI(string, false);
     }
 
-    public URI(String string, String string2, String string3) {
+    public URI(String string, String string2, String string3) throws URISyntaxException {
         StringBuffer stringBuffer = new StringBuffer();
         if (string != null) {
             stringBuffer.append(string);
             stringBuffer.append(':');
         }
         if (string2 != null) {
-            stringBuffer.append(this.quoteComponent(string2, "_-!.~'()*,;:$&+=?/[]@"));
+            stringBuffer.append(this.quoteComponent(string2, allLegal));
         }
         if (string3 != null) {
             stringBuffer.append('#');
-            stringBuffer.append(this.quoteComponent(string3, "_-!.~'()*,;:$&+=?/[]@"));
+            stringBuffer.append(this.quoteComponent(string3, allLegal));
         }
-        URI$Helper.access$0(new URI$Helper(this), stringBuffer.toString(), false);
+        new Helper().parseURI(stringBuffer.toString(), false);
     }
 
-    public URI(String string, String string2, String string3, int n, String string4, String string5, String string6) {
+    public URI(String string, String string2, String string3, int n, String string4, String string5, String string6) throws URISyntaxException {
         if (string != null && string4 != null && string4.length() > 0 && string4.charAt(0) != '/') {
             throw new URISyntaxException(string4, Msg.getString("K0302"));
         }
@@ -74,7 +75,7 @@ Serializable {
             stringBuffer.append("//");
         }
         if (string2 != null) {
-            stringBuffer.append(this.quoteComponent(string2, "_-!.~'()*,;:$&+="));
+            stringBuffer.append(this.quoteComponent(string2, someLegal));
             stringBuffer.append('@');
         }
         if (string3 != null) {
@@ -92,20 +93,20 @@ Serializable {
         }
         if (string5 != null) {
             stringBuffer.append('?');
-            stringBuffer.append(this.quoteComponent(string5, "_-!.~'()*,;:$&+=?/[]@"));
+            stringBuffer.append(this.quoteComponent(string5, allLegal));
         }
         if (string6 != null) {
             stringBuffer.append('#');
-            stringBuffer.append(this.quoteComponent(string6, "_-!.~'()*,;:$&+=?/[]@"));
+            stringBuffer.append(this.quoteComponent(string6, allLegal));
         }
-        URI$Helper.access$0(new URI$Helper(this), stringBuffer.toString(), true);
+        new Helper().parseURI(stringBuffer.toString(), true);
     }
 
-    public URI(String string, String string2, String string3, String string4) {
+    public URI(String string, String string2, String string3, String string4) throws URISyntaxException {
         this(string, null, string2, -1, string3, null, string4);
     }
 
-    public URI(String string, String string2, String string3, String string4, String string5) {
+    public URI(String string, String string2, String string3, String string4, String string5) throws URISyntaxException {
         if (string != null && string3 != null && string3.length() > 0 && string3.charAt(0) != '/') {
             throw new URISyntaxException(string3, Msg.getString("K0302"));
         }
@@ -123,13 +124,13 @@ Serializable {
         }
         if (string4 != null) {
             stringBuffer.append('?');
-            stringBuffer.append(this.quoteComponent(string4, "_-!.~'()*,;:$&+=?/[]@"));
+            stringBuffer.append(this.quoteComponent(string4, allLegal));
         }
         if (string5 != null) {
             stringBuffer.append('#');
-            stringBuffer.append(this.quoteComponent(string5, "_-!.~'()*,;:$&+=?/[]@"));
+            stringBuffer.append(this.quoteComponent(string5, allLegal));
         }
-        URI$Helper.access$0(new URI$Helper(this), stringBuffer.toString(), false);
+        new Helper().parseURI(stringBuffer.toString(), false);
     }
 
     private String quoteComponent(String string, String string2) {
@@ -141,7 +142,6 @@ Serializable {
         }
     }
 
-    @Override
     public int compareTo(Object object) {
         if (!(object instanceof URI)) {
             throw new ClassCastException();
@@ -505,9 +505,9 @@ Serializable {
         return uRI;
     }
 
-    public URI parseServerAuthority() {
+    public URI parseServerAuthority() throws URISyntaxException {
         if (!this.serverAuthority) {
-            URI$Helper.access$1(new URI$Helper(this), true);
+            new Helper().parseAuthority(true);
         }
         return this;
     }
@@ -677,102 +677,422 @@ Serializable {
         return this.convertHexToLowerCase(stringBuffer.toString());
     }
 
-    public URL toURL() {
+    public URL toURL() throws MalformedURLException {
         if (!this.absolute) {
             throw new IllegalArgumentException(new StringBuffer(String.valueOf(Msg.getString("K0312"))).append(": ").append(this.toString()).toString());
         }
         return new URL(this.toString());
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         try {
-            URI$Helper.access$0(new URI$Helper(this), this.string, false);
+            new Helper().parseURI(this.string, false);
         }
         catch (URISyntaxException uRISyntaxException) {
             throw new IOException(uRISyntaxException.toString());
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException, ClassNotFoundException {
         this.toString();
         objectOutputStream.defaultWriteObject();
     }
 
-    static /* synthetic */ void access$0(URI uRI, String string) {
-        uRI.string = string;
-    }
+    private class Helper {
+        Helper() {
+        }
 
-    static /* synthetic */ void access$1(URI uRI, String string) {
-        uRI.fragment = string;
-    }
+        private void parseURI(String string, boolean bl) throws URISyntaxException {
+            int n;
+            String string2 = string;
+            URI.this.string = string;
+            int n2 = string2.indexOf(35);
+            if (n2 != -1) {
+                URI.this.fragment = string2.substring(n2 + 1);
+                this.validateFragment(string, URI.this.fragment, n2 + 1);
+                string2 = string2.substring(0, n2);
+            }
+            n2 = n = string2.indexOf(58);
+            int n3 = string2.indexOf(47);
+            int n4 = string2.indexOf(63);
+            if (!(n2 == -1 || n3 < n2 && n3 != -1 || n4 < n2 && n4 != -1)) {
+                URI.this.absolute = true;
+                URI.this.scheme = string2.substring(0, n2);
+                if (URI.this.scheme.length() == 0) {
+                    throw new URISyntaxException(string, Msg.getString("K0342"), n2);
+                }
+                this.validateScheme(string, URI.this.scheme, 0);
+                URI.this.schemespecificpart = string2.substring(n2 + 1);
+                if (URI.this.schemespecificpart.length() == 0) {
+                    throw new URISyntaxException(string, Msg.getString("K0303"), n2 + 1);
+                }
+            } else {
+                URI.this.absolute = false;
+                URI.this.schemespecificpart = string2;
+            }
+            if (URI.this.scheme == null || URI.this.schemespecificpart.length() > 0 && URI.this.schemespecificpart.charAt(0) == '/') {
+                URI.this.opaque = false;
+                string2 = URI.this.schemespecificpart;
+                n2 = string2.indexOf(63);
+                if (n2 != -1) {
+                    URI.this.query = string2.substring(n2 + 1);
+                    string2 = string2.substring(0, n2);
+                    this.validateQuery(string, URI.this.query, n3 + 1 + n2);
+                }
+                if (string2.startsWith("//")) {
+                    n2 = string2.indexOf(47, 2);
+                    if (n2 != -1) {
+                        URI.this.authority = string2.substring(2, n2);
+                        URI.this.path = string2.substring(n2);
+                    } else {
+                        URI.this.authority = string2.substring(2);
+                        if (URI.this.authority.length() == 0 && URI.this.query == null && URI.this.fragment == null) {
+                            throw new URISyntaxException(string, Msg.getString("K0304"), string.length());
+                        }
+                        URI.this.path = "";
+                    }
+                    if (URI.this.authority.length() == 0) {
+                        URI.this.authority = null;
+                    } else {
+                        this.validateAuthority(string, URI.this.authority, n + 3);
+                    }
+                } else {
+                    URI.this.path = string2;
+                }
+                int n5 = 0;
+                if (n3 > -1) {
+                    n5 += n3;
+                }
+                if (n2 > -1) {
+                    n5 += n2;
+                }
+                this.validatePath(string, URI.this.path, n5);
+            } else {
+                URI.this.opaque = true;
+                this.validateSsp(string, URI.this.schemespecificpart, n3 + 2 + n2);
+            }
+            this.parseAuthority(bl);
+        }
 
-    static /* synthetic */ String access$2(URI uRI) {
-        return uRI.fragment;
-    }
+        private void validateScheme(String string, String string2, int n) throws URISyntaxException {
+            char c2 = string2.charAt(0);
+            if (!(c2 >= 'a' && c2 <= 'z' || c2 >= 'A' && c2 <= 'Z')) {
+                throw new URISyntaxException(string, Msg.getString("K0305"), 0);
+            }
+            try {
+                URIEncoderDecoder.validateSimple(string2, "+-.");
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                throw new URISyntaxException(string, Msg.getString("K0305"), n + uRISyntaxException.getIndex());
+            }
+        }
 
-    static /* synthetic */ void access$3(URI uRI, boolean bl) {
-        uRI.absolute = bl;
-    }
+        private void validateSsp(String string, String string2, int n) throws URISyntaxException {
+            try {
+                URIEncoderDecoder.validate(string2, URI.allLegal);
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                throw new URISyntaxException(string, Msg.getString("K0306", uRISyntaxException.getReason()), n + uRISyntaxException.getIndex());
+            }
+        }
 
-    static /* synthetic */ void access$4(URI uRI, String string) {
-        uRI.scheme = string;
-    }
+        private void validateAuthority(String string, String string2, int n) throws URISyntaxException {
+            try {
+                URIEncoderDecoder.validate(string2, "@[]_-!.~'()*,;:$&+=");
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                throw new URISyntaxException(string, Msg.getString("K0307", uRISyntaxException.getReason()), n + uRISyntaxException.getIndex());
+            }
+        }
 
-    static /* synthetic */ String access$5(URI uRI) {
-        return uRI.scheme;
-    }
+        private void validatePath(String string, String string2, int n) throws URISyntaxException {
+            try {
+                URIEncoderDecoder.validate(string2, "/@_-!.~'()*,;:$&+=");
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                throw new URISyntaxException(string, Msg.getString("K0308", uRISyntaxException.getReason()), n + uRISyntaxException.getIndex());
+            }
+        }
 
-    static /* synthetic */ void access$6(URI uRI, String string) {
-        uRI.schemespecificpart = string;
-    }
+        private void validateQuery(String string, String string2, int n) throws URISyntaxException {
+            try {
+                URIEncoderDecoder.validate(string2, URI.allLegal);
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                throw new URISyntaxException(string, Msg.getString("K0309", uRISyntaxException.getReason()), n + uRISyntaxException.getIndex());
+            }
+        }
 
-    static /* synthetic */ String access$7(URI uRI) {
-        return uRI.schemespecificpart;
-    }
+        private void validateFragment(String string, String string2, int n) throws URISyntaxException {
+            try {
+                URIEncoderDecoder.validate(string2, URI.allLegal);
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                throw new URISyntaxException(string, Msg.getString("K030a", uRISyntaxException.getReason()), n + uRISyntaxException.getIndex());
+            }
+        }
 
-    static /* synthetic */ void access$8(URI uRI, boolean bl) {
-        uRI.opaque = bl;
-    }
+        private void parseAuthority(boolean bl) throws URISyntaxException {
+            int n;
+            int n2;
+            String string;
+            String string2;
+            block11: {
+                if (URI.this.authority == null) {
+                    return;
+                }
+                string2 = null;
+                string = null;
+                n2 = 0;
+                n = -1;
+                String string3 = URI.this.authority;
+                int n3 = string3.indexOf(64);
+                if (n3 != -1) {
+                    string2 = string3.substring(0, n3);
+                    this.validateUserinfo(URI.this.authority, string2, 0);
+                    string3 = string3.substring(n3 + 1);
+                    n2 = n3 + 1;
+                }
+                n3 = string3.lastIndexOf(58);
+                int n4 = string3.indexOf(93);
+                if (n3 != -1 && n4 < n3) {
+                    string = string3.substring(0, n3);
+                    try {
+                        n = Integer.parseInt(string3.substring(n3 + 1));
+                        if (n < 0) {
+                            if (bl) {
+                                throw new URISyntaxException(URI.this.authority, Msg.getString("K00b1"), n2 + n3 + 1);
+                            }
+                            return;
+                        }
+                        break block11;
+                    }
+                    catch (NumberFormatException numberFormatException) {
+                        if (bl) {
+                            throw new URISyntaxException(URI.this.authority, Msg.getString("K00b1"), n2 + n3 + 1);
+                        }
+                        return;
+                    }
+                }
+                string = string3;
+            }
+            if (string.equals("")) {
+                if (bl) {
+                    throw new URISyntaxException(URI.this.authority, Msg.getString("K030c"), n2);
+                }
+                return;
+            }
+            if (!this.isValidHost(bl, string)) {
+                return;
+            }
+            URI.this.userinfo = string2;
+            URI.this.host = string;
+            URI.this.port = n;
+            URI.this.serverAuthority = true;
+        }
 
-    static /* synthetic */ void access$9(URI uRI, String string) {
-        uRI.query = string;
-    }
+        private void validateUserinfo(String string, String string2, int n) throws URISyntaxException {
+            int n2 = 0;
+            while (n2 < string2.length()) {
+                char c2 = string2.charAt(n2);
+                if (c2 == ']' || c2 == '[') {
+                    throw new URISyntaxException(string, Msg.getString("K030d"), n + n2);
+                }
+                ++n2;
+            }
+        }
 
-    static /* synthetic */ String access$10(URI uRI) {
-        return uRI.query;
-    }
+        private boolean isValidHost(boolean bl, String string) throws URISyntaxException {
+            if (string.charAt(0) == '[') {
+                if (string.charAt(string.length() - 1) != ']') {
+                    throw new URISyntaxException(string, Msg.getString("K030e"), 0);
+                }
+                if (!this.isValidIP6Address(string)) {
+                    throw new URISyntaxException(string, Msg.getString("K030f"));
+                }
+                return true;
+            }
+            if (string.indexOf(91) != -1 || string.indexOf(93) != -1) {
+                throw new URISyntaxException(string, Msg.getString("K0310"), 0);
+            }
+            int n = string.lastIndexOf(46);
+            if (n < 0 || n == string.length() - 1 || !Character.isDigit(string.charAt(n + 1))) {
+                if (this.isValidDomainName(string)) {
+                    return true;
+                }
+                if (bl) {
+                    throw new URISyntaxException(string, Msg.getString("K0310"), 0);
+                }
+                return false;
+            }
+            if (this.isValidIPv4Address(string)) {
+                return true;
+            }
+            if (bl) {
+                throw new URISyntaxException(string, Msg.getString("K0311"), 0);
+            }
+            return false;
+        }
 
-    static /* synthetic */ void access$11(URI uRI, String string) {
-        uRI.authority = string;
-    }
+        private boolean isValidDomainName(String string) {
+            char c2;
+            try {
+                URIEncoderDecoder.validateSimple(string, "-.");
+            }
+            catch (URISyntaxException uRISyntaxException) {
+                return false;
+            }
+            String string2 = null;
+            StringTokenizer stringTokenizer = new StringTokenizer(string, ".");
+            while (stringTokenizer.hasMoreTokens()) {
+                string2 = stringTokenizer.nextToken();
+                if (!string2.startsWith("-") && !string2.endsWith("-")) continue;
+                return false;
+            }
+            return string2.equals(string) || (c2 = string2.charAt(0)) < '0' || c2 > '9';
+        }
 
-    static /* synthetic */ void access$12(URI uRI, String string) {
-        uRI.path = string;
-    }
+        private boolean isValidIPv4Address(String string) {
+            try {
+                int n = string.indexOf(46);
+                int n2 = Integer.parseInt(string.substring(0, n));
+                if (n2 < 0 || n2 > 255) {
+                    return false;
+                }
+                int n3 = string.indexOf(46, n + 1);
+                n2 = Integer.parseInt(string.substring(n + 1, n3));
+                if (n2 < 0 || n2 > 255) {
+                    return false;
+                }
+                n = string.indexOf(46, n3 + 1);
+                n2 = Integer.parseInt(string.substring(n3 + 1, n));
+                if (n2 < 0 || n2 > 255) {
+                    return false;
+                }
+                n2 = Integer.parseInt(string.substring(n + 1));
+                if (n2 < 0 || n2 > 255) {
+                    return false;
+                }
+            }
+            catch (Exception exception) {
+                return false;
+            }
+            return true;
+        }
 
-    static /* synthetic */ String access$13(URI uRI) {
-        return uRI.authority;
-    }
+        private boolean isValidIP6Address(String string) {
+            int n = string.length();
+            boolean bl = false;
+            int n2 = 0;
+            int n3 = 0;
+            String string2 = "";
+            char c2 = '\u0000';
+            char c3 = '\u0000';
+            int n4 = 0;
+            if (n < 2) {
+                return false;
+            }
+            int n5 = 0;
+            while (n5 < n) {
+                c3 = c2;
+                c2 = string.charAt(n5);
+                switch (c2) {
+                    case '[': {
+                        if (n5 != 0) {
+                            return false;
+                        }
+                        if (string.charAt(n - 1) != ']') {
+                            return false;
+                        }
+                        n4 = 1;
+                        if (n >= 4) break;
+                        return false;
+                    }
+                    case ']': {
+                        if (n5 != n - 1) {
+                            return false;
+                        }
+                        if (string.charAt(0) == '[') break;
+                        return false;
+                    }
+                    case '.': {
+                        if (++n3 > 3) {
+                            return false;
+                        }
+                        if (!this.isValidIP4Word(string2)) {
+                            return false;
+                        }
+                        if (n2 != 6 && !bl) {
+                            return false;
+                        }
+                        if (n2 == 7 && string.charAt(0 + n4) != ':' && string.charAt(1 + n4) != ':') {
+                            return false;
+                        }
+                        string2 = "";
+                        break;
+                    }
+                    case ':': {
+                        if (++n2 > 7) {
+                            return false;
+                        }
+                        if (n3 > 0) {
+                            return false;
+                        }
+                        if (c3 == ':') {
+                            if (bl) {
+                                return false;
+                            }
+                            bl = true;
+                        }
+                        string2 = "";
+                        break;
+                    }
+                    default: {
+                        if (string2.length() > 3) {
+                            return false;
+                        }
+                        if (!this.isValidHexChar(c2)) {
+                            return false;
+                        }
+                        string2 = new StringBuffer(String.valueOf(string2)).append(c2).toString();
+                    }
+                }
+                ++n5;
+            }
+            if (n3 > 0) {
+                if (n3 != 3 || !this.isValidIP4Word(string2)) {
+                    return false;
+                }
+            } else {
+                if (n2 != 7 && !bl) {
+                    return false;
+                }
+                if (string2 == "" && string.charAt(n - 1 - n4) != ':' && string.charAt(n - 2 - n4) != ':') {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-    static /* synthetic */ String access$14(URI uRI) {
-        return uRI.path;
-    }
+        private boolean isValidIP4Word(String string) {
+            if (string.length() < 1 || string.length() > 3) {
+                return false;
+            }
+            int n = 0;
+            while (n < string.length()) {
+                char c2 = string.charAt(n);
+                if (c2 < '0' || c2 > '9') {
+                    return false;
+                }
+                ++n;
+            }
+            return Integer.parseInt(string) <= 255;
+        }
 
-    static /* synthetic */ void access$15(URI uRI, String string) {
-        uRI.userinfo = string;
-    }
-
-    static /* synthetic */ void access$16(URI uRI, String string) {
-        uRI.host = string;
-    }
-
-    static /* synthetic */ void access$17(URI uRI, int n) {
-        uRI.port = n;
-    }
-
-    static /* synthetic */ void access$18(URI uRI, boolean bl) {
-        uRI.serverAuthority = bl;
+        private boolean isValidHexChar(char c2) {
+            return c2 >= '0' && c2 <= '9' || c2 >= 'A' && c2 <= 'F' || c2 >= 'a' && c2 <= 'f';
+        }
     }
 }
 

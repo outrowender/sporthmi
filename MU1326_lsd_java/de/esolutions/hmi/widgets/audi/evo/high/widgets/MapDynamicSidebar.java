@@ -4,8 +4,11 @@
 package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 import de.audi.atip.hmi.drawerfocus.DrawerFocusUtil;
+import de.audi.atip.hmi.event.ATIPEvent;
+import de.audi.atip.hmi.event.ATIPEventListener;
 import de.audi.atip.hmi.event.KeyEvent;
 import de.audi.atip.hmi.event.ModelUpdateEvent;
+import de.audi.atip.hmi.event.TimerEvent;
 import de.audi.atip.hmi.event.WheelButtonEvent;
 import de.audi.atip.hmi.intercommunication.MapDynamicSidebarConstants;
 import de.audi.atip.hmi.model.HMIModel;
@@ -15,39 +18,40 @@ import de.audi.atip.hmi.model.list.TiledListModelGUI;
 import de.audi.atip.hmi.modelaccess.ButtonModelGUI;
 import de.audi.atip.hmi.modelaccess.ChoiceModelGUI;
 import de.audi.atip.hmi.modelaccess.RangeModelGUI;
+import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
+import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.widgets.ModelStubController;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractDynamicSidebar;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MapCrosshairController;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.MapDynamicSidebar$MapScrollHandler;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.MapDynamicSidebar$MapZoomHandler;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MapDynamicSidebarSegment;
 import de.esolutions.hmi.widgets.audi.evo.widgets.FocusCursorController;
+import de.esolutions.hmi.widgets.audi.evo.widgets.TouchMapHandler;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapDynamicSidebar
 extends AbstractDynamicSidebar
 implements MapDynamicSidebarConstants {
-    protected static final int LABEL_WITH_LINEBREAK_ENABLED;
-    protected MapDynamicSidebar$MapScrollHandler mapScroll;
-    protected MapDynamicSidebar$MapZoomHandler mapZoom;
-    protected static final boolean useWidgetMovement;
-    protected static final int MODEL_SCREEN_CHOICE;
-    protected static final int VALUE_GENERAL;
-    protected static final int VALUE_BRIEFING;
-    protected static final int STATUS_GENERAL;
-    protected static final int STATUS_SCROLLING;
-    protected static final int STATUS_STREETVIEW;
-    protected static final int MODEL_STREETVIEW_VISIBLE;
-    public static final int VALUE_VISIBLE;
-    protected static final int MODEL_VIRTUAL_BUTTON;
-    protected static final int MODEL_ZOOM_LEVELS;
-    protected static final int MODEL_PINCH_ZOOM_RANGE;
-    protected static final int MODEL_MAGNIFICATION_RANGE;
-    protected static final int MODEL_CROSSHAIR_BUTTON;
-    protected static final int AUTOZOOM_ACTIVE;
+    protected static final int LABEL_WITH_LINEBREAK_ENABLED = 16;
+    protected MapScrollHandler mapScroll;
+    protected MapZoomHandler mapZoom;
+    protected static final boolean useWidgetMovement = false;
+    protected static final int MODEL_SCREEN_CHOICE = 401124;
+    protected static final int VALUE_GENERAL = 0;
+    protected static final int VALUE_BRIEFING = 1;
+    protected static final int STATUS_GENERAL = 0;
+    protected static final int STATUS_SCROLLING = 3;
+    protected static final int STATUS_STREETVIEW = 4;
+    protected static final int MODEL_STREETVIEW_VISIBLE = 400824;
+    public static final int VALUE_VISIBLE = 1;
+    protected static final int MODEL_VIRTUAL_BUTTON = 400448;
+    protected static final int MODEL_ZOOM_LEVELS = 401133;
+    protected static final int MODEL_PINCH_ZOOM_RANGE = 400898;
+    protected static final int MODEL_MAGNIFICATION_RANGE = 400476;
+    protected static final int MODEL_CROSSHAIR_BUTTON = 401004;
+    protected static final int AUTOZOOM_ACTIVE = 1;
     protected int segment_STREETVIEW_PREVIEW_MAP;
     protected int segment_COMPASS;
     protected int segment_ROUTE_INFO;
@@ -73,13 +77,12 @@ implements MapDynamicSidebarConstants {
     protected boolean modelsSetUp = false;
 
     public MapDynamicSidebar() {
-        this.mapZoom = new MapDynamicSidebar$MapZoomHandler();
+        this.mapZoom = new MapZoomHandler();
         this.mapZoom.setParent(this);
-        this.mapScroll = new MapDynamicSidebar$MapScrollHandler();
+        this.mapScroll = new MapScrollHandler();
         this.mapScroll.setParent(this);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof FocusCursorController) {
@@ -88,7 +91,7 @@ implements MapDynamicSidebarConstants {
         }
         if (abstractWidget instanceof ModelStubController) {
             this.modelStubs.add(abstractWidget);
-            sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#add ModelStub with modelID = %1", (long)abstractWidget.getModelID());
+            sideBarLogChannel.log(10000000, "MapDynamicSidebar#add ModelStub with modelID = %1", (long)abstractWidget.getModelID());
             return;
         }
     }
@@ -143,14 +146,14 @@ implements MapDynamicSidebarConstants {
                     continue block13;
                 }
                 default: {
-                    sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#calculateSegmentIndices unknown role = %1", (long)mapDynamicSidebarSegment.getRole());
+                    sideBarLogChannel.log(100000, "MapDynamicSidebar#calculateSegmentIndices unknown role = %1", (long)mapDynamicSidebarSegment.getRole());
                 }
             }
         }
     }
 
     protected void calculateInitialState() {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#calculateInitialState state = %1", (long)this.state);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#calculateInitialState state = %1", (long)this.state);
         boolean bl = true;
         if (this.modelScreenChoice != null) {
             int n = this.modelScreenChoice.getValue();
@@ -218,16 +221,15 @@ implements MapDynamicSidebarConstants {
         if (bl) {
             this.enterState(0);
         }
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#calculateInitialState cursor visible: %1, cursor should render: %2", this.cursor.isVisible(), this.cursor.shouldRender());
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#calculateInitialState cursor visible: %1, cursor should render: %2", this.cursor.isVisible(), this.cursor.shouldRender());
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         if (sideBarLogChannel.isDebug()) {
-            sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#connected sidebarOpened = %1", this.isOpen());
+            sideBarLogChannel.log(10000000, "MapDynamicSidebar#connected sidebarOpened = %1", this.isOpen());
         }
         if (!this.isScale()) {
-            sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#connected Target is not MMI-Scale.");
+            sideBarLogChannel.log(10000000, "MapDynamicSidebar#connected Target is not MMI-Scale.");
             return;
         }
         super.connected(initializationContext);
@@ -246,15 +248,14 @@ implements MapDynamicSidebarConstants {
         this.storeSelectedSegmentForStreetViewToolbox(-1);
     }
 
-    @Override
     public void disconnecting() {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#disconnecting state = %1", (long)this.state);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#disconnecting state = %1", (long)this.state);
         this.onExit(this.state);
         super.disconnecting();
     }
 
     protected void enterState(int n) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#enterState state = %1, newState = %2", (long)this.state, (long)n);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#enterState state = %1, newState = %2", (long)this.state, (long)n);
         this.cachedStateForReinit = -1;
         this.onExit(this.state);
         this.onEnter(n);
@@ -277,7 +278,6 @@ implements MapDynamicSidebarConstants {
         return this.mapZoom.getZoomLevel();
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
         if (DrawerFocusUtil.isFocusLost(n) && this.state == 3) {
             this.enterState(2);
@@ -285,7 +285,7 @@ implements MapDynamicSidebarConstants {
     }
 
     protected void initModelStubs() {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#initModelStubs");
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#initModelStubs");
         int n = this.modelStubs.size();
         block9: for (int i2 = 0; i2 < n; ++i2) {
             ModelStubController modelStubController = (ModelStubController)this.modelStubs.get(i2);
@@ -330,7 +330,7 @@ implements MapDynamicSidebarConstants {
                     continue block9;
                 }
                 default: {
-                    sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#initModelStubs unknown model id %1", (long)n2);
+                    sideBarLogChannel.log(100000, "MapDynamicSidebar#initModelStubs unknown model id %1", (long)n2);
                 }
             }
         }
@@ -343,9 +343,8 @@ implements MapDynamicSidebarConstants {
         return false;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#keyPressed evt = %1", (Object)keyEvent);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#keyPressed evt = %1", (Object)keyEvent);
         super.keyPressed(keyEvent);
         int n = keyEvent.getKeyCode();
         block0 : switch (n) {
@@ -412,7 +411,7 @@ implements MapDynamicSidebarConstants {
                             break block0;
                         }
                         if (n2 != this.segment_OK) break block0;
-                        sideBarLogChannel.log(1078071040, "MapDynamicSidebar#keyPressed Event will be processed by virtual button NAV_MAP_CROSSHAIRS_EVENT_HANDLER_VIRTUAL_BUTTON segmentIndex == segment_OK state = %1", (long)this.state);
+                        sideBarLogChannel.log(1000000, "MapDynamicSidebar#keyPressed Event will be processed by virtual button NAV_MAP_CROSSHAIRS_EVENT_HANDLER_VIRTUAL_BUTTON segmentIndex == segment_OK state = %1", (long)this.state);
                         break block0;
                     }
                     case 5: 
@@ -433,15 +432,14 @@ implements MapDynamicSidebarConstants {
                         break block0;
                     }
                 }
-                sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#keyPressed unknown state = %1", (long)this.state);
+                sideBarLogChannel.log(100000, "MapDynamicSidebar#keyPressed unknown state = %1", (long)this.state);
                 break;
             }
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#keyReleased evt = %1", (Object)keyEvent);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#keyReleased evt = %1", (Object)keyEvent);
         super.keyReleased(keyEvent);
         int n = keyEvent.getKeyCode();
         switch (n) {
@@ -454,9 +452,8 @@ implements MapDynamicSidebarConstants {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#keyTurned state = %1", (long)this.state);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#keyTurned state = %1", (long)this.state);
         switch (this.state) {
             case 1: 
             case 6: {
@@ -479,7 +476,7 @@ implements MapDynamicSidebarConstants {
                 break;
             }
             default: {
-                sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#keyTurned unknown state = %1", (long)this.state);
+                sideBarLogChannel.log(100000, "MapDynamicSidebar#keyTurned unknown state = %1", (long)this.state);
             }
         }
         int n = wheelButtonEvent.getDirection();
@@ -495,7 +492,7 @@ implements MapDynamicSidebarConstants {
     protected void onEnter(int n) {
         switch (n) {
             case 0: {
-                sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#onEnter Unlock elevation, traffic and route info");
+                sideBarLogChannel.log(10000000, "MapDynamicSidebar#onEnter Unlock elevation, traffic and route info");
                 this.unlockInvisible(this.segment_TRAFFIC);
                 this.unlockInvisible(this.segment_ROUTE_INFO);
                 this.unlockInvisible(this.segment_ELEVATION);
@@ -597,7 +594,7 @@ implements MapDynamicSidebarConstants {
                 break;
             }
             default: {
-                sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#onEnter unknown state = %1", (long)n);
+                sideBarLogChannel.log(100000, "MapDynamicSidebar#onEnter unknown state = %1", (long)n);
             }
         }
     }
@@ -605,7 +602,7 @@ implements MapDynamicSidebarConstants {
     protected void unlockInvisible(int n) {
         MapDynamicSidebarSegment mapDynamicSidebarSegment = this.getMapSegment(n);
         if (mapDynamicSidebarSegment == null) {
-            sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#unlockInvisible segment with id: %1 is null", (long)n);
+            sideBarLogChannel.log(100000, "MapDynamicSidebar#unlockInvisible segment with id: %1 is null", (long)n);
             return;
         }
         mapDynamicSidebarSegment.unlockVisibility();
@@ -614,7 +611,7 @@ implements MapDynamicSidebarConstants {
     protected void lockInvisible(int n) {
         MapDynamicSidebarSegment mapDynamicSidebarSegment = this.getMapSegment(n);
         if (mapDynamicSidebarSegment == null) {
-            sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#lockInvisible segment with id: %1 is null", (long)n);
+            sideBarLogChannel.log(100000, "MapDynamicSidebar#lockInvisible segment with id: %1 is null", (long)n);
             return;
         }
         if (mapDynamicSidebarSegment.isVisibilityLocked()) {
@@ -629,7 +626,7 @@ implements MapDynamicSidebarConstants {
     protected void onExit(int n) {
         switch (n) {
             case 0: {
-                sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#onExit elevation, lock traffic and route info");
+                sideBarLogChannel.log(10000000, "MapDynamicSidebar#onExit elevation, lock traffic and route info");
                 this.lockInvisible(this.segment_TRAFFIC);
                 this.lockInvisible(this.segment_ROUTE_INFO);
                 this.lockInvisible(this.segment_ELEVATION);
@@ -650,14 +647,13 @@ implements MapDynamicSidebarConstants {
                 break;
             }
             default: {
-                sideBarLogChannel.log(-1601830656, "MapDynamicSidebar#onExit unknown state = %1", (long)n);
+                sideBarLogChannel.log(100000, "MapDynamicSidebar#onExit unknown state = %1", (long)n);
             }
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#processModelUpdateEvent Received update from model %1", (Object)modelUpdateEvent);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#processModelUpdateEvent Received update from model %1", (Object)modelUpdateEvent);
         if (!this.isConnected()) {
             return;
         }
@@ -734,7 +730,7 @@ implements MapDynamicSidebarConstants {
                 break;
             }
             default: {
-                sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#processModelUpdateEvent Received update from unknown model %1", (Object)modelUpdateEvent);
+                sideBarLogChannel.log(10000000, "MapDynamicSidebar#processModelUpdateEvent Received update from unknown model %1", (Object)modelUpdateEvent);
             }
         }
     }
@@ -755,7 +751,6 @@ implements MapDynamicSidebarConstants {
         }
     }
 
-    @Override
     protected void sidebarOpen() {
         super.sidebarOpen();
         this.storeSelectedSegmentForToolbox(-1);
@@ -763,18 +758,278 @@ implements MapDynamicSidebarConstants {
     }
 
     protected void storeSelectedSegmentForStreetViewToolbox(int n) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#storeSelectedSegmentForStreetViewToolbox selectedIndex = %1", (long)n);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#storeSelectedSegmentForStreetViewToolbox selectedIndex = %1", (long)n);
         this.selectedSegmentIndexOnExitScrollingForStreetView = n;
     }
 
     protected void storeSelectedSegmentForToolbox(int n) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#storeSelectedSegmentForToolbox selectedIndex = %1", (long)n);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#storeSelectedSegmentForToolbox selectedIndex = %1", (long)n);
         this.selectedSegmentIndexOnExitScrollingForToolbox = n;
     }
 
     protected void storeCachedStateForReinit(int n) {
-        sideBarLogChannel.log(-2137614336, "MapDynamicSidebar#storeCachedStateForReinit reinitState = %1", (long)n);
+        sideBarLogChannel.log(10000000, "MapDynamicSidebar#storeCachedStateForReinit reinitState = %1", (long)n);
         this.cachedStateForReinit = n;
+    }
+
+    protected static final class MapZoomHandler {
+        private RangeModel modelRef;
+        private TiledListModelGUI zoomLevelModelRef;
+        private int terminalID;
+        private int zoomLevelIndex;
+        private int[] zoomLevels;
+        private int zoomLevelIndexTmp = -1;
+        private MapDynamicSidebar parentRef;
+
+        public int getZoomLevel() {
+            return this.zoomLevels[this.zoomLevelIndex];
+        }
+
+        public void keyTurned(WheelButtonEvent wheelButtonEvent) {
+            int n = -1;
+            if (wheelButtonEvent.getDirection() == 1) {
+                n = 1;
+            }
+            if (this.zoomLevels == null) {
+                IWidgetLogChannel.sideBarLogChannel.log(10000, "MapScrollHandler#keyTurned zoomLevels is null.");
+                return;
+            }
+            int n2 = Math.max(0, Math.min(this.zoomLevels.length - 1, this.zoomLevelIndex + n * wheelButtonEvent.getClickCount()));
+            if (this.parentRef.getCurrentState() == 5) {
+                n2 = wheelButtonEvent.getDirection() == 1 ? 1 : 0;
+            }
+            this.setZoomLevel(n2);
+        }
+
+        public void setModel(RangeModel rangeModel) {
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapScrollHandler#setModel model = %1", (Object)rangeModel);
+            this.modelRef = rangeModel;
+        }
+
+        public void setModel(TiledListModelGUI tiledListModelGUI) {
+            this.zoomLevelModelRef = tiledListModelGUI;
+        }
+
+        public void setParent(MapDynamicSidebar mapDynamicSidebar) {
+            this.parentRef = mapDynamicSidebar;
+        }
+
+        private void setZoomLevel(int n) {
+            int n2 = this.zoomLevels[n];
+            if (this.modelRef != null) {
+                this.modelRef.increment(n2, this.terminalID);
+            } else {
+                IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapScrollHandler#setZoomLevel Model is not set.");
+            }
+            this.zoomLevelIndex = n;
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapScrollHandler#setZoomLevel zoomLevelToSet = %1", (long)n2);
+        }
+
+        protected void setZoomLevelNoModelWrite(int n) {
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapScrollHandler#setZoomLevelNoModelWrite newZoomLevelIndex = %1", (long)n);
+            this.zoomLevelIndex = n;
+        }
+
+        public void updateZoomLevel(int n, boolean bl) {
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapZoomHandler#updateZoomLevel magnification range update (oldValue = %1, newValue = %2)", (long)this.zoomLevelIndex, (long)n);
+            if (this.zoomLevels != null) {
+                if (0 <= n && n < this.zoomLevels.length) {
+                    if (bl) {
+                        this.setZoomLevel(n);
+                    } else {
+                        IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapZoomHandler#updateZoomLevel only update zoomLevelIndex - used for autoZoom");
+                        this.zoomLevelIndex = n;
+                    }
+                }
+            } else {
+                this.zoomLevelIndexTmp = n;
+                IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapZoomHandler#updateZoomLevel Zoomlevels not initialized yet.");
+            }
+        }
+
+        public void updateZoomLevels() {
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapZoomHandler#updateZoomLevels");
+            this.zoomLevels = TouchMapHandler.updateZoomLevels(this.zoomLevelModelRef);
+            if (this.zoomLevelIndexTmp != -1) {
+                this.updateZoomLevel(this.zoomLevelIndexTmp, true);
+                this.zoomLevelIndexTmp = -1;
+            }
+        }
+    }
+
+    protected static final class MapScrollHandler
+    implements ATIPEventListener {
+        private static final int EVENT_CYCLE = 50;
+        private static final int V_START = 1;
+        private static final float V_SCALE = 0.02f;
+        private static final int DEGREE_PER_TICK_NAVI = 45;
+        private static final float DEGREE_PER_TICK_WIDGET = 22.5f;
+        private static final float DEGREE_DIRECTION_N = 0.0f;
+        private static final float DEGREE_DIRECTION_NNE = 22.5f;
+        private static final float DEGREE_DIRECTION_NE = 45.0f;
+        private static final float DEGREE_DIRECTION_ENE = 67.5f;
+        private static final float DEGREE_DIRECTION_E = 90.0f;
+        private static final float DEGREE_DIRECTION_ESE = 112.5f;
+        private static final float DEGREE_DIRECTION_SE = 135.0f;
+        private static final float DEGREE_DIRECTION_SSE = 157.5f;
+        private static final float DEGREE_DIRECTION_S = 180.0f;
+        private static final float DEGREE_DIRECTION_SSW = -157.5f;
+        private static final float DEGREE_DIRECTION_SW = -135.0f;
+        private static final float DEGREE_DIRECTION_WSW = -112.5f;
+        private static final float DEGREE_DIRECTION_W = -90.0f;
+        private static final float DEGREE_DIRECTION_WNW = -67.5f;
+        private static final float DEGREE_DIRECTION_NW = -45.0f;
+        private static final float DEGREE_DIRECTION_NNW = -22.5f;
+        private static final float DEGREE_PER_TICK_STREET_VIEW = 12.857142f;
+        private float alpha;
+        private float velocity;
+        private Job timer = null;
+        private TimerEvent timerEvent = null;
+        private VirtualButtonModel modelRef;
+        private int terminalID;
+        private MapDynamicSidebar parentRef;
+
+        protected MapScrollHandler() {
+        }
+
+        protected void cancelTimer() {
+            if (this.timer != null && !this.timer.isCanceled()) {
+                this.timer.cancel();
+            }
+        }
+
+        public void ddsPressed() {
+            this.velocity = 1.0f;
+            this.restartTimer();
+        }
+
+        public void ddsReleased() {
+            this.processMovementViaNav(-1);
+            this.cancelTimer();
+        }
+
+        public void processEvent(ATIPEvent aTIPEvent) {
+            this.processMovementViaNav((int)this.alpha);
+        }
+
+        public void processMovementViaNav(int n) {
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapDynamicSidebar#processMovementViaNav alpha = %1, appAngle = %2", (double)this.alpha, (double)n, 0.0);
+            if (this.modelRef == null) {
+                IWidgetLogChannel.sideBarLogChannel.log(10000, "MapDynamicSidebar#processMovementViaNav Model is not set.");
+                return;
+            }
+            switch (n) {
+                case 0: {
+                    this.modelRef.joyN(this.terminalID);
+                    break;
+                }
+                case 45: {
+                    this.modelRef.joyNE(this.terminalID);
+                    break;
+                }
+                case 90: {
+                    this.modelRef.joyE(this.terminalID);
+                    break;
+                }
+                case 135: {
+                    this.modelRef.joySE(this.terminalID);
+                    break;
+                }
+                case -180: 
+                case 180: {
+                    this.modelRef.joyS(this.terminalID);
+                    break;
+                }
+                case -135: {
+                    this.modelRef.joySW(this.terminalID);
+                    break;
+                }
+                case -90: {
+                    this.modelRef.joyW(this.terminalID);
+                    break;
+                }
+                case -45: {
+                    this.modelRef.joyNW(this.terminalID);
+                    break;
+                }
+                default: {
+                    this.modelRef.joyIdle(this.terminalID);
+                }
+            }
+        }
+
+        private void processMovementViaWidget(ATIPEvent aTIPEvent) {
+            this.velocity += 1.0f;
+            double d2 = Math.toRadians(this.alpha);
+            double d3 = Math.sin(d2);
+            double d4 = Math.cos(d2);
+            float f2 = -this.velocity * (float)d3;
+            float f3 = this.velocity * (float)d4;
+            f2 = MapScrollHandler.increaseFloatingPointPrecision(f2);
+            f3 = MapScrollHandler.increaseFloatingPointPrecision(f3);
+            if (this.modelRef != null) {
+                this.modelRef.touchPadPositionMoved(2, 0, (int)f2, (int)f3, this.terminalID);
+            } else {
+                IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapDynamicSidebar#processMovementViaWidget Model has not been set.");
+            }
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapDynamicSidebar#processMovementViaWidget alpha = %1, dx = %2, dy = %3", (double)this.alpha, (double)f2, (double)f3);
+            this.restartTimer();
+        }
+
+        public static float increaseFloatingPointPrecision(float f2) {
+            float f3 = Math.round(f2);
+            if ((double)Math.abs(f2 - f3) < 1.0E-7) {
+                f2 = f3;
+            }
+            return f2;
+        }
+
+        private void updateRotationAngle(WheelButtonEvent wheelButtonEvent) {
+            float f2 = 45.0f;
+            int n = 1;
+            if (wheelButtonEvent.getDirection() == 1) {
+                n = -1;
+            }
+            this.alpha += (float)(n * wheelButtonEvent.getClickCount()) * f2;
+            if (Math.abs(this.alpha) > 180.0f) {
+                this.alpha -= (float)n * 360.0f;
+            }
+            if (this.parentRef.getMapCrosshair() != null) {
+                this.parentRef.getMapCrosshair().setCurrentAngle(this.alpha);
+            }
+        }
+
+        public void keyTurned(WheelButtonEvent wheelButtonEvent) {
+            this.updateRotationAngle(wheelButtonEvent);
+            if (this.parentRef.state == 3) {
+                this.processEvent(wheelButtonEvent);
+            }
+        }
+
+        public void keyTurnedInStreetView(WheelButtonEvent wheelButtonEvent) {
+            int n = wheelButtonEvent.getDirection() == 0 ? -1 : 1;
+            float f2 = (float)n * 12.857142f * (float)wheelButtonEvent.getClickCount();
+            if (this.modelRef != null) {
+                this.modelRef.touchPadPositionMoved(1, 0, (int)f2, 0, this.terminalID);
+            }
+            IWidgetLogChannel.sideBarLogChannel.log(10000000, "MapScrollHandler#keyTurnedInStreetView dx = %1", (double)f2);
+        }
+
+        protected void restartTimer() {
+            if (this.timerEvent == null) {
+                this.timerEvent = new TimerEvent(this);
+            }
+            this.cancelTimer();
+            this.timer = AbstractWidget.hmiService.getEventDispatcher().postEvent(this.timerEvent, 50L);
+        }
+
+        public void setModel(VirtualButtonModel virtualButtonModel) {
+            this.modelRef = virtualButtonModel;
+        }
+
+        public void setParent(MapDynamicSidebar mapDynamicSidebar) {
+            this.parentRef = mapDynamicSidebar;
+        }
     }
 }
 

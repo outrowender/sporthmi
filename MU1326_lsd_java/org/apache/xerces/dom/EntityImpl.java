@@ -11,7 +11,7 @@ import org.w3c.dom.Node;
 public class EntityImpl
 extends ParentNode
 implements Entity {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -3575760943444303423L;
     protected String name;
     protected String publicId;
     protected String systemId;
@@ -27,12 +27,10 @@ implements Entity {
         this.isReadOnly(true);
     }
 
-    @Override
     public short getNodeType() {
         return 6;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -40,14 +38,12 @@ implements Entity {
         return this.name;
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         EntityImpl entityImpl = (EntityImpl)super.cloneNode(bl);
         entityImpl.setReadOnly(true, bl);
         return entityImpl;
     }
 
-    @Override
     public String getPublicId() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -55,7 +51,6 @@ implements Entity {
         return this.publicId;
     }
 
-    @Override
     public String getSystemId() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -63,7 +58,6 @@ implements Entity {
         return this.systemId;
     }
 
-    @Override
     public String getXmlVersion() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -71,7 +65,6 @@ implements Entity {
         return this.version;
     }
 
-    @Override
     public String getXmlEncoding() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -79,7 +72,6 @@ implements Entity {
         return this.encoding;
     }
 
-    @Override
     public String getNotationName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -101,7 +93,6 @@ implements Entity {
         this.encoding = string;
     }
 
-    @Override
     public String getInputEncoding() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -137,7 +128,6 @@ implements Entity {
         this.notationName = string;
     }
 
-    @Override
     public String getBaseURI() {
         if (this.needsSyncData()) {
             this.synchronizeData();

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmEConsumerList;
 
 public class BCmEConsumerListSerializer {
-    public static void putOptionalBCmEConsumerList(ISerializer iSerializer, BCmEConsumerList bCmEConsumerList) {
+    public static void putOptionalBCmEConsumerList(ISerializer iSerializer, BCmEConsumerList bCmEConsumerList) throws SerializerException {
         boolean bl = bCmEConsumerList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCmEConsumerListSerializer {
         }
     }
 
-    public static void putOptionalBCmEConsumerListVarArray(ISerializer iSerializer, BCmEConsumerList[] bCmEConsumerListArray) {
+    public static void putOptionalBCmEConsumerListVarArray(ISerializer iSerializer, BCmEConsumerList[] bCmEConsumerListArray) throws SerializerException {
         boolean bl = bCmEConsumerListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCmEConsumerListSerializer {
         }
     }
 
-    public static BCmEConsumerList getOptionalBCmEConsumerList(IDeserializer iDeserializer) {
+    public static BCmEConsumerList getOptionalBCmEConsumerList(IDeserializer iDeserializer) throws SerializerException {
         BCmEConsumerList bCmEConsumerList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCmEConsumerListSerializer {
         return bCmEConsumerList;
     }
 
-    public static BCmEConsumerList[] getOptionalBCmEConsumerListVarArray(IDeserializer iDeserializer) {
+    public static BCmEConsumerList[] getOptionalBCmEConsumerListVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmEConsumerList[] bCmEConsumerListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

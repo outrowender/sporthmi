@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class ServiceRequest_Extension1
 implements BAPEntity {
-    private static final int RESERVED_BIT_0__7_BITSIZE;
+    private static final int RESERVED_BIT_0__7_BITSIZE = 8;
 
     public ServiceRequest_Extension1() {
         this.internalReset();
@@ -23,12 +23,10 @@ implements BAPEntity {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceRequest_Extension1 serviceRequest_Extension1 = (ServiceRequest_Extension1)bAPEntity;
         return this.equals(serviceRequest_Extension1);
@@ -37,24 +35,20 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceRequest_Extension1");
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(8);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(8);
     }

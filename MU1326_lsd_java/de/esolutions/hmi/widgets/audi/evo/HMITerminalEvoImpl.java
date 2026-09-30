@@ -38,17 +38,14 @@ implements ExtHMITerminalEvo {
         super(n, bundleContext, iFrameworkAccess);
     }
 
-    @Override
     protected IDrawerFocusManagerEvo generateDrawerFocusManager() {
         return new DrawerFocusManager(this);
     }
 
-    @Override
     protected IViewSizeManager generateViewSizeManager() {
         return new ViewSizeManager(this);
     }
 
-    @Override
     protected void initializeComponents() {
         this.generateLockingManager();
         super.initializeComponents();
@@ -60,7 +57,6 @@ implements ExtHMITerminalEvo {
         this.lockingmanager = LockingManager.getInstance(IWidgetLogChannel.logLocking);
     }
 
-    @Override
     public ILockingManager getLockingManager() {
         return this.lockingmanager;
     }
@@ -69,43 +65,34 @@ implements ExtHMITerminalEvo {
         return new UserHintHandler(this);
     }
 
-    @Override
     public IUserHintHandler getUserHintHandler() {
         return this.userHintHandler;
     }
 
-    @Override
     public IRendererFactory getRendererFactory() {
         return this.rendererFactory;
     }
 
-    protected abstract IRendererFactory generateRendererFactory() {
-    }
+    protected abstract IRendererFactory generateRendererFactory();
 
-    @Override
     protected IDrawerConditionEngine generateDrawerConditionEngine(BundleContext bundleContext) {
         return new DrawerConditionEngine(this, this.framework, bundleContext);
     }
 
-    @Override
     protected ITouchInputManager generateTouchInputManager() {
         return new TouchInputManager(this);
     }
 
-    protected abstract void generateKanziResourceLoader(IGUIManager iGUIManager) {
-    }
+    protected abstract void generateKanziResourceLoader(IGUIManager var1);
 
-    @Override
     public int getSkin() {
         return this.skin;
     }
 
-    @Override
     public void setSkin(int n) {
         this.skin = n;
     }
 
-    @Override
     public IWidgetRegistry getWidgetRegistryIf() {
         return this.widgetRegistry;
     }

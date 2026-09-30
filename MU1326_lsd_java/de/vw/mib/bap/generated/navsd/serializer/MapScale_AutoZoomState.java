@@ -8,9 +8,9 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class MapScale_AutoZoomState
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__3_BITSIZE;
+    private static final int RESERVED_BIT_1__3_BITSIZE = 3;
     public boolean autoZoomActive;
-    private static final int MAP_SCALE_AUTO_ZOOM_STATE_BITSIZE;
+    private static final int MAP_SCALE_AUTO_ZOOM_STATE_BITSIZE = 4;
 
     public MapScale_AutoZoomState() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements BAPEntity {
         this.autoZoomActive = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MapScale_AutoZoomState mapScale_AutoZoomState = (MapScale_AutoZoomState)bAPEntity;
         return this.autoZoomActive == mapScale_AutoZoomState.autoZoomActive;
@@ -40,7 +38,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MapScale_AutoZoomState:");
@@ -53,19 +50,16 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 4;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(3);
         bitStream.pushBoolean(this.autoZoomActive);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(3);
         this.autoZoomActive = bitStream.popFrontBoolean();

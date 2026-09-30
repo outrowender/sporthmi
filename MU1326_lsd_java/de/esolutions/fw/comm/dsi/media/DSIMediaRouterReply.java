@@ -3,30 +3,25 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.media.AudioRoute;
 
 public interface DSIMediaRouterReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "98796422-df67-5127-a3f4-765a519018ce";
+    public static final String IPL_COMM_INTERFACE_KEY = "ab64d699-baa3-575a-9486-0e4b0bfe3b6d";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.52";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.52";
 
-    default public void responseConfiguration(int n, int n2) {
-    }
+    public void responseConfiguration(int var1, int var2) throws MethodException;
 
-    default public void responseClientStatus(int n, int n2) {
-    }
+    public void responseClientStatus(int var1, int var2) throws MethodException;
 
-    default public void updateStreamingStatus(int n, int n2, int n3) {
-    }
+    public void updateStreamingStatus(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateActiveAudioRoutes(AudioRoute[] audioRouteArray, int n) {
-    }
+    public void updateActiveAudioRoutes(AudioRoute[] var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

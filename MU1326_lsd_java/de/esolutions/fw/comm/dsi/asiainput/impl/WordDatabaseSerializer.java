@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.asiainput.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.asiainput.WordDatabase;
 
 public class WordDatabaseSerializer {
-    public static void putOptionalWordDatabase(ISerializer iSerializer, WordDatabase wordDatabase) {
+    public static void putOptionalWordDatabase(ISerializer iSerializer, WordDatabase wordDatabase) throws SerializerException {
         boolean bl = wordDatabase == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class WordDatabaseSerializer {
         }
     }
 
-    public static void putOptionalWordDatabaseVarArray(ISerializer iSerializer, WordDatabase[] wordDatabaseArray) {
+    public static void putOptionalWordDatabaseVarArray(ISerializer iSerializer, WordDatabase[] wordDatabaseArray) throws SerializerException {
         boolean bl = wordDatabaseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class WordDatabaseSerializer {
         }
     }
 
-    public static WordDatabase getOptionalWordDatabase(IDeserializer iDeserializer) {
+    public static WordDatabase getOptionalWordDatabase(IDeserializer iDeserializer) throws SerializerException {
         WordDatabase wordDatabase = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class WordDatabaseSerializer {
         return wordDatabase;
     }
 
-    public static WordDatabase[] getOptionalWordDatabaseVarArray(IDeserializer iDeserializer) {
+    public static WordDatabase[] getOptionalWordDatabaseVarArray(IDeserializer iDeserializer) throws SerializerException {
         WordDatabase[] wordDatabaseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -23,6 +23,7 @@ import java.net.SocketInputStream;
 import java.net.SocketOutputStream;
 import java.net.SocketTimeoutException;
 import java.net.Socks4Message;
+import java.net.UnknownHostException;
 import java.security.AccessController;
 
 class PlainSocketImpl
@@ -36,8 +37,7 @@ extends SocketImpl {
     PlainSocketImpl() {
     }
 
-    @Override
-    protected void accept(SocketImpl socketImpl) {
+    protected void accept(SocketImpl socketImpl) throws IOException {
         if (PlainSocketImpl.usingSocks()) {
             ((PlainSocketImpl)socketImpl).socksBind();
             ((PlainSocketImpl)socketImpl).socksAccept();
@@ -52,16 +52,14 @@ extends SocketImpl {
         socketImpl.localport = this.getLocalPort();
     }
 
-    @Override
-    protected synchronized int available() {
+    protected synchronized int available() throws IOException {
         if (this.shutdownInput) {
             return 0;
         }
         return PlainSocketImpl.availableStreamImpl(this.fd);
     }
 
-    @Override
-    protected void bind(InetAddress inetAddress, int n) {
+    protected void bind(InetAddress inetAddress, int n) throws IOException {
         if (PlainSocketImpl.usingSocks()) {
             this.socksBind();
             return;
@@ -70,7 +68,7 @@ extends SocketImpl {
             PlainSocketImpl2.socketBindImpl2(this.fd, n, inetAddress);
         }
         catch (BindException bindException) {
-            throw new BindException(new StringBuffer().append(inetAddress).append(":").append(n).append(" - ").append(bindException.getMessage()).toString());
+            throw new BindException(inetAddress + ":" + n + " - " + bindException.getMessage());
         }
         this.address = inetAddress;
         this.localport = n != 0 ? n : Socket.getSocketLocalPortImpl(this.fd, InetAddress.preferIPv6Addresses());
@@ -79,8 +77,7 @@ extends SocketImpl {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    protected void close() {
+    protected void close() throws IOException {
         FileDescriptor fileDescriptor = this.fd;
         synchronized (fileDescriptor) {
             if (this.fd.valid()) {
@@ -96,18 +93,16 @@ extends SocketImpl {
         }
     }
 
-    @Override
-    protected void connect(String string, int n) {
+    protected void connect(String string, int n) throws IOException {
         InetAddress inetAddress = InetAddress.getHostByNameImpl(string, InetAddress.preferIPv6Addresses());
         this.connect(inetAddress, n);
     }
 
-    @Override
-    protected void connect(InetAddress inetAddress, int n) {
+    protected void connect(InetAddress inetAddress, int n) throws IOException {
         this.connect(inetAddress, n, 0);
     }
 
-    private void connect(InetAddress inetAddress, int n, int n2) {
+    private void connect(InetAddress inetAddress, int n, int n2) throws IOException {
         InetAddress inetAddress2 = inetAddress.equals(InetAddress.ANY) ? InetAddress.LOOPBACK : inetAddress;
         try {
             if (PlainSocketImpl.usingSocks()) {
@@ -119,31 +114,28 @@ extends SocketImpl {
             }
         }
         catch (ConnectException connectException) {
-            throw new ConnectException(new StringBuffer().append(inetAddress).append(":").append(n).append(" - ").append(connectException.getMessage()).toString());
+            throw new ConnectException(inetAddress + ":" + n + " - " + connectException.getMessage());
         }
         this.address = inetAddress;
         this.port = n;
     }
 
-    @Override
-    protected void create(boolean bl) {
+    protected void create(boolean bl) throws SocketException {
         PlainSocketImpl.createStreamSocketImpl(this.fd, Socket.preferIPv4Stack());
     }
 
-    protected void finalize() {
+    protected void finalize() throws IOException {
         this.close();
     }
 
-    @Override
-    protected synchronized InputStream getInputStream() {
+    protected synchronized InputStream getInputStream() throws IOException {
         if (!this.fd.valid()) {
             throw new SocketException(Msg.getString("K003d"));
         }
         return new SocketInputStream(this);
     }
 
-    @Override
-    public Object getOption(int n) {
+    public Object getOption(int n) throws SocketException {
         if (n == 4102) {
             return new Integer(this.receiveTimeout);
         }
@@ -157,24 +149,21 @@ extends SocketImpl {
         return object;
     }
 
-    @Override
-    protected synchronized OutputStream getOutputStream() {
+    protected synchronized OutputStream getOutputStream() throws IOException {
         if (!this.fd.valid()) {
             throw new SocketException(Msg.getString("K003d"));
         }
         return new SocketOutputStream(this);
     }
 
-    @Override
-    protected void listen(int n) {
+    protected void listen(int n) throws IOException {
         if (PlainSocketImpl.usingSocks()) {
             return;
         }
         PlainSocketImpl.listenStreamSocketImpl(this.fd, n);
     }
 
-    @Override
-    public void setOption(int n, Object object) {
+    public void setOption(int n, Object object) throws SocketException {
         if (n == 4102) {
             this.receiveTimeout = (Integer)object;
         } else {
@@ -216,13 +205,13 @@ extends SocketImpl {
         return n;
     }
 
-    private InetAddress socksGetServerAddress() {
+    private InetAddress socksGetServerAddress() throws UnknownHostException {
         String string = (String)AccessController.doPrivileged(new PriviAction("socksProxyHost"));
         InetAddress inetAddress = InetAddress.getHostByNameImpl(string, InetAddress.preferIPv6Addresses());
         return inetAddress;
     }
 
-    private void socksConnect(InetAddress inetAddress, int n, int n2) {
+    private void socksConnect(InetAddress inetAddress, int n, int n2) throws IOException {
         try {
             if (n2 == 0) {
                 PlainSocketImpl2.connectStreamSocketImpl2(this.fd, this.socksGetServerPort(), this.trafficClass, this.socksGetServerAddress());
@@ -238,7 +227,7 @@ extends SocketImpl {
         lastConnectedPort = n;
     }
 
-    private void socksRequestConnection(InetAddress inetAddress, int n) {
+    private void socksRequestConnection(InetAddress inetAddress, int n) throws IOException {
         this.socksSendRequest(1, inetAddress, n);
         Socks4Message socks4Message = this.socksReadReply();
         if (socks4Message.getCommandOrResult() != 90) {
@@ -246,14 +235,14 @@ extends SocketImpl {
         }
     }
 
-    void socksAccept() {
+    void socksAccept() throws IOException {
         Socks4Message socks4Message = this.socksReadReply();
         if (socks4Message.getCommandOrResult() != 90) {
             throw new IOException(socks4Message.getErrorString(socks4Message.getCommandOrResult()));
         }
     }
 
-    private void socksBind() {
+    private void socksBind() throws IOException {
         try {
             PlainSocketImpl2.connectStreamSocketImpl2(this.fd, this.socksGetServerPort(), this.trafficClass, this.socksGetServerAddress());
         }
@@ -278,7 +267,7 @@ extends SocketImpl {
         this.localport = socks4Message.getPort();
     }
 
-    private void socksSendRequest(int n, InetAddress inetAddress, int n2) {
+    private void socksSendRequest(int n, InetAddress inetAddress, int n2) throws IOException {
         Socks4Message socks4Message = new Socks4Message();
         socks4Message.setCommandOrResult(n);
         socks4Message.setPort(n2);
@@ -287,7 +276,7 @@ extends SocketImpl {
         this.getOutputStream().write(socks4Message.getBytes(), 0, socks4Message.getLength());
     }
 
-    private Socks4Message socksReadReply() {
+    private Socks4Message socksReadReply() throws IOException {
         Socks4Message socks4Message = new Socks4Message();
         int n = 0;
         while (n < 8) {
@@ -296,19 +285,16 @@ extends SocketImpl {
         return socks4Message;
     }
 
-    @Override
-    protected void connect(SocketAddress socketAddress, int n) {
+    protected void connect(SocketAddress socketAddress, int n) throws IOException {
         InetSocketAddress inetSocketAddress = (InetSocketAddress)socketAddress;
         this.connect(inetSocketAddress.getAddress(), inetSocketAddress.getPort(), n);
     }
 
-    @Override
     protected boolean supportsUrgentData() {
         return SocketImpl.supportsUrgentDataImpl(this.fd);
     }
 
-    @Override
-    protected void sendUrgentData(int n) {
+    protected void sendUrgentData(int n) throws IOException {
         SocketImpl.sendUrgentDataImpl(this.fd, (byte)n);
     }
 }

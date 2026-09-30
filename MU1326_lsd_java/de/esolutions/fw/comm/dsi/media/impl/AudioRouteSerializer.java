@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.AudioRoute;
 
 public class AudioRouteSerializer {
-    public static void putOptionalAudioRoute(ISerializer iSerializer, AudioRoute audioRoute) {
+    public static void putOptionalAudioRoute(ISerializer iSerializer, AudioRoute audioRoute) throws SerializerException {
         boolean bl = audioRoute == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class AudioRouteSerializer {
         }
     }
 
-    public static void putOptionalAudioRouteVarArray(ISerializer iSerializer, AudioRoute[] audioRouteArray) {
+    public static void putOptionalAudioRouteVarArray(ISerializer iSerializer, AudioRoute[] audioRouteArray) throws SerializerException {
         boolean bl = audioRouteArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class AudioRouteSerializer {
         }
     }
 
-    public static AudioRoute getOptionalAudioRoute(IDeserializer iDeserializer) {
+    public static AudioRoute getOptionalAudioRoute(IDeserializer iDeserializer) throws SerializerException {
         AudioRoute audioRoute = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class AudioRouteSerializer {
         return audioRoute;
     }
 
-    public static AudioRoute[] getOptionalAudioRouteVarArray(IDeserializer iDeserializer) {
+    public static AudioRoute[] getOptionalAudioRouteVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioRoute[] audioRouteArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

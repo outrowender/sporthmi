@@ -6,13 +6,15 @@ package java.security;
 import java.security.Identity;
 import java.security.IdentityScope;
 import java.security.InvalidParameterException;
+import java.security.KeyException;
+import java.security.KeyManagementException;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public abstract class Signer
 extends Identity {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -1763464102261361480L;
     PrivateKey privateKey;
 
     protected Signer() {
@@ -22,7 +24,7 @@ extends Identity {
         super(string);
     }
 
-    public Signer(String string, IdentityScope identityScope) {
+    public Signer(String string, IdentityScope identityScope) throws KeyManagementException {
         super(string, identityScope);
     }
 
@@ -34,7 +36,7 @@ extends Identity {
         return this.privateKey;
     }
 
-    public final void setKeyPair(KeyPair keyPair) {
+    public final void setKeyPair(KeyPair keyPair) throws InvalidParameterException, KeyException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSecurityAccess("setSignerKeyPair");
@@ -48,7 +50,6 @@ extends Identity {
         this.privateKey = privateKey;
     }
 
-    @Override
     public String toString() {
         return super.toString();
     }

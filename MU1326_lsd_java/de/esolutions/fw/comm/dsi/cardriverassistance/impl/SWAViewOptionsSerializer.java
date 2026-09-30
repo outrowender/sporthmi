@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardriverassistance.impl.SWAConfigurationSerial
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.SWAConfiguration;
 import org.dsi.ifc.cardriverassistance.SWAViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SWAViewOptionsSerializer {
-    public static void putOptionalSWAViewOptions(ISerializer iSerializer, SWAViewOptions sWAViewOptions) {
+    public static void putOptionalSWAViewOptions(ISerializer iSerializer, SWAViewOptions sWAViewOptions) throws SerializerException {
         boolean bl = sWAViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class SWAViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSWAViewOptionsVarArray(ISerializer iSerializer, SWAViewOptions[] sWAViewOptionsArray) {
+    public static void putOptionalSWAViewOptionsVarArray(ISerializer iSerializer, SWAViewOptions[] sWAViewOptionsArray) throws SerializerException {
         boolean bl = sWAViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class SWAViewOptionsSerializer {
         }
     }
 
-    public static SWAViewOptions getOptionalSWAViewOptions(IDeserializer iDeserializer) {
+    public static SWAViewOptions getOptionalSWAViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SWAViewOptions sWAViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class SWAViewOptionsSerializer {
         return sWAViewOptions;
     }
 
-    public static SWAViewOptions[] getOptionalSWAViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SWAViewOptions[] getOptionalSWAViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SWAViewOptions[] sWAViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

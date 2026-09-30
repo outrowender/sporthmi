@@ -4,6 +4,6 @@
 package de.esolutions.fw.comm.asi.sdis.version;
 
 public class Consts {
-    public static final long INTERFACE_INSTANCE_ID;
+    public static final long INTERFACE_INSTANCE_ID = 1L;
 }
 

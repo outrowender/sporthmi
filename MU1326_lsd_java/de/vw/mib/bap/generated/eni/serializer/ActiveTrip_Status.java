@@ -13,23 +13,23 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ActiveTrip_Status
 implements StatusProperty {
     public int tripstate;
-    public static final int TRIPSTATE_STOP_TRIP_STOPPED;
-    public static final int TRIPSTATE_PENDING_ACTIVE_TRIP_AFTER_CLAMP15_CYCLE;
-    public static final int TRIPSTATE_ACTIVE_TRIP_IS_ACTIVE_AND_STARTED;
-    public static final int TRIPSTATE_INIT_NEW_TRIP_CREATED_NOT_STARTED;
-    public static final int TRIPSTATE_DEFAULT_TRIP_NOT_STARTED;
+    public static final int TRIPSTATE_STOP_TRIP_STOPPED = 4;
+    public static final int TRIPSTATE_PENDING_ACTIVE_TRIP_AFTER_CLAMP15_CYCLE = 3;
+    public static final int TRIPSTATE_ACTIVE_TRIP_IS_ACTIVE_AND_STARTED = 2;
+    public static final int TRIPSTATE_INIT_NEW_TRIP_CREATED_NOT_STARTED = 1;
+    public static final int TRIPSTATE_DEFAULT_TRIP_NOT_STARTED = 0;
     public int olbtripList_Reference;
-    public static final int OLBTRIP_LIST_REFERENCE_MIN;
+    public static final int OLBTRIP_LIST_REFERENCE_MIN = 1;
     public ActiveTrip_OriginGpsposition originGpsposition = new ActiveTrip_OriginGpsposition();
     public ActiveTrip_StartTime startTime = new ActiveTrip_StartTime();
     public ActiveTrip_StopTime stopTime = new ActiveTrip_StopTime();
     public int mileageAtStart;
-    public static final int MILEAGE_AT_START_MIN;
+    public static final int MILEAGE_AT_START_MIN = 1;
     public int mileageAtStop;
-    public static final int MILEAGE_AT_STOP_MIN;
+    public static final int MILEAGE_AT_STOP_MIN = 1;
     public int mileageUnit;
-    public static final int MILEAGE_UNIT_UNIT_MLS;
-    public static final int MILEAGE_UNIT_UNIT_KM;
+    public static final int MILEAGE_UNIT_UNIT_MLS = 1;
+    public static final int MILEAGE_UNIT_UNIT_KM = 0;
 
     public ActiveTrip_Status() {
         this.internalReset();
@@ -49,7 +49,6 @@ implements StatusProperty {
         this.mileageUnit = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.originGpsposition.reset();
@@ -57,7 +56,6 @@ implements StatusProperty {
         this.stopTime.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveTrip_Status activeTrip_Status = (ActiveTrip_Status)bAPEntity;
         return this.tripstate == activeTrip_Status.tripstate && this.olbtripList_Reference == activeTrip_Status.olbtripList_Reference && this.originGpsposition.equalTo(activeTrip_Status.originGpsposition) && this.startTime.equalTo(activeTrip_Status.startTime) && this.stopTime.equalTo(activeTrip_Status.stopTime) && this.mileageAtStart == activeTrip_Status.mileageAtStart && this.mileageAtStop == activeTrip_Status.mileageAtStop && this.mileageUnit == activeTrip_Status.mileageUnit;
@@ -66,27 +64,24 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveTrip_Status");
-        stringBuffer.append(new StringBuffer().append("\n - tripstate:").append(this.tripstate).toString());
-        stringBuffer.append(new StringBuffer().append("\n - olbtripList_Reference:").append(this.olbtripList_Reference).toString());
-        stringBuffer.append(new StringBuffer().append("\n - originGpsposition:").append(this.originGpsposition.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - startTime:").append(this.startTime.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - stopTime:").append(this.stopTime.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - mileageAtStart:").append(this.mileageAtStart).toString());
-        stringBuffer.append(new StringBuffer().append("\n - mileageAtStop:").append(this.mileageAtStop).toString());
-        stringBuffer.append(new StringBuffer().append("\n - mileageUnit:").append(this.mileageUnit).toString());
+        stringBuffer.append("\n - tripstate:" + this.tripstate);
+        stringBuffer.append("\n - olbtripList_Reference:" + this.olbtripList_Reference);
+        stringBuffer.append("\n - originGpsposition:" + this.originGpsposition.toString());
+        stringBuffer.append("\n - startTime:" + this.startTime.toString());
+        stringBuffer.append("\n - stopTime:" + this.stopTime.toString());
+        stringBuffer.append("\n - mileageAtStart:" + this.mileageAtStart);
+        stringBuffer.append("\n - mileageAtStop:" + this.mileageAtStop);
+        stringBuffer.append("\n - mileageUnit:" + this.mileageUnit);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.tripstate);
         bitStream.pushByte((byte)this.olbtripList_Reference);
@@ -98,7 +93,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.mileageUnit);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.tripstate = bitStream.popFrontByte();
         this.olbtripList_Reference = bitStream.popFrontByte();
@@ -114,7 +108,6 @@ implements StatusProperty {
         return 33;
     }
 
-    @Override
     public int getFunctionId() {
         return ActiveTrip_Status.functionId();
     }

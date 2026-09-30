@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 import de.esolutions.fw.comm.dsi.calendar.impl.VTimeZoneStandardSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.VTimeZone;
 import org.dsi.ifc.calendar.VTimeZoneStandard;
 
 public class VTimeZoneSerializer {
-    public static void putOptionalVTimeZone(ISerializer iSerializer, VTimeZone vTimeZone) {
+    public static void putOptionalVTimeZone(ISerializer iSerializer, VTimeZone vTimeZone) throws SerializerException {
         boolean bl = vTimeZone == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class VTimeZoneSerializer {
         }
     }
 
-    public static void putOptionalVTimeZoneVarArray(ISerializer iSerializer, VTimeZone[] vTimeZoneArray) {
+    public static void putOptionalVTimeZoneVarArray(ISerializer iSerializer, VTimeZone[] vTimeZoneArray) throws SerializerException {
         boolean bl = vTimeZoneArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class VTimeZoneSerializer {
         }
     }
 
-    public static VTimeZone getOptionalVTimeZone(IDeserializer iDeserializer) {
+    public static VTimeZone getOptionalVTimeZone(IDeserializer iDeserializer) throws SerializerException {
         VTimeZone vTimeZone = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class VTimeZoneSerializer {
         return vTimeZone;
     }
 
-    public static VTimeZone[] getOptionalVTimeZoneVarArray(IDeserializer iDeserializer) {
+    public static VTimeZone[] getOptionalVTimeZoneVarArray(IDeserializer iDeserializer) throws SerializerException {
         VTimeZone[] vTimeZoneArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

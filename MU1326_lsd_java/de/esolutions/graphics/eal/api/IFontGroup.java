@@ -3,7 +3,6 @@
  */
 package de.esolutions.graphics.eal.api;
 
-import de.esolutions.graphics.eal.api.IFontGroup$loadingStrategy_t;
 import de.esolutions.graphics.eal.api.IFontGroupFontHandle;
 import de.esolutions.graphics.eal.api.IFontList;
 import de.esolutions.graphics.eal.api.IManager;
@@ -24,12 +23,10 @@ extends IObject {
         return iFontGroup == null ? 0L : iFontGroup.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -41,7 +38,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -50,24 +46,22 @@ extends IObject {
         this(ealswigJNI.new_eal_api_IFontGroup__SWIG_0(IManager.getCPtr(iManager), iManager), true);
     }
 
-    public IFontGroup(IManager iManager, IFontGroup$loadingStrategy_t iFontGroup$loadingStrategy_t) {
-        this(ealswigJNI.new_eal_api_IFontGroup__SWIG_1(IManager.getCPtr(iManager), iManager, iFontGroup$loadingStrategy_t.swigValue()), true);
+    public IFontGroup(IManager iManager, loadingStrategy_t loadingStrategy_t2) {
+        this(ealswigJNI.new_eal_api_IFontGroup__SWIG_1(IManager.getCPtr(iManager), iManager, loadingStrategy_t2.swigValue()), true);
     }
 
     public IFontGroup(IManager iManager, IFontList iFontList, String string, short s) {
         this(ealswigJNI.new_eal_api_IFontGroup__SWIG_2(IManager.getCPtr(iManager), iManager, IFontList.getCPtr(iFontList), iFontList, string, s), true);
     }
 
-    public IFontGroup(IManager iManager, IFontList iFontList, String string, short s, IFontGroup$loadingStrategy_t iFontGroup$loadingStrategy_t) {
-        this(ealswigJNI.new_eal_api_IFontGroup__SWIG_3(IManager.getCPtr(iManager), iManager, IFontList.getCPtr(iFontList), iFontList, string, s, iFontGroup$loadingStrategy_t.swigValue()), true);
+    public IFontGroup(IManager iManager, IFontList iFontList, String string, short s, loadingStrategy_t loadingStrategy_t2) {
+        this(ealswigJNI.new_eal_api_IFontGroup__SWIG_3(IManager.getCPtr(iManager), iManager, IFontList.getCPtr(iFontList), iFontList, string, s, loadingStrategy_t2.swigValue()), true);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IFontGroup_dispose(this.swigCPtr, this);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IFontGroup_isValid(this.swigCPtr, this);
     }
@@ -124,6 +118,51 @@ extends IObject {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public static final class loadingStrategy_t {
+        public static final loadingStrategy_t LOADING_STRATEGY_IMMEDIATELY = new loadingStrategy_t("LOADING_STRATEGY_IMMEDIATELY");
+        public static final loadingStrategy_t LOADING_STRATEGY_LAZY = new loadingStrategy_t("LOADING_STRATEGY_LAZY");
+        private static loadingStrategy_t[] swigValues = new loadingStrategy_t[]{LOADING_STRATEGY_IMMEDIATELY, LOADING_STRATEGY_LAZY};
+        private static int swigNext = 0;
+        private final int swigValue;
+        private final String swigName;
+
+        public final int swigValue() {
+            return this.swigValue;
+        }
+
+        public String toString() {
+            return this.swigName;
+        }
+
+        public static loadingStrategy_t swigToEnum(int n) {
+            if (n < swigValues.length && n >= 0 && loadingStrategy_t.swigValues[n].swigValue == n) {
+                return swigValues[n];
+            }
+            for (int i2 = 0; i2 < swigValues.length; ++i2) {
+                if (loadingStrategy_t.swigValues[i2].swigValue != n) continue;
+                return swigValues[i2];
+            }
+            throw new IllegalArgumentException("No enum " + (class$de$esolutions$graphics$eal$api$IFontGroup$loadingStrategy_t == null ? (class$de$esolutions$graphics$eal$api$IFontGroup$loadingStrategy_t = IFontGroup.class$("de.esolutions.graphics.eal.api.IFontGroup$loadingStrategy_t")) : class$de$esolutions$graphics$eal$api$IFontGroup$loadingStrategy_t) + " with value " + n);
+        }
+
+        private loadingStrategy_t(String string) {
+            this.swigName = string;
+            this.swigValue = swigNext++;
+        }
+
+        private loadingStrategy_t(String string, int n) {
+            this.swigName = string;
+            this.swigValue = n;
+            swigNext = n + 1;
+        }
+
+        private loadingStrategy_t(String string, loadingStrategy_t loadingStrategy_t2) {
+            this.swigName = string;
+            this.swigValue = loadingStrategy_t2.swigValue;
+            swigNext = this.swigValue + 1;
         }
     }
 }

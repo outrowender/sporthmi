@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.asiatrafficinfomenu.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.asiatrafficinfomenu.Interrupt;
 
 public class InterruptSerializer {
-    public static void putOptionalInterrupt(ISerializer iSerializer, Interrupt interrupt) {
+    public static void putOptionalInterrupt(ISerializer iSerializer, Interrupt interrupt) throws SerializerException {
         boolean bl = interrupt == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class InterruptSerializer {
         }
     }
 
-    public static void putOptionalInterruptVarArray(ISerializer iSerializer, Interrupt[] interruptArray) {
+    public static void putOptionalInterruptVarArray(ISerializer iSerializer, Interrupt[] interruptArray) throws SerializerException {
         boolean bl = interruptArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class InterruptSerializer {
         }
     }
 
-    public static Interrupt getOptionalInterrupt(IDeserializer iDeserializer) {
+    public static Interrupt getOptionalInterrupt(IDeserializer iDeserializer) throws SerializerException {
         Interrupt interrupt = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class InterruptSerializer {
         return interrupt;
     }
 
-    public static Interrupt[] getOptionalInterruptVarArray(IDeserializer iDeserializer) {
+    public static Interrupt[] getOptionalInterruptVarArray(IDeserializer iDeserializer) throws SerializerException {
         Interrupt[] interruptArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

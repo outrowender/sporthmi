@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconContent;
 
 public class AirconContentSerializer {
-    public static void putOptionalAirconContent(ISerializer iSerializer, AirconContent airconContent) {
+    public static void putOptionalAirconContent(ISerializer iSerializer, AirconContent airconContent) throws SerializerException {
         boolean bl = airconContent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class AirconContentSerializer {
         }
     }
 
-    public static void putOptionalAirconContentVarArray(ISerializer iSerializer, AirconContent[] airconContentArray) {
+    public static void putOptionalAirconContentVarArray(ISerializer iSerializer, AirconContent[] airconContentArray) throws SerializerException {
         boolean bl = airconContentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class AirconContentSerializer {
         }
     }
 
-    public static AirconContent getOptionalAirconContent(IDeserializer iDeserializer) {
+    public static AirconContent getOptionalAirconContent(IDeserializer iDeserializer) throws SerializerException {
         AirconContent airconContent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class AirconContentSerializer {
         return airconContent;
     }
 
-    public static AirconContent[] getOptionalAirconContentVarArray(IDeserializer iDeserializer) {
+    public static AirconContent[] getOptionalAirconContentVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconContent[] airconContentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -3,7 +3,7 @@
  */
 package org.apache.xerces.util;
 
-import org.apache.xerces.util.ErrorHandlerWrapper$1;
+import org.apache.xerces.xni.XMLLocator;
 import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLErrorHandler;
 import org.apache.xerces.xni.parser.XMLParseException;
@@ -30,8 +30,7 @@ implements XMLErrorHandler {
         return this.fErrorHandler;
     }
 
-    @Override
-    public void warning(String string, String string2, XMLParseException xMLParseException) {
+    public void warning(String string, String string2, XMLParseException xMLParseException) throws XNIException {
         if (this.fErrorHandler != null) {
             SAXParseException sAXParseException = ErrorHandlerWrapper.createSAXParseException(xMLParseException);
             try {
@@ -46,8 +45,7 @@ implements XMLErrorHandler {
         }
     }
 
-    @Override
-    public void error(String string, String string2, XMLParseException xMLParseException) {
+    public void error(String string, String string2, XMLParseException xMLParseException) throws XNIException {
         if (this.fErrorHandler != null) {
             SAXParseException sAXParseException = ErrorHandlerWrapper.createSAXParseException(xMLParseException);
             try {
@@ -62,8 +60,7 @@ implements XMLErrorHandler {
         }
     }
 
-    @Override
-    public void fatalError(String string, String string2, XMLParseException xMLParseException) {
+    public void fatalError(String string, String string2, XMLParseException xMLParseException) throws XNIException {
         if (this.fErrorHandler != null) {
             SAXParseException sAXParseException = ErrorHandlerWrapper.createSAXParseException(xMLParseException);
             try {
@@ -83,12 +80,49 @@ implements XMLErrorHandler {
     }
 
     protected static XMLParseException createXMLParseException(SAXParseException sAXParseException) {
-        String string = sAXParseException.getPublicId();
-        String string2 = sAXParseException.getSystemId();
-        int n = sAXParseException.getLineNumber();
-        int n2 = sAXParseException.getColumnNumber();
-        ErrorHandlerWrapper$1 errorHandlerWrapper$1 = new ErrorHandlerWrapper$1(string, string2, n2, n);
-        return new XMLParseException(errorHandlerWrapper$1, sAXParseException.getMessage(), sAXParseException);
+        final String string = sAXParseException.getPublicId();
+        final String string2 = sAXParseException.getSystemId();
+        final int n = sAXParseException.getLineNumber();
+        final int n2 = sAXParseException.getColumnNumber();
+        XMLLocator xMLLocator = new XMLLocator(){
+
+            public String getPublicId() {
+                return string;
+            }
+
+            public String getExpandedSystemId() {
+                return string2;
+            }
+
+            public String getBaseSystemId() {
+                return null;
+            }
+
+            public String getLiteralSystemId() {
+                return null;
+            }
+
+            public int getColumnNumber() {
+                return n2;
+            }
+
+            public int getLineNumber() {
+                return n;
+            }
+
+            public int getCharacterOffset() {
+                return -1;
+            }
+
+            public String getEncoding() {
+                return null;
+            }
+
+            public String getXMLVersion() {
+                return null;
+            }
+        };
+        return new XMLParseException(xMLLocator, sAXParseException.getMessage(), sAXParseException);
     }
 
     protected static XNIException createXNIException(SAXException sAXException) {

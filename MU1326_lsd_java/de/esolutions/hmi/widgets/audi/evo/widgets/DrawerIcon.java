@@ -7,16 +7,12 @@ import de.esolutions.hmi.widgets.audi.base.DrawerItem;
 
 public interface DrawerIcon
 extends DrawerItem {
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public void setOnScreen(boolean bl) {
-    }
+    public void setOnScreen(boolean var1);
 
-    default public void setX(int n) {
-    }
+    public void setX(int var1);
 
-    default public void setY(int n) {
-    }
+    public void setY(int var1);
 }
 

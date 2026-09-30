@@ -10,12 +10,14 @@ import org.apache.commons.scxml.ErrorReporter;
 import org.apache.commons.scxml.Evaluator;
 import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCInstance;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.TriggerEvent;
 import org.apache.commons.scxml.model.Action;
+import org.apache.commons.scxml.model.ModelException;
 
 public class Var
 extends Action {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String name;
     private String expr;
 
@@ -35,8 +37,7 @@ extends Action {
         this.name = string;
     }
 
-    @Override
-    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
+    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) throws ModelException, SCXMLExpressionException {
         Context context = sCInstance.getContext(this.getParentTransitionTarget());
         Evaluator evaluator = sCInstance.getEvaluator();
         context.setLocal(Var.getNamespacesKey(), this.getNamespaces());
@@ -44,9 +45,9 @@ extends Action {
         context.setLocal(Var.getNamespacesKey(), null);
         context.setLocal(this.name, object);
         if (log.isDebugEnabled()) {
-            log.debug(new StringBuffer().append("<var>: Defined variable '").append(this.name).append("' with initial value '").append(String.valueOf(object)).append("'").toString());
+            log.debug("<var>: Defined variable '" + this.name + "' with initial value '" + String.valueOf(object) + "'");
         }
-        TriggerEvent triggerEvent = new TriggerEvent(new StringBuffer().append(this.name).append(".change").toString(), 2);
+        TriggerEvent triggerEvent = new TriggerEvent(this.name + ".change", 2);
         collection.add(triggerEvent);
     }
 }

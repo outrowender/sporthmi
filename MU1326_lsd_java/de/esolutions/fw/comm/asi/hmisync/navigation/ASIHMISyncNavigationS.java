@@ -5,27 +5,21 @@ package de.esolutions.fw.comm.asi.hmisync.navigation;
 
 import de.esolutions.fw.comm.asi.hmisync.navigation.ASIHMISyncNavigationReply;
 import de.esolutions.fw.comm.asi.hmisync.navigation.DestinationInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncNavigationS {
-    default public void startGuidanceToDestinations(DestinationInfo[] destinationInfoArray, ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void startGuidanceToDestinations(DestinationInfo[] var1, ASIHMISyncNavigationReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void setNotification(ASIHMISyncNavigationReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncNavigationReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncNavigationReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void clearNotification(ASIHMISyncNavigationReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncNavigationReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncNavigationReply aSIHMISyncNavigationReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncNavigationReply var2) throws MethodException;
 }
 

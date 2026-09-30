@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavSegmentID;
 
 public class NavSegmentIDSerializer {
-    public static void putOptionalNavSegmentID(ISerializer iSerializer, NavSegmentID navSegmentID) {
+    public static void putOptionalNavSegmentID(ISerializer iSerializer, NavSegmentID navSegmentID) throws SerializerException {
         boolean bl = navSegmentID == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class NavSegmentIDSerializer {
         }
     }
 
-    public static void putOptionalNavSegmentIDVarArray(ISerializer iSerializer, NavSegmentID[] navSegmentIDArray) {
+    public static void putOptionalNavSegmentIDVarArray(ISerializer iSerializer, NavSegmentID[] navSegmentIDArray) throws SerializerException {
         boolean bl = navSegmentIDArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class NavSegmentIDSerializer {
         }
     }
 
-    public static NavSegmentID getOptionalNavSegmentID(IDeserializer iDeserializer) {
+    public static NavSegmentID getOptionalNavSegmentID(IDeserializer iDeserializer) throws SerializerException {
         NavSegmentID navSegmentID = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class NavSegmentIDSerializer {
         return navSegmentID;
     }
 
-    public static NavSegmentID[] getOptionalNavSegmentIDVarArray(IDeserializer iDeserializer) {
+    public static NavSegmentID[] getOptionalNavSegmentIDVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavSegmentID[] navSegmentIDArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

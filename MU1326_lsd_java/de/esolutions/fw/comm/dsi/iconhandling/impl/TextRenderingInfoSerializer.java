@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.iconhandling.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.iconhandling.TextRenderingInfo;
 
 public class TextRenderingInfoSerializer {
-    public static void putOptionalTextRenderingInfo(ISerializer iSerializer, TextRenderingInfo textRenderingInfo) {
+    public static void putOptionalTextRenderingInfo(ISerializer iSerializer, TextRenderingInfo textRenderingInfo) throws SerializerException {
         boolean bl = textRenderingInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class TextRenderingInfoSerializer {
         }
     }
 
-    public static void putOptionalTextRenderingInfoVarArray(ISerializer iSerializer, TextRenderingInfo[] textRenderingInfoArray) {
+    public static void putOptionalTextRenderingInfoVarArray(ISerializer iSerializer, TextRenderingInfo[] textRenderingInfoArray) throws SerializerException {
         boolean bl = textRenderingInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class TextRenderingInfoSerializer {
         }
     }
 
-    public static TextRenderingInfo getOptionalTextRenderingInfo(IDeserializer iDeserializer) {
+    public static TextRenderingInfo getOptionalTextRenderingInfo(IDeserializer iDeserializer) throws SerializerException {
         TextRenderingInfo textRenderingInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class TextRenderingInfoSerializer {
         return textRenderingInfo;
     }
 
-    public static TextRenderingInfo[] getOptionalTextRenderingInfoVarArray(IDeserializer iDeserializer) {
+    public static TextRenderingInfo[] getOptionalTextRenderingInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         TextRenderingInfo[] textRenderingInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

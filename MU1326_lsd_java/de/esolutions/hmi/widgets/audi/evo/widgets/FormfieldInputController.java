@@ -15,13 +15,11 @@ extends AbstractWidgetController {
     private FormfieldInputRenderer renderer;
     private String text;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.readDataFromModel();
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.renderer != null) {
             return this.renderer.getPreferredHeight();
@@ -29,7 +27,6 @@ extends AbstractWidgetController {
         return 0;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.renderer != null) {
             return this.renderer.getPreferredWidth();
@@ -37,7 +34,6 @@ extends AbstractWidgetController {
         return 0;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -49,7 +45,6 @@ extends AbstractWidgetController {
         return "";
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.readDataFromModel();
     }

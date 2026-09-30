@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eTerminalNumber
 extends IEnum {
-    public static final int MEDIA_TERMINAL_1;
-    public static final int MEDIA_TERMINAL_2;
+    public static final int MEDIA_TERMINAL_1 = 1;
+    public static final int MEDIA_TERMINAL_2 = 2;
 }
 

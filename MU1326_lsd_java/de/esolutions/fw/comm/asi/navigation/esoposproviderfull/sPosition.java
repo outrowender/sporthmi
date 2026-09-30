@@ -92,7 +92,7 @@ public class sPosition {
     }
 
     public String toString() {
-        return new StringBuffer("sPosition{").append("timeStamp=").append(this.timeStamp).append(", utcTimestamp=").append(this.utcTimestamp).append(", latitude=").append(this.latitude).append(", longitude=").append(this.longitude).append(", mercatorX=").append(this.mercatorX).append(", mercatorY=").append(this.mercatorY).append(", heading=").append(this.heading).append(", bearing=").append(this.bearing).append("}").toString();
+        return "sPosition{" + "timeStamp=" + this.timeStamp + ", utcTimestamp=" + this.utcTimestamp + ", latitude=" + this.latitude + ", longitude=" + this.longitude + ", mercatorX=" + this.mercatorX + ", mercatorY=" + this.mercatorY + ", heading=" + this.heading + ", bearing=" + this.bearing + "}";
     }
 }
 

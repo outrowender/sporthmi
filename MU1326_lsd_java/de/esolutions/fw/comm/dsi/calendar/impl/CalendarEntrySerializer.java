@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.CalendarEntry;
 import org.dsi.ifc.global.DateTime;
 
 public class CalendarEntrySerializer {
-    public static void putOptionalCalendarEntry(ISerializer iSerializer, CalendarEntry calendarEntry) {
+    public static void putOptionalCalendarEntry(ISerializer iSerializer, CalendarEntry calendarEntry) throws SerializerException {
         boolean bl = calendarEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -53,7 +54,7 @@ public class CalendarEntrySerializer {
         }
     }
 
-    public static void putOptionalCalendarEntryVarArray(ISerializer iSerializer, CalendarEntry[] calendarEntryArray) {
+    public static void putOptionalCalendarEntryVarArray(ISerializer iSerializer, CalendarEntry[] calendarEntryArray) throws SerializerException {
         boolean bl = calendarEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -64,7 +65,7 @@ public class CalendarEntrySerializer {
         }
     }
 
-    public static CalendarEntry getOptionalCalendarEntry(IDeserializer iDeserializer) {
+    public static CalendarEntry getOptionalCalendarEntry(IDeserializer iDeserializer) throws SerializerException {
         CalendarEntry calendarEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -109,7 +110,7 @@ public class CalendarEntrySerializer {
         return calendarEntry;
     }
 
-    public static CalendarEntry[] getOptionalCalendarEntryVarArray(IDeserializer iDeserializer) {
+    public static CalendarEntry[] getOptionalCalendarEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         CalendarEntry[] calendarEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

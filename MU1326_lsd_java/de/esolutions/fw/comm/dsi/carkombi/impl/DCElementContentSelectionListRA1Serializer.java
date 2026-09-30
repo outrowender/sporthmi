@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCElementContentSelectionListRA1;
 
 public class DCElementContentSelectionListRA1Serializer {
-    public static void putOptionalDCElementContentSelectionListRA1(ISerializer iSerializer, DCElementContentSelectionListRA1 dCElementContentSelectionListRA1) {
+    public static void putOptionalDCElementContentSelectionListRA1(ISerializer iSerializer, DCElementContentSelectionListRA1 dCElementContentSelectionListRA1) throws SerializerException {
         boolean bl = dCElementContentSelectionListRA1 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class DCElementContentSelectionListRA1Serializer {
         }
     }
 
-    public static void putOptionalDCElementContentSelectionListRA1VarArray(ISerializer iSerializer, DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) {
+    public static void putOptionalDCElementContentSelectionListRA1VarArray(ISerializer iSerializer, DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) throws SerializerException {
         boolean bl = dCElementContentSelectionListRA1Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class DCElementContentSelectionListRA1Serializer {
         }
     }
 
-    public static DCElementContentSelectionListRA1 getOptionalDCElementContentSelectionListRA1(IDeserializer iDeserializer) {
+    public static DCElementContentSelectionListRA1 getOptionalDCElementContentSelectionListRA1(IDeserializer iDeserializer) throws SerializerException {
         DCElementContentSelectionListRA1 dCElementContentSelectionListRA1 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class DCElementContentSelectionListRA1Serializer {
         return dCElementContentSelectionListRA1;
     }
 
-    public static DCElementContentSelectionListRA1[] getOptionalDCElementContentSelectionListRA1VarArray(IDeserializer iDeserializer) {
+    public static DCElementContentSelectionListRA1[] getOptionalDCElementContentSelectionListRA1VarArray(IDeserializer iDeserializer) throws SerializerException {
         DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlSeatheaterActivity
 import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlWindowheaterActivitySerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlClimateMode;
 import org.dsi.ifc.carhybrid.BatteryControlClimateState;
 import org.dsi.ifc.carhybrid.BatteryControlSeatheaterActivity;
 import org.dsi.ifc.carhybrid.BatteryControlWindowheaterActivity;
 
 public class BatteryControlClimateStateSerializer {
-    public static void putOptionalBatteryControlClimateState(ISerializer iSerializer, BatteryControlClimateState batteryControlClimateState) {
+    public static void putOptionalBatteryControlClimateState(ISerializer iSerializer, BatteryControlClimateState batteryControlClimateState) throws SerializerException {
         boolean bl = batteryControlClimateState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class BatteryControlClimateStateSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlClimateStateVarArray(ISerializer iSerializer, BatteryControlClimateState[] batteryControlClimateStateArray) {
+    public static void putOptionalBatteryControlClimateStateVarArray(ISerializer iSerializer, BatteryControlClimateState[] batteryControlClimateStateArray) throws SerializerException {
         boolean bl = batteryControlClimateStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class BatteryControlClimateStateSerializer {
         }
     }
 
-    public static BatteryControlClimateState getOptionalBatteryControlClimateState(IDeserializer iDeserializer) {
+    public static BatteryControlClimateState getOptionalBatteryControlClimateState(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlClimateState batteryControlClimateState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class BatteryControlClimateStateSerializer {
         return batteryControlClimateState;
     }
 
-    public static BatteryControlClimateState[] getOptionalBatteryControlClimateStateVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlClimateState[] getOptionalBatteryControlClimateStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlClimateState[] batteryControlClimateStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

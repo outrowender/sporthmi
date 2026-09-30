@@ -6,22 +6,16 @@ package de.esolutions.fw.comm.agent;
 import de.esolutions.fw.comm.agent.diag.IInfoBase;
 
 public interface IAgentErrorLog {
-    default public IInfoBase[] getProxyErrors() {
-    }
+    public IInfoBase[] getProxyErrors();
 
-    default public int getNumDroppedProxyErrors() {
-    }
+    public int getNumDroppedProxyErrors();
 
-    default public IInfoBase[] getClientErrors() {
-    }
+    public IInfoBase[] getClientErrors();
 
-    default public int getNumDroppedClientErrors() {
-    }
+    public int getNumDroppedClientErrors();
 
-    default public IInfoBase[] getStubErrors() {
-    }
+    public IInfoBase[] getStubErrors();
 
-    default public int getNumDroppedStubErrors() {
-    }
+    public int getNumDroppedStubErrors();
 }
 

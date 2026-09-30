@@ -4,13 +4,13 @@
 package de.esolutions.hmi.widgets.audi.evo.high;
 
 import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.hmi.HMIBundle;
 import de.audi.atip.hmi.event.RunnableEvent;
 import de.audi.atip.hmi.view.IDrawerController;
 import de.audi.atip.hmi.view.IModelConnectService;
 import de.audi.atip.hmi.view.Screen;
 import de.audi.atip.hmi.view.ScreenData;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$Source;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContextListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.ap.EntertainmentActionProxy;
@@ -26,9 +26,6 @@ import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.DrawerFocusManager;
-import de.esolutions.hmi.widgets.audi.evo.high.DrawerManagerEvoHigh$1;
-import de.esolutions.hmi.widgets.audi.evo.high.DrawerManagerEvoHigh$2;
-import de.esolutions.hmi.widgets.audi.evo.high.DrawerManagerEvoHigh$3;
 import de.esolutions.hmi.widgets.audi.evo.high.ap.EntertainmentActionProxyRouter;
 import de.esolutions.hmi.widgets.audi.evo.widgets.DrawerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerContentController;
@@ -37,11 +34,13 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerOpenCloseCo
 import de.esolutions.hmi.widgets.audi.evo.widgets.anim.AnimUtils;
 import de.esolutions.hmi.widgets.audi.evo.widgets.entdrawer.EntertainmentDrawerContentManager;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -62,7 +61,7 @@ WidgetConstants {
     protected IDrawerConditionEngine drawerConditionEngine;
     private Object connectMonitor = new Object();
     private ArrayList adclList = new ArrayList();
-    private AudioDrawerContext$Source currentSource;
+    private AudioDrawerContext.Source currentSource;
     private int currentEntDrawerState;
     static /* synthetic */ Class class$de$audi$atip$hmi$HMIBundle;
     static /* synthetic */ Class class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener;
@@ -76,11 +75,10 @@ WidgetConstants {
         EntertainmentActionProxyRouter.getInstance().registerHandler(this);
     }
 
-    @Override
     public void activateSelectionDrawer(long l) {
         Object object;
         Long l2 = Util.createLong(l);
-        if (l != -1L && !this.selectionDrawers.containsKey(l2) && (object = AbstractWidget.hmiService.getSelectionDrawers(this.terminal.getTerminalID(), (int)l / -1601830656)) != null) {
+        if (l != -1L && !this.selectionDrawers.containsKey(l2) && (object = AbstractWidget.hmiService.getSelectionDrawers(this.terminal.getTerminalID(), (int)l / 100000)) != null) {
             int n;
             boolean bl = false;
             for (n = 0; n < ((Object)object).length; ++n) {
@@ -93,7 +91,7 @@ WidgetConstants {
                     object[n].setDrawerType(1);
                 }
             } else {
-                logDrawer.log(-2137614336, "DrawerManagerEvoHigh#activateSelectionDrawer: no selection drawer found for id %1", l);
+                logDrawer.log(10000000, "DrawerManagerEvoHigh#activateSelectionDrawer: no selection drawer found for id %1", l);
             }
         }
         if (l != -1L && this.selectionDrawers.containsKey(l2)) {
@@ -103,7 +101,7 @@ WidgetConstants {
             }
             this.drawerFocusManager.setSelectionDrawer(object);
         } else {
-            logDrawer.log(-2137614336, "DrawerManagerEvoHigh#activateSelectionDrawer: no selection drawer available for id %1", l);
+            logDrawer.log(10000000, "DrawerManagerEvoHigh#activateSelectionDrawer: no selection drawer available for id %1", l);
             this.drawerFocusManager.setSelectionDrawer(null);
         }
     }
@@ -134,18 +132,17 @@ WidgetConstants {
         this.connectDrawer(drawerController, true);
     }
 
-    @Override
     public void activateOptionDrawer(long l, long[] lArray) {
         IDrawerControllerEvo[] iDrawerControllerEvoArray;
         LogChannel logChannel = IWidgetLogChannel.logDrawerCondtionEngine;
-        logChannel.log(-2137614336, "activateOptionDrawer id: %1", l);
+        logChannel.log(10000000, "activateOptionDrawer id: %1", l);
         if (lArray != null) {
             for (int i2 = 0; i2 < lArray.length; ++i2) {
-                logChannel.log(-2137614336, "activateOptionDrawer next valid context: %1", lArray[i2]);
+                logChannel.log(10000000, "activateOptionDrawer next valid context: %1", lArray[i2]);
             }
         }
         Long l2 = Util.createLong(l);
-        if (l != -1L && !this.optionDrawers.containsKey(l2) && (iDrawerControllerEvoArray = AbstractWidget.hmiService.getOptionDrawers(this.terminal.getTerminalID(), (int)l / -1601830656)) != null) {
+        if (l != -1L && !this.optionDrawers.containsKey(l2) && (iDrawerControllerEvoArray = AbstractWidget.hmiService.getOptionDrawers(this.terminal.getTerminalID(), (int)l / 100000)) != null) {
             int n;
             boolean bl = false;
             for (n = 0; n < iDrawerControllerEvoArray.length; ++n) {
@@ -174,7 +171,6 @@ WidgetConstants {
         }
     }
 
-    @Override
     public int getBlackListedConnection() {
         return EntertainmentActionProxyRouter.getInstance().getBlackListedConnection();
     }
@@ -182,7 +178,6 @@ WidgetConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void activateEntertainmentDrawer() {
         Object object = this.connectMonitor;
         synchronized (object) {
@@ -195,20 +190,19 @@ WidgetConstants {
         }
     }
 
-    @Override
     public void activateEntertainmentDrawerContent(AbstractWidgetController abstractWidgetController) {
         if (Util.equals(abstractWidgetController, this.activeEntertainmentContent)) {
             return;
         }
         if (this.activeEntertainmentContent instanceof Screen) {
-            logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#activateEntertainmentDrawerContent: deactivate content: %1", (Object)this.activeEntertainmentContent);
+            logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#activateEntertainmentDrawerContent: deactivate content: %1", (Object)this.activeEntertainmentContent);
             this.connectingService.modifiyModelReference((Screen)((Object)this.activeEntertainmentContent), false, true);
         } else if (this.activeEntertainmentContent != null) {
-            logEntertainmentDrawer.log(-1601830656, "DrawerManagerEvoHigh#activateEntertainmentDrawerContent: old content is no Screen: %1", (Object)this.activeEntertainmentContent);
+            logEntertainmentDrawer.log(100000, "DrawerManagerEvoHigh#activateEntertainmentDrawerContent: old content is no Screen: %1", (Object)this.activeEntertainmentContent);
         }
         this.activeEntertainmentContent = abstractWidgetController;
         if (this.activeEntertainmentContent instanceof Screen) {
-            logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#activateEntertainmentDrawerContent: activate content: %1", (Object)this.activeEntertainmentContent);
+            logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#activateEntertainmentDrawerContent: activate content: %1", (Object)this.activeEntertainmentContent);
             this.connectDrawer((DrawerController)this.activeEntertainmentContent, false);
         }
     }
@@ -216,7 +210,6 @@ WidgetConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public AbstractWidgetController getNewEntertainmentContent(int n) {
         Object object = this.connectMonitor;
         synchronized (object) {
@@ -231,15 +224,26 @@ WidgetConstants {
             logEntertainmentDrawer.log(10000, "DrawerManagerEvoHigh#getNewEntertainmentContent: default content could not be fetched");
             return null;
         }
-        logEntertainmentDrawer.log(-1601830656, "DrawerManagerEvoHigh#getNewEntertainmentContent: audioSource %1 could not be found, trying to fetch default content", (long)n);
+        logEntertainmentDrawer.log(100000, "DrawerManagerEvoHigh#getNewEntertainmentContent: audioSource %1 could not be found, trying to fetch default content", (long)n);
         return this.getNewEntertainmentContent(9999);
     }
 
     private void onNewContentAvalabilityChangedAsync() {
-        this.terminal.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new DrawerManagerEvoHigh$1(this)));
+        this.terminal.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                Object object = DrawerManagerEvoHigh.this.connectMonitor;
+                synchronized (object) {
+                    IWidgetLogChannel.logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#onNewContentAvalabilityChangedAsync: called");
+                    DrawerManagerEvoHigh.this.onNewContentAvalabilityChanged();
+                }
+            }
+        }));
     }
 
-    @Override
     public void startTrackingServices() {
         if (!AbstractWidget.isScreenResolution1440()) {
             this.initializeDrawerTracker();
@@ -247,50 +251,46 @@ WidgetConstants {
         }
     }
 
-    @Override
     public void entertainmentBlacklist(int n, int n2) {
-        logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#entertainmentBlacklist: ENTER terminalID=%1 Blacklist=%2", (long)n, (long)n2);
+        logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#entertainmentBlacklist: ENTER terminalID=%1 Blacklist=%2", (long)n, (long)n2);
         EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController = this.getEntertainmentDrawerOpenCloseController();
         if (entertainmentDrawerOpenCloseController != null) {
             entertainmentDrawerOpenCloseController.onBlacklistAudioSource(n, n2);
         }
-        logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#entertainmentBlacklist: EXIT");
+        logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#entertainmentBlacklist: EXIT");
     }
 
-    @Override
     public void entertainmentSetVisible(int n, boolean bl) {
         Object object;
         if (logEntertainmentDrawer.isDebug()) {
             object = new Buffer();
             ((Buffer)object).append("DrawerManagerEvoHigh#entertainmentSetVisible ENTER terminalID=").append(n).append("  visible=").append(bl);
-            logEntertainmentDrawer.log(-2137614336, ((Buffer)object).toString());
+            logEntertainmentDrawer.log(10000000, ((Buffer)object).toString());
         }
         if ((object = this.getEntertainmentDrawerOpenCloseController()) != null) {
             ((EntertainmentDrawerOpenCloseController)object).onDrawerVisibiltyChange(bl);
         }
-        logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#entertainmentSetVisible: EXIT");
+        logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#entertainmentSetVisible: EXIT");
     }
 
-    @Override
     public void onNewContentAvalabilityChanged() {
-        logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#onNewContentAvalabilityChanged: ENTER");
+        logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#onNewContentAvalabilityChanged: ENTER");
         EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController = this.getEntertainmentDrawerOpenCloseController();
         if (entertainmentDrawerOpenCloseController != null && entertainmentDrawerOpenCloseController.isConnected()) {
             entertainmentDrawerOpenCloseController.onNewContentAvalabilityChanged();
         }
-        logEntertainmentDrawer.log(-2137614336, "DrawerManagerEvoHigh#onNewContentAvalabilityChanged: EXIT");
+        logEntertainmentDrawer.log(10000000, "DrawerManagerEvoHigh#onNewContentAvalabilityChanged: EXIT");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyADCListeners(int n, int n2) {
         Object object = this.connectMonitor;
         synchronized (object) {
-            AudioDrawerContext$Source audioDrawerContext$Source = this.contentID2SourceMapper(n);
-            if (!Util.equals(this.currentSource, audioDrawerContext$Source) || this.currentEntDrawerState != n2) {
-                this.currentSource = audioDrawerContext$Source;
+            AudioDrawerContext.Source source = this.contentID2SourceMapper(n);
+            if (!Util.equals(this.currentSource, source) || this.currentEntDrawerState != n2) {
+                this.currentSource = source;
                 this.currentEntDrawerState = n2;
                 this.internalNotifyADCListeners();
             }
@@ -298,7 +298,48 @@ WidgetConstants {
     }
 
     private void initializeDrawerTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = DrawerManagerEvoHigh.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), (ServiceTrackerCustomizer)new DrawerManagerEvoHigh$2(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = DrawerManagerEvoHigh.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                final HMIBundle hMIBundle = (HMIBundle)DrawerManagerEvoHigh.this.bundleContext.getService(serviceReference);
+                AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new Runnable(){
+
+                    /*
+                     * WARNING - Removed try catching itself - possible behaviour change.
+                     */
+                    public void run() {
+                        if (hMIBundle != null) {
+                            Object object;
+                            EntertainmentDrawerController entertainmentDrawerController = (EntertainmentDrawerController)hMIBundle.getEntertainmentDrawer((this).DrawerManagerEvoHigh.this.terminal.getTerminalID());
+                            if (entertainmentDrawerController != null) {
+                                object = DrawerManagerEvoHigh.this.connectMonitor;
+                                synchronized (object) {
+                                    if (DrawerManagerEvoHigh.this.entertainmentDrawer == null) {
+                                        DrawerManagerEvoHigh.this.entertainmentDrawer = entertainmentDrawerController;
+                                    } else {
+                                        IWidgetLogChannel.logDrawer.log(10000, "DrawerManagerEvoHigh#addingService: found two entertainment drawers. Old: %1,  New: %2", (long)DrawerManagerEvoHigh.this.entertainmentDrawer.getScreenId(), (long)entertainmentDrawerController.getScreenId());
+                                    }
+                                }
+                            }
+                            if ((object = hMIBundle.getEntertainmentDrawerContent((this).DrawerManagerEvoHigh.this.terminal.getTerminalID())) != null) {
+                                Object object2 = DrawerManagerEvoHigh.this.connectMonitor;
+                                synchronized (object2) {
+                                    (this).DrawerManagerEvoHigh.this.entertainmentDrawerContent.addAll((Collection)object);
+                                }
+                            }
+                            DrawerManagerEvoHigh.this.onNewContentAvalabilityChangedAsync();
+                        }
+                    }
+                }));
+                return hMIBundle;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         serviceTracker.open();
     }
 
@@ -312,14 +353,50 @@ WidgetConstants {
         }
     }
 
-    private AudioDrawerContext$Source contentID2SourceMapper(int n) {
+    private AudioDrawerContext.Source contentID2SourceMapper(int n) {
         n = n < 0 ? n : (n - 1) / 1000 - 1;
-        AudioDrawerContext$Source audioDrawerContext$Source = n == -1 ? AudioDrawerContext.SOURCE_NONE : EntertainmentDrawerContentManager.AUDIO_CONTENT_TO_SOURCES_LUT[AnimUtils.clamp(0, EntertainmentDrawerContentManager.AUDIO_CONTENT_TO_SOURCES_LUT.length - 1, n)];
-        return audioDrawerContext$Source;
+        AudioDrawerContext.Source source = n == -1 ? AudioDrawerContext.SOURCE_NONE : EntertainmentDrawerContentManager.AUDIO_CONTENT_TO_SOURCES_LUT[AnimUtils.clamp(0, EntertainmentDrawerContentManager.AUDIO_CONTENT_TO_SOURCES_LUT.length - 1, n)];
+        return source;
     }
 
     private void initializeADCLDrawerTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener = DrawerManagerEvoHigh.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContextListener")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener).getName(), (ServiceTrackerCustomizer)new DrawerManagerEvoHigh$3(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener = DrawerManagerEvoHigh.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContextListener")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener).getName(), new ServiceTrackerCustomizer(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public Object addingService(ServiceReference serviceReference) {
+                AudioDrawerContextListener audioDrawerContextListener = (AudioDrawerContextListener)DrawerManagerEvoHigh.this.bundleContext.getService(serviceReference);
+                if (audioDrawerContextListener != null) {
+                    Object object = DrawerManagerEvoHigh.this.connectMonitor;
+                    synchronized (object) {
+                        if (DrawerManagerEvoHigh.this.adclList != null && !DrawerManagerEvoHigh.this.adclList.contains(audioDrawerContextListener)) {
+                            DrawerManagerEvoHigh.this.adclList.add(audioDrawerContextListener);
+                            audioDrawerContextListener.updateActiveContext(DrawerManagerEvoHigh.this.currentSource, DrawerManagerEvoHigh.this.currentEntDrawerState);
+                        }
+                    }
+                }
+                return audioDrawerContextListener;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof AudioDrawerContextListener) {
+                    AudioDrawerContextListener audioDrawerContextListener = (AudioDrawerContextListener)object;
+                    Object object2 = DrawerManagerEvoHigh.this.connectMonitor;
+                    synchronized (object2) {
+                        if (DrawerManagerEvoHigh.this.adclList != null && DrawerManagerEvoHigh.this.adclList.contains(audioDrawerContextListener)) {
+                            DrawerManagerEvoHigh.this.adclList.remove(audioDrawerContextListener);
+                        }
+                    }
+                }
+            }
+        });
         serviceTracker.open();
     }
 
@@ -331,18 +408,15 @@ WidgetConstants {
         return entertainmentDrawerOpenCloseController;
     }
 
-    @Override
     public IDrawerController getOptionDrawer(long l) {
         return (IDrawerController)this.optionDrawers.get(Util.createLong(l));
     }
 
-    @Override
     public void languageChanged() {
         this.selectionDrawers.clear();
         this.optionDrawers.clear();
     }
 
-    @Override
     public void clear() {
         this.selectionDrawers.clear();
         this.optionDrawers.clear();
@@ -351,7 +425,6 @@ WidgetConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void entertainmentDrawerClosed() {
         Object object = this.connectMonitor;
         synchronized (object) {
@@ -368,7 +441,6 @@ WidgetConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void entertainmentDrawerOpened() {
         Object object = this.connectMonitor;
         synchronized (object) {
@@ -382,10 +454,6 @@ WidgetConstants {
         }
     }
 
-    static /* synthetic */ Object access$000(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        return drawerManagerEvoHigh.connectMonitor;
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
@@ -393,35 +461,6 @@ WidgetConstants {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ BundleContext access$100(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        return drawerManagerEvoHigh.bundleContext;
-    }
-
-    static /* synthetic */ EntertainmentDrawerController access$300(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        return drawerManagerEvoHigh.entertainmentDrawer;
-    }
-
-    static /* synthetic */ EntertainmentDrawerController access$302(DrawerManagerEvoHigh drawerManagerEvoHigh, EntertainmentDrawerController entertainmentDrawerController) {
-        drawerManagerEvoHigh.entertainmentDrawer = entertainmentDrawerController;
-        return drawerManagerEvoHigh.entertainmentDrawer;
-    }
-
-    static /* synthetic */ void access$400(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        drawerManagerEvoHigh.onNewContentAvalabilityChangedAsync();
-    }
-
-    static /* synthetic */ ArrayList access$500(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        return drawerManagerEvoHigh.adclList;
-    }
-
-    static /* synthetic */ AudioDrawerContext$Source access$600(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        return drawerManagerEvoHigh.currentSource;
-    }
-
-    static /* synthetic */ int access$700(DrawerManagerEvoHigh drawerManagerEvoHigh) {
-        return drawerManagerEvoHigh.currentEntDrawerState;
     }
 }
 

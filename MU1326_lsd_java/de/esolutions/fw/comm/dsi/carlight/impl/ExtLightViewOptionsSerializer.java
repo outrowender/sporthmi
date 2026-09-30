@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carlight.impl.ExtLightConfigSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.ExtLightConfig;
 import org.dsi.ifc.carlight.ExtLightViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class ExtLightViewOptionsSerializer {
-    public static void putOptionalExtLightViewOptions(ISerializer iSerializer, ExtLightViewOptions extLightViewOptions) {
+    public static void putOptionalExtLightViewOptions(ISerializer iSerializer, ExtLightViewOptions extLightViewOptions) throws SerializerException {
         boolean bl = extLightViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class ExtLightViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalExtLightViewOptionsVarArray(ISerializer iSerializer, ExtLightViewOptions[] extLightViewOptionsArray) {
+    public static void putOptionalExtLightViewOptionsVarArray(ISerializer iSerializer, ExtLightViewOptions[] extLightViewOptionsArray) throws SerializerException {
         boolean bl = extLightViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class ExtLightViewOptionsSerializer {
         }
     }
 
-    public static ExtLightViewOptions getOptionalExtLightViewOptions(IDeserializer iDeserializer) {
+    public static ExtLightViewOptions getOptionalExtLightViewOptions(IDeserializer iDeserializer) throws SerializerException {
         ExtLightViewOptions extLightViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -103,7 +104,7 @@ public class ExtLightViewOptionsSerializer {
         return extLightViewOptions;
     }
 
-    public static ExtLightViewOptions[] getOptionalExtLightViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static ExtLightViewOptions[] getOptionalExtLightViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         ExtLightViewOptions[] extLightViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

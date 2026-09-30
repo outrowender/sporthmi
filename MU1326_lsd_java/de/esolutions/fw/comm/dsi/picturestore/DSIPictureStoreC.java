@@ -3,124 +3,86 @@
  */
 package de.esolutions.fw.comm.dsi.picturestore;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIPictureStoreC {
-    default public void setConfig(int n, int n2, int n3, int n4) {
-    }
+    public void setConfig(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void importPicture(int n, ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void importPicture(int var1, ResourceLocator var2, boolean var3) throws MethodException;
 
-    default public void pictureExists(ResourceLocator resourceLocator) {
-    }
+    public void pictureExists(ResourceLocator var1) throws MethodException;
 
-    default public void increaseRefCounter(ResourceLocator resourceLocator, int n) {
-    }
+    public void increaseRefCounter(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void decreaseRefCounter(ResourceLocator resourceLocator, int n) {
-    }
+    public void decreaseRefCounter(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void getFreeSlots(int n) {
-    }
+    public void getFreeSlots(int var1) throws MethodException;
 
-    default public void getReferences(ResourceLocator resourceLocator) {
-    }
+    public void getReferences(ResourceLocator var1) throws MethodException;
 
-    default public void deleteAllPictures(int n, boolean bl) {
-    }
+    public void deleteAllPictures(int var1, boolean var2) throws MethodException;
 
-    default public void deletePicturesFromContext(int n, ResourceLocator[] resourceLocatorArray, boolean bl) {
-    }
+    public void deletePicturesFromContext(int var1, ResourceLocator[] var2, boolean var3) throws MethodException;
 
-    default public void deletePictures(ResourceLocator[] resourceLocatorArray, boolean bl) {
-    }
+    public void deletePictures(ResourceLocator[] var1, boolean var2) throws MethodException;
 
-    default public void getLRUPictures(int n, boolean bl, int n2) {
-    }
+    public void getLRUPictures(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void listInAllContexts(int n, int n2) {
-    }
+    public void listInAllContexts(int var1, int var2) throws MethodException;
 
-    default public void listInContext(int n, int n2, int n3) {
-    }
+    public void listInContext(int var1, int var2, int var3) throws MethodException;
 
-    default public void getPictureAttributes(ResourceLocator resourceLocator) {
-    }
+    public void getPictureAttributes(ResourceLocator var1) throws MethodException;
 
-    default public void setConfigWithFileType(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void setConfigWithFileType(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void importPictureFromSource(int n, ResourceLocator resourceLocator, boolean bl, int n2, String string) {
-    }
+    public void importPictureFromSource(int var1, ResourceLocator var2, boolean var3, int var4, String var5) throws MethodException;
 
-    default public void deletePicturesWithFilterSet(int n, int n2, boolean bl) {
-    }
+    public void deletePicturesWithFilterSet(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void listInContextWithFilter(int n, int n2, int n3, int n4) {
-    }
+    public void listInContextWithFilter(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void listInContextWithFilterSortDist(int n, int n2, int n3, int n4, float f2, float f3) {
-    }
+    public void listInContextWithFilterSortDist(int var1, int var2, int var3, int var4, float var5, float var6) throws MethodException;
 
-    default public void getRectanglePicturesGrid(int n, int n2, float f2, float f3, float f4, float f5, int n3, int n4, int n5) {
-    }
+    public void getRectanglePicturesGrid(int var1, int var2, float var3, float var4, float var5, float var6, int var7, int var8, int var9) throws MethodException;
 
-    default public void getAvailableYears(int n, int n2) {
-    }
+    public void getAvailableYears(int var1, int var2) throws MethodException;
 
-    default public void getAvailableMonths(int n, int n2, int n3) {
-    }
+    public void getAvailableMonths(int var1, int var2, int var3) throws MethodException;
 
-    default public void createFilterSet() {
-    }
+    public void createFilterSet() throws MethodException;
 
-    default public void cloneFilterSet(int n) {
-    }
+    public void cloneFilterSet(int var1) throws MethodException;
 
-    default public void deleteFilterSet(int n) {
-    }
+    public void deleteFilterSet(int var1) throws MethodException;
 
-    default public void setFilterImportSource(int n, int n2) {
-    }
+    public void setFilterImportSource(int var1, int var2) throws MethodException;
 
-    default public void setFilterTimeInterval(int n, int n2, long l, long l2) {
-    }
+    public void setFilterTimeInterval(int var1, int var2, long var3, long var5) throws MethodException;
 
-    default public void setFilterGeoArea(int n, float f2, float f3, float f4, float f5) {
-    }
+    public void setFilterGeoArea(int var1, float var2, float var3, float var4, float var5) throws MethodException;
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings() throws MethodException;
 
-    default public void getAvailableFolders(int n) {
-    }
+    public void getAvailableFolders(int var1) throws MethodException;
 
-    default public void setFilterFolderName(int n, String string) {
-    }
+    public void setFilterFolderName(int var1, String var2) throws MethodException;
 
-    default public void countPicturesInContext(int n, int n2) {
-    }
+    public void countPicturesInContext(int var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

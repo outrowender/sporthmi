@@ -31,8 +31,7 @@ extends FilterReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.buf = null;
@@ -40,18 +39,15 @@ extends FilterReader {
         }
     }
 
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         throw new IOException(Msg.getString("K007f"));
     }
 
-    @Override
     public boolean markSupported() {
         return false;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.buf != null) {
@@ -64,8 +60,7 @@ extends FilterReader {
         }
     }
 
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
             synchronized (object) {
@@ -98,8 +93,7 @@ extends FilterReader {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.buf != null) {
@@ -109,19 +103,18 @@ extends FilterReader {
         }
     }
 
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         throw new IOException(Msg.getString("K007f"));
     }
 
-    public void unread(char[] cArray) {
+    public void unread(char[] cArray) throws IOException {
         this.unread(cArray, 0, cArray.length);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void unread(char[] cArray, int n, int n2) {
+    public void unread(char[] cArray, int n, int n2) throws IOException {
         if (n2 > this.pos) {
             throw new IOException(Msg.getString("K007e"));
         }
@@ -142,7 +135,7 @@ extends FilterReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void unread(int n) {
+    public void unread(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.buf != null) {
@@ -160,8 +153,7 @@ extends FilterReader {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l < 0L) {
             throw new IllegalArgumentException();
         }

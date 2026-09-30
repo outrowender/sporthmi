@@ -14,32 +14,26 @@ implements INameService {
         this.config = systemConfig;
     }
 
-    @Override
     public short getMyID() {
         return (short)this.config.getMyProcId();
     }
 
-    @Override
     public String getMyProcName() {
         return this.config.getMyProcName();
     }
 
-    @Override
     public String getMyNodeName() {
         return this.config.getMyNodeName();
     }
 
-    @Override
     public String mapIDToName(short s) {
         return this.config.mapProcId(s);
     }
 
-    @Override
     public Short mapNameToID(String string) {
         return new Short(this.config.mapIdProc(string).shortValue());
     }
 
-    @Override
     public String[] getNodeNames() {
         return this.config.getAllNodeNames();
     }

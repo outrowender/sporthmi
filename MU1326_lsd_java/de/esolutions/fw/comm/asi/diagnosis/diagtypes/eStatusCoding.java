@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eStatusCoding
 extends IEnum {
-    public static final int STATUSCODING_ERROR;
-    public static final int STATUSCODING_OK;
-    public static final int STATUSCODING_DONT_CARE;
+    public static final int STATUSCODING_ERROR = 0;
+    public static final int STATUSCODING_OK = 1;
+    public static final int STATUSCODING_DONT_CARE = 2;
 }
 

@@ -12,7 +12,7 @@ import org.apache.xerces.dom.NamedNodeMapImpl;
 public class DeferredDocumentTypeImpl
 extends DocumentTypeImpl
 implements DeferredNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -2172579663227313509L;
     protected transient int fNodeIndex;
 
     DeferredDocumentTypeImpl(DeferredDocumentImpl deferredDocumentImpl, int n) {
@@ -22,12 +22,10 @@ implements DeferredNode {
         this.needsSyncChildren(true);
     }
 
-    @Override
     public int getNodeIndex() {
         return this.fNodeIndex;
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument;
@@ -38,7 +36,6 @@ implements DeferredNode {
         this.internalSubset = deferredDocumentImpl.getNodeValue(n);
     }
 
-    @Override
     protected void synchronizeChildren() {
         boolean bl = this.ownerDocument().getMutationEvents();
         this.ownerDocument().setMutationEvents(false);
@@ -73,7 +70,7 @@ implements DeferredNode {
                     }
                 }
                 default: {
-                    System.out.println(new StringBuffer().append("DeferredDocumentTypeImpl#synchronizeInfo: node.getNodeType() = ").append(deferredNode2.getNodeType()).append(", class = ").append(super.getClass().getName()).toString());
+                    System.out.println("DeferredDocumentTypeImpl#synchronizeInfo: node.getNodeType() = " + deferredNode2.getNodeType() + ", class = " + deferredNode2.getClass().getName());
                 }
             }
             n = deferredDocumentImpl.getPrevSibling(n);

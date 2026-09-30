@@ -10,7 +10,7 @@ import org.apache.xerces.xni.parser.XMLConfigurationException;
 
 public class ParserConfigurationSettings
 implements XMLComponentManager {
-    protected static final String PARSER_SETTINGS;
+    protected static final String PARSER_SETTINGS = "http://apache.org/xml/features/internal/parser-settings";
     protected ArrayList fRecognizedProperties;
     protected HashMap fProperties;
     protected ArrayList fRecognizedFeatures = new ArrayList();
@@ -37,7 +37,7 @@ implements XMLComponentManager {
         }
     }
 
-    public void setFeature(String string, boolean bl) {
+    public void setFeature(String string, boolean bl) throws XMLConfigurationException {
         this.checkFeature(string);
         this.fFeatures.put(string, bl ? Boolean.TRUE : Boolean.FALSE);
     }
@@ -51,13 +51,12 @@ implements XMLComponentManager {
         }
     }
 
-    public void setProperty(String string, Object object) {
+    public void setProperty(String string, Object object) throws XMLConfigurationException {
         this.checkProperty(string);
         this.fProperties.put(string, object);
     }
 
-    @Override
-    public boolean getFeature(String string) {
+    public boolean getFeature(String string) throws XMLConfigurationException {
         Boolean bl = (Boolean)this.fFeatures.get(string);
         if (bl == null) {
             this.checkFeature(string);
@@ -66,8 +65,7 @@ implements XMLComponentManager {
         return bl;
     }
 
-    @Override
-    public Object getProperty(String string) {
+    public Object getProperty(String string) throws XMLConfigurationException {
         Object object = this.fProperties.get(string);
         if (object == null) {
             this.checkProperty(string);
@@ -75,7 +73,7 @@ implements XMLComponentManager {
         return object;
     }
 
-    protected void checkFeature(String string) {
+    protected void checkFeature(String string) throws XMLConfigurationException {
         if (!this.fRecognizedFeatures.contains(string)) {
             if (this.fParentSettings != null) {
                 this.fParentSettings.getFeature(string);
@@ -86,7 +84,7 @@ implements XMLComponentManager {
         }
     }
 
-    protected void checkProperty(String string) {
+    protected void checkProperty(String string) throws XMLConfigurationException {
         if (!this.fRecognizedProperties.contains(string)) {
             if (this.fParentSettings != null) {
                 this.fParentSettings.getProperty(string);

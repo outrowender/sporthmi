@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 
@@ -45,8 +46,7 @@ extends AbstractMessage {
         this.hash = byArray;
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt32(this.id);
         iSerializer.putString(this.path);
         iSerializer.putInt8(this.flag);
@@ -56,8 +56,7 @@ extends AbstractMessage {
         iSerializer.putInt8VarArray(this.hash);
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.id = iDeserializer.getInt32();
         this.path = iDeserializer.getString();
         this.flag = iDeserializer.getInt8();
@@ -67,7 +66,6 @@ extends AbstractMessage {
         this.hash = iDeserializer.getInt8VarArray();
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("FILE_STATUS: transferId=");
         buffer.append(this.id);

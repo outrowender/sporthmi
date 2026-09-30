@@ -27,28 +27,23 @@ implements DSIMirrorLink {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$mirrorlink$DSIMirrorLink == null ? (class$org$dsi$ifc$mirrorlink$DSIMirrorLink = DSIMirrorLinkProvider.class$("org.dsi.ifc.mirrorlink.DSIMirrorLink")) : class$org$dsi$ifc$mirrorlink$DSIMirrorLink).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMirrorLinkProxy(this.instance, (DSIMirrorLinkReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestClientCapabilities(ClientCapabilities clientCapabilities) {
         try {
             this.proxy.requestClientCapabilities(clientCapabilities);
@@ -58,7 +53,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestAccessMode(int n) {
         try {
             this.proxy.requestAccessMode(n);
@@ -68,7 +62,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestDayNightMode(int n) {
         try {
             this.proxy.requestDayNightMode(n);
@@ -78,7 +71,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestUsableViewport(int n, int n2, int n3, int n4) {
         try {
             this.proxy.requestUsableViewport(n, n2, n3, n4);
@@ -88,7 +80,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestContextVisible(boolean bl) {
         try {
             this.proxy.requestContextVisible(bl);
@@ -98,7 +89,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestConnectDevice(int n) {
         try {
             this.proxy.requestConnectDevice(n);
@@ -108,7 +98,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestDisconnectDevice(int n) {
         try {
             this.proxy.requestDisconnectDevice(n);
@@ -118,7 +107,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestRotateScreen(int n) {
         try {
             this.proxy.requestRotateScreen(n);
@@ -128,7 +116,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestChangeOrientation(int n) {
         try {
             this.proxy.requestChangeOrientation(n);
@@ -138,7 +125,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestSoftKeyEvent(int n, int n2) {
         try {
             this.proxy.requestSoftKeyEvent(n, n2);
@@ -148,7 +134,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestLaunchApp(int n) {
         try {
             this.proxy.requestLaunchApp(n);
@@ -158,7 +143,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestTerminateApp(int n) {
         try {
             this.proxy.requestTerminateApp(n);
@@ -168,7 +152,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestStartSpeller(String string) {
         try {
             this.proxy.requestStartSpeller(string);
@@ -178,7 +161,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestAddSpellerChars(String string) {
         try {
             this.proxy.requestAddSpellerChars(string);
@@ -188,7 +170,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestRemoveSpellerChar() {
         try {
             this.proxy.requestRemoveSpellerChar();
@@ -198,7 +179,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestClearSpeller() {
         try {
             this.proxy.requestClearSpeller();
@@ -208,7 +188,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestSendString(String string) {
         try {
             this.proxy.requestSendString(string);
@@ -218,7 +197,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestAudioOption(int n) {
         try {
             this.proxy.requestAudioOption(n);
@@ -228,7 +206,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestAudioConnectionAudible(int n, boolean bl) {
         try {
             this.proxy.requestAudioConnectionAudible(n, bl);
@@ -238,7 +215,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestSendTouchEvents(Event[] eventArray, int n) {
         try {
             this.proxy.requestSendTouchEvents(eventArray, n);
@@ -248,7 +224,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestKeyboardMode(int n) {
         try {
             this.proxy.requestKeyboardMode(n);
@@ -258,7 +233,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestAvailableApplicationsWindow(int n, int n2) {
         try {
             this.proxy.requestAvailableApplicationsWindow(n, n2);
@@ -268,7 +242,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestDisplayKeyboard() {
         try {
             this.proxy.requestDisplayKeyboard();
@@ -278,7 +251,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestDismissHMIKeyboard() {
         try {
             this.proxy.requestDismissHMIKeyboard();
@@ -288,7 +260,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestFactorySettings() {
         try {
             this.proxy.requestFactorySettings();
@@ -298,7 +269,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestPhoneView() {
         try {
             this.proxy.requestPhoneView();
@@ -308,7 +278,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestContextSwitched(boolean bl) {
         try {
             this.proxy.requestContextSwitched(bl);
@@ -318,7 +287,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void invokeNotiAction(int n, int n2) {
         try {
             this.proxy.invokeNotiAction(n, n2);
@@ -328,7 +296,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestNotificationServiceEnabled(boolean bl, int n, int n2, int n3, int n4) {
         try {
             this.proxy.requestNotificationServiceEnabled(bl, n, n2, n3, n4);
@@ -338,7 +305,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void requestLocationDataServicesEnabled(boolean bl) {
         try {
             this.proxy.requestLocationDataServicesEnabled(bl);
@@ -348,7 +314,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -358,7 +323,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -368,7 +332,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -378,7 +341,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -388,7 +350,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -398,7 +359,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -408,7 +368,6 @@ implements DSIMirrorLink {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

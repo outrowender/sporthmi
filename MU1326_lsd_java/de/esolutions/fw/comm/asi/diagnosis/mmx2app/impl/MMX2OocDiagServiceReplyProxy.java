@@ -4,18 +4,20 @@
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2OocDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2OocDiagServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2OocDiagServiceReplyProxy$2;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2OocDiagServiceReplyProxy
 implements MMX2OocDiagServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.diagnosis.mmx2app.MMX2OocDiagService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public MMX2OocDiagServiceReplyProxy() {
@@ -23,21 +25,29 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void requestTemperatureMMX(long l) {
-        MMX2OocDiagServiceReplyProxy$1 mMX2OocDiagServiceReplyProxy$1 = new MMX2OocDiagServiceReplyProxy$1(this, l);
-        this.proxy.remoteCallMethod((short)0, mMX2OocDiagServiceReplyProxy$1);
+    public void requestTemperatureMMX(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void requestDeleteMemory(long l, int n) {
-        MMX2OocDiagServiceReplyProxy$2 mMX2OocDiagServiceReplyProxy$2 = new MMX2OocDiagServiceReplyProxy$2(this, l, n);
-        this.proxy.remoteCallMethod((short)4, mMX2OocDiagServiceReplyProxy$2);
+    public void requestDeleteMemory(final long l, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 }
 

@@ -9,125 +9,100 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAsiaInput
 extends DSIBase {
-    public static final String VERSION;
-    public static final int IN_INDICATEERRORSTATUS;
-    public static final int IN_INDICATEDATAINVALIDATED;
-    public static final int RP_INITIALIZED;
-    public static final int RP_GETVERSIONINFO;
-    public static final int RP_BUILTCANDIDATES;
-    public static final int RP_GETSPELLING;
-    public static final int RP_GETCANDIDATES;
-    public static final int RP_GETINTPARAMETER;
-    public static final int RP_GETBOOLEANPARAMETER;
-    public static final int RP_SETBOOLEANPARAMETERRESULT;
-    public static final int RP_SETINTPARAMETERRESULT;
-    public static final int RP_SETSTRINGPARAMETERRESULT;
-    public static final int RP_GETSTRINGPARAMETER;
-    public static final int RP_SELECTEDCANDIDATE;
-    public static final int RP_SETADDITIONALWORDDATABASESRESULT;
-    public static final int RP_SETUSERDATABASESTATERESULT;
-    public static final int RP_RESETTOFACTORYSETTINGSRESULT;
-    public static final int RP_GETSEGMENTATION;
-    public static final int RP_RESPONSESEGMENTATIONFORTRUFFLES;
-    public static final int RT_INITIALIZE;
-    public static final int RT_ADDSYMBOL;
-    public static final int RT_ADDSYMBOLS;
-    public static final int RT_REMOVESYMBOL;
-    public static final int RT_REMOVEALLSYMBOLS;
-    public static final int RT_CLEAR;
-    public static final int RT_BUILDCANDIDATES;
-    public static final int RT_GETSPELLING;
-    public static final int RT_GETCANDIDATES;
-    public static final int RT_SELECTCANDIDATE;
-    public static final int RT_SETBOOLEANPARAMETER;
-    public static final int RT_SETINTPARAMETER;
-    public static final int RT_GETBOOLEANPARAMETER;
-    public static final int RT_GETINTPARAMETER;
-    public static final int RT_GETVERSIONINFO;
-    public static final int RT_SETSTRINGPARAMETER;
-    public static final int RT_GETSTRINGPARAMETER;
-    public static final int RT_SETPREDICTIONCONTEXT;
-    public static final int RT_CLEARPREDICTIONCONTEXT;
-    public static final int RT_SETADDITIONALWORDDATABASES;
-    public static final int RT_ADDUSERDEFINEDENTRY;
-    public static final int RT_SETUSERDATABASESTATE;
-    public static final int RT_RESETTOFACTORYSETTINGS;
-    public static final int RT_GETSEGMENTATION;
-    public static final int RT_REQUESTSEGMENTATIONFORTRUFFLES;
+    public static final String VERSION = "2.11.11";
+    public static final int IN_INDICATEERRORSTATUS = 3000;
+    public static final int IN_INDICATEDATAINVALIDATED = 3001;
+    public static final int RP_INITIALIZED = 2000;
+    public static final int RP_GETVERSIONINFO = 2001;
+    public static final int RP_BUILTCANDIDATES = 2002;
+    public static final int RP_GETSPELLING = 2003;
+    public static final int RP_GETCANDIDATES = 2004;
+    public static final int RP_GETINTPARAMETER = 2007;
+    public static final int RP_GETBOOLEANPARAMETER = 2008;
+    public static final int RP_SETBOOLEANPARAMETERRESULT = 2009;
+    public static final int RP_SETINTPARAMETERRESULT = 2010;
+    public static final int RP_SETSTRINGPARAMETERRESULT = 2011;
+    public static final int RP_GETSTRINGPARAMETER = 2012;
+    public static final int RP_SELECTEDCANDIDATE = 2014;
+    public static final int RP_SETADDITIONALWORDDATABASESRESULT = 2015;
+    public static final int RP_SETUSERDATABASESTATERESULT = 2016;
+    public static final int RP_RESETTOFACTORYSETTINGSRESULT = 2017;
+    public static final int RP_GETSEGMENTATION = 2018;
+    public static final int RP_RESPONSESEGMENTATIONFORTRUFFLES = 2019;
+    public static final int RT_INITIALIZE = 1000;
+    public static final int RT_ADDSYMBOL = 1001;
+    public static final int RT_ADDSYMBOLS = 1002;
+    public static final int RT_REMOVESYMBOL = 1003;
+    public static final int RT_REMOVEALLSYMBOLS = 1004;
+    public static final int RT_CLEAR = 1005;
+    public static final int RT_BUILDCANDIDATES = 1006;
+    public static final int RT_GETSPELLING = 1007;
+    public static final int RT_GETCANDIDATES = 1008;
+    public static final int RT_SELECTCANDIDATE = 1009;
+    public static final int RT_SETBOOLEANPARAMETER = 1015;
+    public static final int RT_SETINTPARAMETER = 1016;
+    public static final int RT_GETBOOLEANPARAMETER = 1017;
+    public static final int RT_GETINTPARAMETER = 1018;
+    public static final int RT_GETVERSIONINFO = 1019;
+    public static final int RT_SETSTRINGPARAMETER = 1020;
+    public static final int RT_GETSTRINGPARAMETER = 1021;
+    public static final int RT_SETPREDICTIONCONTEXT = 1022;
+    public static final int RT_CLEARPREDICTIONCONTEXT = 1023;
+    public static final int RT_SETADDITIONALWORDDATABASES = 1024;
+    public static final int RT_ADDUSERDEFINEDENTRY = 1025;
+    public static final int RT_SETUSERDATABASESTATE = 1026;
+    public static final int RT_RESETTOFACTORYSETTINGS = 1027;
+    public static final int RT_GETSEGMENTATION = 1028;
+    public static final int RT_REQUESTSEGMENTATIONFORTRUFFLES = 1029;
 
-    default public void initialize(int n) {
-    }
+    public void initialize(int var1);
 
-    default public void addSymbol(char c2) {
-    }
+    public void addSymbol(char var1);
 
-    default public void addSymbols(String string) {
-    }
+    public void addSymbols(String var1);
 
-    default public void removeSymbol() {
-    }
+    public void removeSymbol();
 
-    default public void removeAllSymbols() {
-    }
+    public void removeAllSymbols();
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void buildCandidates() {
-    }
+    public void buildCandidates();
 
-    default public void getSpelling() {
-    }
+    public void getSpelling();
 
-    default public void getCandidates(int n) {
-    }
+    public void getCandidates(int var1);
 
-    default public void selectCandidate(int n) {
-    }
+    public void selectCandidate(int var1);
 
-    default public void setBooleanParameter(int n, boolean bl) {
-    }
+    public void setBooleanParameter(int var1, boolean var2);
 
-    default public void setIntParameter(int n, int n2) {
-    }
+    public void setIntParameter(int var1, int var2);
 
-    default public void getBooleanParameter(int n) {
-    }
+    public void getBooleanParameter(int var1);
 
-    default public void getIntParameter(int n) {
-    }
+    public void getIntParameter(int var1);
 
-    default public void getVersionInfo() {
-    }
+    public void getVersionInfo();
 
-    default public void setStringParameter(int n, String string) {
-    }
+    public void setStringParameter(int var1, String var2);
 
-    default public void getStringParameter(int n) {
-    }
+    public void getStringParameter(int var1);
 
-    default public void setPredictionContext(String string) {
-    }
+    public void setPredictionContext(String var1);
 
-    default public void clearPredictionContext() {
-    }
+    public void clearPredictionContext();
 
-    default public void addUserDefinedEntry(UserDefinedEntry userDefinedEntry) {
-    }
+    public void addUserDefinedEntry(UserDefinedEntry var1);
 
-    default public void setAdditionalWordDatabases(WordDatabase[] wordDatabaseArray) {
-    }
+    public void setAdditionalWordDatabases(WordDatabase[] var1);
 
-    default public void setUserDatabaseState(int n, int n2) {
-    }
+    public void setUserDatabaseState(int var1, int var2);
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public void getSegmentation(String string) {
-    }
+    public void getSegmentation(String var1);
 
-    default public void requestSegmentationForTruffles(String string) {
-    }
+    public void requestSegmentationForTruffles(String var1);
 }
 

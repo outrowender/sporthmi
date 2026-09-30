@@ -8,16 +8,12 @@ import de.esolutions.fw.util.serializer.connection.ISpawnConnectionFactory;
 import java.io.IOException;
 
 public interface ISpawnedConnectionListener {
-    default public void spawnedConnection(Connection connection) {
-    }
+    public void spawnedConnection(Connection var1);
 
-    default public boolean spawningRetry(ISpawnConnectionFactory iSpawnConnectionFactory, IOException iOException, int n) {
-    }
+    public boolean spawningRetry(ISpawnConnectionFactory var1, IOException var2, int var3);
 
-    default public void spawningEnabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
-    }
+    public void spawningEnabled(ISpawnConnectionFactory var1);
 
-    default public void spawningDisabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
-    }
+    public void spawningDisabled(ISpawnConnectionFactory var1);
 }
 

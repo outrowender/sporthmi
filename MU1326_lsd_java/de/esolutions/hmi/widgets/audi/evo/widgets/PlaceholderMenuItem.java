@@ -8,55 +8,38 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 
 public interface PlaceholderMenuItem
 extends KeyListener {
-    default public int getSubItemCount() {
-    }
+    public int getSubItemCount();
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public boolean isMultiItem() {
-    }
+    public boolean isMultiItem();
 
-    default public boolean isSubItem() {
-    }
+    public boolean isSubItem();
 
-    default public boolean isSelected() {
-    }
+    public boolean isSelected();
 
-    default public boolean isSubSelection() {
-    }
+    public boolean isSubSelection();
 
-    default public String getLabelText() {
-    }
+    public String getLabelText();
 
-    default public void itemFocused() {
-    }
+    public void itemFocused();
 
-    default public Object getIconData(int n) {
-    }
+    public Object getIconData(int var1);
 
-    default public int[] getColorIndices() {
-    }
+    public int[] getColorIndices();
 
-    default public boolean isEnabled() {
-    }
+    public boolean isEnabled();
 
-    default public AbstractWidgetController getWidget() {
-    }
+    public AbstractWidgetController getWidget();
 
-    default public int getSdsItemSelectedAction() {
-    }
+    public int getSdsItemSelectedAction();
 
-    default public int getSdsCommand() {
-    }
+    public int getSdsCommand();
 
-    default public int getInternalID() {
-    }
+    public int getInternalID();
 
-    default public int getWidgetID() {
-    }
+    public int getWidgetID();
 
-    default public boolean isLockable() {
-    }
+    public boolean isLockable();
 }
 

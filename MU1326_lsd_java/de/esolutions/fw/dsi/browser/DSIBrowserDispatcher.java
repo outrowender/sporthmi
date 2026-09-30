@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.browser;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserReply;
 import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIBrowserReply {
         super(n, (class$org$dsi$ifc$browser$DSIBrowserListener == null ? (class$org$dsi$ifc$browser$DSIBrowserListener = DSIBrowserDispatcher.class$("org.dsi.ifc.browser.DSIBrowserListener")) : class$org$dsi$ifc$browser$DSIBrowserListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateBrowserState(int n, int n2) {
+    public void updateBrowserState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -60,8 +59,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updatePageTitle(String string, int n) {
+    public void updatePageTitle(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -89,8 +87,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateActiveUrl(String string, int n) {
+    public void updateActiveUrl(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -118,8 +115,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateZoomFactor(int n, int n2) {
+    public void updateZoomFactor(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -147,8 +143,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateVirtualKeyboardStatus(boolean bl, int n) {
+    public void updateVirtualKeyboardStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -176,8 +171,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateEncryption(boolean bl, int n) {
+    public void updateEncryption(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -205,8 +199,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateHasFocus(boolean bl, int n) {
+    public void updateHasFocus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -234,8 +227,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateButtonState(int n, int n2, int n3) {
+    public void updateButtonState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -263,8 +255,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateProgress(int n, int n2) {
+    public void updateProgress(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -292,8 +283,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateScrollbarX(int n, int n2, int n3, int n4) {
+    public void updateScrollbarX(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -321,8 +311,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateScrollbarY(int n, int n2, int n3, int n4) {
+    public void updateScrollbarY(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -350,8 +339,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void getPreferenceResult(int n, int n2, String string) {
+    public void getPreferenceResult(int n, int n2, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -367,8 +355,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void resumeBrowserResult(int n) {
+    public void resumeBrowserResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -384,8 +371,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void indicateEfiUrl(String string) {
+    public void indicateEfiUrl(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -401,8 +387,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void indicateUnknownMimeType(String string, String string2) {
+    public void indicateUnknownMimeType(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -418,8 +403,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void indicateDownloadUrl(String string) {
+    public void indicateDownloadUrl(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -435,8 +419,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void indicatePopup(String string) {
+    public void indicatePopup(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -452,8 +435,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void indicateDownloadProgress(String string, String string2, int n) {
+    public void indicateDownloadProgress(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -469,8 +451,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void javascriptAlert(String string) {
+    public void javascriptAlert(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -486,8 +467,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void javascriptConfirm(String string) {
+    public void javascriptConfirm(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -503,8 +483,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void javascriptPrompt(String string, String string2) {
+    public void javascriptPrompt(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -520,8 +499,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateSelectionListContent(SelectionEntry[] selectionEntryArray, boolean bl, int n) {
+    public void updateSelectionListContent(SelectionEntry[] selectionEntryArray, boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -549,8 +527,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void exportBrowserDataResult(int n) {
+    public void exportBrowserDataResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -566,8 +543,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void importBrowserDataResult(int n) {
+    public void importBrowserDataResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -583,8 +559,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void getHistoryResult(TimePeriod timePeriod, HistoryEntry[] historyEntryArray, int n) {
+    public void getHistoryResult(TimePeriod timePeriod, HistoryEntry[] historyEntryArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -600,8 +575,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) {
+    public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -629,8 +603,7 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -646,14 +619,13 @@ implements DSIBrowserReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIBrowserListener dSIBrowserListener = (DSIBrowserListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIBrowserListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIBrowserListener, new Object[]{string, string2});
                     continue;
                 }

@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public abstract class Format
 implements Serializable,
 Cloneable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -299282585814624189L;
 
     public Object clone() {
         try {
@@ -71,14 +71,13 @@ Cloneable {
         return this.format(object, new StringBuffer(), new FieldPosition(0)).toString();
     }
 
-    public abstract StringBuffer format(Object object, StringBuffer stringBuffer, FieldPosition fieldPosition) {
-    }
+    public abstract StringBuffer format(Object var1, StringBuffer var2, FieldPosition var3);
 
     public AttributedCharacterIterator formatToCharacterIterator(Object object) {
         return new AttributedString(this.format(object)).getIterator();
     }
 
-    public Object parseObject(String string) {
+    public Object parseObject(String string) throws ParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Object object = this.parseObject(string, parsePosition);
         if (parsePosition.getErrorIndex() != -1 || parsePosition.getIndex() == 0) {
@@ -87,8 +86,7 @@ Cloneable {
         return object;
     }
 
-    public abstract Object parseObject(String string, ParsePosition parsePosition) {
-    }
+    public abstract Object parseObject(String var1, ParsePosition var2);
 
     static boolean upTo(String string, ParsePosition parsePosition, StringBuffer stringBuffer, char c2) {
         int n = parsePosition.getIndex();
@@ -141,6 +139,13 @@ Cloneable {
             stringBuffer.append(c4);
         }
         throw new IllegalArgumentException(Msg.getString("K0346"));
+    }
+
+    public static class Field
+    extends AttributedCharacterIterator.Attribute {
+        protected Field(String string) {
+            super(string);
+        }
     }
 }
 

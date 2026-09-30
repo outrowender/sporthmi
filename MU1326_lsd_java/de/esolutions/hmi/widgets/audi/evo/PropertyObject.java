@@ -8,9 +8,9 @@ import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 
 public class PropertyObject
 implements IPropertyObject {
-    public static final int TYPE_MAIN_GROUP_SPECIFIC;
-    public static final int TYPE_MENU_SPECIFIC;
-    public static final int TYPE_CONTEXT_SPECIFIC;
+    public static final int TYPE_MAIN_GROUP_SPECIFIC = 2;
+    public static final int TYPE_MENU_SPECIFIC = 1;
+    public static final int TYPE_CONTEXT_SPECIFIC = 0;
     private AbstractWidget widget = null;
     private int type = 2;
     private int visibleCCID = 0;
@@ -20,7 +20,7 @@ implements IPropertyObject {
     private int[] focusPropertiesToShow = null;
     private int[] focusPropertiesToHide = null;
     private int[] focusPropertiesToDisable = null;
-    public static final int CONDITION_TRUE;
+    public static final int CONDITION_TRUE = -2;
 
     public PropertyObject(AbstractWidget abstractWidget, int n, int n2, int n3, int[] nArray, int[] nArray2, int[] nArray3, int[] nArray4, int[] nArray5) {
         this.widget = abstractWidget;
@@ -42,37 +42,30 @@ implements IPropertyObject {
         return this.type;
     }
 
-    @Override
     public int getVisibleCCID() {
         return this.visibleCCID;
     }
 
-    @Override
     public int getEnabledCCID() {
         return this.enabledCCID;
     }
 
-    @Override
     public int[] getContextIDs() {
         return this.contextIDs;
     }
 
-    @Override
     public int[] getCategories() {
         return this.categories;
     }
 
-    @Override
     public int[] getFocusPropertiesToShow() {
         return this.focusPropertiesToShow;
     }
 
-    @Override
     public int[] getFocusPropertiesToHide() {
         return this.focusPropertiesToHide;
     }
 
-    @Override
     public int[] getFocusPropertiesToDisable() {
         return this.focusPropertiesToDisable;
     }

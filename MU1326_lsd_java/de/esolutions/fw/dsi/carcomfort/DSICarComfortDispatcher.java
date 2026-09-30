@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carcomfort;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carcomfort.DSICarComfortReply;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -59,13 +60,11 @@ implements DSICarComfortReply {
         super(n, (class$org$dsi$ifc$carcomfort$DSICarComfortListener == null ? (class$org$dsi$ifc$carcomfort$DSICarComfortListener = DSICarComfortDispatcher.class$("org.dsi.ifc.carcomfort.DSICarComfortListener")) : class$org$dsi$ifc$carcomfort$DSICarComfortListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateRGSViewOptions(RGSViewOptions rGSViewOptions, int n) {
+    public void updateRGSViewOptions(RGSViewOptions rGSViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -93,8 +92,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRGSBeltPretensionDataFront(RGSBeltPretensionData rGSBeltPretensionData, int n) {
+    public void updateRGSBeltPretensionDataFront(RGSBeltPretensionData rGSBeltPretensionData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -122,8 +120,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRGSBeltPretensionDataRear(RGSBeltPretensionData rGSBeltPretensionData, int n) {
+    public void updateRGSBeltPretensionDataRear(RGSBeltPretensionData rGSBeltPretensionData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -151,8 +148,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRGSPreCrashSystem(boolean bl, int n) {
+    public void updateRGSPreCrashSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -180,8 +176,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeRgsSetFactoryDefault(boolean bl) {
+    public void acknowledgeRgsSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -197,8 +192,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRGSPreSenseSystem(boolean bl, int n) {
+    public void updateRGSPreSenseSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -226,8 +220,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRGSPreSenseWarning(int n, int n2) {
+    public void updateRGSPreSenseWarning(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -255,8 +248,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRGSLocalHazardDetection(RGSLocalHazardDetection rGSLocalHazardDetection, int n) {
+    public void updateRGSLocalHazardDetection(RGSLocalHazardDetection rGSLocalHazardDetection, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -284,8 +276,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingViewOptions(DoorLockingViewOptions doorLockingViewOptions, int n) {
+    public void updateDoorLockingViewOptions(DoorLockingViewOptions doorLockingViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -313,8 +304,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingMessage(DoorLockingMessage doorLockingMessage, int n) {
+    public void updateDoorLockingMessage(DoorLockingMessage doorLockingMessage, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -342,8 +332,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingLockStatus(DoorLockingLockStatus doorLockingLockStatus, int n) {
+    public void updateDoorLockingLockStatus(DoorLockingLockStatus doorLockingLockStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -371,8 +360,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingWindowStatus(DoorLockingWindowStatus doorLockingWindowStatus, int n) {
+    public void updateDoorLockingWindowStatus(DoorLockingWindowStatus doorLockingWindowStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -400,8 +388,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings doorLockingComfortOpenSettings, int n) {
+    public void updateDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings doorLockingComfortOpenSettings, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -429,8 +416,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings doorLockingTheftWarningSettings, int n) {
+    public void updateDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings doorLockingTheftWarningSettings, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -458,8 +444,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingClBootOpen(boolean bl, int n) {
+    public void updateDoorLockingClBootOpen(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -487,8 +472,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingBootOpen(boolean bl, int n) {
+    public void updateDoorLockingBootOpen(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -516,8 +500,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingBootClose(boolean bl, int n) {
+    public void updateDoorLockingBootClose(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -545,8 +528,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingUnlockingMode(int n, int n2) {
+    public void updateDoorLockingUnlockingMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -574,8 +556,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingAutoLock(int n, int n2) {
+    public void updateDoorLockingAutoLock(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -603,8 +584,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingAutoUnlock(boolean bl, int n) {
+    public void updateDoorLockingAutoUnlock(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -632,8 +612,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingClBootLock(boolean bl, int n) {
+    public void updateDoorLockingClBootLock(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -661,8 +640,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingMirrorProtection(boolean bl, int n) {
+    public void updateDoorLockingMirrorProtection(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -690,8 +668,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingConfirmation(boolean bl, int n) {
+    public void updateDoorLockingConfirmation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -719,8 +696,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingRainClosing(boolean bl, int n) {
+    public void updateDoorLockingRainClosing(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -748,8 +724,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingRearBlind(DoorLockingRearBlind doorLockingRearBlind, int n) {
+    public void updateDoorLockingRearBlind(DoorLockingRearBlind doorLockingRearBlind, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -777,8 +752,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeDoorLockingSetFactoryDefault(boolean bl) {
+    public void acknowledgeDoorLockingSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -794,8 +768,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeDoorLockingRemoteLockUnlock(String string, boolean bl) {
+    public void acknowledgeDoorLockingRemoteLockUnlock(String string, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -811,8 +784,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeDoorLockingRemoteBlinking(boolean bl) {
+    public void acknowledgeDoorLockingRemoteBlinking(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -828,8 +800,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeDoorLockingRemoteHorn(boolean bl) {
+    public void acknowledgeDoorLockingRemoteHorn(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -845,8 +816,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void receivedDoorLockingRemoteLockUnlockSignatureVerification(String string) {
+    public void receivedDoorLockingRemoteLockUnlockSignatureVerification(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -862,8 +832,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void receivedDoorLockingRemoteLockUnlockAuthentification(String string, int n) {
+    public void receivedDoorLockingRemoteLockUnlockAuthentification(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -879,8 +848,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseDoorLockingUserListRA1(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, DoorLockingUserListRA1[] doorLockingUserListRA1Array) {
+    public void responseDoorLockingUserListRA1(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, DoorLockingUserListRA1[] doorLockingUserListRA1Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -896,8 +864,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseDoorLockingUserListRAF(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int[] nArray) {
+    public void responseDoorLockingUserListRAF(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -913,8 +880,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingUserListUpdateInfo(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int n) {
+    public void updateDoorLockingUserListUpdateInfo(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(57);
@@ -942,8 +908,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingUserListTotalNumberOfElements(int n, int n2) {
+    public void updateDoorLockingUserListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(58);
@@ -971,8 +936,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingActiveUser(int n, int n2) {
+    public void updateDoorLockingActiveUser(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(59);
@@ -1000,8 +964,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff doorLockingUserProfileOnOff, int n) {
+    public void updateDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff doorLockingUserProfileOnOff, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(60);
@@ -1029,8 +992,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeDoorLockingUserProfileControl(int n, boolean bl) {
+    public void acknowledgeDoorLockingUserProfileControl(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1046,8 +1008,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingUserProfileControlProcessing(boolean bl, int n, boolean bl2, int n2) {
+    public void updateDoorLockingUserProfileControlProcessing(boolean bl, int n, boolean bl2, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(82);
@@ -1075,8 +1036,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingWindowAutoClose(boolean bl, int n) {
+    public void updateDoorLockingWindowAutoClose(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(65);
@@ -1104,8 +1064,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingBlindsControl(int n, int n2) {
+    public void updateDoorLockingBlindsControl(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(66);
@@ -1133,8 +1092,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingBlindsControlExtended(DoorLockingBootBlindState doorLockingBootBlindState, int n) {
+    public void updateDoorLockingBlindsControlExtended(DoorLockingBootBlindState doorLockingBootBlindState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(79);
@@ -1162,8 +1120,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingLeftSideBlindControl(int n, int n2) {
+    public void updateDoorLockingLeftSideBlindControl(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(80);
@@ -1191,8 +1148,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingRightSideBlindControl(int n, int n2) {
+    public void updateDoorLockingRightSideBlindControl(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(81);
@@ -1220,8 +1176,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingTurnIndRepeat(boolean bl, int n) {
+    public void updateDoorLockingTurnIndRepeat(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(84);
@@ -1249,8 +1204,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingKeyless(boolean bl, int n) {
+    public void updateDoorLockingKeyless(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(85);
@@ -1278,8 +1232,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperViewOptions(WiperViewOptions wiperViewOptions, int n) {
+    public void updateWiperViewOptions(WiperViewOptions wiperViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1307,8 +1260,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperServicePosition(boolean bl, int n) {
+    public void updateWiperServicePosition(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1336,8 +1288,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperRainSensorOnOff(boolean bl, int n) {
+    public void updateWiperRainSensorOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1365,8 +1316,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperRainSensorConfig(int n, int n2) {
+    public void updateWiperRainSensorConfig(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1394,8 +1344,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperRearWiping(boolean bl, int n) {
+    public void updateWiperRearWiping(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1423,8 +1372,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperTearsWiping(boolean bl, int n) {
+    public void updateWiperTearsWiping(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1452,8 +1400,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateWiperWinterPosition(boolean bl, int n) {
+    public void updateWiperWinterPosition(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -1481,8 +1428,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateEasyEntrySteeringColumn(boolean bl, int n) {
+    public void updateEasyEntrySteeringColumn(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -1510,8 +1456,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeWiperSetFactoryDefault(boolean bl) {
+    public void acknowledgeWiperSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1527,8 +1472,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOViewOptions(UGDOViewOptions uGDOViewOptions, int n) {
+    public void updateUGDOViewOptions(UGDOViewOptions uGDOViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -1556,8 +1500,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOLearningData(UGDOLearningData uGDOLearningData, int n) {
+    public void updateUGDOLearningData(UGDOLearningData uGDOLearningData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -1585,8 +1528,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDODestinationReached(UGDODestinationReached uGDODestinationReached, int n) {
+    public void updateUGDODestinationReached(UGDODestinationReached uGDODestinationReached, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -1614,8 +1556,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOOpenDoor(UGDOOpenDoor uGDOOpenDoor, int n) {
+    public void updateUGDOOpenDoor(UGDOOpenDoor uGDOOpenDoor, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -1643,8 +1584,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOContent(UGDOContent uGDOContent, int n) {
+    public void updateUGDOContent(UGDOContent uGDOContent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -1672,8 +1612,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOVersionData(UGDOVersionData uGDOVersionData, int n) {
+    public void updateUGDOVersionData(UGDOVersionData uGDOVersionData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -1701,8 +1640,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeUGDOSetFactoryDefault(boolean bl) {
+    public void acknowledgeUGDOSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1718,8 +1656,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOButtonListUpdateInfo(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int n) {
+    public void updateUGDOButtonListUpdateInfo(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -1747,8 +1684,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateUGDOButtonListTotalNumberOfElements(int n, int n2) {
+    public void updateUGDOButtonListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -1776,8 +1712,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void requestUGDOPopup(UGDOContent uGDOContent) {
+    public void requestUGDOPopup(UGDOContent uGDOContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1793,8 +1728,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeUGDOPopup(UGDOContent uGDOContent) {
+    public void acknowledgeUGDOPopup(UGDOContent uGDOContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1810,8 +1744,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeUGDODeleteButton(boolean bl) {
+    public void acknowledgeUGDODeleteButton(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1827,8 +1760,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
+    public void acknowledgeUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1844,8 +1776,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeUGDOLearning(int n, int n2) {
+    public void acknowledgeUGDOLearning(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1861,8 +1792,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void requestUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
+    public void requestUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1878,8 +1808,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRA0(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA0[] uGDOButtonListRA0Array) {
+    public void responseUGDOButtonListRA0(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA0[] uGDOButtonListRA0Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1895,8 +1824,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRA1(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA1[] uGDOButtonListRA1Array) {
+    public void responseUGDOButtonListRA1(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA1[] uGDOButtonListRA1Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1912,8 +1840,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRA2(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA2[] uGDOButtonListRA2Array) {
+    public void responseUGDOButtonListRA2(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA2[] uGDOButtonListRA2Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1929,8 +1856,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRA3(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA3[] uGDOButtonListRA3Array) {
+    public void responseUGDOButtonListRA3(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA3[] uGDOButtonListRA3Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1946,8 +1872,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRA4(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA4[] uGDOButtonListRA4Array) {
+    public void responseUGDOButtonListRA4(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA4[] uGDOButtonListRA4Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1963,8 +1888,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRA5(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA5[] uGDOButtonListRA5Array) {
+    public void responseUGDOButtonListRA5(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA5[] uGDOButtonListRA5Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1980,8 +1904,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseUGDOButtonListRAF(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int[] nArray) {
+    public void responseUGDOButtonListRAF(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1997,8 +1920,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKViewOptions(RDKViewOptions rDKViewOptions, int n) {
+    public void updateRDKViewOptions(RDKViewOptions rDKViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -2026,8 +1948,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKSystemOnOff(boolean bl, int n) {
+    public void updateRDKSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -2055,8 +1976,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKTireSetupTireList(RDKTireInfo[] rDKTireInfoArray, int n) {
+    public void updateRDKTireSetupTireList(RDKTireInfo[] rDKTireInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -2084,8 +2004,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKTireSetupSelectedTire(int n, int n2) {
+    public void updateRDKTireSetupSelectedTire(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -2113,8 +2032,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKTireDisplay(RDKTireDisplayData rDKTireDisplayData, int n) {
+    public void updateRDKTireDisplay(RDKTireDisplayData rDKTireDisplayData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -2142,8 +2060,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKSpeedLimit(int n, int n2) {
+    public void updateRDKSpeedLimit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -2171,8 +2088,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseRDKTireChanged(int n) {
+    public void responseRDKTireChanged(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2188,8 +2104,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseRDKPressureChanged(int n) {
+    public void responseRDKPressureChanged(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2205,8 +2120,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void responseRDKLifeMonitoring() {
+    public void responseRDKLifeMonitoring() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2222,8 +2136,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKPressureLevel(byte by, int n) {
+    public void updateRDKPressureLevel(byte by, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(62);
@@ -2251,8 +2164,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeRDKSetFactoryDefault(boolean bl) {
+    public void acknowledgeRDKSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2268,8 +2180,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeRDKPressureChanged(boolean bl) {
+    public void acknowledgeRDKPressureChanged(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2285,8 +2196,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMirrorViewOptions(MirrorViewOptions mirrorViewOptions, int n) {
+    public void updateMirrorViewOptions(MirrorViewOptions mirrorViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -2314,8 +2224,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMirrorLowering(boolean bl, int n) {
+    public void updateMirrorLowering(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -2343,8 +2252,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMirrorSyncAdjust(boolean bl, int n) {
+    public void updateMirrorSyncAdjust(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -2372,8 +2280,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMirrorFolding(boolean bl, int n) {
+    public void updateMirrorFolding(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -2401,8 +2308,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMirrorDimming(boolean bl, int n) {
+    public void updateMirrorDimming(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -2430,8 +2336,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMirrorHeating(boolean bl, int n) {
+    public void updateMirrorHeating(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -2459,8 +2364,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeMirrorSetFactoryDefault(boolean bl) {
+    public void acknowledgeMirrorSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2476,8 +2380,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateBrakeViewOptions(BrakeViewOptions brakeViewOptions, int n) {
+    public void updateBrakeViewOptions(BrakeViewOptions brakeViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -2505,8 +2408,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateBrakeElectricalParking(boolean bl, int n) {
+    public void updateBrakeElectricalParking(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -2534,8 +2436,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateBrakeAutoHold(int n, int n2) {
+    public void updateBrakeAutoHold(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -2563,8 +2464,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateBrakeEscMode(int n, int n2) {
+    public void updateBrakeEscMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -2592,8 +2492,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateBrakeHdcMode(boolean bl, int n) {
+    public void updateBrakeHdcMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(61);
@@ -2621,8 +2520,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKDifferentialPressure(RDKWheelPressures rDKWheelPressures, int n) {
+    public void updateRDKDifferentialPressure(RDKWheelPressures rDKWheelPressures, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(63);
@@ -2650,8 +2548,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateRDKResidualBatteryLifetime(RDKResidualBatteryLifetime rDKResidualBatteryLifetime, int n) {
+    public void updateRDKResidualBatteryLifetime(RDKResidualBatteryLifetime rDKResidualBatteryLifetime, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(64);
@@ -2679,8 +2576,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeDoorLockingPrompt(int n) {
+    public void acknowledgeDoorLockingPrompt(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2696,8 +2592,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void requestDoorLockingPrompt(int n) {
+    public void requestDoorLockingPrompt(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2713,8 +2608,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateDoorLockingPromptContent(int n, int n2) {
+    public void updateDoorLockingPromptContent(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(83);
@@ -2742,8 +2636,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void acknowledgeMascotSetFactoryDefault(boolean bl) {
+    public void acknowledgeMascotSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2759,8 +2652,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMascotViewOptions(MascotViewOptions mascotViewOptions, int n) {
+    public void updateMascotViewOptions(MascotViewOptions mascotViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(86);
@@ -2788,8 +2680,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMascotControl(int n, int n2, int n3) {
+    public void updateMascotControl(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(87);
@@ -2817,8 +2708,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void updateMascotMode(int n, int n2) {
+    public void updateMascotMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(88);
@@ -2846,8 +2736,7 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2863,14 +2752,13 @@ implements DSICarComfortReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarComfortListener dSICarComfortListener = (DSICarComfortListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarComfortDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarComfortDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarComfortListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarComfortDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarComfortDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarComfortListener, new Object[]{string, string2});
                     continue;
                 }

@@ -8,14 +8,14 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class InstrumentClusterFunctions_ConfigurationOptions
 implements BAPEntity {
-    private static final int RESERVED_BIT_6__15_BITSIZE;
+    private static final int RESERVED_BIT_6__15_BITSIZE = 10;
     public boolean contextSwitchToDigitalSpeedAvailable;
     public boolean contextSwitchToTrafficSignInformationAvailable;
     public boolean contextSwitchToLastDestinationsListAvailable;
     public boolean contextSwitchToPhoneBookAvailable;
     public boolean trafficSignsOnOffAvailable;
     public boolean screensaverOnOffAvailable;
-    private static final int INSTRUMENT_CLUSTER_FUNCTIONS_CONFIGURATION_OPTIONS_BITSIZE;
+    private static final int INSTRUMENT_CLUSTER_FUNCTIONS_CONFIGURATION_OPTIONS_BITSIZE = 16;
 
     public InstrumentClusterFunctions_ConfigurationOptions() {
         this.internalReset();
@@ -36,12 +36,10 @@ implements BAPEntity {
         this.screensaverOnOffAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         InstrumentClusterFunctions_ConfigurationOptions instrumentClusterFunctions_ConfigurationOptions = (InstrumentClusterFunctions_ConfigurationOptions)bAPEntity;
         return this.contextSwitchToDigitalSpeedAvailable == instrumentClusterFunctions_ConfigurationOptions.contextSwitchToDigitalSpeedAvailable && this.contextSwitchToTrafficSignInformationAvailable == instrumentClusterFunctions_ConfigurationOptions.contextSwitchToTrafficSignInformationAvailable && this.contextSwitchToLastDestinationsListAvailable == instrumentClusterFunctions_ConfigurationOptions.contextSwitchToLastDestinationsListAvailable && this.contextSwitchToPhoneBookAvailable == instrumentClusterFunctions_ConfigurationOptions.contextSwitchToPhoneBookAvailable && this.trafficSignsOnOffAvailable == instrumentClusterFunctions_ConfigurationOptions.trafficSignsOnOffAvailable && this.screensaverOnOffAvailable == instrumentClusterFunctions_ConfigurationOptions.screensaverOnOffAvailable;
@@ -50,7 +48,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("InstrumentClusterFunctions_ConfigurationOptions:");
@@ -93,13 +90,11 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(10);
         bitStream.pushBoolean(this.contextSwitchToDigitalSpeedAvailable);
@@ -110,7 +105,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.screensaverOnOffAvailable);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(10);
         this.contextSwitchToDigitalSpeedAvailable = bitStream.popFrontBoolean();

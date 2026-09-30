@@ -9,7 +9,6 @@ import java.util.List;
 
 public class MinStrokeLengthIsNotReachedRuleAsia
 extends MinStrokeLengthIsNotReachedRule {
-    @Override
     protected void addRuleDefinedChars(List list, RecognizerResult recognizerResult) {
         int n = recognizerResult.getConfidence();
         list.add(recognizerResult);
@@ -17,7 +16,6 @@ extends MinStrokeLengthIsNotReachedRule {
         list.add(new RecognizerResult(',', n - 2));
     }
 
-    @Override
     public String getRuleName() {
         return "Min-CharSize_Rule";
     }

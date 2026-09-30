@@ -35,7 +35,6 @@ implements LayoutManager {
         this.minSizeBreadcrumbs = 150;
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, int n) {
         TitleBarWidget titleBarWidget = (TitleBarWidget)abstractWidget;
         int[] nArray = new int[2];
@@ -131,7 +130,6 @@ implements LayoutManager {
         return n > 0;
     }
 
-    @Override
     public void layout(AbstractWidget abstractWidget) {
         int n;
         boolean bl = AbstractWidget.framework.getLanguageMgr().isLeftToRightOrientation();
@@ -222,7 +220,6 @@ implements LayoutManager {
         abstractWidgetController.setBounds(n, n5 + this.gapTop, n2, n4);
     }
 
-    @Override
     public void flushCache() {
     }
 

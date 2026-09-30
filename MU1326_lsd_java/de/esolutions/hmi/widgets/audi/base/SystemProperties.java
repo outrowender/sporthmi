@@ -6,15 +6,15 @@ package de.esolutions.hmi.widgets.audi.base;
 import java.util.StringTokenizer;
 
 public class SystemProperties {
-    public static final String IMAGE_ROOT;
-    public static final String STANDARD_FONT_PLAIN;
-    public static final String STANDARD_FONT_BOLD;
-    public static final String STANDARD_FONT_LIGHT;
-    public static final String SHOW_PARTIAL_POPUP_DEBUG_INFOS;
-    public static final String SHOW_GLOBAL_POPUP_PRIORITIES;
-    public static final String SHOW_SCREEN_CHANGE_ANIMATION_INFO;
-    public static final String LOG_SCREEN_CHANGE;
-    public static final String SHOW_ANIMATION_STATISTICS;
+    public static final String IMAGE_ROOT = "ImageRoot";
+    public static final String STANDARD_FONT_PLAIN = "STANDARD_FONT_PLAIN";
+    public static final String STANDARD_FONT_BOLD = "STANDARD_FONT_BOLD";
+    public static final String STANDARD_FONT_LIGHT = "STANDARD_FONT_LIGHT";
+    public static final String SHOW_PARTIAL_POPUP_DEBUG_INFOS = "showPartialPopupDebugInfos";
+    public static final String SHOW_GLOBAL_POPUP_PRIORITIES = "useGlobalPopupPriorities";
+    public static final String SHOW_SCREEN_CHANGE_ANIMATION_INFO = "showScreenChangeAnimationInfo";
+    public static final String LOG_SCREEN_CHANGE = "logScreenChange";
+    public static final String SHOW_ANIMATION_STATISTICS = "showAnimationStatistics";
 
     public static boolean getBoolean(String string, boolean bl) {
         if (string == null || string.length() == 0) {

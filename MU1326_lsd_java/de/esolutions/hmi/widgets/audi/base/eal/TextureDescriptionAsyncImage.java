@@ -19,7 +19,6 @@ import de.esolutions.hmi.widgets.audi.base.eal.ITextureCache;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
 import de.esolutions.hmi.widgets.audi.base.eal.WrappedTexture;
 import de.esolutions.hmi.widgets.audi.base.eal.async.AsyncImageListener;
-import de.esolutions.hmi.widgets.audi.base.eal.async.AsyncImageListener$UpdateEvent;
 import de.esolutions.hmi.widgets.audi.base.eal.async.ITexDescrAsyncStates;
 import de.esolutions.hmi.widgets.audi.base.eal.async.IUpdatableReceiver;
 import java.util.Collections;
@@ -69,7 +68,6 @@ implements ITexDescrAsyncStates {
         this.useSizeCheck = bl2;
     }
 
-    @Override
     public void abortLoading() {
         if (this.actualState == 1) {
             this.receivers.clear();
@@ -81,7 +79,7 @@ implements ITexDescrAsyncStates {
 
     protected void abortEALLoading() {
         if (this.imageStorage != null && !this.imageStorage.remove(this.hmiImage.hashCode())) {
-            logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#abortEALLoading abort was too late. Image will be cached if possible.");
+            logImageAsync.log(10000000, "TextureDescriptionAsyncImage#abortEALLoading abort was too late. Image will be cached if possible.");
         } else {
             this.resetLoadingState();
         }
@@ -92,7 +90,7 @@ implements ITexDescrAsyncStates {
         if (this.receivers != null && !this.receivers.isEmpty()) {
             Iterator iterator = this.receivers.iterator();
             IUpdatableReceiver iUpdatableReceiver = null;
-            logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#callbackReceivers notify listeners - %1", (Object)this);
+            logImageAsync.log(10000000, "TextureDescriptionAsyncImage#callbackReceivers notify listeners - %1", (Object)this);
             while ((iUpdatableReceiver = iterator.hasNext() ? (IUpdatableReceiver)iterator.next() : null) != null) {
                 iUpdatableReceiver.resourceLoadedCallback(1, this, aTIPEvent);
             }
@@ -112,7 +110,6 @@ implements ITexDescrAsyncStates {
         return false;
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         switch (this.actualState) {
             case -1: {
@@ -151,7 +148,7 @@ implements ITexDescrAsyncStates {
             return null;
         }
         this.wrappedTexture = new WrappedTexture(iTexture, this, this.ealManager);
-        logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#convertImageToWrappedTexture image converted to texture: %1", (Object)this);
+        logImageAsync.log(10000000, "TextureDescriptionAsyncImage#convertImageToWrappedTexture image converted to texture: %1", (Object)this);
         return this.wrappedTexture;
     }
 
@@ -164,7 +161,6 @@ implements ITexDescrAsyncStates {
         }
     }
 
-    @Override
     public ITextureCache getCache() {
         if (this.actualState >= 2) {
             return super.getCache();
@@ -172,7 +168,6 @@ implements ITexDescrAsyncStates {
         return null;
     }
 
-    @Override
     public Object getCacheKey() {
         if (this.guideIndex != null) {
             return this.guideIndex;
@@ -180,17 +175,14 @@ implements ITexDescrAsyncStates {
         return this.getPath();
     }
 
-    @Override
     public int getDepthsInByte() {
         return HMIImage.getNumBytesPerPixel(this.hmiImage.getFormat());
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return EALManager.getImageFlags(this.hmiImage.getFormat());
     }
 
-    @Override
     public Set getIUpdatableReceiver() {
         return Collections.unmodifiableSet(this.receivers);
     }
@@ -199,7 +191,6 @@ implements ITexDescrAsyncStates {
         return this.listener;
     }
 
-    @Override
     public int getLoadingState() {
         return this.actualState;
     }
@@ -208,7 +199,6 @@ implements ITexDescrAsyncStates {
         return this.hmiImage.getPath();
     }
 
-    @Override
     public IWrappedTexture getTexture(Object object) {
         if (this.receivers != null && this.actualState < 2) {
             this.receivers.add(object);
@@ -216,7 +206,6 @@ implements ITexDescrAsyncStates {
         return super.getTexture(object);
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return this.getUnscaledDimension(this.hmiImage.getPath());
     }
@@ -225,29 +214,27 @@ implements ITexDescrAsyncStates {
         if ((this.receivers == null || this.receivers.isEmpty()) && this.iimage != null) {
             ITextureCache iTextureCache = super.getCache();
             if (iTextureCache != null) {
-                logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#handleUnusedIImage move unwanted texture to cache: %1", (Object)this);
+                logImageAsync.log(10000000, "TextureDescriptionAsyncImage#handleUnusedIImage move unwanted texture to cache: %1", (Object)this);
                 IWrappedTexture iWrappedTexture = this.ealManager.getTexture(this, this);
                 iTextureCache.release(iWrappedTexture, this);
             } else {
-                logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#handleUnusedIImage clear unwanted texture");
+                logImageAsync.log(10000000, "TextureDescriptionAsyncImage#handleUnusedIImage clear unwanted texture");
                 this.resetLoadingState();
             }
         }
     }
 
-    @Override
     public boolean preventRTLFlip() {
         return this.hmiImage.getPreventRTLFlipFlag();
     }
 
-    @Override
     public boolean removeReceiver(Object object) {
         if (this.receivers == null) {
-            logImageAsync.log(14808325, "TextureDescriptionAsnycImage#removeReceiver loading process already finished. TD: %1", (Object)this);
+            logImageAsync.log(100000000, "TextureDescriptionAsnycImage#removeReceiver loading process already finished. TD: %1", (Object)this);
             return true;
         }
         if (!this.receivers.remove(object)) {
-            logImageAsync.log(-2137614336, "TextureDescriptionAsnycImage#removeReceiver Object %1 is not listed (anymore) to be called back for texture %2", object, (Object)this);
+            logImageAsync.log(10000000, "TextureDescriptionAsnycImage#removeReceiver Object %1 is not listed (anymore) to be called back for texture %2", object, (Object)this);
             return false;
         }
         if (this.receivers.size() == 0) {
@@ -268,11 +255,10 @@ implements ITexDescrAsyncStates {
         } else {
             this.imageStorage.add(n, this.hmiImage.getPath(), flagImage);
         }
-        logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#requestImage image requested: %1", (Object)this);
+        logImageAsync.log(10000000, "TextureDescriptionAsyncImage#requestImage image requested: %1", (Object)this);
         this.imageStorage.flush();
     }
 
-    @Override
     public void resetLoadingState() {
         this.actualState = 0;
         if (this.wrappedTexture != null) {
@@ -294,26 +280,26 @@ implements ITexDescrAsyncStates {
         return null;
     }
 
-    public void updateRessources(AsyncImageListener$UpdateEvent asyncImageListener$UpdateEvent) {
-        int n = asyncImageListener$UpdateEvent.getState();
+    public void updateRessources(AsyncImageListener.UpdateEvent updateEvent) {
+        int n = updateEvent.getState();
         switch (n) {
             case -1: {
                 this.actualState = -1;
                 this.freeImageStorage();
-                logImageAsync.log(-1601830656, "TextureDescriptionAsyncImage#updateRessources loading error occured for %1", (Object)this);
+                logImageAsync.log(100000, "TextureDescriptionAsyncImage#updateRessources loading error occured for %1", (Object)this);
                 break;
             }
             case 2: {
                 this.iimage = this.retrievedAsyncImage();
                 this.actualState = 2;
-                logImageAsync.log(-2137614336, "TextureDescriptionAsyncImage#updateRessources image loaded: %1", (Object)this);
+                logImageAsync.log(10000000, "TextureDescriptionAsyncImage#updateRessources image loaded: %1", (Object)this);
                 break;
             }
             default: {
-                logImageAsync.log(-1601830656, "TextureDescriptionAsyncImage#updateRessources untreated loadingState: %1", (long)n);
+                logImageAsync.log(100000, "TextureDescriptionAsyncImage#updateRessources untreated loadingState: %1", (long)n);
             }
         }
-        this.callbackReceivers(asyncImageListener$UpdateEvent);
+        this.callbackReceivers(updateEvent);
     }
 
     public String toString() {

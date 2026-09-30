@@ -6,13 +6,10 @@ package de.esolutions.fw.comm.core.protocol;
 import de.esolutions.fw.comm.core.protocol.IProtocolActions;
 
 public interface IProtocolDecider {
-    default public boolean reportProtocolRole(boolean bl, short s, Object object) {
-    }
+    public boolean reportProtocolRole(boolean var1, short var2, Object var3);
 
-    default public boolean decideProtocolDrop(short s, Object object) {
-    }
+    public boolean decideProtocolDrop(short var1, Object var2);
 
-    default public IProtocolActions setupProtocolActions(short s, Object object) {
-    }
+    public IProtocolActions setupProtocolActions(short var1, Object var2);
 }
 

@@ -41,7 +41,6 @@ implements IAgentLifecycleListener {
         return objectArray;
     }
 
-    @Override
     public void lifecycleChanged(Lifecycle lifecycle, Object object) {
         ILifecycleListener[] iLifecycleListenerArray = this.getCompatList();
         for (int i2 = 0; i2 < iLifecycleListenerArray.length; ++i2) {
@@ -49,7 +48,6 @@ implements IAgentLifecycleListener {
         }
     }
 
-    @Override
     public void brokerLinkStateChanged(boolean bl) {
         IAgentLifecycleListener[] iAgentLifecycleListenerArray = this.getAgentList();
         for (int i2 = 0; i2 < iAgentLifecycleListenerArray.length; ++i2) {
@@ -57,7 +55,6 @@ implements IAgentLifecycleListener {
         }
     }
 
-    @Override
     public void brokerConnectRetry(boolean bl) {
         IAgentLifecycleListener[] iAgentLifecycleListenerArray = this.getAgentList();
         for (int i2 = 0; i2 < iAgentLifecycleListenerArray.length; ++i2) {
@@ -65,7 +62,6 @@ implements IAgentLifecycleListener {
         }
     }
 
-    @Override
     public void agentIdUpdate(short s) {
         IAgentLifecycleListener[] iAgentLifecycleListenerArray = this.getAgentList();
         for (int i2 = 0; i2 < iAgentLifecycleListenerArray.length; ++i2) {
@@ -73,7 +69,6 @@ implements IAgentLifecycleListener {
         }
     }
 
-    @Override
     public Short getAgentIdProposal() {
         IAgentLifecycleListener[] iAgentLifecycleListenerArray = this.getAgentList();
         for (int i2 = 0; i2 < iAgentLifecycleListenerArray.length; ++i2) {

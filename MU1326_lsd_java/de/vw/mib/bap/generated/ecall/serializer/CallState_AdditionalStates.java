@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class CallState_AdditionalStates
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__3_BITSIZE;
+    private static final int RESERVED_BIT_1__3_BITSIZE = 3;
     public boolean hangupCallAllowedDf3_1;
 
     public CallState_AdditionalStates() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.hangupCallAllowedDf3_1 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CallState_AdditionalStates callState_AdditionalStates = (CallState_AdditionalStates)bAPEntity;
         return this.hangupCallAllowedDf3_1 == callState_AdditionalStates.hangupCallAllowedDf3_1;
@@ -39,7 +37,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CallState_AdditionalStates");
@@ -47,18 +44,15 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(3);
         bitStream.pushBoolean(this.hangupCallAllowedDf3_1);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(3);
         this.hangupCallAllowedDf3_1 = bitStream.popFrontBoolean();

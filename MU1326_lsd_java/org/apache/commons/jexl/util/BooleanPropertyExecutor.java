@@ -13,7 +13,6 @@ extends PropertyExecutor {
         super(log, introspector, clazz, string);
     }
 
-    @Override
     protected void discover(Class clazz, String string) {
         try {
             Object[] objectArray = new Object[]{};
@@ -33,7 +32,7 @@ extends PropertyExecutor {
             }
         }
         catch (Exception exception) {
-            this.rlog.error(new StringBuffer().append("PROGRAMMER ERROR : BooleanPropertyExector() : ").append(exception).toString());
+            this.rlog.error("PROGRAMMER ERROR : BooleanPropertyExector() : " + exception);
         }
     }
 }

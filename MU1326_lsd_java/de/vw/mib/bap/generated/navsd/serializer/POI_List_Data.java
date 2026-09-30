@@ -12,243 +12,239 @@ import de.vw.mib.bap.stream.BitStream;
 public final class POI_List_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_DIRECTION_SYMBOLIC_POI_TYPE_DISTANCE_TYPE_DISTANCE_UNIT_MAIN_DESCRIPTION_STREET_CITY_POSTAL_CODE;
-    public static final int RECORD_ADDRESS_DISTANCE_UNIT_MAIN_DESCRIPTION_STREET_CITY_POSTAL_CODE;
-    public static final int RECORD_ADDRESS_DISTANCE_UNIT;
-    public static final int RECORD_ADDRESS_DIRECTION_SYMBOLIC;
-    public static final int RECORD_ADDRESS_MAIN_DESCRIPTION_STREET_CITY_POSTAL_CODE;
-    public static final int RECORD_ADDRESS_DIRECTION_SYMBOLIC_POI_TYPE_DISTANCE_TYPE_DISTANCE_UNIT_MAIN_DESCRIPTION;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_DIRECTION_SYMBOLIC_POI_TYPE_DISTANCE_TYPE_DISTANCE_UNIT_MAIN_DESCRIPTION_STREET_CITY_POSTAL_CODE = 0;
+    public static final int RECORD_ADDRESS_DISTANCE_UNIT_MAIN_DESCRIPTION_STREET_CITY_POSTAL_CODE = 1;
+    public static final int RECORD_ADDRESS_DISTANCE_UNIT = 2;
+    public static final int RECORD_ADDRESS_DIRECTION_SYMBOLIC = 3;
+    public static final int RECORD_ADDRESS_MAIN_DESCRIPTION_STREET_CITY_POSTAL_CODE = 4;
+    public static final int RECORD_ADDRESS_DIRECTION_SYMBOLIC_POI_TYPE_DISTANCE_TYPE_DISTANCE_UNIT_MAIN_DESCRIPTION = 5;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public int direction_Symbolic;
-    private static final int DIRECTION_SYMBOLIC_BITSIZE;
-    public static final int DIRECTION_SYMBOLIC_N;
-    public static final int DIRECTION_SYMBOLIC_NNO;
-    public static final int DIRECTION_SYMBOLIC_NO;
-    public static final int DIRECTION_SYMBOLIC_ONO;
-    public static final int DIRECTION_SYMBOLIC_O;
-    public static final int DIRECTION_SYMBOLIC_OSO;
-    public static final int DIRECTION_SYMBOLIC_SO;
-    public static final int DIRECTION_SYMBOLIC_SSO;
-    public static final int DIRECTION_SYMBOLIC_S;
-    public static final int DIRECTION_SYMBOLIC_SSW;
-    public static final int DIRECTION_SYMBOLIC_SW;
-    public static final int DIRECTION_SYMBOLIC_WSW;
-    public static final int DIRECTION_SYMBOLIC_W;
-    public static final int DIRECTION_SYMBOLIC_WNW;
-    public static final int DIRECTION_SYMBOLIC_NW;
-    public static final int DIRECTION_SYMBOLIC_NNW;
-    public static final int DIRECTION_SYMBOLIC_NOT_SUPPORTED;
+    private static final int DIRECTION_SYMBOLIC_BITSIZE = 8;
+    public static final int DIRECTION_SYMBOLIC_N = 0;
+    public static final int DIRECTION_SYMBOLIC_NNO = 1;
+    public static final int DIRECTION_SYMBOLIC_NO = 2;
+    public static final int DIRECTION_SYMBOLIC_ONO = 3;
+    public static final int DIRECTION_SYMBOLIC_O = 4;
+    public static final int DIRECTION_SYMBOLIC_OSO = 5;
+    public static final int DIRECTION_SYMBOLIC_SO = 6;
+    public static final int DIRECTION_SYMBOLIC_SSO = 7;
+    public static final int DIRECTION_SYMBOLIC_S = 8;
+    public static final int DIRECTION_SYMBOLIC_SSW = 9;
+    public static final int DIRECTION_SYMBOLIC_SW = 10;
+    public static final int DIRECTION_SYMBOLIC_WSW = 11;
+    public static final int DIRECTION_SYMBOLIC_W = 12;
+    public static final int DIRECTION_SYMBOLIC_WNW = 13;
+    public static final int DIRECTION_SYMBOLIC_NW = 14;
+    public static final int DIRECTION_SYMBOLIC_NNW = 15;
+    public static final int DIRECTION_SYMBOLIC_NOT_SUPPORTED = 255;
     public int poi_Type;
-    private static final int POI_TYPE_BITSIZE;
-    public static final int POI_TYPE_NO_POI;
-    public static final int POI_TYPE_ACCOMMODATION;
-    public static final int POI_TYPE_AIRPORT;
-    public static final int POI_TYPE_ALL_RESTAURANTS;
-    public static final int POI_TYPE_AMUSEMENT_PARK;
-    public static final int POI_TYPE_APPAREL;
-    public static final int POI_TYPE_ATM_CASHPOINT;
-    public static final int POI_TYPE_ATTRACTION;
-    public static final int POI_TYPE_AUTOMOBILE_CLUB;
-    public static final int POI_TYPE_BANKING_AND_SHOPPING;
-    public static final int POI_TYPE_BANKING;
-    public static final int POI_TYPE_BANQUET_HALLS;
-    public static final int POI_TYPE_BARS_AND_LOUNGE;
-    public static final int POI_TYPE_BOATING;
-    public static final int POI_TYPE_BOOKSTORE;
-    public static final int POI_TYPE_BORDER_CROSS;
-    public static final int POI_TYPE_BOWLING;
-    public static final int POI_TYPE_BROADCASTING;
-    public static final int POI_TYPE_BUSINESS_AND_SERVICE;
-    public static final int POI_TYPE_BUSINESS;
-    public static final int POI_TYPE_BUSSTATION;
-    public static final int POI_TYPE_CAMPING;
-    public static final int POI_TYPE_CAR_AND_TRAVEL;
-    public static final int POI_TYPE_CAR_TRACK;
-    public static final int POI_TYPE_CAR_TRAIN;
-    public static final int POI_TYPE_CAR_SERVICE;
-    public static final int POI_TYPE_CAR_WASH;
-    public static final int POI_TYPE_CASINO;
-    public static final int POI_TYPE_CEMETRY;
-    public static final int POI_TYPE_CITYHALL;
-    public static final int POI_TYPE_COFFEE;
-    public static final int POI_TYPE_COMMUTER_RAILSTAION;
-    public static final int POI_TYPE_CLEANING_LAUNCH;
-    public static final int POI_TYPE_CLOTHING_STORE;
-    public static final int POI_TYPE_COMMUNICATION;
-    public static final int POI_TYPE_COMMUNITY_CENTER;
-    public static final int POI_TYPE_COMPUTER_HARDWARE_SOFTWARE;
-    public static final int POI_TYPE_CONVENIENCE_STORE;
-    public static final int POI_TYPE_CONVENTION_CENTER;
-    public static final int POI_TYPE_CORPORATIONS;
-    public static final int POI_TYPE_CORPORATIONS_PUBLIC_PLACES;
-    public static final int POI_TYPE_CULTURE_FACILITY;
-    public static final int POI_TYPE_COURT;
-    public static final int POI_TYPE_DEPARTMENT_STORE;
-    public static final int POI_TYPE_DINING_AND_ENTERTAINMENT;
-    public static final int POI_TYPE_DINNING_SHOPPING;
-    public static final int POI_TYPE_DISCOUNT_STORE;
-    public static final int POI_TYPE_EDUCATION;
-    public static final int POI_TYPE_ELECTRONICS;
-    public static final int POI_TYPE_EMBASSY;
-    public static final int POI_TYPE_EMERGENCY;
-    public static final int POI_TYPE_EMERGENCY_AND_PUBLIC;
-    public static final int POI_TYPE_ENTERTAINMENT;
-    public static final int POI_TYPE_FAST_FOOD;
-    public static final int POI_TYPE_FERRY;
-    public static final int POI_TYPE_FIRE_DEPARTMENT;
-    public static final int POI_TYPE_FLOORING_AND_CARPETING;
-    public static final int POI_TYPE_FLOWER_AND_JEWELRY;
-    public static final int POI_TYPE_FOOD_AND_BEVERAGE;
-    public static final int POI_TYPE_FUNERAL_DIRECTOR;
-    public static final int POI_TYPE_FURNITURE;
-    public static final int POI_TYPE_GAMES_MUSIC_AND_VIDEO;
-    public static final int POI_TYPE_GARDEN_AND_OTHER;
-    public static final int POI_TYPE_GASSTATION;
-    public static final int POI_TYPE_GASSTATION_DIESEL_GASSTATION_LPG;
-    public static final int POI_TYPE_GENERAL;
-    public static final int POI_TYPE_GIFTS_AND_LEISURE;
-    public static final int POI_TYPE_GIFTS_ANTIQUES_AND_ARTS;
-    public static final int POI_TYPE_GLASS_AND_WINDOW;
-    public static final int POI_TYPE_GOLFING;
-    public static final int POI_TYPE_GOVERMENT;
-    public static final int POI_TYPE_GROCERY_STORES;
-    public static final int POI_TYPE_GUESTHOUSE;
-    public static final int POI_TYPE_HAIR_AND_BEAUTY;
-    public static final int POI_TYPE_HARBOR;
-    public static final int POI_TYPE_HARDWARE_AND_LUMBER;
-    public static final int POI_TYPE_HEALTH_AND_FITNESS;
-    public static final int POI_TYPE_HEALTH_CARE;
-    public static final int POI_TYPE_HIGHRISE_BLDG;
-    public static final int POI_TYPE_HOME_AND_IMPROVMENT;
-    public static final int POI_TYPE_HOME_CENTER;
-    public static final int POI_TYPE_HOME_SERVICE;
-    public static final int POI_TYPE_HOSPITAL;
-    public static final int POI_TYPE_HOTEL_MOTEL;
-    public static final int POI_TYPE_ICESKATING;
-    public static final int POI_TYPE_INSURANCE;
-    public static final int POI_TYPE_KARAOKAY;
-    public static final int POI_TYPE_LIBRARY;
-    public static final int POI_TYPE_LIQ_GAS_STATION;
-    public static final int POI_TYPE_MAJOR_APPLIANCE;
-    public static final int POI_TYPE_MENS_APPAREL;
-    public static final int POI_TYPE_MONUMENT;
-    public static final int POI_TYPE_MOTORWAY_EXIT;
-    public static final int POI_TYPE_MOTORWAY_CROSS;
-    public static final int POI_TYPE_MOTORWAY_SERVICE;
-    public static final int POI_TYPE_MOVIE_THEATER;
-    public static final int POI_TYPE_MOVING_AND_STORAGE;
-    public static final int POI_TYPE_MUSEUM;
-    public static final int POI_TYPE_NIGHTCLUBS;
-    public static final int POI_TYPE_OPTICAL;
-    public static final int POI_TYPE_RESTAURANT;
-    public static final int POI_TYPE_PARK_AND_FITNESS;
-    public static final int POI_TYPE_PARK_AND_RIDE;
-    public static final int POI_TYPE_PARKING;
-    public static final int POI_TYPE_PARKING_GARAGE;
-    public static final int POI_TYPE_PARKS;
-    public static final int POI_TYPE_PERFORMING_ARTS;
-    public static final int POI_TYPE_PERSONAL_SERVICE;
-    public static final int POI_TYPE_PHARMACIES;
-    public static final int POI_TYPE_PHOTOGRAPHER;
-    public static final int POI_TYPE_PLACE_OR_WORKSHIP;
-    public static final int POI_TYPE_POLICE_STATION;
-    public static final int POI_TYPE_POST_OFFICE;
-    public static final int POI_TYPE_PUBLIC_PLACES;
-    public static final int POI_TYPE_PUBLISHER;
-    public static final int POI_TYPE_RAILWAY_STATION;
-    public static final int POI_TYPE_RECREATION;
-    public static final int POI_TYPE_RENTEL_SERVICE;
-    public static final int POI_TYPE_REPAIR;
-    public static final int POI_TYPE_REST_AREA;
-    public static final int POI_TYPE_RETIREMENT_NURSING;
-    public static final int POI_TYPE_SEARCH;
-    public static final int POI_TYPE_SERVICE;
-    public static final int POI_TYPE_SHOE_STORES;
-    public static final int POI_TYPE_SHOPPING_CENTER;
-    public static final int POI_TYPE_SKIING;
-    public static final int POI_TYPE_SOCIAL_SERVICE;
-    public static final int POI_TYPE_SPECIALITY_CLOTHING;
-    public static final int POI_TYPE_SPECIALITY_STORE;
-    public static final int POI_TYPE_SPECIALITY_FOOD;
-    public static final int POI_TYPE_SPORT_GOODS;
-    public static final int POI_TYPE_SPORTS;
-    public static final int POI_TYPE_SPORT_AIRPORT;
-    public static final int POI_TYPE_SPORTS_COMPLEX;
-    public static final int POI_TYPE_TAILOR;
-    public static final int POI_TYPE_TAX_SERVICE;
-    public static final int POI_TYPE_TOOL_BOOTH;
-    public static final int POI_TYPE_TOURIST_ATTRACTION;
-    public static final int POI_TYPE_TOURIST_INFORMATION;
-    public static final int POI_TYPE_TRAIN_STATION;
-    public static final int POI_TYPE_TRANSPORTATION;
-    public static final int POI_TYPE_TRAVEL;
-    public static final int POI_TYPE_TRAVEL_AGENT;
-    public static final int POI_TYPE_UNIVERSITY;
-    public static final int POI_TYPE_UTILITIES;
-    public static final int POI_TYPE_VARIETY_STORE;
-    public static final int POI_TYPE_WINE_AND_LIQUOR;
-    public static final int POI_TYPE_WOMENS_APPAREL;
-    public static final int POI_TYPE_WINERY;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_VW;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_AUDI;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_SEAT;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_SKODA;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_VW_NUTZFAHRZEUGE;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_BENTLEY;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_BUGATTI;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_LAMBORGHINI;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_SCANIA;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_MAN;
-    public static final int POI_TYPE_CAR_REPAIR_SHOP_PORSCHE;
-    public static final int POI_TYPE_ELECTRICAL_SERVICE_STATION;
-    public static final int POI_TYPE_DIESEL_FUEL_STATION;
-    public static final int POI_TYPE_CNG_FUEL_STATION;
-    public static final int POI_TYPE_REST_AREA_AUTOHOF;
-    public static final int POI_TYPE_REST_AREA_WITH_WC;
-    public static final int POI_TYPE_MOTORWAY_SERVICE_AREA_RASTSTATTE;
-    public static final int POI_TYPE_UNKNOWN;
+    private static final int POI_TYPE_BITSIZE = 8;
+    public static final int POI_TYPE_NO_POI = 0;
+    public static final int POI_TYPE_ACCOMMODATION = 1;
+    public static final int POI_TYPE_AIRPORT = 2;
+    public static final int POI_TYPE_ALL_RESTAURANTS = 3;
+    public static final int POI_TYPE_AMUSEMENT_PARK = 4;
+    public static final int POI_TYPE_APPAREL = 5;
+    public static final int POI_TYPE_ATM_CASHPOINT = 6;
+    public static final int POI_TYPE_ATTRACTION = 7;
+    public static final int POI_TYPE_AUTOMOBILE_CLUB = 8;
+    public static final int POI_TYPE_BANKING_AND_SHOPPING = 9;
+    public static final int POI_TYPE_BANKING = 10;
+    public static final int POI_TYPE_BANQUET_HALLS = 11;
+    public static final int POI_TYPE_BARS_AND_LOUNGE = 12;
+    public static final int POI_TYPE_BOATING = 13;
+    public static final int POI_TYPE_BOOKSTORE = 14;
+    public static final int POI_TYPE_BORDER_CROSS = 15;
+    public static final int POI_TYPE_BOWLING = 16;
+    public static final int POI_TYPE_BROADCASTING = 17;
+    public static final int POI_TYPE_BUSINESS_AND_SERVICE = 18;
+    public static final int POI_TYPE_BUSINESS = 19;
+    public static final int POI_TYPE_BUSSTATION = 20;
+    public static final int POI_TYPE_CAMPING = 21;
+    public static final int POI_TYPE_CAR_AND_TRAVEL = 22;
+    public static final int POI_TYPE_CAR_TRACK = 23;
+    public static final int POI_TYPE_CAR_TRAIN = 24;
+    public static final int POI_TYPE_CAR_SERVICE = 25;
+    public static final int POI_TYPE_CAR_WASH = 26;
+    public static final int POI_TYPE_CASINO = 27;
+    public static final int POI_TYPE_CEMETRY = 28;
+    public static final int POI_TYPE_CITYHALL = 29;
+    public static final int POI_TYPE_COFFEE = 30;
+    public static final int POI_TYPE_COMMUTER_RAILSTAION = 31;
+    public static final int POI_TYPE_CLEANING_LAUNCH = 32;
+    public static final int POI_TYPE_CLOTHING_STORE = 33;
+    public static final int POI_TYPE_COMMUNICATION = 34;
+    public static final int POI_TYPE_COMMUNITY_CENTER = 35;
+    public static final int POI_TYPE_COMPUTER_HARDWARE_SOFTWARE = 36;
+    public static final int POI_TYPE_CONVENIENCE_STORE = 37;
+    public static final int POI_TYPE_CONVENTION_CENTER = 38;
+    public static final int POI_TYPE_CORPORATIONS = 39;
+    public static final int POI_TYPE_CORPORATIONS_PUBLIC_PLACES = 40;
+    public static final int POI_TYPE_CULTURE_FACILITY = 41;
+    public static final int POI_TYPE_COURT = 42;
+    public static final int POI_TYPE_DEPARTMENT_STORE = 43;
+    public static final int POI_TYPE_DINING_AND_ENTERTAINMENT = 44;
+    public static final int POI_TYPE_DINNING_SHOPPING = 45;
+    public static final int POI_TYPE_DISCOUNT_STORE = 46;
+    public static final int POI_TYPE_EDUCATION = 47;
+    public static final int POI_TYPE_ELECTRONICS = 48;
+    public static final int POI_TYPE_EMBASSY = 49;
+    public static final int POI_TYPE_EMERGENCY = 50;
+    public static final int POI_TYPE_EMERGENCY_AND_PUBLIC = 51;
+    public static final int POI_TYPE_ENTERTAINMENT = 52;
+    public static final int POI_TYPE_FAST_FOOD = 53;
+    public static final int POI_TYPE_FERRY = 54;
+    public static final int POI_TYPE_FIRE_DEPARTMENT = 55;
+    public static final int POI_TYPE_FLOORING_AND_CARPETING = 56;
+    public static final int POI_TYPE_FLOWER_AND_JEWELRY = 57;
+    public static final int POI_TYPE_FOOD_AND_BEVERAGE = 58;
+    public static final int POI_TYPE_FUNERAL_DIRECTOR = 59;
+    public static final int POI_TYPE_FURNITURE = 60;
+    public static final int POI_TYPE_GAMES_MUSIC_AND_VIDEO = 61;
+    public static final int POI_TYPE_GARDEN_AND_OTHER = 62;
+    public static final int POI_TYPE_GASSTATION = 63;
+    public static final int POI_TYPE_GASSTATION_DIESEL_GASSTATION_LPG = 64;
+    public static final int POI_TYPE_GENERAL = 65;
+    public static final int POI_TYPE_GIFTS_AND_LEISURE = 66;
+    public static final int POI_TYPE_GIFTS_ANTIQUES_AND_ARTS = 67;
+    public static final int POI_TYPE_GLASS_AND_WINDOW = 68;
+    public static final int POI_TYPE_GOLFING = 69;
+    public static final int POI_TYPE_GOVERMENT = 70;
+    public static final int POI_TYPE_GROCERY_STORES = 71;
+    public static final int POI_TYPE_GUESTHOUSE = 72;
+    public static final int POI_TYPE_HAIR_AND_BEAUTY = 73;
+    public static final int POI_TYPE_HARBOR = 74;
+    public static final int POI_TYPE_HARDWARE_AND_LUMBER = 75;
+    public static final int POI_TYPE_HEALTH_AND_FITNESS = 76;
+    public static final int POI_TYPE_HEALTH_CARE = 77;
+    public static final int POI_TYPE_HIGHRISE_BLDG = 78;
+    public static final int POI_TYPE_HOME_AND_IMPROVMENT = 79;
+    public static final int POI_TYPE_HOME_CENTER = 80;
+    public static final int POI_TYPE_HOME_SERVICE = 81;
+    public static final int POI_TYPE_HOSPITAL = 82;
+    public static final int POI_TYPE_HOTEL_MOTEL = 83;
+    public static final int POI_TYPE_ICESKATING = 84;
+    public static final int POI_TYPE_INSURANCE = 85;
+    public static final int POI_TYPE_KARAOKAY = 86;
+    public static final int POI_TYPE_LIBRARY = 87;
+    public static final int POI_TYPE_LIQ_GAS_STATION = 88;
+    public static final int POI_TYPE_MAJOR_APPLIANCE = 89;
+    public static final int POI_TYPE_MENS_APPAREL = 90;
+    public static final int POI_TYPE_MONUMENT = 91;
+    public static final int POI_TYPE_MOTORWAY_EXIT = 92;
+    public static final int POI_TYPE_MOTORWAY_CROSS = 93;
+    public static final int POI_TYPE_MOTORWAY_SERVICE = 94;
+    public static final int POI_TYPE_MOVIE_THEATER = 95;
+    public static final int POI_TYPE_MOVING_AND_STORAGE = 96;
+    public static final int POI_TYPE_MUSEUM = 97;
+    public static final int POI_TYPE_NIGHTCLUBS = 98;
+    public static final int POI_TYPE_OPTICAL = 99;
+    public static final int POI_TYPE_RESTAURANT = 100;
+    public static final int POI_TYPE_PARK_AND_FITNESS = 101;
+    public static final int POI_TYPE_PARK_AND_RIDE = 102;
+    public static final int POI_TYPE_PARKING = 103;
+    public static final int POI_TYPE_PARKING_GARAGE = 104;
+    public static final int POI_TYPE_PARKS = 105;
+    public static final int POI_TYPE_PERFORMING_ARTS = 106;
+    public static final int POI_TYPE_PERSONAL_SERVICE = 107;
+    public static final int POI_TYPE_PHARMACIES = 108;
+    public static final int POI_TYPE_PHOTOGRAPHER = 109;
+    public static final int POI_TYPE_PLACE_OR_WORKSHIP = 110;
+    public static final int POI_TYPE_POLICE_STATION = 111;
+    public static final int POI_TYPE_POST_OFFICE = 112;
+    public static final int POI_TYPE_PUBLIC_PLACES = 113;
+    public static final int POI_TYPE_PUBLISHER = 114;
+    public static final int POI_TYPE_RAILWAY_STATION = 115;
+    public static final int POI_TYPE_RECREATION = 116;
+    public static final int POI_TYPE_RENTEL_SERVICE = 117;
+    public static final int POI_TYPE_REPAIR = 118;
+    public static final int POI_TYPE_REST_AREA = 119;
+    public static final int POI_TYPE_RETIREMENT_NURSING = 120;
+    public static final int POI_TYPE_SEARCH = 121;
+    public static final int POI_TYPE_SERVICE = 122;
+    public static final int POI_TYPE_SHOE_STORES = 123;
+    public static final int POI_TYPE_SHOPPING_CENTER = 124;
+    public static final int POI_TYPE_SKIING = 125;
+    public static final int POI_TYPE_SOCIAL_SERVICE = 126;
+    public static final int POI_TYPE_SPECIALITY_CLOTHING = 127;
+    public static final int POI_TYPE_SPECIALITY_STORE = 128;
+    public static final int POI_TYPE_SPECIALITY_FOOD = 129;
+    public static final int POI_TYPE_SPORT_GOODS = 130;
+    public static final int POI_TYPE_SPORTS = 131;
+    public static final int POI_TYPE_SPORT_AIRPORT = 132;
+    public static final int POI_TYPE_SPORTS_COMPLEX = 133;
+    public static final int POI_TYPE_TAILOR = 134;
+    public static final int POI_TYPE_TAX_SERVICE = 135;
+    public static final int POI_TYPE_TOOL_BOOTH = 136;
+    public static final int POI_TYPE_TOURIST_ATTRACTION = 137;
+    public static final int POI_TYPE_TOURIST_INFORMATION = 138;
+    public static final int POI_TYPE_TRAIN_STATION = 139;
+    public static final int POI_TYPE_TRANSPORTATION = 140;
+    public static final int POI_TYPE_TRAVEL = 141;
+    public static final int POI_TYPE_TRAVEL_AGENT = 142;
+    public static final int POI_TYPE_UNIVERSITY = 143;
+    public static final int POI_TYPE_UTILITIES = 144;
+    public static final int POI_TYPE_VARIETY_STORE = 145;
+    public static final int POI_TYPE_WINE_AND_LIQUOR = 146;
+    public static final int POI_TYPE_WOMENS_APPAREL = 147;
+    public static final int POI_TYPE_WINERY = 148;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_VW = 149;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_AUDI = 150;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_SEAT = 151;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_SKODA = 152;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_VW_NUTZFAHRZEUGE = 153;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_BENTLEY = 154;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_BUGATTI = 155;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_LAMBORGHINI = 156;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_SCANIA = 157;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_MAN = 158;
+    public static final int POI_TYPE_CAR_REPAIR_SHOP_PORSCHE = 159;
+    public static final int POI_TYPE_ELECTRICAL_SERVICE_STATION = 160;
+    public static final int POI_TYPE_DIESEL_FUEL_STATION = 161;
+    public static final int POI_TYPE_CNG_FUEL_STATION = 162;
+    public static final int POI_TYPE_REST_AREA_AUTOHOF = 163;
+    public static final int POI_TYPE_REST_AREA_WITH_WC = 164;
+    public static final int POI_TYPE_MOTORWAY_SERVICE_AREA_RASTSTATTE = 165;
+    public static final int POI_TYPE_UNKNOWN = 255;
     public int distanceType;
-    private static final int DISTANCE_TYPE_BITSIZE;
-    public static final int DISTANCE_TYPE_NO_DISTANCE_AVAILABLE;
-    public static final int DISTANCE_TYPE_LINEAR_DISTANCE_AIR_DISTANCE;
-    public static final int DISTANCE_TYPE_DISTANCE_ALONG_THE_STREET;
+    private static final int DISTANCE_TYPE_BITSIZE = 8;
+    public static final int DISTANCE_TYPE_NO_DISTANCE_AVAILABLE = 0;
+    public static final int DISTANCE_TYPE_LINEAR_DISTANCE_AIR_DISTANCE = 1;
+    public static final int DISTANCE_TYPE_DISTANCE_ALONG_THE_STREET = 2;
     public int distance;
-    private static final int DISTANCE_BITSIZE;
+    private static final int DISTANCE_BITSIZE = 32;
     public int unit;
-    private static final int UNIT_BITSIZE;
-    public static final int UNIT_METER;
-    public static final int UNIT_KILOMETER;
-    public static final int UNIT_YARD;
-    public static final int UNIT_FEET;
-    public static final int UNIT_MILE_UK_AND_US_STATUTE_MILE;
-    public static final int UNIT_QUARTER_MILES_N_1_4MILE;
-    public static final int UNIT_NOT_SUPPORTED_NO_INFORMATION_ABOUT_UNIT_AVAILABLE;
+    private static final int UNIT_BITSIZE = 8;
+    public static final int UNIT_METER = 0;
+    public static final int UNIT_KILOMETER = 1;
+    public static final int UNIT_YARD = 2;
+    public static final int UNIT_FEET = 3;
+    public static final int UNIT_MILE_UK_AND_US_STATUTE_MILE = 4;
+    public static final int UNIT_QUARTER_MILES_N_1_4MILE = 5;
+    public static final int UNIT_NOT_SUPPORTED_NO_INFORMATION_ABOUT_UNIT_AVAILABLE = 255;
     public final BAPString mainDescription;
-    private static final int MAX_MAIN_DESCRIPTION_LENGTH;
+    private static final int MAX_MAIN_DESCRIPTION_LENGTH = 91;
     public final BAPString street;
-    private static final int MAX_STREET_LENGTH;
+    private static final int MAX_STREET_LENGTH = 91;
     public final BAPString city;
-    private static final int MAX_CITY_LENGTH;
+    private static final int MAX_CITY_LENGTH = 91;
     public final BAPString postalCode;
-    private static final int MAX_POSTAL_CODE_LENGTH;
+    private static final int MAX_POSTAL_CODE_LENGTH = 22;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
@@ -277,7 +273,6 @@ implements BAPArrayElement {
         this.unit = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -287,7 +282,6 @@ implements BAPArrayElement {
         this.postalCode.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         POI_List_Data pOI_List_Data = (POI_List_Data)bAPEntity;
         return this.arrayHeader.equalTo(pOI_List_Data.arrayHeader) && this.pos == pOI_List_Data.pos && this.direction_Symbolic == pOI_List_Data.direction_Symbolic && this.poi_Type == pOI_List_Data.poi_Type && this.distanceType == pOI_List_Data.distanceType && this.distance == pOI_List_Data.distance && this.unit == pOI_List_Data.unit && this.mainDescription.equalTo(pOI_List_Data.mainDescription) && this.street.equalTo(pOI_List_Data.street) && this.city.equalTo(pOI_List_Data.city) && this.postalCode.equalTo(pOI_List_Data.postalCode);
@@ -300,7 +294,6 @@ implements BAPArrayElement {
         this.postalCode.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("POI_List_Data:");
@@ -1121,7 +1114,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -1185,7 +1177,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -1247,7 +1238,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {

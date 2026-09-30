@@ -6,11 +6,12 @@ package java.io;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 public class FileReader
 extends InputStreamReader {
-    public FileReader(File file) {
+    public FileReader(File file) throws FileNotFoundException {
         super(new FileInputStream(file));
     }
 
@@ -18,7 +19,7 @@ extends InputStreamReader {
         super(new FileInputStream(fileDescriptor));
     }
 
-    public FileReader(String string) {
+    public FileReader(String string) throws FileNotFoundException {
         super(new FileInputStream(string));
     }
 }

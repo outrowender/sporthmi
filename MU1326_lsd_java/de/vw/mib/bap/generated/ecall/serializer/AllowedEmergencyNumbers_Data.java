@@ -12,21 +12,19 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AllowedEmergencyNumbers_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_ID_TEL_NUMBER;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int POS_MIN;
+    public static final int RECORD_ADDRESS_ID_TEL_NUMBER = 1;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int POS_MIN = 0;
     public int pos;
-    private static final int MAX_ID_LENGTH;
+    private static final int MAX_ID_LENGTH = 31;
     public final BAPString id;
-    private static final int MAX_TELNUMBER_LENGTH;
+    private static final int MAX_TELNUMBER_LENGTH = 41;
     public final BAPString telNumber;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -48,7 +46,6 @@ implements BAPArrayElement {
         this.pos = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -56,7 +53,6 @@ implements BAPArrayElement {
         this.telNumber.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AllowedEmergencyNumbers_Data allowedEmergencyNumbers_Data = (AllowedEmergencyNumbers_Data)bAPEntity;
         return this.arrayHeader.equalTo(allowedEmergencyNumbers_Data.arrayHeader) && this.pos == allowedEmergencyNumbers_Data.pos && this.id.equalTo(allowedEmergencyNumbers_Data.id) && this.telNumber.equalTo(allowedEmergencyNumbers_Data.telNumber);
@@ -65,7 +61,6 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AllowedEmergencyNumbers_Data");
@@ -75,12 +70,10 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -94,12 +87,11 @@ implements BAPArrayElement {
                 break;
             }
             default: {
-                throw new UnsupportedOperationException(new StringBuffer().append("Unsupported record address: ").append(this.arrayHeader.getSerializationRecordAddress()).toString());
+                throw new UnsupportedOperationException("Unsupported record address: " + this.arrayHeader.getSerializationRecordAddress());
             }
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -113,17 +105,15 @@ implements BAPArrayElement {
                 break;
             }
             default: {
-                throw new UnsupportedOperationException(new StringBuffer().append("Unsupported record address: ").append(this.arrayHeader.getSerializationRecordAddress()).toString());
+                throw new UnsupportedOperationException("Unsupported record address: " + this.arrayHeader.getSerializationRecordAddress());
             }
         }
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }

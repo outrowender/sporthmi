@@ -7,6 +7,7 @@ import de.esolutions.fw.util.commons.miniser.BEMiniIntSerializer;
 import de.esolutions.fw.util.transport.IWriteable;
 import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.WriteableWindow;
+import de.esolutions.fw.util.transport.exception.TransportException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +18,8 @@ implements IWriter {
     protected List writerList = new ArrayList();
     protected int size = 4;
     protected int maxSize;
-    public static final int MSG_PREAMBLE_SIZE;
-    public static final int MSG_HEADER_SIZE;
+    public static final int MSG_PREAMBLE_SIZE = 4;
+    public static final int MSG_HEADER_SIZE = 4;
 
     public AggregatedWriters(int n) {
         this.maxSize = n;
@@ -45,13 +46,11 @@ implements IWriter {
         return this.writerList.size();
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    @Override
-    public void write(IWriteable iWriteable) {
+    public void write(IWriteable iWriteable) throws TransportException {
         BEMiniIntSerializer bEMiniIntSerializer = new BEMiniIntSerializer();
         byte[] byArray = new byte[4];
         int n = this.writerList.size();
@@ -71,12 +70,10 @@ implements IWriter {
         }
     }
 
-    @Override
     public void setDebugTag(Object object) {
         this.debugTag = object;
     }
 
-    @Override
     public Object getDebugTag() {
         return this.debugTag;
     }

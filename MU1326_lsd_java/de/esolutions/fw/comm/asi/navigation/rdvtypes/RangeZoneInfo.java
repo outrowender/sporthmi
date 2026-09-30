@@ -36,7 +36,7 @@ public class RangeZoneInfo {
     }
 
     public String toString() {
-        return new StringBuffer("RangeZoneInfo{").append("zoneID=").append(this.zoneID).append(", safetyZones=").append("[").append(this.safetyZones == null ? "null" : Arrays.asList(this.safetyZones).toString()).append("]").append("}").toString();
+        return "RangeZoneInfo{" + "zoneID=" + this.zoneID + ", safetyZones=" + "[" + (this.safetyZones == null ? "null" : Arrays.asList(this.safetyZones).toString()) + "]" + "}";
     }
 }
 

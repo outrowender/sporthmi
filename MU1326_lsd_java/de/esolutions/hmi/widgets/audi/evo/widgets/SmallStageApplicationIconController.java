@@ -12,19 +12,18 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 
 public class SmallStageApplicationIconController
 extends IconController {
-    private static final int INDEX_AU334_LHD;
-    private static final int INDEX_AU334_RHD;
-    private static final int INDEX_AU335_LHD;
-    private static final int INDEX_AU335_RHD;
-    private static final int INDEX_AU724_LHD;
-    private static final int INDEX_AU724_RHD;
-    private static final int INDEX_AU7248_LHD;
-    private static final int INDEX_AU7248_RHD;
-    private static final int INDEX_AU7258_LHD;
-    private static final int INDEX_AU7258_RHD;
-    private static int correctCarPictureIndex;
+    private static final int INDEX_AU334_LHD = 0;
+    private static final int INDEX_AU334_RHD = 10;
+    private static final int INDEX_AU335_LHD = 11;
+    private static final int INDEX_AU335_RHD = 12;
+    private static final int INDEX_AU724_LHD = 13;
+    private static final int INDEX_AU724_RHD = 14;
+    private static final int INDEX_AU7248_LHD = 15;
+    private static final int INDEX_AU7248_RHD = 16;
+    private static final int INDEX_AU7258_LHD = 17;
+    private static final int INDEX_AU7258_RHD = 18;
+    private static int correctCarPictureIndex = -1;
 
-    @Override
     protected void initializeWidget() {
         ScreenMainArea screenMainArea;
         super.initializeWidget();
@@ -67,14 +66,12 @@ extends IconController {
         return n;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!this.isSmallStageApplicationIcon()) {
             super.processModelUpdateEvent(modelUpdateEvent);
         }
     }
 
-    @Override
     protected Object calculateModelContent() {
         if (this.model instanceof ChoiceModelGUI) {
             int n = ((ChoiceModelGUI)this.model).getValue();
@@ -88,16 +85,12 @@ extends IconController {
             }
             return new Integer(n);
         }
-        iconLogChannel.log(-2137614336, "SmallStageApplicatoinIconController#calculateModelContent internal model is not a choice model (expected).");
+        iconLogChannel.log(10000000, "SmallStageApplicatoinIconController#calculateModelContent internal model is not a choice model (expected).");
         return super.calculateModelContent();
     }
 
     protected boolean isSmallStageApplicationIcon() {
         return this.model != null && this.modelID == 138;
-    }
-
-    static {
-        correctCarPictureIndex = -1;
     }
 }
 

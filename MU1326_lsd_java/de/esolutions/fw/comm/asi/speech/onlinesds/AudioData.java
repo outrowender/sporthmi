@@ -45,7 +45,7 @@ public class AudioData {
     }
 
     public String toString() {
-        return new StringBuffer("AudioData{").append("audioData=").append("[").append(this.audioData == null ? "null" : new StringBuffer().append("size=").append(this.audioData.length).toString()).append("]").append(", audioDataSize=").append(this.audioDataSize).append(", format=").append(this.format).append("}").toString();
+        return "AudioData{" + "audioData=" + "[" + (this.audioData == null ? "null" : "size=" + this.audioData.length) + "]" + ", audioDataSize=" + this.audioDataSize + ", format=" + this.format + "}";
     }
 }
 

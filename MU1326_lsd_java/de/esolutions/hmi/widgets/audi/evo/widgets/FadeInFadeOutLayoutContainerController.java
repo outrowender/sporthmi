@@ -12,21 +12,20 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 public class FadeInFadeOutLayoutContainerController
 extends LayoutContainerController
 implements AnimationListener {
-    private static final int TYPE_FADE;
-    private static final int TYPE_MOVE_LEFT;
-    private static final int TYPE_FADE_OUT_ONLY;
-    private static final int ANIMATION_FADE_IN;
-    private static final int ANIMATION_FADE_OUT;
+    private static final int TYPE_FADE = 0;
+    private static final int TYPE_MOVE_LEFT = 1;
+    private static final int TYPE_FADE_OUT_ONLY = 2;
+    private static final int ANIMATION_FADE_IN = 1;
+    private static final int ANIMATION_FADE_OUT = 2;
     private AbstractAnimation animation;
     private int currentAnimationID;
     private float animationValue;
     private int type;
     private int x0 = -1;
 
-    @Override
     public void animate(int n, float f2, int n2) {
         float f3;
-        this.animationValue = f3 = f2 / 31300;
+        this.animationValue = f3 = f2 / 1000.0f;
         this.animation(this.currentAnimationID, f3);
     }
 
@@ -35,7 +34,7 @@ implements AnimationListener {
         switch (this.type) {
             case 0: 
             case 2: {
-                mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#animation opacity = %1", (double)f3);
+                mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#animation opacity = %1", (double)f3);
                 this.setOpacity(f3);
                 break;
             }
@@ -49,15 +48,13 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         switch (this.currentAnimationID) {
             case 2: {
-                mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#animation animationFinished");
+                mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#animation animationFinished");
                 this.setVisibleInternal(false);
                 break;
             }
@@ -69,7 +66,6 @@ implements AnimationListener {
         this.currentAnimationID = -1;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         if (this.type == 1) {
             if (this.x0 == -1) {
@@ -82,10 +78,9 @@ implements AnimationListener {
             }
         }
         super.connected(initializationContext);
-        mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#connected isVisible = %1.", this.isVisible());
+        mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#connected isVisible = %1.", this.isVisible());
     }
 
-    @Override
     public void disconnecting() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.skipAnimation();
@@ -109,20 +104,19 @@ implements AnimationListener {
         this.type = n;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         boolean bl2;
         if (!this.isConnected()) {
             super.setVisible(bl);
             return;
         }
-        mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#setVisible isVisible = %1, visible = %2", this.isVisible(), bl);
+        mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#setVisible isVisible = %1, visible = %2", this.isVisible(), bl);
         if (this.animation != null && this.animation.isAnimating()) {
             if (!(this.currentAnimationID == 1 && bl || this.currentAnimationID == 2 && !bl)) {
-                mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#setVisible Stop animation.");
+                mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#setVisible Stop animation.");
                 this.skipAnimation();
             } else {
-                mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#setVisible No state change. Return (1).");
+                mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#setVisible No state change. Return (1).");
                 return;
             }
         }
@@ -145,21 +139,20 @@ implements AnimationListener {
     }
 
     private void setVisibleInternal(boolean bl) {
-        mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#setVisibleInternal visible = %1", bl);
+        mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#setVisibleInternal visible = %1", bl);
         super.setVisible(bl);
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void setOpacity(float f2) {
         super.setOpacity(f2);
-        mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#setOpacity opacity = %1", (double)f2);
+        mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#setOpacity opacity = %1", (double)f2);
     }
 
     private void startAnimation(int n) {
         if (this.animation == null || !this.animation.isAnimating()) {
             this.getAnimation(n);
-            this.animation.startDynamicAnimation(0.0f, 31300, n, false, this);
+            this.animation.startDynamicAnimation(0.0f, 1000.0f, n, false, this);
         } else if (this.animation.isAnimating()) {
             // empty if block
         }
@@ -167,7 +160,7 @@ implements AnimationListener {
 
     private void skipAnimation() {
         if (this.animation != null && this.animation.isAnimating()) {
-            mapOverlayLogCh.log(-2137614336, "VisibilityAnimationContainer#skipAnimation Last animation value was %1.", (double)this.animationValue);
+            mapOverlayLogCh.log(10000000, "VisibilityAnimationContainer#skipAnimation Last animation value was %1.", (double)this.animationValue);
             this.animation(this.currentAnimationID, 1.0f);
             this.animation.stopAnimation();
         }

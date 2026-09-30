@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.PickListEntry;
 
 public class PickListEntrySerializer {
-    public static void putOptionalPickListEntry(ISerializer iSerializer, PickListEntry pickListEntry) {
+    public static void putOptionalPickListEntry(ISerializer iSerializer, PickListEntry pickListEntry) throws SerializerException {
         boolean bl = pickListEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PickListEntrySerializer {
         }
     }
 
-    public static void putOptionalPickListEntryVarArray(ISerializer iSerializer, PickListEntry[] pickListEntryArray) {
+    public static void putOptionalPickListEntryVarArray(ISerializer iSerializer, PickListEntry[] pickListEntryArray) throws SerializerException {
         boolean bl = pickListEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PickListEntrySerializer {
         }
     }
 
-    public static PickListEntry getOptionalPickListEntry(IDeserializer iDeserializer) {
+    public static PickListEntry getOptionalPickListEntry(IDeserializer iDeserializer) throws SerializerException {
         PickListEntry pickListEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PickListEntrySerializer {
         return pickListEntry;
     }
 
-    public static PickListEntry[] getOptionalPickListEntryVarArray(IDeserializer iDeserializer) {
+    public static PickListEntry[] getOptionalPickListEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         PickListEntry[] pickListEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

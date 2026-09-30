@@ -8,30 +8,27 @@ import org.dsi.ifc.online.OperatorCallData;
 
 public interface DSIOperatorCall
 extends DSIBase {
-    public static final String VERSION;
-    public static final int TRANSFERTYPE_NOD;
-    public static final int TRANSFERTYPE_DTMF;
-    public static final int SERVICETYPE_UNKNOWN;
-    public static final int SERVICETYPE_CONCIERGE;
-    public static final int SERVICETYPE_OPERATOR;
-    public static final int RESULTTYPE_OLDSESSION;
-    public static final int RESULTTYPE_NEWSESSION;
-    public static final int RESULTTYPE_CONNECTIONERROR;
-    public static final int RESULTTYPE_INVALIDSESSION;
-    public static final int RESULTTYPE_SERVERERROR;
-    public static final int RP_RESPONSEOPERATORCALLRESULT;
-    public static final int RP_RESPONSEOPERATORPHONENUMBER;
-    public static final int RT_REQUESTOPERATORCALLRESULT;
-    public static final int RT_REQUESTOPERATORPHONENUMBER;
-    public static final int RT_SETLANGUAGE;
+    public static final String VERSION = "2.11.42";
+    public static final int TRANSFERTYPE_NOD = 0;
+    public static final int TRANSFERTYPE_DTMF = 1;
+    public static final int SERVICETYPE_UNKNOWN = 0;
+    public static final int SERVICETYPE_CONCIERGE = 1;
+    public static final int SERVICETYPE_OPERATOR = 2;
+    public static final int RESULTTYPE_OLDSESSION = 0;
+    public static final int RESULTTYPE_NEWSESSION = 1;
+    public static final int RESULTTYPE_CONNECTIONERROR = 2;
+    public static final int RESULTTYPE_INVALIDSESSION = 3;
+    public static final int RESULTTYPE_SERVERERROR = 4;
+    public static final int RP_RESPONSEOPERATORCALLRESULT = 2000;
+    public static final int RP_RESPONSEOPERATORPHONENUMBER = 2001;
+    public static final int RT_REQUESTOPERATORCALLRESULT = 1000;
+    public static final int RT_REQUESTOPERATORPHONENUMBER = 1001;
+    public static final int RT_SETLANGUAGE = 1002;
 
-    default public void requestOperatorCallResult(String string, int n) {
-    }
+    public void requestOperatorCallResult(String var1, int var2);
 
-    default public void requestOperatorPhoneNumber(int n, OperatorCallData operatorCallData, boolean bl) {
-    }
+    public void requestOperatorPhoneNumber(int var1, OperatorCallData var2, boolean var3);
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 }
 

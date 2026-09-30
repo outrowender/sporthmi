@@ -17,26 +17,19 @@ public class OS {
         return instance;
     }
 
-    public native int kill(long l, int n) {
-    }
+    public native int kill(long var1, int var3);
 
-    public native long getpid() {
-    }
+    public native long getpid();
 
-    public native int createKernelUserEvent(String string) {
-    }
+    public native int createKernelUserEvent(String var1);
 
-    public native int createKernelUserEvent(int n, String string) {
-    }
+    public native int createKernelUserEvent(int var1, String var2);
 
-    public native int createKernelUserEvent(int n, byte[] byArray) {
-    }
+    public native int createKernelUserEvent(int var1, byte[] var2);
 
-    public native boolean pinThread(int n) {
-    }
+    public native boolean pinThread(int var1);
 
-    public native long sum(long l) {
-    }
+    public native long sum(long var1);
 
     static {
         try {

@@ -8,37 +8,26 @@ import de.esolutions.fw.util.tracing.filetransfer.file.IFile;
 
 public interface IExtendedFile
 extends IFile {
-    default public void setPath(String string) {
-    }
+    public void setPath(String var1);
 
-    default public void setFlag(byte by) {
-    }
+    public void setFlag(byte var1);
 
-    default public void setUserFlag(byte by) {
-    }
+    public void setUserFlag(byte var1);
 
-    default public byte getUserFlag() {
-    }
+    public byte getUserFlag();
 
-    default public void setTimestamp(long l) {
-    }
+    public void setTimestamp(long var1);
 
-    default public void setHashType(byte by) {
-    }
+    public void setHashType(byte var1);
 
-    default public void setHash(byte[] byArray) {
-    }
+    public void setHash(byte[] var1);
 
-    default public void setSize(long l) {
-    }
+    public void setSize(long var1);
 
-    default public void setCompleteSize(long l) {
-    }
+    public void setCompleteSize(long var1);
 
-    default public void setError(FileTransferError fileTransferError) {
-    }
+    public void setError(FileTransferError var1);
 
-    default public void setValidHash(boolean bl) {
-    }
+    public void setValidHash(boolean var1);
 }
 

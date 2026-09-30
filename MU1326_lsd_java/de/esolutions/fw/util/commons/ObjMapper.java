@@ -7,7 +7,6 @@ import de.esolutions.fw.util.commons.Buffer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public class ObjMapper {
@@ -16,7 +15,7 @@ public class ObjMapper {
     private Object defKey;
     private Object defValue;
     public boolean hasDefault = false;
-    public static final boolean DEBUG;
+    public static final boolean DEBUG = false;
 
     public ObjMapper(String string) {
         this.name = string;
@@ -39,7 +38,7 @@ public class ObjMapper {
     }
 
     private String instanceName() {
-        return new StringBuffer().append("ObjMapper[").append(this.name).append("]").toString();
+        return "ObjMapper[" + this.name + "]";
     }
 
     public boolean isKey(int n) {
@@ -57,7 +56,7 @@ public class ObjMapper {
         return this.getValue(n2);
     }
 
-    public Object getValue(Object object) {
+    public Object getValue(Object object) throws IndexOutOfBoundsException {
         Object object2 = null;
         if (this.map.containsKey(object)) {
             object2 = this.map.get(object);
@@ -65,35 +64,35 @@ public class ObjMapper {
             object2 = this.defValue;
         } else {
             object2 = null;
-            throw new IndexOutOfBoundsException(new StringBuffer().append(this.instanceName()).append(" key [").append(object).append("] not in ObjMapper").toString());
+            throw new IndexOutOfBoundsException(this.instanceName() + " key [" + object + "] not in ObjMapper");
         }
         return object2;
     }
 
-    public Object getKey(Object object) {
+    public Object getKey(Object object) throws IndexOutOfBoundsException {
         Object object2 = null;
         if (this.map.containsValue(object)) {
             Set set = this.map.entrySet();
             Iterator iterator = set.iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                if (!object.equals(map$Entry.getValue())) continue;
-                object2 = map$Entry.getKey();
+                Map.Entry entry = (Map.Entry)iterator.next();
+                if (!object.equals(entry.getValue())) continue;
+                object2 = entry.getKey();
             }
         } else if (this.hasDefault) {
             object2 = this.defValue;
         } else {
             object2 = null;
-            throw new IndexOutOfBoundsException(new StringBuffer().append(this.instanceName()).append(" value [").append(object).append("] not in ObjMapper").toString());
+            throw new IndexOutOfBoundsException(this.instanceName() + " value [" + object + "] not in ObjMapper");
         }
         return object2;
     }
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append(new StringBuffer().append(this.instanceName()).append("(size=").append(this.map.size()).append(", ").toString());
+        buffer.append(this.instanceName() + "(size=" + this.map.size() + ", ");
         if (this.hasDefault) {
-            buffer.append(new StringBuffer().append("Default(").append(this.defKey.toString()).append(",").append(this.defValue.toString()).append("),").toString());
+            buffer.append("Default(" + this.defKey.toString() + "," + this.defValue.toString() + "),");
         } else {
             buffer.append("no defaultVal - throws exceptions");
         }

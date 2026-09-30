@@ -92,7 +92,7 @@ public class StationInfo {
     }
 
     public String toString() {
-        return new StringBuffer("StationInfo{").append("id=").append(this.id).append(", name=").append(this.name).append(", fullName=").append(this.fullName).append(", audioStatus=").append(this.audioStatus).append(", layer=").append(this.layer).append(", stationLogo=").append(this.stationLogo).append(", frequency=").append(this.frequency).append(", extension=").append(this.extension).append("}").toString();
+        return "StationInfo{" + "id=" + this.id + ", name=" + this.name + ", fullName=" + this.fullName + ", audioStatus=" + this.audioStatus + ", layer=" + this.layer + ", stationLogo=" + this.stationLogo + ", frequency=" + this.frequency + ", extension=" + this.extension + "}";
     }
 }
 

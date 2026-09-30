@@ -24,7 +24,7 @@ implements IConfigWriter {
     private int version = 1;
     private IMiniIntSerializer serializer;
 
-    private void writeHeader(OutputStream outputStream, int n, int n2, int n3) {
+    private void writeHeader(OutputStream outputStream, int n, int n2, int n3) throws IOException {
         byte[] byArray = new byte[16];
         byArray[0] = -27;
         byArray[1] = 11;
@@ -50,8 +50,7 @@ implements IConfigWriter {
         this.version = configPathQuery.getIntegerValue("version", this.version);
     }
 
-    @Override
-    public void writeToOutputStream(OutputStream outputStream, ConfigValue configValue, ConfigDictionary configDictionary) {
+    public void writeToOutputStream(OutputStream outputStream, ConfigValue configValue, ConfigDictionary configDictionary) throws WriteConfigException {
         int n;
         int n2;
         this.parseParams(configDictionary);
@@ -91,7 +90,7 @@ implements IConfigWriter {
             outputStream.write(byArray);
         }
         catch (IOException iOException) {
-            throw new WriteConfigException(new StringBuffer().append("IO: ").append(iOException.getMessage()).toString());
+            throw new WriteConfigException("IO: " + iOException.getMessage());
         }
     }
 }

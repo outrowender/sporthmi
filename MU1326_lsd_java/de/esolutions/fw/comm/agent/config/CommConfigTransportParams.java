@@ -51,7 +51,7 @@ public class CommConfigTransportParams {
     }
 
     public String toString() {
-        return new StringBuffer().append("[async=").append(this.async).append(",priority=").append(this.priority).append(",queueLimitBytes=").append(this.queueLimitBytes).append(",queueLimitJobs=").append(this.queueLimitJobs).append("]").toString();
+        return "[async=" + this.async + ",priority=" + this.priority + ",queueLimitBytes=" + this.queueLimitBytes + ",queueLimitJobs=" + this.queueLimitJobs + "]";
     }
 }
 

@@ -4,29 +4,24 @@
 package de.esolutions.fw.comm.asi.hmisync.car.climate;
 
 import de.esolutions.fw.comm.asi.hmisync.car.IntBaseType;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarClimateReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "5ffc8a82-9fd6-4d5f-9e5b-b7d05d798bc3";
+    public static final String IPL_COMM_INTERFACE_KEY = "b433dc69-1912-5b9a-900b-83fe40f977cc";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateAirconTempZone1(IntBaseType intBaseType, boolean bl) {
-    }
+    public void updateAirconTempZone1(IntBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateAirconTempZone2(IntBaseType intBaseType, boolean bl) {
-    }
+    public void updateAirconTempZone2(IntBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateAirconMaxAC(boolean bl, boolean bl2) {
-    }
+    public void updateAirconMaxAC(boolean var1, boolean var2) throws MethodException;
 }
 

@@ -16,7 +16,6 @@ extends IconRendererHigh {
         super(iconController);
     }
 
-    @Override
     protected TextureDescription handleIntegerContent(Integer n, EALManager eALManager) {
         if (eALManager == null) {
             return null;

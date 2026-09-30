@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.komonavinfo;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.komonavinfo.DSIKOMONavInfoReply;
 import de.esolutions.fw.comm.dsi.komonavinfo.impl.DSIKOMONavInfoReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIKOMONavInfoReply {
         super(n, (class$org$dsi$ifc$komonavinfo$DSIKOMONavInfoListener == null ? (class$org$dsi$ifc$komonavinfo$DSIKOMONavInfoListener = DSIKOMONavInfoDispatcher.class$("org.dsi.ifc.komonavinfo.DSIKOMONavInfoListener")) : class$org$dsi$ifc$komonavinfo$DSIKOMONavInfoListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void setCurrentStreetResult(int n) {
+    public void setCurrentStreetResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setTurnToStreetResult(int n) {
+    public void setTurnToStreetResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setCityNameResult(int n) {
+    public void setCityNameResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setSemiDynRouteResult(int n) {
+    public void setSemiDynRouteResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setTrafficOffsetResult(int n) {
+    public void setTrafficOffsetResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,8 +106,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setRgSelectResult(int n) {
+    public void setRgSelectResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -128,8 +122,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setCapabilitiesResult(int n) {
+    public void setCapabilitiesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -145,8 +138,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
+    public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -162,8 +154,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
+    public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -179,8 +170,7 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -196,14 +186,13 @@ implements DSIKOMONavInfoReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIKOMONavInfoListener dSIKOMONavInfoListener = (DSIKOMONavInfoListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKOMONavInfoDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKOMONavInfoDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIKOMONavInfoListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKOMONavInfoDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKOMONavInfoDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIKOMONavInfoListener, new Object[]{string, string2});
                     continue;
                 }

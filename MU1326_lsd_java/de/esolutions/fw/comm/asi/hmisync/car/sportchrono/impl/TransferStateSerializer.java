@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.TransferState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class TransferStateSerializer {
-    public static void putOptionalTransferState(ISerializer iSerializer, TransferState transferState) {
+    public static void putOptionalTransferState(ISerializer iSerializer, TransferState transferState) throws SerializerException {
         boolean bl = transferState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TransferStateSerializer {
         }
     }
 
-    public static void putOptionalTransferStateVarArray(ISerializer iSerializer, TransferState[] transferStateArray) {
+    public static void putOptionalTransferStateVarArray(ISerializer iSerializer, TransferState[] transferStateArray) throws SerializerException {
         boolean bl = transferStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TransferStateSerializer {
         }
     }
 
-    public static TransferState getOptionalTransferState(IDeserializer iDeserializer) {
+    public static TransferState getOptionalTransferState(IDeserializer iDeserializer) throws SerializerException {
         TransferState transferState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TransferStateSerializer {
         return transferState;
     }
 
-    public static TransferState[] getOptionalTransferStateVarArray(IDeserializer iDeserializer) {
+    public static TransferState[] getOptionalTransferStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         TransferState[] transferStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

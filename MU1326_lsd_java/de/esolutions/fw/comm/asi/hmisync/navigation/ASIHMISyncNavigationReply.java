@@ -6,41 +6,32 @@ package de.esolutions.fw.comm.asi.hmisync.navigation;
 import de.esolutions.fw.comm.asi.hmisync.navigation.CarPosition;
 import de.esolutions.fw.comm.asi.hmisync.navigation.DestinationInfo;
 import de.esolutions.fw.comm.asi.hmisync.navigation.NextDestinationInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncNavigationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "8d39242f-638c-434c-a3c2-23fe7dad4907";
+    public static final String IPL_COMM_INTERFACE_KEY = "85677657-50cb-53c6-b534-c27796d5fb16";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.1.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void startGuidanceToDestinationsResult(int n) {
-    }
+    public void startGuidanceToDestinationsResult(int var1) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateRouteGuidanceActive(boolean bl, boolean bl2) {
-    }
+    public void updateRouteGuidanceActive(boolean var1, boolean var2) throws MethodException;
 
-    default public void updateCarPosition(CarPosition carPosition, boolean bl) {
-    }
+    public void updateCarPosition(CarPosition var1, boolean var2) throws MethodException;
 
-    default public void updateDestinationInfo(DestinationInfo[] destinationInfoArray, boolean bl) {
-    }
+    public void updateDestinationInfo(DestinationInfo[] var1, boolean var2) throws MethodException;
 
-    default public void updateDestinationsForGuidance(DestinationInfo[] destinationInfoArray, boolean bl) {
-    }
+    public void updateDestinationsForGuidance(DestinationInfo[] var1, boolean var2) throws MethodException;
 
-    default public void updateNextDestinationInfo(NextDestinationInfo nextDestinationInfo, boolean bl) {
-    }
+    public void updateNextDestinationInfo(NextDestinationInfo var1, boolean var2) throws MethodException;
 
-    default public void updateNightDesignRequested(boolean bl, boolean bl2) {
-    }
+    public void updateNightDesignRequested(boolean var1, boolean var2) throws MethodException;
 }
 

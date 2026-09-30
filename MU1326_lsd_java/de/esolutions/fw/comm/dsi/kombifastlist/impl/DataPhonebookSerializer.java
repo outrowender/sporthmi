@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataPhonebook;
 
 public class DataPhonebookSerializer {
-    public static void putOptionalDataPhonebook(ISerializer iSerializer, DataPhonebook dataPhonebook) {
+    public static void putOptionalDataPhonebook(ISerializer iSerializer, DataPhonebook dataPhonebook) throws SerializerException {
         boolean bl = dataPhonebook == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -107,7 +108,7 @@ public class DataPhonebookSerializer {
         }
     }
 
-    public static void putOptionalDataPhonebookVarArray(ISerializer iSerializer, DataPhonebook[] dataPhonebookArray) {
+    public static void putOptionalDataPhonebookVarArray(ISerializer iSerializer, DataPhonebook[] dataPhonebookArray) throws SerializerException {
         boolean bl = dataPhonebookArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -118,7 +119,7 @@ public class DataPhonebookSerializer {
         }
     }
 
-    public static DataPhonebook getOptionalDataPhonebook(IDeserializer iDeserializer) {
+    public static DataPhonebook getOptionalDataPhonebook(IDeserializer iDeserializer) throws SerializerException {
         DataPhonebook dataPhonebook = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -219,7 +220,7 @@ public class DataPhonebookSerializer {
         return dataPhonebook;
     }
 
-    public static DataPhonebook[] getOptionalDataPhonebookVarArray(IDeserializer iDeserializer) {
+    public static DataPhonebook[] getOptionalDataPhonebookVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataPhonebook[] dataPhonebookArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

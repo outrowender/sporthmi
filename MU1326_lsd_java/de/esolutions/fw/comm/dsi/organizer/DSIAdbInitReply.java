@@ -3,73 +3,54 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAdbInitReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "1269d6bb-274e-5f62-b76b-1600ed2924e4";
+    public static final String IPL_COMM_INTERFACE_KEY = "eb4873c9-aba1-5d89-b79b-04f665f38fb6";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.31";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.31";
 
-    default public void updateDefaultPublicProfileVisibility(boolean bl, int n) {
-    }
+    public void updateDefaultPublicProfileVisibility(boolean var1, int var2) throws MethodException;
 
-    default public void updateMaxLocalEntries(int n, int n2) {
-    }
+    public void updateMaxLocalEntries(int var1, int var2) throws MethodException;
 
-    default public void updateMaxPhoneEntries(int n, int n2) {
-    }
+    public void updateMaxPhoneEntries(int var1, int var2) throws MethodException;
 
-    default public void updateMaxTopDestEntries(int n, int n2) {
-    }
+    public void updateMaxTopDestEntries(int var1, int var2) throws MethodException;
 
-    default public void updateMaxSpeedDialEntries(int n, int n2) {
-    }
+    public void updateMaxSpeedDialEntries(int var1, int var2) throws MethodException;
 
-    default public void updateAutoProfileAllocation(boolean bl, int n) {
-    }
+    public void updateAutoProfileAllocation(boolean var1, int var2) throws MethodException;
 
-    default public void setDefaultPublicProfileVisibilityResult(int n) {
-    }
+    public void setDefaultPublicProfileVisibilityResult(int var1) throws MethodException;
 
-    default public void setMaxLocalEntriesResult(int n) {
-    }
+    public void setMaxLocalEntriesResult(int var1) throws MethodException;
 
-    default public void setMaxPhoneEntriesResult(int n) {
-    }
+    public void setMaxPhoneEntriesResult(int var1) throws MethodException;
 
-    default public void setMaxTopDestEntriesResult(int n) {
-    }
+    public void setMaxTopDestEntriesResult(int var1) throws MethodException;
 
-    default public void setMaxSpeedDialEntriesResult(int n) {
-    }
+    public void setMaxSpeedDialEntriesResult(int var1) throws MethodException;
 
-    default public void setNumericalSpellerEnabledResult(int n) {
-    }
+    public void setNumericalSpellerEnabledResult(int var1) throws MethodException;
 
-    default public void setAutoProfileAllocationResult(int n) {
-    }
+    public void setAutoProfileAllocationResult(int var1) throws MethodException;
 
-    default public void setSpeedDialTypeResult(int n) {
-    }
+    public void setSpeedDialTypeResult(int var1) throws MethodException;
 
-    default public void setProfileHandlingType(int n) {
-    }
+    public void setProfileHandlingType(int var1) throws MethodException;
 
-    default public void setDefaultSortOrderResult(int n) {
-    }
+    public void setDefaultSortOrderResult(int var1) throws MethodException;
 
-    default public void setOnlineDestinationEnabledResult(int n) {
-    }
+    public void setOnlineDestinationEnabledResult(int var1) throws MethodException;
 
-    default public void setDefaultSOSButtonResult(int n) {
-    }
+    public void setDefaultSOSButtonResult(int var1) throws MethodException;
 
-    default public void updateDefaultSOSButton(boolean bl, int n) {
-    }
+    public void updateDefaultSOSButton(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

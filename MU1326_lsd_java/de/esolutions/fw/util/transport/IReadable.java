@@ -3,29 +3,23 @@
  */
 package de.esolutions.fw.util.transport;
 
+import de.esolutions.fw.util.transport.exception.TransportBufferException;
+
 public interface IReadable {
-    default public int size() {
-    }
+    public int size();
 
-    default public byte[] getData() {
-    }
+    public byte[] getData() throws TransportBufferException;
 
-    default public byte[] getData(int n, int n2) {
-    }
+    public byte[] getData(int var1, int var2) throws TransportBufferException;
 
-    default public byte[] getDirectData() {
-    }
+    public byte[] getDirectData();
 
-    default public int getDirectOffset() {
-    }
+    public int getDirectOffset();
 
-    default public IReadable createSubBuffer(int n, int n2) {
-    }
+    public IReadable createSubBuffer(int var1, int var2) throws TransportBufferException;
 
-    default public void setDebugTag(Object object) {
-    }
+    public void setDebugTag(Object var1);
 
-    default public Object getDebugTag() {
-    }
+    public Object getDebugTag();
 }
 

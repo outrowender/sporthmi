@@ -93,7 +93,7 @@ WidgetConstants {
 
     private void fireItemFocusedInternal() {
         if (!this.menu.shouldRender()) {
-            menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemFocusedInternal: dont fire itemfocused for item %1, because menu not visible (%2)", (Object)this.menu.getFocusedIndex(), (Object)this.menu);
+            menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemFocusedInternal: dont fire itemfocused for item %1, because menu not visible (%2)", (Object)this.menu.getFocusedIndex(), (Object)this.menu);
             return;
         }
         this.fireItemFocusedToModel();
@@ -113,7 +113,7 @@ WidgetConstants {
         }
         if (menuItemIndex != null) {
             if (this.isUniqueIdOfPendingListRow(l)) {
-                menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemFocusedToModel: don't fire itemFocused, because rowId is not available for focused index: %1 (%2)", (Object)menuItemIndex, (Object)this.menu);
+                menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemFocusedToModel: don't fire itemFocused, because rowId is not available for focused index: %1 (%2)", (Object)menuItemIndex, (Object)this.menu);
                 return;
             }
             int n = this.menu.getMenuItemID(menuItemIndex);
@@ -160,7 +160,7 @@ WidgetConstants {
     private void fireItemFocusedToModel(int n, long l, WidgetFocusAdvice widgetFocusAdvice) {
         Object object = this.menu.getModel();
         if (object instanceof MenuModelGUI) {
-            menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemFocusedToModel: notify menuModel, item: %2, rowID: %3, focusAdvice: %1", (Object)widgetFocusAdvice, (long)n, l);
+            menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemFocusedToModel: notify menuModel, item: %2, rowID: %3, focusAdvice: %1", (Object)widgetFocusAdvice, (long)n, l);
             ((MenuModelGUI)object).itemFocused(n, widgetFocusAdvice, l, this.menu.getTerminal().getTerminalID());
         } else if (this.menu.isComboBoxMenu()) {
             this.menu.getParentComboBox().menuItemFocused(n);
@@ -170,7 +170,7 @@ WidgetConstants {
     private void fireItemNotFocusedToModel() {
         Object object = this.menu.getModel();
         if (object instanceof MenuModelGUI) {
-            menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemNotFocusedToModel: no focused item for menu model.");
+            menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemNotFocusedToModel: no focused item for menu model.");
             ((MenuModelGUI)object).itemFocused(-1, null, -1L, this.menu.getTerminal().getTerminalID());
         } else if (this.menu.isComboBoxMenu()) {
             this.menu.getParentComboBox().menuItemFocusCleared();
@@ -193,7 +193,7 @@ WidgetConstants {
     private void fireItemNotFocusedToItem() {
         if (this.shouldFireItemNotFocusedToItem()) {
             AbstractWidget abstractWidget = this.menu.getChild(this.focusedIndexFiredToWidgets.widget);
-            menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemNotFocusedToItem: un-focus previously focused item: %1, widget: %2", (Object)this.focusedIndexFiredToWidgets, (Object)abstractWidget);
+            menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemNotFocusedToItem: un-focus previously focused item: %1, widget: %2", (Object)this.focusedIndexFiredToWidgets, (Object)abstractWidget);
             if (abstractWidget instanceof IMenuItemMultiItem) {
                 ((IMenuItemMultiItem)((Object)abstractWidget)).itemFocused(-1);
             } else {
@@ -206,11 +206,11 @@ WidgetConstants {
     private void fireItemFocusedToItem() {
         MenuItemIndex menuItemIndex = this.menu.getFocusedIndex();
         if (menuItemIndex == null) {
-            menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemFocusedToItem: no item is focused");
+            menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemFocusedToItem: no item is focused");
             return;
         }
         AbstractWidget abstractWidget = this.menu.getChild(menuItemIndex.widget);
-        menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemFocusedToItem: notify focused item %1, widget: %2", (Object)menuItemIndex, (Object)abstractWidget);
+        menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemFocusedToItem: notify focused item %1, widget: %2", (Object)menuItemIndex, (Object)abstractWidget);
         if (abstractWidget instanceof IMenuItemMultiItem) {
             ((IMenuItemMultiItem)((Object)abstractWidget)).itemFocused(menuItemIndex.widgetPart);
         } else {
@@ -227,7 +227,7 @@ WidgetConstants {
     private void closeFocusedRelatedPopup() {
         int n = this.menu.getOpenFocusRelatedPartialPopup();
         if (n != -1) {
-            menuLogCh.log(1078071040, "MenuItemFocusedPropagator#closeFocusedRelatedPopup: close focus related popup: %1", (long)n);
+            menuLogCh.log(1000000, "MenuItemFocusedPropagator#closeFocusedRelatedPopup: close focus related popup: %1", (long)n);
             this.menu.getTerminal().getPartialPopupManager().hidePopup(n);
         }
     }
@@ -240,7 +240,7 @@ WidgetConstants {
     private void fireItemFocusedToCallbacks() {
         MenuItemIndex menuItemIndex = this.menu.getFocusedIndex();
         if (this.isListRowPending()) {
-            menuLogCh.log(-2137614336, "MenuItemFocusedPropagator#fireItemFocusedToCallbacks: don't fire itemFocused, because list row %1 is not yet loaded (%2)", (Object)menuItemIndex, (Object)this.menu);
+            menuLogCh.log(10000000, "MenuItemFocusedPropagator#fireItemFocusedToCallbacks: don't fire itemFocused, because list row %1 is not yet loaded (%2)", (Object)menuItemIndex, (Object)this.menu);
             return;
         }
         if (Util.equals(menuItemIndex, this.focusedIndexFiredToCallbacks)) {

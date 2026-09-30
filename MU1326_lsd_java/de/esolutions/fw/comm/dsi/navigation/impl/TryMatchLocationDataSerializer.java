@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.NavPhoneDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavPhoneData;
 import org.dsi.ifc.navigation.TryMatchLocationData;
 
 public class TryMatchLocationDataSerializer {
-    public static void putOptionalTryMatchLocationData(ISerializer iSerializer, TryMatchLocationData tryMatchLocationData) {
+    public static void putOptionalTryMatchLocationData(ISerializer iSerializer, TryMatchLocationData tryMatchLocationData) throws SerializerException {
         boolean bl = tryMatchLocationData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -49,7 +50,7 @@ public class TryMatchLocationDataSerializer {
         }
     }
 
-    public static void putOptionalTryMatchLocationDataVarArray(ISerializer iSerializer, TryMatchLocationData[] tryMatchLocationDataArray) {
+    public static void putOptionalTryMatchLocationDataVarArray(ISerializer iSerializer, TryMatchLocationData[] tryMatchLocationDataArray) throws SerializerException {
         boolean bl = tryMatchLocationDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -60,7 +61,7 @@ public class TryMatchLocationDataSerializer {
         }
     }
 
-    public static TryMatchLocationData getOptionalTryMatchLocationData(IDeserializer iDeserializer) {
+    public static TryMatchLocationData getOptionalTryMatchLocationData(IDeserializer iDeserializer) throws SerializerException {
         TryMatchLocationData tryMatchLocationData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -101,7 +102,7 @@ public class TryMatchLocationDataSerializer {
         return tryMatchLocationData;
     }
 
-    public static TryMatchLocationData[] getOptionalTryMatchLocationDataVarArray(IDeserializer iDeserializer) {
+    public static TryMatchLocationData[] getOptionalTryMatchLocationDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         TryMatchLocationData[] tryMatchLocationDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -9,37 +9,26 @@ import java.util.Iterator;
 import org.dsi.ifc.base.DSIListener;
 
 public interface IDispatcher {
-    default public IReplyService getService() {
-    }
+    public IReplyService getService();
 
-    default public void addUnconfirmedNotificationListener(int n, DSIListener dSIListener) {
-    }
+    public void addUnconfirmedNotificationListener(int var1, DSIListener var2);
 
-    default public void addNotificationListener(int n, DSIListener dSIListener) {
-    }
+    public void addNotificationListener(int var1, DSIListener var2);
 
-    default public void removeNotificationListener(int n, DSIListener dSIListener) {
-    }
+    public void removeNotificationListener(int var1, DSIListener var2);
 
-    default public void removeNotificationListener(DSIListener dSIListener) {
-    }
+    public void removeNotificationListener(DSIListener var1);
 
-    default public boolean hasNotificationListeners(int n) {
-    }
+    public boolean hasNotificationListeners(int var1);
 
-    default public Iterator getNotificationListenerIterator(int n) {
-    }
+    public Iterator getNotificationListenerIterator(int var1);
 
-    default public Iterator getUnconfirmedNotificationListenerIterator(int n) {
-    }
+    public Iterator getUnconfirmedNotificationListenerIterator(int var1);
 
-    default public void confirmNotificationListener(int n, DSIListener dSIListener) {
-    }
+    public void confirmNotificationListener(int var1, DSIListener var2);
 
-    default public DispatcherInfo getDispatcherInfo(int n) {
-    }
+    public DispatcherInfo getDispatcherInfo(int var1);
 
-    default public void clearNotificationListeners() {
-    }
+    public void clearNotificationListeners();
 }
 

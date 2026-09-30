@@ -32,7 +32,7 @@ public class ComponentInfo {
     }
 
     public String toString() {
-        return new StringBuffer("ComponentInfo{").append("componentName=").append(this.componentName).append(", versionInfo=").append("[").append(this.versionInfo == null ? "null" : new StringBuffer().append("size=").append(this.versionInfo.length).toString()).append("]").append("}").toString();
+        return "ComponentInfo{" + "componentName=" + this.componentName + ", versionInfo=" + "[" + (this.versionInfo == null ? "null" : "size=" + this.versionInfo.length) + "]" + "}";
     }
 }
 

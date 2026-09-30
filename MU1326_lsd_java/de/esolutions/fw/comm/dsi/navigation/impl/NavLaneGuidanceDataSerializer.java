@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavLaneGuidanceData;
 
 public class NavLaneGuidanceDataSerializer {
-    public static void putOptionalNavLaneGuidanceData(ISerializer iSerializer, NavLaneGuidanceData navLaneGuidanceData) {
+    public static void putOptionalNavLaneGuidanceData(ISerializer iSerializer, NavLaneGuidanceData navLaneGuidanceData) throws SerializerException {
         boolean bl = navLaneGuidanceData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class NavLaneGuidanceDataSerializer {
         }
     }
 
-    public static void putOptionalNavLaneGuidanceDataVarArray(ISerializer iSerializer, NavLaneGuidanceData[] navLaneGuidanceDataArray) {
+    public static void putOptionalNavLaneGuidanceDataVarArray(ISerializer iSerializer, NavLaneGuidanceData[] navLaneGuidanceDataArray) throws SerializerException {
         boolean bl = navLaneGuidanceDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class NavLaneGuidanceDataSerializer {
         }
     }
 
-    public static NavLaneGuidanceData getOptionalNavLaneGuidanceData(IDeserializer iDeserializer) {
+    public static NavLaneGuidanceData getOptionalNavLaneGuidanceData(IDeserializer iDeserializer) throws SerializerException {
         NavLaneGuidanceData navLaneGuidanceData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class NavLaneGuidanceDataSerializer {
         return navLaneGuidanceData;
     }
 
-    public static NavLaneGuidanceData[] getOptionalNavLaneGuidanceDataVarArray(IDeserializer iDeserializer) {
+    public static NavLaneGuidanceData[] getOptionalNavLaneGuidanceDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavLaneGuidanceData[] navLaneGuidanceDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

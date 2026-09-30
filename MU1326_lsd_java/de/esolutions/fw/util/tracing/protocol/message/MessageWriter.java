@@ -7,8 +7,10 @@ import de.esolutions.fw.util.serializer.adapter.DefaultExtendedSerializer;
 import de.esolutions.fw.util.serializer.connection.Connection;
 import de.esolutions.fw.util.serializer.stream.BEDefaultSerializer;
 import de.esolutions.fw.util.tracing.protocol.message.MessageSender;
+import de.esolutions.fw.util.transport.exception.TransportException;
 import de.esolutions.fw.util.transport.packet.PacketTransport;
 import de.esolutions.fw.util.transport.socket.OutputStreamTransport;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class MessageWriter {
@@ -25,11 +27,11 @@ public class MessageWriter {
         this.sender = new MessageSender(this.c);
     }
 
-    public void open() {
+    public void open() throws IOException, TransportException, InterruptedException {
         this.c.open();
     }
 
-    public void close() {
+    public void close() throws IOException, TransportException, InterruptedException {
         this.c.close(false);
         this.out.close();
     }

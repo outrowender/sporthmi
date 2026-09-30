@@ -9,7 +9,6 @@ import edu.emory.mathcs.backport.java.util.concurrent.ScheduledFuture;
 public interface RunnableScheduledFuture
 extends RunnableFuture,
 ScheduledFuture {
-    default public boolean isPeriodic() {
-    }
+    public boolean isPeriodic();
 }
 

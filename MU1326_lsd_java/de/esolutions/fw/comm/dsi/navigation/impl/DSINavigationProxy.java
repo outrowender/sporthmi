@@ -7,56 +7,23 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavSegmentIDSerializer;
 import de.esolutions.fw.comm.dsi.navigation.DSINavigation;
 import de.esolutions.fw.comm.dsi.navigation.DSINavigationC;
 import de.esolutions.fw.comm.dsi.navigation.DSINavigationReply;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$1;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$10;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$11;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$12;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$13;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$14;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$15;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$16;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$17;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$18;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$19;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$2;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$20;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$21;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$22;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$23;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$24;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$25;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$26;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$27;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$28;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$29;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$3;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$30;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$31;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$32;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$33;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$34;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$35;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$36;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$37;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$38;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$39;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$4;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$40;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$41;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$42;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$43;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$44;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$45;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$46;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$5;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$6;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$7;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$8;
-import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationProxy$9;
 import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationReplyService;
+import de.esolutions.fw.comm.dsi.navigation.impl.LIExtDataSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.LISpellerDataSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.NavLastDestSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.NavPoiInfoConfigurationSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.RouteOptionsSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.RouteSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.TryBestMatchDataSerializer;
+import de.esolutions.fw.comm.dsi.navigation.impl.TryMatchLocationDataSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
@@ -87,8 +54,7 @@ DSINavigationC {
         return this.proxy;
     }
 
-    @Override
-    public void afaRepeat(int n) {
+    public void afaRepeat(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -99,8 +65,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)0, genericSerializable);
     }
 
-    @Override
-    public void createExportFile(String string, int n) {
+    public void createExportFile(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -112,19 +77,21 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void dmFlagDestinationSet(NavLocation navLocation) {
-        DSINavigationProxy$1 dSINavigationProxy$1 = new DSINavigationProxy$1(this, navLocation);
-        this.proxy.remoteCallMethod((short)12, dSINavigationProxy$1);
+    public void dmFlagDestinationSet(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void dmFlagDestinationRemove() {
+    public void dmFlagDestinationRemove() throws MethodException {
         this.proxy.remoteCallMethod((short)11, null);
     }
 
-    @Override
-    public void dmFlagDestinationSetName(String string) {
+    public void dmFlagDestinationSetName(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -135,14 +102,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void dmLastDestinationsAddList(NavLastDest[] navLastDestArray) {
-        DSINavigationProxy$2 dSINavigationProxy$2 = new DSINavigationProxy$2(this, navLastDestArray);
-        this.proxy.remoteCallMethod((short)322, dSINavigationProxy$2);
+    public void dmLastDestinationsAddList(final NavLastDest[] navLastDestArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLastDestSerializer.putOptionalNavLastDestVarArray(iSerializer, navLastDestArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)322, iSerializable);
     }
 
-    @Override
-    public void dmLastDestinationsDelete(long l) {
+    public void dmLastDestinationsDelete(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -153,13 +123,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void dmLastDestinationsDeleteAll() {
+    public void dmLastDestinationsDeleteAll() throws MethodException {
         this.proxy.remoteCallMethod((short)16, null);
     }
 
-    @Override
-    public void dmLastDestinationsGet(long l) {
+    public void dmLastDestinationsGet(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -170,20 +138,30 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void dmLastDestinationsReplace(long l, NavLocation navLocation, String string) {
-        DSINavigationProxy$3 dSINavigationProxy$3 = new DSINavigationProxy$3(this, l, navLocation, string);
-        this.proxy.remoteCallMethod((short)19, dSINavigationProxy$3);
+    public void dmLastDestinationsReplace(final long l, final NavLocation navLocation, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void dmRecentRoutesAdd(Route route, String string) {
-        DSINavigationProxy$4 dSINavigationProxy$4 = new DSINavigationProxy$4(this, route, string);
-        this.proxy.remoteCallMethod((short)20, dSINavigationProxy$4);
+    public void dmRecentRoutesAdd(final Route route, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void dmRecentRoutesDelete(long l) {
+    public void dmRecentRoutesDelete(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -194,13 +172,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void dmRecentRoutesDeleteAll() {
+    public void dmRecentRoutesDeleteAll() throws MethodException {
         this.proxy.remoteCallMethod((short)22, null);
     }
 
-    @Override
-    public void dmRecentRoutesGet(long l) {
+    public void dmRecentRoutesGet(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -211,14 +187,19 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void dmRecentRoutesReplace(long l, Route route, String string) {
-        DSINavigationProxy$5 dSINavigationProxy$5 = new DSINavigationProxy$5(this, l, route, string);
-        this.proxy.remoteCallMethod((short)25, dSINavigationProxy$5);
+    public void dmRecentRoutesReplace(final long l, final Route route, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void enableRgStreetLists(boolean bl) {
+    public void enableRgStreetLists(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -229,8 +210,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void enableRgLaneGuidance(boolean bl) {
+    public void enableRgLaneGuidance(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -241,8 +221,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void enableRgPoiInfo(boolean bl) {
+    public void enableRgPoiInfo(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -253,8 +232,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void etcGetCountryAbbreviation(String string) {
+    public void etcGetCountryAbbreviation(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -265,8 +243,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void etcSetDemoMode(boolean bl) {
+    public void etcSetDemoMode(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -277,8 +254,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void etcSetDemoModeSpeed(long l) {
+    public void etcSetDemoModeSpeed(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -289,8 +265,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)47, genericSerializable);
     }
 
-    @Override
-    public void etcSetMetricSystem(int n) {
+    public void etcSetMetricSystem(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -301,8 +276,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void etcSelectDatabase(int n) {
+    public void etcSelectDatabase(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -313,8 +287,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void etcSelectNavDataBase(int n) {
+    public void etcSelectNavDataBase(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -325,8 +298,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void importFile(String string, int n) {
+    public void importFile(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -338,8 +310,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void languageSpellableCharacters(String string) {
+    public void languageSpellableCharacters(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -350,13 +321,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)54, genericSerializable);
     }
 
-    @Override
-    public void liGetCurrentState() {
+    public void liGetCurrentState() throws MethodException {
         this.proxy.remoteCallMethod((short)58, null);
     }
 
-    @Override
-    public void liGetLastCityHistoryEntry(long l) {
+    public void liGetLastCityHistoryEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -367,8 +336,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)59, genericSerializable);
     }
 
-    @Override
-    public void liGetLastStreetHistoryEntry(long l) {
+    public void liGetLastStreetHistoryEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -379,25 +347,31 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void liGetLocationDescriptionTransform(NavLocation navLocation) {
-        DSINavigationProxy$6 dSINavigationProxy$6 = new DSINavigationProxy$6(this, navLocation);
-        this.proxy.remoteCallMethod((short)65, dSINavigationProxy$6);
+    public void liGetLocationDescriptionTransform(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)65, iSerializable);
     }
 
-    @Override
-    public void liGetLocationDescriptionTransformNearBy(NavLocation navLocation) {
-        DSINavigationProxy$7 dSINavigationProxy$7 = new DSINavigationProxy$7(this, navLocation);
-        this.proxy.remoteCallMethod((short)332, dSINavigationProxy$7);
+    public void liGetLocationDescriptionTransformNearBy(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)332, iSerializable);
     }
 
-    @Override
-    public void liGetState() {
+    public void liGetState() throws MethodException {
         this.proxy.remoteCallMethod((short)69, null);
     }
 
-    @Override
-    public void liGetLastStateHistoryEntry(long l) {
+    public void liGetLastStateHistoryEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -408,20 +382,32 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void liLastStateHistoryAdd(NavLocation navLocation, boolean bl, String string) {
-        DSINavigationProxy$8 dSINavigationProxy$8 = new DSINavigationProxy$8(this, navLocation, bl, string);
-        this.proxy.remoteCallMethod((short)79, dSINavigationProxy$8);
+    public void liLastStateHistoryAdd(final NavLocation navLocation, final boolean bl, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putBool(bl);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)79, iSerializable);
     }
 
-    @Override
-    public void liLastStateHistoryAddExtended(NavLocation navLocation, boolean bl, String string, LIExtData[] lIExtDataArray) {
-        DSINavigationProxy$9 dSINavigationProxy$9 = new DSINavigationProxy$9(this, navLocation, bl, string, lIExtDataArray);
-        this.proxy.remoteCallMethod((short)80, dSINavigationProxy$9);
+    public void liLastStateHistoryAddExtended(final NavLocation navLocation, final boolean bl, final String string, final LIExtData[] lIExtDataArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putBool(bl);
+                iSerializer.putOptionalString(string);
+                LIExtDataSerializer.putOptionalLIExtDataVarArray(iSerializer, lIExtDataArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)80, iSerializable);
     }
 
-    @Override
-    public void liLastStateHistoryDelete(long l) {
+    public void liLastStateHistoryDelete(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -432,25 +418,36 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)81, genericSerializable);
     }
 
-    @Override
-    public void liLastStateHistoryDeleteAll() {
+    public void liLastStateHistoryDeleteAll() throws MethodException {
         this.proxy.remoteCallMethod((short)82, null);
     }
 
-    @Override
-    public void liLastCityHistoryAdd(NavLocation navLocation, boolean bl, String string) {
-        DSINavigationProxy$10 dSINavigationProxy$10 = new DSINavigationProxy$10(this, navLocation, bl, string);
-        this.proxy.remoteCallMethod((short)75, dSINavigationProxy$10);
+    public void liLastCityHistoryAdd(final NavLocation navLocation, final boolean bl, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putBool(bl);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)75, iSerializable);
     }
 
-    @Override
-    public void liLastCityHistoryAddExtended(NavLocation navLocation, boolean bl, String string, LIExtData[] lIExtDataArray) {
-        DSINavigationProxy$11 dSINavigationProxy$11 = new DSINavigationProxy$11(this, navLocation, bl, string, lIExtDataArray);
-        this.proxy.remoteCallMethod((short)76, dSINavigationProxy$11);
+    public void liLastCityHistoryAddExtended(final NavLocation navLocation, final boolean bl, final String string, final LIExtData[] lIExtDataArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putBool(bl);
+                iSerializer.putOptionalString(string);
+                LIExtDataSerializer.putOptionalLIExtDataVarArray(iSerializer, lIExtDataArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)76, iSerializable);
     }
 
-    @Override
-    public void liLastCityHistoryDelete(long l) {
+    public void liLastCityHistoryDelete(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -461,25 +458,34 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)77, genericSerializable);
     }
 
-    @Override
-    public void liLastCityHistoryDeleteAll() {
+    public void liLastCityHistoryDeleteAll() throws MethodException {
         this.proxy.remoteCallMethod((short)78, null);
     }
 
-    @Override
-    public void liLastStreetHistoryAdd(NavLocation navLocation, String string) {
-        DSINavigationProxy$12 dSINavigationProxy$12 = new DSINavigationProxy$12(this, navLocation, string);
-        this.proxy.remoteCallMethod((short)83, dSINavigationProxy$12);
+    public void liLastStreetHistoryAdd(final NavLocation navLocation, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)83, iSerializable);
     }
 
-    @Override
-    public void liLastStreetHistoryAddExtended(NavLocation navLocation, String string, LIExtData[] lIExtDataArray) {
-        DSINavigationProxy$13 dSINavigationProxy$13 = new DSINavigationProxy$13(this, navLocation, string, lIExtDataArray);
-        this.proxy.remoteCallMethod((short)84, dSINavigationProxy$13);
+    public void liLastStreetHistoryAddExtended(final NavLocation navLocation, final String string, final LIExtData[] lIExtDataArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putOptionalString(string);
+                LIExtDataSerializer.putOptionalLIExtDataVarArray(iSerializer, lIExtDataArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)84, iSerializable);
     }
 
-    @Override
-    public void liLastStreetHistoryDelete(long l) {
+    public void liLastStreetHistoryDelete(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -490,19 +496,21 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)85, genericSerializable);
     }
 
-    @Override
-    public void liLastStreetHistoryDeleteAll() {
+    public void liLastStreetHistoryDeleteAll() throws MethodException {
         this.proxy.remoteCallMethod((short)86, null);
     }
 
-    @Override
-    public void liRestoreState(LISpellerData lISpellerData) {
-        DSINavigationProxy$14 dSINavigationProxy$14 = new DSINavigationProxy$14(this, lISpellerData);
-        this.proxy.remoteCallMethod((short)87, dSINavigationProxy$14);
+    public void liRestoreState(final LISpellerData lISpellerData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                LISpellerDataSerializer.putOptionalLISpellerData(iSerializer, lISpellerData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)87, iSerializable);
     }
 
-    @Override
-    public void liSetCountryForCityAndStreetHistory(String string) {
+    public void liSetCountryForCityAndStreetHistory(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -513,8 +521,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)91, genericSerializable);
     }
 
-    @Override
-    public void liSetHistory(String string, String string2) {
+    public void liSetHistory(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -526,8 +533,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)94, genericSerializable);
     }
 
-    @Override
-    public void liSetStreetForCityHistory(String string) {
+    public void liSetStreetForCityHistory(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -538,19 +544,21 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)284, genericSerializable);
     }
 
-    @Override
-    public void liDeleteHistory() {
+    public void liDeleteHistory() throws MethodException {
         this.proxy.remoteCallMethod((short)57, null);
     }
 
-    @Override
-    public void liSetCurrentLD(NavLocation navLocation) {
-        DSINavigationProxy$15 dSINavigationProxy$15 = new DSINavigationProxy$15(this, navLocation);
-        this.proxy.remoteCallMethod((short)93, dSINavigationProxy$15);
+    public void liSetCurrentLD(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)93, iSerializable);
     }
 
-    @Override
-    public void lispAddCharacter(String string) {
+    public void lispAddCharacter(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -561,18 +569,15 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)116, genericSerializable);
     }
 
-    @Override
-    public void lispCancelSpeller() {
+    public void lispCancelSpeller() throws MethodException {
         this.proxy.remoteCallMethod((short)117, null);
     }
 
-    @Override
-    public void lispDeleteAllCharacters() {
+    public void lispDeleteAllCharacters() throws MethodException {
         this.proxy.remoteCallMethod((short)118, null);
     }
 
-    @Override
-    public void lispRequestValueListByListIndex(int n, boolean bl) {
+    public void lispRequestValueListByListIndex(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -584,8 +589,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)119, genericSerializable);
     }
 
-    @Override
-    public void lispSelectListItem(int n) {
+    public void lispSelectListItem(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -596,14 +600,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)122, genericSerializable);
     }
 
-    @Override
-    public void lispSelectItemFromLocation(NavLocation navLocation) {
-        DSINavigationProxy$16 dSINavigationProxy$16 = new DSINavigationProxy$16(this, navLocation);
-        this.proxy.remoteCallMethod((short)121, dSINavigationProxy$16);
+    public void lispSelectItemFromLocation(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)121, iSerializable);
     }
 
-    @Override
-    public void lispSelectByCategoryUid(int n) {
+    public void lispSelectByCategoryUid(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -614,8 +621,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)120, genericSerializable);
     }
 
-    @Override
-    public void lispSelectByMultipleCategoryUids(int[] nArray) {
+    public void lispSelectByMultipleCategoryUids(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -626,8 +632,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)275, genericSerializable);
     }
 
-    @Override
-    public void lispSetInput(String string, boolean bl) {
+    public void lispSetInput(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -639,8 +644,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)124, genericSerializable);
     }
 
-    @Override
-    public void lispGetMatchingNVC(String string) {
+    public void lispGetMatchingNVC(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -651,13 +655,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)319, genericSerializable);
     }
 
-    @Override
-    public void lispUndoCharacter() {
+    public void lispUndoCharacter() throws MethodException {
         this.proxy.remoteCallMethod((short)125, null);
     }
 
-    @Override
-    public void liStartMultiCriteriaSpeller(int n, int n2, boolean bl, boolean bl2, boolean bl3) {
+    public void liStartMultiCriteriaSpeller(int n, int n2, boolean bl, boolean bl2, boolean bl3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -672,8 +674,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)95, genericSerializable);
     }
 
-    @Override
-    public void liStartSpeller(int n, boolean bl, boolean bl2, boolean bl3) {
+    public void liStartSpeller(int n, boolean bl, boolean bl2, boolean bl3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -687,14 +688,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)96, genericSerializable);
     }
 
-    @Override
-    public void liTryBestMatch(TryBestMatchData tryBestMatchData) {
-        DSINavigationProxy$17 dSINavigationProxy$17 = new DSINavigationProxy$17(this, tryBestMatchData);
-        this.proxy.remoteCallMethod((short)108, dSINavigationProxy$17);
+    public void liTryBestMatch(final TryBestMatchData tryBestMatchData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TryBestMatchDataSerializer.putOptionalTryBestMatchData(iSerializer, tryBestMatchData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)108, iSerializable);
     }
 
-    @Override
-    public void liValueListFilename(String string) {
+    public void liValueListFilename(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -705,8 +709,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)112, genericSerializable);
     }
 
-    @Override
-    public void liValueListOutputMethod(int n) {
+    public void liValueListOutputMethod(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -717,14 +720,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)114, genericSerializable);
     }
 
-    @Override
-    public void locationToStream(NavLocation navLocation) {
-        DSINavigationProxy$18 dSINavigationProxy$18 = new DSINavigationProxy$18(this, navLocation);
-        this.proxy.remoteCallMethod((short)127, dSINavigationProxy$18);
+    public void locationToStream(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)127, iSerializable);
     }
 
-    @Override
-    public void poiSelectSelectionCriteria(long l) {
+    public void poiSelectSelectionCriteria(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -735,14 +741,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)129, genericSerializable);
     }
 
-    @Override
-    public void poiSetContext(NavLocation navLocation) {
-        DSINavigationProxy$19 dSINavigationProxy$19 = new DSINavigationProxy$19(this, navLocation);
-        this.proxy.remoteCallMethod((short)130, dSINavigationProxy$19);
+    public void poiSetContext(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)130, iSerializable);
     }
 
-    @Override
-    public void poiSetSortOrder2(int n) {
+    public void poiSetSortOrder2(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -753,8 +762,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)131, genericSerializable);
     }
 
-    @Override
-    public void poiStartSpellerAlongRoute(int n, long l, long l2) {
+    public void poiStartSpellerAlongRoute(int n, long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -767,8 +775,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)133, genericSerializable);
     }
 
-    @Override
-    public void poiStartSpellerAlongRouteAdvanced(int n, long l, long l2, long l3, boolean bl) {
+    public void poiStartSpellerAlongRouteAdvanced(int n, long l, long l2, long l3, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -783,25 +790,32 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)276, genericSerializable);
     }
 
-    @Override
-    public void requestSoPosPositionDescriptionVehicle() {
+    public void requestSoPosPositionDescriptionVehicle() throws MethodException {
         this.proxy.remoteCallMethod((short)138, null);
     }
 
-    @Override
-    public void rgCalculateRoute(Route route, int n) {
-        DSINavigationProxy$20 dSINavigationProxy$20 = new DSINavigationProxy$20(this, route, n);
-        this.proxy.remoteCallMethod((short)140, dSINavigationProxy$20);
+    public void rgCalculateRoute(final Route route, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)140, iSerializable);
     }
 
-    @Override
-    public void rgSetPosition(NavLocation navLocation) {
-        DSINavigationProxy$21 dSINavigationProxy$21 = new DSINavigationProxy$21(this, navLocation);
-        this.proxy.remoteCallMethod((short)144, dSINavigationProxy$21);
+    public void rgSetPosition(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)144, iSerializable);
     }
 
-    @Override
-    public void rgSetRouteGuidanceMode(int n) {
+    public void rgSetRouteGuidanceMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -812,14 +826,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)145, genericSerializable);
     }
 
-    @Override
-    public void rgSetRouteOptions(RouteOptions routeOptions) {
-        DSINavigationProxy$22 dSINavigationProxy$22 = new DSINavigationProxy$22(this, routeOptions);
-        this.proxy.remoteCallMethod((short)147, dSINavigationProxy$22);
+    public void rgSetRouteOptions(final RouteOptions routeOptions) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteOptionsSerializer.putOptionalRouteOptions(iSerializer, routeOptions);
+            }
+        };
+        this.proxy.remoteCallMethod((short)147, iSerializable);
     }
 
-    @Override
-    public void rgStartGuidanceCalculatedRoute(int n) {
+    public void rgStartGuidanceCalculatedRoute(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -830,25 +847,33 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)148, genericSerializable);
     }
 
-    @Override
-    public void rgStopGuidance() {
+    public void rgStopGuidance() throws MethodException {
         this.proxy.remoteCallMethod((short)152, null);
     }
 
-    @Override
-    public void rmMakeRoutePersistent(Route route) {
-        DSINavigationProxy$23 dSINavigationProxy$23 = new DSINavigationProxy$23(this, route);
-        this.proxy.remoteCallMethod((short)156, dSINavigationProxy$23);
+    public void rmMakeRoutePersistent(final Route route) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+            }
+        };
+        this.proxy.remoteCallMethod((short)156, iSerializable);
     }
 
-    @Override
-    public void rmRouteAdd(int n, Route route, String string) {
-        DSINavigationProxy$24 dSINavigationProxy$24 = new DSINavigationProxy$24(this, n, route, string);
-        this.proxy.remoteCallMethod((short)158, dSINavigationProxy$24);
+    public void rmRouteAdd(final int n, final Route route, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)158, iSerializable);
     }
 
-    @Override
-    public void rmRouteDelete(int n, long l) {
+    public void rmRouteDelete(int n, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -860,8 +885,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)160, genericSerializable);
     }
 
-    @Override
-    public void rmRouteDeleteAll(int n) {
+    public void rmRouteDeleteAll(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -872,8 +896,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)161, genericSerializable);
     }
 
-    @Override
-    public void rmRouteGet(int n, long l) {
+    public void rmRouteGet(int n, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -885,8 +908,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)164, genericSerializable);
     }
 
-    @Override
-    public void rmRouteRename(int n, long l, String string) {
+    public void rmRouteRename(int n, long l, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -899,8 +921,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)166, genericSerializable);
     }
 
-    @Override
-    public void rrdStartCalculationByListIndex(int n, long l) {
+    public void rrdStartCalculationByListIndex(int n, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -912,19 +933,21 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)170, genericSerializable);
     }
 
-    @Override
-    public void rrdStartCalculationForPosition(NavLocationWgs84[] navLocationWgs84Array) {
-        DSINavigationProxy$25 dSINavigationProxy$25 = new DSINavigationProxy$25(this, navLocationWgs84Array);
-        this.proxy.remoteCallMethod((short)171, dSINavigationProxy$25);
+    public void rrdStartCalculationForPosition(final NavLocationWgs84[] navLocationWgs84Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84VarArray(iSerializer, navLocationWgs84Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)171, iSerializable);
     }
 
-    @Override
-    public void rrdStopCalculation() {
+    public void rrdStopCalculation() throws MethodException {
         this.proxy.remoteCallMethod((short)172, null);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -935,8 +958,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)173, genericSerializable);
     }
 
-    @Override
-    public void streamToLocation(byte[] byArray) {
+    public void streamToLocation(byte[] byArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt8VarArray(byArray);
@@ -947,36 +969,46 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)189, genericSerializable);
     }
 
-    @Override
-    public void translateRoute(Route route) {
-        DSINavigationProxy$26 dSINavigationProxy$26 = new DSINavigationProxy$26(this, route);
-        this.proxy.remoteCallMethod((short)204, dSINavigationProxy$26);
+    public void translateRoute(final Route route) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+            }
+        };
+        this.proxy.remoteCallMethod((short)204, iSerializable);
     }
 
-    @Override
-    public void trCreateWaypoint() {
+    public void trCreateWaypoint() throws MethodException {
         this.proxy.remoteCallMethod((short)191, null);
     }
 
-    @Override
-    public void trDeleteAllTraces() {
+    public void trDeleteAllTraces() throws MethodException {
         this.proxy.remoteCallMethod((short)192, null);
     }
 
-    @Override
-    public void trDeleteTrace(NavSegmentID navSegmentID) {
-        DSINavigationProxy$27 dSINavigationProxy$27 = new DSINavigationProxy$27(this, navSegmentID);
-        this.proxy.remoteCallMethod((short)194, dSINavigationProxy$27);
+    public void trDeleteTrace(final NavSegmentID navSegmentID) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavSegmentIDSerializer.putOptionalNavSegmentID(iSerializer, navSegmentID);
+            }
+        };
+        this.proxy.remoteCallMethod((short)194, iSerializable);
     }
 
-    @Override
-    public void trRenameTrace(NavSegmentID navSegmentID, String string) {
-        DSINavigationProxy$28 dSINavigationProxy$28 = new DSINavigationProxy$28(this, navSegmentID, string);
-        this.proxy.remoteCallMethod((short)196, dSINavigationProxy$28);
+    public void trRenameTrace(final NavSegmentID navSegmentID, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavSegmentIDSerializer.putOptionalNavSegmentID(iSerializer, navSegmentID);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)196, iSerializable);
     }
 
-    @Override
-    public void trStartTraceRecording(int n) {
+    public void trStartTraceRecording(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -987,13 +1019,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)198, genericSerializable);
     }
 
-    @Override
-    public void trStopTraceRecording() {
+    public void trStopTraceRecording() throws MethodException {
         this.proxy.remoteCallMethod((short)200, null);
     }
 
-    @Override
-    public void trStoreTrace(String string) {
+    public void trStoreTrace(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1004,14 +1034,18 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)202, genericSerializable);
     }
 
-    @Override
-    public void liStripLocation(NavLocation navLocation, int n) {
-        DSINavigationProxy$29 dSINavigationProxy$29 = new DSINavigationProxy$29(this, navLocation, n);
-        this.proxy.remoteCallMethod((short)98, dSINavigationProxy$29);
+    public void liStripLocation(final NavLocation navLocation, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)98, iSerializable);
     }
 
-    @Override
-    public void liSetNVCRange(int n) {
+    public void liSetNVCRange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1022,8 +1056,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)318, genericSerializable);
     }
 
-    @Override
-    public void liValueListWindowSize(int n) {
+    public void liValueListWindowSize(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1034,8 +1067,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)274, genericSerializable);
     }
 
-    @Override
-    public void requestAudioTrigger(int n) {
+    public void requestAudioTrigger(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1046,8 +1078,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)135, genericSerializable);
     }
 
-    @Override
-    public void liThesaurusHistoryAdd(String string) {
+    public void liThesaurusHistoryAdd(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1058,8 +1089,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)100, genericSerializable);
     }
 
-    @Override
-    public void liThesaurusHistoryGetEntry(int n) {
+    public void liThesaurusHistoryGetEntry(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1070,8 +1100,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)106, genericSerializable);
     }
 
-    @Override
-    public void liThesaurusHistoryDelete(int n) {
+    public void liThesaurusHistoryDelete(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1082,13 +1111,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)102, genericSerializable);
     }
 
-    @Override
-    public void liThesaurusHistoryDeleteAll() {
+    public void liThesaurusHistoryDeleteAll() throws MethodException {
         this.proxy.remoteCallMethod((short)103, null);
     }
 
-    @Override
-    public void ehGetAllCategories(int n) {
+    public void ehGetAllCategories(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1099,8 +1126,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void ehGetAllBrandsOfCategory(int n, int n2) {
+    public void ehGetAllBrandsOfCategory(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1112,8 +1138,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
+    public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1126,8 +1151,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)36, genericSerializable);
     }
 
-    @Override
-    public void ehSetCategoryVisibilityToDefault(int n) {
+    public void ehSetCategoryVisibilityToDefault(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1138,8 +1162,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)273, genericSerializable);
     }
 
-    @Override
-    public void ehSetCategoryAudioWarning(int n, int[] nArray, boolean[] blArray) {
+    public void ehSetCategoryAudioWarning(int n, int[] nArray, boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1152,8 +1175,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void ehSetCategoryMonitoring(int[] nArray, boolean[] blArray) {
+    public void ehSetCategoryMonitoring(int[] nArray, boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1165,8 +1187,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void ehSetBrandVisibility(int n, int[] nArray, boolean[] blArray) {
+    public void ehSetBrandVisibility(int n, int[] nArray, boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1179,8 +1200,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void ehSetBrandPreference(int n, int[] nArray, boolean[] blArray) {
+    public void ehSetBrandPreference(int n, int[] nArray, boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1193,8 +1213,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void setRemainingRangeOfVehicle(int n) {
+    public void setRemainingRangeOfVehicle(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1205,14 +1224,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)178, genericSerializable);
     }
 
-    @Override
-    public void setUserDefinedPOIs(NavLocation[] navLocationArray) {
-        DSINavigationProxy$30 dSINavigationProxy$30 = new DSINavigationProxy$30(this, navLocationArray);
-        this.proxy.remoteCallMethod((short)182, dSINavigationProxy$30);
+    public void setUserDefinedPOIs(final NavLocation[] navLocationArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocationVarArray(iSerializer, navLocationArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)182, iSerializable);
     }
 
-    @Override
-    public void setTrailerStatus(boolean bl) {
+    public void setTrailerStatus(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1223,8 +1245,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)180, genericSerializable);
     }
 
-    @Override
-    public void requestCountryInfo(String string) {
+    public void requestCountryInfo(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1235,18 +1256,15 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)136, genericSerializable);
     }
 
-    @Override
-    public void jumpToNextManeuver() {
+    public void jumpToNextManeuver() throws MethodException {
         this.proxy.remoteCallMethod((short)53, null);
     }
 
-    @Override
-    public void liGetViaPointCountryList() {
+    public void liGetViaPointCountryList() throws MethodException {
         this.proxy.remoteCallMethod((short)283, null);
     }
 
-    @Override
-    public void liSetViaPointCountry(String string) {
+    public void liSetViaPointCountry(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1257,8 +1275,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)285, genericSerializable);
     }
 
-    @Override
-    public void liGetViaPointList(int n, int n2, int n3, int n4) {
+    public void liGetViaPointList(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1272,8 +1289,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)71, genericSerializable);
     }
 
-    @Override
-    public void liSelectViaPoint(int n) {
+    public void liSelectViaPoint(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1284,25 +1300,32 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)89, genericSerializable);
     }
 
-    @Override
-    public void rgStartGuidanceCalculatedRouteByUID(NavSegmentID navSegmentID) {
-        DSINavigationProxy$31 dSINavigationProxy$31 = new DSINavigationProxy$31(this, navSegmentID);
-        this.proxy.remoteCallMethod((short)149, dSINavigationProxy$31);
+    public void rgStartGuidanceCalculatedRouteByUID(final NavSegmentID navSegmentID) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavSegmentIDSerializer.putOptionalNavSegmentID(iSerializer, navSegmentID);
+            }
+        };
+        this.proxy.remoteCallMethod((short)149, iSerializable);
     }
 
-    @Override
-    public void liGetSpellableCharacters(NavLocation navLocation, int n) {
-        DSINavigationProxy$32 dSINavigationProxy$32 = new DSINavigationProxy$32(this, navLocation, n);
-        this.proxy.remoteCallMethod((short)67, dSINavigationProxy$32);
+    public void liGetSpellableCharacters(final NavLocation navLocation, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)67, iSerializable);
     }
 
-    @Override
-    public void liStopSpeller() {
+    public void liStopSpeller() throws MethodException {
         this.proxy.remoteCallMethod((short)97, null);
     }
 
-    @Override
-    public void liValueListMaximumLength(int n) {
+    public void liValueListMaximumLength(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1313,8 +1336,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)113, genericSerializable);
     }
 
-    @Override
-    public void setPathsToPersonalPOIDataBases(String[] stringArray) {
+    public void setPathsToPersonalPOIDataBases(String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalStringVarArray(stringArray);
@@ -1325,8 +1347,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)177, genericSerializable);
     }
 
-    @Override
-    public void deletePersonalPOIDataBases(String[] stringArray) {
+    public void deletePersonalPOIDataBases(String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalStringVarArray(stringArray);
@@ -1337,18 +1358,15 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void rgStopRouteCalculation() {
+    public void rgStopRouteCalculation() throws MethodException {
         this.proxy.remoteCallMethod((short)153, null);
     }
 
-    @Override
-    public void rgSwitchToNextPossibleRoad() {
+    public void rgSwitchToNextPossibleRoad() throws MethodException {
         this.proxy.remoteCallMethod((short)154, null);
     }
 
-    @Override
-    public void setVehicleFuelType(int n) {
+    public void setVehicleFuelType(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1359,8 +1377,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)186, genericSerializable);
     }
 
-    @Override
-    public void createNavLocationOfPOIUID(long l) {
+    public void createNavLocationOfPOIUID(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -1371,8 +1388,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void lispSelectListItemByIdent(String string) {
+    public void lispSelectListItemByIdent(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1383,25 +1399,33 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)123, genericSerializable);
     }
 
-    @Override
-    public void rmRouteReplace(int n, long l, Route route) {
-        DSINavigationProxy$33 dSINavigationProxy$33 = new DSINavigationProxy$33(this, n, l, route);
-        this.proxy.remoteCallMethod((short)168, dSINavigationProxy$33);
+    public void rmRouteReplace(final int n, final long l, final Route route) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt64(l);
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+            }
+        };
+        this.proxy.remoteCallMethod((short)168, iSerializable);
     }
 
-    @Override
-    public void setNavInternalDataToFactorySettings() {
+    public void setNavInternalDataToFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)277, null);
     }
 
-    @Override
-    public void liTryMatchLocation(TryMatchLocationData tryMatchLocationData) {
-        DSINavigationProxy$34 dSINavigationProxy$34 = new DSINavigationProxy$34(this, tryMatchLocationData);
-        this.proxy.remoteCallMethod((short)324, dSINavigationProxy$34);
+    public void liTryMatchLocation(final TryMatchLocationData tryMatchLocationData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TryMatchLocationDataSerializer.putOptionalTryMatchLocationData(iSerializer, tryMatchLocationData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)324, iSerializable);
     }
 
-    @Override
-    public void trImportTrails(String string) {
+    public void trImportTrails(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1412,14 +1436,18 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)306, genericSerializable);
     }
 
-    @Override
-    public void trExportTrails(NavSegmentID[] navSegmentIDArray, String string) {
-        DSINavigationProxy$35 dSINavigationProxy$35 = new DSINavigationProxy$35(this, navSegmentIDArray, string);
-        this.proxy.remoteCallMethod((short)304, dSINavigationProxy$35);
+    public void trExportTrails(final NavSegmentID[] navSegmentIDArray, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavSegmentIDSerializer.putOptionalNavSegmentIDVarArray(iSerializer, navSegmentIDArray);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)304, iSerializable);
     }
 
-    @Override
-    public void rgSkipNextWayPoints(int n) {
+    public void rgSkipNextWayPoints(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1430,13 +1458,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)300, genericSerializable);
     }
 
-    @Override
-    public void rgReverseTrailDirection() {
+    public void rgReverseTrailDirection() throws MethodException {
         this.proxy.remoteCallMethod((short)298, null);
     }
 
-    @Override
-    public void rgPrepareRubberbandManipulation(boolean bl) {
+    public void rgPrepareRubberbandManipulation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1447,8 +1473,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)296, genericSerializable);
     }
 
-    @Override
-    public void rgStartRubberbandManipulation(int n) {
+    public void rgStartRubberbandManipulation(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1459,14 +1484,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)301, genericSerializable);
     }
 
-    @Override
-    public void rgSetRubberbandPosition(NavLocationWgs84 navLocationWgs84) {
-        DSINavigationProxy$36 dSINavigationProxy$36 = new DSINavigationProxy$36(this, navLocationWgs84);
-        this.proxy.remoteCallMethod((short)299, dSINavigationProxy$36);
+    public void rgSetRubberbandPosition(final NavLocationWgs84 navLocationWgs84) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+            }
+        };
+        this.proxy.remoteCallMethod((short)299, iSerializable);
     }
 
-    @Override
-    public void rgGetRouteBoundingRectangle(boolean bl, int n) {
+    public void rgGetRouteBoundingRectangle(boolean bl, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1478,8 +1506,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)294, genericSerializable);
     }
 
-    @Override
-    public void rgGetLocationOnRoute(long l) {
+    public void rgGetLocationOnRoute(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -1490,23 +1517,19 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)292, genericSerializable);
     }
 
-    @Override
-    public void rgStopRubberbandManipulation() {
+    public void rgStopRubberbandManipulation() throws MethodException {
         this.proxy.remoteCallMethod((short)303, null);
     }
 
-    @Override
-    public void rgDeleteCalculatedRubberbandPoint() {
+    public void rgDeleteCalculatedRubberbandPoint() throws MethodException {
         this.proxy.remoteCallMethod((short)312, null);
     }
 
-    @Override
-    public void rgGetRubberBandPointPosition() {
+    public void rgGetRubberBandPointPosition() throws MethodException {
         this.proxy.remoteCallMethod((short)313, null);
     }
 
-    @Override
-    public void rgEnableEnhancedSignPostInfo(boolean bl) {
+    public void rgEnableEnhancedSignPostInfo(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1517,8 +1540,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)291, genericSerializable);
     }
 
-    @Override
-    public void lispGetLocationFromLiValueListElement(int n) {
+    public void lispGetLocationFromLiValueListElement(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1529,8 +1551,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)325, genericSerializable);
     }
 
-    @Override
-    public void rgSetTurnListMode(int n) {
+    public void rgSetTurnListMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1541,26 +1562,37 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)342, genericSerializable);
     }
 
-    @Override
-    public void liHistoryAddLocation(NavLocation navLocation) {
-        DSINavigationProxy$37 dSINavigationProxy$37 = new DSINavigationProxy$37(this, navLocation);
-        this.proxy.remoteCallMethod((short)334, dSINavigationProxy$37);
+    public void liHistoryAddLocation(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)334, iSerializable);
     }
 
-    @Override
-    public void liLastCityHistorySetStreet(NavLocation navLocation) {
-        DSINavigationProxy$38 dSINavigationProxy$38 = new DSINavigationProxy$38(this, navLocation);
-        this.proxy.remoteCallMethod((short)335, dSINavigationProxy$38);
+    public void liLastCityHistorySetStreet(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)335, iSerializable);
     }
 
-    @Override
-    public void liLastStreetHistorySetCity(NavLocation navLocation) {
-        DSINavigationProxy$39 dSINavigationProxy$39 = new DSINavigationProxy$39(this, navLocation);
-        this.proxy.remoteCallMethod((short)336, dSINavigationProxy$39);
+    public void liLastStreetHistorySetCity(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)336, iSerializable);
     }
 
-    @Override
-    public void enableRgMotorwayInfo(boolean bl) {
+    public void enableRgMotorwayInfo(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1571,19 +1603,22 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)331, genericSerializable);
     }
 
-    @Override
-    public void rgTriggerRCCIUpdate() {
+    public void rgTriggerRCCIUpdate() throws MethodException {
         this.proxy.remoteCallMethod((short)343, null);
     }
 
-    @Override
-    public void poiGetXt9LDBs(NavLocation navLocation, int n) {
-        DSINavigationProxy$40 dSINavigationProxy$40 = new DSINavigationProxy$40(this, navLocation, n);
-        this.proxy.remoteCallMethod((short)338, dSINavigationProxy$40);
+    public void poiGetXt9LDBs(final NavLocation navLocation, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)338, iSerializable);
     }
 
-    @Override
-    public void poiSetListStyle(int n) {
+    public void poiSetListStyle(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1594,14 +1629,17 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)340, genericSerializable);
     }
 
-    @Override
-    public void etcGetPositionTimeInfo(NavLocationWgs84 navLocationWgs84) {
-        DSINavigationProxy$41 dSINavigationProxy$41 = new DSINavigationProxy$41(this, navLocationWgs84);
-        this.proxy.remoteCallMethod((short)352, dSINavigationProxy$41);
+    public void etcGetPositionTimeInfo(final NavLocationWgs84 navLocationWgs84) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+            }
+        };
+        this.proxy.remoteCallMethod((short)352, iSerializable);
     }
 
-    @Override
-    public void poiGetCategoryTypesFromUId(int n) {
+    public void poiGetCategoryTypesFromUId(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1612,25 +1650,33 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)354, genericSerializable);
     }
 
-    @Override
-    public void rgDeletePersistedRouteData() {
+    public void rgDeletePersistedRouteData() throws MethodException {
         this.proxy.remoteCallMethod((short)357, null);
     }
 
-    @Override
-    public void rgCalculate1stRouteAndPostponeRemaining(Route route, int n, boolean bl) {
-        DSINavigationProxy$42 dSINavigationProxy$42 = new DSINavigationProxy$42(this, route, n, bl);
-        this.proxy.remoteCallMethod((short)356, dSINavigationProxy$42);
+    public void rgCalculate1stRouteAndPostponeRemaining(final Route route, final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteSerializer.putOptionalRoute(iSerializer, route);
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)356, iSerializable);
     }
 
-    @Override
-    public void liDisambiguateLocation(NavLocation navLocation) {
-        DSINavigationProxy$43 dSINavigationProxy$43 = new DSINavigationProxy$43(this, navLocation);
-        this.proxy.remoteCallMethod((short)365, dSINavigationProxy$43);
+    public void liDisambiguateLocation(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)365, iSerializable);
     }
 
-    @Override
-    public void triggerEventAudioMessage(int n) {
+    public void triggerEventAudioMessage(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1641,8 +1687,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)374, genericSerializable);
     }
 
-    @Override
-    public void lispAddStroke(String string) {
+    public void lispAddStroke(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1653,8 +1698,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)370, genericSerializable);
     }
 
-    @Override
-    public void lispRequestNVCList(int n, int n2, int n3) {
+    public void lispRequestNVCList(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1667,14 +1711,20 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)371, genericSerializable);
     }
 
-    @Override
-    public void poiConfigureContext(String string, int n, NavLocation navLocation, int[] nArray) {
-        DSINavigationProxy$44 dSINavigationProxy$44 = new DSINavigationProxy$44(this, string, n, navLocation, nArray);
-        this.proxy.remoteCallMethod((short)373, dSINavigationProxy$44);
+    public void poiConfigureContext(final String string, final int n, final NavLocation navLocation, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n);
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)373, iSerializable);
     }
 
-    @Override
-    public void etcTriggerNavigationRestart(int n) {
+    public void etcTriggerNavigationRestart(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1685,8 +1735,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)376, genericSerializable);
     }
 
-    @Override
-    public void rmImportToursFromGpxFile(int n, String string) {
+    public void rmImportToursFromGpxFile(int n, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1698,13 +1747,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)384, genericSerializable);
     }
 
-    @Override
-    public void rmAbortImportToursFromGpxFile() {
+    public void rmAbortImportToursFromGpxFile() throws MethodException {
         this.proxy.remoteCallMethod((short)383, null);
     }
 
-    @Override
-    public void importRouteFromGpxFile(String string) {
+    public void importRouteFromGpxFile(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -1715,25 +1762,31 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)381, genericSerializable);
     }
 
-    @Override
-    public void poiRequestExtendedInfo(NavLocation navLocation) {
-        DSINavigationProxy$45 dSINavigationProxy$45 = new DSINavigationProxy$45(this, navLocation);
-        this.proxy.remoteCallMethod((short)392, dSINavigationProxy$45);
+    public void poiRequestExtendedInfo(final NavLocation navLocation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationSerializer.putOptionalNavLocation(iSerializer, navLocation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)392, iSerializable);
     }
 
-    @Override
-    public void rgConfigurePoiInfo(NavPoiInfoConfiguration navPoiInfoConfiguration) {
-        DSINavigationProxy$46 dSINavigationProxy$46 = new DSINavigationProxy$46(this, navPoiInfoConfiguration);
-        this.proxy.remoteCallMethod((short)394, dSINavigationProxy$46);
+    public void rgConfigurePoiInfo(final NavPoiInfoConfiguration navPoiInfoConfiguration) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavPoiInfoConfigurationSerializer.putOptionalNavPoiInfoConfiguration(iSerializer, navPoiInfoConfiguration);
+            }
+        };
+        this.proxy.remoteCallMethod((short)394, iSerializable);
     }
 
-    @Override
-    public void trClearRecordedTraceCache() {
+    public void trClearRecordedTraceCache() throws MethodException {
         this.proxy.remoteCallMethod((short)404, null);
     }
 
-    @Override
-    public void setVirtualRouteGuidance(boolean bl) {
+    public void setVirtualRouteGuidance(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1744,8 +1797,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)410, genericSerializable);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1756,8 +1808,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)396, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1769,8 +1820,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)399, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1781,18 +1831,15 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)400, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)402, null);
     }
 
-    @Override
-    public void deleteSatelliteCache() {
+    public void deleteSatelliteCache() throws MethodException {
         this.proxy.remoteCallMethod((short)411, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1803,8 +1850,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)175, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1815,13 +1861,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)176, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)174, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1832,8 +1876,7 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1844,13 +1887,11 @@ DSINavigationC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
